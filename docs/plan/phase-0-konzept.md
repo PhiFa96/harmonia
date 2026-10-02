@@ -59,7 +59,8 @@
 - **Abhängig von:** –
 - **Umfang:** M
 - **Aufgaben:**
-  - [ ] Entscheidungen F02 (US/UK-Englisch), F03 (Funktionssymbole), F04 (Akkordsymbole)
+  - [x] Entscheidung F02 (US/UK-Englisch): umschaltbar
+  - [ ] Entscheidungen F03 (Funktionssymbole), F04 (Akkordsymbole)
   - [ ] Glossar v1 DE ↔ EN mit etwa 150 Kernbegriffen (Noten, Intervalle, Tonleitern, Akkorde, Rhythmus, Harmonik)
   - [ ] Referenzliteratur festlegen, gegen die die Engine geprüft wird
 - **Fertig, wenn:** Glossar liegt in `docs/` (später `packages/i18n`) und ist von Phillip freigegeben.
@@ -70,10 +71,10 @@
 - **Abhängig von:** –
 - **Umfang:** S
 - **Aufgaben:**
-  - [ ] Entscheidung F18
-  - [ ] GitHub-Issues für alle Schritte aus Phase 1 anlegen (ID im Titel), Labels (Phase, Bereich, Größe)
+  - [x] Entscheidung F18
+  - [x] GitHub-Issues für alle Schritte aus Phase 0 und 1 anlegen (ID im Titel), Labels (Phase, Größe)
   - [ ] GitHub-Projekt-Board (Spalten: Backlog, In Arbeit, Review, Fertig)
-  - [ ] Vorlagen für Pull Requests und Issues
+  - [x] Vorlagen für Pull Requests und Issues
 - **Fertig, wenn:** Das Board zeigt Phase 1 vollständig.
 
 ### P0.07 – Design-Richtung

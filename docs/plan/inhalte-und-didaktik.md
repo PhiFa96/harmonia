@@ -112,7 +112,7 @@ Siehe [ADR 0003](../decisions/0003-zweisprachigkeit-de-en.md). Fachliche Besonde
 | Thema | Deutsch | Englisch |
 |---|---|---|
 | Tonnamen | H/B, -is/-es | B/B♭, sharp/flat |
-| Notenwerte | Ganze, Halbe, Viertel | US: whole, half, quarter (UK: semibreve, minim, crotchet) – offene Frage |
+| Notenwerte | Ganze, Halbe, Viertel | umschaltbar: US (whole, half, quarter) oder UK (semibreve, minim, crotchet) |
 | Harmonik | Funktionstheorie und Stufen | Römische Ziffern |
 | Oktavlagen | Helmholtz (c′) | Wissenschaftlich (C4) |
 

@@ -10,13 +10,14 @@
 | 02.10.2026 | Deutsch und Englisch ab Start | [ADR 0003](../decisions/0003-zweisprachigkeit-de-en.md) |
 | 02.10.2026 | Marktplatz: 15 % Provision + Coach-Pro-Abo | [business-model.md](../business-model.md) |
 | 02.10.2026 | Alle Feature-Ideen bleiben im Plan; Aufbau Schritt für Schritt | dieser Plan |
+| 02.10.2026 | F01: Mindestalter vorläufig ab 16 (Bestätigung durch Rechtsberatung in P0.02) | [recht-und-compliance.md](recht-und-compliance.md) |
+| 02.10.2026 | F02: Englische Terminologie umschaltbar zwischen US und UK | [ADR 0003](../decisions/0003-zweisprachigkeit-de-en.md) |
+| 02.10.2026 | F18: Arbeitsweise mit GitHub-Issues und einem Pull Request pro Schritt | [README.md](README.md) |
 
 ## Offen
 
 | # | Frage | Optionen | Entscheidet | Bis |
 |---|---|---|---|---|
-| F01 | Mindestalter zum Start | ab 16 / ab 13 mit Eltern-Einwilligung / ohne Grenze mit Eltern-Einwilligung | Phillip (nach Rechtsberatung) | P0.02 |
-| F02 | Englische Terminologie | US (quarter note) / UK (crotchet) / umschaltbar | Phillip | P0.05 |
 | F03 | Schreibweise der Funktionssymbole | Konvention festlegen (z. B. nach verbreitetem Hochschul-Lehrbuch) | Phillip (fachlich) | P0.05 |
 | F04 | Schreibweise der Akkordsymbole | z. B. Cmaj7 / CΔ7 / CM7; umschaltbar? | Phillip (fachlich) | P0.05 |
 | F05 | Stimmumfänge und Regelwerk für den Tonsatz | Lehrbuchkonvention wählen | Phillip (fachlich) | vor P4.09 |
@@ -32,4 +33,3 @@
 | F15 | Rechtsform | Einzelunternehmen / UG / GmbH | Phillip (nach Beratung) | P0.02 |
 | F16 | Name und Marke „Harmonia“ | behalten / Alternativen nach Recherche | Phillip | P0.03 |
 | F17 | Aufbewahrungsfrist für Einzelaufgaben | 12 Monate / anderer Wert | gemeinsam (Löschkonzept) | P2.21 |
-| F18 | Arbeitsweise: Issues und Pull Requests pro Schritt | ja / schlanker | Phillip | P0.06 |
