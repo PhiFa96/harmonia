@@ -1,0 +1,26 @@
+# Wird nach der Entscheidung in ADR 0001 um stack-spezifische Einträge ergänzt.
+
+# Abhängigkeiten
+node_modules/
+
+# Build-Ausgaben
+dist/
+build/
+
+# Umgebungsvariablen und Geheimnisse
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+
+# Betriebssystem
+.DS_Store
+Thumbs.db
+
+# Editoren
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
