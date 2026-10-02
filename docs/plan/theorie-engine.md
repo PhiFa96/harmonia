@@ -88,7 +88,7 @@ Beispiel: C4 → Fes4: generisch 4 (Quarte), erwartet 5 Halbtöne, tatsächlich 
 
 **Festgelegte Konventionen (umgesetzt in P1.09):**
 
-- **Tonleitertypen:** Dur, natürliches, harmonisches und melodisches Moll, die sieben Kirchentonarten, Dur- und Moll-Pentatonik, chromatisch. Gebildet werden sie aus Intervallen vom Grundton, deshalb immer korrekt buchstabiert: Jede siebenstufige Tonleiter enthält jeden Stammton genau einmal.
+- **Tonleitertypen:** Dur, natürliches, harmonisches und melodisches Moll, die sieben Kirchentonarten, Dur- und Moll-Pentatonik, Blues- und Dur-Bluestonleiter, Ganztonleiter, chromatisch. Gebildet werden sie aus Intervallen vom Grundton, deshalb immer korrekt buchstabiert: Jede siebenstufige Tonleiter enthält jeden Stammton genau einmal.
 - **Höchstens zwei Vorzeichen pro Ton.** His-Dur geht (His, Cisis, Disis, Eis, Fisis, Gisis, Aisis), Gisis-Dur nicht (bräuchte Fisisis) – dann wirft die Engine einen Fehler.
 - **Abwärts** beginnt die Tonleiter beim Grundton und läuft nach unten. Melodisches Moll abwärts = natürliches Moll (klassische Lehre).
 - **Chromatische Tonleiter** in vereinfachter Schreibweise: aufwärts mit Kreuzen, abwärts mit b, bei jedem Halbtonschritt die Schreibweise mit den wenigsten Vorzeichen. C aufwärts: C Cis D Dis E F Fis G Gis A Ais H; abwärts: C H B A As G Ges F E Es D Des. Eine tonartbezogene Schreibweise kann später als zweite Variante dazukommen.
@@ -99,7 +99,10 @@ Beispiel: C4 → Fes4: generisch 4 (Quarte), erwartet 5 Halbtöne, tatsächlich 
 - **Falsche Freunde:** deutsche *Paralleltonart* (C-Dur ↔ a-Moll) = englisch *relative key*, im Code `relativeKey`. Deutsche *Varianttonart* (C-Dur ↔ c-Moll) = englisch *parallel key*, im Code `parallelKey`.
 - **Leitereigene Dreiklänge** werden aus Terzen der Tonleiter geschichtet. Dur: Dur, Moll, Moll, Dur, Dur, Moll, vermindert. Moll natürlich, harmonisch oder melodisch (aufwärts) wählbar, z. B. a-Moll harmonisch: a, h°, C+, d, E, F, gis°.
 - **Namen:** Deutsch mit großem Grundton für Dur und kleinem für Moll („Fis-Dur“, „es-Moll“, „h-Moll“), Englisch „F♯ major“, „E♭ minor“, „B minor“.
-- **Noch offen:** Blues- und Ganztonleiter. Ihre Schreibweise ist nicht eindeutig (z. B. Ganzton auf C mit Ais oder B), dafür braucht es eine Fachentscheidung.
+- **Bluestonleiter** = Moll-Pentatonik plus verminderte Quinte als Blue Note: 1 ♭3 4 ♭5 5 ♭7, auf C: C Es F Ges G B. Die Blue Note steht als ♭5 (Ges), auch abwärts; die Schreibweise als ♯4 (Fis) ist in Lehrmaterial ebenfalls verbreitet, aber nicht Standard der Engine.
+- **Dur-Bluestonleiter** = Dur-Pentatonik plus kleine Terz: 1 2 ♭3 3 5 6, auf C: C D Es E G A.
+- **Ganztonleiter** = 1 2 3 ♯4 ♯5 ♯6: auf C: C D E Fis Gis Ais, auf Des: Des Es F G A H. Weil sechs Töne auf sieben Stammtöne verteilt werden, ist ein Schritt eine verminderte Terz; sie liegt vor der Oktave (Ais–C). So ergeben sich die beiden üblichen Schreibweisen der zwei Ganztonreihen.
+- **Abgleich:** Blues-, Dur-Blues- und Ganztonleiter stimmen auf allen 35 Grundtönen mit tonal überein und entsprechen der verbreiteten Schreibweise in Lehrmaterial (z. B. Ganztonleiter c d e fis gis ais mit verminderter Terz ais–c).
 
 ### Rhythmus
 

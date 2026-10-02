@@ -26,6 +26,9 @@ const TONAL_NAMES: Readonly<Record<Exclude<ScaleType, 'chromatic'>, string>> = {
   locrian: 'locrian',
   majorPentatonic: 'major pentatonic',
   minorPentatonic: 'minor pentatonic',
+  blues: 'blues',
+  majorBlues: 'major blues',
+  wholeTone: 'whole tone',
 };
 
 /** Alle 35 Grundtöne mit bis zu zwei Vorzeichen. */
@@ -34,7 +37,7 @@ const TONICS: NoteName[] = LETTERS.flatMap((letter) =>
 );
 
 describe('Vergleich mit tonal', () => {
-  it('gleiche Schreibweise für alle Tonleitertypen auf allen 35 Grundtönen', () => {
+  it('gleiche Schreibweise für alle 16 Tonleitertypen auf allen 35 Grundtönen', () => {
     let compared = 0;
     for (const tonic of TONICS) {
       for (const [type, tonalName] of Object.entries(TONAL_NAMES) as [ScaleType, string][]) {
@@ -56,7 +59,7 @@ describe('Vergleich mit tonal', () => {
         compared++;
       }
     }
-    expect(compared).toBeGreaterThan(300);
+    expect(compared).toBeGreaterThan(400);
   });
 
   it('chromatische Tonleiter: gleiche Tonhöhenklassen', () => {

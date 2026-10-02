@@ -19,6 +19,9 @@ export type ScaleType =
   | 'locrian'
   | 'majorPentatonic'
   | 'minorPentatonic'
+  | 'blues'
+  | 'majorBlues'
+  | 'wholeTone'
   | 'chromatic';
 
 /** Intervalle vom Grundton aus. Die chromatische Tonleiter wird gesondert gebildet. */
@@ -37,6 +40,12 @@ const SCALE_INTERVALS: Readonly<Record<Exclude<ScaleType, 'chromatic'>, readonly
   locrian: ['P1', 'm2', 'm3', 'P4', 'd5', 'm6', 'm7'],
   majorPentatonic: ['P1', 'M2', 'M3', 'P5', 'M6'],
   minorPentatonic: ['P1', 'm3', 'P4', 'P5', 'm7'],
+  // Moll-Pentatonik plus verminderte Quinte (Blue Note): C Es F Ges G B
+  blues: ['P1', 'm3', 'P4', 'd5', 'P5', 'm7'],
+  // Dur-Pentatonik plus kleine Terz: C D Es E G A
+  majorBlues: ['P1', 'M2', 'm3', 'M3', 'P5', 'M6'],
+  // Sechs Ganztöne; die verminderte Terz liegt vor der Oktave: C D E Fis Gis Ais (C), Des Es F G A H (Des)
+  wholeTone: ['P1', 'M2', 'M3', 'A4', 'A5', 'A6'],
 };
 
 export const SCALE_TYPES: readonly ScaleType[] = [
@@ -158,6 +167,9 @@ const SCALE_NAMES: Readonly<Record<ScaleType, { readonly de: string; readonly en
   locrian: { de: 'Lokrisch', en: 'Locrian' },
   majorPentatonic: { de: 'Dur-Pentatonik', en: 'major pentatonic' },
   minorPentatonic: { de: 'Moll-Pentatonik', en: 'minor pentatonic' },
+  blues: { de: 'Bluestonleiter', en: 'blues scale' },
+  majorBlues: { de: 'Dur-Bluestonleiter', en: 'major blues scale' },
+  wholeTone: { de: 'Ganztonleiter', en: 'whole-tone scale' },
   chromatic: { de: 'chromatisch', en: 'chromatic' },
 };
 

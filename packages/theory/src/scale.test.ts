@@ -175,6 +175,65 @@ describe('Pentatonik', () => {
   });
 });
 
+describe('Bluestonleitern', () => {
+  it.each([
+    ['C4', 'blues', 'C Es F Ges G B'],
+    ['A4', 'blues', 'A C D Es E G'],
+    ['E4', 'blues', 'E G A B H D'],
+    ['F#4', 'blues', 'Fis A H C Cis E'],
+    ['C4', 'majorBlues', 'C D Es E G A'],
+    ['G4', 'majorBlues', 'G A B H D E'],
+    ['Eb4', 'majorBlues', 'Es F Ges G B C'],
+  ] as const)('%s %s', (tonic, type, expected) => {
+    expect(de(buildScale(p(tonic), type))).toBe(expected);
+  });
+
+  it('Blues = Moll-Pentatonik plus verminderte Quinte, Dur-Blues = Dur-Pentatonik plus kleine Terz', () => {
+    const intervals = (type: ScaleType): string[] =>
+      type === 'chromatic' ? [] : scaleIntervals(type).map((i) => formatInterval(i));
+    expect(intervals('blues').filter((i) => i !== 'd5')).toEqual(intervals('minorPentatonic'));
+    expect(intervals('majorBlues').filter((i) => i !== 'm3')).toEqual(intervals('majorPentatonic'));
+  });
+
+  it('abwärts mit derselben Schreibweise', () => {
+    expect(de(buildScale(p('C4'), 'blues', { direction: 'descending', includeOctave: true }))).toBe(
+      'C B G Ges F Es C',
+    );
+  });
+});
+
+describe('Ganztonleiter', () => {
+  it.each([
+    ['C4', 'C D E Fis Gis Ais'],
+    ['Db4', 'Des Es F G A H'],
+    ['D4', 'D E Fis Gis Ais His'],
+    ['Bb4', 'B C D E Fis Gis'],
+  ] as const)('auf %s', (tonic, expected) => {
+    expect(de(buildScale(p(tonic), 'wholeTone'))).toBe(expected);
+  });
+
+  it('nur Ganztonschritte; der letzte zur Oktave ist eine verminderte Terz', () => {
+    fc.assert(
+      fc.property(pitchArbitrary, (tonic) => {
+        let notes: Pitch[];
+        try {
+          notes = buildScale(tonic, 'wholeTone', { includeOctave: true });
+        } catch {
+          return;
+        }
+        const steps = notes
+          .slice(1)
+          .map((n, i) => formatInterval(intervalBetween(notes[i] ?? n, n)));
+        expect(steps).toEqual(['M2', 'M2', 'M2', 'M2', 'M2', 'd3']);
+      }),
+    );
+  });
+
+  it('wirft, wenn ein Ton drei Vorzeichen bräuchte (Ais: Fisisis)', () => {
+    expect(() => buildScale(p('A#4'), 'wholeTone')).toThrow(RangeError);
+  });
+});
+
 describe('chromatische Tonleiter', () => {
   it('aufwärts mit Kreuzen, abwärts mit b', () => {
     expect(de(buildScale(p('C4'), 'chromatic'))).toBe('C Cis D Dis E F Fis G Gis A Ais H');
@@ -260,8 +319,8 @@ describe('Eigenschaften siebenstufiger Tonleitern', () => {
 
 describe('Tonleitertypen', () => {
   it('alle Typen genau einmal', () => {
-    expect(SCALE_TYPES).toHaveLength(14);
-    expect(new Set(SCALE_TYPES).size).toBe(14);
+    expect(SCALE_TYPES).toHaveLength(17);
+    expect(new Set(SCALE_TYPES).size).toBe(17);
     expect(SCALE_TYPES).toContain('chromatic');
   });
 
@@ -285,6 +344,9 @@ describe('Tonleitertypen', () => {
     ['dorian', 'Dorisch', 'Dorian'],
     ['aeolian', 'Äolisch', 'Aeolian'],
     ['majorPentatonic', 'Dur-Pentatonik', 'major pentatonic'],
+    ['blues', 'Bluestonleiter', 'blues scale'],
+    ['majorBlues', 'Dur-Bluestonleiter', 'major blues scale'],
+    ['wholeTone', 'Ganztonleiter', 'whole-tone scale'],
     ['chromatic', 'chromatisch', 'chromatic'],
   ] as const)('Name von %s', (type, german, english) => {
     expect(scaleTypeName(type)).toBe(german);
