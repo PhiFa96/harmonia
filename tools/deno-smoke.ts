@@ -2,14 +2,21 @@
 // Aufruf: pnpm check:deno
 
 import {
+  buildScale,
   createRng,
+  diatonicTriads,
   formatInterval,
   frequency,
   intervalBetween,
   intervalName,
+  key,
+  keyName,
+  keySignature,
   midi,
+  parseNoteName,
   parsePitch,
   pitchName,
+  relativeKey,
   transpose,
 } from '../packages/theory/src/index.ts';
 
@@ -39,5 +46,19 @@ check(
   'Intervallname',
   intervalName(intervalBetween(parsePitch('C4'), parsePitch('A3'))),
   'kleine Terz abwärts',
+);
+check(
+  'Tonleiter gis-Moll harmonisch',
+  buildScale(parsePitch('G#4'), 'harmonicMinor')
+    .map((n) => pitchName(n, { system: 'de', octave: 'none' }))
+    .join(' '),
+  'Gis Ais H Cis Dis E Fisis',
+);
+check('Vorzeichen Es-Dur', keySignature(key(parseNoteName('Eb'))).length, 3);
+check('Paralleltonart von Es-Dur', keyName(relativeKey(key(parseNoteName('Eb')))), 'c-Moll');
+check(
+  'Dreiklang auf der 7. Stufe von C-Dur',
+  diatonicTriads(key(parseNoteName('C'))).at(-1)?.quality,
+  'diminished',
 );
 console.log('Theorie-Engine läuft unter Deno.');

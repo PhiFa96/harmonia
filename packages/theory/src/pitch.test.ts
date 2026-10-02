@@ -8,16 +8,21 @@ import {
   diatonicIndex,
   enharmonicSpellings,
   equals,
+  formatNoteName,
   formatPitch,
   frequency,
   fromMidi,
   isEnharmonic,
   midi,
+  noteName,
+  parseNoteName,
   parsePitch,
   pitch,
+  sameNoteName,
   transpose,
+  withOctave,
 } from './pitch.ts';
-import { pitchArbitrary } from './testing/arbitraries.ts';
+import { noteNameArbitrary, pitchArbitrary } from './testing/arbitraries.ts';
 
 const p = (text: string): Pitch => parsePitch(text);
 
@@ -224,5 +229,57 @@ describe('comparePitches', () => {
   it('sortiert nach Klang, bei Gleichklang nach Schreibweise', () => {
     const sorted = ['Dbb4', 'E4', 'B#3', 'C4', 'A3'].map(p).sort(comparePitches);
     expect(sorted.map((x) => formatPitch(x))).toEqual(['A3', 'B#3', 'C4', 'Dbb4', 'E4']);
+  });
+});
+
+describe('NoteName (Ton ohne Oktave)', () => {
+  it.each([
+    ['C', 'C', 0],
+    ['F#', 'F', 1],
+    ['Bb', 'B', -1],
+    ['C##', 'C', 2],
+    ['Ebb', 'E', -2],
+    ['E♭', 'E', -1],
+    ['G𝄪', 'G', 2],
+    [' A ', 'A', 0],
+  ] as const)('liest %s', (text, letter, alter) => {
+    expect(parseNoteName(text)).toEqual({ letter, alter });
+  });
+
+  it.each(['', 'H', 'c', 'C4', 'C#b', 'C###', 'Cb♮'])('lehnt „%s“ ab', (text) => {
+    expect(() => parseNoteName(text)).toThrow();
+  });
+
+  it('prüft Stammton und Vorzeichen', () => {
+    expect(noteName('F', 1)).toEqual({ letter: 'F', alter: 1 });
+    expect(() => noteName('F', 3)).toThrow(RangeError);
+    expect(() => noteName('H' as Letter)).toThrow(RangeError);
+  });
+
+  it('schreibt ohne Oktave, auch für eine Tonhöhe', () => {
+    expect(formatNoteName(noteName('F', 1))).toBe('F#');
+    expect(formatNoteName(noteName('B', -1), 'unicode')).toBe('B♭');
+    expect(formatNoteName(p('C##5'), 'unicode')).toBe('C𝄪');
+  });
+
+  it('setzt einen Ton in eine Oktave', () => {
+    expect(withOctave(noteName('E', -1), 3)).toEqual(p('Eb3'));
+    expect(() => withOctave(noteName('E'), 3.5)).toThrow(RangeError);
+  });
+
+  it('vergleicht Schreibweisen ohne Oktave', () => {
+    expect(sameNoteName(p('C#4'), p('C#5'))).toBe(true);
+    expect(sameNoteName(p('C#4'), p('Db4'))).toBe(false);
+  });
+
+  it('Rundreise: Lesen und Schreiben ergeben denselben Ton', () => {
+    fc.assert(
+      fc.property(noteNameArbitrary, (n) => {
+        return (
+          sameNoteName(parseNoteName(formatNoteName(n, 'ascii')), n) &&
+          sameNoteName(parseNoteName(formatNoteName(n, 'unicode')), n)
+        );
+      }),
+    );
   });
 });
