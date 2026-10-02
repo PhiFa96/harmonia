@@ -24,3 +24,8 @@ Thumbs.db
 .vscode/*
 !.vscode/extensions.json
 !.vscode/settings.json
+
+# Testabdeckung und Builds
+coverage/
+.expo/
+*.tsbuildinfo
