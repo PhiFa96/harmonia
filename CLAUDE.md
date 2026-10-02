@@ -36,6 +36,7 @@ Harmonia ist eine Musiktheorie-Lern-App für Web, iOS und Android. Aktueller Sta
 - `pnpm test` – Vitest in allen Paketen; einzeln: `pnpm --filter @harmonia/theory test`
 - `pnpm format` / `pnpm format:check` – Prettier (Markdown ist ausgenommen)
 - `pnpm check:deno` – Theorie-Engine unter Deno prüfen und ausführen (`tools/deno-smoke.ts`)
+- CI: `.github/workflows/ci.yml` (Jobs „Lint, Typen, Tests“ und „Deno-Kompatibilität“) muss vor dem Merge grün sein
 
 ## Code-Konventionen
 

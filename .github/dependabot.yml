@@ -1,0 +1,25 @@
+version: 2
+updates:
+  # npm-Pakete (pnpm-Lockfile). Kleinere Updates gebündelt, damit wenige Pull Requests entstehen.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    groups:
+      minor-und-patch:
+        update-types: [minor, patch]
+    ignore:
+      # Bewusst gepinnt (siehe ADR 0004 und pnpm-workspace.yaml)
+      - dependency-name: tonal
+      - dependency-name: '@tonaljs/*'
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    groups:
+      actions:
+        patterns: ['*']
