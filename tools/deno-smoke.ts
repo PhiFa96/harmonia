@@ -3,6 +3,10 @@
 
 import {
   buildScale,
+  chordName,
+  chordSymbol,
+  identifyChord,
+  identifyChordFromMidi,
   createRng,
   diatonicTriads,
   formatInterval,
@@ -60,5 +64,13 @@ check(
   'Dreiklang auf der 7. Stufe von C-Dur',
   diatonicTriads(key(parseNoteName('C'))).at(-1)?.quality,
   'diminished',
+);
+const sixthChord = identifyChord(['E3', 'G3', 'C4'].map((t) => parsePitch(t)))[0];
+check('Akkord E–G–C', sixthChord ? chordName(sixthChord.chord) : undefined, 'C-Dur-Sextakkord');
+const [keyboardChord] = identifyChordFromMidi([52, 55, 60]);
+check(
+  'Akkordsymbol aus MIDI 52, 55, 60',
+  keyboardChord ? chordSymbol(keyboardChord.chord) : undefined,
+  'C/E',
 );
 console.log('Theorie-Engine läuft unter Deno.');

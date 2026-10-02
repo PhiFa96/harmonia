@@ -8,4 +8,6 @@ export * from './interval.ts';
 export * from './interval-naming.ts';
 export * from './scale.ts';
 export * from './key.ts';
+export * from './chord.ts';
+export * from './chord-naming.ts';
 export * from './random.ts';
