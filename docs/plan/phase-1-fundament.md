@@ -140,7 +140,7 @@ flowchart LR
   - [ ] Dur, Moll (natürlich, harmonisch, melodisch), Kirchentonarten, Pentatonik (Dur/Moll), chromatisch
   - [ ] Vorzeichnung für alle 30 Dur- und Molltonarten (bis 7 Vorzeichen), Reihenfolge der Vorzeichen
   - [ ] Parallel- und Varianttonart, leitereigene Dreiklänge
-- **Fertig, wenn:** Tabellentests für alle Tonarten grün; Phillip hat Stichproben geprüft.
+- **Fertig, wenn:** Tabellentests für alle Tonarten grün; Abgleich mit `tonal` und Lehrmaterial.
 
 ### P1.10 – Engine: Akkorde (Grundlagen)
 
@@ -184,7 +184,7 @@ flowchart LR
   - [ ] Layout-Regeln aus [notation-audio-eingabe.md](notation-audio-eingabe.md) (Phase-1-Umfang)
   - [ ] Ausgabe als reine Daten (Liste von Glyphen, Linien, Balken mit Koordinaten)
   - [ ] Leistungsmessung (Ziel unter 50 ms für 8 Takte)
-- **Fertig, wenn:** Referenzbeispiele (Einzeltöne, Intervalle, Akkorde, Tonleitern, einfacher Rhythmus) sehen korrekt aus. Phillip nimmt die Darstellung ab.
+- **Fertig, wenn:** Referenzbeispiele (Einzeltöne, Intervalle, Akkorde, Tonleitern, einfacher Rhythmus) sehen korrekt aus, geprüft gegen die Notensatzregeln aus [notation-audio-eingabe.md](notation-audio-eingabe.md).
 - **Tests:** Snapshot-Tests der Layout-Daten.
 
 ### P1.14 – Notation: SVG-Renderer

@@ -93,7 +93,7 @@ Die Blöcke B, C und D können teilweise parallel laufen.
   - [ ] Fähigkeiten für Notation, Rhythmus, Intervalle, Tonleitern und Tonarten, Dreiklänge, Gehörbildung Grundlagen, Musikgeschichte Überblick
   - [ ] Voraussetzungen und Reihenfolge der Einheiten
   - [ ] Visualisierung des Graphen (für die Planung, nicht in der App)
-- **Fertig, wenn:** Phillip hat den Graphen fachlich freigegeben.
+- **Fertig, wenn:** Der Graph ist fachlich geprüft ([ADR 0005](../decisions/0005-fachliche-pruefung-durch-claude.md)).
 
 ### P2.06 – Übungstypen für das MVP
 
@@ -117,7 +117,7 @@ Die Blöcke B, C und D können teilweise parallel laufen.
 - **Aufgaben:**
   - [ ] Einheiten und Lektionen nach Graph
   - [ ] Wissenskarten mit Notenbild und Klang
-  - [ ] Entwürfe durch Claude, Abnahme durch Phillip, Status `freigegeben`
+  - [ ] Entwürfe durch Claude, getrennter Prüfdurchgang durch Claude, Status `freigegeben`
   - [ ] Wissensartikel für die Tutor-Wissensbasis zu allen Themen der Stufe
 - **Fertig, wenn:** Stufe 1 ist durchspielbar, fachlich freigegeben und in beiden Sprachen vollständig.
 
@@ -253,7 +253,7 @@ Die Blöcke B, C und D können teilweise parallel laufen.
 - **Abhängig von:** P2.16, P2.17
 - **Umfang:** L
 - **Aufgaben:**
-  - [ ] Katalog mit mindestens 200 Fragen (DE/EN), von Phillip freigegeben
+  - [ ] Katalog mit mindestens 200 Fragen (DE/EN), fachlich geprüft
   - [ ] Bewertungsskript (Kriterien aus [ki-tutor.md](ki-tutor.md)), Lauf über die Batch-Schnittstelle
   - [ ] Kalibrierung: Prompt, Effort-Stufe, ggf. Modellwahl je Rolle; Kosten pro Antwort
   - [ ] Kontingente je Abo-Stufe aus den Kosten ableiten

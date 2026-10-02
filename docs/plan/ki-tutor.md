@@ -84,7 +84,7 @@ Der Tutor rechnet nicht selbst, sondern ruft die Engine auf. Werkzeuge mit stren
 
 ## Qualitätssicherung (Testkatalog)
 
-- **Umfang:** mindestens 200 Fragen in DE und EN, Phillip gibt sie fachlich frei. Abgedeckt sind Faktenfragen, Erklärungen zu Fehlern, Fangfragen (z. B. enharmonische Verwechslung) und Fragen außerhalb des Themas.
+- **Umfang:** mindestens 200 Fragen in DE und EN, fachlich geprüft von Claude in einem getrennten Prüfdurchgang ([ADR 0005](../decisions/0005-fachliche-pruefung-durch-claude.md)). Abgedeckt sind Faktenfragen, Erklärungen zu Fehlern, Fangfragen (z. B. enharmonische Verwechslung) und Fragen außerhalb des Themas.
 - **Bewertung:**
   - Fachlich korrekt
   - Engine-Werkzeug genutzt, wo nötig

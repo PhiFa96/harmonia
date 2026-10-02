@@ -144,7 +144,7 @@ Beispiel: C4 → Fes4: generisch 4 (Quarte), erwartet 5 Halbtöne, tatsächlich 
 ## Harmonik
 
 - **Zwei Analysesysteme**, beide vollständig: Stufentheorie (römische Ziffern) und Funktionstheorie. Nutzer wählen in den Einstellungen (Standard: DE → Funktionen + Stufen, EN → römische Ziffern).
-- **Konventionen festlegen** (offene Frage, Fachentscheidung Phillip): Schreibweise der Funktionssymbole und Akkordsymbole. Die Engine bildet jede Konvention als Formatierer ab, das interne Modell bleibt gleich.
+- **Konventionen festlegen** (offene Frage, entscheidet Claude nach Recherche, siehe [ADR 0005](../decisions/0005-fachliche-pruefung-durch-claude.md)): Schreibweise der Funktionssymbole und Akkordsymbole. Die Engine bildet jede Konvention als Formatierer ab, das interne Modell bleibt gleich.
 
 ## Stimmführung (`voiceLeading`, Phase 4)
 
@@ -159,7 +159,7 @@ Regeln für den vierstimmigen Satz, jede einzeln aktivierbar, mit Schweregrad (F
 - Verdopplung (z. B. kein verdoppelter Leitton)
 - Melodische Schritte (z. B. übermäßige Sekunde)
 
-Jede Regel bekommt eine Quelle (Lehrbuch, Seite) in der internen Dokumentation. Phillip nimmt das Regelwerk fachlich ab.
+Jede Regel bekommt eine Quelle (Lehrbuch, Seite) in der internen Dokumentation.
 
 ## Generatoren
 
@@ -177,6 +177,6 @@ Jede Regel bekommt eine Quelle (Lehrbuch, Seite) in der internen Dokumentation. 
   - Intervall + Umkehrung = Oktave (generisch 9, Halbtöne 12)
   - Jede heptatonische Tonleiter enthält jeden Stammton genau einmal
   - Enharmonisch gleiche Töne: gleiche MIDI-Nummer, aber verschiedene Schreibweise
-- **Literaturabgleich:** Phillip stellt pro Modul Referenzbeispiele aus Standardwerken zusammen (Ergebnis, nicht Originaltext). Wir prüfen die Engine dagegen.
+- **Literaturabgleich:** Claude stellt pro Modul Referenzbeispiele aus Standardwerken und Lehrmaterial zusammen (Ergebnis, nicht Originaltext, mit Quelle). Wir prüfen die Engine dagegen.
 - **Vergleichstests:** Ergebnisse gegen `tonal` als unabhängiges Orakel (z. B. `src/pitch.tonal.test.ts`).
 - **Gleiches Verhalten in Deno:** `pnpm check:deno` prüft und startet `tools/deno-smoke.ts` unter Deno; ab P1.02 als CI-Job.

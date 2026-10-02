@@ -98,7 +98,7 @@ Der Umfang (6 Stufen × viele Bereiche × 2 Sprachen) ist das größte Mengenpro
 
 1. **Parametrische Übungen zuerst:** Ein gut parametrisierter Übungstyp ersetzt Hunderte handgeschriebene Aufgaben.
 2. **KI-gestützte Entwürfe:** Claude schreibt Entwürfe für Wissenskarten, Erklärtexte und Artikel in beiden Sprachen.
-3. **Fachliche Abnahme:** Phillip prüft jeden Text. Nichts geht ohne Freigabe live. Status je Inhalt: `entwurf → in_pruefung → freigegeben`.
+3. **Fachliche Abnahme:** Claude prüft jeden Text in einem getrennten Prüfdurchgang mit frischem Kontext, gegen Engine und Literatur ([ADR 0005](../decisions/0005-fachliche-pruefung-durch-claude.md)). Nichts geht ohne Freigabe live. Status je Inhalt: `entwurf → in_pruefung → freigegeben`.
 4. **Engine-Prüfung:** Alle Notenbeispiele in Texten sind maschinenlesbar (z. B. `[[notes: C4 E4 G4]]`) und werden von der Engine geprüft und gerendert.
 5. **Glossar:** zentrales Fachbegriff-Glossar DE ↔ EN in `packages/i18n` als einzige Quelle für Terminologie.
 6. **Stilrichtlinie:** kurze Sätze, Du-Form auf Deutsch, aktive Sprache, ein Gedanke pro Karte, immer mit Klangbeispiel.
