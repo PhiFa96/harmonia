@@ -68,21 +68,21 @@ describe('Helmholtz-Oktaven', () => {
     ['Eb3', 'es'],
     ['Bb3', 'b'],
     ['B3', 'h'],
-    ['C4', 'c′'], // eingestrichene Oktave
-    ['F#4', 'fis′'],
-    ['A4', 'a′'],
-    ['Eb5', 'es″'],
-    ['C6', 'c‴'],
-    ['C7', 'c⁗'],
-    ['C8', 'c′′′′′'], // fünfgestrichenes c, höchste Klaviertaste
+    ['C4', 'c¹'], // eingestrichene Oktave
+    ['F#4', 'fis¹'],
+    ['A4', 'a¹'],
+    ['Eb5', 'es²'],
+    ['C6', 'c³'],
+    ['C7', 'c⁴'],
+    ['C8', 'c⁵'], // fünfgestrichenes c, höchste Klaviertaste
   ])('%s → %s (deutsch)', (scientific, expected) => {
     expect(pitchName(parsePitch(scientific), { system: 'de', octave: 'helmholtz' })).toBe(expected);
   });
 
   it('funktioniert auch international', () => {
-    expect(pitchName(parsePitch('C4'), { octave: 'helmholtz' })).toBe('c′');
+    expect(pitchName(parsePitch('C4'), { octave: 'helmholtz' })).toBe('c¹');
     expect(pitchName(parsePitch('Bb3'), { octave: 'helmholtz' })).toBe('b♭');
-    expect(pitchName(parsePitch('F#4'), { octave: 'helmholtz' })).toBe('f♯′');
+    expect(pitchName(parsePitch('F#4'), { octave: 'helmholtz' })).toBe('f♯¹');
     expect(pitchName(parsePitch('B2'), { octave: 'helmholtz' })).toBe('B');
   });
 });

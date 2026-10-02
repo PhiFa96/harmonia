@@ -21,9 +21,9 @@ check('midi(C4)', midi(parsePitch('C4')), 60);
 check('frequency(A4)', frequency(parsePitch('A4')), 440);
 check('verminderte Quarte C4 → Fb4', pitchName(transpose(parsePitch('C4'), 3, 4)), 'F♭4');
 check(
-  'Helmholtz fis′',
+  'Helmholtz fis¹',
   pitchName(parsePitch('F#4'), { system: 'de', octave: 'helmholtz' }),
-  'fis′',
+  'fis¹',
 );
 check('Heses', pitchName(parsePitch('Bbb3'), { system: 'de', octave: 'none' }), 'Heses');
 check('Seed deterministisch', createRng('duell').int(0, 1000), createRng('duell').int(0, 1000));
