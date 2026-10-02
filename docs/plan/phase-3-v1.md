@@ -178,7 +178,7 @@
     - Bindebögen, Triolen
     - Alt- und Tenorschlüssel
     - Akkord- und Funktionssymbole
-- **Fertig, wenn:** Referenzbeispiele für Stufe 3–4 werden korrekt analysiert und dargestellt; Phillip hat abgenommen.
+- **Fertig, wenn:** Referenzbeispiele für Stufe 3–4 werden korrekt analysiert und dargestellt (geprüft gegen Literatur).
 
 ### P3.14 – Übungstypen Stufe 3–4
 
@@ -213,7 +213,7 @@
   - [ ] Recherche zu typischen Prüfungsformaten (öffentliche Informationen der Hochschulen; keine Übernahme fremder Prüfungsaufgaben)
   - [ ] Prüfungsvorlagen mit Zeitlimit, Punktewertung, Auswertung je Bereich
   - [ ] Empfehlungen nach der Prüfung (verknüpft mit Lernpfad)
-- **Fertig, wenn:** Mindestens zwei Prüfungsvorlagen sind von Phillip fachlich freigegeben.
+- **Fertig, wenn:** Mindestens zwei Prüfungsvorlagen sind fachlich geprüft.
 
 ## Block E – Tutor
 
@@ -226,7 +226,7 @@
   - [ ] Werkzeuge `get_learner_summary`, `analyze_progression`
   - [ ] Wochenplan-Vorschlag; Zusammenfassung von Stärken und Schwächen (ohne personenbezogene Daten)
   - [ ] Testkatalog erweitern (Stufen 3–4)
-- **Fertig, wenn:** Testkatalog erfüllt; Lernpläne von Phillip stichprobenartig geprüft.
+- **Fertig, wenn:** Testkatalog erfüllt; Lernpläne stichprobenartig fachlich geprüft.
 
 ### P3.19 – Wissensbasis v2
 

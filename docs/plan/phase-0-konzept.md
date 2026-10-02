@@ -63,7 +63,7 @@
   - [ ] Entscheidungen F03 (Funktionssymbole), F04 (Akkordsymbole)
   - [ ] Glossar v1 DE ↔ EN mit etwa 150 Kernbegriffen (Noten, Intervalle, Tonleitern, Akkorde, Rhythmus, Harmonik)
   - [ ] Referenzliteratur festlegen, gegen die die Engine geprüft wird
-- **Fertig, wenn:** Glossar liegt in `docs/` (später `packages/i18n`) und ist von Phillip freigegeben.
+- **Fertig, wenn:** Glossar liegt in `docs/` (später `packages/i18n`) und ist fachlich geprüft ([ADR 0005](../decisions/0005-fachliche-pruefung-durch-claude.md)).
 
 ### P0.06 – Arbeitsweise und Tracking
 

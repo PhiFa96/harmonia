@@ -21,6 +21,6 @@ Closes #<!-- Issue-Nummer, z. B. 8 für P1.01 -->
 - [ ] Barrierefreiheit beachtet (falls UI betroffen)
 - [ ] Plan, ADR oder CLAUDE.md aktualisiert (falls betroffen)
 
-## Fachliche Abnahme (Phillip)
+## Fachliche Prüfung
 
-<!-- Was soll Phillip musikalisch oder inhaltlich prüfen? Sonst „nicht nötig“. -->
+<!-- Womit wurde fachlich geprüft (Tabellen, tonal, Literatur mit Quelle, getrennter Prüfdurchgang)? Siehe ADR 0005. Sonst „nicht nötig“. -->

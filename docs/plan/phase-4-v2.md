@@ -133,7 +133,7 @@
   - [ ] Testkorpus mit eigenen fehlerhaften und fehlerfreien Sätzen
 - **Fertig, wenn:**
   - Der Korpus wird vollständig korrekt beurteilt.
-  - Phillip hat das Regelwerk abgenommen.
+  - Jede Regel ist mit ihrer Quelle belegt und fachlich geprüft.
 
 ### P4.10 – Tonsatz-Korrektor
 
@@ -230,6 +230,7 @@
 - **Umfang:** L
 - **Aufgaben:**
   - [ ] Prüfungsinhalte je Stufe (fest, fachlich freigegeben), Bestehensregeln
+  - [ ] Option: externes Fachgutachten der Prüfungsinhalte ([ADR 0005](../decisions/0005-fachliche-pruefung-durch-claude.md))
   - [ ] Bezahlung (In-App-Kauf bzw. Web), Wiederholungsregeln
   - [ ] Zertifikat (PDF und Prüfseite mit Code)
 - **Fertig, wenn:** Zertifikate für Stufe 1–2 sind verfügbar.
