@@ -13,7 +13,7 @@ Postgres in Supabase, Region EU. Alle Tabellen mit Row Level Security (RLS). Än
 
 | Tabelle | Zweck | Wichtige Spalten |
 |---|---|---|
-| `profiles` | Profil und Einstellungen | `id` (= Auth-User), `display_name`, `locale` (de/en), `note_naming` (de/intl), `harmony_system` (functions/roman/both), `daily_goal_xp`, `timezone`, `age_confirmed`, `onboarding_completed_at` |
+| `profiles` | Profil und Einstellungen | `id` (= Auth-User), `display_name`, `locale` (de/en), `note_naming` (de/intl), `en_terminology` (us/uk), `harmony_system` (functions/roman/both), `daily_goal_xp`, `timezone`, `age_confirmed`, `onboarding_completed_at` |
 | `lesson_attempts` | Durchgänge von Lektionen | `id`, `client_id` (Idempotenz), `user_id`, `lesson_id`, `content_version`, `started_at`, `finished_at`, `accuracy`, `xp_awarded` |
 | `item_attempts` | Einzelne Aufgaben | `id`, `attempt_id`, `user_id`, `exercise_type`, `skill_ids[]`, `params` (jsonb), `answer` (jsonb), `correct`, `response_ms`, `hints_used`, `created_at` |
 | `skill_progress` | Stand je Fähigkeit | `user_id`, `skill_id`, `status` (offen/gelernt/getestet), `last_practiced_at`; ab Phase 3 Rating- und FSRS-Felder |

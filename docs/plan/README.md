@@ -72,10 +72,10 @@ Wir arbeiten die Schritte innerhalb einer Phase in der angegebenen Reihenfolge a
 - [ ] Dokumentation aktualisiert (Plan, ADR, CLAUDE.md, falls betroffen)
 - [ ] Fachliche Abnahme durch Phillip bei allem, was Musiktheorie-Inhalte betrifft
 
-## Arbeitsweise (Vorschlag)
+## Arbeitsweise (entschieden am 02.10.2026)
 
 - **Rollen:** Claude entwirft und implementiert. Phillip entscheidet, nimmt fachlich ab und testet auf echten Geräten.
 - **Ablauf pro Schritt:** eigener Branch → Pull Request mit Beschreibung und Testnachweis → CI grün → Review durch Phillip → Merge.
-- **Tracking:** jeder Arbeitsschritt wird ein GitHub-Issue mit seiner ID. Ein GitHub-Projekt-Board zeigt den Stand.
+- **Tracking:** jeder Arbeitsschritt ist ein GitHub-Issue mit seiner ID im Titel (Phase 0: #1–#7, Phase 1: #8–#27). Ein GitHub-Projekt-Board zeigt den Stand. Pull Requests schließen ihr Issue mit „Closes #…“.
 - **Entscheidungen:** alles mit Tragweite als ADR in `docs/decisions/`.
 - **Rückblick:** am Ende jeder Phase ein kurzer Rückblick. Was lief gut, was ändern wir? Der Plan wird danach angepasst.
