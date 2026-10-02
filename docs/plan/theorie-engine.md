@@ -124,6 +124,16 @@ Beispiel: C4 → Fes4: generisch 4 (Quarte), erwartet 5 Halbtöne, tatsächlich 
 - Taktart: Zähler und Nenner plus Gruppierung (z. B. 6/8 = 3+3, 7/8 = 2+2+3).
 - Prüfung: Takt vollständig gefüllt, Gruppierung für Balkensetzung.
 
+**Festgelegte Konventionen (umgesetzt in P1.11):**
+
+- **Notenwerte** von der doppelganzen Note (Brevis, 2) bis zur Vierundsechzigstel (1/64), mit 0–3 Punkten: Wert · (2 − 1/2^Punkte). N-tolen als Verhältnis „actual : normal“: Triole 3:2 (Triolenachtel = 1/12), Quintole 5:4, Duole 2:3.
+- **Gruppierung** in Einheiten des Nenners. Ohne Angabe gilt: 6, 9, 12 in Dreiergruppen; 1–4 sowie alle Taktarten mit Halben oder Vierteln als Nenner Zählzeit für Zählzeit (5/4 = fünf Viertel); 5/8 = 2+3 und 7/8 = 2+2+3. Für alle anderen (z. B. 8/8, 11/8) ist die Gruppierung Pflicht, weil die Praxis keinen einheitlichen Standard hat (8/8 oft 3+3+2).
+- **Einteilung nach der Teilung der Zählzeit** (`meterType`, wie in englischsprachigen Lehrbüchern): *simple* = 2, 3 oder 4 zweigeteilte Zählzeiten (2/4, 3/4, 4/4, 2/2, 3/8); *compound* = 2, 3 oder 4 dreigeteilte Zählzeiten (6/8, 9/8, 12/8, 6/4); sonst *irregular* (5/8, 7/8, 5/4). `tonal` weicht hier ab (3/8 „compound“, 6/4 „simple“) und dient deshalb nicht als Orakel.
+- **Falscher Freund:** In der deutschen Musiklehre heißt „zusammengesetzter Takt“ ein Takt aus mehreren einfachen (4/4 = 2+2, 6/8 = 3+3). Englisch „compound meter“ meint dagegen die Dreiteilung der Zählzeit; 4/4 ist dort „simple“. Deutsche Lerninhalte müssen den Begriff deshalb eigens erklären und dürfen „compound“ nicht einfach mit „zusammengesetzt“ übersetzen.
+- **Takt voll:** Noten und Pausen zählen gleich; Ergebnis `complete`, `incomplete` (mit fehlender Dauer) oder `overfull` (mit Überschuss). Auftakte erscheinen als `incomplete`.
+- **Sekunden:** Tempo als Schläge pro Minute mit wählbarem Schlagwert (Standard Viertel, im 6/8-Takt z. B. punktierte Viertel). Nur die Ausgabe ist eine Gleitkommazahl.
+- **Namen:** Deutsch „punktierte Viertelnote“, „halbe Pause“, „Achtelnote (Triole)“; Englisch US „dotted quarter note“, „triplet eighth note“, UK „dotted crotchet“, „triplet quaver“ (F02). Namen und Werte stimmen mit `tonal` überein.
+
 ## Funktionsumfang nach Phasen
 
 | Modul | Funktionen | Phase |
