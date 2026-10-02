@@ -3,6 +3,14 @@
 
 import {
   buildScale,
+  checkMeasure,
+  duration,
+  durationName,
+  durationSeconds,
+  durationValue,
+  formatFraction,
+  parseTimeSignature,
+  TRIPLET,
   chordName,
   chordSymbol,
   identifyChord,
@@ -72,5 +80,28 @@ check(
   'Akkordsymbol aus MIDI 52, 55, 60',
   keyboardChord ? chordSymbol(keyboardChord.chord) : undefined,
   'C/E',
+);
+check(
+  '6/8-Takt mit punktierter Viertel und drei Achteln',
+  checkMeasure(
+    [duration('quarter', 1), duration('eighth'), duration('eighth'), duration('eighth')],
+    parseTimeSignature('6/8'),
+  ).status,
+  'complete',
+);
+check(
+  'Triolenachtel als Bruch',
+  formatFraction(durationValue(duration('eighth', 0, TRIPLET))),
+  '1/12',
+);
+check(
+  'Triolenachtel bei ♩ = 120 in Millisekunden',
+  Math.round(durationSeconds(duration('eighth', 0, TRIPLET), { bpm: 120 }) * 1000),
+  167,
+);
+check(
+  'UK-Name',
+  durationName(duration('quarter', 1), { language: 'en', variant: 'uk' }),
+  'dotted crotchet',
 );
 console.log('Theorie-Engine läuft unter Deno.');

@@ -9,6 +9,8 @@ import { interval, isValidInterval } from '../interval.ts';
 import type { Key } from '../key.ts';
 import { ALL_KEYS } from '../key.ts';
 import type { NoteName, Pitch } from '../pitch.ts';
+import type { Duration } from '../rhythm.ts';
+import { duration, NOTE_VALUES, TRIPLET } from '../rhythm.ts';
 import { LETTERS, noteName, pitch } from '../pitch.ts';
 
 /** Beliebige Tonhöhe mit höchstens zwei Vorzeichen im MIDI-Bereich (Oktave -1 bis 9). */
@@ -58,3 +60,12 @@ export const chordArbitrary: fc.Arbitrary<Chord> = fc
       return false;
     }
   });
+
+/** Beliebiger Notenwert (Brevis bis Vierundsechzigstel) mit 0–3 Punkten, gelegentlich als Triole. */
+export const durationArbitrary: fc.Arbitrary<Duration> = fc
+  .record({
+    value: fc.constantFrom(...NOTE_VALUES),
+    dots: fc.integer({ min: 0, max: 3 }),
+    triplet: fc.boolean(),
+  })
+  .map(({ value, dots, triplet }) => duration(value, dots, triplet ? TRIPLET : undefined));
