@@ -25,7 +25,7 @@ Die Blöcke B, C und D können teilweise parallel laufen.
 - **Aufgaben:**
   - [ ] Supabase Auth: E-Mail (Magic Link oder Passwort), „Mit Apple anmelden“, Google
   - [ ] Gastmodus (falls F10 = ja): lokaler Fortschritt, späteres Verknüpfen mit einem Konto ohne Datenverlust
-  - [ ] Altersabfrage nach F01 im Onboarding
+  - [ ] Altersbestätigung (ab 16, F01) im Onboarding
   - [ ] Konto löschen in der App (vollständige Löschung aller Daten, auch bei RevenueCat und Analytics)
   - [ ] Datenexport (JSON) auf Anfrage
 - **Fertig, wenn:**
@@ -44,6 +44,7 @@ Die Blöcke B, C und D können teilweise parallel laufen.
     - App-Sprache
     - Tonnamen (deutsch/international)
     - Harmonik-System (Funktionen/Stufen/beides)
+    - Englische Terminologie (US/UK)
     - Tagesziel
     - Erinnerungszeit
     - Ton und Haptik

@@ -1,5 +1,5 @@
 // Tonhöhen mit vollständiger Schreibweise (Stammton + Vorzeichen + Oktave).
-// Oktaven in wissenschaftlicher Notation: C4 = eingestrichenes c (c′), A4 = 440 Hz.
+// Oktaven in wissenschaftlicher Notation: C4 = eingestrichenes c (c¹), A4 = 440 Hz.
 
 export type Letter = 'C' | 'D' | 'E' | 'F' | 'G' | 'A' | 'B';
 
@@ -24,7 +24,7 @@ export interface Pitch {
   readonly letter: Letter;
   /** -2 = Doppel-b, -1 = b, 0 = ohne, +1 = Kreuz, +2 = Doppelkreuz */
   readonly alter: number;
-  /** Oktave in wissenschaftlicher Notation (C4 = c′) */
+  /** Oktave in wissenschaftlicher Notation (C4 = c¹) */
   readonly octave: number;
 }
 

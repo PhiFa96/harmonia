@@ -21,4 +21,4 @@ Harmonia startet gleichzeitig auf **Deutsch und Englisch**. Beide Sprachen sind 
 - **Inhalte:** Inhalte werden an die jeweilige Tradition angepasst, nicht nur übersetzt. Jeder Inhalt hat beide Sprachen; die CI prüft das.
 - **Glossar:** Ein zentrales Fachglossar DE ↔ EN ist die einzige Quelle für Terminologie.
 - **Aufwand:** Inhaltsproduktion, Tutor-Testkatalog, Store-Auftritt und Support verdoppeln sich in Teilen. Gegenmaßnahmen: parametrische Übungen, KI-Entwürfe mit fachlicher Abnahme (siehe [Risiken](../plan/risiken.md), R1).
-- **Offene Frage:** amerikanische oder britische Terminologie im Englischen (F02).
+- **Englische Terminologie (entschieden 02.10.2026):** umschaltbar zwischen amerikanisch (whole, half, quarter note) und britisch (semibreve, minim, crotchet). Vorschlag für den Standard: nach Gerätesprache (en-GB → britisch, sonst amerikanisch). Texte verwenden für solche Begriffe Platzhalter aus dem Glossar statt fester Wörter.

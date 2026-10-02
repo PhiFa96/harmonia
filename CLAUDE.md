@@ -18,7 +18,7 @@ Harmonia ist eine Musiktheorie-Lern-App für Web, iOS und Android. Aktueller Sta
 
 ## Fachliche Konventionen (Musiktheorie)
 
-- **Deutsche Tonnamen:** H statt englisch B; B steht für englisch B♭. Im Datenmodell Tonhöhen sprachneutral speichern (Stammton + Vorzeichen + Oktave, z. B. wissenschaftliche Notation: C4 = c′) und erst in der Anzeige lokalisieren.
+- **Deutsche Tonnamen:** H statt englisch B; B steht für englisch B♭. Im Datenmodell Tonhöhen sprachneutral speichern (Stammton + Vorzeichen + Oktave, z. B. wissenschaftliche Notation: C4 = c¹) und erst in der Anzeige lokalisieren.
 - **Enharmonik beachten:** Cis und Des klingen im gleichstufigen System gleich, sind in der Notation aber verschieden. Intervalle immer aus Stammtonabstand *und* Halbtonabstand bestimmen, nie nur aus Halbtönen (große Terz C–E ≠ verminderte Quarte C–Fes).
 - Fachliche Aussagen (Definitionen, Regeln) gegen Standardliteratur prüfen. Bei Unklarheit nachfragen statt raten.
 

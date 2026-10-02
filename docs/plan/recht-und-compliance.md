@@ -32,7 +32,7 @@
 
 **Minderjährige**
 
-- [ ] **Mindestalter festlegen** (offene Frage). Bei einwilligungsbasierter Verarbeitung gilt in Deutschland: ab 16 Jahren selbst, darunter Einwilligung der Eltern (Art. 8 DSGVO; Deutschland hat die Altersgrenze nicht gesenkt).
+- [ ] **Mindestalter ab 16** (vorläufig entschieden am 02.10.2026) rechtlich bestätigen lassen. Hintergrund: Bei einwilligungsbasierter Verarbeitung gilt in Deutschland ab 16 Jahren die eigene Einwilligung, darunter die der Eltern (Art. 8 DSGVO; Deutschland hat die Altersgrenze nicht gesenkt).
 - [ ] Geschäftsfähigkeit bei Abos für Minderjährige klären
 - [ ] Keine freie Kommunikation zwischen Nutzern (siehe [motivation-und-social.md](motivation-und-social.md))
 - [ ] Altersfreigabe-Fragebögen der Stores

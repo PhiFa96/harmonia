@@ -32,7 +32,7 @@ type Letter = 'C' | 'D' | 'E' | 'F' | 'G' | 'A' | 'B';   // intern englische Sta
 interface Pitch {
   letter: Letter;
   alter: number;   // -2 = Doppel-b, -1 = b, 0, +1 = Kreuz, +2 = Doppelkreuz
-  octave: number;  // wissenschaftliche Notation: C4 = eingestrichenes c (c′)
+  octave: number;  // wissenschaftliche Notation: C4 = eingestrichenes c (c¹)
 }
 ```
 
@@ -103,7 +103,7 @@ Beispiel: C4 → Fes4: generisch 4 (Quarte), erwartet 5 Halbtöne, tatsächlich 
 | b | Ces, Des, **Es**, Fes, Ges, **As**, **B** | C♭ … B♭ |
 | Doppelkreuz | Cisis, Disis, … Hisis | C𝄪 … |
 | Doppel-b | Ceses, Deses, Eses, Feses, Geses, Asas, Heses | C𝄫 … |
-| Oktavlage | Helmholtz: C, c, c′, c″ … (Kontra-, Subkontraoktave) | Wissenschaftlich: C2, C3, C4 … |
+| Oktavlage | Helmholtz mit Hoch- und Tiefzahlen: C₂, C₁, C, c, c¹, c² … | Wissenschaftlich: C0, C1, C2, C3, C4, C5 … |
 | Intervalle | reine Prime … große Septime, None, Dezime … | perfect unison … major seventh, ninth, tenth … |
 
 - Die Benennung folgt der UI-Sprache, ist aber unabhängig umschaltbar (Einstellung „Tonnamen: deutsch / international“).
