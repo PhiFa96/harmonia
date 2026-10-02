@@ -73,7 +73,7 @@
 - **Aufgaben:**
   - [x] Entscheidung F18
   - [x] GitHub-Issues für alle Schritte aus Phase 0 und 1 anlegen (ID im Titel), Labels (Phase, Größe)
-  - [ ] GitHub-Projekt-Board (Spalten: Backlog, In Arbeit, Review, Fertig)
+  - [x] GitHub-Projekt-Board (angelegt von Phillip am 02.10.2026)
   - [x] Vorlagen für Pull Requests und Issues
 - **Fertig, wenn:** Das Board zeigt Phase 1 vollständig.
 
