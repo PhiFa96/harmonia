@@ -1,6 +1,7 @@
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 
+import { chordSymbol } from './chord-naming.ts';
 import { formatInterval, intervalBetween, simplify } from './interval.ts';
 import type { DiatonicTriad, Key, Mode } from './key.ts';
 import {
@@ -295,6 +296,23 @@ describe('leitereigene Dreiklänge', () => {
     ['D#', 'minor', 'harmonic', 'dis eis° Fis+ gis Ais H cisis°'],
   ] as const)('%s %s %s', (tonic, mode, minorForm, expected) => {
     expect(triads(k(tonic, mode), minorForm)).toBe(expected);
+  });
+
+  it('als Akkordsymbole', () => {
+    expect(diatonicTriads(k('C')).map((t) => chordSymbol(t.chord))).toEqual([
+      'C',
+      'Dm',
+      'Em',
+      'F',
+      'G',
+      'Am',
+      'B°',
+    ]);
+    expect(
+      diatonicTriads(k('A', 'minor'), { minorForm: 'harmonic' }).map((t) =>
+        chordSymbol(t.chord, { system: 'de' }),
+      ),
+    ).toEqual(['Am', 'H°', 'C+', 'Dm', 'E', 'F', 'G♯°']);
   });
 
   it('Dreiklangstöne sind Grundton, Terz und Quinte der Tonleiter', () => {

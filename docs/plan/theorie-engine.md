@@ -104,6 +104,20 @@ Beispiel: C4 → Fes4: generisch 4 (Quarte), erwartet 5 Halbtöne, tatsächlich 
 - **Ganztonleiter** = 1 2 3 ♯4 ♯5 ♯6: auf C: C D E Fis Gis Ais, auf Des: Des Es F G A H. Weil sechs Töne auf sieben Stammtöne verteilt werden, ist ein Schritt eine verminderte Terz; sie liegt vor der Oktave (Ais–C). So ergeben sich die beiden üblichen Schreibweisen der zwei Ganztonreihen.
 - **Abgleich:** Blues-, Dur-Blues- und Ganztonleiter stimmen auf allen 35 Grundtönen mit tonal überein und entsprechen der verbreiteten Schreibweise in Lehrmaterial (z. B. Ganztonleiter c d e fis gis ais mit verminderter Terz ais–c).
 
+### Akkorde
+
+**Festgelegte Konventionen (umgesetzt in P1.10):**
+
+- **Datenmodell:** Akkord = Grundton (`NoteName`) + Akkordtyp + Umkehrung. Die Akkordtöne entstehen aus Intervallen vom Grundton (Dur: r. 1, gr. 3, r. 5; Moll: r. 1, kl. 3, r. 5; vermindert: r. 1, kl. 3, verm. 5; übermäßig: r. 1, gr. 3, üb. 5). Septakkorde kommen als weitere Typen mit vier Tönen dazu (Akkordton `seventh`, dritte Umkehrung); Namen der Vierklang-Umkehrungen sind schon vorhanden.
+- **Höchstens zwei Vorzeichen pro Akkordton.** Ceses-Moll (bräuchte Eseses) und His-übermäßig (bräuchte Fisisis) sind nicht darstellbar.
+- **Enge Lage** vom Basston aufwärts: C-Dur-Sextakkord = E4 G4 C5.
+- **Bestimmen aus geschriebenen Tönen:** beliebige Lage und Verdopplung, der tiefste Ton ist der Bass und bestimmt die Umkehrung. Die Schreibweise zählt: E–G–C ist ein C-Dur-Sextakkord, E–G–His ist kein Dreiklang.
+- **Fehlende Quinte** ist erlaubt (üblich im vierstimmigen Satz), Grundton und Terz nicht. Ohne Quinte ist das Ergebnis mehrdeutig. Die Kandidatenliste nennt dann Dur vor übermäßig und Moll vor vermindert.
+- **Bestimmen aus MIDI-Nummern** (Eingabe ohne Schreibweise, z. B. Klaviatur): Jede passende Schreibweise ist ein Kandidat. Akkordtöne haben standardmäßig höchstens ein Vorzeichen. Sortiert wird nach fehlenden Tönen, dann nach der Zahl der Vorzeichen der vorhandenen Töne, dann nach Akkordtyp, Umkehrung und Stammton. Beispiel C–E–Gis: C+, As+ (Sextakkord), E+ (Quartsextakkord), Fes+ (Quartsextakkord).
+- **Namen Deutsch:** „C-Dur-Dreiklang“, „a-Moll-Sextakkord“, „C-Dur-Quartsextakkord“. Bei vermindert und übermäßig: „verminderter Dreiklang auf H als Sextakkord“. Bewusst nicht „übermäßiger Sextakkord“, denn so heißt ein anderer Akkord (mit übermäßiger Sexte).
+- **Namen Englisch:** „C major triad“, „A minor triad, first inversion“, „B diminished triad, second inversion“.
+- **Akkordsymbole (F04, Stand Dreiklänge):** C, Cm, C°, C+; Umkehrungen mit Schrägstrich (C/E). Diese Zeichen sind in Leadsheets am weitesten verbreitet. Als Alternative gibt es den Textstil Cdim und Caug. Tonbuchstaben stehen standardmäßig international (B, B♭), wahlweise deutsch (H, B). Die Symbole für Septakkorde (z. B. Cmaj7, CΔ7, CM7) werden mit den Septakkorden festgelegt.
+
 ### Rhythmus
 
 - Dauern als **Brüche** (`{num, den}`), nie als Gleitkommazahlen: Viertel = 1/4, punktierte Achtel = 3/16, Triolen-Achtel = 1/12.

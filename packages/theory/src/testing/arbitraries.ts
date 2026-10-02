@@ -2,6 +2,8 @@
 
 import fc from 'fast-check';
 
+import type { Chord } from '../chord.ts';
+import { CHORD_TYPES, chordTones } from '../chord.ts';
 import type { Interval } from '../interval.ts';
 import { interval, isValidInterval } from '../interval.ts';
 import type { Key } from '../key.ts';
@@ -40,3 +42,19 @@ export const intervalArbitrary: fc.Arbitrary<Interval> = fc
   })
   .filter(({ number, quality }) => isValidInterval(number, quality))
   .map(({ number, quality, direction }) => interval(number, quality, direction));
+
+/** Beliebiger darstellbarer Dreiklang (alle Töne mit höchstens zwei Vorzeichen) in beliebiger Umkehrung. */
+export const chordArbitrary: fc.Arbitrary<Chord> = fc
+  .record({
+    root: noteNameArbitrary,
+    type: fc.constantFrom(...CHORD_TYPES),
+    inversion: fc.integer({ min: 0, max: 2 }),
+  })
+  .filter(({ root, type }) => {
+    try {
+      chordTones({ root, type });
+      return true;
+    } catch {
+      return false;
+    }
+  });

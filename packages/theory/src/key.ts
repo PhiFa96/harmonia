@@ -3,7 +3,8 @@
 // Achtung, falsche Freunde: Die deutsche „Paralleltonart“ (C-Dur ↔ a-Moll) heißt englisch „relative key“,
 // die deutsche „Varianttonart“ (C-Dur ↔ c-Moll) heißt englisch „parallel key“.
 
-import { intervalBetween } from './interval.ts';
+import type { Chord, TriadType } from './chord.ts';
+import { identifyChord } from './chord.ts';
 import { germanName, internationalName } from './naming.ts';
 import type { AccidentalStyle, Letter, NoteName, Pitch } from './pitch.ts';
 import { formatNoteName, noteName, transpose, withOctave } from './pitch.ts';
@@ -165,23 +166,15 @@ export function keyScale(k: Key, options: KeyScaleOptions = {}): Pitch[] {
   return buildScale(withOctave(k.tonic, options.octave ?? 4), type);
 }
 
-export type TriadQuality = 'major' | 'minor' | 'diminished' | 'augmented';
-
 export interface DiatonicTriad {
   /** Stufe 1–7 */
   readonly degree: number;
-  readonly quality: TriadQuality;
+  readonly quality: TriadType;
+  /** Der Dreiklang in Grundstellung, z. B. für `chordName` und `chordSymbol`. */
+  readonly chord: Chord;
   /** Grundton, Terz und Quinte */
   readonly notes: readonly [NoteName, NoteName, NoteName];
 }
-
-/** Terz- und Quintqualität → Dreiklangsart. */
-const TRIAD_QUALITIES: Readonly<Record<string, TriadQuality>> = {
-  MP: 'major',
-  mP: 'minor',
-  md: 'diminished',
-  MA: 'augmented',
-};
 
 /**
  * Leitereigene Dreiklänge auf den sieben Stufen, aus Terzen der Tonleiter geschichtet.
@@ -196,17 +189,14 @@ export function diatonicTriads(
   return scale.map((root, index) => {
     const third = twoOctaves[index + 2] ?? root;
     const fifth = twoOctaves[index + 4] ?? root;
-    const thirdQuality = intervalBetween(root, third).quality;
-    const fifthQuality = intervalBetween(root, fifth).quality;
-    const quality = TRIAD_QUALITIES[thirdQuality + fifthQuality];
-    if (quality === undefined) {
-      throw new RangeError(
-        `Kein Dreiklang aus ${thirdQuality}3 und ${fifthQuality}5 auf Stufe ${String(index + 1)}`,
-      );
+    const [match] = identifyChord([root, third, fifth]);
+    if (match === undefined || match.omitted.length > 0) {
+      throw new RangeError(`Kein Dreiklang auf Stufe ${String(index + 1)} von ${keyName(k)}`);
     }
     return {
       degree: index + 1,
-      quality,
+      quality: match.chord.type,
+      chord: match.chord,
       notes: [withoutOctave(root), withoutOctave(third), withoutOctave(fifth)],
     };
   });

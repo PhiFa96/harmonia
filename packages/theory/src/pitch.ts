@@ -157,6 +157,20 @@ export function fromMidi(midiNumber: number, prefer: 'sharp' | 'flat' = 'sharp')
   return pitch(letter, alter, octave);
 }
 
+/**
+ * Schreibt eine MIDI-Nummer mit vorgegebenem Stammton und Vorzeichen, z. B. 60 als His3 oder Deses4.
+ * Wirft einen RangeError, wenn der Ton nicht zur MIDI-Nummer passt.
+ */
+export function spellMidi(midiNumber: number, name: NoteName): Pitch {
+  const octave = (midiNumber - NATURAL_SEMITONES[name.letter] - name.alter) / 12 - 1;
+  if (!Number.isInteger(octave)) {
+    throw new RangeError(
+      `MIDI ${String(midiNumber)} lässt sich nicht als ${formatNoteName(name)} schreiben`,
+    );
+  }
+  return pitch(name.letter, name.alter, octave);
+}
+
 /** Sortierung nach Klang, bei gleichem Klang nach Schreibweise (tiefer Stammton zuerst). */
 export function comparePitches(a: Pitch, b: Pitch): number {
   return midi(a) - midi(b) || diatonicIndex(a) - diatonicIndex(b);

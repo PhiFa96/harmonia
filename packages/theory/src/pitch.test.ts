@@ -19,6 +19,7 @@ import {
   parsePitch,
   pitch,
   sameNoteName,
+  spellMidi,
   transpose,
   withOctave,
 } from './pitch.ts';
@@ -279,6 +280,31 @@ describe('NoteName (Ton ohne Oktave)', () => {
           sameNoteName(parseNoteName(formatNoteName(n, 'ascii')), n) &&
           sameNoteName(parseNoteName(formatNoteName(n, 'unicode')), n)
         );
+      }),
+    );
+  });
+});
+
+describe('spellMidi', () => {
+  it.each([
+    [60, 'C', 'C4'],
+    [60, 'B#', 'B#3'],
+    [60, 'Dbb', 'Dbb4'],
+    [59, 'Cb', 'Cb4'],
+    [71, 'B', 'B4'],
+    [0, 'C', 'C-1'],
+  ] as const)('%i als %s → %s', (midiNumber, name, expected) => {
+    expect(formatPitch(spellMidi(midiNumber, parseNoteName(name)))).toBe(expected);
+  });
+
+  it('wirft, wenn der Ton nicht passt', () => {
+    expect(() => spellMidi(60, parseNoteName('C#'))).toThrow(RangeError);
+  });
+
+  it('Rundreise über MIDI', () => {
+    fc.assert(
+      fc.property(pitchArbitrary, (x) => {
+        return equals(spellMidi(midi(x), x), x);
       }),
     );
   });
