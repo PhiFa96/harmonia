@@ -14,6 +14,7 @@
   "devDependencies": {
     "@harmonia/config": "workspace:*",
     "fast-check": "catalog:",
+    "tonal": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"
   }

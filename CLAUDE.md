@@ -18,7 +18,7 @@ Harmonia ist eine Musiktheorie-Lern-App für Web, iOS und Android. Aktueller Sta
 
 ## Fachliche Konventionen (Musiktheorie)
 
-- **Deutsche Tonnamen:** H statt englisch B; B steht für englisch B♭. Im Datenmodell Tonhöhen sprachneutral speichern (Stammton + Vorzeichen + Oktave, z. B. wissenschaftliche Notation: C4 = c′) und erst in der Anzeige lokalisieren.
+- **Deutsche Tonnamen:** H statt englisch B; B steht für englisch B♭. Im Datenmodell Tonhöhen sprachneutral speichern (Stammton + Vorzeichen + Oktave, z. B. wissenschaftliche Notation: C4 = c¹) und erst in der Anzeige lokalisieren.
 - **Enharmonik beachten:** Cis und Des klingen im gleichstufigen System gleich, sind in der Notation aber verschieden. Intervalle immer aus Stammtonabstand *und* Halbtonabstand bestimmen, nie nur aus Halbtönen (große Terz C–E ≠ verminderte Quarte C–Fes).
 - Fachliche Aussagen (Definitionen, Regeln) gegen Standardliteratur prüfen. Bei Unklarheit nachfragen statt raten.
 
@@ -35,9 +35,12 @@ Harmonia ist eine Musiktheorie-Lern-App für Web, iOS und Android. Aktueller Sta
 - `pnpm typecheck` – TypeScript in allen Paketen
 - `pnpm test` – Vitest in allen Paketen; einzeln: `pnpm --filter @harmonia/theory test`
 - `pnpm format` / `pnpm format:check` – Prettier (Markdown ist ausgenommen)
+- `pnpm check:deno` – Theorie-Engine unter Deno prüfen und ausführen (`tools/deno-smoke.ts`)
 
 ## Code-Konventionen
 
 - Pakete werden als TypeScript-Quellcode exportiert (kein Build-Schritt). Relative Importe immer mit Dateiendung `.ts`, damit derselbe Code auch in Deno (Supabase Edge Functions) läuft.
 - Gemeinsame Versionen über den pnpm-Katalog (`catalog:` in `pnpm-workspace.yaml`).
 - Neue interne Pakete in `tools/check-package-graph.mjs` eintragen (Regeln aus `docs/plan/architektur.md`).
+- Theorie-Engine: eigene Implementierung (ADR 0004). `tonal` nur als Test-Orakel in `*.tonal.test.ts`, nie im Produktionscode.
+- Fast-check-Generatoren für Tests liegen in `packages/theory/src/testing/` (nicht exportiert).

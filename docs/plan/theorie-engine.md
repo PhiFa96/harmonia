@@ -12,7 +12,7 @@ Paket `packages/theory`. Fachlicher Kern von Harmonia: erzeugt und bewertet alle
 
 ## Eigene Engine oder Bibliothek?
 
-Kandidat: `tonal` (MIT-Lizenz, TypeScript, Noten, Intervalle, Akkorde, Skalen, Tonarten). In **P1.07** entscheiden wir per Spike und ADR 0004:
+**Entschieden in [ADR 0004](../decisions/0004-eigene-theorie-engine.md):** eigene Engine; `tonal` (MIT) dient nur als Test-Orakel in Vergleichstests. Grundlage war ein Spike mit diesen Kriterien:
 
 | Kriterium | Prüffrage |
 |---|---|
@@ -21,7 +21,7 @@ Kandidat: `tonal` (MIT-Lizenz, TypeScript, Noten, Intervalle, Akkorde, Skalen, T
 | Benennung | Lässt sich die deutsche Benennung (H, B, -is, -es) darüber legen? |
 | Größe und Wartung | Aktiv gepflegt, kleine Bündelgröße? |
 
-Wahrscheinlich ist ein Mischweg: eigene Kern-Datentypen, `tonal` nur dort, wo es Zeit spart, alles hinter unseren eigenen Schnittstellen.
+Ausschlaggebend: Die Akkorderkennung von `tonal` ignoriert die Schreibweise (E–G–C → „Em♯5“), deutsche Benennung fehlt, und Version 6.5.0 ist fehlerhaft paketiert.
 
 ## Datenmodell
 
@@ -32,7 +32,7 @@ type Letter = 'C' | 'D' | 'E' | 'F' | 'G' | 'A' | 'B';   // intern englische Sta
 interface Pitch {
   letter: Letter;
   alter: number;   // -2 = Doppel-b, -1 = b, 0, +1 = Kreuz, +2 = Doppelkreuz
-  octave: number;  // wissenschaftliche Notation: C4 = eingestrichenes c (c′)
+  octave: number;  // wissenschaftliche Notation: C4 = eingestrichenes c (c¹)
 }
 ```
 
@@ -95,7 +95,7 @@ Beispiel: C4 → Fes4: generisch 4 (Quarte), erwartet 5 Halbtöne, tatsächlich 
 | b | Ces, Des, **Es**, Fes, Ges, **As**, **B** | C♭ … B♭ |
 | Doppelkreuz | Cisis, Disis, … Hisis | C𝄪 … |
 | Doppel-b | Ceses, Deses, Eses, Feses, Geses, Asas, Heses | C𝄫 … |
-| Oktavlage | Helmholtz: C, c, c′, c″ … (Kontra-, Subkontraoktave) | Wissenschaftlich: C2, C3, C4 … |
+| Oktavlage | Helmholtz mit Hoch- und Tiefzahlen: C₂, C₁, C, c, c¹, c² … | Wissenschaftlich: C0, C1, C2, C3, C4, C5 … |
 | Intervalle | reine Prime … große Septime, None, Dezime … | perfect unison … major seventh, ninth, tenth … |
 
 - Die Benennung folgt der UI-Sprache, ist aber unabhängig umschaltbar (Einstellung „Tonnamen: deutsch / international“).
@@ -138,4 +138,5 @@ Jede Regel bekommt eine Quelle (Lehrbuch, Seite) in der internen Dokumentation. 
   - Jede heptatonische Tonleiter enthält jeden Stammton genau einmal
   - Enharmonisch gleiche Töne: gleiche MIDI-Nummer, aber verschiedene Schreibweise
 - **Literaturabgleich:** Phillip stellt pro Modul Referenzbeispiele aus Standardwerken zusammen (Ergebnis, nicht Originaltext). Wir prüfen die Engine dagegen.
-- **Gleiches Verhalten in Deno:** Ein CI-Job führt die Tests auch unter Deno aus.
+- **Vergleichstests:** Ergebnisse gegen `tonal` als unabhängiges Orakel (z. B. `src/pitch.tonal.test.ts`).
+- **Gleiches Verhalten in Deno:** `pnpm check:deno` prüft und startet `tools/deno-smoke.ts` unter Deno; ab P1.02 als CI-Job.

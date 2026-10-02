@@ -36,6 +36,7 @@ pnpm install
 | `pnpm typecheck` | TypeScript-Prüfung aller Pakete |
 | `pnpm test` | Tests aller Pakete (Vitest) |
 | `pnpm format` / `pnpm format:check` | Formatierung mit Prettier anwenden bzw. prüfen |
+| `pnpm check:deno` | Theorie-Engine unter Deno prüfen (Laufzeit der Supabase Edge Functions) |
 
 Aufbau des Monorepos: [docs/plan/architektur.md](docs/plan/architektur.md).
 

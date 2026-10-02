@@ -1,4 +1,7 @@
 // Öffentliche Schnittstelle der Theorie-Engine.
-// Die Module (pitch, naming, interval, …) entstehen ab Arbeitsschritt P1.07.
 
 export const SEMITONES_PER_OCTAVE = 12;
+
+export * from './pitch.ts';
+export * from './naming.ts';
+export * from './random.ts';
