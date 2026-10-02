@@ -3,7 +3,10 @@
 
 import {
   createRng,
+  formatInterval,
   frequency,
+  intervalBetween,
+  intervalName,
   midi,
   parsePitch,
   pitchName,
@@ -27,4 +30,14 @@ check(
 );
 check('Heses', pitchName(parsePitch('Bbb3'), { system: 'de', octave: 'none' }), 'Heses');
 check('Seed deterministisch', createRng('duell').int(0, 1000), createRng('duell').int(0, 1000));
+check(
+  'Intervall C4 → Fb4',
+  formatInterval(intervalBetween(parsePitch('C4'), parsePitch('Fb4'))),
+  'd4',
+);
+check(
+  'Intervallname',
+  intervalName(intervalBetween(parsePitch('C4'), parsePitch('A3'))),
+  'kleine Terz abwärts',
+);
 console.log('Theorie-Engine läuft unter Deno.');

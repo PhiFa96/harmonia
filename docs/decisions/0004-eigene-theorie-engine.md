@@ -41,3 +41,4 @@ Getestet mit `tonal` 6.4.3 und 6.5.0:
 - Mehr eigener Code im Kern. Ausgeglichen durch Beispiel-, Eigenschafts- und Vergleichstests.
 - Die Overrides für `tonal` entfernen, sobald die Paketierung repariert ist (bei Updates prüfen).
 - Der Vergleichstest beschränkt sich auf den MIDI-Bereich 0–127, weil `tonal` außerhalb davon keine MIDI-Nummer liefert.
+- **Intervalle (P1.08):** Widersprechen sich Stammton- und Klangrichtung (z. B. C♯3 → D♭♭3 oder C4 → H♯3), wählt `tonal` die Klangrichtung. Dabei kommt ein Intervall in der falschen Oktave heraus („-7AA“ statt „2dd“). Das betrifft 98 von 8865 Paaren aus drei Oktaven. Diese Klasse ist im Vergleich ausgenommen; eigene Tests prüfen dort unser Verhalten. Abweichende Lehrbuch-Konventionen (Umkehrung der Oktave, Vereinfachung der Doppeloktave) vergleichen wir ebenfalls nicht.
