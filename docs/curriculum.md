@@ -1,20 +1,49 @@
 # Lerninhalte (Entwurf)
 
-Grobe Gliederung als Diskussionsgrundlage. Reihenfolge, Umfang und Tiefe sind offen.
+Ziel: alle Kernbereiche der Musiktheorie, Musikgeschichte und Werkanalyse vom Einstieg bis zum Hochschulniveau. Stufen und Zuordnung sind ein Vorschlag.
 
-| Modul | Inhalte | Übungsformen |
+## Stufen
+
+| Stufe | Arbeitstitel | Niveau |
 |---|---|---|
-| 1. Grundlagen | Notensystem, Violin- und Bassschlüssel, Tonnamen, Oktavlagen, Vorzeichen | Noten benennen, Noten setzen |
-| 2. Rhythmus | Notenwerte, Pausen, Takt und Taktarten, Punktierung, Triolen | Rhythmen lesen, mitklopfen |
-| 3. Intervalle | Bestimmen und Bilden, Qualitäten (rein, groß, klein, übermäßig, vermindert), Umkehrung | Intervalle bestimmen (sehen und hören) |
-| 4. Tonleitern und Tonarten | Dur, Moll (natürlich, harmonisch, melodisch), Quintenzirkel, Vorzeichnung | Tonleitern bauen, Tonart erkennen |
-| 5. Akkorde | Dreiklänge (Dur, Moll, vermindert, übermäßig), Umkehrungen, Septakkorde | Akkorde bestimmen, bauen, hören |
-| 6. Harmonielehre | Stufen, Funktionen (Tonika, Subdominante, Dominante), Kadenzen | Kurze Akkordfolgen analysieren |
-| 7. Gehörbildung | quer zu allen Modulen | Intervalle, Akkorde, Melodien und Rhythmen nach Gehör |
+| 1 | Einstieg | keine Vorkenntnisse |
+| 2 | Grundlagen | Noten lesen, einfache Intervalle und Dreiklänge |
+| 3 | Fortgeschritten | etwa Oberstufe |
+| 4 | Studienvorbereitung | Aufnahmeprüfung an einer Musikhochschule |
+| 5 | Hochschule | Tonsatz, Kontrapunkt und Analyse auf Studienniveau |
+| 6 | Meister | Spezialgebiete, Komposition, Stilkopien |
+
+## Bereiche
+
+| Bereich | Inhalte | ab Stufe |
+|---|---|---|
+| Notation und Grundlagen | Notensystem, Schlüssel, Tonnamen, Oktavlagen, Vorzeichen | 1 |
+| Rhythmus und Metrum | Notenwerte, Pausen, Taktarten, Punktierung, Synkopen, Triolen | 1 |
+| Intervalle | Bestimmen, Bilden, Qualitäten, Umkehrung, Enharmonik | 1 |
+| Tonleitern und Tonarten | Dur, Moll (natürlich, harmonisch, melodisch), Quintenzirkel, Kirchentonarten | 2 |
+| Akkorde | Drei- und Vierklänge, Umkehrungen, erweiterte Akkorde | 2 |
+| Harmonielehre | Stufentheorie und Funktionstheorie, Kadenzen, Modulation | 3 |
+| Tonsatz und Stimmführung | Vierstimmiger Satz, Choralsatz, Generalbass | 4 |
+| Kontrapunkt | Gattungskontrapunkt, Kanon, Fuge | 5 |
+| Formenlehre | Liedformen, Rondo, Variation, Sonatensatz, Fuge | 3 |
+| Werkanalyse | Harmonische, formale und motivische Analyse ganzer Sätze | 4 |
+| Jazz- und Pop-Harmonik | Akkordsymbole, II–V–I, Voicings, Skalentheorie, typische Pop-Progressionen | 3 |
+| Musik des 20. und 21. Jahrhunderts | Zwölftontechnik, Set-Theorie, Minimal Music | 5 |
+| Instrumentenkunde und Orchestrierung | Tonumfänge, transponierende Instrumente, Klangfarben, Partiturlesen | 3 |
+| Musikgeschichte | Epochen vom Mittelalter bis heute, Komponisten, Schlüsselwerke, Geschichte von Jazz und Pop | 1 |
+| Akustik und Stimmungen | Obertonreihe, reine, mitteltönige und gleichstufige Stimmung | 4 |
+| Musik anderer Kulturen | z. B. Maqam, Raga | 5 |
+| Gehörbildung (quer) | Intervalle, Akkorde, Kadenzen, Melodie- und Rhythmusdiktat, Blattsingen | 1 |
+
+## Inhalte und Rechte
+
+- Übungen und Notenbeispiele erstellen wir selbst.
+- Werke sind in der EU 70 Jahre nach dem Tod des Urhebers gemeinfrei (gerechnet ab Ende des Todesjahres). Notenausgaben und Aufnahmen können eigene Schutzrechte haben. Deshalb: eigene Notensätze und eigene Aufnahmen erstellen.
+- Bekannte Pop-Songs nur mit Lizenz. Duolingo nutzt dafür z. B. eine Partnerschaft mit Sony Music.
+- Vor dem Launch rechtlich prüfen lassen.
 
 ## Offene Fragen
 
-- Welche Module gehören ins MVP?
-- Harmonielehre: Stufentheorie, Funktionstheorie oder beides?
-- Weitere Themen: Kirchentonarten, Akkordsymbole aus Jazz und Pop, Melodie- und Rhythmusdiktat?
-- Welches Niveau ist das Ziel (Einstieg, Schulniveau, Aufnahmeprüfung)?
+- Welche Bereiche und Stufen gehören ins MVP?
+- In welcher Sprache starten wir?
+- Welche Prüfungen bilden wir gezielt ab (z. B. Aufnahmeprüfungen, Musik-Abitur, Leistungsabzeichen der Blasmusikverbände D1–D3)?
