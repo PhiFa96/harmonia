@@ -7,11 +7,13 @@ Hinweise für Claude Code in diesem Repository.
 Harmonia ist eine Musiktheorie-Lern-App für Web, iOS und Android. Aktueller Stand: Konzeptphase, noch kein App-Code. Konzept und Entscheidungen liegen in `docs/` (Überblick in der README).
 
 - **Tech-Stack:** Expo (React Native, TypeScript) + Supabase – siehe `docs/decisions/0001-plattform-und-tech-stack.md`
-- **Grundsatz KI (vorgeschlagen):** Eine getestete Musiktheorie-Engine bewertet, die KI erklärt – siehe `docs/decisions/0002-ki-tutor-und-fachliche-korrektheit.md`
+- **Grundsatz KI:** Eine getestete Musiktheorie-Engine bewertet, die KI erklärt – siehe `docs/decisions/0002-ki-tutor-und-fachliche-korrektheit.md`
+- **Umsetzungsplan:** `docs/plan/` – Arbeitsschritte mit IDs (z. B. P1.07), Definition of Done in `docs/plan/README.md`
 
 ## Sprache
 
-- Gespräche, Dokumentation und UI-Texte: Deutsch
+- Gespräche und Dokumentation: Deutsch
+- UI-Texte und Lerninhalte: Deutsch **und** Englisch, gleichberechtigt (ADR 0003) – nie hartkodieren, immer über `packages/i18n`
 - Code und Bezeichner: Englisch
 
 ## Fachliche Konventionen (Musiktheorie)

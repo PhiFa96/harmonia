@@ -1,13 +1,13 @@
 # 0002 – KI-Tutor und fachliche Korrektheit
 
-- **Status:** vorgeschlagen
+- **Status:** angenommen
 - **Datum:** 2026-10-02
 
 ## Kontext
 
 Harmonia soll langfristig so gut unterrichten wie eine Lehrkraft und jede Frage zu Theorie, Geschichte und Werken beantworten können. Sprachmodelle (LLMs) erklären gut, können aber überzeugend klingende Fehler machen. Bei Musiktheorie sind das z. B. falsch benannte Intervalle, übersehene Parallelen oder erfundene Werkdaten. Eine Lern-App, die Falsches als richtig bewertet, verliert sofort Vertrauen.
 
-## Entscheidung (Vorschlag)
+## Entscheidung
 
 1. **Die Engine entscheidet, die KI erklärt.** Eine deterministische, getestete Musiktheorie-Engine erzeugt die Aufgaben und bewertet Antworten: Intervalle, Akkorde, Tonarten, Stimmführung. Das LLM entscheidet nie allein, ob etwas richtig ist.
 2. **Die KI nutzt die Engine als Werkzeug.** Für fachliche Aussagen ruft der Tutor die Engine auf, statt selbst zu rechnen, und erklärt deren Ergebnis.

@@ -1,0 +1,141 @@
+# Theorie-Engine
+
+Paket `packages/theory`. Fachlicher Kern von Harmonia: erzeugt und bewertet alles, was musiktheoretisch richtig oder falsch sein kann ([ADR 0002](../decisions/0002-ki-tutor-und-fachliche-korrektheit.md)).
+
+## Anforderungen
+
+- Reines TypeScript, keine Abhängigkeiten zu UI oder Plattform. Läuft in App, Web und Edge Functions (Deno).
+- **Rechtschreibung der Musik:** Tonhöhen werden immer mit Stammton *und* Vorzeichen geführt (Cis ≠ Des).
+- **Sprachneutral im Kern:** Benennung (Deutsch, Englisch, später Solmisation) ist eine eigene Schicht.
+- Deterministisch und reproduzierbar: Generatoren nehmen einen Seed.
+- Sehr hohe Testabdeckung (Ziel: 100 % der Zweige in `theory`), dazu eigenschaftsbasierte Tests.
+
+## Eigene Engine oder Bibliothek?
+
+Kandidat: `tonal` (MIT-Lizenz, TypeScript, Noten, Intervalle, Akkorde, Skalen, Tonarten). In **P1.07** entscheiden wir per Spike und ADR 0004:
+
+| Kriterium | Prüffrage |
+|---|---|
+| Korrektheit | Doppelte Vorzeichen, Enharmonik und übermäßige/verminderte Intervalle korrekt? |
+| Erweiterbarkeit | Lassen sich Funktionstheorie und Stimmführung sauber ergänzen? |
+| Benennung | Lässt sich die deutsche Benennung (H, B, -is, -es) darüber legen? |
+| Größe und Wartung | Aktiv gepflegt, kleine Bündelgröße? |
+
+Wahrscheinlich ist ein Mischweg: eigene Kern-Datentypen, `tonal` nur dort, wo es Zeit spart, alles hinter unseren eigenen Schnittstellen.
+
+## Datenmodell
+
+### Tonhöhe (`Pitch`)
+
+```ts
+type Letter = 'C' | 'D' | 'E' | 'F' | 'G' | 'A' | 'B';   // intern englische Stammtöne
+interface Pitch {
+  letter: Letter;
+  alter: number;   // -2 = Doppel-b, -1 = b, 0, +1 = Kreuz, +2 = Doppelkreuz
+  octave: number;  // wissenschaftliche Notation: C4 = eingestrichenes c (c′)
+}
+```
+
+Abgeleitete Werte:
+
+- **Diatonischer Index:** `octave * 7 + letterIndex` (C = 0 … B = 6)
+- **Halbtonzahl / MIDI-Nummer:** `12 * (octave + 1) + pitchClass(letter) + alter` (C4 = 60, A4 = 69)
+- **Frequenz:** `refHz * 2^((midi - 69) / 12)` mit `refHz` = 440 Hz (einstellbar)
+
+### Intervall (`Interval`)
+
+```ts
+interface Interval {
+  number: number;        // generisch: 1 = Prime, 2 = Sekunde, … 8 = Oktave, 9 = None …
+  quality: Quality;      // 'P' | 'M' | 'm' | 'A' | 'd' | 'AA' | 'dd'
+  direction: 1 | -1;
+}
+```
+
+**Bestimmung zwischen zwei Tonhöhen:**
+
+1. Generische Größe aus der Differenz der diatonischen Indizes: `n = |Δdiatonisch| + 1`
+2. Einfache Größe: `s = ((n − 1) mod 7) + 1`; Oktaven: `o = floor((n − 1) / 7)`
+3. Erwartete Halbtöne für rein/groß: `[0, 2, 4, 5, 7, 9, 11][s − 1] + 12·o`
+4. Abweichung `Δ = tatsächliche Halbtöne − erwartete`
+5. Qualität:
+   - Reine Klasse (1, 4, 5): 0 → rein, +1 → übermäßig, −1 → vermindert, ±2 → doppelt übermäßig/vermindert
+   - Andere Klasse (2, 3, 6, 7): 0 → groß, −1 → klein, +1 → übermäßig, −2 → vermindert, +2/−3 → doppelt übermäßig/vermindert
+
+Beispiel: C4 → Fes4: generisch 4 (Quarte), erwartet 5 Halbtöne, tatsächlich 4 → verminderte Quarte. C4 → E4: Terz, 4 Halbtöne → große Terz. Gleicher Klang, verschiedene Intervalle.
+
+### Rhythmus
+
+- Dauern als **Brüche** (`{num, den}`), nie als Gleitkommazahlen: Viertel = 1/4, punktierte Achtel = 3/16, Triolen-Achtel = 1/12.
+- Taktart: Zähler und Nenner plus Gruppierung (z. B. 6/8 = 3+3, 7/8 = 2+2+3).
+- Prüfung: Takt vollständig gefüllt, Gruppierung für Balkensetzung.
+
+## Funktionsumfang nach Phasen
+
+| Modul | Funktionen | Phase |
+|---|---|---|
+| `pitch` | Parsen, Formatieren, Transponieren, Enharmonik, MIDI, Frequenz | 1 |
+| `interval` | Bestimmen, Bilden (von Ton aus nach oben/unten), Umkehren, Komplementär, zusammengesetzte Intervalle | 1 |
+| `scale` | Dur, Moll (natürlich, harmonisch, melodisch), Kirchentonarten, Pentatonik, Blues, Ganzton, chromatisch – jeweils korrekt buchstabiert | 1 |
+| `key` | Vorzeichnung, Quintenzirkel, Paralleltonart, Varianttonart, Leitereigene Akkorde | 1 |
+| `chord` | Bauen und Bestimmen: Drei- und Vierklänge, Umkehrungen, sus, erweiterte Akkorde; mehrdeutige Fälle als sortierte Kandidatenliste | 1 (Dreiklänge), 2 (Septakkorde), 3 (erweitert) |
+| `rhythm` | Dauern, Taktfüllung, Gruppierung, Triolen | 1 |
+| `naming` | Benennung DE/EN, später feste Solmisation (Do, Re, Mi) | 1 |
+| `harmony` | Stufen (römische Ziffern) und Funktionen (T, S, D, Parallelen, Gegenklänge, Zwischendominanten, Doppeldominante, Neapolitaner), Kadenzen, Modulation | 2 (Grundlagen), 3 (vollständig) |
+| `voiceLeading` | Stimmführungsprüfung im vierstimmigen Satz (siehe unten) | 4 |
+| `counterpoint` | Gattungskontrapunkt-Regeln | 4–5 |
+| `analysis` | Tonart- und Akkorderkennung aus Notenfolgen (für Song-Analyse aus MIDI) | 5 |
+
+## Benennung (`naming`)
+
+| | Deutsch | Englisch |
+|---|---|---|
+| Stammtöne | C D E F G A **H** | C D E F G A **B** |
+| Kreuz | Cis, Dis, Eis, Fis, Gis, Ais, His | C♯ … |
+| b | Ces, Des, **Es**, Fes, Ges, **As**, **B** | C♭ … B♭ |
+| Doppelkreuz | Cisis, Disis, … Hisis | C𝄪 … |
+| Doppel-b | Ceses, Deses, Eses, Feses, Geses, Asas, Heses | C𝄫 … |
+| Oktavlage | Helmholtz: C, c, c′, c″ … (Kontra-, Subkontraoktave) | Wissenschaftlich: C2, C3, C4 … |
+| Intervalle | reine Prime … große Septime, None, Dezime … | perfect unison … major seventh, ninth, tenth … |
+
+- Die Benennung folgt der UI-Sprache, ist aber unabhängig umschaltbar (Einstellung „Tonnamen: deutsch / international“).
+- Die Schicht ist so gebaut, dass später weitere Systeme dazukommen können (z. B. feste Solmisation für romanische Sprachen).
+
+## Harmonik
+
+- **Zwei Analysesysteme**, beide vollständig: Stufentheorie (römische Ziffern) und Funktionstheorie. Nutzer wählen in den Einstellungen (Standard: DE → Funktionen + Stufen, EN → römische Ziffern).
+- **Konventionen festlegen** (offene Frage, Fachentscheidung Phillip): Schreibweise der Funktionssymbole und Akkordsymbole. Die Engine bildet jede Konvention als Formatierer ab, das interne Modell bleibt gleich.
+
+## Stimmführung (`voiceLeading`, Phase 4)
+
+Regeln für den vierstimmigen Satz, jede einzeln aktivierbar, mit Schweregrad (Fehler / Warnung / Hinweis) je Stufe und Stilkonvention:
+
+- Offene Parallelen (Quinten, Oktaven, Primen), Antiparallelen
+- Verdeckte Quinten und Oktaven in den Außenstimmen
+- Stimmkreuzung und Stimmüberschreitung
+- Abstände benachbarter Stimmen (Sopran–Alt, Alt–Tenor höchstens eine Oktave)
+- Stimmumfänge (nach gewählter Lehrbuchkonvention)
+- Leittonbehandlung, Auflösung der Septime abwärts
+- Verdopplung (z. B. kein verdoppelter Leitton)
+- Melodische Schritte (z. B. übermäßige Sekunde)
+
+Jede Regel bekommt eine Quelle (Lehrbuch, Seite) in der internen Dokumentation. Phillip nimmt das Regelwerk fachlich ab.
+
+## Generatoren
+
+- Schnittstelle: `generate(params, rng) → item`. `rng` ist ein seedbarer Zufallsgenerator.
+- Parameter steuern die Schwierigkeit: erlaubte Intervalle, Vorzeichen-Tiefe, Schlüssel, Tonumfang, Umkehrungen usw.
+- Ausschlussregeln: keine unsinnigen Aufgaben (z. B. Doppelkreuze auf Stufe 1).
+- Gleicher Seed → gleiche Aufgabe auf Client und Server. So kann der Server Duelle und Rush prüfen.
+
+## Teststrategie
+
+- **Beispieltests:** feste Tabellen mit erwarteten Ergebnissen, z. B. alle Intervalle von C aus, alle Dur- und Molltonleitern, alle Vorzeichnungen.
+- **Eigenschaftsbasierte Tests (fast-check):**
+  - `interval(p, transpose(p, i)) == i` für alle gültigen `p`, `i`
+  - Umkehrung der Umkehrung ergibt das Ausgangsintervall
+  - Intervall + Umkehrung = Oktave (generisch 9, Halbtöne 12)
+  - Jede heptatonische Tonleiter enthält jeden Stammton genau einmal
+  - Enharmonisch gleiche Töne: gleiche MIDI-Nummer, aber verschiedene Schreibweise
+- **Literaturabgleich:** Phillip stellt pro Modul Referenzbeispiele aus Standardwerken zusammen (Ergebnis, nicht Originaltext). Wir prüfen die Engine dagegen.
+- **Gleiches Verhalten in Deno:** Ein CI-Job führt die Tests auch unter Deno aus.

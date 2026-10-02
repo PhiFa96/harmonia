@@ -21,6 +21,10 @@ Alle, die Musiktheorie lernen wollen. Ein Einstufungstest und ein Stufensystem w
 - Fortgeschrittene bis Profis: Tonsatz, Analyse, Komposition
 - Lehrkräfte und Musikschulen als zahlende Organisationen
 
+## Sprachen
+
+Deutsch und Englisch ab Start, gleichberechtigt ([ADR 0003](decisions/0003-zweisprachigkeit-de-en.md)).
+
 ## Wertversprechen
 
 „Harmonia bringt dir Musiktheorie bei – hörbar, spielerisch und so tief, wie du willst: vom ersten Notenschlüssel bis zum vierstimmigen Satz, mit einem KI-Tutor, der jede Frage beantwortet.“

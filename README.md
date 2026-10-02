@@ -13,7 +13,8 @@ Musiktheorie lernen – hörbar, spielerisch und so tief, wie du willst. Vom ers
 | [Lerninhalte](docs/curriculum.md) | Stufen 1–6 und alle Themenbereiche |
 | [Geschäftsmodell](docs/business-model.md) | Abo-Stufen, Coach-Marktplatz, App-Store-Regeln |
 | [Marktrecherche](docs/research/marktrecherche.md) | Was andere Apps machen und was wir übernehmen |
-| [Roadmap](docs/roadmap.md) | Phasen vom Prototyp bis zur Vision |
+| [Roadmap](docs/roadmap.md) | Phasen vom Prototyp bis zur Vision im Überblick |
+| [Umsetzungsplan](docs/plan/README.md) | Detaillierte Arbeitsschritte je Phase, Architektur, Datenmodell, KI-Tutor, Qualität, Recht, Risiken |
 | [Entscheidungen](docs/decisions/) | Architekturentscheidungen (ADRs) |
 
 ## Tech-Stack

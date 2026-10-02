@@ -35,6 +35,10 @@ Ziel: alle Kernbereiche der Musiktheorie, Musikgeschichte und Werkanalyse vom Ei
 | Musik anderer Kulturen | z. B. Maqam, Raga | 5 |
 | Gehörbildung (quer) | Intervalle, Akkorde, Kadenzen, Melodie- und Rhythmusdiktat, Blattsingen | 1 |
 
+## Sprachen
+
+Alle Inhalte in Deutsch und Englisch, an die jeweilige Tradition angepasst ([ADR 0003](decisions/0003-zweisprachigkeit-de-en.md)). Details: [plan/inhalte-und-didaktik.md](plan/inhalte-und-didaktik.md).
+
 ## Inhalte und Rechte
 
 - Übungen und Notenbeispiele erstellen wir selbst.
@@ -45,5 +49,4 @@ Ziel: alle Kernbereiche der Musiktheorie, Musikgeschichte und Werkanalyse vom Ei
 ## Offene Fragen
 
 - Welche Bereiche und Stufen gehören ins MVP?
-- In welcher Sprache starten wir?
 - Welche Prüfungen bilden wir gezielt ab (z. B. Aufnahmeprüfungen, Musik-Abitur, Leistungsabzeichen der Blasmusikverbände D1–D3)?

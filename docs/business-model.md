@@ -25,6 +25,8 @@ Vorbild für das Gratis-Kontingent: Bei chess.com bekommen Basis-Mitglieder 3 R�
 
 ## Coach-Marktplatz: wie Harmonia mitverdient
 
+**Entschieden (02.10.2026):** 15 % Provision pro Buchung plus ein Coach-Pro-Abo für Coaches.
+
 **Ablauf:** Der Schüler bezahlt bei Harmonia. Harmonia behält eine Provision und zahlt den Rest an den Coach aus. Der Coach legt seinen Stundensatz selbst fest. Technisch geht das z. B. mit Stripe Connect: Die Plattform zieht pro Zahlung eine Gebühr („application fee“) ab und zahlt den Rest an das Konto des Coaches aus.
 
 **Vergleichswerte:**
@@ -34,9 +36,10 @@ Vorbild für das Gratis-Kontingent: Bei chess.com bekommen Basis-Mitglieder 3 R�
 | Preply | 33 % für neue Tutoren, stufenweise sinkend bis 18 % ab 400 unterrichteten Stunden; dazu 100 % der ersten Probestunde mit jedem neuen Schüler | [Preply-Hilfe (offiziell)](https://help.preply.com/en/articles/4171383-preply-commission-model) |
 | italki | Laut Drittquellen etwa 15–21 % je nach Paket, Gruppenkurse höher; nicht offiziell bestätigt | [supatutor.in](https://supatutor.in/preply-vs-italki/) |
 
-**Zusätzliche Hebel (Ideen):**
+**Coach-Pro-Abo (entschieden):** bessere Sichtbarkeit, Analyse-Tools und KI-Assistent für die Unterrichtsvorbereitung. Verkauf voraussichtlich über das Web-Dashboard, weil Abos für digitale Funktionen in der iOS-App unter die In-App-Kauf-Pflicht fallen (Details: [plan/monetarisierung.md](plan/monetarisierung.md)).
 
-- Coach-Pro-Abo: bessere Sichtbarkeit, Analyse-Tools und KI-Assistent für die Unterrichtsvorbereitung
+**Weitere Hebel (Ideen):**
+
 - Hervorgehobene Platzierung in der Coach-Suche
 - Probestunde: Provision wie bei Preply oder bewusst niedriger, um Coaches zu gewinnen
 
@@ -71,6 +74,6 @@ Diese Regeln bestimmen, wie viel von jedem Euro bei uns ankommt.
 ## Offene Entscheidungen
 
 - Preise der Stufen
-- Provisionsmodell im Marktplatz
+- Wer trägt die Stripe-Gebühren im Marktplatz: Plattform oder Coach?
 - Werbung im Gratis-Bereich: ja oder nein?
 - Tageslimit im Gratis-Bereich: Energie/Herzen wie bei Duolingo oder feste Kontingente wie bei chess.com?

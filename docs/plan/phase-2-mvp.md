@@ -1,0 +1,371 @@
+# Phase 2 – MVP (erste öffentliche Version)
+
+**Ziel:** Harmonia ist in den Stores und im Web verfügbar. Enthalten sind die Stufen 1–2, ein Einstufungstest, Streaks und XP, der KI-Tutor (Text), Gratis und Premium, alles in Deutsch und Englisch.
+
+**Blöcke:**
+
+- A: Konten und Daten
+- B: Inhalte
+- C: Lernerlebnis
+- D: KI-Tutor
+- E: Monetarisierung
+- F: Launch
+
+Die Blöcke B, C und D können teilweise parallel laufen.
+
+---
+
+## Block A – Konten und Daten
+
+### P2.01 – Anmeldung und Konto
+
+- **Ziel:** Sichere Konten auf allen Plattformen, Fortschritt geräteübergreifend.
+- **Abhängig von:** P1.04, F10
+- **Umfang:** L
+- **Aufgaben:**
+  - [ ] Supabase Auth: E-Mail (Magic Link oder Passwort), „Mit Apple anmelden“, Google
+  - [ ] Gastmodus (falls F10 = ja): lokaler Fortschritt, späteres Verknüpfen mit einem Konto ohne Datenverlust
+  - [ ] Altersabfrage nach F01 im Onboarding
+  - [ ] Konto löschen in der App (vollständige Löschung aller Daten, auch bei RevenueCat und Analytics)
+  - [ ] Datenexport (JSON) auf Anfrage
+- **Fertig, wenn:**
+  - Anmeldung funktioniert auf allen Plattformen.
+  - Die Löschung entfernt nachweislich alle Daten.
+  - Die Apple-Richtlinien 4.8 und 5.1.1(v) sind erfüllt.
+- **Tests:** E2E Anmeldung (Web), pgTAP für Löschkaskade.
+
+### P2.02 – Profil und Einstellungen
+
+- **Ziel:** Nutzer steuern Sprache, Benennung und Lernziele.
+- **Abhängig von:** P2.01
+- **Umfang:** M
+- **Aufgaben:**
+  - [ ] Einstellungen:
+    - App-Sprache
+    - Tonnamen (deutsch/international)
+    - Harmonik-System (Funktionen/Stufen/beides)
+    - Tagesziel
+    - Erinnerungszeit
+    - Ton und Haptik
+    - Kammerton
+  - [ ] Profil: Anzeigename, Statistik (Streak, XP, Lektionen)
+  - [ ] Rechtliches: Impressum, Datenschutz, AGB, Credits, Lizenzen
+- **Fertig, wenn:** Alle Einstellungen wirken sofort und bleiben nach Neustart und auf anderen Geräten erhalten.
+
+### P2.03 – Fortschritt speichern und synchronisieren
+
+- **Ziel:** Offline lernen, später ohne Verlust synchronisieren.
+- **Abhängig von:** P2.01, P1.20
+- **Umfang:** L
+- **Aufgaben:**
+  - [ ] Migrationen für `lesson_attempts`, `item_attempts`, `skill_progress`, `xp_ledger`, `streaks` mit RLS
+  - [ ] Lokale Warteschlange (SQLite) mit Client-IDs
+  - [ ] Edge Function `sync` nach dem Ablauf in [datenmodell.md](datenmodell.md); XP und Streak serverseitig
+  - [ ] Verhalten bei Konflikten und Zeitzonen
+- **Fertig, wenn:** 50 Lektionen offline, dann Netz an → alles korrekt synchronisiert, keine Duplikate.
+- **Tests:** Edge-Function-Tests (Duplikate, Zeitzonen, Manipulationsversuche), pgTAP für RLS.
+
+## Block B – Inhalte
+
+### P2.04 – Inhalts-Pipeline
+
+- **Ziel:** Inhalte als geprüfte Daten mit Versionierung und Auslieferung.
+- **Abhängig von:** P1.19
+- **Umfang:** M
+- **Aufgaben:**
+  - [ ] Schemas (zod) für Bereich, Stufe, Einheit, Lektion, Übungssatz, Wissenskarte, Wissensartikel
+  - [ ] Prüfskript in der CI:
+    - beide Sprachen vorhanden
+    - Notenbeispiele gültig (Engine)
+    - IDs eindeutig
+    - Fähigkeitsgraph ohne Zyklen
+  - [ ] Freigabestatus (`entwurf`, `in_pruefung`, `freigegeben`); nur freigegebene Inhalte werden ausgeliefert
+  - [ ] `contentVersion` und Auslieferung per EAS Update
+- **Fertig, wenn:** Eine fehlerhafte Inhaltsdatei lässt die CI fehlschlagen; eine Inhaltsänderung erreicht die App ohne Store-Release.
+
+### P2.05 – Fähigkeitsgraph Stufen 1–2
+
+- **Ziel:** Alle Fähigkeiten der Stufen 1–2 mit Voraussetzungen.
+- **Abhängig von:** P2.04, P0.05
+- **Umfang:** M
+- **Aufgaben:**
+  - [ ] Fähigkeiten für Notation, Rhythmus, Intervalle, Tonleitern und Tonarten, Dreiklänge, Gehörbildung Grundlagen, Musikgeschichte Überblick
+  - [ ] Voraussetzungen und Reihenfolge der Einheiten
+  - [ ] Visualisierung des Graphen (für die Planung, nicht in der App)
+- **Fertig, wenn:** Phillip hat den Graphen fachlich freigegeben.
+
+### P2.06 – Übungstypen für das MVP
+
+- **Ziel:** Alle Übungstypen für die Stufen 1–2.
+- **Abhängig von:** P1.19
+- **Umfang:** XL
+- **Aufgaben:**
+  - [ ] `NOTE_PLACE`, `KEY_FIND`, `INTERVAL_BUILD`
+  - [ ] `SCALE_BUILD`, `SCALE_IDENTIFY`, `KEYSIG_IDENTIFY`, `KEYSIG_BUILD`
+  - [ ] `CHORD_IDENTIFY`, `CHORD_BUILD`
+  - [ ] `RHYTHM_TAP` (Timing-Auswertung mit Toleranzfenster), `METER_IDENTIFY`
+  - [ ] `KNOWLEDGE_MC`, `MATCH`, `ORDER`
+  - [ ] Je Typ: Parameter, Hinweise, Erklärtexte DE/EN, Barrierefreiheit
+- **Fertig, wenn:** Jeder Typ besteht Generator- und Bewertungstests und ist auf allen Plattformen bedienbar.
+
+### P2.07 – Inhalte Stufe 1 (DE + EN)
+
+- **Ziel:** Vollständige Stufe 1.
+- **Abhängig von:** P2.05, P2.06
+- **Umfang:** XL
+- **Aufgaben:**
+  - [ ] Einheiten und Lektionen nach Graph
+  - [ ] Wissenskarten mit Notenbild und Klang
+  - [ ] Entwürfe durch Claude, Abnahme durch Phillip, Status `freigegeben`
+  - [ ] Wissensartikel für die Tutor-Wissensbasis zu allen Themen der Stufe
+- **Fertig, wenn:** Stufe 1 ist durchspielbar, fachlich freigegeben und in beiden Sprachen vollständig.
+
+### P2.08 – Inhalte Stufe 2 (DE + EN)
+
+- **Ziel:** Vollständige Stufe 2.
+- **Abhängig von:** P2.07
+- **Umfang:** XL
+- **Aufgaben und Abnahme:** wie P2.07.
+
+## Block C – Lernerlebnis
+
+### P2.09 – Onboarding
+
+- **Ziel:** In unter zwei Minuten vom ersten Start zur ersten Aufgabe.
+- **Abhängig von:** P2.02
+- **Umfang:** M
+- **Aufgaben:**
+  - [ ] Ablauf:
+    1. Sprache
+    2. Ziel (z. B. Hobby, Schule, Aufnahmeprüfung)
+    3. Selbsteinschätzung
+    4. Angebot Einstufungstest
+    5. Tagesziel
+    6. Erinnerungen (Einwilligung)
+    7. Konto oder Gast
+  - [ ] Audio-Start (Web: Tippen zum Starten)
+  - [ ] Erste Mini-Aufgabe vor der Kontoerstellung
+- **Fertig, wenn:** Testpersonen erreichen die erste Aufgabe ohne Hilfe; Dauer gemessen.
+
+### P2.10 – Einstufungstest
+
+- **Ziel:** Fortgeschrittene starten nicht bei null.
+- **Abhängig von:** P2.06, P2.05
+- **Umfang:** M
+- **Aufgaben:**
+  - [ ] Adaptiver Ablauf nach [inhalte-und-didaktik.md](inhalte-und-didaktik.md)
+  - [ ] Ergebnis-Screen: Startpunkt und Niveau je Bereich
+  - [ ] Jederzeit wiederholbar
+- **Fertig, wenn:** Simulierte Profile (Anfänger, Mittel, Fortgeschritten) landen an plausiblen Stellen.
+
+### P2.11 – Lernpfad
+
+- **Ziel:** Übersicht über Stufen, Einheiten und Fortschritt.
+- **Abhängig von:** P2.03, P2.05
+- **Umfang:** L
+- **Aufgaben:**
+  - [ ] Pfad mit Einheiten, Lektionen, Status (gesperrt, offen, abgeschlossen, getestet)
+  - [ ] Freischalten nach Graph; Wiederholen jederzeit
+  - [ ] Bereichswechsel (z. B. Gehörbildung, Theorie, Geschichte)
+- **Fertig, wenn:** Der Pfad spiegelt den Fortschritt korrekt nach Sync und auf allen Geräten.
+
+### P2.12 – Lektionsablauf
+
+- **Ziel:** Fertiger Ablauf nach [inhalte-und-didaktik.md](inhalte-und-didaktik.md).
+- **Abhängig von:** P2.11, P1.20
+- **Umfang:** M
+- **Aufgaben:**
+  - [ ] Mischung aus neuem Stoff und Wiederholung
+  - [ ] Falsche Aufgaben am Ende in neuer Variante
+  - [ ] Bestehensschwelle (F11)
+  - [ ] Ergebnis-Screen mit XP, Genauigkeit, Streak
+  - [ ] Abbrechen und Fortsetzen
+- **Fertig, wenn:** Alle Fälle (bestanden, nicht bestanden, abgebrochen, offline) funktionieren.
+
+### P2.13 – Feedback, Erklärungen, „Fehler melden“
+
+- **Ziel:** Jede Antwort erklärt sich; Inhaltsfehler können gemeldet werden.
+- **Abhängig von:** P2.12
+- **Umfang:** M
+- **Aufgaben:**
+  - [ ] Feedback mit Erklärtext aus der Engine, Notenbild der Lösung, Hörbeispiel
+  - [ ] Hinweisleiter (feste Hinweise; KI-Hinweise kommen in P2.18)
+  - [ ] „Fehler melden“ → `content_reports`
+- **Fertig, wenn:** Jeder Übungstyp liefert verständliches Feedback in beiden Sprachen.
+
+### P2.14 – Streaks, XP, Tagesziel, Erinnerungen
+
+- **Ziel:** Motivationsgrundlage nach [motivation-und-social.md](motivation-und-social.md).
+- **Abhängig von:** P2.03
+- **Umfang:** M
+- **Aufgaben:**
+  - [ ] XP-Regeln serverseitig konfigurierbar
+  - [ ] Streak mit Zeitzonenlogik und Streak-Schutz (F07 beachten)
+  - [ ] Tagesziel-Anzeige
+  - [ ] Push-Erinnerungen (`expo-notifications`, Token-Verwaltung, Zeitplanung, Opt-in)
+- **Fertig, wenn:** Streak-Randfälle (Mitternacht, Zeitzonenwechsel, Offline-Tage, Streak-Schutz) sind getestet.
+
+## Block D – KI-Tutor
+
+### P2.15 – Tutor-Backend
+
+- **Ziel:** Edge Function für den Tutor nach [ki-tutor.md](ki-tutor.md).
+- **Abhängig von:** P2.01, P1.10
+- **Umfang:** L
+- **Aufgaben:**
+  - [ ] Edge Function `tutor` mit Anthropic-SDK, Streaming (Server-Sent Events)
+  - [ ] Werkzeuge der Phase 2 als Engine-Aufrufe (strenge Schemas)
+  - [ ] Systemprompt (Pädagogik-Regeln, Glossar, Sprache) mit Prompt-Caching
+  - [ ] Abo- und Kontingentprüfung, Ratenbegrenzung
+  - [ ] Protokoll in `ai_usage` (Tokens, Cache-Treffer, Kosten)
+  - [ ] Behandlung von Ablehnungen und Fehlern
+- **Fertig, wenn:** Der Tutor beantwortet Testfragen mit korrekten Werkzeugaufrufen; Kosten pro Antwort sind gemessen.
+- **Tests:** Deno-Tests mit Attrappe der API; Integrationstest gegen die echte API (manuell ausgelöst).
+
+### P2.16 – Wissensbasis v1
+
+- **Ziel:** Quellenbasierte Antworten zu Stufe 1–2.
+- **Abhängig von:** P2.07, P2.15
+- **Umfang:** M
+- **Aufgaben:**
+  - [ ] Artikel in Abschnitte teilen, `knowledge_chunks` mit Volltextindex (DE, EN)
+  - [ ] Spike: Abschnitte vorab einbinden oder als Werkzeug – Entscheidung dokumentieren
+  - [ ] Zitate in der Antwort → Links auf Artikel in der App
+- **Fertig, wenn:** Fragen zu Stufe-1–2-Themen werden mit passenden Quellen beantwortet.
+
+### P2.17 – Tutor-Oberfläche
+
+- **Ziel:** Chat und „Warum?“ in der App.
+- **Abhängig von:** P2.15
+- **Umfang:** M
+- **Aufgaben:**
+  - [ ] Chat-Screen mit gestreamter Antwort, Quellen, Notenbeispielen (rendern und abspielen)
+  - [ ] „Warum?“ nach einer Aufgabe mit Kontext; KI-Hinweise in der Hinweisleiter
+  - [ ] KI-Kennzeichnung (Art. 50), Hinweis auf mögliche Fehler, Melde-Knopf pro Antwort
+  - [ ] Verlauf ansehen und löschen
+  - [ ] Kontingent-Anzeige und Hinweis auf Premium
+- **Fertig, wenn:** Ein Nutzer kann nach einer falschen Antwort nachfragen und erhält eine korrekte, verständliche Erklärung mit Beispiel.
+
+### P2.18 – Tutor-Testkatalog und Kalibrierung
+
+- **Ziel:** Messbare Tutor-Qualität vor dem Launch.
+- **Abhängig von:** P2.16, P2.17
+- **Umfang:** L
+- **Aufgaben:**
+  - [ ] Katalog mit mindestens 200 Fragen (DE/EN), von Phillip freigegeben
+  - [ ] Bewertungsskript (Kriterien aus [ki-tutor.md](ki-tutor.md)), Lauf über die Batch-Schnittstelle
+  - [ ] Kalibrierung: Prompt, Effort-Stufe, ggf. Modellwahl je Rolle; Kosten pro Antwort
+  - [ ] Kontingente je Abo-Stufe aus den Kosten ableiten
+- **Fertig, wenn:** Die fachliche Korrektheit liegt im Testkatalog bei mindestens 98 % (Zielwert, von Phillip bestätigt); die Kontingente sind festgelegt.
+
+## Block E – Monetarisierung
+
+### P2.19 – Abos mit RevenueCat
+
+- **Ziel:** Premium kaufen, wiederherstellen und kündigen auf allen Plattformen.
+- **Abhängig von:** P2.01, F08
+- **Umfang:** L
+- **Aufgaben:**
+  - [ ] Produkte in App Store Connect, Google Play, RevenueCat (inkl. Web Billing)
+  - [ ] SDK-Einbindung, User-ID = Supabase-ID
+  - [ ] Webhook → `billing_events` → `entitlements`
+  - [ ] Käufe wiederherstellen; Abo-Verwaltung verlinken
+  - [ ] Apple Small Business Program beantragen
+- **Fertig, wenn:** Sandbox-Kauf auf iOS, Android und Web schaltet Premium frei; Kündigung und Ablauf werden korrekt übernommen.
+
+### P2.20 – Paywall und Gratis-Limits
+
+- **Ziel:** Klare Angebote, faire Limits.
+- **Abhängig von:** P2.19, F06, F09
+- **Umfang:** M
+- **Aufgaben:**
+  - [ ] Paywall DE/EN mit Vergleichstabelle, Store-Preisen und Rechtstexten
+  - [ ] Gratis-Limits serverseitig konfigurierbar, Anzeige des verbleibenden Kontingents
+  - [ ] Kündigungsbutton im Web (§ 312k BGB)
+- **Fertig, wenn:** Limits greifen korrekt; Paywall erscheint nur an den definierten Stellen.
+
+## Block F – Launch
+
+### P2.21 – Recht und Datenschutz umsetzen
+
+- **Ziel:** Alle Punkte „Vor Phase 2“ aus [recht-und-compliance.md](recht-und-compliance.md) erledigt.
+- **Abhängig von:** P0.02
+- **Umfang:** L
+- **Aufgaben:**
+  - [ ] Rechtstexte DE/EN erstellen lassen und einbinden
+  - [ ] AV-Verträge, Verarbeitungsverzeichnis, Löschkonzept (F17), ggf. DSFA
+  - [ ] Einwilligungsverwaltung (Analytics, Push)
+  - [ ] Store-Datenschutzangaben, Altersfreigabe
+- **Fertig, wenn:** Die Checkliste für Phase 2 ist vollständig abgehakt und juristisch geprüft.
+
+### P2.22 – Analytics und Kennzahlen
+
+- **Ziel:** Wir sehen, ob Harmonia funktioniert – datensparsam.
+- **Abhängig von:** P2.21
+- **Umfang:** M
+- **Aufgaben:**
+  - [ ] Event-Schema (z. B. `onboarding_completed`, `lesson_completed`, `paywall_viewed`, `purchase_completed`, `tutor_question_asked`)
+  - [ ] Einbindung nur mit Einwilligung
+  - [ ] Dashboard:
+    - Aktivierung
+    - Bindung (Tag 1 / 7 / 30)
+    - Abschlussquote je Lektion
+    - Umwandlung zu Premium
+    - KI-Kosten
+- **Fertig, wenn:** Dashboard zeigt Daten der Beta.
+
+### P2.23 – Qualitäts-Durchgang
+
+- **Ziel:** Barrierefreiheit, Leistung und Stabilität auf Launch-Niveau.
+- **Abhängig von:** Block A–E
+- **Umfang:** L
+- **Aufgaben:**
+  - [ ] Barrierefreiheit nach [qualitaet-und-betrieb.md](qualitaet-und-betrieb.md) (inkl. automatischer Web-Prüfung)
+  - [ ] Leistungsbudgets messen und einhalten
+  - [ ] E2E-Tests (Playwright, Maestro) für Kernabläufe
+  - [ ] Gerätetest-Checkliste auf mindestens 4 Geräten
+- **Fertig, wenn:** Alle Budgets eingehalten, keine bekannten kritischen Fehler.
+
+### P2.24 – Store-Auftritt und Website
+
+- **Ziel:** Überzeugende Präsentation in beiden Sprachen.
+- **Abhängig von:** P0.07
+- **Umfang:** M
+- **Aufgaben:**
+  - [ ] Store-Texte, Schlüsselwörter, Screenshots, Vorschauvideo (DE/EN)
+  - [ ] Website mit Web-App, Impressum, Datenschutz, Support-Kontakt
+- **Fertig, wenn:** Store-Einträge vollständig und von Phillip freigegeben.
+
+### P2.25 – Geschlossene Beta
+
+- **Ziel:** Echte Nutzung vor dem Launch.
+- **Abhängig von:** P2.01–P2.24
+- **Umfang:** L
+- **Aufgaben:**
+  - [ ] TestFlight, Google Play Internal/Closed Testing, Web-Beta
+  - [ ] 30–100 Testpersonen aus verschiedenen Zielgruppen (Einsteiger bis Studierende)
+  - [ ] Feedback-Kanal, wöchentliche Auswertung, Fehlerbehebung
+  - [ ] Zielwerte für Kennzahlen nach der Beta festlegen
+- **Fertig, wenn:** Keine kritischen Fehler offen; Rückmeldungen ausgewertet und eingeplant.
+
+### P2.26 – Launch
+
+- **Ziel:** Öffentliche Veröffentlichung.
+- **Abhängig von:** P2.25
+- **Umfang:** M
+- **Aufgaben:**
+  - [ ] Store-Einreichung, gestaffelte Veröffentlichung
+  - [ ] Produktions-Supabase, Monitoring, Alarme aktiv
+  - [ ] Support-Ablauf, Antwortvorlagen DE/EN
+  - [ ] Beobachtung in den ersten 72 Stunden
+  - [ ] Rückblick Phase 2, Plan für Phase 3 anpassen
+- **Fertig, wenn:** Harmonia ist im App Store, bei Google Play und im Web verfügbar.
+
+---
+
+**Phase 2 abgeschlossen, wenn:**
+
+- [ ] P2.01–P2.26 fertig
+- [ ] Stufen 1–2 vollständig in DE und EN
+- [ ] Tutor-Testkatalog erfüllt
+- [ ] Abos funktionieren auf allen Plattformen
