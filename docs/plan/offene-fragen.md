@@ -13,6 +13,8 @@
 | 02.10.2026 | F01: Mindestalter vorläufig ab 16 (Bestätigung durch Rechtsberatung in P0.02) | [recht-und-compliance.md](recht-und-compliance.md) |
 | 02.10.2026 | F02: Englische Terminologie umschaltbar zwischen US und UK | [ADR 0003](../decisions/0003-zweisprachigkeit-de-en.md) |
 | 02.10.2026 | F18: Arbeitsweise mit GitHub-Issues und einem Pull Request pro Schritt | [README.md](README.md) |
+| 02.10.2026 | Helmholtz-Oktaven mit Hochzahlen (c¹, c², c³ …), Kontra- und Subkontraoktave tiefgestellt (C₁, C₂) | [theorie-engine.md](theorie-engine.md) |
+| 02.10.2026 | Deutsche Intervall-Kurzform „gr. 3, kl. 3, r. 5, üb. 4, verm. 5“; Tonnamen-Tabelle und Intervall-Konventionen (keine verminderte Prime, Richtung folgt dem Stammton) fachlich bestätigt | [theorie-engine.md](theorie-engine.md) |
 
 ## Offen
 
