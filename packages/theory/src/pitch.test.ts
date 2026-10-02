@@ -73,7 +73,7 @@ describe('midi', () => {
     ['Fb4', 64],
     ['G9', 127],
   ])('%s → %i', (text, expected) => {
-    expect(midi(p(text))).toBe(expected);
+    expect(midi(p(text))).toBe(expected + 1); // ABSICHTLICHER FEHLER (CI-Negativtest)
   });
 });
 
