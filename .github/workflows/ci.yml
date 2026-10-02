@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# Ältere Läufe desselben Branches abbrechen, wenn neue Commits kommen
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    name: Lint, Typen, Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+
+      # Version kommt aus "packageManager" in package.json
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Abhängigkeiten installieren
+        run: pnpm install --frozen-lockfile
+
+      - name: Formatierung
+        run: pnpm format:check
+
+      - name: Lint und Paket-Abhängigkeiten
+        run: pnpm lint
+
+      - name: Typprüfung
+        run: pnpm typecheck
+
+      - name: Tests
+        run: pnpm test
+
+  deno:
+    name: Deno-Kompatibilität
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.9.6
+
+      - name: Theorie-Engine unter Deno prüfen
+        run: deno check tools/deno-smoke.ts
+
+      - name: Theorie-Engine unter Deno ausführen
+        run: deno run tools/deno-smoke.ts

@@ -34,7 +34,12 @@ flowchart LR
   R --> PU[EAS Update → Kanal production]
 ```
 
-- **Branch-Schutz für `main`:** nur über Pull Request mit grüner CI.
+- **Stand (P1.02):** `.github/workflows/ci.yml` prüft bei jedem Pull Request und jedem Push auf `main`:
+  - Job „Lint, Typen, Tests“: Formatierung, Lint, Paket-Abhängigkeiten, Typen, Tests
+  - Job „Deno-Kompatibilität“: Theorie-Engine unter Deno
+
+  DB-Tests, Web-E2E und EAS-Schritte kommen mit den jeweiligen Arbeitsschritten dazu. Dependabot hält npm-Pakete und Actions wöchentlich aktuell.
+- **Branch-Schutz für `main`:** nur über Pull Request mit grüner CI. Für private Repositories braucht das GitHub Pro (oder ein öffentliches Repository).
 - **Versionierung:** Semantic Versioning für die App; Changelog aus Pull-Request-Titeln.
 - **Over-the-air-Updates (EAS Update)** nur für JavaScript- und Inhaltsänderungen. Native Änderungen brauchen einen neuen Store-Build.
 - **Rollback:** Ein früheres Update kann sofort erneut veröffentlicht werden. Migrationen werden so geschrieben, dass sie rückwärtskompatibel sind (erst erweitern, später aufräumen).
