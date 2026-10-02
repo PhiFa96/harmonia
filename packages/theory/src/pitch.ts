@@ -20,10 +20,14 @@ const NATURAL_SEMITONES: Readonly<Record<Letter, number>> = {
   B: 11,
 };
 
-export interface Pitch {
+/** Ton ohne Oktave (Stammton + Vorzeichen), z. B. Grundton einer Tonart. Jede `Pitch` ist auch ein `NoteName`. */
+export interface NoteName {
   readonly letter: Letter;
   /** -2 = Doppel-b, -1 = b, 0 = ohne, +1 = Kreuz, +2 = Doppelkreuz */
   readonly alter: number;
+}
+
+export interface Pitch extends NoteName {
   /** Oktave in wissenschaftlicher Notation (C4 = c¹) */
   readonly octave: number;
 }
@@ -32,8 +36,8 @@ export function isValidAlter(alter: number): boolean {
   return Number.isInteger(alter) && alter >= MIN_ALTER && alter <= MAX_ALTER;
 }
 
-/** Erzeugt eine geprüfte Tonhöhe. Wirft einen RangeError bei ungültigen Werten. */
-export function pitch(letter: Letter, alter = 0, octave = 4): Pitch {
+/** Erzeugt einen geprüften Ton ohne Oktave. Wirft einen RangeError bei ungültigen Werten. */
+export function noteName(letter: Letter, alter = 0): NoteName {
   if (!LETTERS.includes(letter)) {
     throw new RangeError(`Unbekannter Stammton: ${letter}`);
   }
@@ -42,10 +46,26 @@ export function pitch(letter: Letter, alter = 0, octave = 4): Pitch {
       `Vorzeichen außerhalb von ${String(MIN_ALTER)}…${String(MAX_ALTER)}: ${String(alter)}`,
     );
   }
+  return { letter, alter };
+}
+
+/** Erzeugt eine geprüfte Tonhöhe. Wirft einen RangeError bei ungültigen Werten. */
+export function pitch(letter: Letter, alter = 0, octave = 4): Pitch {
+  noteName(letter, alter);
   if (!Number.isInteger(octave)) {
     throw new RangeError(`Oktave muss ganzzahlig sein: ${String(octave)}`);
   }
   return { letter, alter, octave };
+}
+
+/** Setzt einen Ton in eine Oktave (wissenschaftliche Notation, C4 = c¹). */
+export function withOctave(n: NoteName, octave: number): Pitch {
+  return pitch(n.letter, n.alter, octave);
+}
+
+/** Gleiche Schreibweise ohne Rücksicht auf die Oktave (Cis4 und Cis5: ja, Cis und Des: nein). */
+export function sameNoteName(a: NoteName, b: NoteName): boolean {
+  return a.letter === b.letter && a.alter === b.alter;
 }
 
 export function letterIndex(letter: Letter): number {
@@ -157,6 +177,7 @@ const ACCIDENTAL_VALUES: Readonly<Record<string, number>> = {
 };
 
 const SCIENTIFIC_PATTERN = /^([A-G])([#♯x𝄪b♭𝄫♮]*)(-?\d+)$/u;
+const NOTE_NAME_PATTERN = /^([A-G])([#♯x𝄪b♭𝄫♮]*)$/u;
 
 /** Liest eine Tonhöhe in wissenschaftlicher Notation (Stammton immer als Großbuchstabe). */
 export function parsePitch(text: string): Pitch {
@@ -165,6 +186,24 @@ export function parsePitch(text: string): Pitch {
     throw new SyntaxError(`Keine gültige Tonhöhe in wissenschaftlicher Notation: „${text}“`);
   }
   const [, letterText, accidentalText = '', octaveText = ''] = match;
+  return pitch(
+    letterText as Letter,
+    parseAccidentals(accidentalText, text),
+    Number.parseInt(octaveText, 10),
+  );
+}
+
+/** Liest einen Ton ohne Oktave: „C“, „F#“, „Bb“, „C##“, „E♭“. */
+export function parseNoteName(text: string): NoteName {
+  const match = NOTE_NAME_PATTERN.exec(text.trim());
+  if (!match) {
+    throw new SyntaxError(`Kein gültiger Tonname: „${text}“`);
+  }
+  const [, letterText, accidentalText = ''] = match;
+  return noteName(letterText as Letter, parseAccidentals(accidentalText, text));
+}
+
+function parseAccidentals(accidentalText: string, text: string): number {
   // Einzelne Zeichen per Regex (Doppel-b und Doppelkreuz sind Unicode-Zeichen außerhalb der BMP).
   const symbols = accidentalText.match(/[#♯x𝄪b♭𝄫♮]/gu) ?? [];
   const values = symbols.map((symbol) => {
@@ -179,8 +218,7 @@ export function parsePitch(text: string): Pitch {
   if (mixesDirections || naturalWithOthers) {
     throw new SyntaxError(`Widersprüchliche Vorzeichen in „${text}“`);
   }
-  const alter = values.reduce((sum, v) => sum + v, 0);
-  return pitch(letterText as Letter, alter, Number.parseInt(octaveText, 10));
+  return values.reduce((sum, v) => sum + v, 0);
 }
 
 export type AccidentalStyle = 'unicode' | 'ascii';
@@ -203,7 +241,12 @@ export function accidentalSymbol(alter: number, style: AccidentalStyle = 'unicod
 
 /** Wissenschaftliche Schreibweise, z. B. „F♯3“ oder (ascii) „F#3“. */
 export function formatPitch(p: Pitch, style: AccidentalStyle = 'ascii'): string {
-  return `${p.letter}${accidentalSymbol(p.alter, style)}${String(p.octave)}`;
+  return `${formatNoteName(p, style)}${String(p.octave)}`;
+}
+
+/** Ton ohne Oktave, z. B. „F#“ oder (unicode) „F♯“. Bei einer `Pitch` wird die Oktave weggelassen. */
+export function formatNoteName(n: NoteName, style: AccidentalStyle = 'ascii'): string {
+  return `${n.letter}${accidentalSymbol(n.alter, style)}`;
 }
 
 // ---------------------------------------------------------------------------

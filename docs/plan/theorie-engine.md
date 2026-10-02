@@ -42,6 +42,18 @@ Abgeleitete Werte:
 - **Halbtonzahl / MIDI-Nummer:** `12 * (octave + 1) + pitchClass(letter) + alter` (C4 = 60, A4 = 69)
 - **Frequenz:** `refHz * 2^((midi - 69) / 12)` mit `refHz` = 440 Hz (einstellbar)
 
+### Ton ohne Oktave (`NoteName`)
+
+```ts
+interface NoteName {
+  letter: Letter;
+  alter: number;
+}
+interface Pitch extends NoteName { octave: number }
+```
+
+Für alles, was keine Oktave hat: Grundton einer Tonart, Vorzeichnung, Akkordtöne. Jede `Pitch` ist auch ein `NoteName`. Lesen und Schreiben: `parseNoteName('F#')`, `formatNoteName(n)`.
+
 ### Intervall (`Interval`)
 
 ```ts
@@ -71,6 +83,23 @@ Beispiel: C4 → Fes4: generisch 4 (Quarte), erwartet 5 Halbtöne, tatsächlich 
 - **Umkehrung:** Prime ↔ Oktave, Terz ↔ Sexte, groß ↔ klein, übermäßig ↔ vermindert. Zusammengesetzte Intervalle werden vorher vereinfacht. Die übermäßige Oktave hat keine Umkehrung.
 - **Vereinfachen:** None → Sekunde, Doppeloktave → Oktave (nicht zur Prime).
 - **Darstellbar** sind Intervalle bis doppelt übermäßig/vermindert, wie bei den Vorzeichen (höchstens zwei).
+
+### Tonleitern und Tonarten
+
+**Festgelegte Konventionen (umgesetzt in P1.09):**
+
+- **Tonleitertypen:** Dur, natürliches, harmonisches und melodisches Moll, die sieben Kirchentonarten, Dur- und Moll-Pentatonik, chromatisch. Gebildet werden sie aus Intervallen vom Grundton, deshalb immer korrekt buchstabiert: Jede siebenstufige Tonleiter enthält jeden Stammton genau einmal.
+- **Höchstens zwei Vorzeichen pro Ton.** His-Dur geht (His, Cisis, Disis, Eis, Fisis, Gisis, Aisis), Gisis-Dur nicht (bräuchte Fisisis) – dann wirft die Engine einen Fehler.
+- **Abwärts** beginnt die Tonleiter beim Grundton und läuft nach unten. Melodisches Moll abwärts = natürliches Moll (klassische Lehre).
+- **Chromatische Tonleiter** in vereinfachter Schreibweise: aufwärts mit Kreuzen, abwärts mit b, bei jedem Halbtonschritt die Schreibweise mit den wenigsten Vorzeichen. C aufwärts: C Cis D Dis E F Fis G Gis A Ais H; abwärts: C H B A As G Ges F E Es D Des. Eine tonartbezogene Schreibweise kann später als zweite Variante dazukommen.
+- **Tonart** = Grundton (ohne Oktave) + Tongeschlecht. Vorzeichenzahl über die Quintenreihe: Lage des Stammtons (F = −1, C = 0, G = 1 … H = 5) plus 7 je Kreuz bzw. minus 7 je b; bei Moll minus 3. Beispiele: Fis-Dur = −1 + 7 = 6 Kreuze, es-Moll = 4 − 7 − 3 = −6 (sechs b).
+- **30 Tonarten** mit höchstens sieben Vorzeichen (15 Dur, 15 Moll). Theoretische Tonarten wie Gis-Dur (8 Kreuze) lehnt die Engine ab. Deshalb haben Ces-, Ges- und Des-Dur sowie gis-, dis- und ais-Moll keine darstellbare Varianttonart (ces-Moll hätte zehn b).
+- **Reihenfolge der Vorzeichen:** Kreuze Fis, Cis, Gis, Dis, Ais, Eis, His; b: B, Es, As, Des, Ges, Ces, Fes.
+- **Quintenzirkel:** zwölf Positionen im Uhrzeigersinn ab C-Dur bzw. a-Moll. Enharmonisch gleiche Tonarten teilen sich eine Position (H/Ces, Fis/Ges, Cis/Des); die Tonart mit weniger Vorzeichen steht zuerst, bei Gleichstand die Kreuz-Tonart.
+- **Falsche Freunde:** deutsche *Paralleltonart* (C-Dur ↔ a-Moll) = englisch *relative key*, im Code `relativeKey`. Deutsche *Varianttonart* (C-Dur ↔ c-Moll) = englisch *parallel key*, im Code `parallelKey`.
+- **Leitereigene Dreiklänge** werden aus Terzen der Tonleiter geschichtet. Dur: Dur, Moll, Moll, Dur, Dur, Moll, vermindert. Moll natürlich, harmonisch oder melodisch (aufwärts) wählbar, z. B. a-Moll harmonisch: a, h°, C+, d, E, F, gis°.
+- **Namen:** Deutsch mit großem Grundton für Dur und kleinem für Moll („Fis-Dur“, „es-Moll“, „h-Moll“), Englisch „F♯ major“, „E♭ minor“, „B minor“.
+- **Noch offen:** Blues- und Ganztonleiter. Ihre Schreibweise ist nicht eindeutig (z. B. Ganzton auf C mit Ais oder B), dafür braucht es eine Fachentscheidung.
 
 ### Rhythmus
 
