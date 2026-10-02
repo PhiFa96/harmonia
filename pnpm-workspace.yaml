@@ -9,6 +9,15 @@ catalog:
   fast-check: ^4.10.2
   globals: ^17.0.0
   prettier: ^3.9.9
+  # Nur Test-Orakel (ADR 0004). Exakt gepinnt: 6.5.0 hat eine fehlerhafte Paketierung (main → fehlende Datei)
+  tonal: 6.4.3
   typescript: ~6.0.3
   typescript-eslint: ^8.71.0
   vitest: ^5.0.3
+
+# Unterpakete von tonal, deren Release vom 28.09.2026 auf fehlende Dateien verweist ("main": dist/index.js).
+# Betrifft nur das Test-Orakel. Entfernen, sobald tonal die Paketierung repariert hat.
+overrides:
+  '@tonaljs/pitch-distance': 5.0.5
+  '@tonaljs/pitch-interval': 6.1.0
+  '@tonaljs/pitch-note': 6.1.0

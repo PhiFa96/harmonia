@@ -1,0 +1,8 @@
+{
+  "extends": "@harmonia/config/tsconfig.base.json",
+  "compilerOptions": {
+    // Skripte laufen in Node oder Deno; `console` kommt hier über die DOM-Typen.
+    "lib": ["ES2023", "DOM"]
+  },
+  "include": ["*.ts"]
+}

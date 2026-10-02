@@ -35,9 +35,12 @@ Harmonia ist eine Musiktheorie-Lern-App für Web, iOS und Android. Aktueller Sta
 - `pnpm typecheck` – TypeScript in allen Paketen
 - `pnpm test` – Vitest in allen Paketen; einzeln: `pnpm --filter @harmonia/theory test`
 - `pnpm format` / `pnpm format:check` – Prettier (Markdown ist ausgenommen)
+- `pnpm check:deno` – Theorie-Engine unter Deno prüfen und ausführen (`tools/deno-smoke.ts`)
 
 ## Code-Konventionen
 
 - Pakete werden als TypeScript-Quellcode exportiert (kein Build-Schritt). Relative Importe immer mit Dateiendung `.ts`, damit derselbe Code auch in Deno (Supabase Edge Functions) läuft.
 - Gemeinsame Versionen über den pnpm-Katalog (`catalog:` in `pnpm-workspace.yaml`).
 - Neue interne Pakete in `tools/check-package-graph.mjs` eintragen (Regeln aus `docs/plan/architektur.md`).
+- Theorie-Engine: eigene Implementierung (ADR 0004). `tonal` nur als Test-Orakel in `*.tonal.test.ts`, nie im Produktionscode.
+- Fast-check-Generatoren für Tests liegen in `packages/theory/src/testing/` (nicht exportiert).
