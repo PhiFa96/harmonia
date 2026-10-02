@@ -21,6 +21,24 @@ Musiktheorie lernen – hörbar, spielerisch und so tief, wie du willst. Vom ers
 
 Expo (React Native, TypeScript) für iOS, Android und Web, dazu Supabase als Backend. Details und Bausteine: [ADR 0001](docs/decisions/0001-plattform-und-tech-stack.md).
 
+## Entwickeln
+
+Voraussetzungen: Node.js 22 (siehe `.nvmrc`) und pnpm 10. pnpm lässt sich über Corepack aktivieren:
+
+```sh
+corepack enable
+pnpm install
+```
+
+| Befehl | Zweck |
+|---|---|
+| `pnpm lint` | ESLint (mit Typinformationen) und Prüfung der erlaubten Paket-Abhängigkeiten |
+| `pnpm typecheck` | TypeScript-Prüfung aller Pakete |
+| `pnpm test` | Tests aller Pakete (Vitest) |
+| `pnpm format` / `pnpm format:check` | Formatierung mit Prettier anwenden bzw. prüfen |
+
+Aufbau des Monorepos: [docs/plan/architektur.md](docs/plan/architektur.md).
+
 ## Lizenz
 
 Noch nicht festgelegt. Bis dahin gilt: alle Rechte vorbehalten.

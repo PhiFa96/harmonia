@@ -1,0 +1,9 @@
+{
+  "name": "@harmonia/config",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Gemeinsame TypeScript-Konfiguration für alle Pakete",
+  "exports": {
+    "./tsconfig.base.json": "./tsconfig.base.json"
+  }
+}

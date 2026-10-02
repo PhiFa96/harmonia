@@ -67,7 +67,7 @@ harmonia/
 │   ├── i18n/                UI-Übersetzungen DE/EN, Musik-Terminologie, Benennungssysteme
 │   ├── ui/                  Design-System (Tokens, Basiskomponenten)
 │   ├── api/                 Typisierter Client für Supabase und Edge Functions
-│   └── config/              Gemeinsame TypeScript-, ESLint- und Test-Konfiguration
+│   └── config/              Gemeinsame TypeScript-Konfiguration (ESLint und Prettier liegen im Wurzelverzeichnis)
 ├── supabase/
 │   ├── migrations/          SQL-Migrationen (versioniert)
 │   ├── functions/           Edge Functions (Deno, TypeScript)
@@ -77,7 +77,7 @@ harmonia/
 └── docs/                    Konzept, Plan, Entscheidungen
 ```
 
-**Paket-Abhängigkeiten** (nur in Pfeilrichtung erlaubt, per ESLint-Regel erzwungen):
+**Paket-Abhängigkeiten** (nur in Pfeilrichtung erlaubt, geprüft von `tools/check-package-graph.mjs` in `pnpm lint`):
 
 ```mermaid
 flowchart LR
@@ -97,9 +97,9 @@ flowchart LR
 | Thema | Wahl | Bemerkung |
 |---|---|---|
 | Sprache | TypeScript, `strict` | Überall, auch in Edge Functions |
-| Paketmanager | pnpm Workspaces | Kompatibilität mit Expo in P1.01 prüfen; Ausweichoption: npm Workspaces |
+| Paketmanager | pnpm 10 Workspaces mit Katalog für gemeinsame Versionen | Expo unterstützt isolierte pnpm-Installationen ab SDK 54. pnpm 12 startet nicht über Corepack in Node 22, deshalb vorerst pnpm 10 |
 | App-Framework | Expo mit Expo Router | Dateibasiertes Routing für iOS, Android und Web |
-| Lint/Format | ESLint, Prettier | inkl. Regel für Paket-Abhängigkeiten |
+| Lint/Format | ESLint (typescript-eslint, mit Typinformationen), Prettier | Paket-Abhängigkeiten prüft `tools/check-package-graph.mjs` |
 | Tests Pakete | Vitest + fast-check | fast-check für eigenschaftsbasierte Tests der Engine |
 | Tests App | jest-expo + React Native Testing Library | Komponententests |
 | E2E Web | Playwright | |
