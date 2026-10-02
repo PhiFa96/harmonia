@@ -64,6 +64,14 @@ interface Interval {
 
 Beispiel: C4 → Fes4: generisch 4 (Quarte), erwartet 5 Halbtöne, tatsächlich 4 → verminderte Quarte. C4 → E4: Terz, 4 Halbtöne → große Terz. Gleicher Klang, verschiedene Intervalle.
 
+**Festgelegte Konventionen (umgesetzt in P1.08):**
+
+- **Richtung folgt dem Stammton,** nicht dem Klang. C♯3 → D♭♭3 ist eine doppelt verminderte Sekunde *aufwärts*, obwohl der Ton tiefer klingt. C4 → H♯3 ist eine verminderte Sekunde *abwärts*. Nur bei gleichem Stammton entscheidet der Klang: C → Ces ist eine übermäßige Prime abwärts.
+- **Keine verminderte Prime.** Derselbe Fall heißt „übermäßige Prime abwärts“.
+- **Umkehrung:** Prime ↔ Oktave, Terz ↔ Sexte, groß ↔ klein, übermäßig ↔ vermindert. Zusammengesetzte Intervalle werden vorher vereinfacht. Die übermäßige Oktave hat keine Umkehrung.
+- **Vereinfachen:** None → Sekunde, Doppeloktave → Oktave (nicht zur Prime).
+- **Darstellbar** sind Intervalle bis doppelt übermäßig/vermindert, wie bei den Vorzeichen (höchstens zwei).
+
 ### Rhythmus
 
 - Dauern als **Brüche** (`{num, den}`), nie als Gleitkommazahlen: Viertel = 1/4, punktierte Achtel = 3/16, Triolen-Achtel = 1/12.
