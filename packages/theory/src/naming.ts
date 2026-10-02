@@ -9,7 +9,7 @@ export type NamingSystem = 'de' | 'intl';
 
 /**
  * `none`: ohne Oktave („Fis“) · `scientific`: „Fis4“ / „F♯4“ ·
- * `helmholtz`: Groß-/Kleinschreibung und Striche („fis′“, „H“, „C₁“)
+ * `helmholtz`: Groß-/Kleinschreibung mit Hoch- bzw. Tiefzahlen („fis¹“, „H“, „C₁“)
  */
 export type OctaveStyle = 'none' | 'scientific' | 'helmholtz';
 
@@ -82,20 +82,23 @@ export function pitchName(p: Pitch, options: PitchNameOptions = {}): string {
 
 /**
  * Helmholtz-Schreibweise:
- * - ab der kleinen Oktave (C3) klein geschrieben, ab der eingestrichenen (C4) mit Strichen: c, c′, c″, c‴, c⁗
+ * - ab der kleinen Oktave (C3) klein geschrieben, ab der eingestrichenen (C4) mit Hochzahl: c, c¹, c², c³, c⁴
  * - große Oktave (C2) groß ohne Zeichen: C, H; darunter mit tiefgestellter Zahl: C₁ (Kontra), C₂ (Subkontra)
  */
 function helmholtz(base: string, octave: number): string {
   if (octave >= 3) {
-    return base.toLowerCase() + primes(octave - 3);
+    return base.toLowerCase() + superscript(octave - 3);
   }
   return base + subscript(2 - octave);
 }
 
-const PRIMES = ['', '′', '″', '‴', '⁗'];
+const SUPERSCRIPT_DIGITS = ['⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹'];
 
-function primes(count: number): string {
-  return PRIMES[count] ?? '′'.repeat(count);
+function superscript(value: number): string {
+  if (value === 0) {
+    return '';
+  }
+  return String(value).replace(/\d/g, (digit) => SUPERSCRIPT_DIGITS[Number(digit)] ?? digit);
 }
 
 const SUBSCRIPT_DIGITS = ['₀', '₁', '₂', '₃', '₄', '₅', '₆', '₇', '₈', '₉'];
