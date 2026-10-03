@@ -83,13 +83,14 @@ flowchart LR
 - **Abhängig von:** P1.03
 - **Umfang:** M
 - **Aufgaben:**
-  - [ ] `packages/i18n` mit i18next (+ react-i18next), Spracherkennung über `expo-localization`, Wechsel in den Einstellungen
-  - [ ] Typsichere Schlüssel (Tippfehler = Compilerfehler)
-  - [ ] Pluralregeln, Zahlen- und Datumsformate über `Intl`
-  - [ ] Prüfskript: Jeder Schlüssel existiert in DE und EN, keine leeren Werte
-  - [ ] Glossar aus P0.05 als Daten in `packages/i18n`
-  - [ ] ESLint-Regel gegen hartkodierte Texte in Komponenten
+  - [x] `packages/i18n` mit i18next (+ react-i18next), Spracherkennung über `expo-localization`, Wechsel in den Einstellungen
+  - [x] Typsichere Schlüssel (Tippfehler = Compilerfehler)
+  - [x] Pluralregeln, Zahlen- und Datumsformate über `Intl` (Hermes: Polyfill für `Intl.PluralRules`)
+  - [x] Prüfskript: Jeder Schlüssel existiert in DE und EN, keine leeren Werte (`pnpm check:i18n`)
+  - [x] Glossar als Daten in `packages/i18n`: Version 1 mit 51 Kernbegriffen und den Notenwerten; Ausbau in P0.05
+  - [x] ESLint-Regel gegen hartkodierte Texte in Komponenten
 - **Fertig, wenn:** Sprachwechsel zur Laufzeit funktioniert; Prüfskript läuft in der CI.
+- **Stand:** umgesetzt, siehe [i18n-und-glossar.md](i18n-und-glossar.md). Plural-Polyfill auf Geräten noch nicht im Development Build gesehen (Gerätetests mit P1.03/P1.14).
 
 ### P1.06 – Design-System v0
 

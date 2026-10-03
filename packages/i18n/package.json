@@ -1,0 +1,26 @@
+{
+  "name": "@harmonia/i18n",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Übersetzungen DE/EN (US/UK), Fachglossar, Sprachwahl und Formate",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./eslint": "./eslint/no-hardcoded-text.js"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@harmonia/theory": "workspace:*",
+    "i18next": "catalog:"
+  },
+  "devDependencies": {
+    "@harmonia/config": "workspace:*",
+    "eslint": "catalog:",
+    "typescript": "catalog:",
+    "typescript-eslint": "catalog:",
+    "vitest": "catalog:"
+  }
+}

@@ -6,6 +6,9 @@ import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { useColorScheme } from 'react-native';
 
+// Übersetzungen vor dem ersten Rendern einrichten
+import '@/i18n';
+
 export default function RootLayout() {
   const [queryClient] = useState(() => new QueryClient());
   const scheme = useColorScheme();

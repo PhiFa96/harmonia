@@ -37,6 +37,7 @@ pnpm install
 | `pnpm test` | Tests aller Pakete (Vitest, in der App Jest mit jest-expo) |
 | `pnpm format` / `pnpm format:check` | Formatierung mit Prettier anwenden bzw. prüfen |
 | `pnpm check:deno` | Theorie-Engine unter Deno prüfen (Laufzeit der Supabase Edge Functions) |
+| `pnpm check:i18n` | Übersetzungen prüfen (Schlüssel DE/EN, leere Texte, Pluralformen, Platzhalter) |
 | `pnpm --filter @harmonia/mobile web` | App im Browser starten |
 | `pnpm --filter @harmonia/mobile start` | Expo-Entwicklungsserver für Development Builds auf iOS und Android |
 | `pnpm --filter @harmonia/mobile build:web` | Web-Bundle bauen (`apps/mobile/dist`) |

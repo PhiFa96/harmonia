@@ -17,6 +17,7 @@
 | 02.10.2026 | Deutsche Intervall-Kurzform „gr. 3, kl. 3, r. 5, üb. 4, verm. 5“; Tonnamen-Tabelle und Intervall-Konventionen (keine verminderte Prime, Richtung folgt dem Stammton) fachlich bestätigt | [theorie-engine.md](theorie-engine.md) |
 | 02.10.2026 | Chromatische Tonleiter aufwärts mit Kreuzen, abwärts mit b; Blues- und Ganztonleiter nach Recherche eingeführt (P1.09) | [theorie-engine.md](theorie-engine.md) |
 | 02.10.2026 | Fachliche Prüfung und Fachkonventionen übernimmt Claude; Phillip wird dazu nicht mehr gefragt | [ADR 0005](../decisions/0005-fachliche-pruefung-durch-claude.md) |
+| 03.10.2026 | Englisch-Standard nach Region: UK-Begriffe in GB, IE, AU, NZ, ZA, IN; sonst US | [i18n-und-glossar.md](i18n-und-glossar.md) |
 | 02.10.2026 | F04 für Dreiklänge: C, Cm, C°, C+, Umkehrung als C/E; Tonbuchstaben international, deutsch (H, B) wählbar | [theorie-engine.md](theorie-engine.md) |
 
 ## Offen

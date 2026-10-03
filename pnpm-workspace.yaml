@@ -17,6 +17,9 @@ catalog:
   '@vexflow-fonts/bravura': 1.0.2
   eslint: ^10.12.0
   fast-check: ^4.10.2
+  # Übersetzungen (P1.05)
+  i18next: ^26.4.2
+  react-i18next: ^17.0.15
   globals: ^17.0.0
   prettier: ^3.9.9
   # Nur Test-Orakel (ADR 0004). Exakt gepinnt: 6.5.0 hat eine fehlerhafte Paketierung (main → fehlende Datei)

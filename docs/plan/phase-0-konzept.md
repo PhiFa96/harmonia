@@ -61,9 +61,9 @@
 - **Aufgaben:**
   - [x] Entscheidung F02 (US/UK-Englisch): umschaltbar
   - [ ] Entscheidungen F03 (Funktionssymbole), F04 (Akkordsymbole)
-  - [ ] Glossar v1 DE ↔ EN mit etwa 150 Kernbegriffen (Noten, Intervalle, Tonleitern, Akkorde, Rhythmus, Harmonik)
+  - [ ] Glossar v1 DE ↔ EN mit etwa 150 Kernbegriffen (Noten, Intervalle, Tonleitern, Akkorde, Rhythmus, Harmonik). Stand: 51 Begriffe und die Notenwerte in `packages/i18n` (P1.05), Format und Prüfung stehen
   - [ ] Referenzliteratur festlegen, gegen die die Engine geprüft wird
-- **Fertig, wenn:** Glossar liegt in `docs/` (später `packages/i18n`) und ist fachlich geprüft ([ADR 0005](../decisions/0005-fachliche-pruefung-durch-claude.md)).
+- **Fertig, wenn:** Glossar liegt in `packages/i18n` (siehe [i18n-und-glossar.md](i18n-und-glossar.md)) und ist fachlich geprüft ([ADR 0005](../decisions/0005-fachliche-pruefung-durch-claude.md)).
 
 ### P0.06 – Arbeitsweise und Tracking
 

@@ -1,25 +1,27 @@
+import { engineLanguage } from '@harmonia/i18n';
 import { parseScore } from '@harmonia/notation';
 import { ScoreView } from '@harmonia/notation/native';
 import { useTheme } from 'expo-router';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, Text } from 'react-native';
 
 import { PlaceholderScreen } from '@/components/placeholder-screen';
-import { useLanguage, useStrings } from '@/i18n';
+import { useLocale } from '@/i18n';
 
 /** Beispiel bis zu den echten Lektionen: zeigt, dass das Notenbild auf allen Plattformen läuft. */
 const EXAMPLE = 'treble | 4/4 | C4/4 D4/4 E4/4 F4/4 | G4/4 A4/4 B4/4 C5/4';
 const LAYOUT = { endBarline: 'final' } as const;
 
 export default function LearnScreen() {
-  const t = useStrings();
-  const language = useLanguage();
+  const { t } = useTranslation();
+  const locale = useLocale();
   const { colors } = useTheme();
   const score = useMemo(() => parseScore(EXAMPLE), []);
-  const describeOptions = useMemo(() => ({ language }), [language]);
+  const describeOptions = useMemo(() => engineLanguage(locale), [locale]);
   return (
-    <PlaceholderScreen title={t.tabs.learn}>
-      <Text style={{ color: colors.text }}>{t.exampleScale}</Text>
+    <PlaceholderScreen title={t('tabs.learn')}>
+      <Text style={{ color: colors.text }}>{t('learn.exampleScale')}</Text>
       <ScrollView horizontal contentContainerStyle={styles.score}>
         <ScoreView
           score={score}
