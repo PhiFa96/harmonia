@@ -13,6 +13,7 @@ Dieser Plan beschreibt, wie wir Harmonia Schritt für Schritt bauen: vom leeren 
 | [Notation, Audio, Eingabe](notation-audio-eingabe.md) | Notendarstellung, Klang, Klaviatur, Mikrofon, MIDI |
 | [Übersetzungen und Glossar](i18n-und-glossar.md) | Texte DE/EN (US/UK), Fachglossar, Prüfungen, Sprachwahl |
 | [Audio-Latenz messen](audio-latenz-messen.md) | Messanleitung und Ergebnisvorlage für P1.16 |
+| [Design-Richtung](design-richtung.md) | Prinzipien, Farben (Kontrast geprüft), Schrift, Bewegung, Logo-Entwurf, Kern-Screens |
 | [Inhalte und Didaktik](inhalte-und-didaktik.md) | Kursstruktur, Übungstypen, Lernlogik, Inhaltsproduktion |
 | [Datenmodell](datenmodell.md) | Tabellen, Zugriffsregeln, Synchronisation |
 | [KI-Tutor](ki-tutor.md) | Aufbau, Werkzeuge, Wissensbasis, Kosten, Qualität |
@@ -76,7 +77,7 @@ Wir arbeiten die Schritte innerhalb einer Phase in der angegebenen Reihenfolge a
 
 ## Arbeitsweise (entschieden am 02.10.2026)
 
-- **Rollen:** Claude entwirft, implementiert und prüft fachlich ([ADR 0005](../decisions/0005-fachliche-pruefung-durch-claude.md)). Phillip trifft Produkt- und Geschäftsentscheidungen, gibt Design und Merge frei und testet auf echten Geräten.
+- **Rollen:** Claude entwirft, implementiert und prüft fachlich ([ADR 0005](../decisions/0005-fachliche-pruefung-durch-claude.md)). Phillip trifft Produkt- und Geschäftsentscheidungen und testet auf echten Geräten. Die Design-Richtung hat er am 03.10.2026 an Claude übertragen ([design-richtung.md](design-richtung.md)).
 - **Ablauf pro Schritt:** eigener Branch → Pull Request mit Beschreibung und Testnachweis → CI grün → Merge durch Claude (Phillip hat am 02.10.2026 dauerhaft freigegeben, nach grüner CI zu mergen; Geschäfts- und Designfragen gehen weiter an ihn). Seit 03.10.2026 arbeitet Claude die Schritte fortlaufend ab, ohne vor jedem Schritt zu fragen.
 - **Tracking:** jeder Arbeitsschritt ist ein GitHub-Issue mit seiner ID im Titel (Phase 0: #1–#7, Phase 1: #8–#27). Ein GitHub-Projekt-Board zeigt den Stand. Pull Requests schließen ihr Issue mit „Closes #…“.
 - **Entscheidungen:** alles mit Tragweite als ADR in `docs/decisions/`.

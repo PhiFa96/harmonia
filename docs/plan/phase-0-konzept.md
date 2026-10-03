@@ -83,9 +83,9 @@
 - **Abhängig von:** P0.03
 - **Umfang:** M
 - **Aufgaben:**
-  - [ ] Moodboard und Designprinzipien (z. B. ruhig, musikalisch, freundlich; Hell- und Dunkelmodus)
-  - [ ] Logo-Entwurf, Farbpalette (barrierearm geprüft), Schriften
-  - [ ] Wireframes der Kern-Screens:
+  - [x] Moodboard und Designprinzipien (z. B. ruhig, musikalisch, freundlich; Hell- und Dunkelmodus)
+  - [x] Logo-Entwurf, Farbpalette (barrierearm geprüft), Schriften
+  - [x] Wireframes der Kern-Screens:
     - Onboarding
     - Lernpfad
     - Übung (alle Eingabearten)
@@ -94,7 +94,8 @@
     - Profil und Einstellungen
     - Paywall
     - Tutor-Chat
-  - [ ] Klickbarer Prototyp für die Lektion (optional)
-- **Fertig, wenn:** Phillip hat Richtung und Wireframes freigegeben.
+  - [ ] ~~Klickbarer Prototyp für die Lektion (optional)~~ entfällt: Das Übungs-Framework (P1.19) baut den echten Ablauf
+- **Fertig, wenn:** Phillip hat Richtung und Wireframes freigegeben. Phillip hat die Design-Richtung am 03.10.2026 an Claude übertragen („Du machst alles. Sehr schön modern und animiert.“); Claude entscheidet, Einwände sind jederzeit möglich.
+- **Stand:** erledigt, siehe [design-richtung.md](design-richtung.md) und die Design-Leinwand. Das Logo bleibt ein Entwurf, bis der Name feststeht (P0.03).
 
 **Phase 0 abgeschlossen, wenn:** P0.01–P0.07 fertig sind.
