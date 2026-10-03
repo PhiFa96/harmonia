@@ -67,6 +67,25 @@ importers:
 
   packages/config: {}
 
+  packages/notation:
+    dependencies:
+      '@harmonia/theory':
+        specifier: workspace:*
+        version: link:../theory
+    devDependencies:
+      '@harmonia/config':
+        specifier: workspace:*
+        version: link:../config
+      fast-check:
+        specifier: 'catalog:'
+        version: 4.10.2
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: 'catalog:'
+        version: 5.0.3(vite@8.3.2)
+
   packages/theory:
     devDependencies:
       '@harmonia/config':

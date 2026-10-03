@@ -1,0 +1,23 @@
+{
+  "name": "@harmonia/notation",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Notation: Score-Modell, Kurzschreibweise, später Layout und Renderer",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@harmonia/theory": "workspace:*"
+  },
+  "devDependencies": {
+    "@harmonia/config": "workspace:*",
+    "fast-check": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}
