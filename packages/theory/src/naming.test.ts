@@ -1,7 +1,7 @@
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 
-import { germanName, internationalName, pitchName } from './naming.ts';
+import { germanName, internationalName, pitchName, spokenPitchName } from './naming.ts';
 import type { Letter } from './pitch.ts';
 import { LETTERS, parsePitch } from './pitch.ts';
 import { pitchArbitrary } from './testing/arbitraries.ts';
@@ -109,5 +109,23 @@ describe('pitchName', () => {
         return name.length > 0 && (x.octave >= 3 ? isLower : !isLower);
       }),
     );
+  });
+});
+
+describe('spokenPitchName (Screenreader)', () => {
+  it.each([
+    ['C4', 'eingestrichenes c', 'C 4'],
+    ['F#3', 'kleines fis', 'F sharp 3'],
+    ['Bb3', 'kleines b', 'B flat 3'],
+    ['B2', 'großes H', 'B 2'],
+    ['Eb1', 'Kontra-Es', 'E flat 1'],
+    ['A0', 'Subkontra-A', 'A 0'],
+    ['C##5', 'zweigestrichenes cisis', 'C double sharp 5'],
+    ['Bbb6', 'dreigestrichenes heses', 'B double flat 6'],
+    ['C8', 'fünfgestrichenes c', 'C 8'],
+    ['G9', 'G9', 'G 9'],
+  ])('%s', (text, german, english) => {
+    expect(spokenPitchName(parsePitch(text))).toBe(german);
+    expect(spokenPitchName(parsePitch(text), 'en')).toBe(english);
   });
 });

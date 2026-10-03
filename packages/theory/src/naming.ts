@@ -109,3 +109,44 @@ function subscript(value: number): string {
   }
   return String(value).replace(/\d/g, (digit) => SUBSCRIPT_DIGITS[Number(digit)] ?? digit);
 }
+
+// ---------------------------------------------------------------------------
+// Gesprochene Namen (Screenreader)
+
+/** Deutsche Oktavbezeichnungen nach wissenschaftlicher Oktave (Tonnamen sind sächlich: „das c“). */
+const GERMAN_OCTAVES: Readonly<Record<number, string>> = {
+  0: 'Subkontra-',
+  1: 'Kontra-',
+  2: 'großes ',
+  3: 'kleines ',
+  4: 'eingestrichenes ',
+  5: 'zweigestrichenes ',
+  6: 'dreigestrichenes ',
+  7: 'viergestrichenes ',
+  8: 'fünfgestrichenes ',
+};
+
+const ENGLISH_ACCIDENTALS: Readonly<Record<number, string>> = {
+  [-2]: ' double flat',
+  [-1]: ' flat',
+  0: '',
+  1: ' sharp',
+  2: ' double sharp',
+};
+
+/**
+ * Ausgeschriebener Name zum Vorlesen.
+ * Deutsch: „eingestrichenes c“, „kleines fis“, „großes H“, „Kontra-Es“ (außerhalb Subkontra bis fünfgestrichen: „Fis9“).
+ * Englisch: „C 4“, „F sharp 3“, „B flat 2“.
+ */
+export function spokenPitchName(p: Pitch, language: 'de' | 'en' = 'de'): string {
+  if (language === 'en') {
+    return `${p.letter}${ENGLISH_ACCIDENTALS[p.alter] ?? ''} ${String(p.octave)}`;
+  }
+  const name = germanName(p.letter, p.alter);
+  const octave = GERMAN_OCTAVES[p.octave];
+  if (octave === undefined) {
+    return `${name}${String(p.octave)}`;
+  }
+  return octave + (p.octave >= 3 ? name.toLowerCase() : name);
+}
