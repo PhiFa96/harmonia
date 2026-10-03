@@ -1051,6 +1051,39 @@ function extents(items: readonly LayoutItem[]): { top: number; bottom: number } 
   return { top, bottom };
 }
 
+/** Waagerechter Bereich eines Ereignisses (Notenköpfe, Vorzeichen, Punkte, Fähnchen, Hälse). */
+export interface EventBounds {
+  readonly measure: number;
+  readonly event: number;
+  readonly x1: number;
+  readonly x2: number;
+}
+
+/** Bereiche aller Ereignisse, z. B. für Screenreader-Flächen und später für Antippen. */
+export function eventBounds(layout: ScoreLayout): EventBounds[] {
+  const bounds = new Map<string, { measure: number; event: number; x1: number; x2: number }>();
+  for (const item of layout.items) {
+    if (!('ref' in item)) {
+      continue;
+    }
+    const [left, right] =
+      item.kind === 'glyph'
+        ? [item.x + METRICS[item.glyph].bBoxSW[0], item.x + METRICS[item.glyph].bBoxNE[0]]
+        : [Math.min(item.x1, item.x2), Math.max(item.x1, item.x2)];
+    const id = key(item.ref.measure, item.ref.event);
+    const current = bounds.get(id);
+    bounds.set(id, {
+      measure: item.ref.measure,
+      event: item.ref.event,
+      x1: Math.min(current?.x1 ?? left, left),
+      x2: Math.max(current?.x2 ?? right, right),
+    });
+  }
+  return [...bounds.values()]
+    .map((b) => ({ ...b, x1: round(b.x1), x2: round(b.x2) }))
+    .sort((a, b) => a.measure - b.measure || a.event - b.event);
+}
+
 /** Glyphen-Metriken für Renderer (Codepoint und Begrenzungsrahmen). */
 export function glyphMetrics(name: GlyphName): GlyphMetrics {
   return METRICS[name];

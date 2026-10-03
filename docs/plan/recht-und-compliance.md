@@ -50,7 +50,7 @@
 
 **Urheberrecht und Lizenzen**
 
-- [ ] Liste aller Drittinhalte mit Lizenz (Fonts, Samples, Bibliotheken) und Credits-Screen (z. B. Bravura OFL, Salamander Grand Piano CC BY 3.0)
+- [ ] Liste aller Drittinhalte mit Lizenz (Fonts, Samples, Bibliotheken) und Credits-Screen (z. B. Bravura OFL, Salamander Grand Piano CC BY 3.0). Stand: Bravura-Hinweis steht seit P1.14 im Profil.
 - [ ] Nur eigene Texte, Übungen, Notensätze und Aufnahmen; gemeinfreie Werke in eigenem Satz
 - [ ] Musikbeispiele aus geschützten Werken nur mit Lizenz
 

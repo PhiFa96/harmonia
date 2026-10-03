@@ -73,6 +73,19 @@ Regeln (Phase 1):
   - Leistungstest (8 Takte deutlich unter 50 ms)
   - Sichtprüfung der Referenzbeispiele mit Bravura im Browser: [Referenzbild](bilder/layout-v1-referenz.png)
 
+### Renderer (umgesetzt in P1.14)
+
+- **`ScoreView`** aus `@harmonia/notation/native` zeichnet mit `react-native-svg` auf iOS, Android und Web. Der Einstiegspunkt ist eigenständig, damit Modell und Layout ohne React (z. B. in Edge Functions) nutzbar bleiben.
+- **Eine Elementliste für alle Ausgaben:** `svgScene` rechnet das Layout in Pixel-Elemente um (Text, Linie, Polygon, Pfad). Sowohl `layoutToSvg` als auch `ScoreView` zeichnen daraus. Im Web ist die App-Darstellung pixelgleich mit der SVG-Referenz (gemessen: 0 abweichende Pixel bei dreifacher Auflösung).
+- **Notenfont:** Die App lädt Bravura mit `expo-font` aus `@vexflow-fonts/bravura` (OTF). Solange der Font lädt, zeigt sie nichts an, damit keine Ersatzzeichen erscheinen.
+- **Zoom** über `staffSpace` (Pixel pro Notenlinienabstand), Farbe über `color`. Die App übergibt die Textfarbe des Themes; Hell- und Dunkelmodus folgen dem System.
+- **Screenreader:**
+  - Das SVG ist ausgeblendet. Über jeder Note liegt eine unsichtbare Fläche mit eigenem Text in der App-Sprache, z. B. „Viertelnote, eingestrichenes c“, „Halbe Note, Akkord: …“, „Achtelpause“, englisch „Quarter note, C 4“.
+  - Diese Flächen dienen in P1.15 auch zum Antippen.
+- **Beispiel in der App:** C-Dur-Tonleiter im Tab „Lernen“, bis die echten Lektionen kommen. Bilder: [hell](bilder/renderer-web-hell.png), [dunkel](bilder/renderer-web-dunkel.png).
+- **Lizenz:** Der Hinweis auf Bravura (SIL OFL 1.1) steht im Profil, bis es einen eigenen Bereich für Credits gibt.
+- **Offen:** Sichtprüfung auf iOS- und Android-Geräten. Sie braucht Development Builds und damit das Expo-Konto (siehe P1.03).
+
 ### Notenfont
 
 - **Bravura** (SMuFL-Referenzfont, SIL Open Font License 1.1).

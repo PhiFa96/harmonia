@@ -2,10 +2,11 @@
   "name": "@harmonia/notation",
   "version": "0.0.0",
   "private": true,
-  "description": "Notation: Score-Modell, Kurzschreibweise, später Layout und Renderer",
+  "description": "Notation: Score-Modell, Kurzschreibweise, Layout, SVG-Ausgabe und React-Native-Renderer",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./native": "./src/native/index.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
@@ -14,10 +15,30 @@
   "dependencies": {
     "@harmonia/theory": "workspace:*"
   },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*",
+    "react-native-svg": "*"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-native": {
+      "optional": true
+    },
+    "react-native-svg": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@harmonia/config": "workspace:*",
+    "@types/react": "catalog:",
     "@vexflow-fonts/bravura": "catalog:",
     "fast-check": "catalog:",
+    "react": "catalog:",
+    "react-native": "catalog:",
+    "react-native-svg": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"
   }

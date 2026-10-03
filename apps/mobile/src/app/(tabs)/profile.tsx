@@ -1,3 +1,4 @@
+import { useTheme } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { PlaceholderScreen } from '@/components/placeholder-screen';
@@ -11,6 +12,7 @@ export default function ProfileScreen() {
   const t = useStrings();
   const language = useSettings((state) => state.language);
   const setLanguage = useSettings((state) => state.setLanguage);
+  const { colors } = useTheme();
   return (
     <PlaceholderScreen title={t.tabs.profile}>
       <View role="radiogroup" aria-label={t.languageLabel} style={styles.options}>
@@ -24,13 +26,21 @@ export default function ProfileScreen() {
               onPress={() => {
                 setLanguage(option === 'device' ? null : option);
               }}
-              style={[styles.option, selected && styles.selected]}
+              style={[
+                styles.option,
+                { borderColor: colors.border },
+                selected && [styles.selected, { borderColor: colors.primary }],
+              ]}
             >
-              <Text>{t.languageOptions[option]}</Text>
+              <Text style={{ color: colors.text }}>{t.languageOptions[option]}</Text>
             </Pressable>
           );
         })}
       </View>
+      <Text role="heading" style={[styles.licenses, { color: colors.text }]}>
+        {t.licensesTitle}
+      </Text>
+      <Text style={[styles.license, { color: colors.text }]}>{t.bravuraLicense}</Text>
     </PlaceholderScreen>
   );
 }
@@ -45,4 +55,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   selected: { borderWidth: 2 },
+  licenses: { marginTop: 24, fontWeight: '600' },
+  license: { textAlign: 'center' },
 });
