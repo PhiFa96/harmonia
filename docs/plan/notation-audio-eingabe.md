@@ -180,6 +180,34 @@ Erweiterungen in Phase 3: Klaviersystem (zwei Systeme mit Klammer), mehrere Stim
 ### Klangerzeugung
 
 - **Klavier-Sampler:** Grundlage z. B. Salamander Grand Piano (CC BY 3.0, Namensnennung in den Credits). Für die App reduziert: Samples etwa alle drei Halbtöne, wenige Anschlagsstufen, komprimiert. Zwischenstufen über Tonhöhenverschiebung. Zielgröße des Pakets im MVP: unter 10 MB.
+- **Stand (P1.17):**
+  - **Quelle:** Salamander Grand Piano von Alexander Holm (Yamaha C5, CC BY 3.0 Unported), hier aus der OGG-Vorbis-Kopie im Tone.js-Repository (`Tonejs/audio`, Ordner `salamander` mit der Original-Lizenzdatei, etwa 130 kbit/s).
+    - Die Original-FLAC-Dateien (freepats.zenvoid.org) sind in der Entwicklungsumgebung gesperrt.
+    - Dasselbe Skript verarbeitet sie, sobald sie erreichbar sind (`--pattern "{sharp}v8.flac"`, Dateinamen vorher prüfen).
+  - **Aufbereitung** (`tools/prepare-samples.mjs`, ffmpeg):
+    - 30 Stützstellen in kleinen Terzen (A0 bis C8, wie aufgenommen)
+    - Stille am Anfang entfernt, auf 4 s gekürzt und ausgeblendet, Mono
+    - MP3 (LAME VBR 4), zusammen 0,65 MB
+  - **Lautheit:**
+    - Die Aufnahmen waren sehr unterschiedlich laut (−41 bis −21,5 LUFS im Anschlag).
+    - Jede Probe wird auf gleiche Lautheit des Anschlags gebracht (EBU R128, erste 0,6 s), danach gemeinsam so, dass keine Spitze −1 dBFS übersteigt.
+    - Nur den Spitzenpegel anzugleichen genügte nicht: Bis zu 8,6 dB Sprung zwischen Nachbartönen aus verschiedenen Aufnahmen.
+  - **Stimmung:**
+    - Gemessen je Probe (`tools/lib/pitch.mjs`): unter C6 per YIN, ab C6 per Spektralspitze. Im Überlappungsbereich weichen beide Verfahren höchstens etwa 7 Cent voneinander ab.
+    - Die Aufnahmen zeigen die übliche Spreizstimmung (Bass etwa −10 Cent, Diskant bis +39 Cent). C8 liegt einen Halbton zu hoch, er klingt wie Cis8.
+    - Die gemessene Abweichung steht in `apps/mobile/src/audio/piano-samples.ts`. Der Sampler gleicht sie aus, damit jeder Ton gleichstufig zur Engine passt; Gehörbildung braucht eine exakte Referenz.
+  - **Sampler** (`@harmonia/audio`, `createSampler`):
+    - Nächste Stützstelle, Tonhöhe über die Abspielrate (höchstens ±1 Halbton)
+    - Beginn ab dem ersten hörbaren Sample (gleicht Stille und Kodierverzögerung aus)
+    - 3 ms Einblenden, Halten bis zum Ende des Notenwerts, 0,25 s Ausklingen; nie länger als die Probe
+  - **App:** Die Proben laden beim ersten Ton. Bis dahin klingt der Synthesizer (`setInstrument`). Credits stehen im Profil.
+  - **Geprüft:**
+    - `tools/check-samples.mjs`: Jede Datei enthält ihren Ton, beginnt ohne Stille und hat die richtige Länge.
+    - Im Browser (Chromium, `OfflineAudioContext`) 61 Töne C2–C7 mit dem Sampler gerendert:
+      - Stimmung höchstens 7,6 Cent neben gleichstufig, meist unter 3 Cent
+      - Kein Sprung am Tonende, danach vollständige Stille
+      - Lautstärkesprung zwischen Nachbartönen beim Wechsel der Stützstelle im Mittel 0,75 dB, höchstens 2,2 dB (innerhalb einer Stützstelle 0,3 dB)
+    - In der App im Web: Klavier lädt, Abspielraten mit Stimmungsausgleich, keine Warnungen.
 - Weitere Klänge später: Streicher, Chor („Ah“) für den Chor-Trainer, einfache Synthese als Rückfallebene.
 - Funktionen: Einzeltöne, Intervalle (nacheinander und gleichzeitig), Akkorde (auch arpeggiert), Sequenzen mit Tempo, Kadenzen.
 - **Metronom** mit vorausplanender Zeitsteuerung über die Audio-Uhr (nicht über JavaScript-Timer), damit es nicht schwankt.

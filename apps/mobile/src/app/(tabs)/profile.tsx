@@ -44,6 +44,7 @@ export default function ProfileScreen() {
         {t('profile.licenses')}
       </Text>
       <Text style={[styles.license, { color: colors.text }]}>{t('profile.bravuraLicense')}</Text>
+      <Text style={[styles.license, { color: colors.text }]}>{t('profile.pianoLicense')}</Text>
       <Link href="/audio-test" style={[styles.link, { color: colors.primary }]}>
         {t('profile.audioTest')}
       </Link>

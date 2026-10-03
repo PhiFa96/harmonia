@@ -38,6 +38,10 @@ export const enUS = {
     sampleRate: 'Sample rate: {{rate}} Hz',
     reportedLatency: 'Latency reported by the system: {{base}} ms processing, {{output}} ms output',
     noReportedLatency: 'The system does not report latency; please measure (see guide).',
+    piano_idle: 'Piano: loads with the first tone.',
+    piano_loading: 'Loading piano … simple sound until then.',
+    piano_ready: 'Piano ready.',
+    piano_error: 'Piano could not be loaded; simple sound.',
   },
   highlight: {
     correct: 'correct',
@@ -51,5 +55,7 @@ export const enUS = {
     audioTest: 'Audio test (measurements)',
     bravuraLicense:
       'Music font Bravura © Steinberg Media Technologies GmbH, SIL Open Font License 1.1',
+    pianoLicense:
+      'Piano sound: Salamander Grand Piano by Alexander Holm, CC BY 3.0 (creativecommons.org/licenses/by/3.0). Modified: selection, shortened, mono, tuning corrected.',
   },
 } as const satisfies Messages;

@@ -231,11 +231,12 @@ flowchart LR
 - **Abhängig von:** P1.16
 - **Umfang:** M
 - **Aufgaben:**
-  - [ ] Skript in `tools/` zur Sample-Aufbereitung (Auswahl, Normalisierung, Kürzung, Kompression)
-  - [ ] Sampler mit Tonhöhenverschiebung zwischen Stützstellen, Hüllkurve, Lautstärke
-  - [ ] API: `playPitch`, `playInterval(mode)`, `playChord(arpeggio?)`, `playSequence(tempo)`, `metronome`
-  - [ ] Credits (Salamander Grand Piano, CC BY 3.0)
+  - [x] Skript in `tools/` zur Sample-Aufbereitung (Auswahl, Normalisierung, Kürzung, Kompression): `prepare-samples.mjs`, Prüfung `check-samples.mjs`
+  - [x] Sampler mit Tonhöhenverschiebung zwischen Stützstellen, Hüllkurve, Lautstärke, dazu Stimmungsausgleich je Probe
+  - [x] API: `playPitch`, `playInterval(mode)`, `playChord(arpeggio?)`, `playSequence(tempo)`, `metronome` (seit P1.16, jetzt mit Klavier)
+  - [x] Credits (Salamander Grand Piano, CC BY 3.0) im Profil
 - **Fertig, wenn:** Klang auf allen Plattformen sauber (kein Knacken, keine hörbaren Sprünge zwischen Stützstellen); Paketgröße unter 10 MB.
+- **Stand:** im Web gemessen (siehe [notation-audio-eingabe.md](notation-audio-eingabe.md#klangerzeugung)), 0,65 MB. Offen: Hörprobe auf iOS/Android (Development Build) und, falls freigeschaltet, Aufbereitung aus den Original-FLAC-Dateien.
 
 ### P1.18 – Bildschirm-Klaviatur
 

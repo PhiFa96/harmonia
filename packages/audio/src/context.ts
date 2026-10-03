@@ -28,6 +28,23 @@ export interface GainLike extends AudioNodeLike {
   readonly gain: AudioParamLike;
 }
 
+/** Dekodierte Audiodaten (z. B. eine Klavierprobe). */
+export interface AudioBufferLike {
+  readonly sampleRate: number;
+  readonly length: number;
+  readonly duration: number;
+  readonly numberOfChannels: number;
+  getChannelData(channel: number): Float32Array;
+}
+
+/** Spielt einen Puffer ab; `playbackRate` verschiebt die Tonhöhe (2 = eine Oktave höher). */
+export interface BufferSourceLike extends AudioNodeLike {
+  buffer: AudioBufferLike | null;
+  readonly playbackRate: AudioParamLike;
+  start(when?: number, offset?: number): unknown;
+  stop(when?: number): unknown;
+}
+
 export interface AudioContextLike {
   /** Audio-Uhr in Sekunden; läuft hardwaregenau, unabhängig von JavaScript-Timern. */
   readonly currentTime: number;
@@ -36,6 +53,7 @@ export interface AudioContextLike {
   readonly destination: AudioNodeLike;
   createOscillator(): OscillatorLike;
   createGain(): GainLike;
+  createBufferSource(): BufferSourceLike;
   resume(): Promise<unknown>;
   /** Nur Browser: Verarbeitungs- und Ausgabelatenz in Sekunden, wie sie das System meldet. */
   readonly baseLatency?: number;
