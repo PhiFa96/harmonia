@@ -1,0 +1,11 @@
+{
+  // Strenge Regeln aus @harmonia/config, Plattform-Einstellungen (JSX, DOM, Bundler) von Expo
+  "extends": ["@harmonia/config/tsconfig.base.json", "expo/tsconfig.base"],
+  "compilerOptions": {
+    "types": ["jest", "node"],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["**/*.ts", "**/*.tsx", "expo-env.d.ts"]
+}

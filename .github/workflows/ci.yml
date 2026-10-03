@@ -44,6 +44,26 @@ jobs:
       - name: Tests
         run: pnpm test
 
+  web:
+    name: Web-Build der App
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Abhängigkeiten installieren
+        run: pnpm install --frozen-lockfile
+
+      - name: Web-Bundle bauen (expo export)
+        run: pnpm --filter @harmonia/mobile build:web
+
   deno:
     name: Deno-Kompatibilität
     runs-on: ubuntu-latest

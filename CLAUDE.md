@@ -36,7 +36,8 @@ Harmonia ist eine Musiktheorie-Lern-App für Web, iOS und Android. Aktueller Sta
 - `pnpm test` – Vitest in allen Paketen; einzeln: `pnpm --filter @harmonia/theory test`
 - `pnpm format` / `pnpm format:check` – Prettier (Markdown ist ausgenommen)
 - `pnpm check:deno` – Theorie-Engine unter Deno prüfen und ausführen (`tools/deno-smoke.ts`)
-- CI: `.github/workflows/ci.yml` (Jobs „Lint, Typen, Tests“ und „Deno-Kompatibilität“) muss vor dem Merge grün sein
+- App: `pnpm --filter @harmonia/mobile web` (Browser), `… start` (Development Build), `… build:web` (Web-Bundle)
+- CI: `.github/workflows/ci.yml` (Jobs „Lint, Typen, Tests“, „Web-Build der App“ und „Deno-Kompatibilität“) muss vor dem Merge grün sein
 
 ## Code-Konventionen
 
@@ -45,3 +46,4 @@ Harmonia ist eine Musiktheorie-Lern-App für Web, iOS und Android. Aktueller Sta
 - Neue interne Pakete in `tools/check-package-graph.mjs` eintragen (Regeln aus `docs/plan/architektur.md`).
 - Theorie-Engine: eigene Implementierung (ADR 0004). `tonal` nur als Test-Orakel in `*.tonal.test.ts`, nie im Produktionscode.
 - Fast-check-Generatoren für Tests liegen in `packages/theory/src/testing/` (nicht exportiert).
+- **Expo (SDK 57):** APIs ändern sich je SDK. Neue Pakete mit `npx expo install` (kompatible Versionen), APIs an den installierten Typen prüfen (z. B. `Tabs` aus `expo-router/js-tabs`, nicht mehr aus `expo-router`). `ios/` und `android/` entstehen per Continuous Native Generation und werden nie von Hand bearbeitet.

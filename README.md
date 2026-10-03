@@ -34,9 +34,12 @@ pnpm install
 |---|---|
 | `pnpm lint` | ESLint (mit Typinformationen) und Prüfung der erlaubten Paket-Abhängigkeiten |
 | `pnpm typecheck` | TypeScript-Prüfung aller Pakete |
-| `pnpm test` | Tests aller Pakete (Vitest) |
+| `pnpm test` | Tests aller Pakete (Vitest, in der App Jest mit jest-expo) |
 | `pnpm format` / `pnpm format:check` | Formatierung mit Prettier anwenden bzw. prüfen |
 | `pnpm check:deno` | Theorie-Engine unter Deno prüfen (Laufzeit der Supabase Edge Functions) |
+| `pnpm --filter @harmonia/mobile web` | App im Browser starten |
+| `pnpm --filter @harmonia/mobile start` | Expo-Entwicklungsserver für Development Builds auf iOS und Android |
+| `pnpm --filter @harmonia/mobile build:web` | Web-Bundle bauen (`apps/mobile/dist`) |
 
 Aufbau des Monorepos: [docs/plan/architektur.md](docs/plan/architektur.md).
 
