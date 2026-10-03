@@ -24,11 +24,30 @@ export const SILENCE = 0.0001;
 
 /** Eine geplante Stimme: zum vorzeitigen Stoppen und zum Aufräumen nach `end`. */
 export interface Voice {
-  readonly oscillator: OscillatorLike;
+  /** Klangquelle (Oszillator oder Puffer). */
+  readonly source: Pick<OscillatorLike, 'stop' | 'disconnect'>;
   readonly envelope: GainLike;
   /** Audio-Zeit, ab der die Stimme verklungen und gestoppt ist. */
   readonly end: number;
 }
+
+/** Ein Instrument plant Töne: Frequenz in Hz (aus der Engine, gleichstufig), Länge, Spitzenlautstärke. */
+export interface Instrument {
+  play(
+    ctx: AudioContextLike,
+    output: AudioNodeLike,
+    frequency: number,
+    when: number,
+    duration: number,
+    peak: number,
+  ): Voice;
+}
+
+/** Einfacher Klang ohne Proben (Spike, Rückfallebene, solange die Proben laden). */
+export const SYNTH: Instrument = {
+  play: (ctx, output, frequency, when, duration, peak) =>
+    scheduleTone(ctx, output, frequency, when, { duration, peak }),
+};
 
 /**
  * Plant einen Ton auf der Audio-Uhr. Aufräumen übernimmt der Aufrufer nach `end`: Das Ende-Ereignis
@@ -54,5 +73,5 @@ export function scheduleTone(
   const end = when + options.duration + 0.02;
   osc.start(when);
   osc.stop(end);
-  return { oscillator: osc, envelope, end };
+  return { source: osc, envelope, end };
 }

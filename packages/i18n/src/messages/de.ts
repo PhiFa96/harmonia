@@ -37,6 +37,10 @@ export const de = {
     sampleRate: 'Abtastrate: {{rate}} Hz',
     reportedLatency: 'Vom System gemeldete Latenz: {{base}} ms Verarbeitung, {{output}} ms Ausgabe',
     noReportedLatency: 'Das System meldet keine Latenz; bitte messen (siehe Anleitung).',
+    piano_idle: 'Klavier: lädt beim ersten Ton.',
+    piano_loading: 'Klavier wird geladen … bis dahin einfacher Klang.',
+    piano_ready: 'Klavier bereit.',
+    piano_error: 'Klavier konnte nicht geladen werden; einfacher Klang.',
   },
   highlight: {
     correct: 'richtig',
@@ -50,5 +54,7 @@ export const de = {
     audioTest: 'Audio-Test (Messungen)',
     bravuraLicense:
       'Notenfont Bravura © Steinberg Media Technologies GmbH, SIL Open Font License 1.1',
+    pianoLicense:
+      'Klavierklang: Salamander Grand Piano von Alexander Holm, CC BY 3.0 (creativecommons.org/licenses/by/3.0). Bearbeitet: Auswahl, gekürzt, Mono, Stimmung ausgeglichen.',
   },
 } as const;

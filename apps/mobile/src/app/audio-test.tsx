@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, Pressable, ScrollView, StyleSheet, Text } from 'react-native';
 
-import { getAudioEngine } from '@/audio';
+import { getAudioEngine, usePianoStatus } from '@/audio';
 import { useLocale } from '@/i18n';
 
 // Testseite für den Audio-Spike (P1.16): Ton beim Antippen, Akkord, Sequenz mit Metronom.
@@ -33,6 +33,7 @@ export default function AudioTestScreen() {
   const locale = useLocale();
   const [info, setInfo] = useState<string | null>(null);
   const metronome = useRef<Playback | null>(null);
+  const piano = usePianoStatus((state) => state.status);
 
   useEffect(
     () => () => {
@@ -104,6 +105,9 @@ export default function AudioTestScreen() {
       })}
       <Text aria-live="polite" style={{ color: colors.text }}>
         {info ?? t('audioTest.notStarted')}
+      </Text>
+      <Text aria-live="polite" style={{ color: colors.text }}>
+        {t(`audioTest.piano_${piano}`)}
       </Text>
     </ScrollView>
   );

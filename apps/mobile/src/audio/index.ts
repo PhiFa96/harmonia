@@ -5,6 +5,16 @@ import type { AudioEngine } from '@harmonia/audio';
 import { createAudioEngine } from '@harmonia/audio';
 import { Platform } from 'react-native';
 import { AudioContext, AudioManager } from 'react-native-audio-api';
+import { create } from 'zustand';
+
+import { loadPiano } from './piano';
+
+/** Klavierproben: laden beim ersten Klang; bis dahin klingt der einfache Synthesizer. */
+export type PianoStatus = 'idle' | 'loading' | 'ready' | 'error';
+
+export const usePianoStatus = create<{ readonly status: PianoStatus }>()(() => ({
+  status: 'idle',
+}));
 
 let engine: AudioEngine | undefined;
 
@@ -56,6 +66,19 @@ export function getAudioEngine(): AudioEngine {
       },
       reportedLatency: () => webLatency(context),
     });
+    const created = engine;
+    usePianoStatus.setState({ status: 'loading' });
+    loadPiano(context).then(
+      (piano) => {
+        created.setInstrument(piano);
+        usePianoStatus.setState({ status: 'ready' });
+      },
+      (error: unknown) => {
+        // Klang bleibt nutzbar (Synthesizer); Fehler sichtbar machen, bis es ein Fehlerprotokoll gibt (Sentry)
+        console.warn('Klavierproben konnten nicht geladen werden', error);
+        usePianoStatus.setState({ status: 'error' });
+      },
+    );
   }
   return engine;
 }

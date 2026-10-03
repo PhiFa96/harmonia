@@ -7,8 +7,8 @@ import { frequency } from '@harmonia/theory';
 import type { BeatClock } from './clock.ts';
 import { startBeatClock } from './clock.ts';
 import type { AudioContextLike, GainLike, Timers } from './context.ts';
-import type { Voice } from './voice.ts';
-import { scheduleTone } from './voice.ts';
+import type { Instrument, Voice } from './voice.ts';
+import { SYNTH, scheduleTone } from './voice.ts';
 
 export interface AudioEngineOptions {
   /** Kammerton a¹ in Hz. Standard: 440. */
@@ -19,6 +19,8 @@ export interface AudioEngineOptions {
   readonly timers: Timers;
   /** Vom System gemeldete Latenz, falls der Kontext sie nicht selbst anbietet (z. B. hinter einer Hülle). */
   readonly reportedLatency?: () => { readonly base?: number; readonly output?: number };
+  /** Klang der Töne (Standard: einfacher Synthesizer). Das Metronom klickt immer synthetisch. */
+  readonly instrument?: Instrument;
 }
 
 export interface PlayOptions {
@@ -82,6 +84,8 @@ export interface AudioEngine {
   startMetronome(tempo: number, beatsPerBar: number): Playback;
   /** Alles sofort beenden (mit kurzer Ausblendung gegen Knacken). */
   stopAll(): void;
+  /** Instrument wechseln, z. B. sobald die Klavierproben geladen sind. Gilt für neue Töne. */
+  setInstrument(instrument: Instrument): void;
   latency(): LatencyInfo;
 }
 
@@ -95,6 +99,7 @@ const LEAD = 0.05;
 export function createAudioEngine(ctx: AudioContextLike, options: AudioEngineOptions): AudioEngine {
   const referenceHz = options.referenceHz ?? 440;
   const timers = options.timers;
+  let instrument = options.instrument ?? SYNTH;
   const master: GainLike = ctx.createGain();
   master.gain.value = options.volume ?? 0.8;
   master.connect(ctx.destination);
@@ -107,7 +112,7 @@ export function createAudioEngine(ctx: AudioContextLike, options: AudioEngineOpt
     const now = ctx.currentTime;
     for (const voice of active) {
       if (voice.end < now) {
-        voice.oscillator.disconnect();
+        voice.source.disconnect();
         voice.envelope.disconnect();
         active.delete(voice);
       }
@@ -116,7 +121,7 @@ export function createAudioEngine(ctx: AudioContextLike, options: AudioEngineOpt
 
   const tone = (hz: number, when: number, duration: number, peak: number): void => {
     prune();
-    active.add(scheduleTone(ctx, master, hz, when, { duration, peak }));
+    active.add(instrument.play(ctx, master, hz, when, duration, peak));
   };
 
   const click = (accent: boolean, when: number): void => {
@@ -155,7 +160,7 @@ export function createAudioEngine(ctx: AudioContextLike, options: AudioEngineOpt
       voice.envelope.gain.cancelScheduledValues(now);
       voice.envelope.gain.setValueAtTime(voice.envelope.gain.value, now);
       voice.envelope.gain.linearRampToValueAtTime(0, now + 0.02);
-      voice.oscillator.stop(now + 0.03);
+      voice.source.stop(now + 0.03);
     }
     active.clear();
   }
@@ -231,6 +236,9 @@ export function createAudioEngine(ctx: AudioContextLike, options: AudioEngineOpt
       });
     },
     stopAll,
+    setInstrument: (next) => {
+      instrument = next;
+    },
     latency: () => {
       const reported = options.reportedLatency?.() ?? {
         base: ctx.baseLatency,
