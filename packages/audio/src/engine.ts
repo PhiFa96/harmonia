@@ -58,7 +58,7 @@ export interface Playback {
   readonly startTime: number;
   /** Audio-Zeit, zu der alles verklungen ist. */
   readonly endTime: number;
-  /** playPitch/playChord: nur die eigenen Stimmen stoppen; stopAll stoppt die gesamte Engine. */
+  /** playPitch/playInterval/playChord: eigene Stimmen stoppen; stopAll stoppt die gesamte Engine. */
   stop(): void;
 }
 
@@ -216,9 +216,13 @@ export function createAudioEngine(ctx: AudioContextLike, options: AudioEngineOpt
       const duration = opts.duration ?? 1;
       const start = opts.when ?? ctx.currentTime;
       const peak = opts.velocity ?? DEFAULT_VELOCITY;
-      tone(frequency(lower, referenceHz), start, duration, peak);
-      tone(frequency(upper, referenceHz), start + duration, duration, peak);
-      return playback(start, start + 2 * duration, stopAll);
+      const voices = [
+        tone(frequency(lower, referenceHz), start, duration, peak),
+        tone(frequency(upper, referenceHz), start + duration, duration, peak),
+      ];
+      return playback(start, start + 2 * duration, () => {
+        stopVoices(voices);
+      });
     },
     playChord,
     playSequence: (events, opts) => {

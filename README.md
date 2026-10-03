@@ -2,7 +2,7 @@
 
 Musiktheorie lernen – hörbar, spielerisch und so tief, wie du willst. Vom ersten Notenschlüssel bis zum Hochschulniveau, mit KI-Tutor und echten Coaches. Im Browser und als App für iOS und Android.
 
-> **Status: Konzeptphase.** Es gibt noch keinen App-Code. Der Tech-Stack ist entschieden: Expo + Supabase ([ADR 0001](docs/decisions/0001-plattform-und-tech-stack.md)).
+> **Status: Phase 1 – technisches Fundament.** Theorie-Engine, Notenbild, Klavierklang, Klaviatur und drei Übungstypen sind implementiert. Im Tab „Üben“ läuft ein gemischter Übungssatz mit Bewertung und Hinweisen; die vollständige Lektion mit lokaler Speicherung folgt in P1.20. Geräteprüfungen und fachliche Inhaltsabnahme sind noch offen. Details: [Übungs-Framework P1.19](docs/plan/uebungs-framework.md) und [Phase 1](docs/plan/phase-1-fundament.md).
 
 ## Konzept
 

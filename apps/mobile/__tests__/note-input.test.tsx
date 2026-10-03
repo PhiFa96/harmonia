@@ -45,7 +45,7 @@ beforeEach(() => {
 
 describe('Intervall eingeben', () => {
   it('Klaviatur setzt die Note ins Notenbild, markiert Fehler und Lösung und übernimmt sie zurück ins Notenbild', () => {
-    renderRouter('./src/app', { initialUrl: '/practice' });
+    renderRouter('./src/app', { initialUrl: '/note-input' });
     fireEvent.press(screen.getByText('Klaviatur'));
     const input = screen.getByTestId('piano-touch-surface');
     fireEvent(input, 'responderGrant', {
@@ -68,7 +68,7 @@ describe('Intervall eingeben', () => {
     expect(screen.getByText('Gesetzt: Ganze Note, eingestrichenes e')).toBeTruthy();
   });
   it('Tippen setzt die Note, Prüfen bewertet mit Farbe, Symbol und Text', () => {
-    renderRouter('./src/app', { initialUrl: '/practice' });
+    renderRouter('./src/app', { initialUrl: '/note-input' });
     expect(screen.getByText('Noch keine Note gesetzt.')).toBeTruthy();
     const { x, y } = pointFor(start, E4);
     tap(x, y);
@@ -80,7 +80,7 @@ describe('Intervall eingeben', () => {
   });
 
   it('Vorzeichen-Leiste ändert die Note; falsche Antwort wird markiert', () => {
-    renderRouter('./src/app', { initialUrl: '/practice' });
+    renderRouter('./src/app', { initialUrl: '/note-input' });
     const { x, y } = pointFor(start, E4);
     tap(x, y);
     fireEvent.press(screen.getByLabelText('b'));
@@ -91,7 +91,7 @@ describe('Intervall eingeben', () => {
   });
 
   it('Ziehen verschiebt die Note schrittweise (relativ zum Startpunkt)', () => {
-    renderRouter('./src/app', { initialUrl: '/practice' });
+    renderRouter('./src/app', { initialUrl: '/note-input' });
     const { x, y } = pointFor(start, E4);
     tap(x, y);
     const input = screen.getByTestId('score-input');
@@ -107,7 +107,7 @@ describe('Intervall eingeben', () => {
   });
 
   it('Screenreader: ohne gesetzte Note startet das Verstellen beim vorgegebenen c¹', () => {
-    renderRouter('./src/app', { initialUrl: '/practice' });
+    renderRouter('./src/app', { initialUrl: '/note-input' });
     const slot = screen.getByLabelText('Ganze Pause');
     expect(slot.props['accessibilityRole']).toBe('adjustable');
     fireEvent(slot, 'accessibilityAction', { nativeEvent: { actionName: 'increment' } });
@@ -115,7 +115,7 @@ describe('Intervall eingeben', () => {
   });
 
   it('Screenreader: Note als anpassbares Element höher und tiefer stellen', () => {
-    renderRouter('./src/app', { initialUrl: '/practice' });
+    renderRouter('./src/app', { initialUrl: '/note-input' });
     const { x, y } = pointFor(start, E4);
     tap(x, y);
     const note = screen.getByLabelText('Ganze Note, eingestrichenes e, ausgewählt');
@@ -125,7 +125,7 @@ describe('Intervall eingeben', () => {
   });
 
   it('Löschen entfernt die Note; Tippen in den ersten Takt ändert nichts', () => {
-    renderRouter('./src/app', { initialUrl: '/practice' });
+    renderRouter('./src/app', { initialUrl: '/note-input' });
     const { x, y } = pointFor(start, E4);
     tap(x, y);
     fireEvent.press(screen.getByText('Löschen'));

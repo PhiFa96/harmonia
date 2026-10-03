@@ -1,4 +1,6 @@
 import { LOCALE_NAMES } from '@harmonia/i18n';
+import type { Evaluation } from '@harmonia/exercises';
+import { createRng, evaluateExercise, generateNote } from '@harmonia/exercises';
 import type { Pitch } from '@harmonia/notation';
 import type { ColorScheme, TextVariant } from '@harmonia/ui';
 import { COLORS, LAYOUT, RADIUS, SPACE } from '@harmonia/ui';
@@ -24,6 +26,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { useSettings } from '@/state/settings';
 import { PianoKeyboard } from '@/components/piano-keyboard';
+import { ExerciseChoices } from '@/components/exercise-choices';
 
 // Galerie aller Bausteine (P1.06), nur in Entwicklungsbuilds. Vorschau wahlweise hell oder dunkel,
 // unabhängig vom Erscheinungsbild der App.
@@ -88,6 +91,7 @@ export default function GalleryScreen() {
             <Lists />
             <Sheet />
             <Piano />
+            <Answers />
           </View>
         </ScrollView>
       </UiProvider>
@@ -243,6 +247,34 @@ function Piano() {
   return (
     <Section title={t('piano.title')}>
       <PianoKeyboard onPitch={setSelected} {...(selected ? { selected } : {})} />
+    </Section>
+  );
+}
+
+function Answers() {
+  const { t } = useTranslation();
+  const [item] = useState(() => generateNote({}, createRng('gallery-answers')));
+  const [answer, setAnswer] = useState<string | null>(null);
+  const [result, setResult] = useState<Evaluation>();
+  return (
+    <Section title={t('exercise.answers')}>
+      <ExerciseChoices
+        item={item}
+        answer={answer}
+        {...(result ? { result } : {})}
+        onSelect={setAnswer}
+      />
+      <Button
+        size="medium"
+        label={result ? t('exercise.restart') : t('practice.check')}
+        disabled={answer === null}
+        onPress={() => {
+          if (result) {
+            setAnswer(null);
+            setResult(undefined);
+          } else if (answer !== null) setResult(evaluateExercise(item, answer));
+        }}
+      />
     </Section>
   );
 }

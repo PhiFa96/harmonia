@@ -1,0 +1,26 @@
+{
+  "name": "@harmonia/exercises",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Seedbare Übungsaufgaben, Engine-Bewertung, Hinweise und Aufgabenablauf",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@harmonia/theory": "workspace:*",
+    "@harmonia/notation": "workspace:*",
+    "@harmonia/i18n": "workspace:*"
+  },
+  "devDependencies": {
+    "@harmonia/config": "workspace:*",
+    "fast-check": "catalog:",
+    "tonal": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

@@ -90,6 +90,25 @@ describe('Töne', () => {
     harmonic.engine.playInterval(p('C4'), p('G4'), 'harmonic');
     expect(harmonic.ctx.oscillators.map((o) => o.startTime)).toEqual([0, 0]);
   });
+
+  it('Intervall-Stopp beendet auch den noch geplanten zweiten Ton, ohne fremde Stimmen zu stoppen', () => {
+    const { ctx, timers, engine } = setup();
+    engine.startMetronome(120, 4);
+    const interval = engine.playInterval(p('G4'), p('C4'), 'melodic', { duration: 1 });
+    engine.playPitch(p('E4'), { duration: 4 });
+    const notes = ctx.oscillators.filter((osc) => osc.type === 'triangle');
+    expect(notes.map(hz)).toEqual([
+      expect.closeTo(392, 0) as unknown,
+      expect.closeTo(262, 0) as unknown,
+      expect.closeTo(330, 0) as unknown,
+    ]);
+    ctx.currentTime = 0.1;
+    interval.stop();
+    expect(notes[0]?.stopTimes.at(-1)).toBeCloseTo(0.13, 9);
+    expect(notes[1]?.stopTimes.at(-1)).toBeCloseTo(0.13, 9);
+    expect(notes[2]?.stopTimes.at(-1)).toBeCloseTo(4.02, 9);
+    expect(timers.running).toBe(1);
+  });
 });
 
 describe('Sequenz und Metronom', () => {

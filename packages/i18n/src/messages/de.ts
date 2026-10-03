@@ -30,6 +30,86 @@ export const de = {
     correctTitle: 'Richtig!',
     wrongTitle: 'Noch nicht ganz',
   },
+  exercise: {
+    title: 'Musik lesen und hören',
+    intro:
+      'Übe Notennamen und Intervalle. Wähle eine Antwort und prüfe sie. Hinweise helfen dir Schritt für Schritt.',
+    start: 'Übungssatz starten',
+    restart: 'Neuen Übungssatz starten',
+    noteInput: 'Noten und Klaviatur ausprobieren',
+    back: 'Zurück zu den Übungen',
+    question_NOTE_NAME: 'Wie heißt diese Note? Wähle den Namen ohne Oktavlage.',
+    question_INTERVAL_IDENTIFY_VISUAL:
+      'Welches $t(glossary:interval_one) siehst du zwischen den beiden Tönen?',
+    question_INTERVAL_IDENTIFY_AURAL:
+      'Welches $t(glossary:interval_one) hörst du zwischen den beiden Tönen?',
+    type_NOTE_NAME: 'Notennamen',
+    type_INTERVAL_IDENTIFY_VISUAL: 'Intervalle lesen',
+    type_INTERVAL_IDENTIFY_AURAL: 'Intervalle hören',
+    progress: 'Aufgabe {{current}} von {{total}}',
+    progressLabel: 'Fortschritt des Übungssatzes',
+    answers: 'Antwort auswählen',
+    next: 'Weiter',
+    finish: 'Ergebnis ansehen',
+    play: 'Töne anhören',
+    replay: 'Noch einmal hören',
+    stop: 'Wiedergabe stoppen',
+    audioError:
+      'Der Klang konnte nicht gestartet werden. Versuche es noch einmal oder überspringe die Hörfragen.',
+    noHearing: 'Gerade nicht hören',
+    hearingPaused:
+      'Hörfragen werden in diesem Übungssatz übersprungen. Mit Kopfhörern kannst du sie beim nächsten Übungssatz wieder üben.',
+    headphones: 'Höre die Töne vor deiner Antwort an. Kopfhörer helfen in einer lauten Umgebung.',
+    hint: 'Hinweis {{level}}',
+    solution: 'Lösung erklären',
+    assisted: 'Mit Hinweis beantwortet',
+    hintHeading: 'Dein Hinweis',
+    complete: 'Übungssatz beendet',
+    summary: '{{correct}} von {{answered}} Antworten richtig.',
+    independent_one: '{{count}} Antwort ohne Hinweis richtig.',
+    independent_other: '{{count}} Antworten ohne Hinweis richtig.',
+    assistedSummary_one: '{{count}} Aufgabe mit Hinweis beantwortet.',
+    assistedSummary_other: '{{count}} Aufgaben mit Hinweis beantwortet.',
+    skippedSummary_one: '{{count}} Hörfrage übersprungen; sie zählt nicht als Fehler.',
+    skippedSummary_other: '{{count}} Hörfragen übersprungen; sie zählen nicht als Fehler.',
+    noAnswers:
+      'Du hast die Hörfragen übersprungen. Starte einen neuen Übungssatz, wenn du wieder hören kannst.',
+    unknownAnswer: 'Unbekannte Antwort',
+    up: 'nach oben',
+    down: 'nach unten',
+    atReference: 'Die Note liegt genau auf dieser Linie.',
+    noteSteps_one: 'Von dort gehst du {{count}} Stammtonschritt {{direction}}.',
+    noteSteps_other: 'Von dort gehst du {{count}} Stammtonschritte {{direction}}.',
+    noteExplanation:
+      'Im {{clef}} liegt {{reference}} auf Linie {{line}} von unten. {{steps}} {{alteration}} Die Note heißt {{answer}}.',
+    alter_0: 'Ohne $t(glossary:accidental_one) bleibt der Stammton unverändert.',
+    alter_1: 'Das $t(glossary:sharp_one) erhöht den Stammton um einen $t(glossary:semitone_one).',
+    alter_2:
+      'Das $t(glossary:doubleSharp_one) erhöht den Stammton um zwei $t(glossary:semitone_other).',
+    'alter_-1':
+      'Das $t(glossary:flat_one) erniedrigt den Stammton um einen $t(glossary:semitone_one).',
+    'alter_-2':
+      'Das $t(glossary:doubleFlat_one) erniedrigt den Stammton um zwei $t(glossary:semitone_other).',
+    diatonicCount_one: '{{count}} Stammton',
+    diatonicCount_other: '{{count}} Stammtöne',
+    halfSteps_one: '{{count}} $t(glossary:semitone_one)',
+    halfSteps_other: '{{count}} $t(glossary:semitone_other)',
+    intervalExplanation:
+      '{{from}} → {{to}}: {{diatonic}} einschließlich beider Töne gezählt, mit einem Klangabstand von {{distance}}. Das Intervall heißt {{answer}}.',
+    noteHint1:
+      'Beginne beim $t(glossary:clef_one). Zähle Linien und Zwischenräume, bevor du das $t(glossary:accidental_one) liest.',
+    noteHint2:
+      '{{reference}} liegt auf Linie {{line}} von unten. Jede nächste Linie oder jeder nächste Zwischenraum führt zum nächsten Stammton.',
+    visualHint1:
+      'Zähle zuerst die Stammtöne einschließlich beider Endtöne. Bestimme danach den Klangabstand; die Schreibweise gehört zur Lösung.',
+    auralHint1:
+      'Höre die beiden Töne noch einmal. Vergleiche den Klangabstand mit den Intervallen, die du schon kennst.',
+    intervalHint2:
+      'Der Klangabstand beträgt {{distance}}. Vergleiche ihn mit den angebotenen Antworten.',
+    notationDescription: '{{clef}}. {{notes}}',
+    positionBottom: 'Ton {{index}} liegt auf der untersten Linie. {{alteration}}',
+    positionSteps: 'Ton {{index}}: Beginne auf der untersten Linie. {{steps}} {{alteration}}',
+  },
   piano: {
     settings: 'Anpassen',
     title: 'Klaviatur',
