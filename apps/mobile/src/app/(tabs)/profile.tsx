@@ -1,68 +1,142 @@
 import type { AppLocale } from '@harmonia/i18n';
 import { APP_LOCALES, LOCALE_NAMES } from '@harmonia/i18n';
-import { Link, useTheme } from 'expo-router';
+import { LAYOUT, SPACE } from '@harmonia/ui';
+import { AppText, ListGroup, ListItem } from '@harmonia/ui/native';
+import { useRouter } from 'expo-router';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
-import { PlaceholderScreen } from '@/components/placeholder-screen';
+import type { Option } from '@/components/option-sheet';
+import { OptionSheet } from '@/components/option-sheet';
+import type { Appearance } from '@/state/settings';
 import { useSettings } from '@/state/settings';
 
-const OPTIONS: readonly (AppLocale | 'device')[] = ['device', ...APP_LOCALES];
+type LanguageChoice = AppLocale | 'device';
 
 export default function ProfileScreen() {
   const { t } = useTranslation();
-  const locale = useSettings((state) => state.locale);
-  const setLocale = useSettings((state) => state.setLocale);
-  const { colors } = useTheme();
+  const router = useRouter();
+  const settings = useSettings();
+  const [sheet, setSheet] = useState<'language' | 'appearance' | null>(null);
+  const close = () => {
+    setSheet(null);
+  };
+
+  const languages: readonly Option<LanguageChoice>[] = [
+    { value: 'device', label: t('profile.languageDevice') },
+    ...APP_LOCALES.map((locale) => ({ value: locale, label: LOCALE_NAMES[locale] })),
+  ];
+  const appearances: readonly Option<Appearance>[] = [
+    { value: 'system', label: t('profile.appearanceSystem') },
+    { value: 'light', label: t('profile.appearanceLight') },
+    { value: 'dark', label: t('profile.appearanceDark') },
+  ];
+  const language = settings.locale ?? 'device';
+  const labelOf = <T extends string>(options: readonly Option<T>[], value: T): string =>
+    options.find((option) => option.value === value)?.label ?? '';
+
   return (
-    <PlaceholderScreen title={t('tabs.profile')}>
-      <View role="radiogroup" aria-label={t('profile.language')} style={styles.options}>
-        {OPTIONS.map((option) => {
-          const selected = (locale ?? 'device') === option;
-          return (
-            <Pressable
-              key={option}
-              role="radio"
-              aria-checked={selected}
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.content}>
+        <AppText variant="overline" tone="muted">
+          {t('profile.settings')}
+        </AppText>
+        <ListGroup>
+          <ListItem
+            icon="globe"
+            label={t('profile.language')}
+            value={labelOf(languages, language)}
+            onPress={() => {
+              setSheet('language');
+            }}
+          />
+          <ListItem
+            icon="moon"
+            label={t('profile.appearance')}
+            value={labelOf(appearances, settings.appearance)}
+            onPress={() => {
+              setSheet('appearance');
+            }}
+          />
+          <ListItem
+            icon="vibration"
+            label={t('profile.haptics')}
+            toggle={{ value: settings.haptics, onValueChange: settings.setHaptics }}
+          />
+          <ListItem
+            icon="motion"
+            label={t('profile.reduceMotion')}
+            accessibilityHint={t('profile.reduceMotionHint')}
+            toggle={{ value: settings.reduceMotion, onValueChange: settings.setReduceMotion }}
+            last
+          />
+        </ListGroup>
+        <AppText variant="overline" tone="muted">
+          {t('profile.more')}
+        </AppText>
+        <ListGroup>
+          <ListItem
+            icon="speaker"
+            label={t('profile.audioTest')}
+            onPress={() => {
+              router.push('/audio-test');
+            }}
+            last={!__DEV__}
+          />
+          {__DEV__ ? (
+            <ListItem
+              icon="sparkle"
+              label={t('profile.gallery')}
               onPress={() => {
-                setLocale(option === 'device' ? null : option);
+                router.push('/gallery');
               }}
-              style={[
-                styles.option,
-                { borderColor: colors.border },
-                selected && [styles.selected, { borderColor: colors.primary }],
-              ]}
-            >
-              <Text style={{ color: colors.text }}>
-                {option === 'device' ? t('profile.languageDevice') : LOCALE_NAMES[option]}
-              </Text>
-            </Pressable>
-          );
-        })}
+              last
+            />
+          ) : null}
+        </ListGroup>
+        <AppText variant="title3">{t('profile.licenses')}</AppText>
+        <AppText variant="footnote" tone="muted">
+          {t('profile.bravuraLicense')}
+        </AppText>
+        <AppText variant="footnote" tone="muted">
+          {t('profile.figtreeLicense')}
+        </AppText>
+        <AppText variant="footnote" tone="muted">
+          {t('profile.accidentalsLicense')}
+        </AppText>
+        <AppText variant="footnote" tone="muted">
+          {t('profile.pianoLicense')}
+        </AppText>
       </View>
-      <Text role="heading" style={[styles.licenses, { color: colors.text }]}>
-        {t('profile.licenses')}
-      </Text>
-      <Text style={[styles.license, { color: colors.text }]}>{t('profile.bravuraLicense')}</Text>
-      <Text style={[styles.license, { color: colors.text }]}>{t('profile.pianoLicense')}</Text>
-      <Link href="/audio-test" style={[styles.link, { color: colors.primary }]}>
-        {t('profile.audioTest')}
-      </Link>
-    </PlaceholderScreen>
+      <OptionSheet
+        visible={sheet === 'language'}
+        onClose={close}
+        title={t('profile.language')}
+        options={languages}
+        selected={language}
+        onSelect={(value) => {
+          settings.setLocale(value === 'device' ? null : value);
+        }}
+      />
+      <OptionSheet
+        visible={sheet === 'appearance'}
+        onClose={close}
+        title={t('profile.appearance')}
+        options={appearances}
+        selected={settings.appearance}
+        onSelect={settings.setAppearance}
+      />
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  options: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 8 },
-  option: {
-    minHeight: 44,
-    justifyContent: 'center',
-    paddingHorizontal: 12,
-    borderRadius: 8,
-    borderWidth: 1,
+  container: { flexGrow: 1, padding: LAYOUT.screenPadding },
+  content: {
+    width: '100%',
+    maxWidth: LAYOUT.maxContentWidth,
+    alignSelf: 'center',
+    gap: SPACE.m,
   },
-  selected: { borderWidth: 2 },
-  licenses: { marginTop: 24, fontWeight: '600' },
-  license: { textAlign: 'center' },
-  link: { marginTop: 24, minHeight: 44, textDecorationLine: 'underline' },
 });

@@ -16,20 +16,21 @@ export interface Highlight {
 export const MARK_BAND = 2;
 
 /**
- * Vorläufige Farben bis zum Design-System (P1.06). Kontrast zum Hintergrund mindestens 4,5 : 1
- * (geprüft in highlight.test.ts): hell gegen Weiß und Hellgrau, dunkel gegen Schwarz und Dunkelgrau.
+ * Farben wie im Design-System (`highlightColors` in packages/ui: Richtig, Falsch, Primär). Das Paket
+ * hängt nicht von ui ab; die Gleichheit prüft ein Test der App. Kontrast zum Hintergrund mindestens
+ * 4,5 : 1 (geprüft in highlight.test.ts): hell gegen Fläche und Grund, dunkel gegen Grund, Fläche und Schwarz.
  */
 export const DEFAULT_HIGHLIGHT_COLORS: Readonly<Record<HighlightKind, string>> = {
-  correct: '#1a7f37',
-  wrong: '#cf222e',
-  active: '#0969da',
+  correct: '#0B7768',
+  wrong: '#C43A1E',
+  active: '#5B3FD9',
 };
 
 /** Für dunkle Hintergründe. */
 export const DARK_HIGHLIGHT_COLORS: Readonly<Record<HighlightKind, string>> = {
-  correct: '#3fb950',
-  wrong: '#ff7b72',
-  active: '#58a6ff',
+  correct: '#34D1AE',
+  wrong: '#FF6B57',
+  active: '#8E7BFF',
 };
 
 /** Hervorhebung eines gezeichneten Elements: gleiches Ereignis und, falls angegeben, gleicher Ton. */

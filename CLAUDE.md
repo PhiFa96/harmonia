@@ -39,14 +39,17 @@ Harmonia ist eine Musiktheorie-Lern-App für Web, iOS und Android. Aktueller Sta
 - `pnpm check:deno` – Theorie-Engine unter Deno prüfen und ausführen (`tools/deno-smoke.ts`)
 - `pnpm check:i18n` – Übersetzungen prüfen: gleiche Schlüssel DE/EN, keine leeren Texte, Pluralformen, Platzhalter, Glossar-Verweise
 - `node tools/prepare-samples.mjs <Quelle>` / `node tools/check-samples.mjs` – Klavierproben aufbereiten bzw. prüfen (ffmpeg nötig; Details in `docs/plan/notation-audio-eingabe.md`)
+- `python3 tools/make-accidental-font.py <BravuraText.otf>` – Vorzeichen-Schrift für Fließtext neu erzeugen (fonttools nötig; Details in `docs/plan/design-richtung.md`)
 - App: `pnpm --filter @harmonia/mobile web` (Browser), `… start` (Development Build), `… build:web` (Web-Bundle)
 - CI: `.github/workflows/ci.yml` (Jobs „Lint, Typen, Tests“, „Web-Build der App“ und „Deno-Kompatibilität“) muss vor dem Merge grün sein
 
 ## Design
 
-- Richtung, Farben, Schrift und Bewegung: `docs/plan/design-richtung.md`. Farben, Abstände, Radien und Bewegungswerte nur über die Tokens (ab P1.06 `packages/ui`), nie als Einzelwerte in Screens.
-- Neue Farbpaare brauchen einen Kontrasttest (Text 4,5 : 1, Bedienelemente 3 : 1). Feedback nie nur über Farbe.
-- Jede Animation braucht eine Fassung für „Bewegung reduzieren“ (nur Überblenden, keine Schleifen).
+- Richtung, Farben, Schrift und Bewegung: `docs/plan/design-richtung.md`. Farben, Abstände, Radien und Bewegungswerte nur über die Tokens (`@harmonia/ui`), nie als Einzelwerte in Screens.
+- Bausteine aus `@harmonia/ui/native`: `AppText` statt `Text` (Schriftstufe, Farbrolle), `MusicText` für Text mit ♯ ♭ ♮, `Button`, `Card`, `ListItem`, `FeedbackBanner`, `BottomSheet`, `Icon` (eigene Symbole), Farben über `useUiTheme()`. Neue Bausteine in die Galerie (`apps/mobile/src/app/gallery.tsx`, nur Entwicklung) aufnehmen.
+- Neue Farbpaare in `CONTRAST_PAIRS` eintragen; der Test prüft sie (Text 4,5 : 1, Bedienelemente 3 : 1). Feedback nie nur über Farbe.
+- Jede Animation braucht eine Fassung für „Bewegung reduzieren“ (nur Überblenden, keine Schleifen); Werte aus `moveTo`/`fadeTo`. Die Systemeinstellung kommt aus `AccessibilityInfo`, nicht aus Reanimated (die Test-Bibliothek von expo-router ersetzt Reanimated durch eine Attrappe ohne `useReducedMotion`).
+- Barrierefreiheit am `<Svg>` nicht über Props am Svg (landen im Web als ungültige DOM-Attribute), sondern über eine umschließende `View aria-hidden`.
 
 ## Code-Konventionen
 

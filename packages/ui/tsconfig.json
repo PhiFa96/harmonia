@@ -1,0 +1,8 @@
+{
+  "extends": "@harmonia/config/tsconfig.base.json",
+  "compilerOptions": {
+    // Für die Bausteine (src/native); Tokens und Kontrastprüfung bleiben plattformneutral.
+    "jsx": "react-jsx"
+  },
+  "include": ["src"]
+}

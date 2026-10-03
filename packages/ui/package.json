@@ -1,0 +1,57 @@
+{
+  "name": "@harmonia/ui",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Design-System: Tokens (Farben, Schrift, Abst\u00e4nde, Bewegung) und Grundbausteine f\u00fcr React Native",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./native": "./src/native/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "peerDependencies": {
+    "expo-haptics": "*",
+    "react": "*",
+    "react-native": "*",
+    "react-native-reanimated": "*",
+    "react-native-safe-area-context": "*",
+    "react-native-svg": "*"
+  },
+  "peerDependenciesMeta": {
+    "expo-haptics": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    },
+    "react-native": {
+      "optional": true
+    },
+    "react-native-reanimated": {
+      "optional": true
+    },
+    "react-native-safe-area-context": {
+      "optional": true
+    },
+    "react-native-svg": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@harmonia/config": "workspace:*",
+    "@types/culori": "catalog:",
+    "@types/react": "catalog:",
+    "culori": "catalog:",
+    "expo-haptics": "catalog:",
+    "react": "catalog:",
+    "react-native": "catalog:",
+    "react-native-reanimated": "catalog:",
+    "react-native-safe-area-context": "catalog:",
+    "react-native-svg": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

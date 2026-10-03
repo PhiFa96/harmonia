@@ -31,19 +31,23 @@ describe('Grundnavigation', () => {
   it('wechselt zu Profil und schaltet die Sprache zur Laufzeit um', () => {
     const router = renderRouter('./src/app', { initialUrl: '/profile' });
     expect(router.getPathname()).toBe('/profile');
-    fireEvent.press(screen.getByText('English (US)'));
+    // Sprache wählt man in einem Blatt von unten; die Zeile nennt den aktuellen Wert
+    fireEvent.press(screen.getByRole('button', { name: 'Sprache, Wie das Gerät' }));
+    fireEvent.press(screen.getByRole('radio', { name: 'English (US)' }));
     expect(screen.getAllByText('Profile').length).toBeGreaterThan(0);
     expect(screen.getByText('Learn')).toBeTruthy();
     expect(screen.getByText('Licenses')).toBeTruthy();
-    fireEvent.press(screen.getByText('English (UK)'));
+    fireEvent.press(screen.getByRole('button', { name: 'Language, English (US)' }));
+    fireEvent.press(screen.getByRole('radio', { name: 'English (UK)' }));
     expect(screen.getByText('Licences')).toBeTruthy();
-    fireEvent.press(screen.getByText('Same as device'));
+    fireEvent.press(screen.getByRole('button', { name: 'Language, English (UK)' }));
+    fireEvent.press(screen.getByRole('radio', { name: 'Same as device' }));
     expect(screen.getByText('Lizenzen')).toBeTruthy();
   });
 
   it('nennt die Lizenz des Notenfonts', () => {
     renderRouter('./src/app', { initialUrl: '/profile' });
-    expect(screen.getByText(/Bravura.*SIL Open Font License 1\.1/)).toBeTruthy();
+    expect(screen.getByText(/^Notenfont Bravura.*SIL Open Font License 1\.1/)).toBeTruthy();
   });
 });
 

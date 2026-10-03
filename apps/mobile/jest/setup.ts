@@ -13,3 +13,12 @@ jest.mock('react-native-audio-api', () => {
     AudioManager: Object.assign(mock.AudioManager, { setAudioSessionOptions: jest.fn() }),
   };
 });
+
+// Animationen: Reanimated bringt eine Attrappe mit (Werte werden sofort gesetzt, Layout-Animationen entfallen).
+// Die Test-Bibliothek von expo-router setzt dieselbe Attrappe; hier für Tests ohne Router.
+jest.mock('react-native-reanimated', () =>
+  jest.requireActual<object>('react-native-reanimated/mock'),
+);
+jest.mock('react-native-worklets', () =>
+  jest.requireActual<object>('react-native-worklets/lib/module/mock'),
+);
