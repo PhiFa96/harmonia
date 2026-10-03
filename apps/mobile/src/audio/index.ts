@@ -36,9 +36,9 @@ function webLatency(context: object): { base?: number; output?: number } {
 export function getAudioEngine(): AudioEngine {
   if (!engine) {
     if (Platform.OS === 'ios') {
-      // Vorläufig bis zur Entscheidung F12: Musikbeispiele startet man ausdrücklich, deshalb
-      // „playback“ (klingt auch bei Stummschalter, wie es die Human Interface Guidelines für
-      // ausdrücklich gestartete Wiedergabe vorsehen). „mixWithOthers“: andere Musik läuft weiter.
+      // F12: Ton klingt auch bei Stummschalter („playback“), wie es die Human Interface Guidelines für
+      // ausdrücklich gestartete Wiedergabe vorsehen. Wer gerade nicht hören kann, überspringt Hörübungen
+      // in der Übung selbst (P1.19). „mixWithOthers“: andere Musik läuft weiter.
       AudioManager.setAudioSessionOptions({
         iosCategory: 'playback',
         iosMode: 'default',

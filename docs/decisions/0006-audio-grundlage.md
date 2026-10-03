@@ -1,6 +1,6 @@
 # 0006 – Audio-Grundlage: Web Audio API auf allen Plattformen
 
-- **Status:** vorgeschlagen. Die Messwerte von Geräten fehlen noch (P1.16), F12 ist offen.
+- **Status:** vorgeschlagen. Die Messwerte von Geräten fehlen noch (P1.16). F12 ist entschieden (03.10.2026).
 - **Datum:** 2026-10-03
 
 ## Kontext
@@ -39,7 +39,10 @@ Harmonia spielt Töne, Intervalle, Akkorde, Sequenzen und ein Metronom. Später 
 ## Konfiguration
 
 - **Config-Plugin:** ohne Hintergrund-Audio (`iosBackgroundMode: false`) und ohne Android-Vordergrunddienst (`androidForegroundService: false`, keine zusätzlichen Berechtigungen). Klang nur im Vordergrund. Beides bräuchte eine Begründung im Store-Review, auf Android zudem eine dauerhafte Benachrichtigung. Geprüft mit `expo config --type introspect`: kein `UIBackgroundModes`, kein Dienst, keine Mikrofon-Berechtigung.
-- **iOS-Audio-Session (vorläufig bis F12):** Kategorie `playback` mit `mixWithOthers`. Musikbeispiele startet man ausdrücklich, deshalb klingen sie auch bei Stummschalter. So sehen es die [Human Interface Guidelines](https://developers.apple.com/design/human-interface-guidelines/patterns/playing-audio/) für ausdrücklich gestartete Wiedergabe vor. Andere Musik läuft weiter.
+- **iOS-Audio-Session (F12, entschieden von Phillip am 03.10.2026):**
+  - Kategorie `playback` mit `mixWithOthers`: Ton klingt auch bei Stummschalter, andere Musik läuft weiter. Musikbeispiele startet man ausdrücklich; so sehen es die [Human Interface Guidelines](https://developers.apple.com/design/human-interface-guidelines/patterns/playing-audio/) für ausdrücklich gestartete Wiedergabe vor.
+  - Wer gerade nicht hören kann (z. B. unterwegs ohne Kopfhörer), wählt in einer Hörübung „Gerade nicht hören“. Dann werden alle Hörübungen der laufenden Lektion übersprungen, mit Hinweis auf Kopfhörer. Vorbild ist Duolingos „Can't listen now“, das ebenfalls alle Hörübungen der Lektion überspringt ([Duolingo-Blog](https://blog.duolingo.com/learning-with-hearing-aids/)). Umsetzung im Übungs-Framework (P1.19).
+  - Ob der Stummschalter steht, lässt sich auf iOS nicht zuverlässig abfragen. Deshalb gibt es keinen gezielten Hinweis, sondern die Wahl in der Übung.
 - **Web:** Der Kontext entsteht erst bei der ersten Nutzeraktion (Autoplay-Regeln) mit dem Standard-Latenzhinweis `interactive`.
 - **Antippen:** Ton beim Berühren (`onPressIn`), nicht erst beim Loslassen. react-native-web verzögert `onPressIn` standardmäßig um 50 ms. Im Web setzt die App diese Verzögerung deshalb auf 0.
 

@@ -24,7 +24,7 @@ describe('Audio-Test', () => {
     expect(screen.getByText(/^Abtastrate: [\d.]+ Hz/)).toBeTruthy();
   });
 
-  it('iOS: Audio-Session für ausdrücklich gestartete Wiedergabe (vorläufig bis F12)', () => {
+  it('iOS: Audio-Session für ausdrücklich gestartete Wiedergabe (F12)', () => {
     const setOptions = jest.spyOn(AudioManager, 'setAudioSessionOptions');
     renderRouter('./src/app', { initialUrl: '/audio-test' });
     fireEvent(screen.getByText('Ton a¹'), 'pressIn');

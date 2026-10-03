@@ -23,7 +23,7 @@ Der Schall braucht etwa 0,3 ms für 10 cm, das ist vernachlässigbar. Der Wert e
 
 - **Kopfhörer mit Kabel:** gleicher Ablauf, Aufnahmegerät am Ohrhörer.
 - **Bluetooth-Kopfhörer:** gleicher Ablauf; Modell notieren. Bluetooth ist erfahrungsgemäß deutlich langsamer.
-- **iOS-Stummschalter (F12):** Schalter auf lautlos, „Ton a¹“ antippen. Notieren, ob es klingt. Mit der vorläufigen Einstellung (Kategorie `playback`) sollte es klingen.
+- **iOS-Stummschalter (F12):** Schalter auf lautlos, „Ton a¹“ antippen. Es muss trotzdem klingen (Kategorie `playback`).
 - **Andere Musik im Hintergrund:** Musik-App starten, dann „Ton a¹“. Notieren, ob die Musik weiterläuft (erwartet: ja, `mixWithOthers`).
 - **Metronom:** „Metronom 90 BPM“ eine Minute laufen lassen und auf Aussetzer oder Stolpern hören, auch beim Scrollen und beim Wechsel der App.
 

@@ -188,7 +188,7 @@ Erweiterungen in Phase 3: Klaviersystem (zwei Systeme mit Klammer), mehrere Stim
 ### Plattformdetails
 
 - **Web:** Der Audio-Kontext startet erst nach einer Nutzeraktion (Autoplay-Regeln der Browser). Erster Bildschirm mit „Tippen zum Starten“.
-- **iOS:** Verhalten beim Stummschalter festlegen (offene Frage). Audio-Session für Wiedergabe und später Aufnahme konfigurieren.
+- **iOS:** Ton klingt auch bei Stummschalter (F12); Hörübungen lassen sich mit „Gerade nicht hören“ für die laufende Lektion überspringen. Audio-Session `playback` mit `mixWithOthers`, später für Aufnahme erweitern.
 - **Android:** Latenz stark geräteabhängig, deshalb Messung auf mehreren Geräten (günstig bis teuer).
 
 ### Latenzziele (in P1.16 messen)
