@@ -33,7 +33,7 @@
 | F09 | Werbung im Gratis-Bereich | ja / nein | Phillip | P2.20 |
 | F10 | Gastmodus ohne Konto | ja (Fortschritt lokal, später verknüpfen) / nein | gemeinsam | P2.01 |
 | F11 | Bestehensschwelle einer Lektion | 80 % / anderer Wert | gemeinsam | P2.12 |
-| F12 | Verhalten beim iOS-Stummschalter | Ton trotzdem abspielen / stumm bleiben mit Hinweis | gemeinsam | P1.16 |
+| F12 | Verhalten beim iOS-Stummschalter | Ton trotzdem abspielen / stumm bleiben mit Hinweis. Vorschlag nach den Human Interface Guidelines: Musikbeispiele, die man ausdrücklich startet, klingen trotzdem; vorläufig so umgesetzt (ADR 0006) | gemeinsam | P1.16 |
 | F13 | Wer trägt Stripe-Gebühren im Marktplatz | Plattform / Coach | Phillip | P4.04 |
 | F14 | Coaching für Minderjährige | ab 18 / mit Eltern-Einwilligung | Phillip (nach Rechtsberatung) | P4.01 |
 | F15 | Rechtsform | Einzelunternehmen / UG / GmbH | Phillip (nach Beratung) | P0.02 |

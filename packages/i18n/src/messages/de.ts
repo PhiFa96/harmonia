@@ -25,6 +25,19 @@ export const de = {
     correct: 'Richtig, das ist die große Terz.',
     wrong: 'Noch nicht richtig. Versuch es noch einmal.',
   },
+  audioTest: {
+    title: 'Audio-Test',
+    intro: 'Für Latenzmessungen (P1.16). Der Ton startet beim Berühren, nicht erst beim Loslassen.',
+    tone: 'Ton a¹',
+    chord: 'C-Dur-Dreiklang',
+    sequence: 'Tonleiter mit Metronom',
+    metronome: 'Metronom 90 BPM',
+    stop: 'Alles stoppen',
+    notStarted: 'Der Klang startet beim ersten Tippen.',
+    sampleRate: 'Abtastrate: {{rate}} Hz',
+    reportedLatency: 'Vom System gemeldete Latenz: {{base}} ms Verarbeitung, {{output}} ms Ausgabe',
+    noReportedLatency: 'Das System meldet keine Latenz; bitte messen (siehe Anleitung).',
+  },
   highlight: {
     correct: 'richtig',
     wrong: 'falsch',
@@ -34,6 +47,7 @@ export const de = {
     language: 'Sprache',
     languageDevice: 'Wie das Gerät',
     licenses: 'Lizenzen',
+    audioTest: 'Audio-Test (Messungen)',
     bravuraLicense:
       'Notenfont Bravura © Steinberg Media Technologies GmbH, SIL Open Font License 1.1',
   },

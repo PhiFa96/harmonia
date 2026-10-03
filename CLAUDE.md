@@ -48,4 +48,5 @@ Harmonia ist eine Musiktheorie-Lern-App für Web, iOS und Android. Aktueller Sta
 - Neue interne Pakete in `tools/check-package-graph.mjs` eintragen (Regeln aus `docs/plan/architektur.md`).
 - Theorie-Engine: eigene Implementierung (ADR 0004). `tonal` nur als Test-Orakel in `*.tonal.test.ts`, nie im Produktionscode.
 - Fast-check-Generatoren für Tests liegen in `packages/theory/src/testing/` (nicht exportiert).
+- **Klang** über `packages/audio` (plattformneutral, Web-Audio-Teilmenge); die App erzeugt den Kontext in `apps/mobile/src/audio` (react-native-audio-api). Timer und andere Browser-APIs nur als Pfeilfunktion weiterreichen (`this`!). Tests mit der Attrappe in `packages/audio/src/testing/`; Plattformfehler zusätzlich im Browser prüfen (ADR 0006).
 - **Expo (SDK 57):** APIs ändern sich je SDK. Neue Pakete mit `npx expo install` (kompatible Versionen), APIs an den installierten Typen prüfen (z. B. `Tabs` aus `expo-router/js-tabs`, nicht mehr aus `expo-router`). `ios/` und `android/` entstehen per Continuous Native Generation und werden nie von Hand bearbeitet.

@@ -218,11 +218,11 @@ flowchart LR
 - **Abhängig von:** P1.03
 - **Umfang:** M
 - **Aufgaben:**
-  - [ ] `react-native-audio-api` in Development Build einbinden; Web über native Web Audio API
-  - [ ] Testseite: Ton bei Tippen, Akkord, Sequenz mit Metronom
+  - [x] `react-native-audio-api` eingebunden (Config-Plugin ohne Hintergrund-Audio); Web über native Web Audio API. Development Build selbst noch offen (Expo-Konto)
+  - [x] Testseite: Ton bei Tippen, Akkord, Sequenz mit Metronom (Profil → Audio-Test)
   - [ ] Latenz messen auf mindestens: einem aktuellen iPhone, einem älteren iPhone, einem teuren und einem günstigen Android-Gerät, Desktop-Browser
   - [ ] Verhalten bei iOS-Stummschalter (F12), Kopfhörer, Bluetooth-Kopfhörer (Latenz notieren)
-  - [ ] ADR 0006 mit Messwerten
+  - [ ] ADR 0006 mit Messwerten (Entwurf steht, Messwerte von Geräten fehlen; [Messanleitung](audio-latenz-messen.md))
 - **Fertig, wenn:** Messwerte dokumentiert; Entscheidung getroffen. Falls Ziel verfehlt: Gegenmaßnahmen im ADR.
 
 ### P1.17 – Audio: Sampler und Wiedergabe
