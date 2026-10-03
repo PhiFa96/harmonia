@@ -190,17 +190,18 @@ export function ScoreView({
 
   return (
     <View style={{ width: scene.width, height: scene.height }}>
-      <Svg
-        width={scene.width}
-        height={scene.height}
-        viewBox={`0 0 ${String(scene.width)} ${String(scene.height)}`}
-        accessibilityElementsHidden
-        importantForAccessibility="no-hide-descendants"
-      >
-        {scene.elements.map((element, index) =>
-          draw(element, index, element.highlight ? colors[element.highlight] : color, fontFamily),
-        )}
-      </Svg>
+      {/* Ausblenden über eine View: Am Svg selbst landen die Props im Web als ungültige DOM-Attribute */}
+      <View aria-hidden>
+        <Svg
+          width={scene.width}
+          height={scene.height}
+          viewBox={`0 0 ${String(scene.width)} ${String(scene.height)}`}
+        >
+          {scene.elements.map((element, index) =>
+            draw(element, index, element.highlight ? colors[element.highlight] : color, fontFamily),
+          )}
+        </Svg>
+      </View>
       {regions.map((region) => {
         const adjustable = region.editable && onAdjustNote ? region.editable : undefined;
         return (

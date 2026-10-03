@@ -172,16 +172,16 @@ describe('Kontrast der Farben (WCAG 2.2, relative Leuchtdichte)', () => {
     expect(contrast('#777777', '#ffffff')).toBeCloseTo(4.48, 2);
   });
 
-  // Hintergründe: Weiß, Hellgrau der App (React Navigation hell: rgb(242, 242, 242)),
-  // Schwarz und Dunkelgrau (React Navigation dunkel: rgb(1, 1, 1) und Karten rgb(18, 18, 18))
+  // Hintergründe des Design-Systems (packages/ui): hell Fläche und Grund, dunkel Grund und Fläche;
+  // dazu Schwarz für fremde Umgebungen
   it.each(Object.entries(DEFAULT_HIGHLIGHT_COLORS))('hell, %s: mindestens 4,5 : 1', (_, color) => {
-    for (const background of ['#ffffff', '#f2f2f2']) {
+    for (const background of ['#ffffff', '#f6f5fb']) {
       expect(contrast(color, background)).toBeGreaterThanOrEqual(4.5);
     }
   });
 
   it.each(Object.entries(DARK_HIGHLIGHT_COLORS))('dunkel, %s: mindestens 4,5 : 1', (_, color) => {
-    for (const background of ['#000000', '#010101', '#121212']) {
+    for (const background of ['#000000', '#0f0e17', '#1a1926']) {
       expect(contrast(color, background)).toBeGreaterThanOrEqual(4.5);
     }
   });

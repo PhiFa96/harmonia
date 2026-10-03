@@ -1,10 +1,10 @@
 import { engineLanguage } from '@harmonia/i18n';
 import { parseScore } from '@harmonia/notation';
 import { ScoreView } from '@harmonia/notation/native';
-import { useTheme } from 'expo-router';
+import { AppText, Card, useUiTheme } from '@harmonia/ui/native';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, StyleSheet, Text } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 
 import { PlaceholderScreen } from '@/components/placeholder-screen';
 import { useLocale } from '@/i18n';
@@ -16,25 +16,28 @@ const LAYOUT = { endBarline: 'final' } as const;
 export default function LearnScreen() {
   const { t } = useTranslation();
   const locale = useLocale();
-  const { colors } = useTheme();
+  const { colors } = useUiTheme();
   const score = useMemo(() => parseScore(EXAMPLE), []);
   const describeOptions = useMemo(() => engineLanguage(locale), [locale]);
   return (
     <PlaceholderScreen title={t('tabs.learn')}>
-      <Text style={{ color: colors.text }}>{t('learn.exampleScale')}</Text>
-      <ScrollView horizontal contentContainerStyle={styles.score}>
-        <ScoreView
-          score={score}
-          staffSpace={9}
-          color={colors.text}
-          layoutOptions={LAYOUT}
-          describeOptions={describeOptions}
-        />
-      </ScrollView>
+      <AppText>{t('learn.exampleScale')}</AppText>
+      <Card style={styles.card}>
+        <ScrollView horizontal contentContainerStyle={styles.score}>
+          <ScoreView
+            score={score}
+            staffSpace={9}
+            color={colors.text}
+            layoutOptions={LAYOUT}
+            describeOptions={describeOptions}
+          />
+        </ScrollView>
+      </Card>
     </PlaceholderScreen>
   );
 }
 
 const styles = StyleSheet.create({
+  card: { maxWidth: '100%' },
   score: { flexGrow: 0 },
 });

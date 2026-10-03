@@ -12,6 +12,9 @@ catalog:
   react-dom: 19.2.3
   react-native: 0.86.3
   react-native-svg: 15.15.4
+  react-native-reanimated: 4.5.1
+  react-native-safe-area-context: ~5.7.0
+  expo-haptics: ~57.0.3
   react-native-web: ~0.21.0
   # Notenfont Bravura (SIL OFL 1.1) mit SMuFL-Metadaten
   '@vexflow-fonts/bravura': 1.0.2
@@ -21,6 +24,9 @@ catalog:
   i18next: ^26.4.2
   react-i18next: ^17.0.15
   globals: ^17.0.0
+  # Kontrast-Orakel im Test des Design-Systems (P1.06)
+  culori: ^4.0.2
+  '@types/culori': ^4.0.1
   prettier: ^3.9.9
   # Nur Test-Orakel (ADR 0004). Exakt gepinnt: 6.5.0 hat eine fehlerhafte Paketierung (main → fehlende Datei)
   tonal: 6.4.3

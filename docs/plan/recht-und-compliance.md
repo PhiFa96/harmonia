@@ -50,7 +50,7 @@
 
 **Urheberrecht und Lizenzen**
 
-- [ ] Liste aller Drittinhalte mit Lizenz (Fonts, Samples, Bibliotheken) und Credits-Screen (z. B. Bravura OFL, Salamander Grand Piano CC BY 3.0). Stand: Hinweise zu Bravura (seit P1.14) und Salamander Grand Piano (Autor, Lizenz mit Link, Art der Bearbeitung; seit P1.17) stehen im Profil.
+- [ ] Liste aller Drittinhalte mit Lizenz (Fonts, Samples, Bibliotheken) und Credits-Screen (z. B. Bravura OFL, Salamander Grand Piano CC BY 3.0). Stand: Hinweise zu Bravura (seit P1.14), Salamander Grand Piano (Autor, Lizenz mit Link, Art der Bearbeitung; seit P1.17), Figtree und der Vorzeichen-Schrift (Teilmenge von Bravura Text, wegen des reservierten Namens „Bravura“ umbenannt; Lizenztext in `apps/mobile/assets/fonts/OFL.txt`; seit P1.06) stehen im Profil.
 - [ ] Nur eigene Texte, Übungen, Notensätze und Aufnahmen; gemeinfreie Werke in eigenem Satz
 - [ ] Musikbeispiele aus geschützten Werken nur mit Lizenz
 

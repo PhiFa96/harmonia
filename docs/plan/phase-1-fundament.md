@@ -98,13 +98,20 @@ flowchart LR
 - **Abhängig von:** P1.03, P0.07
 - **Umfang:** M
 - **Aufgaben:**
-  - [ ] Design-Tokens: Farben (hell/dunkel), Typografie, Abstände, Radien, Schatten
-  - [ ] Komponenten: Button, Card, ProgressBar, FeedbackBanner (richtig/falsch mit Symbol), BottomSheet, Toggle, ListItem
-  - [ ] Barrierefreiheit: Beschriftungen, Mindestgrößen für Touch-Ziele, dynamische Schrift
-  - [ ] Haptik-Hilfsfunktionen (richtig/falsch)
-  - [ ] Galerie-Screen (nur in Entwicklungsbuilds) zum Ansehen aller Komponenten
+  - [x] Design-Tokens: Farben (hell/dunkel), Typografie, Abstände, Radien, Schatten
+  - [x] Komponenten: Button, Card, ProgressBar, FeedbackBanner (richtig/falsch mit Symbol), BottomSheet, Toggle, ListItem
+  - [x] Barrierefreiheit: Beschriftungen, Mindestgrößen für Touch-Ziele, dynamische Schrift
+  - [x] Haptik-Hilfsfunktionen (richtig/falsch)
+  - [x] Galerie-Screen (nur in Entwicklungsbuilds) zum Ansehen aller Komponenten
 - **Fertig, wenn:** Alle Komponenten sehen in hell und dunkel auf allen Plattformen korrekt aus.
 - **Tests:** Komponententests inkl. Barrierefreiheits-Eigenschaften.
+- **Stand:** umgesetzt in `packages/ui` (Tokens, Kontrasttest, Bausteine unter `@harmonia/ui/native`), dazu eigene Symbole, `MusicText` für Vorzeichen im Fließtext und Einstellungen im Profil (Erscheinungsbild, Vibration, Bewegung reduzieren). Im Web (Chromium) hell und dunkel geprüft:
+
+  ![App-Screens hell und dunkel](bilder/design-system-app.png)
+
+  ![Galerie hell und dunkel](bilder/design-system-galerie.png)
+
+  Auf iOS und Android noch nicht gesehen (Development Build, Gerätetests mit P1.03/P1.14).
 
 ### P1.07 – Engine: Tonhöhen, Benennung, Grundsatzentscheidung
 

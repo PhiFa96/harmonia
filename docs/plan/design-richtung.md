@@ -3,7 +3,7 @@
 - **Stand:** 03.10.2026, Entwurf v0
 - **Entschieden von:** Claude. Phillip hat die Design-Richtung am 03.10.2026 vollständig übertragen („Du machst alles. Sehr schön modern und animiert.“). Einwände sind jederzeit möglich und werden dann hier nachgetragen.
 - **Interaktive Fassung:** [Design-Leinwand](https://claude.ai/artifact/EP3RA5PQr2hNtn9dPhwEk6) mit allen Screens und laufenden Animationen (privat, nur für Phillip freigegeben)
-- **Umsetzung:** Tokens und Komponenten in `packages/ui` (P1.06). Ab dann gelten die Werte im Code, dieses Dokument erklärt sie.
+- **Umsetzung:** Tokens und Bausteine in `packages/ui` (P1.06). Es gelten die Werte im Code (`packages/ui/src/tokens.ts`), dieses Dokument erklärt sie. Änderungen nach P0.07 sind unten vermerkt.
 
 ![Übersicht der Design-Richtung](bilder/design-uebersicht.png)
 
@@ -28,7 +28,7 @@ Ein violett-blaues Primär (Marke, Aktionen, „aktiv“), ein warmes Bernstein 
 |---|---|---|---|
 | Grund | `#F6F5FB` | `#0F0E17` | Bildschirmhintergrund |
 | Fläche | `#FFFFFF` | `#1A1926` | Karten, Leisten, Tab-Leiste |
-| Versenkt | `#EDEBF5` | `#13121C` | Spuren (Fortschritt), gesperrte Elemente |
+| Versenkt | `#EDEBF5` | `#252336` | Spuren (Fortschritt), gesperrte Elemente. Dunkel in P1.06 von `#13121C` aufgehellt: Die Spur war im Browser auf dem Grund kaum zu sehen |
 | Linie | `#E1DEEC` | `#2C2A3C` | Trennlinien, Ränder ohne Bedeutung |
 | Linie kräftig | `#8A86A0` | `#77738F` | Ränder, die ein Bedienelement erkennbar machen (Eingabefeld, Schalter aus) |
 | Text | `#1A1830` | `#F3F2FA` | Fließtext, Notentinte |
@@ -54,7 +54,7 @@ Auf Richtig, Falsch und Akzent steht im Hellmodus Weiß (Akzent: dunkler Text), 
 |---|---|---|---|
 | Text auf Grund | 15,9 : 1 | 17,2 : 1 | 4,5 |
 | Text leise auf Grund | 6,3 : 1 | 8,1 : 1 | 4,5 |
-| Text leise auf Versenkt | 5,8 : 1 | 7,8 : 1 | 4,5 |
+| Text leise auf Versenkt | 5,8 : 1 | 6,4 : 1 | 4,5 |
 | Auf Primär / Primär | 6,7 : 1 | 5,9 : 1 | 4,5 |
 | Primär als Text auf Primär weich | 6,4 : 1 | 5,8 : 1 | 4,5 |
 | Richtig auf Fläche | 5,5 : 1 | 9,0 : 1 | 4,5 |
@@ -65,7 +65,7 @@ Auf Richtig, Falsch und Akzent steht im Hellmodus Weiß (Akzent: dunkler Text), 
 | Linie kräftig auf Fläche | 3,5 : 1 | 3,8 : 1 | 3 |
 
 - **Farbfehlsichtigkeit:** Richtig und Falsch mit den Machado-Matrizen von culori simuliert (Protanopie, Deuteranopie, Tritanopie) und den Abstand in OKLab gemessen. Der erste Entwurf mit klassischem Grün und Rot lag bei Deuteranopie bei 0,04 (hell) bzw. 0,03 (dunkel), also kaum unterscheidbar. Mit Blaugrün und Rotorange sind es 0,12 bzw. 0,12, bei den anderen Formen 0,13 bis 0,37. Die Bedeutung hängt trotzdem nie an der Farbe allein (Symbol, Text, Haptik).
-- **Ab P1.06** prüft ein Test in `packages/ui` jedes Paar bei jedem Push. Die vorläufigen Hervorhebungsfarben in `packages/notation` (P1.15) werden dann durch Richtig, Falsch und Primär ersetzt.
+- **Seit P1.06** prüft `packages/ui/src/tokens.test.ts` bei jedem Push alle Paare aus `CONTRAST_PAIRS` (eigene Formel, culori als Gegenprobe) und den Abstand Richtig/Falsch bei Farbfehlsichtigkeit. Die Hervorhebungsfarben im Notenbild sind Richtig, Falsch und Primär; ein Test der App prüft, dass `packages/notation` dieselben Werte nutzt.
 
 ## Schrift
 
@@ -97,7 +97,7 @@ Gründe für Figtree: freundlich-geometrisch und gut lesbar, korrektes großes �
 | Titel 3 | 18 (24) | 700 | Abschnitte |
 | Text | 17 (24) | 400 | Fließtext, Antworten |
 | Klein | 15 (20) | 600 | Zahlen, Hinweise |
-| Fußnote | 13 (18) | 500 | Nebeninfos |
+| Fußnote | 13 (18) | 400 | Nebeninfos |
 | Überzeile | 12 (16) | 700, Großbuchstaben, +0,08 em | „INTERVALLE BILDEN“ |
 
 Alle Texte skalieren mit der Systemschrift. Layouts müssen bei 200 % lesbar bleiben (umbrechen statt abschneiden).
@@ -105,8 +105,10 @@ Alle Texte skalieren mit der Systemschrift. Layouts müssen bei 200 % lesbar ble
 **Musikzeichen:**
 
 - Notenbilder zeichnet die eigene Engine mit **Bravura** (SMuFL, SIL OFL 1.1). Im Übungsbereich mindestens 14 pt je Zwischenraum. Die Notentinte ist die Textfarbe.
-- Kreuz, Be und Auflösungszeichen fehlen in allen neun geprüften Textschriften. Im Fließtext kommen sie deshalb ebenfalls aus Bravura, etwa 1,6-fach vergrößert, damit sie zur Textgröße passen (Komponente in P1.06).
-- Bravura hat einen reservierten Schriftnamen. Eine veränderte Fassung, etwa eine Teilmenge der Zeichen, darf nicht „Bravura“ heißen. Wir binden die Schrift deshalb nur unverändert ein.
+- Kreuz, Be und Auflösungszeichen fehlen in allen neun geprüften Textschriften. Bravura selbst taugt im Fließtext nicht: Es setzt die Zeichen wie im Notensystem mittig auf die Grundlinie, im Browser standen sie dadurch zu tief (geprüft in P1.06).
+- Im Fließtext nutzen wir deshalb **Bravura Text** (Steinberg, SIL OFL 1.1), die SMuFL-Schrift für Text: ♭ ♮ ♯ stehen dort auf der Grundlinie und sind so hoch wie Großbuchstaben. Die volle Schrift hat 3 MB. Wir binden nur eine Teilmenge von 16 KB ein (♭ ♮ ♯ und das Doppelkreuz), erzeugt mit `tools/make-accidental-font.py`.
+- Bravura hat einen reservierten Schriftnamen. Eine veränderte Fassung, etwa eine Teilmenge, darf nicht „Bravura“ heißen. Die Teilmenge heißt deshalb „Harmonia Accidentals“, Copyright und Lizenz bleiben in der Datei, der Lizenztext liegt daneben. Bravura für Notenbilder binden wir unverändert ein.
+- Die Unicode-Doppelzeichen 𝄪 und 𝄫 stehen in Bravura Text tiefgestellt. `MusicText` ersetzt 𝄪 durch das SMuFL-Doppelkreuz (1,3-fach) und 𝄫 durch zwei Be. Der Screenreader liest den Originaltext.
 
 ## Formen, Abstände, Ebenen
 
@@ -114,7 +116,9 @@ Alle Texte skalieren mit der Systemschrift. Layouts müssen bei 200 % lesbar ble
 - **Radien:** 8 Markierungen, 12 Eingaben, 16 Knöpfe und Antworten, 20 Karten, 28 Blätter von unten, rund für Chips und Lernpfad-Knoten.
 - **Ebenen:** Im Hellmodus weiche, leicht violett getönte Schatten. Im Dunkelmodus keine Schatten, höhere Ebenen sind heller.
 - **Touch-Ziele:** mindestens 48 × 48 pt, Hauptknöpfe 56 pt hoch und so breit wie der Inhalt.
-- **Symbole:** Linien-Symbole mit 2 pt Strich und runden Enden, gefüllt für den aktiven Tab. Die Symbole der Entwürfe sind eigene Zeichnungen. Für die App wählen wir in P1.06 eine frei lizenzierte Symbolbibliothek mit Linien- und Füllvariante.
+- **Symbole:** Linien-Symbole mit 2 pt Strich und runden Enden, gefüllt für den aktiven Tab. Eigener kleiner Satz in `packages/ui` (`Icon`), dieselben Zeichnungen wie in den Entwürfen. Bibliotheken in P1.06 geprüft und verworfen:
+  - Phosphor (MIT) hat Musik-Symbole und Füllvarianten. Einzelimporte liefern aber TypeScript-Quelltext, der unsere strengen Typregeln verletzt (`exactOptionalPropertyTypes`). Der Gesamtimport zieht alle rund 1.500 Symbole ins Bundle, weil Metro hier nicht tree-shaked.
+  - Lucide (ISC) hat nur Linien und dasselbe Problem mit dem Gesamtimport.
 
 ## Bewegung
 
@@ -148,7 +152,7 @@ Die Leinwand zeigt alle Animationen in Schleife, mit Schalter für die reduziert
 | Wiedergabe | Die klingende Note leuchtet, ein Abspielstrich läuft mit. Geplant auf der Audio-Uhr, nicht per Timer ([ADR 0006](../decisions/0006-audio-grundlage.md)) | nur die Farbe |
 | Nächste Aufgabe | Alte Aufgabe gleitet 28 pt hinaus, neue herein | Überblenden in 150 ms |
 
-**Bewegung reduzieren:** folgt der Systemeinstellung (Reanimated `useReducedMotion`, `ReduceMotion.System`) und lässt sich in der App zusätzlich einschalten. Dann gibt es keine Bewegung über größere Strecken, kein Wackeln, keine Schleifen und kein Konfetti, nur Überblenden bis 150 ms und Farbwechsel.
+**Bewegung reduzieren:** folgt der Systemeinstellung (`AccessibilityInfo` von React Native, reagiert auf Änderungen während die App läuft; im Web `prefers-reduced-motion`) und lässt sich in der App zusätzlich einschalten. Dann gibt es keine Bewegung über größere Strecken, kein Wackeln, keine Schleifen und kein Konfetti, nur Überblenden bis 150 ms und Farbwechsel.
 
 **Haptik** (`expo-haptics`, in den Einstellungen abschaltbar). Im Web vibriert expo-haptics 57 über den Browser, wo das Gerät es kann (Android-Browser, auf iOS Safari über einen Umweg), am Desktop gar nicht:
 
@@ -195,5 +199,4 @@ Ein klickbarer Prototyp der Lektion entfällt. Das Übungs-Framework (P1.19) bau
 ## Offen
 
 - Name und Marke (P0.03, F16): Das Logo ist ein Entwurf für den Arbeitstitel.
-- Symbolbibliothek für die App (P1.06).
 - Prüfung auf echten Geräten: Lesbarkeit der Schrift, Haptik, Bewegung (mit den Gerätetests aus P1.06).
