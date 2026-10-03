@@ -108,8 +108,8 @@ flowchart LR
 
 ## Zustand in der App
 
-- **Serverdaten:** TanStack Query (Caching, Wiederholung, Offline-Pausierung). Kandidat, in P1.03 bestätigen.
-- **Lokaler Zustand:** kleiner Store (z. B. Zustand) für Sitzungszustand von Lektionen.
+- **Serverdaten:** TanStack Query (Caching, Wiederholung, Offline-Pausierung). In P1.03 bestätigt: `QueryClientProvider` im Wurzel-Layout.
+- **Lokaler Zustand:** Zustand für Einstellungen und Sitzungszustand von Lektionen. In P1.03 bestätigt (erster Store: `src/state/settings.ts`, Sprache).
 - **Persistenz offline:** SQLite über `expo-sqlite` für Versuche, Fortschritt und Warteschlange der Synchronisation; schneller Key-Value-Speicher für Einstellungen.
 - **Synchronisation:** Jede Aktion (z. B. abgeschlossene Aufgabe) bekommt eine Client-ID (UUID) und wird idempotent hochgeladen. Doppelte Uploads haben keine Wirkung. Konflikte: Der Server führt zusammen (Summen, Maxima). Für Wettbewerbswerte rechnet nur der Server.
 

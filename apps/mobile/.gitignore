@@ -1,0 +1,8 @@
+# Von Expo erzeugt
+.expo/
+expo-env.d.ts
+dist/
+web-build/
+# Native Ordner entstehen per Continuous Native Generation (nie von Hand bearbeiten)
+ios/
+android/
