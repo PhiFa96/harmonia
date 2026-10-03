@@ -164,6 +164,18 @@ Erweiterungen in Phase 3: Klaviersystem (zwei Systeme mit Klammer), mehrere Stim
 
 - **`react-native-audio-api`** (Software Mansion): setzt die Web Audio API für iOS und Android um; im Browser nutzen wir die native Web Audio API. Gleiche Programmierschnittstelle auf allen Plattformen.
 - Entscheidung nach dem Spike in **P1.16** als ADR 0006 festhalten (inkl. gemessener Latenzen). ADR 0005 ist inzwischen für die fachliche Prüfung vergeben.
+- **Stand (P1.16):** [ADR 0006](../decisions/0006-audio-grundlage.md) als Entwurf; die Messwerte von Geräten fehlen noch.
+  - **Paket `@harmonia/audio`:** plattformneutral gegen eine kleine Teilmenge der Web Audio API.
+    - Töne, Intervalle, Akkorde und Sequenzen werden auf der Audio-Uhr geplant.
+    - Das Metronom plant vorausschauend (Timer alle 25 ms, 100 ms voraus). Die Zeit wird aus der Schlagnummer berechnet, nicht aufaddiert. Nach langer Pause (App im Hintergrund) werden verpasste Schläge ausgelassen statt nachgeholt.
+    - Getestet mit einer Attrappe mit eigener Uhr, auch mit schwankendem Timer.
+  - **App:** `src/audio` erzeugt den Kontext (react-native-audio-api, im Web die Web Audio API) und setzt die iOS-Audio-Session.
+  - **Testseite:** Profil → „Audio-Test (Messungen)“, mit Ton beim Antippen, Akkord, Tonleiter mit Metronom und Metronom allein.
+  - **Geprüft im Browser (Chromium):**
+    - Frequenzen gleichstufig korrekt (a¹ = 440 Hz, c¹ ≈ 261,63 Hz)
+    - Tonleiter und Metronom taktgenau, bei 90 BPM exakt 0,666667 s, Betonung auf Schlag 1
+    - Vom Browser gemeldete Latenz: 10 ms Verarbeitung und 32 ms Ausgabe. Das ist keine Messung.
+  - **Messanleitung für die Geräte:** [audio-latenz-messen.md](audio-latenz-messen.md).
 
 ### Klangerzeugung
 
@@ -176,7 +188,7 @@ Erweiterungen in Phase 3: Klaviersystem (zwei Systeme mit Klammer), mehrere Stim
 ### Plattformdetails
 
 - **Web:** Der Audio-Kontext startet erst nach einer Nutzeraktion (Autoplay-Regeln der Browser). Erster Bildschirm mit „Tippen zum Starten“.
-- **iOS:** Verhalten beim Stummschalter festlegen (offene Frage). Audio-Session für Wiedergabe und später Aufnahme konfigurieren.
+- **iOS:** Ton klingt auch bei Stummschalter (F12); Hörübungen lassen sich mit „Gerade nicht hören“ für die laufende Lektion überspringen. Audio-Session `playback` mit `mixWithOthers`, später für Aufnahme erweitern.
 - **Android:** Latenz stark geräteabhängig, deshalb Messung auf mehreren Geräten (günstig bis teuer).
 
 ### Latenzziele (in P1.16 messen)

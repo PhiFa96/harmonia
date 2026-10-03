@@ -218,11 +218,11 @@ flowchart LR
 - **Abhängig von:** P1.03
 - **Umfang:** M
 - **Aufgaben:**
-  - [ ] `react-native-audio-api` in Development Build einbinden; Web über native Web Audio API
-  - [ ] Testseite: Ton bei Tippen, Akkord, Sequenz mit Metronom
+  - [x] `react-native-audio-api` eingebunden (Config-Plugin ohne Hintergrund-Audio); Web über native Web Audio API. Development Build selbst noch offen (Expo-Konto)
+  - [x] Testseite: Ton bei Tippen, Akkord, Sequenz mit Metronom (Profil → Audio-Test)
   - [ ] Latenz messen auf mindestens: einem aktuellen iPhone, einem älteren iPhone, einem teuren und einem günstigen Android-Gerät, Desktop-Browser
-  - [ ] Verhalten bei iOS-Stummschalter (F12), Kopfhörer, Bluetooth-Kopfhörer (Latenz notieren)
-  - [ ] ADR 0006 mit Messwerten
+  - [ ] Verhalten bei iOS-Stummschalter (F12 entschieden: Ton klingt; prüfen auf Gerät), Kopfhörer, Bluetooth-Kopfhörer (Latenz notieren)
+  - [ ] ADR 0006 mit Messwerten (Entwurf steht, Messwerte von Geräten fehlen; [Messanleitung](audio-latenz-messen.md))
 - **Fertig, wenn:** Messwerte dokumentiert; Entscheidung getroffen. Falls Ziel verfehlt: Gegenmaßnahmen im ADR.
 
 ### P1.17 – Audio: Sampler und Wiedergabe
@@ -258,6 +258,7 @@ flowchart LR
   - [ ] Aufgaben-Screen: Frage, Eingabebereich, Prüfen, Feedback, Weiter
   - [ ] Typen: `NOTE_NAME`, `INTERVAL_IDENTIFY_VISUAL`, `INTERVAL_IDENTIFY_AURAL`
   - [ ] Feste Hinweise und Erklärtexte aus der Engine (DE/EN)
+  - [ ] „Gerade nicht hören“ in Hörübungen: überspringt alle Hörübungen der laufenden Lektion, mit Hinweis auf Kopfhörer (F12, ADR 0006)
 - **Fertig, wenn:** Jeder Typ erzeugt sinnvolle Aufgaben über seinen Parameterraum und bewertet korrekt.
 - **Tests:** Generatoren mit vielen Seeds: keine ungültigen Aufgaben; Bewertung gegen Engine.
 

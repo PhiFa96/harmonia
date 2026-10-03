@@ -17,6 +17,7 @@
 | 02.10.2026 | Deutsche Intervall-Kurzform „gr. 3, kl. 3, r. 5, üb. 4, verm. 5“; Tonnamen-Tabelle und Intervall-Konventionen (keine verminderte Prime, Richtung folgt dem Stammton) fachlich bestätigt | [theorie-engine.md](theorie-engine.md) |
 | 02.10.2026 | Chromatische Tonleiter aufwärts mit Kreuzen, abwärts mit b; Blues- und Ganztonleiter nach Recherche eingeführt (P1.09) | [theorie-engine.md](theorie-engine.md) |
 | 02.10.2026 | Fachliche Prüfung und Fachkonventionen übernimmt Claude; Phillip wird dazu nicht mehr gefragt | [ADR 0005](../decisions/0005-fachliche-pruefung-durch-claude.md) |
+| 03.10.2026 | F12: Ton klingt auch bei iOS-Stummschalter. Wer gerade nicht hören kann, überspringt mit „Gerade nicht hören“ alle Hörübungen der laufenden Lektion, mit Hinweis auf Kopfhörer (wie bei Duolingo) | [ADR 0006](../decisions/0006-audio-grundlage.md), P1.19 |
 | 03.10.2026 | Englisch-Standard nach Region: UK-Begriffe in GB, IE, AU, NZ, ZA, IN; sonst US | [i18n-und-glossar.md](i18n-und-glossar.md) |
 | 02.10.2026 | F04 für Dreiklänge: C, Cm, C°, C+, Umkehrung als C/E; Tonbuchstaben international, deutsch (H, B) wählbar | [theorie-engine.md](theorie-engine.md) |
 
@@ -33,7 +34,6 @@
 | F09 | Werbung im Gratis-Bereich | ja / nein | Phillip | P2.20 |
 | F10 | Gastmodus ohne Konto | ja (Fortschritt lokal, später verknüpfen) / nein | gemeinsam | P2.01 |
 | F11 | Bestehensschwelle einer Lektion | 80 % / anderer Wert | gemeinsam | P2.12 |
-| F12 | Verhalten beim iOS-Stummschalter | Ton trotzdem abspielen / stumm bleiben mit Hinweis | gemeinsam | P1.16 |
 | F13 | Wer trägt Stripe-Gebühren im Marktplatz | Plattform / Coach | Phillip | P4.04 |
 | F14 | Coaching für Minderjährige | ab 18 / mit Eltern-Einwilligung | Phillip (nach Rechtsberatung) | P4.01 |
 | F15 | Rechtsform | Einzelunternehmen / UG / GmbH | Phillip (nach Beratung) | P0.02 |

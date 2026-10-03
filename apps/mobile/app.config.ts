@@ -35,7 +35,20 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     ios: { bundleIdentifier: id, supportsTablet: true },
     android: { package: id },
     web: { output: 'single', bundler: 'metro' },
-    plugins: ['expo-router', 'expo-localization'],
+    plugins: [
+      'expo-router',
+      'expo-localization',
+      [
+        'react-native-audio-api',
+        {
+          // Klang nur im Vordergrund: kein Hintergrund-Audio (iOS) und kein Vordergrunddienst (Android).
+          // Beides bräuchte eine Begründung im App-Review und eine Benachrichtigung auf Android.
+          iosBackgroundMode: false,
+          androidForegroundService: false,
+          androidPermissions: [],
+        },
+      ],
+    ],
     extra: { variant },
   };
 };

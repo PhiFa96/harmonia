@@ -12,6 +12,7 @@ Dieser Plan beschreibt, wie wir Harmonia Schritt für Schritt bauen: vom leeren 
 | [Theorie-Engine](theorie-engine.md) | Fachlicher Kern: Tonhöhen, Intervalle, Akkorde, Harmonik, Stimmführung |
 | [Notation, Audio, Eingabe](notation-audio-eingabe.md) | Notendarstellung, Klang, Klaviatur, Mikrofon, MIDI |
 | [Übersetzungen und Glossar](i18n-und-glossar.md) | Texte DE/EN (US/UK), Fachglossar, Prüfungen, Sprachwahl |
+| [Audio-Latenz messen](audio-latenz-messen.md) | Messanleitung und Ergebnisvorlage für P1.16 |
 | [Inhalte und Didaktik](inhalte-und-didaktik.md) | Kursstruktur, Übungstypen, Lernlogik, Inhaltsproduktion |
 | [Datenmodell](datenmodell.md) | Tabellen, Zugriffsregeln, Synchronisation |
 | [KI-Tutor](ki-tutor.md) | Aufbau, Werkzeuge, Wissensbasis, Kosten, Qualität |

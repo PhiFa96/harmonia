@@ -1,6 +1,6 @@
 import type { AppLocale } from '@harmonia/i18n';
 import { APP_LOCALES, LOCALE_NAMES } from '@harmonia/i18n';
-import { useTheme } from 'expo-router';
+import { Link, useTheme } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
@@ -44,6 +44,9 @@ export default function ProfileScreen() {
         {t('profile.licenses')}
       </Text>
       <Text style={[styles.license, { color: colors.text }]}>{t('profile.bravuraLicense')}</Text>
+      <Link href="/audio-test" style={[styles.link, { color: colors.primary }]}>
+        {t('profile.audioTest')}
+      </Link>
     </PlaceholderScreen>
   );
 }
@@ -60,4 +63,5 @@ const styles = StyleSheet.create({
   selected: { borderWidth: 2 },
   licenses: { marginTop: 24, fontWeight: '600' },
   license: { textAlign: 'center' },
+  link: { marginTop: 24, minHeight: 44, textDecorationLine: 'underline' },
 });

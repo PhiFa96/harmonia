@@ -26,6 +26,19 @@ export const enUS = {
     correct: 'Correct, that is the major third.',
     wrong: 'Not quite. Try again.',
   },
+  audioTest: {
+    title: 'Audio test',
+    intro: 'For latency measurements (P1.16). The tone starts on touch, not on release.',
+    tone: 'Tone A4',
+    chord: 'C major triad',
+    sequence: 'Scale with metronome',
+    metronome: 'Metronome 90 BPM',
+    stop: 'Stop all',
+    notStarted: 'Sound starts with the first tap.',
+    sampleRate: 'Sample rate: {{rate}} Hz',
+    reportedLatency: 'Latency reported by the system: {{base}} ms processing, {{output}} ms output',
+    noReportedLatency: 'The system does not report latency; please measure (see guide).',
+  },
   highlight: {
     correct: 'correct',
     wrong: 'wrong',
@@ -35,6 +48,7 @@ export const enUS = {
     language: 'Language',
     languageDevice: 'Same as device',
     licenses: 'Licenses',
+    audioTest: 'Audio test (measurements)',
     bravuraLicense:
       'Music font Bravura © Steinberg Media Technologies GmbH, SIL Open Font License 1.1',
   },
