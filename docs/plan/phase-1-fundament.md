@@ -212,7 +212,7 @@ flowchart LR
 
 ### P1.16 – Audio-Spike und Latenzmessung
 
-- **Ziel:** Entscheidung über die Audio-Grundlage auf Basis echter Messwerte (ADR 0005).
+- **Ziel:** Entscheidung über die Audio-Grundlage auf Basis echter Messwerte (ADR 0006).
 - **Abhängig von:** P1.03
 - **Umfang:** M
 - **Aufgaben:**
@@ -220,7 +220,7 @@ flowchart LR
   - [ ] Testseite: Ton bei Tippen, Akkord, Sequenz mit Metronom
   - [ ] Latenz messen auf mindestens: einem aktuellen iPhone, einem älteren iPhone, einem teuren und einem günstigen Android-Gerät, Desktop-Browser
   - [ ] Verhalten bei iOS-Stummschalter (F12), Kopfhörer, Bluetooth-Kopfhörer (Latenz notieren)
-  - [ ] ADR 0005 mit Messwerten
+  - [ ] ADR 0006 mit Messwerten
 - **Fertig, wenn:** Messwerte dokumentiert; Entscheidung getroffen. Falls Ziel verfehlt: Gegenmaßnahmen im ADR.
 
 ### P1.17 – Audio: Sampler und Wiedergabe
@@ -277,5 +277,5 @@ flowchart LR
 **Phase 1 abgeschlossen, wenn:**
 
 - [ ] P1.01–P1.20 fertig
-- [ ] ADR 0004 (Engine) und ADR 0005 (Audio) geschrieben
+- [ ] ADR 0004 (Engine) und ADR 0006 (Audio) geschrieben
 - [ ] Keine offenen Blocker für Phase 2

@@ -14,6 +14,28 @@ Interaktive Notendarstellung, die auf iOS, Android und Web gleich aussieht und s
 2. **Layout** – wo alles steht: berechnet Positionen als reine Daten (Koordinaten in Notenlinien-Abständen). Gut testbar, plattformunabhängig.
 3. **Renderer** – wie es aussieht: zeichnet das Layout mit `react-native-svg`. Die Web-Unterstützung in P1.14 prüfen.
 
+### Score-Modell und Kurzschreibweise (umgesetzt in P1.12)
+
+Paket `@harmonia/notation`, abhängig nur von `theory`.
+
+- **Aufbau:** Partitur → Systeme → Takte → Stimmen → Ereignisse (Note, Akkord, Pause).
+  - Ein System hat Schlüssel, Vorzeichnung und Taktart.
+  - Ein Takt kann sie ab dem zweiten Takt wechseln. Die Angaben des ersten Takts gehören zum System.
+  - Tonhöhen (`Pitch`), Dauern (`Duration`), Taktarten und Tonarten kommen aus der Theorie-Engine.
+- **Phase 1** nutzt ein System mit einer Stimme. Mehrere Systeme und Stimmen sowie Alt- und Tenorschlüssel sind im Modell schon vorhanden und werden ab Phase 3 dargestellt.
+- **Vorzeichnung:** Zahl der Vorzeichen, optional mit der gemeinten Tonart (für Analyse und Wiedergabe).
+- **Haltebogen:** Er ist eine Eigenschaft eines Tons und führt zum nächsten Ereignis derselben Stimme, auch über den Taktstrich. Das Ziel muss dieselbe Tonhöhe in derselben Schreibweise enthalten (Cis → Des ist kein Haltebogen). `ties()` liefert alle Bögen, `validateScore()` meldet Bögen ohne Ziel sowie zu kurze und zu volle Takte. Ein zu kurzer erster Takt gilt standardmäßig als Auftakt.
+- **Kurzschreibweise** für Tests und Inhalte, z. B. `treble | key:G | 3/4 | G4/4 B4/4 D5/4 | (G4 B4 D5)/2.`:
+  - Abschnitte trennt `|`. Ein Abschnitt enthält entweder Angaben oder einen Takt.
+  - Schlüssel: `treble`, `bass`, `alto`, `tenor`
+  - Taktart: `4/4`, `6/8`, `3+2+2/8`
+  - Vorzeichnung: `key:Eb` (Es-Dur), `key:c` (c-Moll, kleiner Grundton = Moll), `key:3b`, `key:2#`, `key:0`
+  - Note: Tonhöhe in wissenschaftlicher Notation plus Dauer (`C4/4`, `F#5/8.`, `Bb3/2..`). Dauern: `1`, `2`, `4` … `64` oder `breve`.
+  - Pause `r/4`, Akkord `(C4 E4 G4)/2`, Haltebogen `~` hinter dem Ton (`C4/2~`, `(C4~ E4)/2`) oder hinter dem Akkord für alle Töne
+  - Stimmen trennt `&`, Systeme stehen in eigenen Zeilen.
+  - N-tolen folgen mit ihrer Darstellung in Phase 3.
+  - Fehler nennen Abschnitt und Grund. Schreiben ergibt eine kanonische Form; Lesen und Schreiben sind als Rundreise getestet.
+
 ### Notenfont
 
 - **Bravura** (SMuFL-Referenzfont, SIL Open Font License 1.1).
@@ -54,7 +76,7 @@ Erweiterungen in Phase 3: Klaviersystem (zwei Systeme mit Klammer), mehrere Stim
 ### Grundlage
 
 - **`react-native-audio-api`** (Software Mansion): setzt die Web Audio API für iOS und Android um; im Browser nutzen wir die native Web Audio API. Gleiche Programmierschnittstelle auf allen Plattformen.
-- Entscheidung nach dem Spike in **P1.16** als ADR 0005 festhalten (inkl. gemessener Latenzen).
+- Entscheidung nach dem Spike in **P1.16** als ADR 0006 festhalten (inkl. gemessener Latenzen). ADR 0005 ist inzwischen für die fachliche Prüfung vergeben.
 
 ### Klangerzeugung
 
@@ -73,7 +95,7 @@ Erweiterungen in Phase 3: Klaviersystem (zwei Systeme mit Klammer), mehrere Stim
 ### Latenzziele (in P1.16 messen)
 
 - Tippen bis Klang: Ziel unter 50 ms auf Referenzgeräten
-- Messung: Aufnahme mit externem Mikrofon (Tipp-Geräusch und Ausgabe) oder Hochgeschwindigkeitsvideo; Ergebnisse je Gerät in ADR 0005
+- Messung: Aufnahme mit externem Mikrofon (Tipp-Geräusch und Ausgabe) oder Hochgeschwindigkeitsvideo; Ergebnisse je Gerät in ADR 0006
 
 ## Eingabe
 
