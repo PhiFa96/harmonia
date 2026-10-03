@@ -1,60 +1,44 @@
-// Vorläufige Texte DE/EN für das Grundgerüst. P1.05 ersetzt das durch packages/i18n (i18next, typsichere Schlüssel).
+// Übersetzungen in der App: i18next-Instanz aus @harmonia/i18n mit React-Anbindung.
+// Die Sprache folgt der Einstellung im Profil, sonst dem Gerät; ein Wechsel wirkt sofort.
 
+// Hermes (iOS/Android) hat kein Intl.PluralRules; i18next braucht es für Pluralformen.
+// Das Polyfill greift nur, wo es fehlt oder unvollständig ist (in aktuellen Browsern und Node nicht).
+import 'intl-pluralrules';
+
+import type { AppLocale } from '@harmonia/i18n';
+import { createI18n, resolveLocale } from '@harmonia/i18n';
 import { getLocales } from 'expo-localization';
+import { initReactI18next } from 'react-i18next';
 
 import { useSettings } from '@/state/settings';
 
-export type Language = 'de' | 'en';
-
-export interface Strings {
-  readonly tabs: { readonly learn: string; readonly practice: string; readonly profile: string };
-  readonly placeholder: string;
-  readonly exampleScale: string;
-  readonly licensesTitle: string;
-  readonly bravuraLicense: string;
-  readonly languageLabel: string;
-  readonly languageOptions: Readonly<Record<Language | 'device', string>>;
+/** Sprache aus den bevorzugten Sprachen des Geräts. */
+export function deviceLocale(): AppLocale {
+  return resolveLocale(getLocales());
 }
 
-const STRINGS: Readonly<Record<Language, Strings>> = {
-  de: {
-    tabs: { learn: 'Lernen', practice: 'Üben', profile: 'Profil' },
-    placeholder: 'Hier entsteht gerade etwas.',
-    exampleScale: 'Beispiel: C-Dur-Tonleiter',
-    licensesTitle: 'Lizenzen',
-    bravuraLicense:
-      'Notenfont Bravura © Steinberg Media Technologies GmbH, SIL Open Font License 1.1',
-    languageLabel: 'Sprache',
-    languageOptions: { device: 'Wie das Gerät', de: 'Deutsch', en: 'English' },
-  },
-  en: {
-    tabs: { learn: 'Learn', practice: 'Practice', profile: 'Profile' },
-    placeholder: 'Something is being built here.',
-    exampleScale: 'Example: C major scale',
-    licensesTitle: 'Licences',
-    bravuraLicense:
-      'Music font Bravura © Steinberg Media Technologies GmbH, SIL Open Font License 1.1',
-    languageLabel: 'Language',
-    languageOptions: { device: 'Same as device', de: 'Deutsch', en: 'English' },
-  },
-};
-
-/** Gerätesprache: Deutsch, sonst Englisch (getLocales liefert immer mindestens einen Eintrag). */
-export function deviceLanguage(): Language {
-  return getLocales()[0].languageCode === 'de' ? 'de' : 'en';
+function effectiveLocale(choice: AppLocale | null): AppLocale {
+  return choice ?? deviceLocale();
 }
 
-export function stringsFor(language: Language): Strings {
-  return STRINGS[language];
-}
+export const i18n = createI18n(effectiveLocale(useSettings.getState().locale), [initReactI18next]);
 
-/** Wirksame Sprache: Einstellung oder Gerätesprache. */
-export function useLanguage(): Language {
-  const language = useSettings((state) => state.language);
-  return language ?? deviceLanguage();
+// Web: Sprache der Seite für Screenreader und Silbentrennung (WCAG 3.1.1)
+function setDocumentLanguage(locale: string): void {
+  if (typeof document !== 'undefined') {
+    document.documentElement.lang = locale;
+  }
 }
+setDocumentLanguage(i18n.language);
+i18n.on('languageChanged', setDocumentLanguage);
 
-/** Texte in der gewählten Sprache (Einstellung oder Gerät). */
-export function useStrings(): Strings {
-  return stringsFor(useLanguage());
+useSettings.subscribe((state, previous) => {
+  if (state.locale !== previous.locale) {
+    void i18n.changeLanguage(effectiveLocale(state.locale));
+  }
+});
+
+/** Wirksame Sprache: Einstellung oder Gerät. */
+export function useLocale(): AppLocale {
+  return effectiveLocale(useSettings((state) => state.locale));
 }

@@ -12,6 +12,7 @@
     "format:check": "prettier --check .",
     "typecheck": "pnpm -r --if-present typecheck && tsc -p tools --noEmit",
     "test": "pnpm -r --if-present test",
+    "check:i18n": "node tools/check-translations.ts",
     "check:deno": "npx -y deno@2.9.6 check tools/deno-smoke.ts && npx -y deno@2.9.6 run tools/deno-smoke.ts"
   },
   "devDependencies": {

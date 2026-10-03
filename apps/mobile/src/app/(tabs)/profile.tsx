@@ -1,30 +1,31 @@
+import type { AppLocale } from '@harmonia/i18n';
+import { APP_LOCALES, LOCALE_NAMES } from '@harmonia/i18n';
 import { useTheme } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { PlaceholderScreen } from '@/components/placeholder-screen';
-import type { Language } from '@/i18n';
-import { useStrings } from '@/i18n';
 import { useSettings } from '@/state/settings';
 
-const OPTIONS: readonly (Language | 'device')[] = ['device', 'de', 'en'];
+const OPTIONS: readonly (AppLocale | 'device')[] = ['device', ...APP_LOCALES];
 
 export default function ProfileScreen() {
-  const t = useStrings();
-  const language = useSettings((state) => state.language);
-  const setLanguage = useSettings((state) => state.setLanguage);
+  const { t } = useTranslation();
+  const locale = useSettings((state) => state.locale);
+  const setLocale = useSettings((state) => state.setLocale);
   const { colors } = useTheme();
   return (
-    <PlaceholderScreen title={t.tabs.profile}>
-      <View role="radiogroup" aria-label={t.languageLabel} style={styles.options}>
+    <PlaceholderScreen title={t('tabs.profile')}>
+      <View role="radiogroup" aria-label={t('profile.language')} style={styles.options}>
         {OPTIONS.map((option) => {
-          const selected = (language ?? 'device') === option;
+          const selected = (locale ?? 'device') === option;
           return (
             <Pressable
               key={option}
               role="radio"
               aria-checked={selected}
               onPress={() => {
-                setLanguage(option === 'device' ? null : option);
+                setLocale(option === 'device' ? null : option);
               }}
               style={[
                 styles.option,
@@ -32,21 +33,23 @@ export default function ProfileScreen() {
                 selected && [styles.selected, { borderColor: colors.primary }],
               ]}
             >
-              <Text style={{ color: colors.text }}>{t.languageOptions[option]}</Text>
+              <Text style={{ color: colors.text }}>
+                {option === 'device' ? t('profile.languageDevice') : LOCALE_NAMES[option]}
+              </Text>
             </Pressable>
           );
         })}
       </View>
       <Text role="heading" style={[styles.licenses, { color: colors.text }]}>
-        {t.licensesTitle}
+        {t('profile.licenses')}
       </Text>
-      <Text style={[styles.license, { color: colors.text }]}>{t.bravuraLicense}</Text>
+      <Text style={[styles.license, { color: colors.text }]}>{t('profile.bravuraLicense')}</Text>
     </PlaceholderScreen>
   );
 }
 
 const styles = StyleSheet.create({
-  options: { flexDirection: 'row', gap: 8 },
+  options: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 8 },
   option: {
     minHeight: 44,
     justifyContent: 'center',

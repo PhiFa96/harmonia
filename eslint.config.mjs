@@ -3,6 +3,8 @@ import { defineConfig, globalIgnores } from 'eslint/config';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
+import harmonia from './packages/i18n/eslint/no-hardcoded-text.js';
+
 export default defineConfig(
   globalIgnores(['**/node_modules/', '**/dist/', '**/coverage/', '**/.expo/']),
   js.configs.recommended,
@@ -17,6 +19,15 @@ export default defineConfig(
     },
     rules: {
       '@typescript-eslint/consistent-type-imports': 'error',
+    },
+  },
+  {
+    // Texte nur über packages/i18n (ADR 0003); Tests dürfen feste Texte prüfen.
+    files: ['**/*.tsx'],
+    ignores: ['**/__tests__/**', '**/*.test.tsx'],
+    plugins: { harmonia },
+    rules: {
+      'harmonia/no-hardcoded-text': 'error',
     },
   },
   {

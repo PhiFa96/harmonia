@@ -1,0 +1,9 @@
+{
+  "extends": "@harmonia/config/tsconfig.base.json",
+  "compilerOptions": {
+    // Intl.PluralRules, NumberFormat und DateTimeFormat; ES2023 enthält sie bereits, DOM nicht nötig.
+    "allowJs": true,
+    "checkJs": true
+  },
+  "include": ["src", "eslint"]
+}

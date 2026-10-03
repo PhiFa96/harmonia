@@ -4,7 +4,7 @@ Hinweise für Claude Code in diesem Repository.
 
 ## Projekt
 
-Harmonia ist eine Musiktheorie-Lern-App für Web, iOS und Android. Aktueller Stand: Konzeptphase, noch kein App-Code. Konzept und Entscheidungen liegen in `docs/` (Überblick in der README).
+Harmonia ist eine Musiktheorie-Lern-App für Web, iOS und Android. Aktueller Stand: Phase 1 (Fundament): Theorie-Engine, Notation, App-Grundgerüst, Übersetzungen. Konzept und Entscheidungen liegen in `docs/` (Überblick in der README).
 
 - **Tech-Stack:** Expo (React Native, TypeScript) + Supabase – siehe `docs/decisions/0001-plattform-und-tech-stack.md`
 - **Grundsatz KI:** Eine getestete Musiktheorie-Engine bewertet, die KI erklärt – siehe `docs/decisions/0002-ki-tutor-und-fachliche-korrektheit.md`
@@ -13,7 +13,8 @@ Harmonia ist eine Musiktheorie-Lern-App für Web, iOS und Android. Aktueller Sta
 ## Sprache
 
 - Gespräche und Dokumentation: Deutsch
-- UI-Texte und Lerninhalte: Deutsch **und** Englisch, gleichberechtigt (ADR 0003) – nie hartkodieren, immer über `packages/i18n`
+- UI-Texte und Lerninhalte: Deutsch **und** Englisch, gleichberechtigt (ADR 0003) – nie hartkodieren, immer über `packages/i18n` (`t('…')`; ESLint-Regel `harmonia/no-hardcoded-text`)
+- Neue Texte zuerst in `packages/i18n/src/messages/de.ts`, dann `en-us.ts`; `en-gb.ts` nur für britische Schreibweise. Fachbegriffe nicht in Texte schreiben, sondern aus dem Glossar einsetzen (`$t(glossary:measure)`), damit US/UK stimmt. Details: `docs/plan/i18n-und-glossar.md`
 - Code und Bezeichner: Englisch
 
 ## Fachliche Konventionen (Musiktheorie)
@@ -36,6 +37,7 @@ Harmonia ist eine Musiktheorie-Lern-App für Web, iOS und Android. Aktueller Sta
 - `pnpm test` – Vitest in allen Paketen; einzeln: `pnpm --filter @harmonia/theory test`
 - `pnpm format` / `pnpm format:check` – Prettier (Markdown ist ausgenommen)
 - `pnpm check:deno` – Theorie-Engine unter Deno prüfen und ausführen (`tools/deno-smoke.ts`)
+- `pnpm check:i18n` – Übersetzungen prüfen: gleiche Schlüssel DE/EN, keine leeren Texte, Pluralformen, Platzhalter, Glossar-Verweise
 - App: `pnpm --filter @harmonia/mobile web` (Browser), `… start` (Development Build), `… build:web` (Web-Bundle)
 - CI: `.github/workflows/ci.yml` (Jobs „Lint, Typen, Tests“, „Web-Build der App“ und „Deno-Kompatibilität“) muss vor dem Merge grün sein
 
