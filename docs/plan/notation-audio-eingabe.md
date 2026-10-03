@@ -81,7 +81,7 @@ Regeln (Phase 1):
 - **Zoom** über `staffSpace` (Pixel pro Notenlinienabstand), Farbe über `color`. Die App übergibt die Textfarbe des Themes; Hell- und Dunkelmodus folgen dem System.
 - **Screenreader:**
   - Das SVG ist ausgeblendet. Über jeder Note liegt eine unsichtbare Fläche mit eigenem Text in der App-Sprache, z. B. „Viertelnote, eingestrichenes c“, „Halbe Note, Akkord: …“, „Achtelpause“, englisch „Quarter note, C 4“.
-  - Diese Flächen dienen in P1.15 auch zum Antippen.
+  - Bei bearbeitbaren Noten sind diese Flächen Regler (siehe Interaktion).
 - **Beispiel in der App:** C-Dur-Tonleiter im Tab „Lernen“, bis die echten Lektionen kommen. Bilder: [hell](bilder/renderer-web-hell.png), [dunkel](bilder/renderer-web-dunkel.png).
 - **Lizenz:** Der Hinweis auf Bravura (SIL OFL 1.1) steht im Profil, bis es einen eigenen Bereich für Credits gibt.
 - **Offen:** Sichtprüfung auf iOS- und Android-Geräten. Sie braucht Development Builds und damit das Expo-Konto (siehe P1.03).
@@ -104,12 +104,48 @@ Regeln (Phase 1):
 
 Erweiterungen in Phase 3: Klaviersystem (zwei Systeme mit Klammer), mehrere Stimmen pro System, Bindebögen, Triolen, Akkord- und Funktionssymbole unter dem System, Taktwechsel.
 
-### Interaktion
+### Interaktion (umgesetzt in P1.15)
 
-- Tippen auf Linie oder Zwischenraum setzt eine Note (Einrasten auf die nächste Position), Ziehen verschiebt sie, Vorzeichen per Auswahlleiste.
-- Hervorhebung von Noten (richtig, falsch, aktuell gespielt) – immer zusätzlich mit Symbol, nicht nur Farbe.
-- Wiedergabe-Cursor synchron zum Audio.
-- Barrierefreiheit: Jede Note hat eine Textbeschreibung (z. B. „Viertelnote, eingestrichenes c“) für Screenreader.
+- **Treffer** (`hitTest` in `input.ts`, ohne React):
+  - Ein Punkt im Notenbild ergibt die nächste Linie oder den nächsten Zwischenraum (Einrasten), begrenzt auf vier Hilfslinien über und unter dem System.
+  - Daraus folgt die Tonhöhe: Stammton und Oktave aus dem Schlüssel. Das Vorzeichen kommt aus der Vorzeichnung, überschrieben vom letzten Versetzungszeichen an derselben Position im Takt (`prevailingAlter`). Übergebundene Noten zählen nicht, wie im Layout.
+  - Dazu liefert der Treffer den Takt, das Ereignis (mit 0,75 Abständen Toleranz) und einen Notenkopf in der Nähe.
+  - Gegenprobe im Test: Eine Note mit dem ermittelten Vorzeichen bekommt im Layout nie ein Versetzungszeichen, eine abweichende immer.
+- **Bearbeiten:** reine Funktionen auf der Partitur.
+  - `setPitch`: Pause wird Note, Akkordton wird ersetzt.
+  - `addPitch`: harmonisches Intervall, Akkord.
+  - `removePitch`: Note wird Pause.
+  - `moveByStep`: Vorzeichen folgt der neuen Position.
+  - `setAlter`: Vorzeichen-Leiste.
+- **`ScoreView`** meldet Eingaben nur; was passiert, entscheidet der Aufrufer (später das Übungs-Framework).
+  - **Tippen/Klicken** → `onTap(hit)`.
+  - **Ziehen** einer bearbeitbaren Note → `onDragNote(ref, schritte, fertig)`.
+    - Die Note folgt der Bewegung relativ zum Startpunkt, damit der Finger sie nicht verdecken muss. Ein halber Linienabstand ist ein Schritt.
+    - Greifbar ist der Notenkopf, das Ereignis oder, fingerfreundlich, die einzige bearbeitbare Note im Takt. Das ist nötig, weil eine gesetzte ganze Note am Taktanfang steht, die Ganztaktpause davor aber in der Mitte (Notensatz-Konvention).
+    - Während des Ziehens gibt die Fläche die Geste nicht an eine scrollende Umgebung ab.
+  - **Fester Ausschnitt** bei der Eingabe: vier Hilfslinien Platz nach oben und unten plus das Band für die Symbole. Das Bild springt beim Ziehen nicht.
+- **Hervorhebung** richtig, falsch, aktiv:
+  - Notenkopf, Vorzeichen, Hals usw. in Farbe, dazu ein Symbol über dem Ereignis: Haken, Kreuz bzw. Dreieck.
+  - Die Symbole sind als Vektoren gezeichnet (keine Schrift nötig). Bei Akkorden lässt sich ein einzelner Ton markieren. Das Symbol zeigt dann falsch vor aktiv vor richtig.
+  - Farben sind vorläufig bis zum Design-System (P1.06), mit eigener Palette für den Dunkelmodus. Ein Test prüft den Kontrast: mindestens 4,5 : 1 gegen Weiß, Hellgrau und die dunklen Hintergründe von React Navigation.
+  - Der Screenreader-Text erhält den Zusatz („…, richtig“), übersetzt vom Aufrufer.
+- **Screenreader und Tastatur:**
+  - Bearbeitbare Noten (auch eine Pause als Platz für eine Note) sind „anpassbar“: Wischen nach oben oder unten stellt sie einen Schritt höher oder tiefer.
+  - Im Web sind sie Regler (ARIA „slider“). Mit Tab erreichbar, Pfeil hoch und runter verschiebt, ohne die Seite zu scrollen.
+- **Vorschau in der App:** Tab „Üben“, „Intervall eingeben“ (große Terz über c¹).
+  - Bedienung: Note setzen, ziehen, Vorzeichen-Leiste, Löschen, Prüfen.
+  - Die Vorzeichen-Leiste nutzt Bravura-Zeichen und Glossarbegriffe als Beschriftung.
+  - Die Bewertung ist ein Platzhalter, bis das Übungs-Framework (P1.19) sie übernimmt.
+  - Bilder: [hell, falsche Antwort](bilder/eingabe-web-hell.png), [dunkel, richtige Antwort, Englisch (UK)](bilder/eingabe-web-dunkel.png).
+- **Geprüft im Web (Chromium):**
+  - Maus: Klicken, Ziehen, Vorzeichen, Prüfen.
+  - Touch (Handy-Emulation): Tippen, Ziehen.
+  - Nur Tastatur: Tab, Pfeiltasten, Enter auf „Prüfen“.
+  - Jeweils ohne Konsolenfehler.
+- **Touch-Schwelle im Web:** Chrome meldet die ersten etwa 15 px einer Touch-Bewegung nicht als `touchmove` (Touch-Slop). Gemessen wird ab dem Startpunkt; über die Schwelle und zurück landet die Note also richtig. Ganz kleine Korrekturen per Finger gehen im mobilen Web erst nach etwas Bewegung. Tippen, Vorzeichen-Leiste und Tastatur sind davon nicht betroffen.
+- **Offen:**
+  - Sichtprüfung und Bedienung auf iOS- und Android-Geräten (Development Build, siehe P1.03). Dazu gehört, ob die Geste in einer scrollbaren Umgebung zuverlässig bei der Note bleibt.
+  - Wiedergabe-Cursor synchron zum Audio (mit P1.17).
 
 ### Leistungsziele (in Phase 1 messen)
 
