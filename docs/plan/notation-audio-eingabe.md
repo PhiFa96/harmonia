@@ -36,11 +36,49 @@ Paket `@harmonia/notation`, abhängig nur von `theory`.
   - N-tolen folgen mit ihrer Darstellung in Phase 3.
   - Fehler nennen Abschnitt und Grund. Schreiben ergibt eine kanonische Form; Lesen und Schreiben sind als Rundreise getestet.
 
+### Layout v1 (umgesetzt in P1.13)
+
+`layoutScore(score)` liefert reine Daten: Glyphen (SMuFL-Name, Position, Rolle, Bezug auf Takt/Ereignis/Ton), Linien (Notenlinien, Hilfslinien, Hälse, Taktstriche), Balken und Haltebögen.
+- **Koordinaten:** Notenlinienabstände, Ursprung an der obersten Linie links, y nach unten, auf Tausendstel gerundet.
+- **SVG-Ausgabe:** `layoutToSvg` zeichnet Vorschauen und Tests. Der App-Renderer folgt in P1.14.
+
+Regeln (Phase 1):
+
+- **Horizontale Abstände:** Jede Verdopplung des Notenwerts gibt ×√2 mehr Platz (Viertel = 3,5 Abstände). Vorzeichen und versetzte Köpfe bekommen zusätzlich Platz.
+- **Hälse:**
+  - Richtung nach der Note, die am weitesten von der Mittellinie entfernt ist. Auf der Mittellinie und bei Gleichstand zeigt der Hals nach unten.
+  - Länge eine Oktave (3,5 Abstände), außerhalb des Systems mindestens bis zur Mittellinie. 32stel und 64stel bekommen längere Hälse wegen der Fähnchen.
+  - Ansatz an den Ankerpunkten des Fonts.
+- **Sekunden im Akkord:** Die untere Note steht immer links. Vom Halsansatz aus wechselt jede Note, die eine Sekunde über bzw. unter einer normal stehenden liegt, auf die andere Halsseite.
+- **Vorzeichen:**
+  - Sie gelten bis zum Taktende für dieselbe Oktave, die Vorzeichnung für alle Oktaven.
+  - Ein Auflösungszeichen hebt auf.
+  - Das Ziel eines Haltebogens über den Taktstrich bekommt kein Vorzeichen; spätere Noten im Takt bekommen es wieder.
+- **Stapelung der Vorzeichen im Akkord** nach Gould („Behind Bars“): oberstes nah am Akkord, dann unterstes, dann zweitoberstes usw., jeweils in die erste freie Spalte. Eine Spalte teilen sich Vorzeichen, die mindestens eine Septime auseinander liegen (vorsichtige Vereinfachung).
+- **Balken:**
+  - Achtel und kürzer innerhalb einer Zählzeit der Taktart (4/4 je Viertel, 6/8 je punktierte Viertel, 3+2+2/8 nach Gruppen). Pausen unterbrechen.
+  - Richtung gemeinsam nach der entferntesten Note. Neigung nach den äußeren Noten, höchstens ein Abstand; ist eine innere Note extremer, liegt der Balken waagerecht.
+  - Hälse unter Balken sind mindestens 3 Abstände lang (plus 0,75 je weitere Ebene).
+  - Teilbalken zeigen beim ersten Ereignis nach rechts, sonst nach links (punktierte Achtel + Sechzehntel).
+- **Fähnchen** bei einzelnen Achteln und kürzer, angesetzt nach den Ankerpunkten des Fonts.
+- **Pausen:** Die ganze Pause hängt an der vierten Linie, die halbe sitzt auf der Mittellinie, kürzere sind um die Mittellinie gesetzt. Ein Takt mit nur einer Pause in Taktlänge zeigt die Ganztaktpause mittig, auch in 3/4.
+- **Punkte:** Rechts neben dem Kopf. Bei Köpfen auf einer Linie stehen sie im Zwischenraum darüber; bei doppelten Positionen im Akkord weichen sie nach unten aus.
+- **Haltebögen:** Einzelnoten gegenüber dem Hals. Im Akkord zeigt der oberste nach oben, der unterste nach unten, die mittleren nach ihrer Lage.
+- **Kopf:** Violinschlüssel auf der g¹-Linie, Bassschlüssel auf der f-Linie. Vorzeichnung in Standardpositionen (Kreuze F C G D A E H, b: B E A D G C F; im Bassschlüssel eine Linie tiefer). Taktart mit Zähler und Nenner, Gruppierung mit Pluszeichen.
+- **Abschluss:** einfacher Taktstrich (Standard), Schlussstrich oder keiner.
+- **Grenzen von v1:** ein System, eine Stimme, Violin- und Bassschlüssel, keine Wechsel im Stück, keine N-tolen-Klammern, kein Zeilenumbruch. Ab Phase 3 kommt das dazu.
+- **Prüfung:**
+  - Regeltests je Regel und Snapshots der Referenzbeispiele
+  - Vergleich der Glyphendaten mit dem Font-Paket
+  - Leistungstest (8 Takte deutlich unter 50 ms)
+  - Sichtprüfung der Referenzbeispiele mit Bravura im Browser: [Referenzbild](bilder/layout-v1-referenz.png)
+
 ### Notenfont
 
 - **Bravura** (SMuFL-Referenzfont, SIL Open Font License 1.1).
 - Glyphen über SMuFL-Codepoints; Maße aus den Metadaten des Fonts (Begrenzungsrahmen, Ankerpunkte für Hälse, Standardwerte für Linienstärken).
 - Lizenzhinweis in den App-Credits.
+- **Quelle:** npm-Paket `@vexflow-fonts/bravura` 1.0.2, eine Kopie von Bravura 1.392 aus `steinbergmedia/bravura` mit OFL-Lizenztext. Die benötigten Glyphenmaße erzeugt `tools/generate-smufl-data.mjs` nach `packages/notation/src/smufl-data.ts`. Die Codepoints kommen aus der SMuFL-Glyphenliste. Ein Test prüft, dass die erzeugten Daten mit dem Font-Paket übereinstimmen.
 
 ### Layout-Regeln (Phase 1, Grundumfang)
 
