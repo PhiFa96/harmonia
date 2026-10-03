@@ -7,4 +7,5 @@ export * from './svg.ts';
 export * from './describe.ts';
 export * from './input.ts';
 export * from './highlight.ts';
+export * from './keyboard.ts';
 export { ENGRAVING_DEFAULTS, FONT } from './smufl-data.ts';

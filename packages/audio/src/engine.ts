@@ -58,6 +58,7 @@ export interface Playback {
   readonly startTime: number;
   /** Audio-Zeit, zu der alles verklungen ist. */
   readonly endTime: number;
+  /** playPitch/playChord: nur die eigenen Stimmen stoppen; stopAll stoppt die gesamte Engine. */
   stop(): void;
 }
 
@@ -119,9 +120,11 @@ export function createAudioEngine(ctx: AudioContextLike, options: AudioEngineOpt
     }
   };
 
-  const tone = (hz: number, when: number, duration: number, peak: number): void => {
+  const tone = (hz: number, when: number, duration: number, peak: number): Voice => {
     prune();
-    active.add(instrument.play(ctx, master, hz, when, duration, peak));
+    const voice = instrument.play(ctx, master, hz, when, duration, peak);
+    active.add(voice);
+    return voice;
   };
 
   const click = (accent: boolean, when: number): void => {
@@ -142,27 +145,41 @@ export function createAudioEngine(ctx: AudioContextLike, options: AudioEngineOpt
     // Gleichzeitige Töne leiser, damit die Summe nicht übersteuert
     const peak = (opts.velocity ?? DEFAULT_VELOCITY) / Math.sqrt(Math.max(1, pitches.length));
     const sorted = [...pitches].sort((a, b) => frequency(a) - frequency(b));
-    sorted.forEach((p, i) => {
-      tone(frequency(p, referenceHz), start + i * arpeggio, duration, peak);
-    });
+    const voices = sorted.map((p, i) =>
+      tone(frequency(p, referenceHz), start + i * arpeggio, duration, peak),
+    );
     const end = start + Math.max(0, sorted.length - 1) * arpeggio + duration;
-    return playback(start, end, stopAll);
+    // Loslassen einer Klaviertaste darf die anderen Finger oder das Metronom nicht abschalten.
+    return playback(start, end, () => {
+      stopVoices(voices);
+    });
   };
 
-  function stopAll(): void {
-    for (const clock of clocks) {
-      clock.stop();
-    }
-    clocks.clear();
+  function stopVoices(voices: Iterable<Voice>): void {
     const now = ctx.currentTime;
-    for (const voice of active) {
+    for (const voice of voices) {
+      if (!active.has(voice)) continue;
+      if (voice.end <= now) {
+        voice.source.disconnect();
+        voice.envelope.disconnect();
+        active.delete(voice);
+        continue;
+      }
       // Kurz ausblenden statt hart abschneiden (sonst knackt es), dann stoppen
       voice.envelope.gain.cancelScheduledValues(now);
       voice.envelope.gain.setValueAtTime(voice.envelope.gain.value, now);
       voice.envelope.gain.linearRampToValueAtTime(0, now + 0.02);
       voice.source.stop(now + 0.03);
+      // Noch bis zum Ende der Ausblendung behalten; prune hängt sie beim nächsten Ton ab.
+      active.delete(voice);
+      active.add({ ...voice, end: Math.min(voice.end, now + 0.03) });
     }
-    active.clear();
+  }
+
+  function stopAll(): void {
+    for (const clock of clocks) clock.stop();
+    clocks.clear();
+    stopVoices([...active]);
   }
 
   const startClock = (

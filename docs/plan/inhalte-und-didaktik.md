@@ -85,6 +85,8 @@ Jeder Typ implementiert dieselbe Schnittstelle: Aufgabe erzeugen, Antwort bewert
 
 **Bestanden:** Eine Lektion gilt bei mindestens 80 % richtigen Antworten (Wert einstellbar) als abgeschlossen. Darunter wird sie zur Wiederholung vorgeschlagen.
 
+**Langfristiger Ausbau (Philipps Ziel vom 03.10.2026):** kurze Übungssätze und längere Schreib-, Hör- und Analyseaufgaben bis zu achtstimmigen Stücken. Chorbesetzungen (einschließlich Kinder-, Männer- und Frauenchor), Instrumentation und das Schreiben von Partituren bekommen eigene Fähigkeiten und Voraussetzungen im Lernpfad. Neue Fachbegriffe werden mit Glossareintrag, Erklärung und passenden Beispielen eingeführt, bevor die Aufgabe sie voraussetzt. Eine längere Kompositionsaufgabe braucht ein eigenes Bewertungsraster statt einer bloßen Anzahl richtig angeklickter Antworten. Detailplanung und Audio-Ausbau: [Phase 5](phase-5-vision.md).
+
 ## Einstufungstest
 
 - Adaptiv: Er startet in der Mitte von Stufe 1–2 und wird schwerer oder leichter, je nach Antwort.

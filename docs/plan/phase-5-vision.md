@@ -33,6 +33,8 @@
   - [ ] Engine: Kontrapunkt vollständig, Stilregeln
   - [ ] Komponier-Werkstatt: kurze Kompositionsaufgaben mit Feedback (Engine + Tutor)
   - [ ] Inhalte DE/EN mit fachlicher Abnahme
+  - [ ] Mehrstimmige Schreib-, Hör- und Analyseaufgaben bis zu acht selbständigen Stimmen; vom kurzen Beispiel bis zum längeren Stück, mit erklärten Stilregeln und fachlich geprüfter Bewertung
+  - [ ] Chorbesetzungen ausdrücklich abdecken: gemischter Chor, Kinderchor, Männerchor und Frauenchor; Besetzungen und Stimmumfänge fachlich begründen, Teilungen (divisi), Textunterlegung, Atemstellen und Chornotation vermitteln
 - **Fertig, wenn:** Stufe 6 ist live.
 
 ### P5.04 – Weitere Sprachen
@@ -52,4 +54,8 @@
   - [ ] Gitarren-Griffbrett als Eingabe und Anzeige
   - [ ] Weitere Klänge (Streicher, Bläser) für Hörübungen und Instrumentation
   - [ ] Transponierende Instrumente in Übungen
+  - [ ] Orchesterbesetzungen und Partiturschreiben ausbauen: Schlüssel, klingende und notierte Tonhöhe, Instrumentenumfang, Artikulation, Stimmenauszüge und Balance in passenden Übungen
+  - [ ] Chorwiedergabe als eigener Audio-Ausbau: einzeln hörbare, stummschaltbare und mischbare Stimmen für die geplanten Besetzungen. Chor-Klangfarben und tatsächlich gesungener Text sind getrennte technische Anforderungen; Qualität, Lizenzen und Umsetzung vorab prüfen
 - **Fertig, wenn:** Mindestens ein weiteres Instrument ist vollständig integriert.
+
+Die Besetzungs- und Achtstimmigkeitsziele wurden am 03.10.2026 von Phillip konkretisiert. Sie sind langfristige Produktziele, keine schon vorhandenen Funktionen der Phase 1. Vor der Umsetzung braucht es einen detaillierten Inhalts- und Prüfplan; ein allgemeiner Chor-Sampleklang ersetzt weder echte Textaussprache noch eine fachliche Tonsatzprüfung.

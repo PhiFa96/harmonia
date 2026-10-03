@@ -17,6 +17,28 @@ const hz = (osc: FakeOscillator | undefined) => osc?.frequency.events[0]?.value 
 const p = parsePitch;
 
 describe('Töne', () => {
+  it('Loslassen einer Taste stoppt nur ihren Ton; andere Finger und Metronom laufen weiter', () => {
+    const { ctx, timers, engine } = setup();
+    engine.startMetronome(120, 4);
+    const first = engine.playPitch(p('C4'), { duration: 4 });
+    engine.playPitch(p('E4'), { duration: 4 });
+    const notes = ctx.oscillators.filter((osc) => osc.type === 'triangle');
+    ctx.currentTime = 0.5;
+    first.stop();
+    expect(notes[0]?.stopTimes.at(-1)).toBeCloseTo(0.53, 9);
+    expect(notes[1]?.stopTimes.at(-1)).toBeCloseTo(4.02, 9);
+    expect(timers.running).toBe(1);
+    const count = notes[0]?.stopTimes.length;
+    first.stop();
+    expect(notes[0]?.stopTimes).toHaveLength(count ?? 0);
+    ctx.currentTime = 1;
+    engine.playPitch(p('G4'));
+    expect(notes[0]?.connections).toHaveLength(0);
+    expect(notes[1]?.connections).toHaveLength(1);
+    engine.stopAll();
+    expect(notes[1]?.stopTimes.at(-1)).toBeCloseTo(1.03, 9);
+    expect(timers.running).toBe(0);
+  });
   it('a¹ mit 440 Hz, sofort, mit Hüllkurve ohne Knacken', () => {
     const { ctx, engine } = setup();
     ctx.currentTime = 2;

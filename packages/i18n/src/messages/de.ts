@@ -12,6 +12,9 @@ export const de = {
     exampleScale: 'Beispiel: C-Dur-Tonleiter in $t(glossary:notes.quarter_other)',
   },
   practice: {
+    input: 'Eingabe',
+    input_staff: 'Notenbild',
+    input_piano: 'Klaviatur',
     intervalTitle: 'Intervall eingeben',
     intervalTask: 'Setze eine große Terz über c¹.',
     intervalHint:
@@ -26,6 +29,32 @@ export const de = {
     wrong: 'Noch nicht richtig. Versuch es noch einmal.',
     correctTitle: 'Richtig!',
     wrongTitle: 'Noch nicht ganz',
+  },
+  piano: {
+    settings: 'Anpassen',
+    title: 'Klaviatur',
+    labels: 'Tonnamen',
+    labels_none: 'Keine Beschriftung',
+    labels_de: 'Deutsch (H/B)',
+    labels_intl: 'International (B/B♭)',
+    range: 'Tonumfang',
+    range_practice: 'c¹–e²',
+    range_middle: 'c–c³',
+    range_full: 'Ganzes Klavier (A₂–c⁵)',
+    eitherName: '{{sharp}} oder {{flat}}',
+    smaller: '−',
+    larger: '+',
+    smallerHint: 'Tasten verkleinern',
+    largerHint: 'Tasten vergrößern',
+    lower: 'Tiefer',
+    higher: 'Höher',
+    moveMode: 'Verschieben',
+    playMode: 'Spielen',
+    playHint:
+      'Berühre eine oder mehrere Tasten. Verschieben bewegt den Ausschnitt, ohne zu spielen.',
+    moveHint: 'Wische nach links oder rechts. Mit Spielen schaltest du den Klang wieder ein.',
+    shortcutHint:
+      'Bei Fokus auf der Klaviatur: Die physischen Tasten ab A spielen c¹–e² (QWERTZ: A W S E D F T G Z H U J K O L P Ö). Tab und Leertaste oder Enter spielen einzelne Tasten.',
   },
   audioTest: {
     title: 'Audio-Test',
