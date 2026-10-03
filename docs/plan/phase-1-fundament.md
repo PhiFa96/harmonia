@@ -206,10 +206,11 @@ flowchart LR
 - **Abhängig von:** P1.14
 - **Umfang:** M
 - **Aufgaben:**
-  - [ ] Treffererkennung: Tipp → Linie/Zwischenraum → Tonhöhe (unter Berücksichtigung von Schlüssel und Vorzeichnung)
-  - [ ] Note setzen, verschieben, löschen; Vorzeichen-Leiste
-  - [ ] Hervorhebung: richtig, falsch, aktiv (Farbe plus Symbol)
+  - [x] Treffererkennung: Tipp → Linie/Zwischenraum → Tonhöhe (unter Berücksichtigung von Schlüssel und Vorzeichnung)
+  - [x] Note setzen, verschieben, löschen; Vorzeichen-Leiste
+  - [x] Hervorhebung: richtig, falsch, aktiv (Farbe plus Symbol)
 - **Fertig, wenn:** Ein Intervall lässt sich auf allen Plattformen zuverlässig per Finger und Maus eingeben.
+- **Stand:** im Web geprüft mit Maus, Touch (Emulation) und Tastatur, dazu Screenreader-Bedienung; siehe [notation-audio-eingabe.md](notation-audio-eingabe.md#interaktion-umgesetzt-in-p115). Offen: Prüfung auf iOS- und Android-Geräten (Development Build).
 
 ### P1.16 – Audio-Spike und Latenzmessung
 
