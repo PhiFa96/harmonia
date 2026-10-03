@@ -19,6 +19,7 @@
 | 02.10.2026 | Fachliche Prüfung und Fachkonventionen übernimmt Claude; Phillip wird dazu nicht mehr gefragt | [ADR 0005](../decisions/0005-fachliche-pruefung-durch-claude.md) |
 | 03.10.2026 | F12: Ton klingt auch bei iOS-Stummschalter. Wer gerade nicht hören kann, überspringt mit „Gerade nicht hören“ alle Hörübungen der laufenden Lektion, mit Hinweis auf Kopfhörer (wie bei Duolingo) | [ADR 0006](../decisions/0006-audio-grundlage.md), P1.19 |
 | 03.10.2026 | Englisch-Standard nach Region: UK-Begriffe in GB, IE, AU, NZ, ZA, IN; sonst US | [i18n-und-glossar.md](i18n-und-glossar.md) |
+| 03.10.2026 | Design-Richtung entscheidet Claude (Phillip: „Du machst alles. Sehr schön modern und animiert.“): Prinzipien, Farben, Schrift Figtree, Bewegung, Logo-Entwurf, Kern-Screens | [design-richtung.md](design-richtung.md) |
 | 02.10.2026 | F04 für Dreiklänge: C, Cm, C°, C+, Umkehrung als C/E; Tonbuchstaben international, deutsch (H, B) wählbar | [theorie-engine.md](theorie-engine.md) |
 
 ## Offen

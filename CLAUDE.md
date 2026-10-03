@@ -42,6 +42,12 @@ Harmonia ist eine Musiktheorie-Lern-App für Web, iOS und Android. Aktueller Sta
 - App: `pnpm --filter @harmonia/mobile web` (Browser), `… start` (Development Build), `… build:web` (Web-Bundle)
 - CI: `.github/workflows/ci.yml` (Jobs „Lint, Typen, Tests“, „Web-Build der App“ und „Deno-Kompatibilität“) muss vor dem Merge grün sein
 
+## Design
+
+- Richtung, Farben, Schrift und Bewegung: `docs/plan/design-richtung.md`. Farben, Abstände, Radien und Bewegungswerte nur über die Tokens (ab P1.06 `packages/ui`), nie als Einzelwerte in Screens.
+- Neue Farbpaare brauchen einen Kontrasttest (Text 4,5 : 1, Bedienelemente 3 : 1). Feedback nie nur über Farbe.
+- Jede Animation braucht eine Fassung für „Bewegung reduzieren“ (nur Überblenden, keine Schleifen).
+
 ## Code-Konventionen
 
 - Pakete werden als TypeScript-Quellcode exportiert (kein Build-Schritt). Relative Importe immer mit Dateiendung `.ts`, damit derselbe Code auch in Deno (Supabase Edge Functions) läuft.

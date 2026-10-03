@@ -77,6 +77,7 @@ flowchart LR
   - Dynamische Schriftgrößen
   - Kontraste
   - Feedback nie nur über Farbe (zusätzlich Symbol und Haptik)
+  - „Bewegung reduzieren“ aus dem System und in der App: nur Überblenden, keine Schleifen ([design-richtung.md](design-richtung.md#bewegung))
   - Bedienung mit Tastatur im Web
 - **Sehbehinderte Menschen:** Gehörbildung funktioniert ohne Notenbild. Wir prüfen, welche Übungstypen sich vollständig über Ton und Sprache bedienen lassen.
 - **Hörbehinderte Menschen:** Theorie-Übungen ohne Audio-Pflicht; Hörübungen sind als solche gekennzeichnet.
