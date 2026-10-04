@@ -15,7 +15,7 @@ Erstversuch, Wiederholungsleistung, Hinweise und ausgelassene Hörfragen müssen
 - Claudes getrennte fachliche Abnahme der eigenen Einführung und Erklärungstexte; Status bleibt `entwurf`.
 - Native Development Builds mit SQLite/Crypto, Bedienung und Screenreader auf iOS/Android, Audio-Spike mit echten Latenzmessungen.
 - Test mit 3–5 Personen und tatsächlichen Notizen; Anleitung in [erste-lektion.md](erste-lektion.md).
-- Supabase-/EAS-Grundlage und offene formale Abnahmen aus P1.03/P1.04 prüfen. Vorhandener Code allein schließt offene Checklisten nicht.
+- P1.04: Lokale Supabase-Grundlage mit Profilmigration und Zugriffstests ergänzt; externe EU-Projekte, staging-Migration und erfolgreicher GitHub-Lauf noch offen. Details: [supabase-grundlage.md](supabase-grundlage.md). EAS und native Abnahmen aus P1.03 bleiben offen.
 - GitHub-CI und Prüfung der aufeinander aufbauenden Codex-Branches durch Claude; kein Merge in dieser Umsetzung.
 
 ## Konsequenzen für Phase 2

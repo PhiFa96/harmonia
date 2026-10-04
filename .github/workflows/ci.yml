@@ -83,3 +83,45 @@ jobs:
 
       - name: Theorie, Übungen und Lektion unter Deno ausführen
         run: deno run --config tools/deno.json tools/deno-smoke.ts
+
+  database:
+    name: Supabase und Profil-Zugriffsschutz
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      SUPABASE_TELEMETRY_DISABLED: '1'
+      SUPABASE_NO_UPDATE_NOTIFIER: '1'
+      SUPABASE_INTERNAL_IMAGE_REGISTRY: docker.io
+      SUPABASE_USE_SLIM_IMAGES: '1'
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Abhängigkeiten installieren
+        run: pnpm install --frozen-lockfile
+
+      - name: Lokales Supabase starten
+        # Die CLI gibt lokale Schlüssel aus; nicht im CI-Protokoll veröffentlichen.
+        run: pnpm db:start > "$RUNNER_TEMP/harmonia-supabase-start.log" 2>&1
+
+      - name: Migrationen aus leerer lokaler Datenbank prüfen
+        run: pnpm db:reset
+
+      - name: Datenbankfunktionen prüfen
+        run: pnpm db:lint
+
+      - name: pgTAP-Zugriffstests
+        run: pnpm db:test
+
+      - name: Auth- und REST-API mit zwei Konten prüfen
+        run: pnpm db:test:api
+
+      - name: Lokale Container stoppen
+        if: always()
+        run: pnpm db:stop

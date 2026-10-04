@@ -38,10 +38,11 @@ Harmonia ist eine Musiktheorie-Lern-App für Web, iOS und Android. Aktueller Sta
 - `pnpm format` / `pnpm format:check` – Prettier (Markdown ist ausgenommen)
 - `pnpm check:deno` – Theorie-Engine unter Deno prüfen und ausführen (`tools/deno-smoke.ts`)
 - `pnpm check:i18n` – Übersetzungen prüfen: gleiche Schlüssel DE/EN, keine leeren Texte, Pluralformen, Platzhalter, Glossar-Verweise
+- `pnpm db:start` / `pnpm db:stop` – lokales Supabase (Docker erforderlich); `pnpm db:lint`, `pnpm db:test`, `pnpm db:test:api` prüfen Funktionen und Profilrechte. `pnpm db:reset` löscht ausschließlich die lokale DB und spielt Migrationen neu ein. Details und offene EU-Projekte: `docs/plan/supabase-grundlage.md`.
 - `node tools/prepare-samples.mjs <Quelle>` / `node tools/check-samples.mjs` – Klavierproben aufbereiten bzw. prüfen (ffmpeg nötig; Details in `docs/plan/notation-audio-eingabe.md`)
 - `python3 tools/make-accidental-font.py <BravuraText.otf>` – Vorzeichen-Schrift für Fließtext neu erzeugen (fonttools nötig; Details in `docs/plan/design-richtung.md`)
 - App: `pnpm --filter @harmonia/mobile web` (Browser), `… start` (Development Build), `… build:web` (Web-Bundle)
-- CI: `.github/workflows/ci.yml` (Jobs „Lint, Typen, Tests“, „Web-Build der App“ und „Deno-Kompatibilität“) muss vor dem Merge grün sein
+- CI: `.github/workflows/ci.yml` (Jobs „Lint, Typen, Tests“, „Web-Build der App“, „Deno-Kompatibilität“ und „Supabase und Profil-Zugriffsschutz“) muss vor dem Merge grün sein
 
 ## Design
 
