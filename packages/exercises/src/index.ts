@@ -4,6 +4,7 @@ export * from './generate.ts';
 export * from './evaluate.ts';
 export * from './feedback.ts';
 export * from './session.ts';
+export * from './lesson.ts';
 export { createRng } from '@harmonia/theory';
 
 import { generateAuralInterval, generateNote, generateVisualInterval } from './generate.ts';

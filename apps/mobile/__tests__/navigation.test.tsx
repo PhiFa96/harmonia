@@ -1,6 +1,6 @@
 import type { Locale } from 'expo-localization';
 import { getLocales } from 'expo-localization';
-import { fireEvent, renderRouter, screen } from 'expo-router/testing-library';
+import { act, fireEvent, renderRouter, screen } from 'expo-router/testing-library';
 
 import { deviceLocale, i18n } from '@/i18n';
 import { useSettings } from '@/state/settings';
@@ -21,8 +21,11 @@ beforeEach(() => {
 });
 
 describe('Grundnavigation', () => {
-  it('zeigt die drei Tabs in der Gerätesprache', () => {
+  it('zeigt die drei Tabs in der Gerätesprache', async () => {
     renderRouter('./src/app', { initialUrl: '/' });
+    await act(async () => {
+      await Promise.resolve();
+    });
     expect(screen.getAllByText('Lernen').length).toBeGreaterThan(0);
     expect(screen.getByText('Üben')).toBeTruthy();
     expect(screen.getByText('Profil')).toBeTruthy();
@@ -45,40 +48,55 @@ describe('Grundnavigation', () => {
     expect(screen.getByText('Lizenzen')).toBeTruthy();
   });
 
-  it('nennt die Lizenz des Notenfonts', () => {
+  it('nennt die Lizenz des Notenfonts', async () => {
     renderRouter('./src/app', { initialUrl: '/profile' });
+    await act(async () => {
+      await Promise.resolve();
+    });
     expect(screen.getByText(/^Notenfont Bravura.*SIL Open Font License 1\.1/)).toBeTruthy();
   });
 });
 
 describe('Englisch: US- und UK-Begriffe', () => {
-  it('Gerät in Australien: britische Begriffe in Text und Notenbild', () => {
+  it('Gerät in Australien: britische Begriffe in Text und Notenbild', async () => {
     setDevice('en', 'AU');
     renderRouter('./src/app', { initialUrl: '/' });
+    await act(async () => {
+      await Promise.resolve();
+    });
     expect(screen.getByText('Example: C major scale in crotchets')).toBeTruthy();
     expect(screen.getByLabelText('Crotchet, C 4')).toBeTruthy();
   });
 
-  it('Gerät in den USA: amerikanische Begriffe', () => {
+  it('Gerät in den USA: amerikanische Begriffe', async () => {
     setDevice('en', 'US');
     renderRouter('./src/app', { initialUrl: '/' });
+    await act(async () => {
+      await Promise.resolve();
+    });
     expect(screen.getByText('Example: C major scale in quarter notes')).toBeTruthy();
     expect(screen.getByLabelText('Quarter note, C 4')).toBeTruthy();
   });
 });
 
 describe('Notenbild', () => {
-  it('jede Note ist für Screenreader beschriftet (Deutsch)', () => {
+  it('jede Note ist für Screenreader beschriftet (Deutsch)', async () => {
     renderRouter('./src/app', { initialUrl: '/' });
+    await act(async () => {
+      await Promise.resolve();
+    });
     expect(screen.getByText('Beispiel: C-Dur-Tonleiter in Viertelnoten')).toBeTruthy();
     expect(screen.getByLabelText('Viertelnote, eingestrichenes c')).toBeTruthy();
     expect(screen.getByLabelText('Viertelnote, zweigestrichenes c')).toBeTruthy();
     expect(screen.getAllByRole('img')).toHaveLength(8);
   });
 
-  it('Beschriftung folgt der gewählten Sprache', () => {
+  it('Beschriftung folgt der gewählten Sprache', async () => {
     useSettings.setState({ locale: 'en-US' });
     renderRouter('./src/app', { initialUrl: '/' });
+    await act(async () => {
+      await Promise.resolve();
+    });
     expect(screen.getByLabelText('Quarter note, C 4')).toBeTruthy();
   });
 });

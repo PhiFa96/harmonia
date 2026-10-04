@@ -7,4 +7,11 @@ export const enGB = {
   profile: {
     licenses: 'Licences',
   },
+  lesson: {
+    overview:
+      'Your first lesson: ten reading and listening questions. Learn the basics, practise with hints and revisit mistakes with new notation examples.',
+    restart: 'Practise lesson again',
+    latestDate: 'Practised on {{date}}',
+    loadError: 'Saved results could not be loaded. You can still practise.',
+  },
 } as const satisfies PartialMessages;

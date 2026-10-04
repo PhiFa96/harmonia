@@ -2,7 +2,7 @@
 
 Musiktheorie lernen – hörbar, spielerisch und so tief, wie du willst. Vom ersten Notenschlüssel bis zum Hochschulniveau, mit KI-Tutor und echten Coaches. Im Browser und als App für iOS und Android.
 
-> **Status: Phase 1 – technisches Fundament.** Theorie-Engine, Notenbild, Klavierklang, Klaviatur und drei Übungstypen sind implementiert. Im Tab „Üben“ läuft ein gemischter Übungssatz mit Bewertung und Hinweisen; die vollständige Lektion mit lokaler Speicherung folgt in P1.20. Geräteprüfungen und fachliche Inhaltsabnahme sind noch offen. Details: [Übungs-Framework P1.19](docs/plan/uebungs-framework.md) und [Phase 1](docs/plan/phase-1-fundament.md).
+> **Status: Phase 1 – technisches Fundament.** Theorie-Engine, Notenbild, Klavierklang, Klaviatur und drei Übungstypen sind implementiert. Im Tab „Lernen“ läuft die erste vollständige Lektion mit zehn Aufgaben, neuen Varianten für Fehler und lokalem SQLite-Ergebnis. Im Tab „Üben“ bleibt der freie Übungssatz erreichbar. Geräteprüfungen, Testpersonen und fachliche Inhaltsabnahme sind offen. Details: [Erste Lektion P1.20](docs/plan/erste-lektion.md) und [Phase 1](docs/plan/phase-1-fundament.md).
 
 ## Konzept
 
@@ -36,11 +36,12 @@ pnpm install
 | `pnpm typecheck` | TypeScript-Prüfung aller Pakete |
 | `pnpm test` | Tests aller Pakete (Vitest, in der App Jest mit jest-expo) |
 | `pnpm format` / `pnpm format:check` | Formatierung mit Prettier anwenden bzw. prüfen |
-| `pnpm check:deno` | Theorie-Engine unter Deno prüfen (Laufzeit der Supabase Edge Functions) |
+| `pnpm check:deno` | Theorie, Übungen und erste Inhaltsdatei unter Deno prüfen |
 | `pnpm check:i18n` | Übersetzungen prüfen (Schlüssel DE/EN, leere Texte, Pluralformen, Platzhalter) |
 | `pnpm --filter @harmonia/mobile web` | App im Browser starten |
 | `pnpm --filter @harmonia/mobile start` | Expo-Entwicklungsserver für Development Builds auf iOS und Android |
 | `pnpm --filter @harmonia/mobile build:web` | Web-Bundle bauen (`apps/mobile/dist`) |
+| `pnpm preview:web` | Web-Export auf localhost mit SQLite-Headern starten |
 
 Aufbau des Monorepos: [docs/plan/architektur.md](docs/plan/architektur.md).
 

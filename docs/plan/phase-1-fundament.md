@@ -278,12 +278,13 @@ flowchart LR
 - **Abhängig von:** P1.19
 - **Umfang:** M
 - **Aufgaben:**
-  - [ ] Eine Lektion mit 10 Aufgaben (gemischt aus den drei Typen) als Inhaltsdatei
-  - [ ] Ablauf: Einführungskarte → Aufgaben → falsche wiederholen → Ergebnis
-  - [ ] Ergebnis lokal speichern (SQLite)
+  - [x] Eine Lektion mit 10 Aufgaben (gemischt aus den drei Typen) als Inhaltsdatei
+  - [x] Ablauf: Einführungskarte → Aufgaben → falsche wiederholen → Ergebnis
+  - [x] Ergebnis lokal speichern (SQLite)
   - [ ] Interner Test mit 3–5 Personen; Notizen zu Gefühl, Klang, Verständlichkeit
-  - [ ] Rückblick Phase 1, Plan für Phase 2 anpassen
+  - [x] Technischer Rückblick Phase 1, Plan für Phase 2 anpassen; echte Testpersonen-Rückmeldungen später ergänzen
 - **Fertig, wenn:** Die Lektion läuft auf iOS, Android und Web ohne Fehler; die Testpersonen verstehen die Bedienung ohne Erklärung.
+- **Stand:** technisch implementiert; Einstieg im Tab „Lernen“, Inhaltsdatei in `packages/content`, SQLite-Ergebnis auf diesem Gerät. Web mit echter Speicherung nach Browserneustart geprüft. Details, Testnachweis und Anleitung für 3–5 Personen: [erste-lektion.md](erste-lektion.md). [Vorläufiger Rückblick](phase-1-rueckblick.md). Offen: fachliche Inhaltsabnahme durch Claude, echte iOS-/Android-Geräte und Testpersonen. Phase 1 bleibt bis zu diesen Abnahmen offen.
 
 ---
 

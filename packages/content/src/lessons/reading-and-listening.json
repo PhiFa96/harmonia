@@ -1,0 +1,123 @@
+{
+  "id": "fundament.reading-and-listening.1",
+  "contentVersion": 1,
+  "status": "entwurf",
+  "titleKey": "lesson.title",
+  "introduction": [
+    {
+      "titleKey": "lesson.notesTitle",
+      "bodyKey": "lesson.notesBody",
+      "examples": [{ "score": "treble | 4/4 | G4/1", "captionKey": "lesson.referenceG" }]
+    },
+    {
+      "titleKey": "lesson.intervalsTitle",
+      "bodyKey": "lesson.intervalsBody",
+      "examples": [
+        { "score": "treble | 4/4 | C4/2 Eb4/2", "captionKey": "lesson.minorThird" },
+        { "score": "treble | 4/4 | C4/2 E4/2", "captionKey": "lesson.majorThird" }
+      ]
+    },
+    {
+      "titleKey": "lesson.hearingTitle",
+      "bodyKey": "lesson.hearingBody",
+      "examples": [
+        { "score": "treble | 4/4 | C4/2 F4/2", "captionKey": "lesson.fourth" },
+        { "score": "treble | 4/4 | C4/2 G4/2", "captionKey": "lesson.fifth" }
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "type": "NOTE_NAME",
+      "params": {
+        "clefs": ["treble"],
+        "range": { "minMidi": 60, "maxMidi": 71 },
+        "maxAccidentals": 0
+      }
+    },
+    {
+      "type": "INTERVAL_IDENTIFY_VISUAL",
+      "params": {
+        "clefs": ["treble"],
+        "range": { "minMidi": 60, "maxMidi": 79 },
+        "maxAccidentals": 1,
+        "intervals": ["m3", "M3", "P4", "P5"],
+        "direction": "up"
+      }
+    },
+    {
+      "type": "INTERVAL_IDENTIFY_AURAL",
+      "params": {
+        "clefs": ["treble"],
+        "range": { "minMidi": 60, "maxMidi": 79 },
+        "maxAccidentals": 0,
+        "intervals": ["m3", "M3", "P4", "P5"],
+        "playback": "melodic-up"
+      }
+    },
+    {
+      "type": "NOTE_NAME",
+      "params": {
+        "clefs": ["treble"],
+        "range": { "minMidi": 60, "maxMidi": 71 },
+        "maxAccidentals": 0
+      }
+    },
+    {
+      "type": "INTERVAL_IDENTIFY_VISUAL",
+      "params": {
+        "clefs": ["treble"],
+        "range": { "minMidi": 60, "maxMidi": 79 },
+        "maxAccidentals": 1,
+        "intervals": ["m3", "M3", "P4", "P5"],
+        "direction": "up"
+      }
+    },
+    {
+      "type": "INTERVAL_IDENTIFY_AURAL",
+      "params": {
+        "clefs": ["treble"],
+        "range": { "minMidi": 60, "maxMidi": 79 },
+        "maxAccidentals": 0,
+        "intervals": ["m3", "M3", "P4", "P5"],
+        "playback": "melodic-up"
+      }
+    },
+    {
+      "type": "NOTE_NAME",
+      "params": {
+        "clefs": ["treble"],
+        "range": { "minMidi": 60, "maxMidi": 71 },
+        "maxAccidentals": 0
+      }
+    },
+    {
+      "type": "INTERVAL_IDENTIFY_VISUAL",
+      "params": {
+        "clefs": ["treble"],
+        "range": { "minMidi": 60, "maxMidi": 79 },
+        "maxAccidentals": 1,
+        "intervals": ["m3", "M3", "P4", "P5"],
+        "direction": "up"
+      }
+    },
+    {
+      "type": "INTERVAL_IDENTIFY_AURAL",
+      "params": {
+        "clefs": ["treble"],
+        "range": { "minMidi": 60, "maxMidi": 79 },
+        "maxAccidentals": 0,
+        "intervals": ["m3", "M3", "P4", "P5"],
+        "playback": "melodic-up"
+      }
+    },
+    {
+      "type": "NOTE_NAME",
+      "params": {
+        "clefs": ["treble"],
+        "range": { "minMidi": 60, "maxMidi": 71 },
+        "maxAccidentals": 0
+      }
+    }
+  ]
+}

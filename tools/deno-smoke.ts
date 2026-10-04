@@ -7,7 +7,9 @@ import {
   evaluateExercise,
   expectedAnswer,
   exerciseFeedback,
+  createLessonSession,
 } from '../packages/exercises/src/index.ts';
+import { firstLesson } from '../packages/content/src/index.ts';
 
 import {
   buildScale,
@@ -50,6 +52,11 @@ function check(label: string, actual: unknown, expected: unknown): void {
 const exercise = generateExercise(
   { type: 'INTERVAL_IDENTIFY_VISUAL', params: { intervals: ['m3', 'M3', 'P5'] } },
   exerciseRng('deno-exercises'),
+);
+check(
+  'Versionierte Lektion mit zehn Aufgaben',
+  createLessonSession(firstLesson, 'deno-lesson').initial.items.length,
+  10,
 );
 const evaluation = evaluateExercise(exercise, expectedAnswer(exercise));
 check('Übungsgenerator und Engine-Bewertung', evaluation.correct, true);
@@ -129,4 +136,4 @@ check(
   durationName(duration('quarter', 1), { language: 'en', variant: 'uk' }),
   'dotted crotchet',
 );
-console.log('Theorie-Engine und Übungen laufen unter Deno.');
+console.log('Theorie-Engine, Übungen und erste Lektion laufen unter Deno.');
