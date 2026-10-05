@@ -1,0 +1,232 @@
+import { firstLesson } from '@harmonia/content';
+import type { LessonSession } from '@harmonia/exercises';
+import {
+  activeLessonSession,
+  answerLesson,
+  createLessonSession,
+  currentItem,
+  exercisePrompt,
+  lessonSummary,
+  nextLessonExercise,
+  revealLessonHint,
+  skipLessonAural,
+  startLessonReview,
+} from '@harmonia/exercises';
+import { LAYOUT, SPACE } from '@harmonia/ui';
+import { AppText, Button, Card, Icon, useUiTheme } from '@harmonia/ui/native';
+import { randomUUID } from 'expo-crypto';
+import { router, Stack, useFocusEffect } from 'expo-router';
+import { useCallback, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { AccessibilityInfo, Platform, ScrollView, StyleSheet, View } from 'react-native';
+import { ExerciseTask } from '@/components/exercise-task';
+import { LessonIntroduction } from '@/components/lesson-introduction';
+import { useLocale } from '@/i18n';
+import { useLessonResult } from '@/storage/use-lesson-result';
+
+export default function LessonScreen() {
+  const { t } = useTranslation();
+  const locale = useLocale();
+  const { colors } = useUiTheme();
+  const [lesson, setLesson] = useState<LessonSession | null>(null);
+  const [answer, setAnswer] = useState<string | null>(null);
+  const [identity, setIdentity] = useState({ id: '', startedAt: '' });
+  const run = useRef(0);
+  const scroll = useRef<ScrollView>(null);
+  const question = useRef<View>(null);
+  const session = lesson ? activeLessonSession(lesson) : undefined;
+  const item = session ? currentItem(session) : undefined;
+  const summary = lesson ? lessonSummary(lesson) : undefined;
+  const storage = useLessonResult(lesson, identity.id, identity.startedAt);
+  const heading = item
+    ? exercisePrompt(item, locale)
+    : lesson?.phase === 'review-intro'
+      ? t('lesson.reviewTitle')
+      : lesson?.phase === 'complete'
+        ? t('lesson.complete')
+        : t('lesson.title');
+  const focusQuestion = useCallback(() => {
+    scroll.current?.scrollTo({ y: 0, animated: false });
+    if (Platform.OS === 'web')
+      (question.current as unknown as HTMLElement | null)?.focus({ preventScroll: true });
+    else if (Platform.OS === 'ios') AccessibilityInfo.announceForAccessibility(heading);
+  }, [heading]);
+  useFocusEffect(
+    useCallback(() => {
+      focusQuestion();
+    }, [focusQuestion, item, lesson?.phase]),
+  );
+  const start = () => {
+    setIdentity({ id: randomUUID(), startedAt: new Date(Date.now()).toISOString() });
+    setAnswer(null);
+    setLesson(createLessonSession(firstLesson, Date.now() + run.current++));
+  };
+  return (
+    <>
+      <Stack.Screen options={{ headerShown: true, title: t('lesson.title') }} />
+      <ScrollView ref={scroll} contentContainerStyle={styles.container}>
+        <View style={styles.content}>
+          {!lesson ? (
+            <>
+              <View
+                ref={question}
+                aria-label={heading}
+                {...(Platform.OS === 'web' ? { tabIndex: -1 } : {})}
+              >
+                <AppText variant="title1">{t(firstLesson.titleKey)}</AppText>
+              </View>
+              <LessonIntroduction onStart={start} onCardChange={focusQuestion} />
+            </>
+          ) : item && session ? (
+            <ExerciseTask
+              session={session}
+              item={item}
+              answer={answer}
+              question={question}
+              scroll={scroll}
+              progressText={t(
+                lesson.phase === 'review' ? 'lesson.reviewProgress' : 'exercise.progress',
+                { current: session.index + 1, total: session.items.length },
+              )}
+              progressLabel={t(
+                lesson.phase === 'review' ? 'lesson.reviewProgressLabel' : 'lesson.progressLabel',
+              )}
+              hearingPausedText={t('lesson.hearingPaused')}
+              continueLabel={t(
+                session.index === session.items.length - 1 ? 'lesson.roundEnd' : 'exercise.next',
+              )}
+              onSelect={setAnswer}
+              onCheck={(value) => {
+                setLesson(answerLesson(lesson, value));
+              }}
+              onHint={() => {
+                setLesson(revealLessonHint(lesson));
+              }}
+              onSkip={() => {
+                setAnswer(null);
+                setLesson(skipLessonAural(lesson));
+              }}
+              onNext={() => {
+                setAnswer(null);
+                setLesson(nextLessonExercise(lesson));
+              }}
+            />
+          ) : lesson.phase === 'review-intro' && summary ? (
+            <>
+              <View
+                ref={question}
+                aria-label={heading}
+                {...(Platform.OS === 'web' ? { tabIndex: -1 } : {})}
+              >
+                <AppText variant="title1">{t('lesson.reviewTitle')}</AppText>
+              </View>
+              <Card>
+                <AppText>
+                  {t('lesson.reviewIntro', { count: summary.reviewTotal - summary.reviewSkipped })}
+                </AppText>
+              </Card>
+              {summary.reviewSkipped > 0 ? (
+                <AppText tone="muted">
+                  {t('lesson.reviewSkipped', { count: summary.reviewSkipped })}
+                </AppText>
+              ) : null}
+              <Button
+                label={t('lesson.reviewStart')}
+                onPress={() => {
+                  setLesson(startLessonReview(lesson));
+                }}
+              />
+            </>
+          ) : lesson.phase === 'complete' && summary ? (
+            <>
+              <View
+                ref={question}
+                aria-label={heading}
+                {...(Platform.OS === 'web' ? { tabIndex: -1 } : {})}
+              >
+                <AppText variant="title1">{t('lesson.complete')}</AppText>
+              </View>
+              <Card>
+                <View style={styles.result}>
+                  <Icon name="check" color={colors.primaryText} size={SPACE.xxl} />
+                  <AppText variant="title2">{t('lesson.initialResult', summary)}</AppText>
+                  {summary.accuracy !== null ? (
+                    <AppText>
+                      {t('lesson.accuracy', { value: Math.round(summary.accuracy * 100) })}
+                    </AppText>
+                  ) : null}
+                  <AppText>
+                    {t('exercise.independent', { count: summary.independentCorrect })}
+                  </AppText>
+                  {summary.assisted > 0 ? (
+                    <AppText>{t('exercise.assistedSummary', { count: summary.assisted })}</AppText>
+                  ) : null}
+                  {summary.skipped > 0 ? (
+                    <AppText>{t('exercise.skippedSummary', { count: summary.skipped })}</AppText>
+                  ) : null}
+                  {summary.reviewTotal > 0 ? (
+                    <AppText>
+                      {t('lesson.reviewResult', {
+                        correct: summary.reviewCorrect,
+                        count: summary.reviewAnswered,
+                      })}
+                    </AppText>
+                  ) : null}
+                  {summary.reviewAssisted > 0 ? (
+                    <AppText>
+                      {t('lesson.reviewAssisted', { count: summary.reviewAssisted })}
+                    </AppText>
+                  ) : null}
+                  {summary.reviewSkipped > 0 ? (
+                    <AppText>{t('lesson.reviewSkipped', { count: summary.reviewSkipped })}</AppText>
+                  ) : null}
+                  <AppText>
+                    {summary.unresolved > 0
+                      ? t('lesson.unresolved', { count: summary.unresolved })
+                      : t('lesson.allResolved')}
+                  </AppText>
+                  {storage.attempt ? (
+                    <AppText tone="muted">
+                      {t('lesson.duration', {
+                        minutes: Math.floor(storage.attempt.durationMs / 60000),
+                        seconds: Math.floor(storage.attempt.durationMs / 1000) % 60,
+                      })}
+                    </AppText>
+                  ) : null}
+                </View>
+              </Card>
+              <AppText aria-live="polite" tone={storage.status === 'error' ? 'danger' : 'muted'}>
+                {storage.status === 'saved'
+                  ? t('lesson.saved')
+                  : storage.status === 'error'
+                    ? t('lesson.saveError')
+                    : t('lesson.saving')}
+              </AppText>
+              {storage.status === 'error' ? (
+                <Button label={t('lesson.retrySave')} onPress={storage.retrySave} />
+              ) : null}
+              <Button
+                label={t('lesson.restart')}
+                disabled={storage.status !== 'saved'}
+                onPress={start}
+              />
+              <Button
+                variant="ghost"
+                label={t('lesson.home')}
+                disabled={storage.status !== 'saved'}
+                onPress={() => {
+                  router.replace('/');
+                }}
+              />
+            </>
+          ) : null}
+        </View>
+      </ScrollView>
+    </>
+  );
+}
+const styles = StyleSheet.create({
+  container: { padding: LAYOUT.screenPadding, paddingBottom: SPACE.xxxl },
+  content: { width: '100%', maxWidth: LAYOUT.maxContentWidth, alignSelf: 'center', gap: SPACE.m },
+  result: { gap: SPACE.m },
+});

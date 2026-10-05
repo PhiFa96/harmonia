@@ -59,7 +59,7 @@ function pitchPool(range: PitchRange, limit: number): Pitch[] {
   const result: Pitch[] = [];
   for (let octave = 0; octave <= 8; octave++) {
     for (const letter of LETTERS) {
-      for (let alter = -limit; alter <= limit; alter++) {
+      for (let alter = limit === 0 ? 0 : -limit; alter <= limit; alter++) {
         const pitch = { letter, alter, octave };
         if (midi(pitch) >= range.minMidi && midi(pitch) <= range.maxMidi) result.push(pitch);
       }

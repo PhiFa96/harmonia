@@ -8,7 +8,7 @@ Im Tab „Üben“ startet ein gemischter Satz mit neun Aufgaben: je drei Notenn
 
 Die erste geprüfte Antwort bleibt gewertet. Nach der Rückmeldung sind die Antwortmöglichkeiten gesperrt und markieren sowohl die gewählte falsche Antwort als auch die Lösung mit Text, Symbol und Farbe. Hinweise bleiben ohne Sperre zugänglich; Stufe 3 erklärt die Lösung. Das Ergebnis unterscheidet richtige Antworten, ohne Hilfe richtige Antworten, mit Hilfe beantwortete Aufgaben und übersprungene Hörfragen. Es vergibt noch keine XP, Bestehensentscheidung oder Freischaltung.
 
-Die Neun-Aufgaben-Vorschau ist in `apps/mobile/src/exercises/practice.ts` definiert. Sie ist noch keine versionierte Inhaltsdatei. P1.20 ergänzt die geplante Zehn-Aufgaben-Lektion, Einführungskarte, Wiederholungsrunde für falsche Aufgaben und SQLite-Speicherung. Die Eingabe-Demo aus P1.15/P1.18 liegt jetzt unter `/note-input`, erreichbar über „Noten und Klaviatur ausprobieren“.
+Die Neun-Aufgaben-Vorschau ist in `apps/mobile/src/exercises/practice.ts` definiert. Sie ist noch keine versionierte Inhaltsdatei. P1.20 ist technisch implementiert: [erste-lektion.md](erste-lektion.md) beschreibt die versionierte Zehn-Aufgaben-Lektion, Einführung, neue Wiederholungsvarianten und SQLite-Speicherung. Die Eingabe-Demo aus P1.15/P1.18 liegt jetzt unter `/note-input`, erreichbar über „Noten und Klaviatur ausprobieren“.
 
 ## Paket und Schnittstelle
 

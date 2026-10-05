@@ -22,3 +22,16 @@ jest.mock('react-native-reanimated', () =>
 jest.mock('react-native-worklets', () =>
   jest.requireActual<object>('react-native-worklets/lib/module/mock'),
 );
+
+// Gerätedatenbank wird separat mit echter SQLite geprüft; UI-Tests ersetzen nur den Treiber.
+jest.mock('expo-sqlite', () => ({
+  openDatabaseAsync: jest.fn(() =>
+    Promise.resolve({
+      execAsync: jest.fn(() => Promise.resolve()),
+      runAsync: jest.fn(() => Promise.resolve()),
+      getFirstAsync: jest.fn(() => Promise.resolve(null)),
+      closeAsync: jest.fn(() => Promise.resolve()),
+    }),
+  ),
+}));
+jest.mock('expo-crypto', () => ({ randomUUID: () => '00000000-0000-4000-8000-000000000001' }));

@@ -1,0 +1,25 @@
+{
+  "name": "@harmonia/content",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Versionierte Lektionen und geprüfte Inhaltsdateien",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@harmonia/exercises": "workspace:*",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@harmonia/config": "workspace:*",
+    "@harmonia/theory": "workspace:*",
+    "typescript": "catalog:",
+    "vitest": "catalog:",
+    "fast-check": "catalog:"
+  }
+}

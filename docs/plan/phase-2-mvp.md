@@ -65,6 +65,7 @@ Die Blöcke B, C und D können teilweise parallel laufen.
   - [ ] Verhalten bei Konflikten und Zeitzonen
 - **Fertig, wenn:** 50 Lektionen offline, dann Netz an → alles korrekt synchronisiert, keine Duplikate.
 - **Tests:** Edge-Function-Tests (Duplikate, Zeitzonen, Manipulationsversuche), pgTAP für RLS.
+- **Vorarbeit P1.20:** lokale SQLite-Versuche mit Client-ID, Inhaltsversion und vollständigen Antwort-/Wiederholungssnapshots existieren. Übernahme in Konten, Migrationen und Sync-Warteschlange ergänzen; Duplikatschutz erhalten. SQLite-Web-Header mit Auth-Rückleitungen prüfen.
 
 ## Block B – Inhalte
 
@@ -83,6 +84,7 @@ Die Blöcke B, C und D können teilweise parallel laufen.
   - [ ] Freigabestatus (`entwurf`, `in_pruefung`, `freigegeben`); nur freigegebene Inhalte werden ausgeliefert
   - [ ] `contentVersion` und Auslieferung per EAS Update
 - **Fertig, wenn:** Eine fehlerhafte Inhaltsdatei lässt die CI fehlschlagen; eine Inhaltsänderung erreicht die App ohne Store-Release.
+- **Vorarbeit P1.20:** erstes JSON-Lektionsschema mit Zod, Versions-ID, Status, typisierten i18n-Verweisen und Engine-Parameterprüfung. Für die vollständige Pipeline verallgemeinern; der aktuelle Inhalt bleibt Entwurf bis zur getrennten fachlichen Abnahme.
 
 ### P2.05 – Fähigkeitsgraph Stufen 1–2
 
@@ -182,6 +184,7 @@ Die Blöcke B, C und D können teilweise parallel laufen.
   - [ ] Ergebnis-Screen mit XP, Genauigkeit, Streak
   - [ ] Abbrechen und Fortsetzen
 - **Fertig, wenn:** Alle Fälle (bestanden, nicht bestanden, abgebrochen, offline) funktionieren.
+- **Vorarbeit P1.20:** Einführung, Aufgaben, neue Varianten für Fehler, getrennte Rundenergebnisse und lokale Speicherung wiederverwenden. Bestehen, XP/Streak und Abbrechen/Fortsetzen bleiben hier offen. Erstversuch, Hinweise und ausgelassene Hörfragen in Statistik und Bewertung getrennt halten.
 
 ### P2.13 – Feedback, Erklärungen, „Fehler melden“
 
