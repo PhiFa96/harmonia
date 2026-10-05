@@ -21,7 +21,7 @@ Erstversuch, Wiederholungsleistung, Hinweise und ausgelassene Hörfragen müssen
 ## Konsequenzen für Phase 2
 
 1. **P2.01/P2.03:** Lokale Versuche und Client-IDs erhalten. Kontenverknüpfung, Migrationsstrategie, Warteschlange, Synchronisation und serverseitige Bewertung ergänzen. SQLite-Web-Header und Auth-Rückleitungen gemeinsam prüfen.
-2. **P2.04:** Das erste Schema zur Inhalts-Pipeline ausbauen: weitere stabile IDs, Versionsregeln, Skills und Übersetzungen. Nur fachlich freigegebene Inhalte öffentlich ausliefern.
+2. **P2.04:** Allgemeiner Katalog, stabile IDs/Versionen, Voraussetzungen, Übersetzungsprüfung und getrennte öffentliche Artefakte sind ergänzt. Fachliche Freigabe und echte OTA-Auslieferung bleiben offen; [inhalts-pipeline.md](inhalts-pipeline.md).
 3. **P2.12:** Lektionszustand und Aufgabenbaustein wiederverwenden. Bestehensschwelle, XP, Serien, Lernpfad und Abbrechen/Fortsetzen ergänzen. Die unterschiedliche Aussage von Erstversuch, Hilfen und Wiederholung erhalten.
 4. **Geräte und Menschen früh prüfen:** Vor weiterem Inhaltsausbau die native Klang-/Bedienprüfung und Rückmeldungen der Testpersonen abarbeiten. Schwierigkeit und Einführungsumfang anhand dieser Ergebnisse anpassen.
 

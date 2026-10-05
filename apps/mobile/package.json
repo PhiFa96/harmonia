@@ -11,7 +11,7 @@
     "web": "expo start --web",
     "build:web": "expo export --platform web",
     "typecheck": "tsc --noEmit",
-    "test": "jest"
+    "test": "jest --maxWorkers=2"
   },
   "dependencies": {
     "@expo-google-fonts/figtree": "^0.4.1",
@@ -37,6 +37,7 @@
     "expo-sqlite": "~57.0.3",
     "expo-status-bar": "~57.0.1",
     "expo-system-ui": "~57.0.4",
+    "expo-updates": "~57.0.24",
     "i18next": "catalog:",
     "intl-pluralrules": "^2.0.1",
     "react": "catalog:",
@@ -71,6 +72,8 @@
       "<rootDir>/jest/setup.ts"
     ],
     "moduleNameMapper": {
+      "^@harmonia/i18n/content-messages$": "<rootDir>/../../packages/i18n/src/authoring-content-messages.ts",
+      "^@harmonia/content/catalogue$": "<rootDir>/../../packages/content/src/authoring.ts",
       "\\.(otf|ttf|mp3)$": "<rootDir>/jest/asset-stub.ts"
     }
   }

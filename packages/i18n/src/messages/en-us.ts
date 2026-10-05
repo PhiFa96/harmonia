@@ -1,8 +1,10 @@
+import { contentMessages } from '@harmonia/i18n/content-messages';
 // Texte der Oberfläche auf Englisch (US). Muss alle Schlüssel aus de.ts haben.
 
 import type { Messages } from './types.ts';
 
 export const enUS = {
+  content: contentMessages['en-US'],
   tabs: {
     learn: 'Learn',
     practice: 'Practice',
@@ -10,6 +12,7 @@ export const enUS = {
   },
   placeholder: 'Something is being built here.',
   learn: {
+    unavailable: 'New lessons are being prepared. You can already practise freely.',
     exampleScale: 'Example: C major scale in $t(glossary:notes.quarter_other)',
   },
   practice: {
@@ -108,29 +111,15 @@ export const enUS = {
     positionSteps: 'Note {{index}}: Start on the bottom line. {{steps}} {{alteration}}',
   },
   lesson: {
-    title: 'Discover notes and intervals',
     overview:
       'Your first lesson: ten reading and listening questions. Learn the basics, practice with hints and revisit mistakes with new notation examples.',
     open: 'View lesson',
-    start: 'Start 10 questions',
+    start_one: 'Start {{count}} question',
+    start_other: 'Start {{count}} questions',
     restart: 'Practice lesson again',
     home: 'Back to learning',
     introProgress: 'Introduction {{current}} of {{total}}',
     introNext: 'Next introduction card',
-    notesTitle: 'Note names in the treble clef',
-    notesBody:
-      'A $t(glossary:staff_one) has five lines. Spaces and ledger lines continue the sequence C, D, E, F, G, A, B. In the $t(glossary:trebleClef_one), G4 is on the second line from the bottom. A $t(glossary:sharp_one) raises a note by one $t(glossary:semitone_one); a $t(glossary:flat_one) lowers it by one $t(glossary:semitone_one).',
-    intervalsTitle: 'Read distances',
-    intervalsBody:
-      'An $t(glossary:interval_one) is the distance between two notes. Count the letter names, including both ends: C–E spans three, so it is a third. Minor and major thirds differ in sound distance: three or four $t(glossary:semitone_other). C–E♭ is minor; C–E is major.',
-    hearingTitle: 'Hear distances',
-    hearingBody:
-      'A $t(glossary:semitone_one) is the smallest distance between adjacent piano keys, including the black keys. C–F spans four letter names and five $t(glossary:semitone_other): a perfect fourth. C–G spans five letter names and seven $t(glossary:semitone_other): a perfect fifth. Compare these sounds with the thirds. Every listening question plays the lower note first.',
-    referenceG: 'G4 on the second line',
-    minorThird: 'Minor third: C4–E♭4',
-    majorThird: 'Major third: C4–E4',
-    fourth: 'Perfect fourth: C4–F4',
-    fifth: 'Perfect fifth: C4–G4',
     example: 'Sound example',
     chooseExample: 'Choose an example',
     progressLabel: 'Lesson progress',

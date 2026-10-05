@@ -38,6 +38,9 @@ pnpm install
 | `pnpm format` / `pnpm format:check` | Formatierung mit Prettier anwenden bzw. prüfen |
 | `pnpm check:deno` | Theorie, Übungen und erste Inhaltsdatei unter Deno prüfen |
 | `pnpm check:i18n` | Übersetzungen prüfen (Schlüssel DE/EN, leere Texte, Pluralformen, Platzhalter) |
+| `pnpm check:content` | Inhaltsschemas, Referenzen, Voraussetzungen, Sprach-/Notenbeispiele und öffentliche Dateien prüfen |
+| `pnpm content:publish` | Geprüfte öffentliche Katalog-/Textdateien lokal erzeugen (kein Deployment) |
+| `pnpm check:content:bundle [Verzeichnis]` | Produktions-Export auf Entwurfsdaten und -texte prüfen |
 | `pnpm --filter @harmonia/mobile web` | App im Browser starten |
 | `pnpm --filter @harmonia/mobile start` | Expo-Entwicklungsserver für Development Builds auf iOS und Android |
 | `pnpm --filter @harmonia/mobile build:web` | Web-Bundle bauen (`apps/mobile/dist`) |
@@ -49,6 +52,8 @@ pnpm install
 Aufbau des Monorepos: [docs/plan/architektur.md](docs/plan/architektur.md).
 
 Lokales Backend, Profilmigration und offene staging/production-Einrichtung: [Supabase-Grundlage P1.04](docs/plan/supabase-grundlage.md).
+
+Inhaltsproduktion, interne Vorschau, öffentliche Freigaben und EAS-Übergabe: [Inhalts-Pipeline P2.04](docs/plan/inhalts-pipeline.md). `APP_VARIANT=production` baut nur freigegebene Inhalte; ohne separate fachliche Abnahme bleibt die erste Lektion intern.
 
 ## Lizenz
 

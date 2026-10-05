@@ -82,39 +82,37 @@ export const exerciseSpecSchema = z
       });
     }
   });
+export const contentIdSchema = z.string().regex(/^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$/);
+export const contentTextKeySchema = z
+  .string()
+  .regex(/^content\.[a-zA-Z][a-zA-Z0-9]*(?:\.[a-zA-Z][a-zA-Z0-9]*)+$/)
+  .refine(
+    (value) =>
+      !value.split('.').some((part) => ['constructor', 'prototype', '__proto__'].includes(part)),
+    'Unzulässiger Textpfad',
+  )
+  .transform((value) => value as `content.${string}`);
+export const contentStatusSchema = z.enum(['entwurf', 'in_pruefung', 'freigegeben']);
+export const exampleSchema = z
+  .object({ score: z.string().min(1), captionKey: contentTextKeySchema })
+  .strict();
+export const introductionSchema = z
+  .object({
+    titleKey: contentTextKeySchema,
+    bodyKey: contentTextKeySchema,
+    examples: z.array(exampleSchema).nonempty(),
+  })
+  .strict();
+
+/** Aufgelöste Lektion für den vorhandenen Spieler; Aufgabenanzahl ist nicht fest verdrahtet. */
 export const lessonSchema = z
   .object({
-    id: z.string().min(1),
+    id: contentIdSchema,
     contentVersion: z.number().int().positive(),
-    status: z.enum(['entwurf', 'in_pruefung', 'freigegeben']),
-    titleKey: z.literal('lesson.title'),
-    introduction: z
-      .array(
-        z
-          .object({
-            titleKey: z.enum(['lesson.notesTitle', 'lesson.intervalsTitle', 'lesson.hearingTitle']),
-            bodyKey: z.enum(['lesson.notesBody', 'lesson.intervalsBody', 'lesson.hearingBody']),
-            examples: z
-              .array(
-                z
-                  .object({
-                    score: z.string().min(1),
-                    captionKey: z.enum([
-                      'lesson.referenceG',
-                      'lesson.minorThird',
-                      'lesson.majorThird',
-                      'lesson.fourth',
-                      'lesson.fifth',
-                    ]),
-                  })
-                  .strict(),
-              )
-              .nonempty(),
-          })
-          .strict(),
-      )
-      .nonempty(),
-    exercises: z.array(exerciseSpecSchema).length(10),
+    status: contentStatusSchema,
+    titleKey: contentTextKeySchema,
+    introduction: z.array(introductionSchema),
+    exercises: z.array(exerciseSpecSchema).min(1).max(200),
   })
   .strict();
 export type LessonContent = z.infer<typeof lessonSchema>;

@@ -1,4 +1,4 @@
-import { firstLesson } from '@harmonia/content';
+import { firstLesson } from '@harmonia/content/authoring';
 import type { LessonSession } from '@harmonia/exercises';
 import {
   activeLessonSession,
@@ -94,6 +94,10 @@ async function finish(state: LessonSession, wrong: readonly number[] = []) {
   while (state.phase === 'review') state = next(await answer(state));
   return state;
 }
+// Der erste Test rendert den ganzen Router kalt (alle Routen, Inhalte, Notation): mit 2 Workern in der
+// CI knapp über dem Standardlimit von 5 s. Die folgenden Tests brauchen etwa 1 s.
+jest.setTimeout(20_000);
+
 describe('Vollständige Lektion', () => {
   it('öffnet aus Lernen die Einführung; Klang startet nur ausdrücklich und stoppt beim Kartenwechsel', async () => {
     const router = renderRouter('./src/app', { initialUrl: '/' });

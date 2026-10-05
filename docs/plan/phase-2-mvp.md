@@ -75,16 +75,16 @@ Die Blöcke B, C und D können teilweise parallel laufen.
 - **Abhängig von:** P1.19
 - **Umfang:** M
 - **Aufgaben:**
-  - [ ] Schemas (zod) für Bereich, Stufe, Einheit, Lektion, Übungssatz, Wissenskarte, Wissensartikel
-  - [ ] Prüfskript in der CI:
+  - [x] Schemas (zod) für Bereich, Stufe, Einheit, Lektion, Übungssatz, Wissenskarte, Wissensartikel
+  - [x] Prüfskript in der CI:
     - beide Sprachen vorhanden
     - Notenbeispiele gültig (Engine)
     - IDs eindeutig
     - Fähigkeitsgraph ohne Zyklen
-  - [ ] Freigabestatus (`entwurf`, `in_pruefung`, `freigegeben`); nur freigegebene Inhalte werden ausgeliefert
-  - [ ] `contentVersion` und Auslieferung per EAS Update
+  - [x] Freigabestatus (`entwurf`, `in_pruefung`, `freigegeben`); Produktions-Bundle enthält nur freigegebene Katalogdaten und Inhaltsübersetzungen
+  - [ ] `contentVersion` und Auslieferung per EAS Update — Versionen, SDK, Projekt-ID-Konfiguration und Kanäle vorbereitet; echte Projektbindung und OTA-Nachweis fehlen
 - **Fertig, wenn:** Eine fehlerhafte Inhaltsdatei lässt die CI fehlschlagen; eine Inhaltsänderung erreicht die App ohne Store-Release.
-- **Vorarbeit P1.20:** erstes JSON-Lektionsschema mit Zod, Versions-ID, Status, typisierten i18n-Verweisen und Engine-Parameterprüfung. Für die vollständige Pipeline verallgemeinern; der aktuelle Inhalt bleibt Entwurf bis zur getrennten fachlichen Abnahme.
+- **Stand 05.10.2026:** P1.20 in den allgemeinen Katalog überführt, IDs/Versionen und zehn Aufgaben erhalten. Interne Vorschau und öffentliche Auslieferung sind getrennt; aktuelle Inhalte bleiben Entwurf bis zur getrennten fachlichen Abnahme. Lokale Prüfungen und offene EAS-Übergabe: [inhalts-pipeline.md](inhalts-pipeline.md). P2.04 bleibt bis zum tatsächlichen OTA-Nachweis offen.
 
 ### P2.05 – Fähigkeitsgraph Stufen 1–2
 

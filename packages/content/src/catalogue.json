@@ -1,0 +1,289 @@
+{
+  "schemaVersion": 1,
+  "contentVersion": 1,
+  "areas": [
+    {
+      "id": "fundament",
+      "contentVersion": 1,
+      "status": "entwurf",
+      "titleKey": "content.firstLesson.areaTitle"
+    }
+  ],
+  "levels": [
+    {
+      "id": "fundament.level-1",
+      "contentVersion": 1,
+      "status": "entwurf",
+      "titleKey": "content.firstLesson.levelTitle",
+      "areaId": "fundament",
+      "number": 1
+    }
+  ],
+  "units": [
+    {
+      "id": "fundament.reading-and-listening",
+      "contentVersion": 1,
+      "status": "entwurf",
+      "titleKey": "content.firstLesson.unitTitle",
+      "levelId": "fundament.level-1"
+    }
+  ],
+  "skills": [
+    {
+      "id": "notation.note-name",
+      "contentVersion": 1,
+      "status": "entwurf",
+      "titleKey": "content.firstLesson.notesTitle",
+      "areaId": "fundament",
+      "prerequisites": []
+    },
+    {
+      "id": "interval.identify.visual",
+      "contentVersion": 1,
+      "status": "entwurf",
+      "titleKey": "content.firstLesson.intervalsTitle",
+      "areaId": "fundament",
+      "prerequisites": ["notation.note-name"]
+    },
+    {
+      "id": "interval.identify.aural",
+      "contentVersion": 1,
+      "status": "entwurf",
+      "titleKey": "content.firstLesson.hearingTitle",
+      "areaId": "fundament",
+      "prerequisites": ["interval.identify.visual"]
+    }
+  ],
+  "exerciseSets": [
+    {
+      "id": "fundament.reading-and-listening.exercises",
+      "contentVersion": 1,
+      "status": "entwurf",
+      "titleKey": "content.firstLesson.title",
+      "skillIds": ["notation.note-name", "interval.identify.visual", "interval.identify.aural"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "NOTE_NAME",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 71
+              },
+              "maxAccidentals": 0
+            }
+          },
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_VISUAL",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 79
+              },
+              "maxAccidentals": 1,
+              "intervals": ["m3", "M3", "P4", "P5"],
+              "direction": "up"
+            }
+          },
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_AURAL",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 79
+              },
+              "maxAccidentals": 0,
+              "intervals": ["m3", "M3", "P4", "P5"],
+              "playback": "melodic-up"
+            }
+          },
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "NOTE_NAME",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 71
+              },
+              "maxAccidentals": 0
+            }
+          },
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_VISUAL",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 79
+              },
+              "maxAccidentals": 1,
+              "intervals": ["m3", "M3", "P4", "P5"],
+              "direction": "up"
+            }
+          },
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_AURAL",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 79
+              },
+              "maxAccidentals": 0,
+              "intervals": ["m3", "M3", "P4", "P5"],
+              "playback": "melodic-up"
+            }
+          },
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "NOTE_NAME",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 71
+              },
+              "maxAccidentals": 0
+            }
+          },
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_VISUAL",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 79
+              },
+              "maxAccidentals": 1,
+              "intervals": ["m3", "M3", "P4", "P5"],
+              "direction": "up"
+            }
+          },
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_AURAL",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 79
+              },
+              "maxAccidentals": 0,
+              "intervals": ["m3", "M3", "P4", "P5"],
+              "playback": "melodic-up"
+            }
+          },
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "NOTE_NAME",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 71
+              },
+              "maxAccidentals": 0
+            }
+          },
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "knowledgeCards": [
+    {
+      "id": "fundament.reading-and-listening.card-1",
+      "contentVersion": 1,
+      "status": "entwurf",
+      "titleKey": "content.firstLesson.notesTitle",
+      "skillIds": ["notation.note-name"],
+      "bodyKey": "content.firstLesson.notesBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/1",
+          "captionKey": "content.firstLesson.referenceG"
+        }
+      ]
+    },
+    {
+      "id": "fundament.reading-and-listening.card-2",
+      "contentVersion": 1,
+      "status": "entwurf",
+      "titleKey": "content.firstLesson.intervalsTitle",
+      "skillIds": ["interval.identify.visual"],
+      "bodyKey": "content.firstLesson.intervalsBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/2 Eb4/2",
+          "captionKey": "content.firstLesson.minorThird"
+        },
+        {
+          "score": "treble | 4/4 | C4/2 E4/2",
+          "captionKey": "content.firstLesson.majorThird"
+        }
+      ]
+    },
+    {
+      "id": "fundament.reading-and-listening.card-3",
+      "contentVersion": 1,
+      "status": "entwurf",
+      "titleKey": "content.firstLesson.hearingTitle",
+      "skillIds": ["interval.identify.aural"],
+      "bodyKey": "content.firstLesson.hearingBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/2 F4/2",
+          "captionKey": "content.firstLesson.fourth"
+        },
+        {
+          "score": "treble | 4/4 | C4/2 G4/2",
+          "captionKey": "content.firstLesson.fifth"
+        }
+      ]
+    }
+  ],
+  "knowledgeArticles": [],
+  "lessons": [
+    {
+      "id": "fundament.reading-and-listening.1",
+      "contentVersion": 1,
+      "status": "entwurf",
+      "titleKey": "content.firstLesson.title",
+      "unitId": "fundament.reading-and-listening",
+      "skillIds": ["notation.note-name", "interval.identify.visual", "interval.identify.aural"],
+      "introductionCardIds": [
+        "fundament.reading-and-listening.card-1",
+        "fundament.reading-and-listening.card-2",
+        "fundament.reading-and-listening.card-3"
+      ],
+      "exerciseSetIds": ["fundament.reading-and-listening.exercises"]
+    }
+  ]
+}

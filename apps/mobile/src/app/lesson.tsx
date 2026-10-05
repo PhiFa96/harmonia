@@ -1,4 +1,4 @@
-import { firstLesson } from '@harmonia/content';
+import type { LessonContent } from '@harmonia/content';
 import type { LessonSession } from '@harmonia/exercises';
 import {
   activeLessonSession,
@@ -23,9 +23,33 @@ import { ExerciseTask } from '@/components/exercise-task';
 import { LessonIntroduction } from '@/components/lesson-introduction';
 import { useLocale } from '@/i18n';
 import { useLessonResult } from '@/storage/use-lesson-result';
+import { firstLesson } from '@/content';
+import { useContentText } from '@/content/use-content-text';
 
 export default function LessonScreen() {
   const { t } = useTranslation();
+  if (!firstLesson)
+    return (
+      <View style={styles.container}>
+        <Stack.Screen options={{ headerShown: true, title: t('tabs.learn') }} />
+        <Card>
+          <AppText>{t('learn.unavailable')}</AppText>
+        </Card>
+        <Button
+          variant="ghost"
+          label={t('lesson.home')}
+          onPress={() => {
+            router.replace('/');
+          }}
+        />
+      </View>
+    );
+  return <LessonPlayer content={firstLesson} />;
+}
+
+function LessonPlayer({ content }: { readonly content: LessonContent }) {
+  const { t } = useTranslation();
+  const contentText = useContentText();
   const locale = useLocale();
   const { colors } = useUiTheme();
   const [lesson, setLesson] = useState<LessonSession | null>(null);
@@ -44,7 +68,7 @@ export default function LessonScreen() {
       ? t('lesson.reviewTitle')
       : lesson?.phase === 'complete'
         ? t('lesson.complete')
-        : t('lesson.title');
+        : contentText(content.titleKey);
   const focusQuestion = useCallback(() => {
     scroll.current?.scrollTo({ y: 0, animated: false });
     if (Platform.OS === 'web')
@@ -59,11 +83,12 @@ export default function LessonScreen() {
   const start = () => {
     setIdentity({ id: randomUUID(), startedAt: new Date(Date.now()).toISOString() });
     setAnswer(null);
-    setLesson(createLessonSession(firstLesson, Date.now() + run.current++));
+    const session = createLessonSession(content, Date.now() + run.current++);
+    setLesson(session);
   };
   return (
     <>
-      <Stack.Screen options={{ headerShown: true, title: t('lesson.title') }} />
+      <Stack.Screen options={{ headerShown: true, title: contentText(content.titleKey) }} />
       <ScrollView ref={scroll} contentContainerStyle={styles.container}>
         <View style={styles.content}>
           {!lesson ? (
@@ -73,9 +98,16 @@ export default function LessonScreen() {
                 aria-label={heading}
                 {...(Platform.OS === 'web' ? { tabIndex: -1 } : {})}
               >
-                <AppText variant="title1">{t(firstLesson.titleKey)}</AppText>
+                <AppText variant="title1">{contentText(content.titleKey)}</AppText>
               </View>
-              <LessonIntroduction onStart={start} onCardChange={focusQuestion} />
+              {content.introduction.length > 0 ? (
+                <LessonIntroduction lesson={content} onStart={start} onCardChange={focusQuestion} />
+              ) : (
+                <Button
+                  label={t('lesson.start', { count: content.exercises.length })}
+                  onPress={start}
+                />
+              )}
             </>
           ) : item && session ? (
             <ExerciseTask

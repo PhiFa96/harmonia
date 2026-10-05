@@ -1,7 +1,9 @@
+import { contentMessages } from '@harmonia/i18n/content-messages';
 // Texte der Oberfläche auf Deutsch. Diese Datei gibt die Schlüssel vor; en-US muss dieselben haben.
 // Fachbegriffe kommen aus dem Glossar: $t(glossary:…).
 
 export const de = {
+  content: contentMessages.de,
   tabs: {
     learn: 'Lernen',
     practice: 'Üben',
@@ -9,6 +11,7 @@ export const de = {
   },
   placeholder: 'Hier entsteht gerade etwas.',
   learn: {
+    unavailable: 'Neue Lektionen werden vorbereitet. Du kannst schon frei üben.',
     exampleScale: 'Beispiel: C-Dur-Tonleiter in $t(glossary:notes.quarter_other)',
   },
   practice: {
@@ -111,29 +114,15 @@ export const de = {
     positionSteps: 'Ton {{index}}: Beginne auf der untersten Linie. {{steps}} {{alteration}}',
   },
   lesson: {
-    title: 'Noten und Intervalle entdecken',
     overview:
       'Deine erste Lektion: zehn Aufgaben zum Lesen und Hören. Lerne die Grundlagen, übe mit Hinweisen und wiederhole deine Fehler mit neuen Notenbeispielen.',
     open: 'Lektion ansehen',
-    start: 'Mit 10 Aufgaben starten',
+    start_one: 'Mit {{count}} Aufgabe starten',
+    start_other: 'Mit {{count}} Aufgaben starten',
     restart: 'Lektion erneut üben',
     home: 'Zurück zum Lernen',
     introProgress: 'Einführung {{current}} von {{total}}',
     introNext: 'Nächste Einführungskarte',
-    notesTitle: 'Notennamen im Violinschlüssel',
-    notesBody:
-      'Ein $t(glossary:staff_one) hat fünf Linien. Zwischenräume und Hilfslinien setzen die Tonfolge C, D, E, F, G, A, H fort. Im $t(glossary:trebleClef_one) liegt g¹ auf der zweiten Linie von unten. Ein $t(glossary:sharp_one) erhöht, ein $t(glossary:flat_one) erniedrigt einen Ton um einen $t(glossary:semitone_one). Das erniedrigte H heißt auf Deutsch B.',
-    intervalsTitle: 'Abstände lesen',
-    intervalsBody:
-      'Ein $t(glossary:interval_one) ist der Abstand zwischen zwei Tönen. Zähle die Stammtöne einschließlich beider Endtöne: C–E umfasst drei, also eine Terz. Kleine und große Terzen unterscheiden sich im Klangabstand: drei oder vier $t(glossary:semitone_other). C–Es ist klein, C–E groß.',
-    hearingTitle: 'Abstände hören',
-    hearingBody:
-      'Ein $t(glossary:semitone_one) ist der kleinste Abstand zwischen benachbarten Klaviertasten, einschließlich der schwarzen Tasten. C–F umfasst vier Stammtöne und fünf $t(glossary:semitone_other): eine reine Quarte. C–G umfasst fünf Stammtöne und sieben $t(glossary:semitone_other): eine reine Quinte. Vergleiche die Klangbeispiele mit den Terzen. Alle Hörfragen spielen den tieferen Ton zuerst.',
-    referenceG: 'g¹ auf der zweiten Linie',
-    minorThird: 'Kleine Terz: c¹–es¹',
-    majorThird: 'Große Terz: c¹–e¹',
-    fourth: 'Reine Quarte: c¹–f¹',
-    fifth: 'Reine Quinte: c¹–g¹',
     example: 'Klangbeispiel',
     chooseExample: 'Beispiel auswählen',
     progressLabel: 'Fortschritt der Lektion',

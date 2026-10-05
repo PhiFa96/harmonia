@@ -1,4 +1,4 @@
-import { firstLesson } from '@harmonia/content';
+import type { LessonContent } from '@harmonia/content';
 import type { ExerciseItem } from '@harmonia/exercises';
 import { engineLanguage } from '@harmonia/i18n';
 import { parseScore } from '@harmonia/notation';
@@ -9,6 +9,7 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { useLocale } from '@/i18n';
+import { useContentText } from '@/content/use-content-text';
 import { useExercisePlayback } from './use-exercise-playback';
 
 /** Die maschinenlesbaren Referenznoten sind zugleich die Quelle für Notenbild und Klang. */
@@ -30,18 +31,21 @@ export function referenceItem(source: string): ExerciseItem {
   };
 }
 export function LessonIntroduction({
+  lesson,
   onStart,
   onCardChange,
 }: {
+  readonly lesson: LessonContent;
   readonly onStart: () => void;
   readonly onCardChange: () => void;
 }) {
   const { t } = useTranslation();
+  const contentText = useContentText();
   const locale = useLocale();
   const { colors } = useUiTheme();
   const [index, setIndex] = useState(0);
   const [exampleIndex, setExampleIndex] = useState(0);
-  const card = firstLesson.introduction[index];
+  const card = lesson.introduction[index];
   if (!card) throw new Error('Einführungskarte fehlt');
   const example = card.examples[exampleIndex];
   if (!example) throw new Error('Einführungsbeispiel fehlt');
@@ -50,14 +54,14 @@ export function LessonIntroduction({
   return (
     <>
       <AppText variant="small" tone="muted">
-        {t('lesson.introProgress', { current: index + 1, total: firstLesson.introduction.length })}
+        {t('lesson.introProgress', { current: index + 1, total: lesson.introduction.length })}
       </AppText>
       <Card>
         <View style={styles.card}>
           <AppText variant="title2" aria-live="polite">
-            {t(card.titleKey)}
+            {contentText(card.titleKey)}
           </AppText>
-          <MusicText>{t(card.bodyKey)}</MusicText>
+          <MusicText>{contentText(card.bodyKey)}</MusicText>
           {card.examples.length > 1 ? (
             <View aria-label={t('lesson.chooseExample')} style={styles.examples}>
               {card.examples.map((choice, choiceIndex) => (
@@ -65,7 +69,7 @@ export function LessonIntroduction({
                   key={choice.captionKey}
                   size="medium"
                   variant={choiceIndex === exampleIndex ? 'primary' : 'secondary'}
-                  label={t(choice.captionKey)}
+                  label={contentText(choice.captionKey)}
                   onPress={() => {
                     audio.stop();
                     setExampleIndex(choiceIndex);
@@ -75,7 +79,7 @@ export function LessonIntroduction({
               ))}
             </View>
           ) : (
-            <MusicText variant="title3">{t(example.captionKey)}</MusicText>
+            <MusicText variant="title3">{contentText(example.captionKey)}</MusicText>
           )}
           <ScrollView horizontal contentContainerStyle={styles.score}>
             <ScoreView
@@ -107,11 +111,13 @@ export function LessonIntroduction({
       </Card>
       <Button
         label={
-          index === firstLesson.introduction.length - 1 ? t('lesson.start') : t('lesson.introNext')
+          index === lesson.introduction.length - 1
+            ? t('lesson.start', { count: lesson.exercises.length })
+            : t('lesson.introNext')
         }
         onPress={() => {
           audio.stop();
-          if (index === firstLesson.introduction.length - 1) onStart();
+          if (index === lesson.introduction.length - 1) onStart();
           else {
             setIndex(index + 1);
             setExampleIndex(0);

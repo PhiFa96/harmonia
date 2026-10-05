@@ -10,6 +10,7 @@
     "@harmonia/theory": "../packages/theory/src/index.ts",
     "@harmonia/notation": "../packages/notation/src/index.ts",
     "@harmonia/i18n": "../packages/i18n/src/index.ts",
+    "@harmonia/i18n/content-messages": "../packages/i18n/src/published-content-messages.ts",
     "@harmonia/exercises": "../packages/exercises/src/index.ts",
     "@harmonia/content": "../packages/content/src/index.ts",
     "i18next": "npm:i18next@26.4.2",
