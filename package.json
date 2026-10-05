@@ -14,7 +14,13 @@
     "test": "pnpm -r --if-present test",
     "check:i18n": "node tools/check-translations.ts",
     "preview:web": "node tools/serve-web.mjs",
-    "check:deno": "npx -y deno@2.9.6 check --config tools/deno.json tools/deno-smoke.ts && npx -y deno@2.9.6 run --config tools/deno.json tools/deno-smoke.ts"
+    "check:deno": "npx -y deno@2.9.6 check --config tools/deno.json tools/deno-smoke.ts && npx -y deno@2.9.6 run --config tools/deno.json tools/deno-smoke.ts",
+    "db:start": "supabase start",
+    "db:stop": "supabase stop",
+    "db:reset": "supabase db reset --local --yes",
+    "db:lint": "supabase db lint --local --level warning --fail-on warning",
+    "db:test": "supabase test db --local",
+    "db:test:api": "node tools/test-local-supabase.mjs"
   },
   "devDependencies": {
     "@eslint/js": "catalog:",
@@ -22,6 +28,7 @@
     "eslint": "catalog:",
     "globals": "catalog:",
     "prettier": "catalog:",
+    "supabase": "2.119.0",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:"
   }

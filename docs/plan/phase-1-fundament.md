@@ -70,12 +70,13 @@ flowchart LR
 - **Abhängig von:** P1.01, P0.04
 - **Umfang:** S
 - **Aufgaben:**
-  - [ ] Supabase CLI im Repo (`supabase/`), lokaler Start dokumentiert
-  - [ ] Erste Migration: Tabelle `profiles` mit RLS
-  - [ ] pgTAP-Testgerüst mit einem RLS-Test
-  - [ ] CI-Job für DB-Tests
+  - [x] Supabase CLI im Repo (`supabase/`), lokaler Start dokumentiert
+  - [x] Erste Migration: Tabelle `profiles` mit RLS
+  - [x] pgTAP-Testgerüst mit RLS- und Rechteprüfungen
+  - [x] CI-Job für DB-Tests angelegt; erfolgreicher GitHub-Lauf vor Merge noch nachzuweisen
   - [ ] Projekte staging und production (EU-Region) mit Repo verbinden; Migrationen per CI auf staging
 - **Fertig, wenn:** `supabase start` + `supabase test db` laufen lokal und in der CI.
+- **Stand 04.10.2026:** Lokale Grundlage und Auth-/REST-Integration implementiert; externe EU-Projekte und staging-Deployment offen. Start, Rechte und offene Übergabe: [supabase-grundlage.md](supabase-grundlage.md). P1.04 bleibt bis zum vollständigen Nachweis offen.
 
 ### P1.05 – Internationalisierung (DE/EN)
 

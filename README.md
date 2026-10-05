@@ -42,8 +42,13 @@ pnpm install
 | `pnpm --filter @harmonia/mobile start` | Expo-Entwicklungsserver für Development Builds auf iOS und Android |
 | `pnpm --filter @harmonia/mobile build:web` | Web-Bundle bauen (`apps/mobile/dist`) |
 | `pnpm preview:web` | Web-Export auf localhost mit SQLite-Headern starten |
+| `pnpm db:start` / `pnpm db:stop` | Lokales Supabase starten/stoppen (Docker erforderlich) |
+| `pnpm db:lint` / `pnpm db:test` | SQL-Funktionen und Profil-Zugriffsrechte prüfen |
+| `pnpm db:test:api` | Lokale Auth-/REST-Integration mit zwei Testkonten prüfen |
 
 Aufbau des Monorepos: [docs/plan/architektur.md](docs/plan/architektur.md).
+
+Lokales Backend, Profilmigration und offene staging/production-Einrichtung: [Supabase-Grundlage P1.04](docs/plan/supabase-grundlage.md).
 
 ## Lizenz
 
