@@ -13,11 +13,13 @@ import { ScoreView } from '@harmonia/notation/native';
 import { engineLanguage } from '@harmonia/i18n';
 import { LAYOUT, RADIUS, SPACE, highlightColors } from '@harmonia/ui';
 import { AppText, Button, Card, FeedbackBanner, useUiTheme } from '@harmonia/ui/native';
-import { useMemo, useRef, useState } from 'react';
+import { useFocusEffect } from 'expo-router';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, ScrollView, StyleSheet, View } from 'react-native';
+import { Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 
 import { AccidentalBar } from '@/components/accidental-bar';
+import { PianoKeyboard } from '@/components/piano-keyboard';
 import { useLocale } from '@/i18n';
 
 // Vorschau der Noteneingabe (P1.15), bis das Übungs-Framework (P1.19) Aufgaben und Bewertung übernimmt.
@@ -39,7 +41,17 @@ export default function PracticeScreen() {
   const describeOptions = useMemo(() => engineLanguage(locale), [locale]);
   const [score, setScore] = useState<Score>(() => parseScore(START));
   const [result, setResult] = useState<Result | null>(null);
+  const [inputMode, setInputMode] = useState<'staff' | 'piano'>('staff');
   const dragStart = useRef<Score | null>(null);
+  const [keyboardEnabled, setKeyboardEnabled] = useState(true);
+  useFocusEffect(
+    useCallback(() => {
+      setKeyboardEnabled(true);
+      return () => {
+        setKeyboardEnabled(false);
+      };
+    }, []),
+  );
 
   const placed = pitchAt(score, SLOT);
   const change = (next: Score) => {
@@ -77,13 +89,41 @@ export default function PracticeScreen() {
   );
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.content}>
+    <ScrollView
+      contentContainerStyle={[styles.container, inputMode === 'piano' && styles.pianoContainer]}
+    >
+      <View style={[styles.content, inputMode === 'piano' && styles.pianoContent]}>
         <View style={styles.header}>
-          <AppText variant="overline" tone="muted">
-            {t('practice.intervalTitle')}
-          </AppText>
+          {inputMode === 'staff' ? (
+            <AppText variant="overline" tone="muted">
+              {t('practice.intervalTitle')}
+            </AppText>
+          ) : null}
           <AppText variant="title2">{t('practice.intervalTask')}</AppText>
+        </View>
+        <View
+          role="radiogroup"
+          aria-label={t('practice.input')}
+          style={[styles.inputModes, { backgroundColor: colors.sunken }]}
+        >
+          {(['staff', 'piano'] as const).map((mode) => (
+            <Pressable
+              key={mode}
+              role="radio"
+              aria-checked={inputMode === mode}
+              onPress={() => {
+                setInputMode(mode);
+              }}
+              style={[
+                styles.inputMode,
+                { backgroundColor: inputMode === mode ? colors.surface : 'transparent' },
+              ]}
+            >
+              <AppText variant="small" tone={inputMode === mode ? 'primary' : 'muted'}>
+                {t(`practice.input_${mode}`)}
+              </AppText>
+            </Pressable>
+          ))}
         </View>
         <Card padding={SPACE.s} style={styles.scoreCard}>
           <ScoreView
@@ -94,35 +134,59 @@ export default function PracticeScreen() {
             highlights={highlights}
             highlightColors={highlightColors(scheme)}
             highlightLabels={highlightLabels}
-            editable={EDITABLE}
-            onTap={onTap}
-            onDragNote={onDragNote}
-            onAdjustNote={(ref, steps) => {
-              // Noch keine Note: vom vorgegebenen Ton aus starten
-              const base = placed ? score : setPitch(score, ref, GIVEN);
-              change(moveByStep(base, ref, steps));
-            }}
+            {...(inputMode === 'staff'
+              ? {
+                  editable: EDITABLE,
+                  onTap,
+                  onDragNote,
+                  onAdjustNote: (ref: EventRef, steps: 1 | -1) => {
+                    const base = placed ? score : setPitch(score, ref, GIVEN);
+                    change(moveByStep(base, ref, steps));
+                  },
+                }
+              : {})}
           />
         </Card>
-        <AppText variant="small" tone="muted" style={styles.center}>
-          {t('practice.intervalHint')}
-        </AppText>
-        {Platform.OS === 'web' ? (
+        {inputMode === 'staff' ? (
+          <AppText variant="small" tone="muted" style={styles.center}>
+            {t('practice.intervalHint')}
+          </AppText>
+        ) : null}
+        {inputMode === 'staff' && Platform.OS === 'web' ? (
           <AppText variant="small" tone="muted" style={styles.center}>
             {t('practice.keyboardHint')}
           </AppText>
         ) : null}
-        <AppText aria-live="polite" style={styles.center}>
+        <AppText variant="small" aria-live="polite" style={styles.center}>
           {placed && slotEvent
             ? t('practice.placed', { note: describeEvent(slotEvent, describeOptions) })
             : t('practice.nothingPlaced')}
         </AppText>
-        <AccidentalBar
-          value={placed?.alter}
-          onChange={(alter) => {
-            change(setAlter(score, SLOT, alter));
-          }}
-        />
+        {inputMode === 'staff' ? (
+          <AccidentalBar
+            value={placed?.alter}
+            onChange={(alter) => {
+              change(setAlter(score, SLOT, alter));
+            }}
+          />
+        ) : null}
+        {inputMode === 'piano' ? (
+          <PianoKeyboard
+            enabled={keyboardEnabled}
+            {...(placed ? { selected: placed } : {})}
+            onPitch={(pitch) => {
+              change(setPitch(score, SLOT, pitch));
+            }}
+            highlights={
+              result && placed
+                ? [
+                    { pitch: placed, kind: result },
+                    ...(result === 'wrong' ? [{ pitch: TARGET, kind: 'correct' as const }] : []),
+                  ]
+                : []
+            }
+          />
+        ) : null}
         <View style={styles.actions}>
           <Button
             variant="secondary"
@@ -166,6 +230,21 @@ const styles = StyleSheet.create({
     maxWidth: LAYOUT.maxContentWidth,
     alignSelf: 'center',
     gap: SPACE.l,
+  },
+  pianoContainer: { paddingVertical: SPACE.m },
+  pianoContent: { gap: SPACE.s },
+  inputModes: {
+    flexDirection: 'row',
+    padding: SPACE.xs,
+    borderRadius: RADIUS.control,
+    gap: SPACE.xs,
+  },
+  inputMode: {
+    minHeight: 48,
+    flex: 1,
+    borderRadius: RADIUS.input,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   header: { gap: SPACE.s },
   scoreCard: { alignItems: 'center' },

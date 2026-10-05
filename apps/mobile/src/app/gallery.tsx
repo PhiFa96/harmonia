@@ -1,4 +1,5 @@
 import { LOCALE_NAMES } from '@harmonia/i18n';
+import type { Pitch } from '@harmonia/notation';
 import type { ColorScheme, TextVariant } from '@harmonia/ui';
 import { COLORS, LAYOUT, RADIUS, SPACE } from '@harmonia/ui';
 import {
@@ -22,6 +23,7 @@ import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { useSettings } from '@/state/settings';
+import { PianoKeyboard } from '@/components/piano-keyboard';
 
 // Galerie aller Bausteine (P1.06), nur in Entwicklungsbuilds. Vorschau wahlweise hell oder dunkel,
 // unabhängig vom Erscheinungsbild der App.
@@ -85,6 +87,7 @@ export default function GalleryScreen() {
             </Section>
             <Lists />
             <Sheet />
+            <Piano />
           </View>
         </ScrollView>
       </UiProvider>
@@ -230,6 +233,16 @@ function Lists() {
         />
       </ListGroup>
       <Toggle value={standalone} onValueChange={setStandalone} label={t('gallery.list')} />
+    </Section>
+  );
+}
+
+function Piano() {
+  const { t } = useTranslation();
+  const [selected, setSelected] = useState<Pitch>();
+  return (
+    <Section title={t('piano.title')}>
+      <PianoKeyboard onPitch={setSelected} {...(selected ? { selected } : {})} />
     </Section>
   );
 }

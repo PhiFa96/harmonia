@@ -251,10 +251,11 @@ flowchart LR
 - **Abhängig von:** P1.17, P1.06
 - **Umfang:** M
 - **Aufgaben:**
-  - [ ] Mehrfachberührung, Scrollen, Zoom, wählbarer Ausschnitt
-  - [ ] Beschriftung (keine / deutsch / international)
-  - [ ] Hervorhebungen (Lösung, Fehler), Tastatursteuerung im Web
+  - [x] Mehrfachberührung, Scrollen, Zoom, wählbarer Ausschnitt
+  - [x] Beschriftung (keine / deutsch / international)
+  - [x] Hervorhebungen (Lösung, Fehler), Tastatursteuerung im Web
 - **Fertig, wenn:** Spielen fühlt sich auf Telefon und Tablet direkt an; Klaviatur liefert Tonhöhen an die Engine.
+- **Stand:** implementiert auf Basis von P0.07/P1.06. Im Übungsbereich zwischen Notenbild und Klaviatur wechseln; die Eingabe bleibt erhalten. Mehrfach-Touch, Maus, physische Tastatur und Screenreader-Aktivierung geprüft, siehe [notation-audio-eingabe.md](notation-audio-eingabe.md#bildschirm-klaviatur-phase-1). Offen: Bedien- und Hörproben auf echten iOS-/Android-Telefonen und Tablets (Development Build); die Geräte-Latenzmessungen aus P1.16 bleiben offen.
 
 ### P1.19 – Übungs-Framework und erste Übungstypen
 

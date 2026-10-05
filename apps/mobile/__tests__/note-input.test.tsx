@@ -44,6 +44,29 @@ beforeEach(() => {
 });
 
 describe('Intervall eingeben', () => {
+  it('Klaviatur setzt die Note ins Notenbild, markiert Fehler und Lösung und übernimmt sie zurück ins Notenbild', () => {
+    renderRouter('./src/app', { initialUrl: '/practice' });
+    fireEvent.press(screen.getByText('Klaviatur'));
+    const input = screen.getByTestId('piano-touch-surface');
+    fireEvent(input, 'responderGrant', {
+      nativeEvent: { touches: [{ identifier: '1', locationX: 20, locationY: 170 }] },
+    });
+    fireEvent(input, 'responderRelease', { nativeEvent: { touches: [] } });
+    expect(screen.getByText('Gesetzt: Ganze Note, eingestrichenes c')).toBeTruthy();
+    fireEvent.press(screen.getByText('Prüfen'));
+    expect(screen.getByLabelText('eingestrichenes c, falsch')).toBeTruthy();
+    expect(screen.getByLabelText('eingestrichenes e, richtig')).toBeTruthy();
+    fireEvent(input, 'responderGrant', {
+      nativeEvent: { touches: [{ identifier: '1', locationX: 200, locationY: 170 }] },
+    });
+    fireEvent(input, 'responderRelease', { nativeEvent: { touches: [] } });
+    expect(screen.queryByText('Noch nicht richtig. Versuch es noch einmal.')).toBeNull();
+    fireEvent.press(screen.getByText('Prüfen'));
+    expect(screen.getByText('Richtig, das ist die große Terz.')).toBeTruthy();
+    fireEvent.press(screen.getByText('Notenbild'));
+    expect(screen.queryByTestId('piano-canvas')).toBeNull();
+    expect(screen.getByText('Gesetzt: Ganze Note, eingestrichenes e')).toBeTruthy();
+  });
   it('Tippen setzt die Note, Prüfen bewertet mit Farbe, Symbol und Text', () => {
     renderRouter('./src/app', { initialUrl: '/practice' });
     expect(screen.getByText('Noch keine Note gesetzt.')).toBeTruthy();
