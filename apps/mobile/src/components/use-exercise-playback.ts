@@ -1,0 +1,86 @@
+import type { Playback } from '@harmonia/audio';
+import type { ExerciseItem } from '@harmonia/exercises';
+import { useFocusEffect } from 'expo-router';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { AppState } from 'react-native';
+import { getAudioEngine } from '@/audio';
+
+/** Keine automatische Wiedergabe. Ein verspätetes resume() darf nach dem Verlassen nicht klingen. */
+export function useExercisePlayback(item: ExerciseItem | undefined) {
+  const current = useRef(item);
+  current.current = item;
+  const focused = useRef(true);
+  const appActive = useRef(!['background', 'inactive'].includes(AppState.currentState));
+  const request = useRef(0);
+  const playback = useRef<Playback | null>(null);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [playing, setPlaying] = useState(false);
+  const [heard, setHeard] = useState(false);
+  const [error, setError] = useState(false);
+  const stop = useCallback(() => {
+    request.current++;
+    playback.current?.stop();
+    playback.current = null;
+    if (timer.current) clearTimeout(timer.current);
+    timer.current = null;
+    setPlaying(false);
+  }, []);
+  useEffect(() => {
+    stop();
+    setHeard(false);
+    setError(false);
+  }, [item, stop]);
+  useFocusEffect(
+    useCallback(() => {
+      focused.current = true;
+      return () => {
+        focused.current = false;
+        stop();
+      };
+    }, [stop]),
+  );
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', (state) => {
+      appActive.current = state === 'active';
+      if (!appActive.current) stop();
+    });
+    return () => {
+      subscription.remove();
+      stop();
+    };
+  }, [stop]);
+  const play = async () => {
+    const canPlay = () => focused.current && appActive.current;
+    if (!item || !canPlay()) return;
+    stop();
+    setError(false);
+    const token = request.current;
+    try {
+      const engine = getAudioEngine();
+      await engine.resume();
+      if (token !== request.current || current.current !== item || !canPlay()) return;
+      playback.current =
+        item.type === 'NOTE_NAME'
+          ? engine.playPitch(item.pitch, { duration: 0.8 })
+          : engine.playInterval(
+              item.from,
+              item.to,
+              item.playback === 'harmonic' ? 'harmonic' : 'melodic',
+              { duration: 0.8 },
+            );
+      setPlaying(true);
+      setHeard(true);
+      timer.current = setTimeout(
+        () => {
+          playback.current = null;
+          timer.current = null;
+          setPlaying(false);
+        },
+        item.type === 'NOTE_NAME' || item.playback === 'harmonic' ? 850 : 1650,
+      );
+    } catch {
+      if (token === request.current && current.current === item) setError(true);
+    }
+  };
+  return { play, stop, playing, heard, error };
+}

@@ -78,8 +78,8 @@ jobs:
         with:
           deno-version: v2.9.6
 
-      - name: Theorie-Engine unter Deno prüfen
-        run: deno check tools/deno-smoke.ts
+      - name: Theorie und Übungen unter Deno prüfen
+        run: deno check --config tools/deno.json tools/deno-smoke.ts
 
-      - name: Theorie-Engine unter Deno ausführen
-        run: deno run tools/deno-smoke.ts
+      - name: Theorie und Übungen unter Deno ausführen
+        run: deno run --config tools/deno.json tools/deno-smoke.ts

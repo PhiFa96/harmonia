@@ -263,13 +263,14 @@ flowchart LR
 - **Abhängig von:** P1.10, P1.15, P1.18, P1.05, P1.06
 - **Umfang:** L
 - **Aufgaben:**
-  - [ ] Schnittstelle: `generate(params, rng)`, `evaluate(item, answer)`, `feedback(item, result, locale)`, `hints(item, level)`
-  - [ ] Aufgaben-Screen: Frage, Eingabebereich, Prüfen, Feedback, Weiter
-  - [ ] Typen: `NOTE_NAME`, `INTERVAL_IDENTIFY_VISUAL`, `INTERVAL_IDENTIFY_AURAL`
-  - [ ] Feste Hinweise und Erklärtexte aus der Engine (DE/EN)
-  - [ ] „Gerade nicht hören“ in Hörübungen: überspringt alle Hörübungen der laufenden Lektion, mit Hinweis auf Kopfhörer (F12, ADR 0006)
+  - [x] Schnittstelle: `generate(params, rng)`, `evaluate(item, answer)`, `feedback(item, result, locale)`, `hints(item, level)`
+  - [x] Aufgaben-Screen: Frage, Eingabebereich, Prüfen, Feedback, Weiter
+  - [x] Typen: `NOTE_NAME`, `INTERVAL_IDENTIFY_VISUAL`, `INTERVAL_IDENTIFY_AURAL`
+  - [x] Feste Hinweise und Erklärtexte aus der Engine (DE/EN)
+  - [x] „Gerade nicht hören“ in Hörübungen: überspringt alle Hörübungen der laufenden Lektion, mit Hinweis auf Kopfhörer (F12, ADR 0006)
 - **Fertig, wenn:** Jeder Typ erzeugt sinnvolle Aufgaben über seinen Parameterraum und bewertet korrekt.
 - **Tests:** Generatoren mit vielen Seeds: keine ungültigen Aufgaben; Bewertung gegen Engine.
+- **Stand:** implementiert in `packages/exercises`, mit einem gemischten Übungssatz im Tab „Üben“. API, Parametergrenzen und Testnachweis: [Übungs-Framework](uebungs-framework.md). Die Klaviatur-/Noteneingabe-Demo bleibt unter `/note-input` erreichbar. Offen: fachliche Abnahme der Erklärungstexte durch Claude gemäß ADR 0005 und Bedien-/Hörproben auf echten iOS-/Android-Geräten. P1.20 ergänzt die versionierte Zehn-Aufgaben-Lektion, Wiederholung falscher Aufgaben und SQLite-Speicherung.
 
 ### P1.20 – Durchstich: eine Lektion
 

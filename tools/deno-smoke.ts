@@ -1,5 +1,13 @@
-// Prüft, dass die Theorie-Engine unverändert unter Deno läuft (Laufzeit der Supabase Edge Functions).
+// Prüft Theorie-Engine und Übungs-Framework unter Deno (Laufzeit der Supabase Edge Functions).
 // Aufruf: pnpm check:deno
+
+import {
+  createRng as exerciseRng,
+  generateExercise,
+  evaluateExercise,
+  expectedAnswer,
+  exerciseFeedback,
+} from '../packages/exercises/src/index.ts';
 
 import {
   buildScale,
@@ -38,6 +46,23 @@ function check(label: string, actual: unknown, expected: unknown): void {
   }
   console.log(`ok  ${label}`);
 }
+
+const exercise = generateExercise(
+  { type: 'INTERVAL_IDENTIFY_VISUAL', params: { intervals: ['m3', 'M3', 'P5'] } },
+  exerciseRng('deno-exercises'),
+);
+const evaluation = evaluateExercise(exercise, expectedAnswer(exercise));
+check('Übungsgenerator und Engine-Bewertung', evaluation.correct, true);
+check(
+  'Übungserklärung DE',
+  exerciseFeedback(exercise, evaluation, 'de').message.includes('Klangabstand'),
+  true,
+);
+check(
+  'Übungserklärung UK',
+  exerciseFeedback(exercise, evaluation, 'en-GB').message.includes('semitones'),
+  true,
+);
 
 check('midi(C4)', midi(parsePitch('C4')), 60);
 check('frequency(A4)', frequency(parsePitch('A4')), 440);
@@ -104,4 +129,4 @@ check(
   durationName(duration('quarter', 1), { language: 'en', variant: 'uk' }),
   'dotted crotchet',
 );
-console.log('Theorie-Engine läuft unter Deno.');
+console.log('Theorie-Engine und Übungen laufen unter Deno.');
