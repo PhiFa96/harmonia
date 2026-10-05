@@ -5,7 +5,9 @@
   "description": "Versionierte Lektionen und geprüfte Inhaltsdateien",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./catalogue": "./src/published.ts",
+    "./authoring": "./src/authoring.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",

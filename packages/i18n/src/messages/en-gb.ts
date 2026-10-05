@@ -2,8 +2,10 @@
 // Fachbegriffe (crotchet, bar …) nicht hier, sondern im Glossar überschreiben.
 
 import type { PartialMessages } from './types.ts';
+import { contentMessages } from '@harmonia/i18n/content-messages';
 
 export const enGB = {
+  content: contentMessages['en-GB'],
   profile: {
     licenses: 'Licences',
   },

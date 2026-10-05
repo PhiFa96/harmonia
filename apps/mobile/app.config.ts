@@ -24,12 +24,27 @@ function currentVariant(): Variant {
 export default ({ config }: ConfigContext): ExpoConfig => {
   const variant = currentVariant();
   const { name, id } = VARIANTS[variant];
+  // Öffentliche Projekt-ID, keine Zugangsdaten. Ohne Bindung bleiben OTA-Updates deaktiviert.
+  const rawProjectId: unknown = process.env['EAS_PROJECT_ID'];
+  const projectId =
+    typeof rawProjectId === 'string' && rawProjectId !== '' ? rawProjectId : undefined;
+  if (
+    projectId &&
+    !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(projectId)
+  ) {
+    throw new Error('EAS_PROJECT_ID muss eine gültige UUID sein.');
+  }
   return {
     ...config,
     name,
     slug: 'harmonia',
     scheme: 'harmonia',
     version: '0.1.0',
+    runtimeVersion: { policy: 'appVersion' },
+    updates: {
+      enabled: projectId !== undefined,
+      ...(projectId ? { url: `https://u.expo.dev/${projectId}` } : {}),
+    },
     orientation: 'default',
     userInterfaceStyle: 'automatic',
     ios: { bundleIdentifier: id, supportsTablet: true },
@@ -50,6 +65,6 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         },
       ],
     ],
-    extra: { variant },
+    extra: { variant, ...(projectId ? { eas: { projectId } } : {}) },
   };
 };

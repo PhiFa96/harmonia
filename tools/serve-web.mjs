@@ -5,7 +5,10 @@ import { createServer } from 'node:http';
 import { extname, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const root = fileURLToPath(new URL('../apps/mobile/dist/', import.meta.url));
+const root = resolve(
+  process.env['HARMONIA_PREVIEW_DIR'] ??
+    fileURLToPath(new URL('../apps/mobile/dist/', import.meta.url)),
+);
 const port = Number(process.env['HARMONIA_PREVIEW_PORT'] ?? 8084);
 const mime = {
   '.html': 'text/html; charset=utf-8',

@@ -1,4 +1,4 @@
-import { firstLesson } from '@harmonia/content';
+import type { LessonContent } from '@harmonia/content';
 import { SPACE } from '@harmonia/ui';
 import { AppText, Button, Card } from '@harmonia/ui/native';
 import { useFocusEffect } from 'expo-router';
@@ -9,7 +9,11 @@ import { useLocale } from '@/i18n';
 import type { SavedLessonSummary } from '@/storage/lesson-repository';
 import { getLessonRepository } from '@/storage/lessons';
 
-export function LessonHistory() {
+export function LessonHistory({
+  lesson,
+}: {
+  readonly lesson: Pick<LessonContent, 'id' | 'contentVersion'>;
+}) {
   const { t } = useTranslation();
   const locale = useLocale();
   const [latest, setLatest] = useState<SavedLessonSummary | null>(null);
@@ -19,7 +23,7 @@ export function LessonHistory() {
     useCallback(() => {
       let active = true;
       void getLessonRepository()
-        .then((repository) => repository.latest(firstLesson.id))
+        .then((repository) => repository.latest(lesson.id))
         .then(
           (result) => {
             if (active) {
@@ -34,7 +38,7 @@ export function LessonHistory() {
       return () => {
         active = false;
       };
-    }, [retry]),
+    }, [retry, lesson.id]),
   );
   if (error)
     return (
@@ -79,7 +83,7 @@ export function LessonHistory() {
             ),
           })}
         </AppText>
-        {latest.content_version !== firstLesson.contentVersion ? (
+        {latest.content_version !== lesson.contentVersion ? (
           <AppText variant="footnote" tone="muted">
             {t('lesson.olderVersion')}
           </AppText>

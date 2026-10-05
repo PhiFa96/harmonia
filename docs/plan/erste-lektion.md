@@ -12,9 +12,9 @@ Jeder falsch beantwortete Aufgabenslot kommt am Ende genau einmal mit einem ande
 
 Erstversuch und Wiederholung werden getrennt gezählt: Bei zunächst 8/10 und zwei richtigen Wiederholungen bleibt die ursprüngliche Genauigkeit 80 %. Hinweise werden für beide Runden ausgewiesen. „Gerade nicht hören“ gilt für den Durchgang einschließlich Wiederholung. Auch ein früherer Hörfehler wird dann in der Wiederholung ausgelassen. Ausgelassene Aufgaben zählen nicht als falsche Antworten; ungeklärte frühere Fehler bleiben sichtbar. Ein neuer Durchgang setzt die Hör-Pause zurück.
 
-`packages/content/src/lessons/reading-and-listening.json` enthält die stabile ID `fundament.reading-and-listening.1`, `contentVersion: 1`, Status `entwurf`, Einführungskarten und zehn Übungsparameter. Eigene Texte liegen in `packages/i18n` und werden über typisierte Schlüssel referenziert. Damit gelten die bestehenden Sprach-, Platzhalter- und Glossarprüfungen auch für Lerntexte; US/UK verwenden ihre jeweilige Terminologie.
+P2.04 überführt die erste Lektionsdatei in `packages/content/src/catalogue.json`: stabile ID `fundament.reading-and-listening.1`, `contentVersion: 1`, Status `entwurf`, drei Einführungskarten und dieselben zehn Übungsparameter. Eigene Texte liegen in `packages/i18n/src/authored-content.json` und werden über geprüfte `content.…`-Referenzen eingebunden. Sprach-, Platzhalter- und Glossarprüfungen gelten weiterhin; US/UK verwenden ihre jeweilige Terminologie.
 
-Das erste Zod-Schema prüft Umfang, Referenzschlüssel, Status und Parameter. Der Generator prüft zusätzlich tatsächlich mögliche Intervalle/Tonbereiche und eindeutige Hör-Antworten. Dieses Schema ist gezielt für den Durchstich angelegt. P2.04 erweitert es für mehrere Lektionen, Einheiten, Skills und Wissensartikel.
+Die allgemeinen Schemas prüfen Status, Parameter, Umfang und Referenzen. Der Generator prüft tatsächlich mögliche Intervalle/Tonbereiche und eindeutige Hör-Antworten. Entwicklung/interne Vorschau enthalten diese Entwurfslektion; der öffentliche Produktions-Export enthält sie bis zur fachlichen Freigabe nicht. Details: [Inhalts-Pipeline](inhalts-pipeline.md).
 
 ## Reine Ablaufsteuerung
 

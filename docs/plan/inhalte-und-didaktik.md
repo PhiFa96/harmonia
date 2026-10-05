@@ -22,7 +22,7 @@ Dazu kommen:
 
 ## Inhalte als Code
 
-- Alle Inhalte liegen in `packages/content` als YAML- oder JSON-Dateien, geprüft durch Schemas (zod). P1.20 legt die erste JSON-Lektion an; eigene Texte werden über typisierte Referenzen auf `packages/i18n` eingebunden, damit Sprach- und Glossarprüfungen gemeinsam bleiben. P2.04 erweitert die Pipeline.
+- Alle Inhalte liegen in `packages/content` als JSON-Katalog, geprüft durch Schemas (zod). P2.04 verallgemeinert die erste Lektion zu Bereichen, Stufen, Einheiten, Fähigkeiten, Übungssätzen, Karten und Artikeln; Texte liegen zentral in `packages/i18n` unter `content.…`. Referenzen, Sprache, Notenbeispiele, Voraussetzungen und öffentliche Artefakte werden gemeinsam geprüft. Ablauf: [inhalts-pipeline.md](inhalts-pipeline.md).
 - Jeder Text hat einen deutschen und einen englischen Eintrag. Die CI schlägt fehl, wenn eine Sprache fehlt.
 - Übungen sind meist **parametrisch:** Die Datei beschreibt den Übungstyp und seine Parameter. Die Engine erzeugt daraus beliebig viele Aufgaben. Feste Aufgaben gibt es nur, wo nötig (Prüfungen, Geschichte).
 - Inhalte sind versioniert (`contentVersion`). Fortschritt verweist auf stabile IDs, damit Änderungen keine Fortschritte zerstören.

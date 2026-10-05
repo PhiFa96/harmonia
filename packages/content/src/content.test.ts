@@ -11,7 +11,8 @@ import {
   startLessonReview,
 } from '@harmonia/exercises';
 import { intervalBetween, formatInterval, parsePitch } from '@harmonia/theory';
-import { firstLesson, lessonSchema } from './index.ts';
+import { firstLesson } from './authoring.ts';
+import { lessonSchema } from './index.ts';
 describe('Erste versionierte Lektion', () => {
   it('hat zehn Aufgaben mit stabiler ID und allen drei Typen; Inhalte bleiben Entwurf', () => {
     expect(firstLesson.id).toBe('fundament.reading-and-listening.1');
@@ -32,8 +33,8 @@ describe('Erste versionierte Lektion', () => {
   });
   it('weist fehlende Einführung, falschen Umfang, ungültige Parameter und Zusatzfelder zurück', () => {
     for (const patch of [
-      { introduction: [] },
-      { exercises: firstLesson.exercises.slice(1) },
+      { introduction: null },
+      { exercises: [] },
       { contentVersion: 0 },
       { status: 'live' },
       { extra: true },
@@ -96,10 +97,10 @@ describe('Erste versionierte Lektion', () => {
   it('prüft die eigenen Referenzintervalle gegen feste Tabellen und Engine', () => {
     const examples = firstLesson.introduction.flatMap((card) => card.examples);
     const table = [
-      ['Eb4', 'm3', 'lesson.minorThird'],
-      ['E4', 'M3', 'lesson.majorThird'],
-      ['F4', 'P4', 'lesson.fourth'],
-      ['G4', 'P5', 'lesson.fifth'],
+      ['Eb4', 'm3', 'content.firstLesson.minorThird'],
+      ['E4', 'M3', 'content.firstLesson.majorThird'],
+      ['F4', 'P4', 'content.firstLesson.fourth'],
+      ['G4', 'P5', 'content.firstLesson.fifth'],
     ] as const;
     for (const [to, interval, caption] of table) {
       expect(examples.find((value) => value.captionKey === caption)?.score).toBe(

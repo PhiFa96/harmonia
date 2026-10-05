@@ -9,7 +9,8 @@ import {
   exerciseFeedback,
   createLessonSession,
 } from '../packages/exercises/src/index.ts';
-import { firstLesson } from '../packages/content/src/index.ts';
+import { firstLesson, catalogue } from '../packages/content/src/authoring.ts';
+import { publicCatalogue, resolveLesson } from '../packages/content/src/index.ts';
 
 import {
   buildScale,
@@ -52,6 +53,12 @@ function check(label: string, actual: unknown, expected: unknown): void {
 const exercise = generateExercise(
   { type: 'INTERVAL_IDENTIFY_VISUAL', params: { intervals: ['m3', 'M3', 'P5'] } },
   exerciseRng('deno-exercises'),
+);
+check('Öffentlicher Katalog enthält keinen Entwurf', publicCatalogue(catalogue).lessons.length, 0);
+check(
+  'Unveröffentlichte Lektion nicht auflösbar',
+  resolveLesson(publicCatalogue(catalogue), firstLesson.id),
+  undefined,
 );
 check(
   'Versionierte Lektion mit zehn Aufgaben',

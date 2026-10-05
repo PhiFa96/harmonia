@@ -2,7 +2,7 @@ import { DatabaseSync } from 'node:sqlite';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
-import { firstLesson } from '@harmonia/content';
+import { firstLesson } from '@harmonia/content/authoring';
 import {
   activeLessonSession,
   answerLesson,

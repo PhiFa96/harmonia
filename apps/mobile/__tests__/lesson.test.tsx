@@ -1,4 +1,4 @@
-import { firstLesson } from '@harmonia/content';
+import { firstLesson } from '@harmonia/content/authoring';
 import type { LessonSession } from '@harmonia/exercises';
 import {
   activeLessonSession,

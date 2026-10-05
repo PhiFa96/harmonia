@@ -6,7 +6,8 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
-    "./eslint": "./eslint/no-hardcoded-text.js"
+    "./eslint": "./eslint/no-hardcoded-text.js",
+    "./content-messages": "./src/published-content-messages.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
