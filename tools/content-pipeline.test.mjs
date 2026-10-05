@@ -80,7 +80,7 @@ test('Unbekannter Status und zusätzliche Felder werden abgelehnt', () => {
 });
 test('Nicht positive und über den Katalog hinausgehende Versionen werden abgelehnt', () => {
   const data = fresh();
-  data.lessons[0].contentVersion = 2;
+  data.lessons[0].contentVersion = data.contentVersion + 1;
   rejects(data, /Version größer/);
   rejects({ ...fresh(), contentVersion: 0 }, /contentVersion/);
 });
@@ -156,7 +156,7 @@ test('Selbstvoraussetzung und mehrgliedriger Zyklus werden erkannt', () => {
   const data = fresh();
   data.skills[0].prerequisites = [data.skills[0].id];
   rejects(data, /Zyklus/);
-  data.skills[0].prerequisites = [data.skills.at(-1).id];
+  data.skills[0].prerequisites = [data.skills[2].id];
   rejects(data, /Zyklus/);
 });
 test('Gemeinsame Voraussetzung in einem azyklischen Graphen ist erlaubt', () => {
@@ -395,6 +395,18 @@ test('Bundleprüfung weist auch Entwurfstexte ohne eine enthaltene Lektions-ID z
   bundleFixture('const pattern = /[`\'"]+/; const text = ' + text + ';', (result) => {
     assert.equal(result.status, 1);
     assert.match(result.stderr, /content.firstLesson.notesBody/);
+  });
+});
+
+test('Bundleprüfung erlaubt bereits öffentliche Glossarbegriffe bei gleichnamigen Entwurfszielen', () => {
+  bundleFixture('export const terms = ["Dreiklänge", "triads", "rhythm"];', (result) => {
+    assert.equal(result.status, 0, result.stderr);
+  });
+});
+test('Ein öffentlicher Glossarbegriff erlaubt keine dazugehörige Entwurfs-Bereichs-ID', () => {
+  bundleFixture('export const area = { title: "Dreiklänge", id: "area.chords" };', (result) => {
+    assert.equal(result.status, 1);
+    assert.match(result.stderr, /Entwurfsinhalt im öffentlichen Bundle gefunden: area.chords/);
   });
 });
 

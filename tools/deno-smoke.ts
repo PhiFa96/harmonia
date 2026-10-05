@@ -9,8 +9,8 @@ import {
   exerciseFeedback,
   createLessonSession,
 } from '../packages/exercises/src/index.ts';
-import { firstLesson, catalogue } from '../packages/content/src/authoring.ts';
-import { publicCatalogue, resolveLesson } from '../packages/content/src/index.ts';
+import { firstLesson, catalogue, curriculumPlan } from '../packages/content/src/authoring.ts';
+import { publicCatalogue, resolveLesson, curriculumSkills } from '../packages/content/src/index.ts';
 
 import {
   buildScale,
@@ -53,6 +53,19 @@ function check(label: string, actual: unknown, expected: unknown): void {
 const exercise = generateExercise(
   { type: 'INTERVAL_IDENTIFY_VISUAL', params: { intervals: ['m3', 'M3', 'P5'] } },
   exerciseRng('deno-exercises'),
+);
+const plannedSkills = curriculumSkills(catalogue, curriculumPlan);
+check('Vollständiger Fähigkeitsplan', plannedSkills.length, catalogue.skills.length);
+check(
+  'Fähigkeiten den Stufen 1–2 zugeordnet',
+  [...new Set(plannedSkills.map((entry) => entry.level.number))].join(','),
+  '1,2',
+);
+check(
+  'Gehörbildung beginnt ohne Notationsvoraussetzung',
+  plannedSkills.find((entry) => entry.skill.id === 'aural.pitch-direction')?.skill.prerequisites
+    .length,
+  0,
 );
 check('Öffentlicher Katalog enthält keinen Entwurf', publicCatalogue(catalogue).lessons.length, 0);
 check(

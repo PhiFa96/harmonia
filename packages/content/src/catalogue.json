@@ -1,12 +1,54 @@
 {
   "schemaVersion": 1,
-  "contentVersion": 1,
+  "contentVersion": 2,
   "areas": [
     {
       "id": "fundament",
       "contentVersion": 1,
       "status": "entwurf",
       "titleKey": "content.firstLesson.areaTitle"
+    },
+    {
+      "id": "area.notation",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.areas.notation"
+    },
+    {
+      "id": "area.rhythm",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.areas.rhythm"
+    },
+    {
+      "id": "area.intervals",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.areas.intervals"
+    },
+    {
+      "id": "area.scales",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.areas.scales"
+    },
+    {
+      "id": "area.chords",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.areas.chords"
+    },
+    {
+      "id": "area.aural",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.areas.aural"
+    },
+    {
+      "id": "area.history",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.areas.history"
     }
   ],
   "levels": [
@@ -17,6 +59,102 @@
       "titleKey": "content.firstLesson.levelTitle",
       "areaId": "fundament",
       "number": 1
+    },
+    {
+      "id": "notation.level-1",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.levels.entry",
+      "areaId": "area.notation",
+      "number": 1
+    },
+    {
+      "id": "notation.level-2",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.levels.foundation",
+      "areaId": "area.notation",
+      "number": 2
+    },
+    {
+      "id": "rhythm.level-1",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.levels.entry",
+      "areaId": "area.rhythm",
+      "number": 1
+    },
+    {
+      "id": "rhythm.level-2",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.levels.foundation",
+      "areaId": "area.rhythm",
+      "number": 2
+    },
+    {
+      "id": "intervals.level-1",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.levels.entry",
+      "areaId": "area.intervals",
+      "number": 1
+    },
+    {
+      "id": "intervals.level-2",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.levels.foundation",
+      "areaId": "area.intervals",
+      "number": 2
+    },
+    {
+      "id": "scales.level-2",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.levels.foundation",
+      "areaId": "area.scales",
+      "number": 2
+    },
+    {
+      "id": "chords.level-2",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.levels.foundation",
+      "areaId": "area.chords",
+      "number": 2
+    },
+    {
+      "id": "aural.level-1",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.levels.entry",
+      "areaId": "area.aural",
+      "number": 1
+    },
+    {
+      "id": "aural.level-2",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.levels.foundation",
+      "areaId": "area.aural",
+      "number": 2
+    },
+    {
+      "id": "history.level-1",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.levels.entry",
+      "areaId": "area.history",
+      "number": 1
+    },
+    {
+      "id": "history.level-2",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.levels.foundation",
+      "areaId": "area.history",
+      "number": 2
     }
   ],
   "units": [
@@ -26,6 +164,202 @@
       "status": "entwurf",
       "titleKey": "content.firstLesson.unitTitle",
       "levelId": "fundament.level-1"
+    },
+    {
+      "id": "notation.l1.staff",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.units.notationStaff",
+      "levelId": "notation.level-1"
+    },
+    {
+      "id": "notation.l1.keyboard",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.units.notationKeyboard",
+      "levelId": "notation.level-1"
+    },
+    {
+      "id": "notation.l1.register",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.units.notationRegister",
+      "levelId": "notation.level-1"
+    },
+    {
+      "id": "rhythm.l1.pulse",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.units.rhythmPulse",
+      "levelId": "rhythm.level-1"
+    },
+    {
+      "id": "rhythm.l1.values",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.units.rhythmValues",
+      "levelId": "rhythm.level-1"
+    },
+    {
+      "id": "rhythm.l1.simple-meter",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.units.rhythmSimpleMeter",
+      "levelId": "rhythm.level-1"
+    },
+    {
+      "id": "intervals.l1.size",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.units.intervalSize",
+      "levelId": "intervals.level-1"
+    },
+    {
+      "id": "intervals.l1.first-qualities",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.units.intervalFirstQualities",
+      "levelId": "intervals.level-1"
+    },
+    {
+      "id": "aural.l1.pulse-rhythm",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.units.auralPulseRhythm",
+      "levelId": "aural.level-1"
+    },
+    {
+      "id": "aural.l1.pitch-intervals",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.units.auralPitchIntervals",
+      "levelId": "aural.level-1"
+    },
+    {
+      "id": "history.l1.sources",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.units.historySources",
+      "levelId": "history.level-1"
+    },
+    {
+      "id": "history.l1.overview",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.units.historyOverview",
+      "levelId": "history.level-1"
+    },
+    {
+      "id": "notation.l2.clefs-registers",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.units.notationClefsRegisters",
+      "levelId": "notation.level-2"
+    },
+    {
+      "id": "notation.l2.spelling",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.units.notationSpelling",
+      "levelId": "notation.level-2"
+    },
+    {
+      "id": "rhythm.l2.dotted-tied",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.units.rhythmDottedTied",
+      "levelId": "rhythm.level-2"
+    },
+    {
+      "id": "rhythm.l2.subdivision",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.units.rhythmSubdivision",
+      "levelId": "rhythm.level-2"
+    },
+    {
+      "id": "intervals.l2.qualities-build",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.units.intervalQualitiesBuild",
+      "levelId": "intervals.level-2"
+    },
+    {
+      "id": "intervals.l2.inversion",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.units.intervalInversion",
+      "levelId": "intervals.level-2"
+    },
+    {
+      "id": "scales.l2.major",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.units.scaleMajor",
+      "levelId": "scales.level-2"
+    },
+    {
+      "id": "scales.l2.minor",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.units.scaleMinor",
+      "levelId": "scales.level-2"
+    },
+    {
+      "id": "scales.l2.keys",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.units.scaleKeys",
+      "levelId": "scales.level-2"
+    },
+    {
+      "id": "chords.l2.qualities",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.units.chordQualities",
+      "levelId": "chords.level-2"
+    },
+    {
+      "id": "chords.l2.inversions",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.units.chordInversions",
+      "levelId": "chords.level-2"
+    },
+    {
+      "id": "aural.l2.rhythm-detail",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.units.auralRhythmDetail",
+      "levelId": "aural.level-2"
+    },
+    {
+      "id": "aural.l2.melody",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.units.auralMelody",
+      "levelId": "aural.level-2"
+    },
+    {
+      "id": "aural.l2.triads",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.units.auralTriads",
+      "levelId": "aural.level-2"
+    },
+    {
+      "id": "history.l2.period-contexts",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.units.historyPeriodContexts",
+      "levelId": "history.level-2"
+    },
+    {
+      "id": "history.l2.jazz-pop-sources",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.units.historyJazzPop",
+      "levelId": "history.level-2"
     }
   ],
   "skills": [
@@ -52,6 +386,714 @@
       "titleKey": "content.firstLesson.hearingTitle",
       "areaId": "fundament",
       "prerequisites": ["interval.identify.visual"]
+    },
+    {
+      "id": "notation.staff",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.staff",
+      "areaId": "area.notation",
+      "prerequisites": []
+    },
+    {
+      "id": "notation.treble-clef",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.trebleClef",
+      "areaId": "area.notation",
+      "prerequisites": ["notation.staff"]
+    },
+    {
+      "id": "notation.treble-natural",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.trebleNatural",
+      "areaId": "area.notation",
+      "prerequisites": ["notation.treble-clef"]
+    },
+    {
+      "id": "notation.keyboard-layout",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.keyboardLayout",
+      "areaId": "area.notation",
+      "prerequisites": []
+    },
+    {
+      "id": "notation.semitone",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.semitone",
+      "areaId": "area.notation",
+      "prerequisites": ["notation.keyboard-layout"]
+    },
+    {
+      "id": "notation.accidentals",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.accidentals",
+      "areaId": "area.notation",
+      "prerequisites": ["notation.treble-natural", "notation.semitone"]
+    },
+    {
+      "id": "notation.octave-register",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.octaveRegister",
+      "areaId": "area.notation",
+      "prerequisites": ["notation.treble-natural"]
+    },
+    {
+      "id": "notation.ledger-lines",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.ledgerLines",
+      "areaId": "area.notation",
+      "prerequisites": ["notation.staff", "notation.octave-register"]
+    },
+    {
+      "id": "notation.pitch-match",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.pitchMatch",
+      "areaId": "area.notation",
+      "prerequisites": [
+        "notation.keyboard-layout",
+        "notation.octave-register",
+        "notation.ledger-lines"
+      ]
+    },
+    {
+      "id": "rhythm.pulse",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.pulse",
+      "areaId": "area.rhythm",
+      "prerequisites": []
+    },
+    {
+      "id": "rhythm.tempo",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.tempo",
+      "areaId": "area.rhythm",
+      "prerequisites": ["rhythm.pulse"]
+    },
+    {
+      "id": "rhythm.beat-group",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.beatGroup",
+      "areaId": "area.rhythm",
+      "prerequisites": ["rhythm.pulse"]
+    },
+    {
+      "id": "rhythm.note-values",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.noteValues",
+      "areaId": "area.rhythm",
+      "prerequisites": ["rhythm.pulse"]
+    },
+    {
+      "id": "rhythm.rests",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.rests",
+      "areaId": "area.rhythm",
+      "prerequisites": ["rhythm.note-values"]
+    },
+    {
+      "id": "rhythm.measure-fill",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.measureFill",
+      "areaId": "area.rhythm",
+      "prerequisites": ["rhythm.note-values", "rhythm.rests"]
+    },
+    {
+      "id": "rhythm.barlines",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.barlines",
+      "areaId": "area.rhythm",
+      "prerequisites": ["rhythm.measure-fill"]
+    },
+    {
+      "id": "rhythm.meter-simple",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.meterSimple",
+      "areaId": "area.rhythm",
+      "prerequisites": ["rhythm.beat-group", "rhythm.note-values"]
+    },
+    {
+      "id": "rhythm.count-in",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.countIn",
+      "areaId": "area.rhythm",
+      "prerequisites": ["rhythm.meter-simple"]
+    },
+    {
+      "id": "rhythm.read-basic",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.readBasicRhythm",
+      "areaId": "area.rhythm",
+      "prerequisites": ["rhythm.meter-simple", "rhythm.rests"]
+    },
+    {
+      "id": "interval.generic-size",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.genericSize",
+      "areaId": "area.intervals",
+      "prerequisites": ["notation.treble-natural"]
+    },
+    {
+      "id": "interval.direction",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.intervalDirection",
+      "areaId": "area.intervals",
+      "prerequisites": ["interval.generic-size"]
+    },
+    {
+      "id": "interval.steps-leaps",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.stepsLeaps",
+      "areaId": "area.intervals",
+      "prerequisites": ["interval.direction"]
+    },
+    {
+      "id": "interval.semitone-distance",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.semitoneDistance",
+      "areaId": "area.intervals",
+      "prerequisites": ["notation.semitone"]
+    },
+    {
+      "id": "interval.thirds",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.thirds",
+      "areaId": "area.intervals",
+      "prerequisites": ["interval.generic-size", "interval.semitone-distance"]
+    },
+    {
+      "id": "interval.perfect-fourth-fifth-octave",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.perfectIntervals",
+      "areaId": "area.intervals",
+      "prerequisites": ["interval.generic-size", "interval.semitone-distance"]
+    },
+    {
+      "id": "aural.pulse",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.hearPulse",
+      "areaId": "area.aural",
+      "prerequisites": []
+    },
+    {
+      "id": "aural.same-different-rhythm",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.sameDifferentRhythm",
+      "areaId": "area.aural",
+      "prerequisites": ["aural.pulse"]
+    },
+    {
+      "id": "aural.rhythm-choice-basic",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.rhythmChoiceBasic",
+      "areaId": "area.aural",
+      "prerequisites": ["aural.same-different-rhythm", "rhythm.read-basic"]
+    },
+    {
+      "id": "aural.pitch-direction",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.hearPitchDirection",
+      "areaId": "area.aural",
+      "prerequisites": []
+    },
+    {
+      "id": "aural.same-different-melody",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.sameDifferentMelody",
+      "areaId": "area.aural",
+      "prerequisites": ["aural.pitch-direction"]
+    },
+    {
+      "id": "aural.third-fourth-fifth",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.hearFirstIntervals",
+      "areaId": "area.aural",
+      "prerequisites": ["aural.pitch-direction"]
+    },
+    {
+      "id": "history.sound-source",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.soundSource",
+      "areaId": "area.history",
+      "prerequisites": []
+    },
+    {
+      "id": "history.source-types",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.sourceTypes",
+      "areaId": "area.history",
+      "prerequisites": ["history.sound-source"]
+    },
+    {
+      "id": "history.context",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.historicalContext",
+      "areaId": "area.history",
+      "prerequisites": ["history.source-types"]
+    },
+    {
+      "id": "history.european-timeline",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.europeanTimeline",
+      "areaId": "area.history",
+      "prerequisites": ["history.source-types"]
+    },
+    {
+      "id": "history.genre-function",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.genreFunction",
+      "areaId": "area.history",
+      "prerequisites": ["history.context"]
+    },
+    {
+      "id": "history.listening-observation",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.listeningObservation",
+      "areaId": "area.history",
+      "prerequisites": ["history.source-types", "history.genre-function"]
+    },
+    {
+      "id": "notation.bass-natural",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.bassNatural",
+      "areaId": "area.notation",
+      "prerequisites": ["notation.treble-natural"]
+    },
+    {
+      "id": "notation.grand-staff",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.grandStaff",
+      "areaId": "area.notation",
+      "prerequisites": ["notation.treble-natural", "notation.bass-natural"]
+    },
+    {
+      "id": "notation.octave-systems",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.octaveSystems",
+      "areaId": "area.notation",
+      "prerequisites": ["notation.octave-register"]
+    },
+    {
+      "id": "notation.accidental-scope",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.accidentalScope",
+      "areaId": "area.notation",
+      "prerequisites": ["notation.accidentals", "rhythm.barlines"]
+    },
+    {
+      "id": "notation.enharmonic-spelling",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.enharmonicSpelling",
+      "areaId": "area.notation",
+      "prerequisites": ["notation.accidentals", "notation.semitone"]
+    },
+    {
+      "id": "notation.write-pitch",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.writePitch",
+      "areaId": "area.notation",
+      "prerequisites": [
+        "notation.ledger-lines",
+        "notation.bass-natural",
+        "notation.accidental-scope"
+      ]
+    },
+    {
+      "id": "rhythm.dotted-values",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.dottedValues",
+      "areaId": "area.rhythm",
+      "prerequisites": ["rhythm.note-values"]
+    },
+    {
+      "id": "rhythm.ties",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.ties",
+      "areaId": "area.rhythm",
+      "prerequisites": ["rhythm.note-values"]
+    },
+    {
+      "id": "rhythm.dotted-and-tied",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.dottedAndTied",
+      "areaId": "area.rhythm",
+      "prerequisites": ["rhythm.dotted-values", "rhythm.ties", "rhythm.barlines"]
+    },
+    {
+      "id": "rhythm.syncopation-basic",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.syncopationBasic",
+      "areaId": "area.rhythm",
+      "prerequisites": ["rhythm.dotted-and-tied", "rhythm.meter-simple"]
+    },
+    {
+      "id": "rhythm.triplet",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.triplet",
+      "areaId": "area.rhythm",
+      "prerequisites": ["rhythm.note-values"]
+    },
+    {
+      "id": "rhythm.compound-meter",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.compoundMeter",
+      "areaId": "area.rhythm",
+      "prerequisites": ["rhythm.meter-simple", "rhythm.dotted-values"]
+    },
+    {
+      "id": "rhythm.group-6-8",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.groupSixEight",
+      "areaId": "area.rhythm",
+      "prerequisites": ["rhythm.compound-meter", "rhythm.read-basic"]
+    },
+    {
+      "id": "interval.simple-qualities",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.simpleQualities",
+      "areaId": "area.intervals",
+      "prerequisites": [
+        "interval.generic-size",
+        "interval.semitone-distance",
+        "notation.accidental-scope"
+      ]
+    },
+    {
+      "id": "interval.build",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.buildInterval",
+      "areaId": "area.intervals",
+      "prerequisites": ["interval.simple-qualities", "notation.write-pitch"]
+    },
+    {
+      "id": "interval.enharmonic-distinction",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.enharmonicIntervals",
+      "areaId": "area.intervals",
+      "prerequisites": ["interval.simple-qualities", "notation.enharmonic-spelling"]
+    },
+    {
+      "id": "interval.inversion",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.intervalInversion",
+      "areaId": "area.intervals",
+      "prerequisites": ["interval.simple-qualities"]
+    },
+    {
+      "id": "interval.descending",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.descendingIntervals",
+      "areaId": "area.intervals",
+      "prerequisites": ["interval.build", "interval.direction"]
+    },
+    {
+      "id": "interval.simple-compound",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.simpleCompound",
+      "areaId": "area.intervals",
+      "prerequisites": ["interval.simple-qualities", "notation.octave-register"]
+    },
+    {
+      "id": "scale.major-pattern",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.majorPattern",
+      "areaId": "area.scales",
+      "prerequisites": ["notation.semitone", "interval.generic-size"]
+    },
+    {
+      "id": "scale.major-build",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.majorBuild",
+      "areaId": "area.scales",
+      "prerequisites": ["scale.major-pattern", "notation.write-pitch"]
+    },
+    {
+      "id": "scale.tonic",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.tonic",
+      "areaId": "area.scales",
+      "prerequisites": ["scale.major-build"]
+    },
+    {
+      "id": "scale.natural-minor",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.naturalMinor",
+      "areaId": "area.scales",
+      "prerequisites": ["scale.major-pattern", "scale.tonic"]
+    },
+    {
+      "id": "scale.harmonic-minor",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.harmonicMinor",
+      "areaId": "area.scales",
+      "prerequisites": ["scale.natural-minor", "notation.write-pitch"]
+    },
+    {
+      "id": "scale.melodic-minor",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.melodicMinor",
+      "areaId": "area.scales",
+      "prerequisites": ["scale.harmonic-minor"]
+    },
+    {
+      "id": "key.signature-major",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.majorSignature",
+      "areaId": "area.scales",
+      "prerequisites": ["scale.major-build", "notation.accidental-scope"]
+    },
+    {
+      "id": "key.fifths",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.circleFifths",
+      "areaId": "area.scales",
+      "prerequisites": ["key.signature-major"]
+    },
+    {
+      "id": "key.signature-minor",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.minorSignature",
+      "areaId": "area.scales",
+      "prerequisites": ["scale.natural-minor", "key.fifths"]
+    },
+    {
+      "id": "key.relative",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.relativeKeys",
+      "areaId": "area.scales",
+      "prerequisites": ["key.signature-minor", "scale.natural-minor"]
+    },
+    {
+      "id": "chord.triad-structure",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.triadStructure",
+      "areaId": "area.chords",
+      "prerequisites": ["interval.build"]
+    },
+    {
+      "id": "chord.major-minor",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.majorMinorTriad",
+      "areaId": "area.chords",
+      "prerequisites": ["chord.triad-structure", "interval.thirds"]
+    },
+    {
+      "id": "chord.diminished-augmented",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.diminishedAugmentedTriad",
+      "areaId": "area.chords",
+      "prerequisites": ["chord.major-minor", "interval.simple-qualities"]
+    },
+    {
+      "id": "chord.root-and-bass",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.rootBass",
+      "areaId": "area.chords",
+      "prerequisites": ["chord.triad-structure"]
+    },
+    {
+      "id": "chord.inversions",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.triadInversions",
+      "areaId": "area.chords",
+      "prerequisites": ["chord.root-and-bass", "chord.major-minor"]
+    },
+    {
+      "id": "chord.diatonic-triads",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.diatonicTriads",
+      "areaId": "area.chords",
+      "prerequisites": ["scale.major-build", "scale.natural-minor", "chord.triad-structure"]
+    },
+    {
+      "id": "aural.rhythm-choice-dotted",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.rhythmChoiceDotted",
+      "areaId": "area.aural",
+      "prerequisites": ["aural.rhythm-choice-basic", "rhythm.dotted-values"]
+    },
+    {
+      "id": "aural.simple-compound-pulse",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.hearSubdivision",
+      "areaId": "area.aural",
+      "prerequisites": ["aural.pulse", "rhythm.compound-meter"]
+    },
+    {
+      "id": "aural.rhythm-completion",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.rhythmCompletion",
+      "areaId": "area.aural",
+      "prerequisites": ["aural.rhythm-choice-dotted", "rhythm.read-basic"]
+    },
+    {
+      "id": "aural.simple-intervals",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.hearSimpleIntervals",
+      "areaId": "area.aural",
+      "prerequisites": ["aural.third-fourth-fifth"]
+    },
+    {
+      "id": "aural.major-minor-scale",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.hearScaleMode",
+      "areaId": "area.aural",
+      "prerequisites": ["aural.same-different-melody"]
+    },
+    {
+      "id": "aural.melodic-memory",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.melodicMemory",
+      "areaId": "area.aural",
+      "prerequisites": ["aural.same-different-melody", "aural.simple-intervals"]
+    },
+    {
+      "id": "aural.triad-major-minor",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.hearMajorMinorTriad",
+      "areaId": "area.aural",
+      "prerequisites": ["aural.major-minor-scale"]
+    },
+    {
+      "id": "aural.triad-quality",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.hearTriadQuality",
+      "areaId": "area.aural",
+      "prerequisites": ["aural.triad-major-minor", "aural.simple-intervals"]
+    },
+    {
+      "id": "aural.triad-inversions",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.hearTriadInversions",
+      "areaId": "area.aural",
+      "prerequisites": ["aural.triad-quality", "chord.inversions"]
+    },
+    {
+      "id": "history.medieval-renaissance",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.medievalRenaissance",
+      "areaId": "area.history",
+      "prerequisites": ["history.european-timeline", "history.genre-function"]
+    },
+    {
+      "id": "history.baroque-classical",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.baroqueClassical",
+      "areaId": "area.history",
+      "prerequisites": ["history.medieval-renaissance"]
+    },
+    {
+      "id": "history.romantic-modern",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.romanticModern",
+      "areaId": "area.history",
+      "prerequisites": ["history.baroque-classical"]
+    },
+    {
+      "id": "history.jazz-roots",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.jazzRoots",
+      "areaId": "area.history",
+      "prerequisites": ["history.context", "history.source-types"]
+    },
+    {
+      "id": "history.popular-contexts",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.popularContexts",
+      "areaId": "area.history",
+      "prerequisites": ["history.jazz-roots"]
+    },
+    {
+      "id": "history.compare-sources",
+      "contentVersion": 2,
+      "status": "entwurf",
+      "titleKey": "content.curriculum.skills.compareSources",
+      "areaId": "area.history",
+      "prerequisites": ["history.source-types", "history.popular-contexts"]
     }
   ],
   "exerciseSets": [
