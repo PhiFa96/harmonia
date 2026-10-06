@@ -1,4 +1,4 @@
-import { createRng } from '@harmonia/theory';
+import { createRng, midi } from '@harmonia/theory';
 import { generateExercise } from './generate.ts';
 import {
   answerSession,
@@ -59,8 +59,9 @@ export function revealLessonHint(lesson: LessonSession): LessonSession {
 }
 /** Die Tonhöhen müssen sich ändern; bloßes Mischen der Antworten ist keine neue Variante. */
 export function itemVariantKey(item: ExerciseItem): string {
+  if (item.type === 'KEY_FIND') return JSON.stringify([item.type, midi(item.pitch)]);
   return JSON.stringify(
-    item.type === 'NOTE_NAME'
+    'pitch' in item
       ? [item.type, item.clef, item.pitch]
       : [item.type, item.clef, item.from, item.to, item.playback],
   );

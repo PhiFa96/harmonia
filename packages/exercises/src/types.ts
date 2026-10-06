@@ -2,7 +2,13 @@ import type { AppLocale, Messages } from '@harmonia/i18n';
 import type { Score } from '@harmonia/notation';
 import type { Pitch, Rng } from '@harmonia/theory';
 
-export type ExerciseType = 'NOTE_NAME' | 'INTERVAL_IDENTIFY_VISUAL' | 'INTERVAL_IDENTIFY_AURAL';
+export type ExerciseType =
+  | 'NOTE_NAME'
+  | 'INTERVAL_IDENTIFY_VISUAL'
+  | 'INTERVAL_IDENTIFY_AURAL'
+  | 'NOTE_PLACE'
+  | 'KEY_FIND'
+  | 'INTERVAL_BUILD';
 export type ExerciseClef = 'treble' | 'bass';
 export type IntervalPlayback = 'melodic-up' | 'melodic-down' | 'harmonic';
 
@@ -26,6 +32,9 @@ export interface AuralIntervalParams extends NoteParams {
 }
 export type ExerciseSpec =
   | { readonly type: 'NOTE_NAME'; readonly params: NoteParams }
+  | { readonly type: 'NOTE_PLACE'; readonly params: NoteParams }
+  | { readonly type: 'KEY_FIND'; readonly params: NoteParams }
+  | { readonly type: 'INTERVAL_BUILD'; readonly params: VisualIntervalParams }
   | { readonly type: 'INTERVAL_IDENTIFY_VISUAL'; readonly params: VisualIntervalParams }
   | { readonly type: 'INTERVAL_IDENTIFY_AURAL'; readonly params: AuralIntervalParams };
 
@@ -46,7 +55,22 @@ export interface IntervalItem extends ItemBase {
   readonly to: Pitch;
   readonly playback: IntervalPlayback;
 }
-export type ExerciseItem = NoteItem | IntervalItem;
+export interface NotePlaceItem extends ItemBase {
+  readonly type: 'NOTE_PLACE';
+  readonly pitch: Pitch;
+}
+export interface KeyFindItem extends ItemBase {
+  readonly type: 'KEY_FIND';
+  readonly pitch: Pitch;
+}
+export interface IntervalBuildItem extends ItemBase {
+  readonly type: 'INTERVAL_BUILD';
+  readonly from: Pitch;
+  readonly to: Pitch;
+  readonly playback: IntervalPlayback;
+}
+export type PitchInputItem = NotePlaceItem | KeyFindItem | IntervalBuildItem;
+export type ExerciseItem = NoteItem | IntervalItem | PitchInputItem;
 
 export interface Evaluation {
   readonly answer: string;

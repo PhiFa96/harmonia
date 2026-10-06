@@ -40,6 +40,7 @@ export interface PianoKeyboardProps {
   /** Die Übung bestimmt die Schreibweise, nicht die Beschriftung der Klaviatur. */
   readonly spellPitch?: (midi: number) => Pitch;
   readonly enabled?: boolean;
+  readonly initialRange?: 'practice' | 'middle' | 'full';
 }
 
 type RangeName = 'practice' | 'middle' | 'full';
@@ -57,13 +58,14 @@ export function PianoKeyboard({
   highlights = [],
   spellPitch,
   enabled = true,
+  initialRange = 'practice',
 }: PianoKeyboardProps) {
   const { t } = useTranslation();
   const locale = useLocale();
   const { colors, reduceMotion } = useUiTheme();
   const pianoStatus = usePianoStatus((state) => state.status);
   const [labels, setLabels] = useState<KeyboardLabels>(locale === 'de' ? 'de' : 'intl');
-  const [rangeName, setRangeName] = useState<RangeName>('practice');
+  const [rangeName, setRangeName] = useState<RangeName>(initialRange);
   const [zoom, setZoom] = useState(0);
   const [scrollMode, setScrollMode] = useState(false);
   const [sheet, setSheet] = useState<'settings' | 'labels' | 'range' | null>(null);

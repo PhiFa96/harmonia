@@ -16,7 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { AccessibilityInfo, Platform, ScrollView, StyleSheet, View } from 'react-native';
 
 import { ExerciseTask } from '@/components/exercise-task';
-import { createPracticeSession } from '@/exercises/practice';
+import { createPitchInputSession, createPracticeSession } from '@/exercises/practice';
 import { useLocale } from '@/i18n';
 
 export default function PracticeScreen() {
@@ -24,6 +24,7 @@ export default function PracticeScreen() {
   const locale = useLocale();
   const [session, setSession] = useState<ExerciseSession | null>(null);
   const [answer, setAnswer] = useState<string | null>(null);
+  const [construction, setConstruction] = useState(false);
   const run = useRef(0);
   const scroll = useRef<ScrollView>(null);
   const question = useRef<View>(null);
@@ -32,9 +33,12 @@ export default function PracticeScreen() {
   const prompt = item ? exercisePrompt(item, locale) : '';
   const started = session !== null;
   const summary = session ? sessionSummary(session) : undefined;
-  const start = () => {
+  const start = (build = construction) => {
+    setConstruction(build);
     setAnswer(null);
-    setSession(createPracticeSession(Date.now() + run.current++));
+    setSession(
+      (build ? createPitchInputSession : createPracticeSession)(Date.now() + run.current++),
+    );
     scroll.current?.scrollTo({ y: 0, animated: false });
   };
   useFocusEffect(
@@ -66,7 +70,23 @@ export default function PracticeScreen() {
                 ))}
               </View>
             </Card>
-            <Button label={t('exercise.start')} onPress={start} />
+            <Button
+              label={t('exercise.start')}
+              onPress={() => {
+                start(false);
+              }}
+            />
+            <Card>
+              <AppText variant="title3">{t('exercise.constructionStart')}</AppText>
+              <AppText tone="muted">{t('exercise.constructionIntro')}</AppText>
+            </Card>
+            <Button
+              variant="secondary"
+              label={t('exercise.constructionStart')}
+              onPress={() => {
+                start(true);
+              }}
+            />
           </>
         ) : item ? (
           <>
@@ -132,7 +152,22 @@ export default function PracticeScreen() {
                 ) : null}
               </View>
             </Card>
-            <Button label={t('exercise.restart')} onPress={start} />
+            <Button
+              label={t('exercise.restart')}
+              onPress={() => {
+                start();
+              }}
+            />
+            <Button
+              size="medium"
+              variant="ghost"
+              label={t('exercise.chooseSet')}
+              onPress={() => {
+                setSession(null);
+                setAnswer(null);
+                setConstruction(false);
+              }}
+            />
           </>
         ) : null}
         {!item ? (

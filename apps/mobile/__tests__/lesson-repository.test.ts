@@ -10,6 +10,7 @@ import {
   currentItem,
   expectedAnswer,
   nextLessonExercise,
+  revealLessonHint,
   skipLessonAural,
   startLessonReview,
 } from '@harmonia/exercises';
@@ -53,6 +54,52 @@ afterEach(() => {
 });
 
 describe('Lokale Ergebnisse mit echter SQLite', () => {
+  it('speichert freie Eingaben samt falscher Erstwertung, Hilfen und neuer Wiederholungsvariante verlustfrei', async () => {
+    let session = createLessonSession(
+      {
+        id: 'test.pitch-input',
+        contentVersion: 1,
+        exercises: [
+          { type: 'NOTE_PLACE', params: { clefs: ['treble'] } },
+          { type: 'KEY_FIND', params: {} },
+          { type: 'INTERVAL_BUILD', params: { intervals: ['M3', 'P5'], direction: 'both' } },
+        ],
+      },
+      'sqlite-pitch-input',
+    );
+    const first = required(currentItem(session.initial));
+    session = nextLessonExercise(
+      answerLesson(revealLessonHint(session), expectedAnswer(first) === 'C4' ? 'D4' : 'C4'),
+    );
+    while (
+      session.phase === 'initial' ||
+      session.phase === 'review' ||
+      session.phase === 'review-intro'
+    ) {
+      if (session.phase === 'review-intro') session = startLessonReview(session);
+      const item = required(currentItem(required(activeLessonSession(session))));
+      session = nextLessonExercise(answerLesson(session, expectedAnswer(item)));
+    }
+    await initializeLessonDatabase(adapter(db));
+    const attempt = createLessonAttempt('input-id', session, START, END);
+    await createLessonRepository(adapter(db)).save(attempt);
+    expect(
+      JSON.parse(
+        String(
+          db.prepare('SELECT payload FROM lesson_attempts WHERE id = ?').get('input-id')?.[
+            'payload'
+          ],
+        ),
+      ),
+    ).toEqual(attempt);
+    expect(await createLessonRepository(adapter(db)).latest(session.lesson.id)).toMatchObject({
+      correct: 2,
+      answered: 3,
+      review_total: 1,
+      review_correct: 1,
+    });
+    expect(attempt.session.initial.records[0]?.hintLevel).toBe(1);
+  });
   it('legt das Schema wiederholbar an und weist neuere Datenbankversionen zurück', async () => {
     await initializeLessonDatabase(adapter(db));
     await initializeLessonDatabase(adapter(db));

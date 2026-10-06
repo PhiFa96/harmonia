@@ -1,4 +1,4 @@
-import { note, singleStaffScore } from '@harmonia/notation';
+import { MAX_STEP, MIN_STEP, note, rest, singleStaffScore, stepOf } from '@harmonia/notation';
 import type { Interval, Pitch, Rng } from '@harmonia/theory';
 import {
   LETTERS,
@@ -14,7 +14,10 @@ import type {
   ExerciseClef,
   ExerciseSpec,
   IntervalItem,
+  IntervalBuildItem,
+  KeyFindItem,
   NoteItem,
+  NotePlaceItem,
   NoteParams,
   PitchRange,
   VisualIntervalParams,
@@ -73,17 +76,23 @@ function options(correct: string, available: readonly string[], rng: Rng): strin
     .slice(0, 3);
   return rng.shuffle([correct, ...others]);
 }
-export function generateNote(params: NoteParams, rng: Rng): NoteItem {
+function choosePitch(params: NoteParams, rng: Rng, editable = false) {
   const allowedClefs = clefs(params);
   const limit = accidentalLimit(params, 0);
   const pools = allowedClefs.map((clef) => ({
     clef,
-    pitches: pitchPool(rangeFor(params, clef), limit),
+    pitches: pitchPool(rangeFor(params, clef), limit).filter(
+      (pitch) => !editable || (stepOf(pitch, clef) >= MIN_STEP && stepOf(pitch, clef) <= MAX_STEP),
+    ),
   }));
   if (pools.some((pool) => pool.pitches.length === 0))
     throw new RangeError('Tonbereich enthält keine erlaubte Note');
   const pool = rng.pick(pools);
   const pitch = rng.pick(pool.pitches);
+  return { clef: pool.clef, pitch, limit };
+}
+export function generateNote(params: NoteParams, rng: Rng): NoteItem {
+  const { clef, pitch, limit } = choosePitch(params, rng);
   const names = LETTERS.flatMap((letter) =>
     Array.from({ length: limit * 2 + 1 }, (_, index) =>
       noteAnswerId({ letter, alter: index - limit }),
@@ -91,10 +100,33 @@ export function generateNote(params: NoteParams, rng: Rng): NoteItem {
   );
   return {
     type: 'NOTE_NAME',
-    clef: pool.clef,
+    clef,
     pitch,
-    score: singleStaffScore([[note(pitch, duration('whole'))]], { clef: pool.clef }),
+    score: singleStaffScore([[note(pitch, duration('whole'))]], { clef }),
     choices: options(noteAnswerId(pitch), names, rng),
+  };
+}
+export function generateNotePlace(params: NoteParams, rng: Rng): NotePlaceItem {
+  const { clef, pitch } = choosePitch(params, rng, true);
+  return {
+    type: 'NOTE_PLACE',
+    clef,
+    pitch,
+    choices: [],
+    score: singleStaffScore([[rest(duration('whole'))]], { clef }),
+  };
+}
+export function generateKeyFind(params: NoteParams, rng: Rng): KeyFindItem {
+  const { clef, pitch } = choosePitch(
+    { ...params, range: params.range ?? { minMidi: 60, maxMidi: 76 } },
+    rng,
+  );
+  return {
+    type: 'KEY_FIND',
+    clef,
+    pitch,
+    choices: [],
+    score: singleStaffScore([[note(pitch, duration('whole'))]], { clef }),
   };
 }
 
@@ -123,10 +155,20 @@ interface Pair {
   readonly direction: 1 | -1;
 }
 function generateInterval(
+  params: VisualIntervalParams,
+  rng: Rng,
+  type: 'INTERVAL_BUILD',
+): IntervalBuildItem;
+function generateInterval(
   params: VisualIntervalParams | AuralIntervalParams,
   rng: Rng,
   type: IntervalItem['type'],
-): IntervalItem {
+): IntervalItem;
+function generateInterval(
+  params: VisualIntervalParams | AuralIntervalParams,
+  rng: Rng,
+  type: IntervalItem['type'] | 'INTERVAL_BUILD',
+): IntervalItem | IntervalBuildItem {
   const aural = type === 'INTERVAL_IDENTIFY_AURAL';
   const allowedClefs = clefs(params);
   const limit = accidentalLimit(params, 1);
@@ -160,6 +202,11 @@ function generateInterval(
             throw error;
           }
           if (
+            (type !== 'INTERVAL_BUILD' ||
+              [from, to].every(
+                (pitch) =>
+                  stepOf(pitch, pool.clef) >= MIN_STEP && stepOf(pitch, pool.clef) <= MAX_STEP,
+              )) &&
             Math.abs(to.alter) <= limit &&
             midi(to) >= pool.range.minMidi &&
             midi(to) <= pool.range.maxMidi
@@ -182,11 +229,18 @@ function generateInterval(
     from: pair.from,
     to: pair.to,
     playback: aural ? playback : pair.direction < 0 ? 'melodic-down' : 'melodic-up',
-    score: singleStaffScore(
-      [[note(pair.from, duration('half')), note(pair.to, duration('half'))]],
-      { clef: pair.clef },
-    ),
-    choices: options(intervalAnswerId(group.interval), intervals.map(intervalAnswerId), rng),
+    score:
+      type === 'INTERVAL_BUILD'
+        ? singleStaffScore([[note(pair.from, duration('whole'))], [rest(duration('whole'))]], {
+            clef: pair.clef,
+          })
+        : singleStaffScore([[note(pair.from, duration('half')), note(pair.to, duration('half'))]], {
+            clef: pair.clef,
+          }),
+    choices:
+      type === 'INTERVAL_BUILD'
+        ? []
+        : options(intervalAnswerId(group.interval), intervals.map(intervalAnswerId), rng),
   };
 }
 export function generateVisualInterval(params: VisualIntervalParams, rng: Rng): IntervalItem {
@@ -195,10 +249,19 @@ export function generateVisualInterval(params: VisualIntervalParams, rng: Rng): 
 export function generateAuralInterval(params: AuralIntervalParams, rng: Rng): IntervalItem {
   return generateInterval(params, rng, 'INTERVAL_IDENTIFY_AURAL');
 }
+export function generateIntervalBuild(params: VisualIntervalParams, rng: Rng): IntervalBuildItem {
+  return generateInterval(params, rng, 'INTERVAL_BUILD');
+}
 export function generateExercise(spec: ExerciseSpec, rng: Rng) {
   switch (spec.type) {
     case 'NOTE_NAME':
       return generateNote(spec.params, rng);
+    case 'NOTE_PLACE':
+      return generateNotePlace(spec.params, rng);
+    case 'KEY_FIND':
+      return generateKeyFind(spec.params, rng);
+    case 'INTERVAL_BUILD':
+      return generateIntervalBuild(spec.params, rng);
     case 'INTERVAL_IDENTIFY_VISUAL':
       return generateVisualInterval(spec.params, rng);
     case 'INTERVAL_IDENTIFY_AURAL':

@@ -111,6 +111,7 @@ Die Blöcke B, C und D können teilweise parallel laufen.
   - [ ] `KNOWLEDGE_MC`, `MATCH`, `ORDER`
   - [ ] Je Typ: Parameter, Hinweise, Erklärtexte DE/EN, Barrierefreiheit
 - **Fertig, wenn:** Jeder Typ besteht Generator- und Bewertungstests und ist auf allen Plattformen bedienbar.
+- **Stand 06.10.2026:** Erster Teil technisch umgesetzt: `NOTE_PLACE`, `KEY_FIND`, `INTERVAL_BUILD`, freier Neun-Aufgaben-Satz, Schreibweisen-/Oktavbewertung, Hinweise, DE/US/UK-Texte und bedienbare Noten-/Klaviatureingabe. Prüfstand und Folgearbeit: [Tonhöheneingaben](tonhoeheneingabe.md). Elf weitere Typen, Claudes fachliche Abnahme und echte Gerätetests bleiben offen; P2.06 ist nicht abgeschlossen.
 
 ### P2.07 – Inhalte Stufe 1 (DE + EN)
 

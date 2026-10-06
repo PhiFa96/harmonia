@@ -5,6 +5,8 @@ import {
   exerciseHints,
   exercisePrompt,
   hintText,
+  isPitchInput,
+  itemVariantKey,
 } from '@harmonia/exercises';
 import { engineLanguage } from '@harmonia/i18n';
 import { ScoreView } from '@harmonia/notation/native';
@@ -25,6 +27,7 @@ import { useTranslation } from 'react-i18next';
 import { Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { useLocale } from '@/i18n';
 import { ExerciseChoices } from './exercise-choices';
+import { PitchAnswerInput } from './pitch-answer-input';
 import { useExercisePlayback } from './use-exercise-playback';
 
 interface Props {
@@ -37,7 +40,7 @@ interface Props {
   readonly progressLabel: string;
   readonly hearingPausedText: string;
   readonly continueLabel: string;
-  readonly onSelect: (answer: string) => void;
+  readonly onSelect: (answer: string | null) => void;
   readonly onCheck: (answer: string) => void;
   readonly onHint: () => void;
   readonly onSkip: () => void;
@@ -99,9 +102,12 @@ export function ExerciseTask({
         <AppText variant="overline" tone="muted">
           {t(`exercise.type_${item.type}`)}
         </AppText>
-        <AppText variant="title2">{prompt}</AppText>
+        <MusicText variant="title2">{prompt}</MusicText>
       </View>
-      {item.type !== 'INTERVAL_IDENTIFY_AURAL' || result || session.hintLevel === 3 ? (
+      {item.type === 'NOTE_PLACE' || item.type === 'INTERVAL_BUILD' ? null : item.type !==
+          'INTERVAL_IDENTIFY_AURAL' ||
+        result ||
+        session.hintLevel === 3 ? (
         <Card padding={SPACE.s}>
           <ScrollView horizontal contentContainerStyle={styles.score}>
             <View accessible role="img" aria-label={exerciseDescription(item, locale)}>
@@ -156,12 +162,23 @@ export function ExerciseTask({
           {t('exercise.audioError')}
         </AppText>
       ) : null}
-      <ExerciseChoices
-        item={item}
-        answer={answer}
-        {...(result ? { result } : {})}
-        onSelect={onSelect}
-      />
+      {isPitchInput(item) ? (
+        <PitchAnswerInput
+          key={`${String(session.index)}:${itemVariantKey(item)}`}
+          item={item}
+          answer={answer}
+          {...(result ? { result } : {})}
+          showSolution={!!result || session.hintLevel === 3}
+          onSelect={onSelect}
+        />
+      ) : (
+        <ExerciseChoices
+          item={item}
+          answer={answer}
+          {...(result ? { result } : {})}
+          onSelect={onSelect}
+        />
+      )}
       {!result ? (
         <>
           {session.hintLevel !== 0 ? (
