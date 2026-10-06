@@ -10,7 +10,7 @@ Im Tab „Üben“ führt „Noten und Intervalle selbst eingeben“ zu neun Auf
 - **Tasten finden:** Auftrag und Notenbild geben den gesuchten Ton vor. Die spielbare Klaviatur nimmt die klingende Tonhöhe entgegen. Für Ziele außerhalb des kurzen Übungsausschnitts startet sie mit dem mittleren oder vollständigen Ausschnitt; Paging und Einstellungen erschließen alle 88 Tasten.
 - **Intervalle aufbauen:** Der erste Takt enthält den Ausgangston. Der Auftrag nennt Intervallqualität und Richtung. Nur im leeren zweiten Takt wird die Antwort gesetzt; der Ausgangston bleibt fest.
 
-Die erste geprüfte Antwort bleibt gewertet. Note beziehungsweise Taste wird mit Text, Symbol und Farbe markiert; bei Schreibaufgaben erscheint zusätzlich das Lösungsnotenbild. Bewertete Eingaben, Löschen und Vorzeichen sind gesperrt. Die nächste Aufgabe beginnt ohne Antwort. Hinweise 1–2 unterstützen den Lösungsweg, Hinweis 3 erklärt und zeigt die Lösung und zählt als Hilfe. Statistik und Aufgabenwechsel kommen aus dem bestehenden Übungsablauf; XP, Bestehensschwellen und Freischaltung gehören weiterhin zu P2.10–P2.12.
+Die erste geprüfte Antwort bleibt gewertet. Note beziehungsweise Taste wird mit Text, Symbol und Farbe markiert; bei Schreibaufgaben erscheint zusätzlich das Lösungsnotenbild. Bewertete Eingaben, Löschen und Vorzeichen sind gesperrt. Die nächste Aufgabe beginnt ohne Antwort. Hinweise 1–2 unterstützen den Lösungsweg, Hinweis 3 erklärt und zeigt die Lösung und zählt als Hilfe. Statistik und Aufgabenwechsel kommen aus dem bestehenden Übungsablauf; Freischaltung und Bestehensschwellen gehören zu P2.11–P2.12, XP zu P2.14.
 
 ## Schnittstelle und Bewertungsregeln
 
