@@ -1,6 +1,6 @@
 import type { AppLocale, Messages } from '@harmonia/i18n';
 import { createI18n, engineLanguage } from '@harmonia/i18n';
-import type { Pitch } from '@harmonia/theory';
+import type { NoteName, Pitch } from '@harmonia/theory';
 import {
   diatonicIndex,
   intervalBetween,
@@ -8,9 +8,25 @@ import {
   parseInterval,
   pitchName,
   semitones,
+  keyName,
+  keySignature,
+  midi,
+  scaleTypeName,
+  SHARP_ORDER,
+  FLAT_ORDER,
 } from '@harmonia/theory';
 import { expectedAnswer } from './evaluate.ts';
 import type { Evaluation, ExerciseFeedback, ExerciseHint, ExerciseItem } from './types.ts';
+import {
+  isKeySignatureItem,
+  isScaleItem,
+  scalePitches,
+  signatureKey,
+  tonalityFromId,
+  MVP_SCALE_TYPES,
+  scaleChoiceId,
+} from './tonality.ts';
+import type { KeySignatureItem, ScaleItem } from './types.ts';
 
 const translations = new Map<AppLocale, ReturnType<typeof createI18n>>();
 type TextKey =
@@ -21,7 +37,13 @@ type TextKey =
   | 'practice.correctTitle'
   | 'practice.wrongTitle'
   | 'glossary:trebleClef_one'
-  | 'glossary:bassClef_one';
+  | 'glossary:bassClef_one'
+  | 'glossary:major'
+  | 'glossary:minor'
+  | 'glossary:sharp_one'
+  | 'glossary:sharp_other'
+  | 'glossary:flat_one'
+  | 'glossary:flat_other';
 function translate(
   locale: AppLocale,
   key: TextKey,
@@ -40,8 +62,18 @@ function noteName(pitch: Pitch, locale: AppLocale, octave = true): string {
     octave: octave ? (locale === 'de' ? 'helmholtz' : 'scientific') : 'none',
   });
 }
+export function signatureNoteLabel(note: NoteName, locale: AppLocale): string {
+  return noteName({ ...note, octave: 4 }, locale, false);
+}
 export function choiceLabel(item: ExerciseItem, answer: string, locale: AppLocale): string {
   if (!item.choices.includes(answer)) return translate(locale, 'exercise.unknownAnswer');
+  if (isScaleItem(item)) {
+    const type = MVP_SCALE_TYPES.find((type) => scaleChoiceId(type) === answer);
+    return type
+      ? scaleTypeName(type, engineLanguage(locale).language)
+      : translate(locale, 'exercise.unknownAnswer');
+  }
+  if (isKeySignatureItem(item)) return keyName(tonalityFromId(answer), engineLanguage(locale));
   if (item.type !== 'NOTE_NAME')
     return intervalName(parseInterval(answer), { ...engineLanguage(locale), showDirection: false });
   const [letter, alter] = answer.split(':');
@@ -49,6 +81,20 @@ export function choiceLabel(item: ExerciseItem, answer: string, locale: AppLocal
   return noteName(pitch, locale, false);
 }
 export function exercisePrompt(item: ExerciseItem, locale: AppLocale): string {
+  if (isScaleItem(item))
+    return translate(locale, `exercise.question_${item.type}`, {
+      tonic: noteName(item.tonic, locale),
+      type: scaleTypeName(item.scaleType, engineLanguage(locale).language),
+      direction: translate(
+        locale,
+        item.direction === 'ascending' ? 'exercise.scaleAscending' : 'exercise.scaleDescending',
+      ),
+    });
+  if (isKeySignatureItem(item))
+    return translate(locale, `exercise.question_${item.type}`, {
+      key: keyName(item.key, engineLanguage(locale)),
+      mode: translate(locale, item.key.mode === 'major' ? 'glossary:major' : 'glossary:minor'),
+    });
   return translate(
     locale,
     `exercise.question_${item.type}`,
@@ -95,7 +141,31 @@ export function exerciseFeedback(
   locale: AppLocale,
 ): ExerciseFeedback {
   let message: string;
-  if (item.type === 'KEY_FIND')
+  if (isScaleItem(item)) {
+    message = translate(locale, 'exercise.scaleExplanation', {
+      tonic: noteName(item.tonic, locale),
+      type: scaleTypeName(item.scaleType, engineLanguage(locale).language),
+      direction: translate(
+        locale,
+        item.direction === 'ascending' ? 'exercise.scaleAscending' : 'exercise.scaleDescending',
+      ),
+      notes: scalePitches(item)
+        .map((pitch) => noteName(pitch, locale))
+        .join(' → '),
+      pattern: scalePattern(item),
+    });
+    if (item.scaleType === 'melodicMinor' && item.direction === 'descending')
+      message += ` ${translate(locale, 'exercise.melodicDescending')}`;
+  } else if (isKeySignatureItem(item))
+    message = translate(locale, 'exercise.signatureExplanation', {
+      key: keyName(signatureKey(item), engineLanguage(locale)),
+      signature: signatureText(item, locale),
+      notes:
+        keySignature(signatureKey(item))
+          .map((note) => noteName({ ...note, octave: 4 }, locale, false))
+          .join(' → ') || translate(locale, 'exercise.signatureEmpty'),
+    });
+  else if (item.type === 'KEY_FIND')
     message = translate(locale, 'exercise.keyExplanation', {
       note: noteName(item.pitch, locale),
       natural: noteName({ ...item.pitch, alter: 0 }, locale),
@@ -125,6 +195,18 @@ export function exerciseFeedback(
 /** Sprachneutraler Hinweis; erst die Oberfläche wählt die Sprache. Level 3 ist die erklärte Lösung. */
 export function exerciseHints(item: ExerciseItem, level: 1 | 2 | 3): ExerciseHint {
   if (level === 3) return { level, key: 'solution', values: {} };
+  if (isScaleItem(item))
+    return {
+      level,
+      key: level === 1 ? 'exercise.scaleHint1' : 'exercise.scaleHint2',
+      values: { pattern: scalePattern(item) },
+    };
+  if (isKeySignatureItem(item))
+    return {
+      level,
+      key: level === 1 ? 'exercise.signatureHint1' : 'exercise.signatureHint2',
+      values: {},
+    };
   if (item.type === 'KEY_FIND')
     return {
       level,
@@ -164,6 +246,22 @@ export function hintText(item: ExerciseItem, hint: ExerciseHint, locale: AppLoca
       locale,
     ).message;
   if (hint.key === 'solution') return '';
+  if (isScaleItem(item)) return translate(locale, hint.key, hint.values);
+  if (isKeySignatureItem(item))
+    return translate(
+      locale,
+      hint.key,
+      hint.level === 1
+        ? {
+            sharps: SHARP_ORDER.map((note) => noteName({ ...note, octave: 4 }, locale, false)).join(
+              ' → ',
+            ),
+            flats: FLAT_ORDER.map((note) => noteName({ ...note, octave: 4 }, locale, false)).join(
+              ' → ',
+            ),
+          }
+        : { signature: signatureText(item, locale) },
+    );
   if (item.type === 'KEY_FIND' && hint.level === 2)
     return translate(locale, 'exercise.keyHint2', {
       natural: noteName({ ...item.pitch, alter: 0 }, locale),
@@ -206,12 +304,23 @@ function alterationText(pitch: Pitch, locale: AppLocale): string {
 
 /** Positionen statt Tonnamen: Vor dem Prüfen darf der Screenreader die Lösung nicht vorwegnehmen. */
 export function exerciseDescription(item: ExerciseItem, locale: AppLocale): string {
+  if (isKeySignatureItem(item))
+    return translate(locale, 'exercise.signatureDescription', {
+      signature: signatureText(item, locale),
+      notes:
+        keySignature(signatureKey(item))
+          .map((note) => noteName({ ...note, octave: 4 }, locale, false))
+          .join(' → ') || translate(locale, 'exercise.signatureEmpty'),
+    });
   const bottom: Pitch =
     item.clef === 'treble'
       ? { letter: 'E', alter: 0, octave: 4 }
       : { letter: 'G', alter: 0, octave: 2 };
-  const pitches =
-    item.type === 'NOTE_PLACE'
+  const pitches = isScaleItem(item)
+    ? item.type === 'SCALE_BUILD'
+      ? [item.tonic]
+      : item.pitches
+    : item.type === 'NOTE_PLACE'
       ? []
       : 'pitch' in item
         ? [item.pitch]
@@ -238,5 +347,30 @@ export function exerciseDescription(item: ExerciseItem, locale: AppLocale): stri
       item.clef === 'treble' ? 'glossary:trebleClef_one' : 'glossary:bassClef_one',
     ),
     notes,
+  });
+}
+function scalePattern(item: ScaleItem): string {
+  const pitches = scalePitches(item);
+  return pitches
+    .slice(1)
+    .map((pitch, index) => Math.abs(midi(pitch) - midi(pitches[index] ?? item.tonic)))
+    .join('–');
+}
+function signatureText(item: KeySignatureItem, locale: AppLocale): string {
+  const notes = keySignature(signatureKey(item));
+  const first = notes[0];
+  if (!first) return translate(locale, 'exercise.signatureEmpty');
+  return translate(locale, 'exercise.signatureCount', {
+    count: notes.length,
+    sign: translate(
+      locale,
+      first.alter > 0
+        ? notes.length === 1
+          ? 'glossary:sharp_one'
+          : 'glossary:sharp_other'
+        : notes.length === 1
+          ? 'glossary:flat_one'
+          : 'glossary:flat_other',
+    ),
   });
 }

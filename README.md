@@ -2,7 +2,7 @@
 
 Musiktheorie lernen – hörbar, spielerisch und so tief, wie du willst. Vom ersten Notenschlüssel bis zum Hochschulniveau, mit KI-Tutor und echten Coaches. Im Browser und als App für iOS und Android.
 
-> **Status: Phase 1 – technisches Fundament.** Theorie-Engine, Notenbild, Klavierklang, Klaviatur und drei Übungstypen sind implementiert. Im Tab „Lernen“ läuft die erste vollständige Lektion mit zehn Aufgaben, neuen Varianten für Fehler und lokalem SQLite-Ergebnis. Im Tab „Üben“ bleibt der freie Übungssatz erreichbar. Geräteprüfungen, Testpersonen und fachliche Inhaltsabnahme sind offen. Details: [Erste Lektion P1.20](docs/plan/erste-lektion.md) und [Phase 1](docs/plan/phase-1-fundament.md).
+> **Status: Technisches Fundament und erster MVP-Ausbau.** Theorie-Engine, Notenbild, Klavierklang, Klaviatur und zehn Übungstypen sind implementiert. Die interne erste Lektion hat zehn Aufgaben, neue Varianten für Fehler und ein lokales SQLite-Ergebnis. Im Tab „Üben“ gibt es drei freie Sätze zum Lesen/Hören, zu Tonhöheneingaben und zu Tonleitern/Vorzeichnungen. Geräteprüfungen, Testpersonen und fachliche Inhaltsabnahme sind offen; öffentliche Builds enthalten nur freigegebene Kursinhalte. Details: [Erste Lektion P1.20](docs/plan/erste-lektion.md), [Tonleitern und Vorzeichnungen P2.06](docs/plan/tonleitern-und-vorzeichnungen.md) und [Phase 2](docs/plan/phase-2-mvp.md).
 
 ## Konzept
 
@@ -57,6 +57,8 @@ Lokales Backend, Profilmigration und offene staging/production-Einrichtung: [Sup
 Inhaltsproduktion, interne Vorschau, öffentliche Freigaben und EAS-Übergabe: [Inhalts-Pipeline P2.04](docs/plan/inhalts-pipeline.md). `APP_VARIANT=production` baut nur freigegebene Inhalte; ohne separate fachliche Abnahme bleibt die erste Lektion intern.
 
 Entwurf für Stufen 1–2 mit 90 Fähigkeiten, Voraussetzungen und Einheitenreihenfolge: [Fähigkeitsgraph P2.05](docs/plan/faehigkeitsgraph.md). Fachliche Abnahme, zusätzliche Übungstypen und die vollständigen Lektionen folgen.
+
+Neue Schreib- und Erkennungsaufgaben: [Tonhöheneingaben](docs/plan/tonhoeheneingabe.md) sowie [Tonleitern und Vorzeichnungen](docs/plan/tonleitern-und-vorzeichnungen.md). Sieben der 14 zusätzlich geplanten MVP-Typen sind technisch umgesetzt.
 
 ## Lizenz
 

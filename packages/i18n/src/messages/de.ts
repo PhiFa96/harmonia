@@ -42,6 +42,54 @@ export const de = {
     noteInput: 'Noten und Klaviatur ausprobieren',
     constructionStart: 'Noten und Intervalle selbst eingeben',
     chooseSet: 'Übungssatz auswählen',
+    tonalityStart: 'Tonleitern und Tonarten üben',
+    tonalityIntro:
+      'Zwölf Aufgaben: Dur- und Molltonleitern erkennen und schreiben, Tonartvorzeichnungen bestimmen und selbst aufbauen.',
+    type_SCALE_BUILD: '$t(glossary:scale_other) schreiben',
+    type_SCALE_IDENTIFY: '$t(glossary:scale_other) erkennen',
+    type_KEYSIG_BUILD: '$t(glossary:keySignature_other) aufbauen',
+    type_KEYSIG_IDENTIFY: '$t(glossary:keySignature_other) erkennen',
+    question_SCALE_BUILD:
+      'Schreibe {{type}} {{direction}} ab {{tonic}}, über eine Oktave mit acht Tönen. Der erste Ton ist vorgegeben.',
+    question_SCALE_IDENTIFY:
+      'Welche Tonleiterart siehst du? Die Folge beginnt auf {{tonic}} und geht {{direction}}.',
+    question_KEYSIG_BUILD:
+      'Baue die $t(glossary:keySignature_one) für {{key}}. Wähle die Vorzeichentöne in der üblichen Notationsreihenfolge.',
+    question_KEYSIG_IDENTIFY:
+      'Welche Tonart in {{mode}} gehört zu dieser $t(glossary:keySignature_one)? Das Tongeschlecht ist vorgegeben.',
+    scaleAscending: 'aufwärts',
+    scaleDescending: 'abwärts',
+    scaleExplanation:
+      '{{type}} {{direction}} ab {{tonic}}: {{notes}}. Die Abstände, gezählt als $t(glossary:semitone_other), sind {{pattern}}. Reihenfolge, Schreibweise und Oktavlage gehören zur Antwort.',
+    melodicDescending:
+      'In der klassischen Lehre wird melodisches Moll abwärts wie natürliches Moll geschrieben. Die sechste und siebte Stufe sind dabei nicht erhöht.',
+    scaleHint1:
+      'Gehe die sieben Stammtöne in der gefragten Richtung durch. Ton 8 ist der Anfangston in der nächsten Oktave. Bestimme danach die Vorzeichen.',
+    scaleHint2:
+      'Vergleiche die Tonabstände: {{pattern}}. Jede Zahl zählt $t(glossary:semitone_other). Achte darauf, jeden Stammton in der passenden Oktave genau einmal zu schreiben, bevor du den Oktavton ergänzt.',
+    signatureEmpty: 'keine Vorzeichen',
+    signatureCount: '{{count}} {{sign}}',
+    signatureExplanation:
+      '{{key}} hat {{signature}}. Die Reihenfolge lautet: {{notes}}. Dur und die zugehörige natürliche Molltonart teilen dieselbe Vorzeichnung; das vorgegebene Tongeschlecht bestimmt hier die Antwort.',
+    signatureDescription:
+      '$t(glossary:keySignature_one): {{signature}}. Vorzeichentöne in Reihenfolge: {{notes}}.',
+    signatureHint1:
+      'Kreuz-Reihenfolge: {{sharps}}. b-Reihenfolge: {{flats}}. Beginne immer am Anfang der jeweiligen Reihe.',
+    signatureHint2:
+      'Die gesuchte Vorzeichnung hat {{signature}}. Lies beziehungsweise schreibe diese Töne am Anfang der passenden Vorzeichenreihe.',
+    scaleDegree: 'Ton {{index}}',
+    scaleSelectDegree: 'Ton zum Bearbeiten auswählen',
+    scaleInputHint:
+      'Wähle Ton 2 bis 8. Tippen und Ziehen im Notensystem oder die Pfeiltasten setzen die Tonhöhe. Die Vorzeichenleiste ändert den ausgewählten Ton.',
+    scaleFilled: '{{count}} von 7 Antworttönen gesetzt.',
+    signatureInput: 'Vorzeichen wählen',
+    signatureSharp: '$t(glossary:sharp_one)',
+    signatureFlat: '$t(glossary:flat_one)',
+    signatureAppend: '{{note}} hinzufügen',
+    signatureNoAccidentals: 'Keine Vorzeichen',
+    signatureRemoveLast: 'Letztes Vorzeichen entfernen',
+    signatureEntered: 'Deine Vorzeichenfolge: {{notes}}',
+    signatureNothingEntered: 'Noch keine Vorzeichenfolge eingegeben.',
     constructionIntro:
       'Setze Noten, finde Tasten und baue Intervalle. Neun Aufgaben mit Hinweisen und erklärten Lösungen.',
     type_NOTE_PLACE: 'Noten setzen',

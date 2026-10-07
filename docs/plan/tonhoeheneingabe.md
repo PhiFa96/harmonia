@@ -2,6 +2,8 @@
 
 Stand: 06.10.2026. `NOTE_PLACE`, `KEY_FIND` und `INTERVAL_BUILD` sind technisch umgesetzt. Sie verwenden Generatoren und Bewertung der Theorie-Engine, denselben Aufgabenablauf wie die erste Lektion und die vorhandenen Eingabebausteine. P2.06 bleibt offen: elf weitere Typen sowie fachliche Abnahme und echte Gerätetests fehlen noch.
 
+Fortsetzung vom 07.10.2026: Vier weitere Typen sind in [Tonleitern und Vorzeichnungen](tonleitern-und-vorzeichnungen.md) dokumentiert. Der aktuelle P2.06-Stand umfasst damit sieben technisch umgesetzte und sieben noch fehlende Typen. Die folgenden Prüfzahlen beschreiben den ersten Teil vom 06.10.
+
 ## Bedienbarer Stand
 
 Im Tab „Üben“ führt „Noten und Intervalle selbst eingeben“ zu neun Aufgaben, je drei pro Typ. Der bisherige Satz zum Lesen und Hören bleibt ebenfalls erreichbar. Ein neuer Durchgang behält die gewählte Art; nach dem Ergebnis führt „Übungssatz auswählen“ zurück zur Auswahl.
@@ -48,4 +50,4 @@ Farben, Abstände, Schrift, Haptik und reduzierte Bewegung kommen aus dem besteh
 
 Die Erklärungstexte benötigen Claudes getrennte fachliche Abnahme gemäß [ADR 0005](../decisions/0005-fachliche-pruefung-durch-claude.md). Diese technische Umsetzung gibt keine versionierten Kursinhalte frei. VoiceOver/TalkBack und Bedien-/Hörproben auf echten iOS-/Android-Geräten sowie GitHub-CI vor dem Merge bleiben offen.
 
-Als Nächstes in P2.06: `SCALE_BUILD`, `SCALE_IDENTIFY`, `KEYSIG_IDENTIFY`, `KEYSIG_BUILD`, danach Akkorde, Rhythmus/Takt und Wissens-/Zuordnungs-/Reihenfolgeaufgaben. Die vollständigen Stufen-1–2-Lektionen folgen in P2.07–P2.08 auf Basis des Fähigkeitsgraphen.
+Die Tonleiter- und Vorzeichnungstypen sind inzwischen technisch umgesetzt. Als Nächstes in P2.06 folgen Akkorde, Rhythmus/Takt und Wissens-/Zuordnungs-/Reihenfolgeaufgaben. Die vollständigen Stufen-1–2-Lektionen folgen in P2.07–P2.08 auf Basis des Fähigkeitsgraphen.

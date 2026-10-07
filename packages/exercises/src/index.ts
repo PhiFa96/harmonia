@@ -6,6 +6,7 @@ export * from './feedback.ts';
 export * from './session.ts';
 export * from './lesson.ts';
 export * from './pitch-input.ts';
+export * from './tonality.ts';
 export { createRng } from '@harmonia/theory';
 
 import {
@@ -28,7 +29,12 @@ import type {
   NotePlaceItem,
   NoteParams,
   VisualIntervalParams,
+  ScaleParams,
+  ScaleItem,
+  KeySignatureParams,
+  KeySignatureItem,
 } from './types.ts';
+import { generateScale, generateKeySignature } from './tonality.ts';
 
 export const noteNameExercise: ExerciseDefinition<NoteParams, NoteItem> = {
   generate: generateNote,
@@ -62,6 +68,33 @@ export const keyFindExercise: ExerciseDefinition<NoteParams, KeyFindItem> = {
 };
 export const intervalBuildExercise: ExerciseDefinition<VisualIntervalParams, IntervalBuildItem> = {
   generate: generateIntervalBuild,
+  evaluate: evaluateExercise,
+  feedback: exerciseFeedback,
+  hints: exerciseHints,
+};
+export const scaleBuildExercise: ExerciseDefinition<ScaleParams, ScaleItem> = {
+  generate: (params, rng) => generateScale(params, rng, 'SCALE_BUILD'),
+  evaluate: evaluateExercise,
+  feedback: exerciseFeedback,
+  hints: exerciseHints,
+};
+export const scaleIdentifyExercise: ExerciseDefinition<ScaleParams, ScaleItem> = {
+  generate: (params, rng) => generateScale(params, rng, 'SCALE_IDENTIFY'),
+  evaluate: evaluateExercise,
+  feedback: exerciseFeedback,
+  hints: exerciseHints,
+};
+export const keySignatureBuildExercise: ExerciseDefinition<KeySignatureParams, KeySignatureItem> = {
+  generate: (params, rng) => generateKeySignature(params, rng, 'KEYSIG_BUILD'),
+  evaluate: evaluateExercise,
+  feedback: exerciseFeedback,
+  hints: exerciseHints,
+};
+export const keySignatureIdentifyExercise: ExerciseDefinition<
+  KeySignatureParams,
+  KeySignatureItem
+> = {
+  generate: (params, rng) => generateKeySignature(params, rng, 'KEYSIG_IDENTIFY'),
   evaluate: evaluateExercise,
   feedback: exerciseFeedback,
   hints: exerciseHints,

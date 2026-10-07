@@ -4,7 +4,9 @@ import {
   exerciseFeedback,
   exerciseHints,
   exercisePrompt,
+  evaluateExercise,
   hintText,
+  isKeySignatureItem,
   isPitchInput,
   itemVariantKey,
 } from '@harmonia/exercises';
@@ -28,6 +30,8 @@ import { Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { useLocale } from '@/i18n';
 import { ExerciseChoices } from './exercise-choices';
 import { PitchAnswerInput } from './pitch-answer-input';
+import { ScaleAnswerInput } from './scale-answer-input';
+import { SignatureAnswerInput } from './signature-answer-input';
 import { useExercisePlayback } from './use-exercise-playback';
 
 interface Props {
@@ -104,10 +108,9 @@ export function ExerciseTask({
         </AppText>
         <MusicText variant="title2">{prompt}</MusicText>
       </View>
-      {item.type === 'NOTE_PLACE' || item.type === 'INTERVAL_BUILD' ? null : item.type !==
-          'INTERVAL_IDENTIFY_AURAL' ||
-        result ||
-        session.hintLevel === 3 ? (
+      {['NOTE_PLACE', 'INTERVAL_BUILD', 'SCALE_BUILD', 'KEYSIG_BUILD'].includes(
+        item.type,
+      ) ? null : item.type !== 'INTERVAL_IDENTIFY_AURAL' || result || session.hintLevel === 3 ? (
         <Card padding={SPACE.s}>
           <ScrollView horizontal contentContainerStyle={styles.score}>
             <View accessible role="img" aria-label={exerciseDescription(item, locale)}>
@@ -162,7 +165,25 @@ export function ExerciseTask({
           {t('exercise.audioError')}
         </AppText>
       ) : null}
-      {isPitchInput(item) ? (
+      {item.type === 'SCALE_BUILD' ? (
+        <ScaleAnswerInput
+          key={`${String(session.index)}:${itemVariantKey(item)}`}
+          item={item}
+          answer={answer}
+          {...(result ? { result } : {})}
+          showSolution={!!result || session.hintLevel === 3}
+          onSelect={onSelect}
+        />
+      ) : item.type === 'KEYSIG_BUILD' ? (
+        <SignatureAnswerInput
+          key={`${String(session.index)}:${itemVariantKey(item)}`}
+          item={item}
+          answer={answer}
+          {...(result ? { result } : {})}
+          showSolution={!!result || session.hintLevel === 3}
+          onSelect={onSelect}
+        />
+      ) : isPitchInput(item) ? (
         <PitchAnswerInput
           key={`${String(session.index)}:${itemVariantKey(item)}`}
           item={item}
@@ -206,10 +227,11 @@ export function ExerciseTask({
             label={t('practice.check')}
             disabled={
               answer === null ||
+              !evaluateExercise(item, answer).validAnswer ||
               (item.type === 'INTERVAL_IDENTIFY_AURAL' && !audio.heard && session.hintLevel < 3)
             }
             onPress={() => {
-              if (answer === null) return;
+              if (answer === null || !evaluateExercise(item, answer).validAnswer) return;
               audio.stop();
               onCheck(answer);
               requestAnimationFrame(() => {
@@ -224,10 +246,14 @@ export function ExerciseTask({
             kind={result.correct ? 'correct' : 'wrong'}
             title={feedback.title}
             message={feedback.message}
-            onReplay={() => {
-              void audio.play();
-            }}
-            replayLabel={t('exercise.replay')}
+            {...(!isKeySignatureItem(item)
+              ? {
+                  onReplay: () => {
+                    void audio.play();
+                  },
+                  replayLabel: t('exercise.replay'),
+                }
+              : {})}
             style={styles.feedback}
           >
             {session.hintLevel > 0 ? (

@@ -1,4 +1,5 @@
-import { createRng, midi } from '@harmonia/theory';
+import { createRng, keyFifths, midi } from '@harmonia/theory';
+import { isKeySignatureItem, isScaleItem } from './tonality.ts';
 import { generateExercise } from './generate.ts';
 import {
   answerSession,
@@ -59,6 +60,10 @@ export function revealLessonHint(lesson: LessonSession): LessonSession {
 }
 /** Die Tonhöhen müssen sich ändern; bloßes Mischen der Antworten ist keine neue Variante. */
 export function itemVariantKey(item: ExerciseItem): string {
+  if (isScaleItem(item))
+    return JSON.stringify([item.type, item.tonic, item.scaleType, item.direction]);
+  if (isKeySignatureItem(item))
+    return JSON.stringify([item.type, keyFifths(item.key), item.key.mode]);
   if (item.type === 'KEY_FIND') return JSON.stringify([item.type, midi(item.pitch)]);
   return JSON.stringify(
     'pitch' in item

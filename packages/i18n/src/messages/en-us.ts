@@ -43,6 +43,54 @@ export const enUS = {
     noteInput: 'Try notation and piano input',
     constructionStart: 'Enter notes and build intervals',
     chooseSet: 'Choose practice set',
+    tonalityStart: 'Practise scales and key signatures',
+    tonalityIntro:
+      'Twelve questions: identify and write major and minor scales, recognise key signatures and build them yourself.',
+    type_SCALE_BUILD: 'Write $t(glossary:scale_other)',
+    type_SCALE_IDENTIFY: 'Identify $t(glossary:scale_other)',
+    type_KEYSIG_BUILD: 'Build $t(glossary:keySignature_other)',
+    type_KEYSIG_IDENTIFY: 'Identify $t(glossary:keySignature_other)',
+    question_SCALE_BUILD:
+      'Write {{type}} {{direction}} from {{tonic}}, over one octave with eight notes. The first note is given.',
+    question_SCALE_IDENTIFY:
+      'Which scale type do you see? The sequence starts on {{tonic}} and goes {{direction}}.',
+    question_KEYSIG_BUILD:
+      'Build the $t(glossary:keySignature_one) for {{key}}. Choose the altered notes in the usual notation order.',
+    question_KEYSIG_IDENTIFY:
+      'Which {{mode}} key has this $t(glossary:keySignature_one)? The mode is given.',
+    scaleAscending: 'ascending',
+    scaleDescending: 'descending',
+    scaleExplanation:
+      '{{type}} {{direction}} from {{tonic}}: {{notes}}. The distances, counted in $t(glossary:semitone_other), are {{pattern}}. Order, spelling and octave are part of the answer.',
+    melodicDescending:
+      'In the classical convention, descending melodic minor is written like natural minor. The sixth and seventh degrees are not raised.',
+    scaleHint1:
+      'Work through the seven natural notes in the requested direction. Note 8 is the starting note in the next octave. Then determine the accidentals.',
+    scaleHint2:
+      'Compare the distances: {{pattern}} in $t(glossary:semitone_other). Write each letter once in the appropriate octave before adding the octave note.',
+    signatureEmpty: 'no accidentals',
+    signatureCount: '{{count}} {{sign}}',
+    signatureExplanation:
+      '{{key}} has {{signature}}. The order is: {{notes}}. Major and its relative natural minor share a key signature; the given mode determines the answer here.',
+    signatureDescription:
+      '$t(glossary:keySignature_one): {{signature}}. Altered notes in order: {{notes}}.',
+    signatureHint1:
+      'Sharp order: {{sharps}}. Flat order: {{flats}}. Always start at the beginning of the relevant sequence.',
+    signatureHint2:
+      'The required signature has {{signature}}. Read or write these notes at the beginning of the appropriate accidental sequence.',
+    scaleDegree: 'Note {{index}}',
+    scaleSelectDegree: 'Choose the note to edit',
+    scaleInputHint:
+      'Choose note 2 to 8. Tap and drag on the staff or use the arrow keys to set its pitch. The accidental controls change the selected note.',
+    scaleFilled: '{{count}} of 7 answer notes placed.',
+    signatureInput: 'Choose accidentals',
+    signatureSharp: '$t(glossary:sharp_one)',
+    signatureFlat: '$t(glossary:flat_one)',
+    signatureAppend: 'Add {{note}}',
+    signatureNoAccidentals: 'No accidentals',
+    signatureRemoveLast: 'Remove last accidental',
+    signatureEntered: 'Your accidental sequence: {{notes}}',
+    signatureNothingEntered: 'No accidental sequence entered yet.',
     constructionIntro:
       'Place notes, find keys and build intervals. Nine questions with hints and explained solutions.',
     type_NOTE_PLACE: 'Place notes',

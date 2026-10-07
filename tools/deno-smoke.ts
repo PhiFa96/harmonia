@@ -11,6 +11,8 @@ import {
   generateNotePlace,
   generateKeyFind,
   generateIntervalBuild,
+  generateScale,
+  generateKeySignature,
 } from '../packages/exercises/src/index.ts';
 import { firstLesson, catalogue, curriculumPlan } from '../packages/content/src/authoring.ts';
 import { publicCatalogue, resolveLesson, curriculumSkills } from '../packages/content/src/index.ts';
@@ -88,6 +90,26 @@ for (const item of [
   generateIntervalBuild(
     { intervals: ['m3', 'M3', 'P5'], direction: 'both' },
     exerciseRng('deno-build'),
+  ),
+  generateScale(
+    { types: ['major', 'naturalMinor', 'harmonicMinor', 'melodicMinor'] },
+    exerciseRng('deno-scale-build'),
+    'SCALE_BUILD',
+  ),
+  generateScale(
+    { types: ['major', 'naturalMinor', 'harmonicMinor', 'melodicMinor'] },
+    exerciseRng('deno-scale-identify'),
+    'SCALE_IDENTIFY',
+  ),
+  generateKeySignature(
+    { modes: ['major', 'minor'] },
+    exerciseRng('deno-signature-build'),
+    'KEYSIG_BUILD',
+  ),
+  generateKeySignature(
+    { modes: ['major', 'minor'] },
+    exerciseRng('deno-signature-identify'),
+    'KEYSIG_IDENTIFY',
   ),
 ])
   check(
