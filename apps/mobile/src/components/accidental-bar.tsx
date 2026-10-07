@@ -37,16 +37,17 @@ const ACCIDENTALS = [
 interface AccidentalBarProps {
   /** Alteration der gewählten Note; undefined = keine Note gewählt (Leiste gesperrt). */
   readonly value: number | undefined;
+  readonly disabled?: boolean;
   readonly onChange: (alter: number) => void;
 }
 
 /** Vorzeichen-Leiste: setzt das Versetzungszeichen der gewählten Note. */
-export function AccidentalBar({ value, onChange }: AccidentalBarProps) {
+export function AccidentalBar({ value, onChange, disabled: locked = false }: AccidentalBarProps) {
   // Beschriftung der Zeichen aus dem Glossar (Kreuz/sharp …)
   const { t } = useTranslation(['translation', 'glossary']);
   const { colors } = useUiTheme();
   const haptics = useHaptics();
-  const disabled = value === undefined;
+  const disabled = value === undefined || locked;
   return (
     <View role="radiogroup" aria-label={t('practice.accidentals')} style={styles.bar}>
       {ACCIDENTALS.map(({ alter, text, baseline, term }) => {

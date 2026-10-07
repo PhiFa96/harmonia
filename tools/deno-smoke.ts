@@ -8,6 +8,9 @@ import {
   expectedAnswer,
   exerciseFeedback,
   createLessonSession,
+  generateNotePlace,
+  generateKeyFind,
+  generateIntervalBuild,
 } from '../packages/exercises/src/index.ts';
 import { firstLesson, catalogue, curriculumPlan } from '../packages/content/src/authoring.ts';
 import { publicCatalogue, resolveLesson, curriculumSkills } from '../packages/content/src/index.ts';
@@ -79,6 +82,19 @@ check(
   10,
 );
 const evaluation = evaluateExercise(exercise, expectedAnswer(exercise));
+for (const item of [
+  generateNotePlace({ clefs: ['treble', 'bass'], maxAccidentals: 2 }, exerciseRng('deno-place')),
+  generateKeyFind({ maxAccidentals: 1 }, exerciseRng('deno-key')),
+  generateIntervalBuild(
+    { intervals: ['m3', 'M3', 'P5'], direction: 'both' },
+    exerciseRng('deno-build'),
+  ),
+])
+  check(
+    `${item.type}: freie Eingabe unter Deno`,
+    evaluateExercise(item, expectedAnswer(item)).correct,
+    true,
+  );
 check('Übungsgenerator und Engine-Bewertung', evaluation.correct, true);
 check(
   'Übungserklärung DE',

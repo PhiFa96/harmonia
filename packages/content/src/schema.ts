@@ -22,6 +22,19 @@ const intervals = z.array(z.string().regex(/^(?:P|m|M|A|d)(?:[1-9]|1[0-5])$/)).n
 export const exerciseSpecSchema = z
   .discriminatedUnion('type', [
     z.object({ type: z.literal('NOTE_NAME'), params: noteParams }).strict(),
+    z.object({ type: z.literal('NOTE_PLACE'), params: noteParams }).strict(),
+    z.object({ type: z.literal('KEY_FIND'), params: noteParams }).strict(),
+    z
+      .object({
+        type: z.literal('INTERVAL_BUILD'),
+        params: noteParams
+          .extend({
+            intervals,
+            direction: z.enum(['up', 'down', 'both']).optional(),
+          })
+          .strict(),
+      })
+      .strict(),
     z
       .object({
         type: z.literal('INTERVAL_IDENTIFY_VISUAL'),
@@ -53,8 +66,9 @@ export const exerciseSpecSchema = z
         ? { maxAccidentals: value.params.maxAccidentals }
         : {}),
     };
-    if (value.type === 'NOTE_NAME') return { type: value.type, params: base };
-    if (value.type === 'INTERVAL_IDENTIFY_VISUAL')
+    if (value.type === 'NOTE_NAME' || value.type === 'NOTE_PLACE' || value.type === 'KEY_FIND')
+      return { type: value.type, params: base };
+    if (value.type === 'INTERVAL_IDENTIFY_VISUAL' || value.type === 'INTERVAL_BUILD')
       return {
         type: value.type,
         params: {

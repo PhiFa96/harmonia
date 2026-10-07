@@ -10,6 +10,8 @@ Die erste geprüfte Antwort bleibt gewertet. Nach der Rückmeldung sind die Antw
 
 Die Neun-Aufgaben-Vorschau ist in `apps/mobile/src/exercises/practice.ts` definiert. Sie ist noch keine versionierte Inhaltsdatei. P1.20 ist technisch implementiert: [erste-lektion.md](erste-lektion.md) beschreibt die versionierte Zehn-Aufgaben-Lektion, Einführung, neue Wiederholungsvarianten und SQLite-Speicherung. Die Eingabe-Demo aus P1.15/P1.18 liegt jetzt unter `/note-input`, erreichbar über „Noten und Klaviatur ausprobieren“.
 
+Erweiterung vom 06.10.2026: Drei weitere Definitionen und ein zweiter Neun-Aufgaben-Satz erlauben freie Tonhöheneingaben. `NOTE_PLACE` und `INTERVAL_BUILD` bewerten vollständige Schreibweisen einschließlich Oktave, `KEY_FIND` die physische Taste. Die folgende Beschreibung hält den ursprünglichen P1.19-Stand fest; neue Schnittstelle, Parameter, Bedienung und Prüfstand stehen in [Tonhöheneingaben P2.06](tonhoeheneingabe.md).
+
 ## Paket und Schnittstelle
 
 `packages/exercises` exportiert die drei Definitionen `noteNameExercise`, `visualIntervalExercise` und `auralIntervalExercise`. Jede hat dieselbe Schnittstelle:

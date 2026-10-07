@@ -9,6 +9,12 @@ export const enGB = {
   profile: {
     licenses: 'Licences',
   },
+  exercise: {
+    question_INTERVAL_BUILD:
+      'Write the second note: {{interval}} from {{from}}. Place it in the empty second bar.',
+    staffInputHint:
+      'Tap the empty bar or adjust the rest with your screen reader. Drag to move your note. Choose its accidental with the controls below.',
+  },
   lesson: {
     overview:
       'Your first lesson: ten reading and listening questions. Learn the basics, practise with hints and revisit mistakes with new notation examples.',

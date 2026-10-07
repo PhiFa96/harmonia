@@ -40,6 +40,31 @@ export const de = {
     start: 'Übungssatz starten',
     restart: 'Neuen Übungssatz starten',
     noteInput: 'Noten und Klaviatur ausprobieren',
+    constructionStart: 'Noten und Intervalle selbst eingeben',
+    chooseSet: 'Übungssatz auswählen',
+    constructionIntro:
+      'Setze Noten, finde Tasten und baue Intervalle. Neun Aufgaben mit Hinweisen und erklärten Lösungen.',
+    type_NOTE_PLACE: 'Noten setzen',
+    type_KEY_FIND: 'Tasten finden',
+    type_INTERVAL_BUILD: 'Intervalle aufbauen',
+    question_NOTE_PLACE:
+      'Schreibe {{note}} in das leere Notensystem. Achte auf Vorzeichen und Oktavlage.',
+    question_KEY_FIND: 'Finde die Taste für {{note}}. Achte auf die Oktavlage.',
+    question_INTERVAL_BUILD:
+      'Schreibe den zweiten Ton: {{interval}} von {{from}} aus. Setze ihn in den leeren zweiten Takt.',
+    writtenPitch:
+      'Die vollständige Antwort ist {{note}}. Stammton, Vorzeichen und Oktavlage müssen stimmen; ein gleich klingender Ton mit anderer Schreibweise zählt hier nicht.',
+    keyExplanation:
+      'Die gesuchte Taste klingt als {{note}}. Gehe vom Stammton {{natural}} in derselben Oktave aus. {{alteration}} Gleich klingende Schreibweisen gehören zur selben Taste; eine andere Oktave zählt nicht.',
+    keyHint1:
+      'Suche die Zweiergruppen der schwarzen Tasten: C liegt direkt links davon, D zwischen den beiden schwarzen Tasten. Zähle von dort bis zum gesuchten Stammton in der angegebenen Oktave.',
+    keyHint2:
+      'Suche zuerst {{natural}}. {{alteration}} Jeder Schritt zur unmittelbar benachbarten Taste ist ein Halbtonschritt, auch zwischen E und F sowie H und C.',
+    buildHint2:
+      'Der Klangabstand ist {{distance}}. Zähle zuerst die Stammtöne in der gefragten Richtung, einschließlich des Anfangstons. Passe dann das Vorzeichen des Zieltons an.',
+    inputSolution: 'So sieht die Lösung aus',
+    staffInputHint:
+      'Tippe in den leeren Takt oder verstelle die Pause mit dem Screenreader. Ziehen verschiebt deine Note. Wähle das Vorzeichen mit der Leiste darunter.',
     back: 'Zurück zu den Übungen',
     question_NOTE_NAME: 'Wie heißt diese Note? Wähle den Namen ohne Oktavlage.',
     question_INTERVAL_IDENTIFY_VISUAL:

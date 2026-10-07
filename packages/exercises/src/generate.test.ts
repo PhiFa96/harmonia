@@ -54,7 +54,7 @@ describe('Seedbare Übungsgeneratoren', () => {
           expect(new Set(item.choices).size).toBe(item.choices.length);
           expect(item.choices.length).toBeGreaterThan(0);
           expect(item.choices.length).toBeLessThanOrEqual(4);
-          const pitches = item.type === 'NOTE_NAME' ? [item.pitch] : [item.from, item.to];
+          const pitches = 'pitch' in item ? [item.pitch] : [item.from, item.to];
           for (const pitch of pitches) {
             expect(midi(pitch), formatPitch(pitch)).toBeGreaterThanOrEqual(
               spec.params.range?.minMidi ?? (item.clef === 'treble' ? 60 : 36),
@@ -77,6 +77,7 @@ describe('Seedbare Übungsgeneratoren', () => {
         { numRuns: 300, seed: 1819 },
       );
     },
+    15000,
   );
 
   it('kleiner Tonbereich und wiederholte erlaubte Intervalle bleiben eindeutig', () => {

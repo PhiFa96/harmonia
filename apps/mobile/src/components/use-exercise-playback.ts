@@ -60,7 +60,7 @@ export function useExercisePlayback(item: ExerciseItem | undefined) {
       await engine.resume();
       if (token !== request.current || current.current !== item || !canPlay()) return;
       playback.current =
-        item.type === 'NOTE_NAME'
+        'pitch' in item
           ? engine.playPitch(item.pitch, { duration: 0.8 })
           : engine.playInterval(
               item.from,
@@ -76,7 +76,7 @@ export function useExercisePlayback(item: ExerciseItem | undefined) {
           timer.current = null;
           setPlaying(false);
         },
-        item.type === 'NOTE_NAME' || item.playback === 'harmonic' ? 850 : 1650,
+        'pitch' in item || item.playback === 'harmonic' ? 850 : 1650,
       );
     } catch {
       if (token === request.current && current.current === item) setError(true);

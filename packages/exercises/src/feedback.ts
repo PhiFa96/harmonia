@@ -49,7 +49,18 @@ export function choiceLabel(item: ExerciseItem, answer: string, locale: AppLocal
   return noteName(pitch, locale, false);
 }
 export function exercisePrompt(item: ExerciseItem, locale: AppLocale): string {
-  return translate(locale, `exercise.question_${item.type}`);
+  return translate(
+    locale,
+    `exercise.question_${item.type}`,
+    'pitch' in item
+      ? { note: noteName(item.pitch, locale) }
+      : item.type === 'INTERVAL_BUILD'
+        ? {
+            interval: intervalName(intervalBetween(item.from, item.to), engineLanguage(locale)),
+            from: noteName(item.from, locale),
+          }
+        : {},
+  );
 }
 function reference(item: ExerciseItem) {
   return item.clef === 'treble'
@@ -57,7 +68,7 @@ function reference(item: ExerciseItem) {
     : { pitch: { letter: 'F', alter: 0, octave: 3 } as const, line: 4 };
 }
 function noteExplanation(
-  item: Extract<ExerciseItem, { type: 'NOTE_NAME' }>,
+  item: Extract<ExerciseItem, { readonly pitch: Pitch }>,
   locale: AppLocale,
 ): string {
   const anchor = reference(item);
@@ -84,8 +95,17 @@ export function exerciseFeedback(
   locale: AppLocale,
 ): ExerciseFeedback {
   let message: string;
-  if (item.type === 'NOTE_NAME') message = noteExplanation(item, locale);
-  else {
+  if (item.type === 'KEY_FIND')
+    message = translate(locale, 'exercise.keyExplanation', {
+      note: noteName(item.pitch, locale),
+      natural: noteName({ ...item.pitch, alter: 0 }, locale),
+      alteration: alterationText(item.pitch, locale),
+    });
+  else if ('pitch' in item) {
+    message = noteExplanation(item, locale);
+    if (item.type === 'NOTE_PLACE')
+      message += ` ${translate(locale, 'exercise.writtenPitch', { note: noteName(item.pitch, locale) })}`;
+  } else {
     const interval = intervalBetween(item.from, item.to);
     message = translate(locale, 'exercise.intervalExplanation', {
       from: noteName(item.from, locale),
@@ -94,6 +114,8 @@ export function exerciseFeedback(
       distance: translate(locale, 'exercise.halfSteps', { count: Math.abs(semitones(interval)) }),
       answer: intervalName(interval, { ...engineLanguage(locale), showDirection: false }),
     });
+    if (item.type === 'INTERVAL_BUILD')
+      message += ` ${translate(locale, 'exercise.writtenPitch', { note: noteName(item.to, locale) })}`;
   }
   return {
     title: translate(locale, result.correct ? 'practice.correctTitle' : 'practice.wrongTitle'),
@@ -103,7 +125,13 @@ export function exerciseFeedback(
 /** Sprachneutraler Hinweis; erst die Oberfläche wählt die Sprache. Level 3 ist die erklärte Lösung. */
 export function exerciseHints(item: ExerciseItem, level: 1 | 2 | 3): ExerciseHint {
   if (level === 3) return { level, key: 'solution', values: {} };
-  if (item.type === 'NOTE_NAME')
+  if (item.type === 'KEY_FIND')
+    return {
+      level,
+      key: level === 1 ? 'exercise.keyHint1' : 'exercise.keyHint2',
+      values: {},
+    };
+  if ('pitch' in item)
     return {
       level,
       key: level === 1 ? 'exercise.noteHint1' : 'exercise.noteHint2',
@@ -117,7 +145,9 @@ export function exerciseHints(item: ExerciseItem, level: 1 | 2 | 3): ExerciseHin
         ? item.type === 'INTERVAL_IDENTIFY_AURAL'
           ? 'exercise.auralHint1'
           : 'exercise.visualHint1'
-        : 'exercise.intervalHint2',
+        : item.type === 'INTERVAL_BUILD'
+          ? 'exercise.buildHint2'
+          : 'exercise.intervalHint2',
     values: level === 1 ? {} : { semitones: Math.abs(semitones(interval)) },
   };
 }
@@ -134,17 +164,26 @@ export function hintText(item: ExerciseItem, hint: ExerciseHint, locale: AppLoca
       locale,
     ).message;
   if (hint.key === 'solution') return '';
-  if (item.type === 'NOTE_NAME' && hint.level === 2)
+  if (item.type === 'KEY_FIND' && hint.level === 2)
+    return translate(locale, 'exercise.keyHint2', {
+      natural: noteName({ ...item.pitch, alter: 0 }, locale),
+      alteration: alterationText(item.pitch, locale),
+    });
+  if ('pitch' in item && hint.level === 2)
     return translate(locale, hint.key, {
       ...hint.values,
       reference: noteName(reference(item).pitch, locale),
     });
-  if (hint.level === 2 && item.type !== 'NOTE_NAME')
-    return translate(locale, 'exercise.intervalHint2', {
-      distance: translate(locale, 'exercise.halfSteps', {
-        count: Number(hint.values['semitones']),
-      }),
-    });
+  if (hint.level === 2 && !('pitch' in item))
+    return translate(
+      locale,
+      item.type === 'INTERVAL_BUILD' ? 'exercise.buildHint2' : 'exercise.intervalHint2',
+      {
+        distance: translate(locale, 'exercise.halfSteps', {
+          count: Number(hint.values['semitones']),
+        }),
+      },
+    );
   return translate(locale, hint.key, hint.values);
 }
 
@@ -171,7 +210,14 @@ export function exerciseDescription(item: ExerciseItem, locale: AppLocale): stri
     item.clef === 'treble'
       ? { letter: 'E', alter: 0, octave: 4 }
       : { letter: 'G', alter: 0, octave: 2 };
-  const pitches = item.type === 'NOTE_NAME' ? [item.pitch] : [item.from, item.to];
+  const pitches =
+    item.type === 'NOTE_PLACE'
+      ? []
+      : 'pitch' in item
+        ? [item.pitch]
+        : item.type === 'INTERVAL_BUILD'
+          ? [item.from]
+          : [item.from, item.to];
   const notes = pitches
     .map((pitch, index) => {
       const steps = diatonicIndex(pitch) - diatonicIndex(bottom);

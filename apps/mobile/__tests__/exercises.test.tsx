@@ -1,4 +1,4 @@
-import type { ExerciseItem, ExerciseSession } from '@harmonia/exercises';
+import type { ExerciseItem, ExerciseSession, PitchInputItem } from '@harmonia/exercises';
 import {
   currentItem,
   expectedAnswer,
@@ -6,11 +6,17 @@ import {
   answerSession,
   skipAuralExercises,
   choiceLabel,
+  inputSlot,
+  inputTarget,
+  isPitchInput,
 } from '@harmonia/exercises';
+import type { Pitch, Score } from '@harmonia/notation';
+import { eventBounds, keyboardMidi, layoutScore, staffY, svgScene } from '@harmonia/notation';
+import { INPUT_EXTENT } from '@harmonia/notation/native';
 import { act, fireEvent, renderRouter, screen, waitFor } from 'expo-router/testing-library';
 import type { AppStateStatus } from 'react-native';
 import { AppState } from 'react-native';
-import { createPracticeSession } from '@/exercises/practice';
+import { createPitchInputSession, createPracticeSession } from '@/exercises/practice';
 import { i18n } from '@/i18n';
 import { useSettings } from '@/state/settings';
 
@@ -87,6 +93,21 @@ function reachHearing() {
   expect(itemAt(state).type).toBe('INTERVAL_IDENTIFY_AURAL');
   return state;
 }
+function tapStaff(
+  item: PitchInputItem,
+  pitch: Pitch,
+  score: Score = item.score,
+  measure = inputSlot(item).measure,
+) {
+  const layout = layoutScore(score);
+  const scene = svgScene(layout, { scale: 14, padding: 1, highlights: [], extent: INPUT_EXTENT });
+  const slot = eventBounds(layout).find((bounds) => bounds.measure === measure);
+  if (!slot) throw new Error('Eingabeplatz fehlt');
+  const { x, y } = scene.toPixels((slot.x1 + slot.x2) / 2, staffY(pitch, item.clef));
+  const input = screen.getByTestId('score-input');
+  fireEvent(input, 'responderGrant', { nativeEvent: { locationX: x, locationY: y, pageY: y } });
+  fireEvent(input, 'responderRelease', { nativeEvent: { locationX: x, locationY: y, pageY: y } });
+}
 
 describe('Aufgaben-Screen', () => {
   it('Prüfen braucht eine Antwort; falsche Antwort bleibt gewertet und wird zusammen mit der Lösung markiert', () => {
@@ -143,7 +164,7 @@ describe('Aufgaben-Screen', () => {
       return Promise.resolve();
     });
     const item = itemAt(state);
-    if (item.type === 'NOTE_NAME') throw new Error('Hörfrage fehlt');
+    if (item.type !== 'INTERVAL_IDENTIFY_AURAL') throw new Error('Hörfrage fehlt');
     expect(mockPlay).toHaveBeenLastCalledWith(item.from, item.to, 'melodic', { duration: 0.8 });
     fireEvent.press(screen.getByText('Prüfen'));
     expect(mockStops[0]).toHaveBeenCalledTimes(1);
@@ -293,5 +314,103 @@ describe('Aufgaben-Screen', () => {
     await waitFor(() => {
       expect(screen.getByText('Check')).toBeTruthy();
     });
+  });
+
+  it('neun Eingabeaufgaben lassen sich setzen, prüfen und abschließen; nächste Aufgabe beginnt leer', () => {
+    renderRouter('./src/app', { initialUrl: '/practice' });
+    fireEvent.press(screen.getByRole('button', { name: 'Noten und Intervalle selbst eingeben' }));
+    let state = createPitchInputSession(SEED);
+    while (currentItem(state)) {
+      const item = itemAt(state);
+      if (!isPitchInput(item)) throw new Error('Eingabeaufgabe fehlt');
+      expect(screen.getByRole('button', { name: 'Prüfen' })).toBeDisabled();
+      expect(screen.queryByText('So sieht die Lösung aus')).toBeNull();
+      if (item.type === 'KEY_FIND')
+        fireEvent.press(screen.getByTestId(`piano-key-${String(keyboardMidi(item.pitch))}`));
+      else {
+        if (item.type === 'INTERVAL_BUILD') {
+          tapStaff(item, item.from, item.score, 0);
+          expect(screen.getByRole('button', { name: 'Prüfen' })).toBeDisabled();
+        }
+        tapStaff(item, inputTarget(item));
+        const names: Readonly<Record<number, string>> = {
+          '-2': 'Doppel-b',
+          '-1': 'b',
+          0: 'Auflösungszeichen',
+          1: 'Kreuz',
+          2: 'Doppelkreuz',
+        };
+        const name = names[inputTarget(item).alter];
+        if (!name) throw new Error('Vorzeichenname fehlt');
+        fireEvent.press(screen.getByRole('radio', { name }));
+      }
+      fireEvent.press(screen.getByRole('button', { name: 'Prüfen' }));
+      expect(screen.getByText('Richtig!')).toBeTruthy();
+      if (item.type === 'KEY_FIND')
+        expect(screen.getByTestId(`piano-key-${String(keyboardMidi(item.pitch))}`)).toBeDisabled();
+      else {
+        expect(screen.queryByTestId('score-input')).toBeNull();
+        expect(screen.getByRole('button', { name: 'Löschen' })).toBeDisabled();
+        expect(screen.getByRole('radio', { name: 'Kreuz' })).toBeDisabled();
+        expect(screen.getByText('So sieht die Lösung aus')).toBeTruthy();
+      }
+      state = next(answerSession(state, expectedAnswer(item)));
+    }
+    expect(screen.getByText('9 von 9 Antworten richtig.')).toBeTruthy();
+    expect(screen.getByText('9 Antworten ohne Hinweis richtig.')).toBeTruthy();
+    fireEvent.press(screen.getByText('Neuen Übungssatz starten'));
+    expect(screen.getByText('Noten setzen')).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Prüfen' })).toBeDisabled();
+  });
+
+  it('freie Eingabe löscht die Antwort, erklärt erst mit Hinweis 3 die Lösung und sperrt die erste Wertung', () => {
+    renderRouter('./src/app', { initialUrl: '/practice' });
+    fireEvent.press(screen.getByRole('button', { name: 'Noten und Intervalle selbst eingeben' }));
+    const item = itemAt(createPitchInputSession(SEED));
+    if (item.type !== 'NOTE_PLACE') throw new Error('Notenplatz fehlt');
+    const wrong = {
+      letter: inputTarget(item).letter === 'C' ? ('D' as const) : ('C' as const),
+      alter: 0,
+      octave: 4,
+    };
+    tapStaff(item, wrong);
+    fireEvent.press(screen.getByText('Löschen'));
+    expect(screen.getByText('Noch keine Note gesetzt.')).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Prüfen' })).toBeDisabled();
+    fireEvent.press(screen.getByText('Hinweis 1'));
+    fireEvent.press(screen.getByText('Hinweis 2'));
+    expect(screen.queryByText('So sieht die Lösung aus')).toBeNull();
+    fireEvent.press(screen.getByText('Lösung erklären'));
+    expect(screen.getByText('So sieht die Lösung aus')).toBeTruthy();
+    tapStaff(item, wrong);
+    fireEvent.press(screen.getByText('Prüfen'));
+    expect(screen.getByText('Noch nicht ganz')).toBeTruthy();
+    expect(screen.getByText('Mit Hinweis beantwortet')).toBeTruthy();
+    expect(screen.queryByTestId('score-input')).toBeNull();
+    fireEvent.press(screen.getByText('Weiter'));
+    expect(screen.getByText('Tasten finden')).toBeTruthy();
+    expect(screen.queryByText('So sieht die Lösung aus')).toBeNull();
+  });
+
+  it('Screenreader kann eine freie Antwort aus der Pause aufbauen und Vorzeichen ändern', () => {
+    renderRouter('./src/app', { initialUrl: '/practice' });
+    fireEvent.press(screen.getByRole('button', { name: 'Noten und Intervalle selbst eingeben' }));
+    const rest = screen.getByLabelText('Ganze Pause');
+    expect(rest.props['accessibilityRole']).toBe('adjustable');
+    fireEvent(rest, 'accessibilityAction', { nativeEvent: { actionName: 'increment' } });
+    expect(screen.getByRole('button', { name: 'Prüfen' })).not.toBeDisabled();
+    fireEvent.press(screen.getByRole('radio', { name: 'b' }));
+    expect(screen.getByRole('radio', { name: 'b' })).toBeChecked();
+  });
+
+  it('UK-Eingabeaufgaben und ihre Hinweise verwenden vollständig übersetzte Texte', () => {
+    useSettings.setState({ locale: 'en-GB' });
+    renderRouter('./src/app', { initialUrl: '/practice' });
+    fireEvent.press(screen.getByRole('button', { name: 'Enter notes and build intervals' }));
+    expect(screen.getByText('Place notes')).toBeTruthy();
+    expect(screen.getByText(/Write .* on the empty staff/)).toBeTruthy();
+    fireEvent.press(screen.getByText('Hint 1'));
+    expect(screen.getByText('Your hint')).toBeTruthy();
+    expect(screen.queryByText('Noten setzen')).toBeNull();
   });
 });

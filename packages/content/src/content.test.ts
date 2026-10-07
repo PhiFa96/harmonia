@@ -12,7 +12,32 @@ import {
 } from '@harmonia/exercises';
 import { intervalBetween, formatInterval, parsePitch } from '@harmonia/theory';
 import { firstLesson } from './authoring.ts';
-import { lessonSchema } from './index.ts';
+import { exerciseSpecSchema, lessonSchema } from './index.ts';
+describe('Tonhöheneingaben im Inhaltsschema', () => {
+  it.each([
+    { type: 'NOTE_PLACE', params: { clefs: ['treble', 'bass'], maxAccidentals: 2 } },
+    { type: 'KEY_FIND', params: { range: { minMidi: 21, maxMidi: 108 } } },
+    {
+      type: 'INTERVAL_BUILD',
+      params: { intervals: ['M3', 'P5'], direction: 'down', maxAccidentals: 1 },
+    },
+  ])('validiert und generiert den Parametersatz %j ohne undefinierte Felder', (spec) => {
+    const parsed = exerciseSpecSchema.parse(spec);
+    expect(parsed).toEqual(spec);
+    expect(
+      createLessonSession({ id: 'test.input', contentVersion: 1, exercises: [parsed] }, 206).initial
+        .items[0]?.type,
+    ).toBe(spec.type);
+  });
+  it.each([
+    { type: 'NOTE_PLACE', params: { range: { minMidi: 21, maxMidi: 21 } } },
+    { type: 'KEY_FIND', params: { playback: 'harmonic' } },
+    { type: 'INTERVAL_BUILD', params: { intervals: ['P15'], range: { minMidi: 60, maxMidi: 62 } } },
+    { type: 'INTERVAL_BUILD', params: { intervals: ['M3'], direction: 'sideways' } },
+  ])('weist unbedienbare oder typfremde Parameter zurück: %j', (spec) => {
+    expect(exerciseSpecSchema.safeParse(spec).success).toBe(false);
+  });
+});
 describe('Erste versionierte Lektion', () => {
   it('hat zehn Aufgaben mit stabiler ID und allen drei Typen; Inhalte bleiben Entwurf', () => {
     expect(firstLesson.id).toBe('fundament.reading-and-listening.1');

@@ -41,6 +41,30 @@ export const enUS = {
     start: 'Start practice set',
     restart: 'Start a new practice set',
     noteInput: 'Try notation and piano input',
+    constructionStart: 'Enter notes and build intervals',
+    chooseSet: 'Choose practice set',
+    constructionIntro:
+      'Place notes, find keys and build intervals. Nine questions with hints and explained solutions.',
+    type_NOTE_PLACE: 'Place notes',
+    type_KEY_FIND: 'Find piano keys',
+    type_INTERVAL_BUILD: 'Build intervals',
+    question_NOTE_PLACE: 'Write {{note}} on the empty staff. Check its accidental and octave.',
+    question_KEY_FIND: 'Find the key for {{note}}. Check the octave.',
+    question_INTERVAL_BUILD:
+      'Write the second note: {{interval}} from {{from}}. Place it in the empty second measure.',
+    writtenPitch:
+      'The complete answer is {{note}}. The letter, accidental and octave must match; an equally sounding note with a different spelling does not count here.',
+    keyExplanation:
+      'The required key sounds as {{note}}. Start from the natural note {{natural}} in the same octave. {{alteration}} Equally sounding spellings belong to the same key; a different octave does not count.',
+    keyHint1:
+      'Find the groups of two black keys: C is immediately to their left, and D is between the two black keys. Count from there to the required natural note in the stated octave.',
+    keyHint2:
+      'First find {{natural}}. {{alteration}} Moving to the immediately adjacent key is one semitone, including between E and F and between B and C.',
+    buildHint2:
+      'The pitch distance is {{distance}}. First count the natural notes in the requested direction, including the starting note. Then adjust the target note’s accidental.',
+    inputSolution: 'This is the solution',
+    staffInputHint:
+      'Tap the empty measure or adjust the rest with your screen reader. Drag to move your note. Choose its accidental with the controls below.',
     back: 'Back to exercises',
     question_NOTE_NAME: 'What is this note called? Choose the name without its octave.',
     question_INTERVAL_IDENTIFY_VISUAL:
