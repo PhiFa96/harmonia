@@ -54,6 +54,49 @@ afterEach(() => {
 });
 
 describe('Lokale Ergebnisse mit echter SQLite', () => {
+  it('speichert Tonleitern und Vorzeichnungen mit Hilfen und Wiederholung verlustfrei im bestehenden Schema', async () => {
+    let session = createLessonSession(
+      {
+        id: 'test.tonality',
+        contentVersion: 1,
+        exercises: [
+          { type: 'SCALE_BUILD', params: { types: ['major', 'naturalMinor'], fifths: [-1, 0, 1] } },
+          { type: 'SCALE_IDENTIFY', params: { types: ['major', 'naturalMinor'] } },
+          { type: 'KEYSIG_IDENTIFY', params: { modes: ['major', 'minor'] } },
+          { type: 'KEYSIG_BUILD', params: { fifths: [1, 2, 3] } },
+        ],
+      },
+      'sqlite-tonality',
+    );
+    const item = required(currentItem(session.initial));
+    const wrong = expectedAnswer(item).split(',');
+    wrong[1] = wrong[0]?.slice(6) ?? 'C4';
+    session = nextLessonExercise(answerLesson(revealLessonHint(session), wrong.join(',')));
+    while (
+      session.phase === 'initial' ||
+      session.phase === 'review' ||
+      session.phase === 'review-intro'
+    ) {
+      if (session.phase === 'review-intro') session = startLessonReview(session);
+      const item = required(currentItem(required(activeLessonSession(session))));
+      session = nextLessonExercise(answerLesson(session, expectedAnswer(item)));
+    }
+    await initializeLessonDatabase(adapter(db));
+    const attempt = createLessonAttempt('tonality-id', session, START, END);
+    const repository = createLessonRepository(adapter(db));
+    await repository.save(attempt);
+    const payload = db
+      .prepare('SELECT payload FROM lesson_attempts WHERE id = ?')
+      .get('tonality-id')?.['payload'];
+    expect(JSON.parse(String(payload))).toEqual(attempt);
+    expect(await repository.latest('test.tonality')).toMatchObject({
+      correct: 3,
+      answered: 4,
+      review_correct: 1,
+      review_total: 1,
+    });
+    expect(db.prepare('PRAGMA user_version').get()?.['user_version']).toBe(1);
+  });
   it('speichert freie Eingaben samt falscher Erstwertung, Hilfen und neuer Wiederholungsvariante verlustfrei', async () => {
     let session = createLessonSession(
       {

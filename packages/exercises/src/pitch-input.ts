@@ -4,6 +4,7 @@ import { MAX_STEP, MIN_STEP, setPitch, stepOf } from '@harmonia/notation';
 import type { Pitch } from '@harmonia/theory';
 import { formatPitch, fromMidi, midi, parsePitch } from '@harmonia/theory';
 import type { ExerciseItem, PitchInputItem } from './types.ts';
+import type { ExerciseClef } from './types.ts';
 
 export function isPitchInput(item: ExerciseItem): item is PitchInputItem {
   return ['NOTE_PLACE', 'KEY_FIND', 'INTERVAL_BUILD'].includes(item.type);
@@ -34,10 +35,13 @@ export function answerPitch(item: PitchInputItem, answer: string): Pitch | undef
       ? fromMidi(number)
       : undefined;
   }
+  return writtenAnswerPitch(item.clef, answer);
+}
+export function writtenAnswerPitch(clef: ExerciseClef, answer: string): Pitch | undefined {
   if (!/^[A-G](?:bb|b|##|#)?[0-8]$/.test(answer)) return undefined;
   const pitch = parsePitch(answer);
   if (pitchAnswerId(pitch) !== answer) return undefined;
-  const step = stepOf(pitch, item.clef);
+  const step = stepOf(pitch, clef);
   return midi(pitch) >= 21 && midi(pitch) <= 108 && step >= MIN_STEP && step <= MAX_STEP
     ? pitch
     : undefined;

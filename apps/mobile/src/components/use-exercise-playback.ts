@@ -1,9 +1,11 @@
 import type { Playback } from '@harmonia/audio';
 import type { ExerciseItem } from '@harmonia/exercises';
+import { isKeySignatureItem, isScaleItem } from '@harmonia/exercises';
 import { useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AppState } from 'react-native';
 import { getAudioEngine } from '@/audio';
+import { playScale } from '@/exercises/play-scale';
 
 /** Keine automatische Wiedergabe. Ein verspätetes resume() darf nach dem Verlassen nicht klingen. */
 export function useExercisePlayback(item: ExerciseItem | undefined) {
@@ -51,7 +53,7 @@ export function useExercisePlayback(item: ExerciseItem | undefined) {
   }, [stop]);
   const play = async () => {
     const canPlay = () => focused.current && appActive.current;
-    if (!item || !canPlay()) return;
+    if (!item || isKeySignatureItem(item) || !canPlay()) return;
     stop();
     setError(false);
     const token = request.current;
@@ -59,8 +61,9 @@ export function useExercisePlayback(item: ExerciseItem | undefined) {
       const engine = getAudioEngine();
       await engine.resume();
       if (token !== request.current || current.current !== item || !canPlay()) return;
-      playback.current =
-        'pitch' in item
+      playback.current = isScaleItem(item)
+        ? playScale(engine, item)
+        : 'pitch' in item
           ? engine.playPitch(item.pitch, { duration: 0.8 })
           : engine.playInterval(
               item.from,
@@ -76,7 +79,11 @@ export function useExercisePlayback(item: ExerciseItem | undefined) {
           timer.current = null;
           setPlaying(false);
         },
-        'pitch' in item || item.playback === 'harmonic' ? 850 : 1650,
+        isScaleItem(item)
+          ? Math.max(0, playback.current.endTime - engine.context.currentTime) * 1000 + 50
+          : 'pitch' in item || item.playback === 'harmonic'
+            ? 850
+            : 1650,
       );
     } catch {
       if (token === request.current && current.current === item) setError(true);

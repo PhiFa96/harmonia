@@ -13,7 +13,10 @@ import {
 } from './index.ts';
 import type { ExerciseSpec, NoteParams } from './types.ts';
 
-const SPECS: readonly ExerciseSpec[] = [
+const SPECS: readonly Extract<
+  ExerciseSpec,
+  { readonly type: 'NOTE_NAME' | 'INTERVAL_IDENTIFY_VISUAL' | 'INTERVAL_IDENTIFY_AURAL' }
+>[] = [
   { type: 'NOTE_NAME', params: { clefs: ['treble', 'bass'] } },
   { type: 'NOTE_NAME', params: { range: { minMidi: 21, maxMidi: 108 }, maxAccidentals: 2 } },
   {
@@ -54,6 +57,8 @@ describe('Seedbare Übungsgeneratoren', () => {
           expect(new Set(item.choices).size).toBe(item.choices.length);
           expect(item.choices.length).toBeGreaterThan(0);
           expect(item.choices.length).toBeLessThanOrEqual(4);
+          if (!('pitch' in item) && !('from' in item))
+            throw new Error('Noten-/Intervallaufgabe erwartet');
           const pitches = 'pitch' in item ? [item.pitch] : [item.from, item.to];
           for (const pitch of pitches) {
             expect(midi(pitch), formatPitch(pitch)).toBeGreaterThanOrEqual(

@@ -48,7 +48,10 @@ import {
 } from './index.ts';
 import type { ExerciseSpec, PitchInputItem } from './index.ts';
 
-const SPECS: readonly ExerciseSpec[] = [
+const SPECS: readonly Extract<
+  ExerciseSpec,
+  { readonly type: 'NOTE_PLACE' | 'KEY_FIND' | 'INTERVAL_BUILD' }
+>[] = [
   ...([0, 1, 2] as const).flatMap((maxAccidentals) => [
     { type: 'NOTE_PLACE' as const, params: { clefs: ['treble', 'bass'] as const, maxAccidentals } },
     {

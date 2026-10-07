@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import type { ExerciseSpec } from '@harmonia/exercises';
-import { createRng, generateExercise } from '@harmonia/exercises';
+import { createRng, generateExercise, MVP_SCALE_TYPES } from '@harmonia/exercises';
 const range = z
   .object({
     minMidi: z.number().int().min(21).max(108),
@@ -19,8 +19,33 @@ const noteParams = z
   })
   .strict();
 const intervals = z.array(z.string().regex(/^(?:P|m|M|A|d)(?:[1-9]|1[0-5])$/)).nonempty();
+const fifths = z.array(z.number().int().min(-7).max(7)).nonempty();
+const scaleParams = noteParams
+  .extend({
+    types: z.array(z.enum(MVP_SCALE_TYPES)).nonempty(),
+    fifths: fifths.optional(),
+    direction: z.enum(['ascending', 'descending', 'both']).optional(),
+  })
+  .strict();
+const signatureParams = z
+  .object({
+    clefs: z
+      .array(z.enum(['treble', 'bass']))
+      .nonempty()
+      .optional(),
+    modes: z
+      .array(z.enum(['major', 'minor']))
+      .nonempty()
+      .optional(),
+    fifths: fifths.optional(),
+  })
+  .strict();
 export const exerciseSpecSchema = z
   .discriminatedUnion('type', [
+    z.object({ type: z.literal('SCALE_BUILD'), params: scaleParams }).strict(),
+    z.object({ type: z.literal('SCALE_IDENTIFY'), params: scaleParams }).strict(),
+    z.object({ type: z.literal('KEYSIG_BUILD'), params: signatureParams }).strict(),
+    z.object({ type: z.literal('KEYSIG_IDENTIFY'), params: signatureParams }).strict(),
     z.object({ type: z.literal('NOTE_NAME'), params: noteParams }).strict(),
     z.object({ type: z.literal('NOTE_PLACE'), params: noteParams }).strict(),
     z.object({ type: z.literal('KEY_FIND'), params: noteParams }).strict(),
@@ -59,6 +84,15 @@ export const exerciseSpecSchema = z
       .strict(),
   ])
   .transform((value): ExerciseSpec => {
+    if (value.type === 'KEYSIG_BUILD' || value.type === 'KEYSIG_IDENTIFY')
+      return {
+        type: value.type,
+        params: {
+          ...(value.params.clefs ? { clefs: value.params.clefs } : {}),
+          ...(value.params.modes ? { modes: value.params.modes } : {}),
+          ...(value.params.fifths ? { fifths: value.params.fifths } : {}),
+        },
+      };
     const base = {
       ...(value.params.clefs ? { clefs: value.params.clefs } : {}),
       ...(value.params.range ? { range: value.params.range } : {}),
@@ -66,6 +100,16 @@ export const exerciseSpecSchema = z
         ? { maxAccidentals: value.params.maxAccidentals }
         : {}),
     };
+    if (value.type === 'SCALE_BUILD' || value.type === 'SCALE_IDENTIFY')
+      return {
+        type: value.type,
+        params: {
+          ...base,
+          types: value.params.types,
+          ...(value.params.direction ? { direction: value.params.direction } : {}),
+          ...(value.params.fifths ? { fifths: value.params.fifths } : {}),
+        },
+      };
     if (value.type === 'NOTE_NAME' || value.type === 'NOTE_PLACE' || value.type === 'KEY_FIND')
       return { type: value.type, params: base };
     if (value.type === 'INTERVAL_IDENTIFY_VISUAL' || value.type === 'INTERVAL_BUILD')

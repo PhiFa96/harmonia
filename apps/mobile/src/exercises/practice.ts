@@ -49,3 +49,38 @@ export function createPitchInputSession(seed: number | string) {
     ).flat(),
   );
 }
+
+const TONALITY_TYPES: readonly ExerciseSpec[] = [
+  {
+    type: 'SCALE_BUILD',
+    params: {
+      types: ['major', 'naturalMinor', 'harmonicMinor', 'melodicMinor'],
+      clefs: ['treble', 'bass'],
+      fifths: [-2, -1, 0, 1, 2],
+      direction: 'both',
+      maxAccidentals: 1,
+    },
+  },
+  {
+    type: 'SCALE_IDENTIFY',
+    params: {
+      types: ['major', 'naturalMinor', 'harmonicMinor', 'melodicMinor'],
+      clefs: ['treble', 'bass'],
+      fifths: [-2, -1, 0, 1, 2],
+      maxAccidentals: 1,
+    },
+  },
+  {
+    type: 'KEYSIG_IDENTIFY',
+    params: { clefs: ['treble', 'bass'], fifths: [-3, -2, -1, 0, 1, 2, 3] },
+  },
+  { type: 'KEYSIG_BUILD', params: { clefs: ['treble', 'bass'], fifths: [-3, -2, -1, 0, 1, 2, 3] } },
+];
+export function createTonalitySession(seed: number | string) {
+  const rng = createRng(seed);
+  return createSession(
+    Array.from({ length: 3 }, () =>
+      TONALITY_TYPES.map((spec) => generateExercise(spec, rng)),
+    ).flat(),
+  );
+}

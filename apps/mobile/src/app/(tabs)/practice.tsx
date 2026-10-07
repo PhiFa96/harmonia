@@ -16,7 +16,11 @@ import { useTranslation } from 'react-i18next';
 import { AccessibilityInfo, Platform, ScrollView, StyleSheet, View } from 'react-native';
 
 import { ExerciseTask } from '@/components/exercise-task';
-import { createPitchInputSession, createPracticeSession } from '@/exercises/practice';
+import {
+  createPitchInputSession,
+  createPracticeSession,
+  createTonalitySession,
+} from '@/exercises/practice';
 import { useLocale } from '@/i18n';
 
 export default function PracticeScreen() {
@@ -24,7 +28,7 @@ export default function PracticeScreen() {
   const locale = useLocale();
   const [session, setSession] = useState<ExerciseSession | null>(null);
   const [answer, setAnswer] = useState<string | null>(null);
-  const [construction, setConstruction] = useState(false);
+  const [mode, setMode] = useState<'reading' | 'pitch' | 'tonality'>('reading');
   const run = useRef(0);
   const scroll = useRef<ScrollView>(null);
   const question = useRef<View>(null);
@@ -33,11 +37,15 @@ export default function PracticeScreen() {
   const prompt = item ? exercisePrompt(item, locale) : '';
   const started = session !== null;
   const summary = session ? sessionSummary(session) : undefined;
-  const start = (build = construction) => {
-    setConstruction(build);
+  const start = (selected = mode) => {
+    setMode(selected);
     setAnswer(null);
     setSession(
-      (build ? createPitchInputSession : createPracticeSession)(Date.now() + run.current++),
+      {
+        reading: createPracticeSession,
+        pitch: createPitchInputSession,
+        tonality: createTonalitySession,
+      }[selected](Date.now() + run.current++),
     );
     scroll.current?.scrollTo({ y: 0, animated: false });
   };
@@ -73,7 +81,7 @@ export default function PracticeScreen() {
             <Button
               label={t('exercise.start')}
               onPress={() => {
-                start(false);
+                start('reading');
               }}
             />
             <Card>
@@ -84,7 +92,18 @@ export default function PracticeScreen() {
               variant="secondary"
               label={t('exercise.constructionStart')}
               onPress={() => {
-                start(true);
+                start('pitch');
+              }}
+            />
+            <Card>
+              <AppText variant="title3">{t('exercise.tonalityStart')}</AppText>
+              <AppText tone="muted">{t('exercise.tonalityIntro')}</AppText>
+            </Card>
+            <Button
+              variant="secondary"
+              label={t('exercise.tonalityStart')}
+              onPress={() => {
+                start('tonality');
               }}
             />
           </>
@@ -165,7 +184,7 @@ export default function PracticeScreen() {
               onPress={() => {
                 setSession(null);
                 setAnswer(null);
-                setConstruction(false);
+                setMode('reading');
               }}
             />
           </>
