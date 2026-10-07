@@ -2,6 +2,8 @@
 
 Ziel: alle Kernbereiche der Musiktheorie, Musikgeschichte und Werkanalyse vom Einstieg bis zum Hochschulniveau. Stufen und Zuordnung sind ein Vorschlag.
 
+Der konkrete MVP-Entwurf für Stufen 1–2 liegt jetzt im [Fähigkeitsgraph P2.05](plan/faehigkeitsgraph.md): 90 Fähigkeiten in 29 Einheiten, mit Voraussetzungen und Zielen in DE/EN. Claudes separate fachliche Abnahme ist offen.
+
 ## Stufen
 
 | Stufe | Arbeitstitel | Niveau |

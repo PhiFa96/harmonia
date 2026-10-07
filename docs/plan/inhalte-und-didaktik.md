@@ -17,6 +17,7 @@ Dazu kommen:
 
 - **Fähigkeiten (Skills):** kleinste prüfbare Lerneinheiten, z. B. „Notennamen im Violinschlüssel, ohne Vorzeichen“. Jede Aufgabe trainiert eine oder mehrere Fähigkeiten.
 - **Fähigkeitsgraph:** gerichteter Graph der Voraussetzungen (z. B. Notennamen → Intervalle bestimmen). Er steuert Lernpfad, Einstufung und Wiederholung.
+- **Entwurf Stufen 1–2 (P2.05):** 90 Fähigkeiten mit eindeutiger Einheiten-/Stufenzuordnung und einer technisch gültigen Planungsreihenfolge. [Diagramme und Tabellen](faehigkeitsgraph-diagramme.md) werden aus dem Katalog erzeugt; die separate fachliche Abnahme bleibt offen. Ablauf: [faehigkeitsgraph.md](faehigkeitsgraph.md).
 - **Wissenskarten:** kurze Erklärtexte mit Beispielen (Notenbild + Klang), auch für die Wiederholung nach FSRS.
 - **Wissensartikel:** längere Texte für die Wissensbasis des KI-Tutors.
 

@@ -36,9 +36,10 @@ pnpm install
 | `pnpm typecheck` | TypeScript-Prüfung aller Pakete |
 | `pnpm test` | Tests aller Pakete (Vitest, in der App Jest mit jest-expo) |
 | `pnpm format` / `pnpm format:check` | Formatierung mit Prettier anwenden bzw. prüfen |
-| `pnpm check:deno` | Theorie, Übungen und erste Inhaltsdatei unter Deno prüfen |
+| `pnpm check:deno` | Theorie, Übungen, erste Lektion und Fähigkeitsplan unter Deno prüfen |
 | `pnpm check:i18n` | Übersetzungen prüfen (Schlüssel DE/EN, leere Texte, Pluralformen, Platzhalter) |
 | `pnpm check:content` | Inhaltsschemas, Referenzen, Voraussetzungen, Sprach-/Notenbeispiele und öffentliche Dateien prüfen |
+| `pnpm check:curriculum` / `pnpm curriculum:render` | Fähigkeitszuordnung und Lernreihenfolge prüfen; Planungsdiagramme abgleichen bzw. lokal erzeugen |
 | `pnpm content:publish` | Geprüfte öffentliche Katalog-/Textdateien lokal erzeugen (kein Deployment) |
 | `pnpm check:content:bundle [Verzeichnis]` | Produktions-Export auf Entwurfsdaten und -texte prüfen |
 | `pnpm --filter @harmonia/mobile web` | App im Browser starten |
@@ -54,6 +55,8 @@ Aufbau des Monorepos: [docs/plan/architektur.md](docs/plan/architektur.md).
 Lokales Backend, Profilmigration und offene staging/production-Einrichtung: [Supabase-Grundlage P1.04](docs/plan/supabase-grundlage.md).
 
 Inhaltsproduktion, interne Vorschau, öffentliche Freigaben und EAS-Übergabe: [Inhalts-Pipeline P2.04](docs/plan/inhalts-pipeline.md). `APP_VARIANT=production` baut nur freigegebene Inhalte; ohne separate fachliche Abnahme bleibt die erste Lektion intern.
+
+Entwurf für Stufen 1–2 mit 90 Fähigkeiten, Voraussetzungen und Einheitenreihenfolge: [Fähigkeitsgraph P2.05](docs/plan/faehigkeitsgraph.md). Fachliche Abnahme, zusätzliche Übungstypen und die vollständigen Lektionen folgen.
 
 ## Lizenz
 

@@ -92,10 +92,11 @@ Die Blöcke B, C und D können teilweise parallel laufen.
 - **Abhängig von:** P2.04, P0.05
 - **Umfang:** M
 - **Aufgaben:**
-  - [ ] Fähigkeiten für Notation, Rhythmus, Intervalle, Tonleitern und Tonarten, Dreiklänge, Gehörbildung Grundlagen, Musikgeschichte Überblick
-  - [ ] Voraussetzungen und Reihenfolge der Einheiten
-  - [ ] Visualisierung des Graphen (für die Planung, nicht in der App)
+  - [x] Fähigkeiten für Notation, Rhythmus, Intervalle, Tonleitern und Tonarten, Dreiklänge, Gehörbildung Grundlagen, Musikgeschichte Überblick als Entwurf im Katalog
+  - [x] Voraussetzungen und technisch geprüfte Reihenfolge der Einheiten
+  - [x] Erzeugte Visualisierung des Graphen (für die Planung, nicht in der App), in CI gegen den Datenstand geprüft
 - **Fertig, wenn:** Der Graph ist fachlich geprüft ([ADR 0005](../decisions/0005-fachliche-pruefung-durch-claude.md)).
+- **Stand 05.10.2026:** 90 Fähigkeiten, 29 Einheiten, 40 Ziele in Stufe 1 und 50 in Stufe 2. Alle neuen Datensätze bleiben Entwurf; Claudes separate fachliche Abnahme ist offen. Zuordnung, Datenmodell, Diagramme und Folgearbeit: [faehigkeitsgraph.md](faehigkeitsgraph.md). P2.05 ist noch nicht fachlich abgeschlossen.
 
 ### P2.06 – Übungstypen für das MVP
 

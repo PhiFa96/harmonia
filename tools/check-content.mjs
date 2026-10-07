@@ -3,7 +3,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import prettier from 'prettier';
 import { parseCatalogue, publicCatalogue, publicMessages } from '../packages/content/src/index.ts';
-import { catalogue as authored } from '../packages/content/src/authoring.ts';
+import { catalogue as authored, curriculumPlan } from '../packages/content/src/authoring.ts';
 import { RESOURCES, checkTranslations } from '../packages/i18n/src/index.ts';
 import { contentMessages } from '../packages/i18n/src/authoring-content-messages.ts';
 import { parseScore, validateScore } from '../packages/notation/src/index.ts';
@@ -59,5 +59,5 @@ for (const [path, value] of files) {
     );
 }
 console.log(
-  `Inhalte gültig: ${catalogue.lessons.length} interne, ${published.lessons.length} freigegebene Lektionen; öffentliche Daten und Texte stimmen.`,
+  `Inhalte gültig: ${catalogue.skills.length} Fähigkeiten in ${curriculumPlan.units.length} geplanten Einheiten; ${catalogue.lessons.length} interne, ${published.lessons.length} freigegebene Lektionen; öffentliche Daten und Texte stimmen.`,
 );

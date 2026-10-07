@@ -1,0 +1,152 @@
+{
+  "schemaVersion": 1,
+  "contentVersion": 2,
+  "scopeLevels": [1, 2],
+  "units": [
+    {
+      "unitId": "fundament.reading-and-listening",
+      "skillIds": ["notation.note-name", "interval.identify.visual", "interval.identify.aural"]
+    },
+    {
+      "unitId": "notation.l1.staff",
+      "skillIds": ["notation.staff", "notation.treble-clef", "notation.treble-natural"]
+    },
+    {
+      "unitId": "notation.l1.keyboard",
+      "skillIds": ["notation.keyboard-layout", "notation.semitone", "notation.accidentals"]
+    },
+    {
+      "unitId": "notation.l1.register",
+      "skillIds": ["notation.octave-register", "notation.ledger-lines", "notation.pitch-match"]
+    },
+    {
+      "unitId": "rhythm.l1.pulse",
+      "skillIds": ["rhythm.pulse", "rhythm.tempo", "rhythm.beat-group"]
+    },
+    {
+      "unitId": "rhythm.l1.values",
+      "skillIds": ["rhythm.note-values", "rhythm.rests", "rhythm.measure-fill", "rhythm.barlines"]
+    },
+    {
+      "unitId": "rhythm.l1.simple-meter",
+      "skillIds": ["rhythm.meter-simple", "rhythm.count-in", "rhythm.read-basic"]
+    },
+    {
+      "unitId": "intervals.l1.size",
+      "skillIds": ["interval.generic-size", "interval.direction", "interval.steps-leaps"]
+    },
+    {
+      "unitId": "intervals.l1.first-qualities",
+      "skillIds": [
+        "interval.semitone-distance",
+        "interval.thirds",
+        "interval.perfect-fourth-fifth-octave"
+      ]
+    },
+    {
+      "unitId": "aural.l1.pulse-rhythm",
+      "skillIds": ["aural.pulse", "aural.same-different-rhythm", "aural.rhythm-choice-basic"]
+    },
+    {
+      "unitId": "aural.l1.pitch-intervals",
+      "skillIds": [
+        "aural.pitch-direction",
+        "aural.same-different-melody",
+        "aural.third-fourth-fifth"
+      ]
+    },
+    {
+      "unitId": "history.l1.sources",
+      "skillIds": ["history.sound-source", "history.source-types", "history.context"]
+    },
+    {
+      "unitId": "history.l1.overview",
+      "skillIds": [
+        "history.european-timeline",
+        "history.genre-function",
+        "history.listening-observation"
+      ]
+    },
+    {
+      "unitId": "notation.l2.clefs-registers",
+      "skillIds": ["notation.bass-natural", "notation.grand-staff", "notation.octave-systems"]
+    },
+    {
+      "unitId": "notation.l2.spelling",
+      "skillIds": [
+        "notation.accidental-scope",
+        "notation.enharmonic-spelling",
+        "notation.write-pitch"
+      ]
+    },
+    {
+      "unitId": "rhythm.l2.dotted-tied",
+      "skillIds": [
+        "rhythm.dotted-values",
+        "rhythm.ties",
+        "rhythm.dotted-and-tied",
+        "rhythm.syncopation-basic"
+      ]
+    },
+    {
+      "unitId": "rhythm.l2.subdivision",
+      "skillIds": ["rhythm.triplet", "rhythm.compound-meter", "rhythm.group-6-8"]
+    },
+    {
+      "unitId": "intervals.l2.qualities-build",
+      "skillIds": ["interval.simple-qualities", "interval.build", "interval.enharmonic-distinction"]
+    },
+    {
+      "unitId": "intervals.l2.inversion",
+      "skillIds": ["interval.inversion", "interval.descending", "interval.simple-compound"]
+    },
+    {
+      "unitId": "scales.l2.major",
+      "skillIds": ["scale.major-pattern", "scale.major-build", "scale.tonic"]
+    },
+    {
+      "unitId": "scales.l2.minor",
+      "skillIds": ["scale.natural-minor", "scale.harmonic-minor", "scale.melodic-minor"]
+    },
+    {
+      "unitId": "scales.l2.keys",
+      "skillIds": ["key.signature-major", "key.fifths", "key.signature-minor", "key.relative"]
+    },
+    {
+      "unitId": "chords.l2.qualities",
+      "skillIds": ["chord.triad-structure", "chord.major-minor", "chord.diminished-augmented"]
+    },
+    {
+      "unitId": "chords.l2.inversions",
+      "skillIds": ["chord.root-and-bass", "chord.inversions", "chord.diatonic-triads"]
+    },
+    {
+      "unitId": "aural.l2.rhythm-detail",
+      "skillIds": [
+        "aural.rhythm-choice-dotted",
+        "aural.simple-compound-pulse",
+        "aural.rhythm-completion"
+      ]
+    },
+    {
+      "unitId": "aural.l2.melody",
+      "skillIds": ["aural.simple-intervals", "aural.major-minor-scale", "aural.melodic-memory"]
+    },
+    {
+      "unitId": "aural.l2.triads",
+      "skillIds": ["aural.triad-major-minor", "aural.triad-quality", "aural.triad-inversions"]
+    },
+    {
+      "unitId": "history.l2.period-contexts",
+      "skillIds": [
+        "history.medieval-renaissance",
+        "history.baroque-classical",
+        "history.romantic-modern"
+      ]
+    },
+    {
+      "unitId": "history.l2.jazz-pop-sources",
+      "skillIds": ["history.jazz-roots", "history.popular-contexts", "history.compare-sources"]
+    }
+  ]
+}

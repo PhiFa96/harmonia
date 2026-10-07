@@ -5,11 +5,20 @@ import ts from 'typescript';
 import { catalogue } from '../packages/content/src/authoring.ts';
 import { publicCatalogue, textAt, textKeys, COLLECTIONS } from '../packages/content/src/index.ts';
 import { contentMessages } from '../packages/i18n/src/authoring-content-messages.ts';
+import { RESOURCES } from '../packages/i18n/src/index.ts';
 
 const directory = resolve(process.argv[2] ?? 'apps/mobile/dist');
 const published = publicCatalogue(catalogue);
 const allowedKeys = new Set(textKeys(published));
 const allowedTexts = new Set();
+// Allgemeine UI-/Glossarbegriffe sind schon öffentlich (z. B. „Dreiklänge“).
+// Die Standard-Ressourcen laden nur veröffentlichte Inhaltstexte, niemals Authoring-Daten.
+const resources = [RESOURCES];
+while (resources.length > 0) {
+  const value = resources.pop();
+  if (typeof value === 'string') allowedTexts.add(value);
+  else if (value && typeof value === 'object') resources.push(...Object.values(value));
+}
 for (const content of Object.values(contentMessages))
   for (const key of allowedKeys) allowedTexts.add(textAt({ content }, key));
 const forbidden = new Map();
