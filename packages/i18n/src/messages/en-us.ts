@@ -43,6 +43,32 @@ export const enUS = {
     noteInput: 'Try notation and piano input',
     constructionStart: 'Enter notes and build intervals',
     chooseSet: 'Choose practice set',
+    chordStart: 'Recognize and write chords',
+    chordIntro:
+      'Nine questions: write major, minor, diminished and augmented triads with inversions, recognize them in notation and identify them by ear.',
+    type_CHORD_BUILD: 'Write $t(glossary:chord_other)',
+    type_CHORD_IDENTIFY: 'Recognize $t(glossary:chord_other)',
+    question_CHORD_BUILD:
+      'Write {{name}} in close position above {{bass}}. The $t(glossary:bassNote_one) is given; add the two remaining notes.',
+    question_CHORD_IDENTIFY:
+      'Which $t(glossary:chord_one) do you see? Identify its $t(glossary:root_one), quality and $t(glossary:inversion_one).',
+    question_CHORD_AURAL:
+      'You hear $t(glossary:root_one) {{root}} first, then the $t(glossary:triad_one). Which quality and $t(glossary:inversion_one) do you hear?',
+    chordExplanation:
+      '{{name}}: {{notes}}. From $t(glossary:root_one) {{root}}, the intervals are {{third}} and {{fifth}}. The $t(glossary:bassNote_one) is {{bass}}, giving {{inversion}}. Written answers require complete notes, including accidentals and octave. Close position places the remaining chord tones in their next higher registers above the bass note.',
+    chordHint1:
+      'Arrange the three letter names mentally in thirds. The bottom note of that arrangement is the $t(glossary:root_one). Compare it with the actual lowest note: root, third or fifth in the bass determines $t(glossary:rootPosition) or $t(glossary:inversion_one).',
+    chordHint2:
+      'The $t(glossary:root_one) is {{root}}. From there you need {{third}} and {{fifth}}. The given or heard $t(glossary:bassNote_one) {{bass}} shows the position; place the other chord tones as close above it as possible.',
+    chordAuralHint1:
+      'Remember the first single note as the $t(glossary:root_one). Then listen for the lowest note of the $t(glossary:chord_one): compare it with the reference note, including across octaves. Root, third or fifth in the bass determines the position. The intervals between the notes determine the triad quality.',
+    chordPreview: 'Your $t(glossary:chord_one)',
+    chordSelectTone: 'Choose a chord tone to edit',
+    chordTone: 'Note {{index}}',
+    chordToneEmpty: 'not placed yet',
+    chordFilled: '{{count}} of 2 answer notes placed.',
+    chordInputHint:
+      'Choose note 2 or 3 and place it in the right $t(glossary:measure_one). The $t(glossary:bassNote_one) stays fixed on the left. The combined notation shows your $t(glossary:chord_one). You may enter the upper notes in either order.',
     tonalityStart: 'Practise scales and key signatures',
     tonalityIntro:
       'Twelve questions: identify and write major and minor scales, recognise key signatures and build them yourself.',

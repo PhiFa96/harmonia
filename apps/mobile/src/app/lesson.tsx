@@ -7,6 +7,7 @@ import {
   currentItem,
   exercisePrompt,
   lessonSummary,
+  nextExercise,
   nextLessonExercise,
   revealLessonHint,
   skipLessonAural,
@@ -125,7 +126,7 @@ function LessonPlayer({ content }: { readonly content: LessonContent }) {
               )}
               hearingPausedText={t('lesson.hearingPaused')}
               continueLabel={t(
-                session.index === session.items.length - 1 ? 'lesson.roundEnd' : 'exercise.next',
+                currentItem(nextExercise(session)) ? 'exercise.next' : 'lesson.roundEnd',
               )}
               onSelect={setAnswer}
               onCheck={(value) => {
