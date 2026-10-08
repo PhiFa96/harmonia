@@ -12,6 +12,7 @@ import {
   itemVariantKey,
 } from '@harmonia/exercises';
 import { engineLanguage } from '@harmonia/i18n';
+import { layoutScore } from '@harmonia/notation';
 import { ScoreView } from '@harmonia/notation/native';
 import { RADIUS, SPACE } from '@harmonia/ui';
 import {
@@ -24,7 +25,7 @@ import {
   useUiTheme,
 } from '@harmonia/ui/native';
 import { useFocusEffect } from 'expo-router';
-import { useCallback, useRef } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import type { RefObject } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, ScrollView, StyleSheet, View } from 'react-native';
@@ -34,6 +35,7 @@ import { ChordAnswerInput } from './chord-answer-input';
 import { PitchAnswerInput } from './pitch-answer-input';
 import { ScaleAnswerInput } from './scale-answer-input';
 import { SignatureAnswerInput } from './signature-answer-input';
+import { RhythmAnswerInput } from './rhythm-answer-input';
 import { useExercisePlayback } from './use-exercise-playback';
 
 interface Props {
@@ -76,6 +78,17 @@ export function ExerciseTask({
   const feedback = result ? exerciseFeedback(item, result, locale) : undefined;
   const prompt = exercisePrompt(item, locale);
   const feedbackRegion = useRef<View>(null);
+  const [scoreWidth, setScoreWidth] = useState(0);
+  const rhythmWidth = useMemo(
+    () =>
+      item.type === 'RHYTHM_TAP' ? layoutScore(item.score, { endBarline: 'final' }).width + 2 : 0,
+    [item],
+  );
+  // Ein vollständiger Rhythmustakt muss beim Mittippen ohne seitliches Scrollen lesbar sein.
+  const staffSpace =
+    rhythmWidth && scoreWidth
+      ? Math.min(14, Math.max(1, scoreWidth - 2 * SPACE.s - 2) / rhythmWidth)
+      : 14;
   useFocusEffect(
     useCallback(() => {
       if (result && Platform.OS === 'web')
@@ -112,14 +125,22 @@ export function ExerciseTask({
       </View>
       {['NOTE_PLACE', 'INTERVAL_BUILD', 'SCALE_BUILD', 'KEYSIG_BUILD', 'CHORD_BUILD'].includes(
         item.type,
-      ) ? null : !isAuralExercise(item) || result || session.hintLevel === 3 ? (
-        <Card padding={SPACE.s}>
+      ) ? null : item.type === 'RHYTHM_TAP' ||
+        !isAuralExercise(item) ||
+        result ||
+        session.hintLevel === 3 ? (
+        <Card
+          padding={SPACE.s}
+          onLayout={(event) => {
+            if (item.type === 'RHYTHM_TAP') setScoreWidth(event.nativeEvent.layout.width);
+          }}
+        >
           <ScrollView horizontal contentContainerStyle={styles.score}>
             <View accessible role="img" aria-label={exerciseDescription(item, locale)}>
               <View aria-hidden importantForAccessibility="no-hide-descendants">
                 <ScoreView
                   score={item.score}
-                  staffSpace={14}
+                  staffSpace={staffSpace}
                   color={colors.text}
                   describeOptions={engineLanguage(locale)}
                   layoutOptions={{ endBarline: 'final' }}
@@ -167,7 +188,20 @@ export function ExerciseTask({
           {t('exercise.audioError')}
         </AppText>
       ) : null}
-      {item.type === 'CHORD_BUILD' ? (
+      {item.type === 'RHYTHM_TAP' ? (
+        <RhythmAnswerInput
+          key={`${String(session.index)}:${itemVariantKey(item)}`}
+          item={item}
+          answer={answer}
+          {...(result ? { result } : {})}
+          showSolution={!!result || session.hintLevel === 3}
+          onSelect={onSelect}
+          beforeStart={audio.stop}
+          onPreview={() => {
+            void audio.play();
+          }}
+        />
+      ) : item.type === 'CHORD_BUILD' ? (
         <ChordAnswerInput
           key={`${String(session.index)}:${itemVariantKey(item)}`}
           item={item}
@@ -239,13 +273,19 @@ export function ExerciseTask({
             disabled={
               answer === null ||
               !evaluateExercise(item, answer).validAnswer ||
-              (isAuralExercise(item) && !audio.heard && session.hintLevel < 3)
+              (item.type !== 'RHYTHM_TAP' &&
+                isAuralExercise(item) &&
+                !audio.heard &&
+                session.hintLevel < 3)
             }
             onPress={() => {
               if (
                 answer === null ||
                 !evaluateExercise(item, answer).validAnswer ||
-                (isAuralExercise(item) && !audio.heard && session.hintLevel < 3)
+                (item.type !== 'RHYTHM_TAP' &&
+                  isAuralExercise(item) &&
+                  !audio.heard &&
+                  session.hintLevel < 3)
               )
                 return;
               audio.stop();

@@ -2,7 +2,7 @@
 
 Musiktheorie lernen – hörbar, spielerisch und so tief, wie du willst. Vom ersten Notenschlüssel bis zum Hochschulniveau, mit KI-Tutor und echten Coaches. Im Browser und als App für iOS und Android.
 
-> **Status: Technisches Fundament und erster MVP-Ausbau.** Theorie-Engine, Notenbild, Klavierklang, Klaviatur und zwölf Übungstypen sind implementiert. Die interne erste Lektion hat zehn Aufgaben, neue Varianten für Fehler und ein lokales SQLite-Ergebnis. Im Tab „Üben“ gibt es vier freie Sätze zum Lesen/Hören, zu Tonhöheneingaben, Tonleitern/Vorzeichnungen und Akkorden. Geräteprüfungen, Testpersonen und fachliche Inhaltsabnahme sind offen; öffentliche Builds enthalten nur freigegebene Kursinhalte. Details: [Erste Lektion P1.20](docs/plan/erste-lektion.md), [Akkordübungen P2.06](docs/plan/akkorduebungen.md) und [Phase 2](docs/plan/phase-2-mvp.md).
+> **Status: Technisches Fundament und erster MVP-Ausbau.** Theorie-Engine, Notenbild, Klavierklang, Klaviatur und 14 Übungstypen sind implementiert. Die interne erste Lektion hat zehn Aufgaben, neue Varianten für Fehler und ein lokales SQLite-Ergebnis. Im Tab „Üben“ gibt es fünf freie Sätze zum Lesen/Hören, zu Tonhöheneingaben, Tonleitern/Vorzeichnungen, Akkorden sowie Rhythmus/Taktgliederung. Geräteprüfungen, Testpersonen und fachliche Inhaltsabnahme sind offen; öffentliche Builds enthalten nur freigegebene Kursinhalte. Details: [Erste Lektion P1.20](docs/plan/erste-lektion.md), [Rhythmus und Takt P2.06](docs/plan/rhythmus-und-takt.md) und [Phase 2](docs/plan/phase-2-mvp.md).
 
 ## Konzept
 
@@ -58,7 +58,7 @@ Inhaltsproduktion, interne Vorschau, öffentliche Freigaben und EAS-Übergabe: [
 
 Entwurf für Stufen 1–2 mit 90 Fähigkeiten, Voraussetzungen und Einheitenreihenfolge: [Fähigkeitsgraph P2.05](docs/plan/faehigkeitsgraph.md). Fachliche Abnahme, zusätzliche Übungstypen und die vollständigen Lektionen folgen.
 
-Neue Schreib- und Erkennungsaufgaben: [Tonhöheneingaben](docs/plan/tonhoeheneingabe.md), [Tonleitern und Vorzeichnungen](docs/plan/tonleitern-und-vorzeichnungen.md) sowie [Akkorde](docs/plan/akkorduebungen.md). Neun der 14 zusätzlich geplanten MVP-Typen sind technisch umgesetzt.
+Neue Aufgaben: [Tonhöheneingaben](docs/plan/tonhoeheneingabe.md), [Tonleitern und Vorzeichnungen](docs/plan/tonleitern-und-vorzeichnungen.md), [Akkorde](docs/plan/akkorduebungen.md) sowie [Rhythmus und Taktgliederung](docs/plan/rhythmus-und-takt.md). Elf der 14 zusätzlich geplanten MVP-Typen sind technisch umgesetzt. Wissensfragen, Zuordnen und Ordnen folgen.
 
 ## Lizenz
 

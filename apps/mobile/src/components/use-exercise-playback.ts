@@ -1,12 +1,13 @@
 import type { Playback } from '@harmonia/audio';
 import type { ExerciseItem } from '@harmonia/exercises';
-import { isChordItem, isKeySignatureItem, isScaleItem } from '@harmonia/exercises';
+import { isChordItem, isKeySignatureItem, isScaleItem, isRhythmItem } from '@harmonia/exercises';
 import { useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AppState } from 'react-native';
 import { getAudioEngine } from '@/audio';
 import { playScale } from '@/exercises/play-scale';
 import { playChordExercise } from '@/exercises/play-chord';
+import { playRhythm } from '@/exercises/play-rhythm';
 
 /** Keine automatische Wiedergabe. Ein verspätetes resume() darf nach dem Verlassen nicht klingen. */
 export function useExercisePlayback(item: ExerciseItem | undefined) {
@@ -62,18 +63,20 @@ export function useExercisePlayback(item: ExerciseItem | undefined) {
       const engine = getAudioEngine();
       await engine.resume();
       if (token !== request.current || current.current !== item || !canPlay()) return;
-      playback.current = isChordItem(item)
-        ? playChordExercise(engine, item)
-        : isScaleItem(item)
-          ? playScale(engine, item)
-          : 'pitch' in item
-            ? engine.playPitch(item.pitch, { duration: 0.8 })
-            : engine.playInterval(
-                item.from,
-                item.to,
-                item.playback === 'harmonic' ? 'harmonic' : 'melodic',
-                { duration: 0.8 },
-              );
+      playback.current = isRhythmItem(item)
+        ? playRhythm(engine, item, 'demo')
+        : isChordItem(item)
+          ? playChordExercise(engine, item)
+          : isScaleItem(item)
+            ? playScale(engine, item)
+            : 'pitch' in item
+              ? engine.playPitch(item.pitch, { duration: 0.8 })
+              : engine.playInterval(
+                  item.from,
+                  item.to,
+                  item.playback === 'harmonic' ? 'harmonic' : 'melodic',
+                  { duration: 0.8 },
+                );
       setPlaying(true);
       setHeard(true);
       timer.current = setTimeout(
@@ -82,7 +85,7 @@ export function useExercisePlayback(item: ExerciseItem | undefined) {
           timer.current = null;
           setPlaying(false);
         },
-        isChordItem(item) || isScaleItem(item)
+        isRhythmItem(item) || isChordItem(item) || isScaleItem(item)
           ? Math.max(0, playback.current.endTime - engine.context.currentTime) * 1000 + 50
           : 'pitch' in item || item.playback === 'harmonic'
             ? 850

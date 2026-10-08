@@ -43,6 +43,54 @@ export const enUS = {
     noteInput: 'Try notation and piano input',
     constructionStart: 'Enter notes and build intervals',
     chooseSet: 'Choose practice set',
+    rhythmStart: 'Practice rhythm and meter',
+    rhythmIntro:
+      'Six questions: tap note onsets after a count-in $t(glossary:measure_one) and identify how $t(glossary:timeSignature_other) are grouped. Stay silent during rests.',
+    type_RHYTHM_TAP: 'Tap $t(glossary:rhythm_one)',
+    type_METER_IDENTIFY: 'Group the $t(glossary:meter_one)',
+    question_RHYTHM_TAP:
+      'Tap each note onset in this $t(glossary:measure_one). Each $t(glossary:beat_one) has the value {{beat}}; the $t(glossary:tempo) is {{bpm}} beats per minute. Your recording starts after one count-in $t(glossary:measure_one).',
+    question_METER_IDENTIFY:
+      'How is this $t(glossary:meter_one) grouped? Choose the number of beats and their note value.',
+    meterOption: '{{count}} beats with the value {{beat}}',
+    meterExplanation:
+      '{{meter}}: {{count}} beats per $t(glossary:measure_one), each with the value {{beat}}. Each beat divides into {{division}} equal parts. The grouping in denominator units is {{groups}}. The numerator counts denominator units, which are not always the beats.',
+    rhythmExplanation:
+      '{{matched}} of {{total}} note onsets within ±{{tolerance}} ms; {{missing}} are missing or outside the window, {{extra}} are extra. {{pattern}} Tap note onsets only; stay silent during rests. Any missing or extra tap counts as an error.',
+    rhythmPattern: 'Note onsets after the start of the $t(glossary:measure_one): {{times}} ms.',
+    rhythmDescription: 'Time signature {{meter}}. {{events}}',
+    rhythmEvent: '{{index}}: {{kind}}, {{duration}}.',
+    rhythmNote: 'note',
+    rhythmRest: 'rest',
+    rhythmHint1:
+      'Keep counting the beat. Tap only when a note begins, not throughout its duration. Rests have duration but no tap.',
+    rhythmHint2:
+      'This $t(glossary:measure_one) has {{total}} note onsets. Keep {{count}} steady beats with the value {{beat}} at {{bpm}} beats per minute.',
+    meterHint1:
+      'The numerator gives the number of units; the denominator gives their note value. In 6/8, 9/8 and 12/8, three eighth notes form one beat.',
+    meterHint2: 'Group the units as follows: {{groups}}. Each group forms one beat.',
+    rhythmReady: 'Ready for the count-in.',
+    rhythmPreparing: 'Preparing sound …',
+    rhythmCountIn: 'Count-in: {{current}} of {{count}}',
+    rhythmRecording: 'Recording: {{current}} of {{count}} beats',
+    rhythmFinished: 'Recording complete. Check it or record again.',
+    rhythmBegin: 'Count in and record',
+    rhythmRetry: 'Record again',
+    rhythmCancel: 'Cancel recording',
+    rhythmTap: 'Tap now',
+    rhythmTapHint:
+      'Tap at each note onset. With a keyboard, press Space or Enter on this button. Holding a key counts once.',
+    rhythmTapCount_one: '{{count}} tap recorded.',
+    rhythmTapCount_other: '{{count}} taps recorded.',
+    rhythmWindow:
+      'Timing window: ±{{tolerance}} ms. Note onsets are measured, not how long you hold the button.',
+    rhythmPreview: 'Listen to the rhythm example',
+    rhythmTarget: 'Note onset {{index}}: {{time}} ms',
+    rhythmHit: 'matched, offset {{offset}} ms',
+    rhythmMiss: 'missing or outside the timing window',
+    rhythmExtras: 'Extra taps: {{times}} ms.',
+    rhythmLatency:
+      'Reported audio delay: {{latency}} ms; taken into account when measuring your taps.',
     chordStart: 'Recognize and write chords',
     chordIntro:
       'Nine questions: write major, minor, diminished and augmented triads with inversions, recognize them in notation and identify them by ear.',

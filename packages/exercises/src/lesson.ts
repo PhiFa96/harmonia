@@ -1,6 +1,7 @@
 import { createRng, keyFifths, midi } from '@harmonia/theory';
 import { isKeySignatureItem, isScaleItem } from './tonality.ts';
 import { chordReferencePitch, chordTargets, isChordItem } from './chords.ts';
+import { isRhythmItem, rhythmMeter } from './rhythm.ts';
 import { generateExercise } from './generate.ts';
 import {
   answerSession,
@@ -59,8 +60,17 @@ export function revealLessonHint(lesson: LessonSession): LessonSession {
   const session = activeLessonSession(lesson);
   return session ? updateActive(lesson, revealHint(session)) : lesson;
 }
-/** Die Tonhöhen müssen sich ändern; bloßes Mischen der Antworten ist keine neue Variante. */
+/** Das Musikbeispiel muss sich ändern; bloßes Mischen der Antworten ist keine neue Variante. */
 export function itemVariantKey(item: ExerciseItem): string {
+  if (isRhythmItem(item))
+    return JSON.stringify([
+      item.type,
+      rhythmMeter(item),
+      item.score.staves[0]?.measures[0]?.voices[0]?.events.map((event) => [
+        event.kind,
+        event.duration,
+      ]),
+    ]);
   if (isChordItem(item))
     return JSON.stringify(
       item.presentation === 'aural'

@@ -8,6 +8,7 @@ export * from './lesson.ts';
 export * from './pitch-input.ts';
 export * from './tonality.ts';
 export * from './chords.ts';
+export * from './rhythm.ts';
 export { createRng } from '@harmonia/theory';
 
 import {
@@ -37,9 +38,26 @@ import type {
   ChordParams,
   ChordIdentifyParams,
   ChordItem,
+  RhythmParams,
+  MeterParams,
+  RhythmItem,
 } from './types.ts';
 import { generateScale, generateKeySignature } from './tonality.ts';
 import { generateChord } from './chords.ts';
+import { generateRhythm } from './rhythm.ts';
+
+export const rhythmTapExercise: ExerciseDefinition<RhythmParams, RhythmItem> = {
+  generate: (params, rng) => generateRhythm(params, rng, 'RHYTHM_TAP'),
+  evaluate: evaluateExercise,
+  feedback: exerciseFeedback,
+  hints: exerciseHints,
+};
+export const meterIdentifyExercise: ExerciseDefinition<MeterParams, RhythmItem> = {
+  generate: (params, rng) => generateRhythm(params, rng, 'METER_IDENTIFY'),
+  evaluate: evaluateExercise,
+  feedback: exerciseFeedback,
+  hints: exerciseHints,
+};
 
 export const chordBuildExercise: ExerciseDefinition<ChordParams, ChordItem> = {
   generate: (params, rng) => generateChord(params, rng, 'CHORD_BUILD'),

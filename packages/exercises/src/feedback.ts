@@ -17,6 +17,8 @@ import {
   chordName,
   chordIntervals,
   inversionName,
+  durationName,
+  formatTimeSignature,
 } from '@harmonia/theory';
 import { expectedAnswer } from './evaluate.ts';
 import type { Evaluation, ExerciseFeedback, ExerciseHint, ExerciseItem } from './types.ts';
@@ -29,8 +31,19 @@ import {
   MVP_SCALE_TYPES,
   scaleChoiceId,
 } from './tonality.ts';
-import type { ChordItem, KeySignatureItem, ScaleItem } from './types.ts';
+import type { ChordItem, KeySignatureItem, ScaleItem, RhythmItem } from './types.ts';
 import { chordFromId, chordTargets, isChordItem, resolvedChord } from './chords.ts';
+import {
+  assessRhythm,
+  isRhythmItem,
+  meterFromId,
+  rhythmAnswerTaps,
+  rhythmBeat,
+  rhythmBeatCount,
+  rhythmMeter,
+  rhythmOnsets,
+  rhythmTolerance,
+} from './rhythm.ts';
 
 const translations = new Map<AppLocale, ReturnType<typeof createI18n>>();
 type TextKey =
@@ -74,6 +87,17 @@ export function pitchInputLabel(pitch: Pitch, locale: AppLocale): string {
 }
 export function choiceLabel(item: ExerciseItem, answer: string, locale: AppLocale): string {
   if (!item.choices.includes(answer)) return translate(locale, 'exercise.unknownAnswer');
+  if (isRhythmItem(item)) {
+    const meter = meterFromId(answer),
+      value = {
+        ...item,
+        score: {
+          ...item.score,
+          staves: item.score.staves.map((staff) => ({ ...staff, timeSignature: meter })),
+        },
+      };
+    return translate(locale, 'exercise.meterOption', rhythmValues(value, locale));
+  }
   if (isChordItem(item)) return chordName(chordFromId(answer), engineLanguage(locale));
   if (isScaleItem(item)) {
     const type = MVP_SCALE_TYPES.find((type) => scaleChoiceId(type) === answer);
@@ -89,6 +113,8 @@ export function choiceLabel(item: ExerciseItem, answer: string, locale: AppLocal
   return noteName(pitch, locale, false);
 }
 export function exercisePrompt(item: ExerciseItem, locale: AppLocale): string {
+  if (isRhythmItem(item))
+    return translate(locale, `exercise.question_${item.type}`, rhythmValues(item, locale));
   if (isChordItem(item))
     return translate(
       locale,
@@ -163,7 +189,23 @@ export function exerciseFeedback(
   locale: AppLocale,
 ): ExerciseFeedback {
   let message: string;
-  if (isChordItem(item))
+  if (isRhythmItem(item)) {
+    if (item.type === 'METER_IDENTIFY')
+      message = translate(locale, 'exercise.meterExplanation', rhythmValues(item, locale));
+    else {
+      const assessment = assessRhythm(item, rhythmAnswerTaps(item, result.answer) ?? []);
+      message = translate(locale, 'exercise.rhythmExplanation', {
+        matched: assessment.matched,
+        total: assessment.targets.length,
+        missing: assessment.missing,
+        extra: assessment.extras.length,
+        tolerance: assessment.toleranceMs,
+        pattern: translate(locale, 'exercise.rhythmPattern', {
+          times: rhythmOnsets(item).join(', '),
+        }),
+      });
+    }
+  } else if (isChordItem(item))
     message = translate(locale, 'exercise.chordExplanation', chordExplanationValues(item, locale));
   else if (isScaleItem(item)) {
     message = translate(locale, 'exercise.scaleExplanation', {
@@ -219,6 +261,19 @@ export function exerciseFeedback(
 /** Sprachneutraler Hinweis; erst die Oberfläche wählt die Sprache. Level 3 ist die erklärte Lösung. */
 export function exerciseHints(item: ExerciseItem, level: 1 | 2 | 3): ExerciseHint {
   if (level === 3) return { level, key: 'solution', values: {} };
+  if (isRhythmItem(item))
+    return {
+      level,
+      key:
+        item.type === 'RHYTHM_TAP'
+          ? level === 1
+            ? 'exercise.rhythmHint1'
+            : 'exercise.rhythmHint2'
+          : level === 1
+            ? 'exercise.meterHint1'
+            : 'exercise.meterHint2',
+      values: {},
+    };
   if (isChordItem(item))
     return {
       level,
@@ -281,6 +336,7 @@ export function hintText(item: ExerciseItem, hint: ExerciseHint, locale: AppLoca
       locale,
     ).message;
   if (hint.key === 'solution') return '';
+  if (isRhythmItem(item)) return translate(locale, hint.key, rhythmValues(item, locale));
   if (isChordItem(item))
     return translate(
       locale,
@@ -345,6 +401,25 @@ function alterationText(pitch: Pitch, locale: AppLocale): string {
 
 /** Positionen statt Tonnamen: Vor dem Prüfen darf der Screenreader die Lösung nicht vorwegnehmen. */
 export function exerciseDescription(item: ExerciseItem, locale: AppLocale): string {
+  if (isRhythmItem(item))
+    return translate(locale, 'exercise.rhythmDescription', {
+      meter: formatTimeSignature(rhythmMeter(item)),
+      events: (item.score.staves[0]?.measures[0]?.voices[0]?.events ?? [])
+        .map((event, index) =>
+          translate(locale, 'exercise.rhythmEvent', {
+            index: index + 1,
+            kind: translate(
+              locale,
+              event.kind === 'rest' ? 'exercise.rhythmRest' : 'exercise.rhythmNote',
+            ),
+            duration: durationName(event.duration, {
+              ...engineLanguage(locale),
+              kind: event.kind === 'rest' ? 'rest' : 'note',
+            }),
+          }),
+        )
+        .join(' '),
+    });
   if (isKeySignatureItem(item))
     return translate(locale, 'exercise.signatureDescription', {
       signature: signatureText(item, locale),
@@ -393,6 +468,19 @@ export function exerciseDescription(item: ExerciseItem, locale: AppLocale): stri
     ),
     notes,
   });
+}
+function rhythmValues(item: RhythmItem, locale: AppLocale) {
+  const meter = rhythmMeter(item);
+  return {
+    meter: formatTimeSignature(meter),
+    count: rhythmBeatCount(item),
+    beat: durationName(rhythmBeat(item), engineLanguage(locale)),
+    bpm: item.bpm,
+    groups: meter.grouping.join(' + '),
+    division: meter.grouping[0] === 3 ? 3 : 2,
+    total: rhythmOnsets(item).length,
+    tolerance: rhythmTolerance(item),
+  };
 }
 function chordExplanationValues(item: ChordItem, locale: AppLocale) {
   const value = resolvedChord(item),
