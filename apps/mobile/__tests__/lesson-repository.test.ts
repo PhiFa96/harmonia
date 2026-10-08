@@ -54,6 +54,65 @@ afterEach(() => {
 });
 
 describe('Lokale Ergebnisse mit echter SQLite', () => {
+  it('speichert Wissensfrage, vertauschte Zuordnung und Reihenfolge mit Hilfe und neuer Wiederholung ohne Migration', async () => {
+    let session = createLessonSession(
+      {
+        id: 'test.knowledge',
+        contentVersion: 1,
+        exercises: [
+          { type: 'KNOWLEDGE_MC', params: { topics: ['intervals'] } },
+          { type: 'MATCH', params: { topics: ['scales'], count: 3 } },
+          { type: 'ORDER', params: { topics: ['pitches'], count: 4 } },
+        ],
+      },
+      'sqlite-knowledge',
+    );
+    const first = required(currentItem(session.initial));
+    session = nextLessonExercise(
+      answerLesson(
+        revealLessonHint(session),
+        required(first.choices.find((id) => id !== expectedAnswer(first))),
+      ),
+    );
+    while (
+      session.phase === 'initial' ||
+      session.phase === 'review' ||
+      session.phase === 'review-intro'
+    ) {
+      if (session.phase === 'review-intro') session = startLessonReview(session);
+      const item = required(currentItem(required(activeLessonSession(session)))),
+        correct = expectedAnswer(item);
+      const answer =
+        session.phase === 'initial'
+          ? correct.slice(0, 6) + correct.slice(6).split(',').reverse().join(',')
+          : correct;
+      session = nextLessonExercise(answerLesson(session, answer));
+    }
+    await initializeLessonDatabase(adapter(db));
+    const attempt = createLessonAttempt('knowledge-id', session, START, END),
+      repository = createLessonRepository(adapter(db));
+    await repository.save(attempt);
+    expect(
+      JSON.parse(
+        String(
+          db.prepare('SELECT payload FROM lesson_attempts WHERE id = ?').get('knowledge-id')?.[
+            'payload'
+          ],
+        ),
+      ),
+    ).toEqual(attempt);
+    expect(await repository.latest(session.lesson.id)).toMatchObject({
+      answered: 3,
+      correct: 0,
+      review_correct: 3,
+      review_total: 3,
+    });
+    expect(attempt.session.initial.records[0]).toMatchObject({
+      hintLevel: 1,
+      result: { correct: false },
+    });
+    expect(db.prepare('PRAGMA user_version').get()?.['user_version']).toBe(1);
+  });
   it('speichert Rhythmus-Zeitwerte, Erstfehler, Hilfe und Wiederholung ohne Migration', async () => {
     let session = createLessonSession(
       {

@@ -6,6 +6,8 @@ import {
   MVP_SCALE_TYPES,
   MVP_TRIAD_TYPES,
   MVP_METERS,
+  KNOWLEDGE_TOPICS,
+  ORDER_TOPICS,
 } from '@harmonia/exercises';
 const range = z
   .object({
@@ -34,6 +36,17 @@ const rhythmParams = meterParams
     level: z.enum(['basic', 'dotted']).optional(),
     rests: z.boolean().optional(),
     toleranceMs: z.number().int().min(40).max(180).optional(),
+  })
+  .strict();
+const knowledgeParams = z.object({ topics: z.array(z.enum(KNOWLEDGE_TOPICS)).nonempty() }).strict();
+const matchParams = knowledgeParams
+  .extend({ count: z.number().int().min(2).max(4).optional() })
+  .strict();
+const orderParams = z
+  .object({
+    topics: z.array(z.enum(ORDER_TOPICS)).nonempty(),
+    count: z.number().int().min(3).max(6).optional(),
+    direction: z.enum(['ascending', 'descending', 'both']).optional(),
   })
   .strict();
 const chordParams = noteParams
@@ -72,6 +85,9 @@ const signatureParams = z
   .strict();
 export const exerciseSpecSchema = z
   .discriminatedUnion('type', [
+    z.object({ type: z.literal('KNOWLEDGE_MC'), params: knowledgeParams }).strict(),
+    z.object({ type: z.literal('MATCH'), params: matchParams }).strict(),
+    z.object({ type: z.literal('ORDER'), params: orderParams }).strict(),
     z.object({ type: z.literal('RHYTHM_TAP'), params: rhythmParams }).strict(),
     z.object({ type: z.literal('METER_IDENTIFY'), params: meterParams }).strict(),
     z.object({ type: z.literal('CHORD_BUILD'), params: chordParams }).strict(),
@@ -125,6 +141,25 @@ export const exerciseSpecSchema = z
       .strict(),
   ])
   .transform((value): ExerciseSpec => {
+    if (value.type === 'KNOWLEDGE_MC')
+      return { type: value.type, params: { topics: value.params.topics } };
+    if (value.type === 'MATCH')
+      return {
+        type: value.type,
+        params: {
+          topics: value.params.topics,
+          ...(value.params.count === undefined ? {} : { count: value.params.count }),
+        },
+      };
+    if (value.type === 'ORDER')
+      return {
+        type: value.type,
+        params: {
+          topics: value.params.topics,
+          ...(value.params.count === undefined ? {} : { count: value.params.count }),
+          ...(value.params.direction ? { direction: value.params.direction } : {}),
+        },
+      };
     if (value.type === 'RHYTHM_TAP' || value.type === 'METER_IDENTIFY')
       return {
         type: value.type,
@@ -208,7 +243,7 @@ export const exerciseSpecSchema = z
     } catch {
       context.addIssue({
         code: z.ZodIssueCode.custom,
-        message: 'Ungültige Übungsparameter oder unmöglicher Tonumfang',
+        message: 'Ungültige Übungsparameter oder keine gültige Aufgabenvariante',
       });
     }
   });

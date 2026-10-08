@@ -2,6 +2,7 @@ import { createRng, keyFifths, midi } from '@harmonia/theory';
 import { isKeySignatureItem, isScaleItem } from './tonality.ts';
 import { chordReferencePitch, chordTargets, isChordItem } from './chords.ts';
 import { isRhythmItem, rhythmMeter } from './rhythm.ts';
+import { knowledgeFactId, orderValueId } from './knowledge.ts';
 import { generateExercise } from './generate.ts';
 import {
   answerSession,
@@ -62,6 +63,16 @@ export function revealLessonHint(lesson: LessonSession): LessonSession {
 }
 /** Das Musikbeispiel muss sich ändern; bloßes Mischen der Antworten ist keine neue Variante. */
 export function itemVariantKey(item: ExerciseItem): string {
+  if (item.type === 'KNOWLEDGE_MC') return JSON.stringify([item.type, knowledgeFactId(item.fact)]);
+  if (item.type === 'MATCH')
+    return JSON.stringify([item.type, item.facts.map(knowledgeFactId).sort()]);
+  if (item.type === 'ORDER')
+    return JSON.stringify([
+      item.type,
+      item.topic,
+      item.direction,
+      item.values.map(orderValueId).sort(),
+    ]);
   if (isRhythmItem(item))
     return JSON.stringify([
       item.type,
@@ -104,7 +115,7 @@ function newVariant(lesson: LessonSession, index: number): ExerciseItem {
     const item = generateExercise(spec, rng);
     if (itemVariantKey(item) !== itemVariantKey(original)) return item;
   }
-  throw new RangeError('Die Parameter müssen mindestens zwei Notenbeispiele erlauben');
+  throw new RangeError('Die Parameter müssen mindestens zwei Aufgabenvarianten erlauben');
 }
 function finishInitial(lesson: LessonSession): LessonSession {
   const reviewOrigins = lesson.initial.records

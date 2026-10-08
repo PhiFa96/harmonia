@@ -1,6 +1,6 @@
 # Rhythmus und Takt – vierter Teil von P2.06
 
-Stand: 08.10.2026. `RHYTHM_TAP` und `METER_IDENTIFY` sind technisch umgesetzt. Damit sind elf der 14 zusätzlich geplanten P2.06-Typen vorhanden; zusammen mit den drei bisherigen Typen gibt es 14 Aufgabentypen. Die Umsetzung verwendet das bestehende Bruch-, Notations- und Audio-Modell. Fachliche Abnahme, tatsächliche Geräteproben und die drei Wissens-/Zuordnungstypen bleiben offen. P2.06 ist noch nicht abgeschlossen.
+Stand der Rhythmus-/Taktumsetzung: 08.10.2026, vor dem folgenden Wissensausbau. `RHYTHM_TAP` und `METER_IDENTIFY` ergänzen die ersten neun zusätzlichen P2.06-Typen. Die Umsetzung verwendet das bestehende Bruch-, Notations- und Audio-Modell. Inzwischen sind alle 14 zusätzlichen Typen technisch vorhanden; siehe die Fortsetzung am Ende und [Wissensaufgaben](wissensaufgaben.md). Fachliche Abnahme und tatsächliche Geräteproben bleiben offen; P2.06 ist noch nicht abgeschlossen.
 
 ## Bedienbarer Stand
 
@@ -77,4 +77,4 @@ Die Oberfläche verwendet die bestehende Notendarstellung, Buttons, Karten, Feed
 
 Claudes getrennte fachliche Abnahme nach [ADR 0005](../decisions/0005-fachliche-pruefung-durch-claude.md), GitHub-CI vor dem Merge, VoiceOver/TalkBack und echte iOS-/Android-Geräteproben bleiben offen. Browser-Automation und gemeldete Latenz ersetzen keine körperliche Bedien- und Hörprobe durch Testpersonen.
 
-Als Nächstes folgen `KNOWLEDGE_MC`, `MATCH` und `ORDER`. Vollständige Stufen-1–2-Lektionen, Bestehens- und Freischaltlogik bleiben die anschließenden geplanten Schritte.
+Fortsetzung 08.10.2026: `KNOWLEDGE_MC`, `MATCH` und `ORDER` sind im [fünften Teil von P2.06](wissensaufgaben.md) technisch umgesetzt. Damit sind alle 14 zusätzlichen Typen vorhanden. Der obige Prüfstand dokumentiert die Rhythmus-/Taktumsetzung vor diesem Ausbau. Vollständige Stufen-1–2-Lektionen, Bestehens- und Freischaltlogik bleiben die anschließenden geplanten Schritte; fachliche Abnahme und echte Plattformtests bleiben offen.

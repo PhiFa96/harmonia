@@ -26,6 +26,7 @@ import { accidentalLimit, clefs, options, pitchPool, rangeFor } from './paramete
 import { generateScale, generateKeySignature } from './tonality.ts';
 import { generateChord } from './chords.ts';
 import { generateRhythm } from './rhythm.ts';
+import { generateKnowledge, generateMatch, generateOrder } from './knowledge.ts';
 export function noteAnswerId(pitch: Pick<Pitch, 'letter' | 'alter'>): string {
   return `${pitch.letter}:${String(pitch.alter)}`;
 }
@@ -211,6 +212,12 @@ export function generateIntervalBuild(params: VisualIntervalParams, rng: Rng): I
 }
 export function generateExercise(spec: ExerciseSpec, rng: Rng) {
   switch (spec.type) {
+    case 'KNOWLEDGE_MC':
+      return generateKnowledge(spec.params, rng);
+    case 'MATCH':
+      return generateMatch(spec.params, rng);
+    case 'ORDER':
+      return generateOrder(spec.params, rng);
     case 'RHYTHM_TAP':
     case 'METER_IDENTIFY':
       return generateRhythm(spec.params, rng, spec.type);

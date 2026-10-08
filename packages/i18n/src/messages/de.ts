@@ -34,6 +34,80 @@ export const de = {
     wrongTitle: 'Noch nicht ganz',
   },
   exercise: {
+    knowledgeStart: 'Wissen, Zuordnen und Reihenfolgen üben',
+    knowledgeIntro:
+      'Neun Aufgaben: Begriffe aus den Grundlagen erkennen, Erklärungen zuordnen und Notenwerte oder Tonhöhen ordnen.',
+    type_KNOWLEDGE_MC: 'Wissensfrage',
+    type_MATCH: 'Begriffe zuordnen',
+    type_ORDER: 'Reihenfolge bilden',
+    orderMoveUp: 'Nach oben',
+    orderMoveDown: 'Nach unten',
+    orderRemoveItem: 'Entfernen',
+    question_KNOWLEDGE_MC: 'Welcher Begriff passt zu dieser Erklärung? {{definition}}',
+    question_MATCH:
+      'Ordne jedem Begriff die passende Erklärung zu. Jede Erklärung gehört genau zu einem Begriff.',
+    question_ORDER: 'Bringe alle Angaben in die Reihenfolge {{direction}}. {{rule}}',
+    knowledgeExplanation: '{{term}}: {{definition}}',
+    knowledgeRaises: 'Erhöht einen Stammton um {{distance}}.',
+    knowledgeLowers: 'Erniedrigt einen Stammton um {{distance}}.',
+    knowledgeNatural:
+      'Hebt eine geltende Alteration auf und stellt die natürliche Tonhöhe des Stammtons her.',
+    knowledgeDuration: 'Wert: {{value}} × $t(glossary:notes.whole_one).',
+    knowledgeInterval: 'Umfasst {{positions}} (Start und Ziel mitgezählt) und {{distance}}.',
+    knowledgePositions_one: '{{count}} Stammtonstufe',
+    knowledgePositions_other: '{{count}} Stammtonstufen',
+    knowledgeTriad:
+      '$t(glossary:triad_one) in Terzschichtung: Die Töne liegen {{pattern}} $t(glossary:semitone_other) über dem $t(glossary:root_one).',
+    knowledgeTriad_major: '$t(glossary:major)-$t(glossary:triad_one)',
+    knowledgeTriad_minor: '$t(glossary:minor)-$t(glossary:triad_one)',
+    knowledgeTriad_diminished: 'Verminderter $t(glossary:triad_one)',
+    knowledgeTriad_augmented: 'Übermäßiger $t(glossary:triad_one)',
+    knowledgeScale:
+      '$t(glossary:scale_one) aufwärts: Die aufeinanderfolgenden Schritte über eine Oktave zählen {{pattern}} $t(glossary:semitone_other).',
+    knowledgeMeter:
+      '{{count}} Grundschläge pro $t(glossary:measure_one), jeweils im Wert {{beat}}. Gruppierung in Nenner-Einheiten: {{groups}}.',
+    knowledgeHint_accidentals:
+      'Vergleiche Erhöhen, Erniedrigen und Aufheben einer Alteration. $t(glossary:sharp_other) und $t(glossary:flat_other) verändern die natürliche Tonhöhe um einen $t(glossary:semitone_one), doppelte Zeichen um zwei.',
+    knowledgeHint_noteValues:
+      'Bezug für die Brüche: $t(glossary:notes.whole_one). Eine Punktierung verlängert den unpunktierten Wert um seine Hälfte.',
+    knowledgeHint_intervals:
+      'Zähle die Stammtöne einschließlich Start und Ziel und zusätzlich die Halbtonabstände. Gleich viele Halbtöne allein bestimmen die Schreibweise nicht.',
+    knowledgeHint_triads:
+      'Betrachte Grundton, Terz und Quinte in Terzschichtung. Vergleiche die Halbtonabstände vom Grundton aus.',
+    knowledgeHint_scales:
+      'Vergleiche die Folge der Halbtonschritte aufwärts. Klassisch melodisches Moll wird hier ausdrücklich in seiner Aufwärtsform betrachtet.',
+    knowledgeHint_meters:
+      'Unterscheide die Anzahl der Nenner-Einheiten von der Anzahl der Grundschläge. In zusammengesetzten Taktarten bilden drei Einheiten einen Grundschlag.',
+    knowledgeHint_pitches:
+      'Vergleiche zuerst die Oktavlage und danach die Tonhöhe innerhalb der Oktave. Der deutsche Ton H entspricht dem englischen B.',
+    knowledgeHint2_KNOWLEDGE_MC:
+      'Grenze deine Auswahl auf diese beiden Begriffe ein: {{candidates}}.',
+    knowledgeHint2_MATCH: 'Beginne mit diesem Paar: {{term}} – {{definition}}',
+    knowledgeHint2_ORDER: 'An erster Stelle steht {{first}}.',
+    order_noteValues_ascending: 'von kurzer zu langer Dauer',
+    order_noteValues_descending: 'von langer zu kurzer Dauer',
+    order_pitches_ascending: 'von tief zu hoch',
+    order_pitches_descending: 'von hoch zu tief',
+    orderRule_noteValues: 'Verglichen wird der vollständige Notenwert einschließlich Punktierung.',
+    orderRule_pitches: 'Die Oktavlage gehört zur Tonhöhe.',
+    orderExplanation: 'Die richtige Reihenfolge {{direction}} lautet: {{sequence}}. {{rule}}',
+    matchSelectTerm: 'Begriff zur Bearbeitung wählen',
+    matchDefinitions: 'Erklärung für {{term}} wählen',
+    matchUnset: 'noch nicht zugeordnet',
+    matchFilled: '{{count}} von {{total}} Begriffen zugeordnet.',
+    matchClear: 'Zuordnung löschen',
+    matchInstruction:
+      'Wähle einen Begriff und danach eine Erklärung. Wird eine bereits verwendete Erklärung neu zugeordnet, wird ihre bisherige Zuordnung gelöst.',
+    orderChoices: 'Verfügbare Angaben',
+    orderAnswer: 'Deine Reihenfolge',
+    orderEmpty: 'Wähle die erste Angabe aus der Auswahl.',
+    orderFilled: '{{count}} von {{total}} Angaben eingeordnet.',
+    orderPosition: 'Position {{index}}: {{value}}',
+    orderUp: '{{value}} nach oben',
+    orderDown: '{{value}} nach unten',
+    orderRemove: '{{value}} entfernen',
+    orderInputHint:
+      'Wähle die Angaben in der gewünschten Reihenfolge. Mit den Knöpfen kannst du sie verschieben oder entfernen.',
     title: 'Musik lesen und hören',
     intro:
       'Übe Notennamen und Intervalle. Wähle eine Antwort und prüfe sie. Hinweise helfen dir Schritt für Schritt.',

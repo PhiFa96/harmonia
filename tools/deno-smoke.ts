@@ -15,6 +15,9 @@ import {
   generateKeySignature,
   generateChord,
   generateRhythm,
+  generateKnowledge,
+  generateMatch,
+  generateOrder,
 } from '../packages/exercises/src/index.ts';
 import { firstLesson, catalogue, curriculumPlan } from '../packages/content/src/authoring.ts';
 import { publicCatalogue, resolveLesson, curriculumSkills } from '../packages/content/src/index.ts';
@@ -87,6 +90,9 @@ check(
 );
 const evaluation = evaluateExercise(exercise, expectedAnswer(exercise));
 for (const item of [
+  generateKnowledge({ topics: ['intervals', 'noteValues'] }, exerciseRng('deno-knowledge')),
+  generateMatch({ topics: ['triads', 'accidentals'], count: 3 }, exerciseRng('deno-match')),
+  generateOrder({ topics: ['noteValues', 'pitches'], count: 4 }, exerciseRng('deno-order')),
   generateRhythm(
     { meters: ['2/4', '3/4', '4/4', '6/8'], level: 'dotted' },
     exerciseRng('deno-rhythm'),

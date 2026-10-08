@@ -89,6 +89,7 @@ describe('Tonleitern und Vorzeichnungen', () => {
         fc.property(fc.integer(), (seed) => {
           const item = generateExercise(spec, createRng(seed));
           expect(item).toEqual(generateExercise(spec, createRng(seed)));
+          if (!('score' in item)) throw new Error('Notenaufgabe erwartet');
           expect(validateScore(item.score, { allowPickup: false })).toEqual([]);
           expect(evaluateExercise(item, expectedAnswer(item))).toMatchObject({
             validAnswer: true,

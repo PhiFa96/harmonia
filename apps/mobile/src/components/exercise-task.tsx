@@ -10,6 +10,7 @@ import {
   isAuralExercise,
   isPitchInput,
   itemVariantKey,
+  isKnowledgeItem,
 } from '@harmonia/exercises';
 import { engineLanguage } from '@harmonia/i18n';
 import { layoutScore } from '@harmonia/notation';
@@ -36,6 +37,7 @@ import { PitchAnswerInput } from './pitch-answer-input';
 import { ScaleAnswerInput } from './scale-answer-input';
 import { SignatureAnswerInput } from './signature-answer-input';
 import { RhythmAnswerInput } from './rhythm-answer-input';
+import { MatchAnswerInput, OrderAnswerInput } from './knowledge-answer-input';
 import { useExercisePlayback } from './use-exercise-playback';
 
 interface Props {
@@ -123,9 +125,13 @@ export function ExerciseTask({
         </AppText>
         <MusicText variant="title2">{prompt}</MusicText>
       </View>
-      {['NOTE_PLACE', 'INTERVAL_BUILD', 'SCALE_BUILD', 'KEYSIG_BUILD', 'CHORD_BUILD'].includes(
-        item.type,
-      ) ? null : item.type === 'RHYTHM_TAP' ||
+      {isKnowledgeItem(item) ? null : [
+          'NOTE_PLACE',
+          'INTERVAL_BUILD',
+          'SCALE_BUILD',
+          'KEYSIG_BUILD',
+          'CHORD_BUILD',
+        ].includes(item.type) ? null : item.type === 'RHYTHM_TAP' ||
         !isAuralExercise(item) ||
         result ||
         session.hintLevel === 3 ? (
@@ -188,7 +194,23 @@ export function ExerciseTask({
           {t('exercise.audioError')}
         </AppText>
       ) : null}
-      {item.type === 'RHYTHM_TAP' ? (
+      {item.type === 'MATCH' ? (
+        <MatchAnswerInput
+          key={`${String(session.index)}:${itemVariantKey(item)}`}
+          item={item}
+          answer={answer}
+          {...(result ? { result } : {})}
+          onSelect={onSelect}
+        />
+      ) : item.type === 'ORDER' ? (
+        <OrderAnswerInput
+          key={`${String(session.index)}:${itemVariantKey(item)}`}
+          item={item}
+          answer={answer}
+          {...(result ? { result } : {})}
+          onSelect={onSelect}
+        />
+      ) : item.type === 'RHYTHM_TAP' ? (
         <RhythmAnswerInput
           key={`${String(session.index)}:${itemVariantKey(item)}`}
           item={item}
@@ -302,7 +324,7 @@ export function ExerciseTask({
             kind={result.correct ? 'correct' : 'wrong'}
             title={feedback.title}
             message={feedback.message}
-            {...(!isKeySignatureItem(item)
+            {...(!isKnowledgeItem(item) && !isKeySignatureItem(item)
               ? {
                   onReplay: () => {
                     void audio.play();

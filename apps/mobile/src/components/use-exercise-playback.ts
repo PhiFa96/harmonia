@@ -1,6 +1,12 @@
 import type { Playback } from '@harmonia/audio';
 import type { ExerciseItem } from '@harmonia/exercises';
-import { isChordItem, isKeySignatureItem, isScaleItem, isRhythmItem } from '@harmonia/exercises';
+import {
+  isChordItem,
+  isKeySignatureItem,
+  isScaleItem,
+  isRhythmItem,
+  isKnowledgeItem,
+} from '@harmonia/exercises';
 import { useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AppState } from 'react-native';
@@ -55,7 +61,7 @@ export function useExercisePlayback(item: ExerciseItem | undefined) {
   }, [stop]);
   const play = async () => {
     const canPlay = () => focused.current && appActive.current;
-    if (!item || isKeySignatureItem(item) || !canPlay()) return;
+    if (!item || isKnowledgeItem(item) || isKeySignatureItem(item) || !canPlay()) return;
     stop();
     setError(false);
     const token = request.current;

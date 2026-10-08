@@ -19,7 +19,21 @@ import {
   inversionName,
   durationName,
   formatTimeSignature,
+  durationValue,
+  duration,
+  fractionEquals,
+  beats,
+  parseTimeSignature,
+  scaleIntervals,
 } from '@harmonia/theory';
+import {
+  isKnowledgeItem,
+  knowledgeChoiceFact,
+  knowledgeFactId,
+  orderedValues,
+  orderValueId,
+} from './knowledge.ts';
+import type { KnowledgeFact, KnowledgeExerciseItem, OrderValue } from './types.ts';
 import { expectedAnswer } from './evaluate.ts';
 import type { Evaluation, ExerciseFeedback, ExerciseHint, ExerciseItem } from './types.ts';
 import {
@@ -51,6 +65,7 @@ type TextKey =
   | 'exercise.noteSteps'
   | 'exercise.halfSteps'
   | 'exercise.diatonicCount'
+  | 'exercise.knowledgePositions'
   | 'practice.correctTitle'
   | 'practice.wrongTitle'
   | 'glossary:trebleClef_one'
@@ -61,9 +76,15 @@ type TextKey =
   | 'glossary:sharp_other'
   | 'glossary:flat_one'
   | 'glossary:flat_other';
+type AccidentalKey =
+  | 'glossary:doubleFlat_one'
+  | 'glossary:flat_one'
+  | 'glossary:natural_one'
+  | 'glossary:sharp_one'
+  | 'glossary:doubleSharp_one';
 function translate(
   locale: AppLocale,
-  key: TextKey,
+  key: TextKey | AccidentalKey,
   values: Readonly<Record<string, string | number>> = {},
 ): string {
   let instance = translations.get(locale);
@@ -87,6 +108,18 @@ export function pitchInputLabel(pitch: Pitch, locale: AppLocale): string {
 }
 export function choiceLabel(item: ExerciseItem, answer: string, locale: AppLocale): string {
   if (!item.choices.includes(answer)) return translate(locale, 'exercise.unknownAnswer');
+  if (isKnowledgeItem(item)) {
+    if (item.type === 'ORDER') {
+      const value = item.values.find((value) => orderValueId(value) === answer);
+      return value ? orderValueLabel(value, locale) : translate(locale, 'exercise.unknownAnswer');
+    }
+    const fact = knowledgeChoiceFact(item, answer);
+    return fact
+      ? item.type === 'MATCH'
+        ? knowledgeDefinition(fact, locale)
+        : knowledgeFactLabel(fact, locale)
+      : translate(locale, 'exercise.unknownAnswer');
+  }
   if (isRhythmItem(item)) {
     const meter = meterFromId(answer),
       value = {
@@ -113,6 +146,8 @@ export function choiceLabel(item: ExerciseItem, answer: string, locale: AppLocal
   return noteName(pitch, locale, false);
 }
 export function exercisePrompt(item: ExerciseItem, locale: AppLocale): string {
+  if (isKnowledgeItem(item))
+    return translate(locale, `exercise.question_${item.type}`, knowledgeValues(item, locale));
   if (isRhythmItem(item))
     return translate(locale, `exercise.question_${item.type}`, rhythmValues(item, locale));
   if (isChordItem(item))
@@ -156,7 +191,7 @@ export function exercisePrompt(item: ExerciseItem, locale: AppLocale): string {
         : {},
   );
 }
-function reference(item: ExerciseItem) {
+function reference(item: Exclude<ExerciseItem, KnowledgeExerciseItem>) {
   return item.clef === 'treble'
     ? { pitch: { letter: 'G', alter: 0, octave: 4 } as const, line: 2 }
     : { pitch: { letter: 'F', alter: 0, octave: 3 } as const, line: 4 };
@@ -189,7 +224,19 @@ export function exerciseFeedback(
   locale: AppLocale,
 ): ExerciseFeedback {
   let message: string;
-  if (isRhythmItem(item)) {
+  if (isKnowledgeItem(item)) {
+    message =
+      item.type === 'ORDER'
+        ? translate(locale, 'exercise.orderExplanation', knowledgeValues(item, locale))
+        : (item.type === 'MATCH' ? item.facts : [item.fact])
+            .map((fact) =>
+              translate(locale, 'exercise.knowledgeExplanation', {
+                term: knowledgeFactLabel(fact, locale),
+                definition: knowledgeDefinition(fact, locale),
+              }),
+            )
+            .join('\n');
+  } else if (isRhythmItem(item)) {
     if (item.type === 'METER_IDENTIFY')
       message = translate(locale, 'exercise.meterExplanation', rhythmValues(item, locale));
     else {
@@ -261,6 +308,17 @@ export function exerciseFeedback(
 /** Sprachneutraler Hinweis; erst die Oberfläche wählt die Sprache. Level 3 ist die erklärte Lösung. */
 export function exerciseHints(item: ExerciseItem, level: 1 | 2 | 3): ExerciseHint {
   if (level === 3) return { level, key: 'solution', values: {} };
+  if (isKnowledgeItem(item))
+    return {
+      level,
+      key:
+        level === 2
+          ? `exercise.knowledgeHint2_${item.type}`
+          : item.type === 'ORDER'
+            ? `exercise.knowledgeHint_${item.topic}`
+            : `exercise.knowledgeHint_${item.type === 'MATCH' ? (item.facts[0]?.topic ?? 'accidentals') : item.fact.topic}`,
+      values: {},
+    };
   if (isRhythmItem(item))
     return {
       level,
@@ -336,6 +394,7 @@ export function hintText(item: ExerciseItem, hint: ExerciseHint, locale: AppLoca
       locale,
     ).message;
   if (hint.key === 'solution') return '';
+  if (isKnowledgeItem(item)) return translate(locale, hint.key, knowledgeValues(item, locale));
   if (isRhythmItem(item)) return translate(locale, hint.key, rhythmValues(item, locale));
   if (isChordItem(item))
     return translate(
@@ -401,6 +460,7 @@ function alterationText(pitch: Pitch, locale: AppLocale): string {
 
 /** Positionen statt Tonnamen: Vor dem Prüfen darf der Screenreader die Lösung nicht vorwegnehmen. */
 export function exerciseDescription(item: ExerciseItem, locale: AppLocale): string {
+  if (isKnowledgeItem(item)) return exercisePrompt(item, locale);
   if (isRhythmItem(item))
     return translate(locale, 'exercise.rhythmDescription', {
       meter: formatTimeSignature(rhythmMeter(item)),
@@ -468,6 +528,119 @@ export function exerciseDescription(item: ExerciseItem, locale: AppLocale): stri
     ),
     notes,
   });
+}
+export function knowledgeFactLabel(fact: KnowledgeFact, locale: AppLocale): string {
+  switch (fact.topic) {
+    case 'accidentals': {
+      const keys = [
+        'glossary:doubleFlat_one',
+        'glossary:flat_one',
+        'glossary:natural_one',
+        'glossary:sharp_one',
+        'glossary:doubleSharp_one',
+      ] as const;
+      return translate(locale, keys[fact.alter + 2] ?? 'glossary:natural_one');
+    }
+    case 'noteValues':
+      return durationName(fact.duration, engineLanguage(locale));
+    case 'intervals':
+      return intervalName(fact.interval, { ...engineLanguage(locale), showDirection: false });
+    case 'triads':
+      return translate(locale, `exercise.knowledgeTriad_${fact.triad}`);
+    case 'scales':
+      return scaleTypeName(fact.scale, engineLanguage(locale).language);
+    case 'meters':
+      return fact.meter;
+  }
+}
+export function knowledgeDefinition(fact: KnowledgeFact, locale: AppLocale): string {
+  switch (fact.topic) {
+    case 'accidentals':
+      return translate(
+        locale,
+        fact.alter === 0
+          ? 'exercise.knowledgeNatural'
+          : fact.alter > 0
+            ? 'exercise.knowledgeRaises'
+            : 'exercise.knowledgeLowers',
+        { distance: translate(locale, 'exercise.halfSteps', { count: Math.abs(fact.alter) }) },
+      );
+    case 'noteValues': {
+      const value = durationValue(fact.duration);
+      return translate(locale, 'exercise.knowledgeDuration', {
+        value: `${String(value.num)}/${String(value.den)}`,
+      });
+    }
+    case 'intervals':
+      return translate(locale, 'exercise.knowledgeInterval', {
+        positions: translate(locale, 'exercise.knowledgePositions', {
+          count: fact.interval.number,
+        }),
+        distance: translate(locale, 'exercise.halfSteps', { count: semitones(fact.interval) }),
+      });
+    case 'triads':
+      return translate(locale, 'exercise.knowledgeTriad', {
+        pattern: chordIntervals(fact.triad).map(semitones).join(' – '),
+      });
+    case 'scales': {
+      const offsets = [...scaleIntervals(fact.scale).map(semitones), 12];
+      return translate(locale, 'exercise.knowledgeScale', {
+        pattern: offsets
+          .slice(1)
+          .map((value, i) => value - (offsets[i] ?? 0))
+          .join(' – '),
+      });
+    }
+    case 'meters': {
+      const meter = parseTimeSignature(fact.meter),
+        values = ['whole', 'half', 'quarter', 'eighth', 'sixteenth'] as const;
+      const beatValue = beats(meter)[0];
+      const beat = values
+        .flatMap((value) => [duration(value), duration(value, 1)])
+        .find((value) => beatValue && fractionEquals(durationValue(value), beatValue));
+      if (!beat) throw new RangeError('Unbekannter Grundschlag');
+      return translate(locale, 'exercise.knowledgeMeter', {
+        count: beats(meter).length,
+        beat: durationName(beat, engineLanguage(locale)),
+        groups: meter.grouping.join(' + '),
+      });
+    }
+  }
+}
+export function orderValueLabel(value: OrderValue, locale: AppLocale): string {
+  return value.kind === 'pitch'
+    ? noteName(value.pitch, locale)
+    : durationName(value.duration, engineLanguage(locale));
+}
+function knowledgeValues(item: KnowledgeExerciseItem, locale: AppLocale) {
+  if (item.type === 'ORDER') {
+    const sorted = orderedValues(item).map((value) => orderValueLabel(value, locale));
+    return {
+      first: sorted[0] ?? '',
+      sequence: sorted.join(' → '),
+      rule: translate(locale, `exercise.orderRule_${item.topic}`),
+      direction: translate(locale, `exercise.order_${item.topic}_${item.direction}`),
+    };
+  }
+  if (item.type === 'MATCH') {
+    const fact = item.facts[0];
+    return {
+      term: fact ? knowledgeFactLabel(fact, locale) : '',
+      definition: fact ? knowledgeDefinition(fact, locale) : '',
+    };
+  }
+  const candidates = item.choices
+    .filter(
+      (id) =>
+        id === knowledgeFactId(item.fact) ||
+        id === item.choices.find((id) => id !== knowledgeFactId(item.fact)),
+    )
+    .map((id) => knowledgeChoiceFact(item, id))
+    .filter((fact): fact is KnowledgeFact => !!fact);
+  return {
+    definition: knowledgeDefinition(item.fact, locale),
+    candidates: candidates.map((fact) => knowledgeFactLabel(fact, locale)).join(' / '),
+  };
 }
 function rhythmValues(item: RhythmItem, locale: AppLocale) {
   const meter = rhythmMeter(item);
