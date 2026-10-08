@@ -4,7 +4,7 @@ Hinweise für Claude Code in diesem Repository.
 
 ## Projekt
 
-Harmonia ist eine Musiktheorie-Lern-App für Web, iOS und Android. Aktueller Stand: Phase 1 (Fundament): Theorie-Engine, Notation, App-Grundgerüst, Übersetzungen. Konzept und Entscheidungen liegen in `docs/` (Überblick in der README).
+Harmonia ist eine Musiktheorie-Lern-App für Web, iOS und Android. Aktueller Stand: erster MVP-Ausbau in Phase 2. In P2.06 sind elf der 14 zusätzlichen Übungstypen technisch umgesetzt, zuletzt Rhythmus-Mittippen und Taktgliederung. Wissensfragen, Zuordnen und Ordnen sowie fachliche Abnahme und echte Gerätetests bleiben offen. Konzept, Entscheidungen und genaue Prüfstände liegen in `docs/` (Überblick in der README).
 
 - **Tech-Stack:** Expo (React Native, TypeScript) + Supabase – siehe `docs/decisions/0001-plattform-und-tech-stack.md`
 - **Grundsatz KI:** Eine getestete Musiktheorie-Engine bewertet, die KI erklärt – siehe `docs/decisions/0002-ki-tutor-und-fachliche-korrektheit.md`
