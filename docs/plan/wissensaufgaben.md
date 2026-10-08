@@ -94,6 +94,8 @@ Automatisierte Fachprüfungen verwenden die vorhandene Theorie-Engine, fest ausg
 
 Review-Zweig: `codex/p2-06-knowledge`, aufbauend auf `codex/p2-06-rhythm-meter` (Basis `8a75a45`). Der Rhythmus-/Takt- und der davorliegende Akkordzweig sind zum Prüfzeitpunkt noch nicht in `main` enthalten; den Wissensausbau daher gegen seinen Rhythmus-/Takt-Vorgänger prüfen. Kein Merge nach `main` ist Teil dieses Schritts.
 
+Der Review-Zweig ist gepusht. Die automatische Draft-PR-Erstellung scheitert am Cloud-Zugriff auf `https://api.github.com/graphql` mit `Forbidden`; es wurde kein PR angelegt. [Änderungen gegen den Rhythmus-/Takt-Vorgänger vergleichen](https://github.com/PhiFa96/harmonia/compare/codex/p2-06-rhythm-meter...codex/p2-06-knowledge).
+
 Für Claude Code: Die neuen Typen sind technisch vorhanden und im sechsten freien Satz bedienbar. Fachliche Abnahme, GitHub-CI vor dem Merge und echte iOS-/Android-Proben mit VoiceOver/TalkBack bleiben offen. Deshalb bleiben die Abnahme-Checkboxen für P2.06 offen; Browser-Automation ersetzt keine native Geräteprüfung.
 
 Anschließend folgen vollständige Lektionen und Wissensinhalte für Stufe 1 in P2.07 und Stufe 2 in P2.08 auf Grundlage des [Fähigkeitsgraphen](faehigkeitsgraph.md), jeweils mit separater fachlicher Freigabe. Bestehens-/Freischaltlogik, vollständige Lernpfade und spätere Chor-/Orchester- und Tonsatzstufen sind weiterhin eigene Arbeitsschritte.
