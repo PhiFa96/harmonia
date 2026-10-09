@@ -83,6 +83,7 @@ export function PitchAnswerInput({ item, answer, result, showSolution, onSelect 
       {item.type === 'KEY_FIND' ? (
         <PianoKeyboard
           enabled={enabled}
+          {...(item.keyboardRange ? { fixedRange: item.keyboardRange } : {})}
           initialRange={
             keyboardMidi(target) >= PRACTICE_RANGE.first &&
             keyboardMidi(target) <= PRACTICE_RANGE.last

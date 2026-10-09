@@ -180,9 +180,17 @@ export function exercisePrompt(item: ExerciseItem, locale: AppLocale): string {
     });
   return translate(
     locale,
-    `exercise.question_${item.type}`,
+    item.type === 'KEY_FIND' && item.presentation === 'name'
+      ? 'exercise.question_KEY_FIND_name'
+      : `exercise.question_${item.type}`,
     'pitch' in item
-      ? { note: noteName(item.pitch, locale) }
+      ? {
+          note: noteName(
+            item.pitch,
+            locale,
+            !(item.type === 'KEY_FIND' && item.presentation === 'name'),
+          ),
+        }
       : item.type === 'INTERVAL_BUILD'
         ? {
             interval: intervalName(intervalBetween(item.from, item.to), engineLanguage(locale)),
@@ -279,11 +287,15 @@ export function exerciseFeedback(
           .join(' → ') || translate(locale, 'exercise.signatureEmpty'),
     });
   else if (item.type === 'KEY_FIND')
-    message = translate(locale, 'exercise.keyExplanation', {
-      note: noteName(item.pitch, locale),
-      natural: noteName({ ...item.pitch, alter: 0 }, locale),
-      alteration: alterationText(item.pitch, locale),
-    });
+    message = translate(
+      locale,
+      item.presentation === 'name' ? 'exercise.keyNameExplanation' : 'exercise.keyExplanation',
+      {
+        note: noteName(item.pitch, locale, item.presentation !== 'name'),
+        natural: noteName({ ...item.pitch, alter: 0 }, locale, item.presentation !== 'name'),
+        alteration: alterationText(item.pitch, locale),
+      },
+    );
   else if ('pitch' in item) {
     message = noteExplanation(item, locale);
     if (item.type === 'NOTE_PLACE')
@@ -358,7 +370,12 @@ export function exerciseHints(item: ExerciseItem, level: 1 | 2 | 3): ExerciseHin
   if (item.type === 'KEY_FIND')
     return {
       level,
-      key: level === 1 ? 'exercise.keyHint1' : 'exercise.keyHint2',
+      key:
+        level === 1
+          ? item.presentation === 'name'
+            ? 'exercise.keyNameHint1'
+            : 'exercise.keyHint1'
+          : 'exercise.keyHint2',
       values: {},
     };
   if ('pitch' in item)
@@ -420,7 +437,7 @@ export function hintText(item: ExerciseItem, hint: ExerciseHint, locale: AppLoca
     );
   if (item.type === 'KEY_FIND' && hint.level === 2)
     return translate(locale, 'exercise.keyHint2', {
-      natural: noteName({ ...item.pitch, alter: 0 }, locale),
+      natural: noteName({ ...item.pitch, alter: 0 }, locale, item.presentation !== 'name'),
       alteration: alterationText(item.pitch, locale),
     });
   if ('pitch' in item && hint.level === 2)
@@ -531,6 +548,8 @@ export function exerciseDescription(item: ExerciseItem, locale: AppLocale): stri
 }
 export function knowledgeFactLabel(fact: KnowledgeFact, locale: AppLocale): string {
   switch (fact.topic) {
+    case 'keyboard':
+      return translate(locale, `exercise.knowledgeKeyboard_${fact.kind}`);
     case 'accidentals': {
       const keys = [
         'glossary:doubleFlat_one',
@@ -555,6 +574,8 @@ export function knowledgeFactLabel(fact: KnowledgeFact, locale: AppLocale): stri
 }
 export function knowledgeDefinition(fact: KnowledgeFact, locale: AppLocale): string {
   switch (fact.topic) {
+    case 'keyboard':
+      return translate(locale, `exercise.knowledgeKeyboardDefinition_${fact.kind}`);
     case 'accidentals':
       return translate(
         locale,

@@ -1,5 +1,5 @@
 import type { AppLocale, Messages } from '@harmonia/i18n';
-import type { Score } from '@harmonia/notation';
+import type { KeyboardRange, Score } from '@harmonia/notation';
 import type {
   Chord,
   Key,
@@ -41,6 +41,10 @@ export interface NoteParams {
   readonly clefs?: readonly ExerciseClef[];
   readonly range?: PitchRange;
   readonly maxAccidentals?: 0 | 1 | 2;
+}
+export interface KeyFindParams extends NoteParams {
+  /** Namen innerhalb eines festen Ausschnitts; Notenbild bleibt der bisherige Standard. */
+  readonly presentation?: 'notation' | 'name';
 }
 export interface VisualIntervalParams extends NoteParams {
   /** Positive Kurzschreibweise, z. B. m3/M3/P5; Richtung separat. */
@@ -87,9 +91,11 @@ export interface RhythmParams extends MeterParams {
   readonly toleranceMs?: number;
 }
 export type KnowledgeTopic =
-  'accidentals' | 'noteValues' | 'intervals' | 'triads' | 'scales' | 'meters';
+  'accidentals' | 'noteValues' | 'intervals' | 'triads' | 'scales' | 'meters' | 'keyboard';
 export interface KnowledgeParams {
   readonly topics: readonly KnowledgeTopic[];
+  /** Einfache Zeichen oder zusätzlich doppelte Vorzeichen. Standard: 2. */
+  readonly maxAccidentals?: 1 | 2;
 }
 export interface MatchParams extends KnowledgeParams {
   readonly count?: number;
@@ -101,6 +107,10 @@ export interface OrderParams {
   readonly direction?: ScaleDirection | 'both';
 }
 export type KnowledgeFact =
+  | {
+      readonly topic: 'keyboard';
+      readonly kind: 'semitone' | 'wholeTone' | 'twoBlackKeys' | 'threeBlackKeys';
+    }
   | { readonly topic: 'accidentals'; readonly alter: -2 | -1 | 0 | 1 | 2 }
   | { readonly topic: 'noteValues'; readonly duration: Duration }
   | { readonly topic: 'intervals'; readonly interval: Interval }
@@ -116,7 +126,7 @@ export type ExerciseSpec =
   | { readonly type: 'ORDER'; readonly params: OrderParams }
   | { readonly type: 'NOTE_NAME'; readonly params: NoteParams }
   | { readonly type: 'NOTE_PLACE'; readonly params: NoteParams }
-  | { readonly type: 'KEY_FIND'; readonly params: NoteParams }
+  | { readonly type: 'KEY_FIND'; readonly params: KeyFindParams }
   | { readonly type: 'INTERVAL_BUILD'; readonly params: VisualIntervalParams }
   | { readonly type: 'SCALE_BUILD'; readonly params: ScaleParams }
   | { readonly type: 'SCALE_IDENTIFY'; readonly params: ScaleParams }
@@ -153,6 +163,8 @@ export interface NotePlaceItem extends ItemBase {
 export interface KeyFindItem extends ItemBase {
   readonly type: 'KEY_FIND';
   readonly pitch: Pitch;
+  readonly presentation?: 'name';
+  readonly keyboardRange?: KeyboardRange;
 }
 export interface IntervalBuildItem extends ItemBase {
   readonly type: 'INTERVAL_BUILD';

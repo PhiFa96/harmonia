@@ -38,7 +38,12 @@ const rhythmParams = meterParams
     toleranceMs: z.number().int().min(40).max(180).optional(),
   })
   .strict();
-const knowledgeParams = z.object({ topics: z.array(z.enum(KNOWLEDGE_TOPICS)).nonempty() }).strict();
+const knowledgeParams = z
+  .object({
+    topics: z.array(z.enum(KNOWLEDGE_TOPICS)).nonempty(),
+    maxAccidentals: z.union([z.literal(1), z.literal(2)]).optional(),
+  })
+  .strict();
 const matchParams = knowledgeParams
   .extend({ count: z.number().int().min(2).max(4).optional() })
   .strict();
@@ -105,7 +110,14 @@ export const exerciseSpecSchema = z
     z.object({ type: z.literal('KEYSIG_IDENTIFY'), params: signatureParams }).strict(),
     z.object({ type: z.literal('NOTE_NAME'), params: noteParams }).strict(),
     z.object({ type: z.literal('NOTE_PLACE'), params: noteParams }).strict(),
-    z.object({ type: z.literal('KEY_FIND'), params: noteParams }).strict(),
+    z
+      .object({
+        type: z.literal('KEY_FIND'),
+        params: noteParams
+          .extend({ presentation: z.enum(['notation', 'name']).optional() })
+          .strict(),
+      })
+      .strict(),
     z
       .object({
         type: z.literal('INTERVAL_BUILD'),
@@ -142,13 +154,24 @@ export const exerciseSpecSchema = z
   ])
   .transform((value): ExerciseSpec => {
     if (value.type === 'KNOWLEDGE_MC')
-      return { type: value.type, params: { topics: value.params.topics } };
+      return {
+        type: value.type,
+        params: {
+          topics: value.params.topics,
+          ...(value.params.maxAccidentals === undefined
+            ? {}
+            : { maxAccidentals: value.params.maxAccidentals }),
+        },
+      };
     if (value.type === 'MATCH')
       return {
         type: value.type,
         params: {
           topics: value.params.topics,
           ...(value.params.count === undefined ? {} : { count: value.params.count }),
+          ...(value.params.maxAccidentals === undefined
+            ? {}
+            : { maxAccidentals: value.params.maxAccidentals }),
         },
       };
     if (value.type === 'ORDER')
@@ -217,7 +240,15 @@ export const exerciseSpecSchema = z
           ...(value.params.fifths ? { fifths: value.params.fifths } : {}),
         },
       };
-    if (value.type === 'NOTE_NAME' || value.type === 'NOTE_PLACE' || value.type === 'KEY_FIND')
+    if (value.type === 'KEY_FIND')
+      return {
+        type: value.type,
+        params: {
+          ...base,
+          ...(value.params.presentation ? { presentation: value.params.presentation } : {}),
+        },
+      };
+    if (value.type === 'NOTE_NAME' || value.type === 'NOTE_PLACE')
       return { type: value.type, params: base };
     if (value.type === 'INTERVAL_IDENTIFY_VISUAL' || value.type === 'INTERVAL_BUILD')
       return {
@@ -260,6 +291,13 @@ export const contentTextKeySchema = z
 export const contentStatusSchema = z.enum(['entwurf', 'in_pruefung', 'freigegeben']);
 export const exampleSchema = z
   .object({ score: z.string().min(1), captionKey: contentTextKeySchema })
+  .extend({
+    keyboard: z
+      .object({ first: z.number().int().min(21).max(108), last: z.number().int().min(21).max(108) })
+      .strict()
+      .refine((value) => value.first <= value.last, 'Ungültiger Klaviatur-Ausschnitt')
+      .optional(),
+  })
   .strict();
 export const introductionSchema = z
   .object({

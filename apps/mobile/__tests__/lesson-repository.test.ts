@@ -55,6 +55,42 @@ afterEach(() => {
 });
 
 describe('Lokale Ergebnisse mit echter SQLite', () => {
+  it('bewahrt die Klaviaturparameter und begrenzten Vorzeichen unverändert neben der vorherigen Notationseinheit', async () => {
+    await initializeLessonDatabase(adapter(db));
+    const repository = createLessonRepository(adapter(db));
+    for (const id of [
+      'notation.l1.staff.anchor',
+      'notation.l1.keyboard.keys',
+      'notation.l1.keyboard.steps',
+      'notation.l1.keyboard.accidentals',
+    ]) {
+      const content = required(resolveLesson(catalogue, id));
+      let session = createLessonSession(content, 'sqlite-keyboard');
+      while (session.phase === 'initial') {
+        const item = required(currentItem(required(activeLessonSession(session))));
+        session = nextLessonExercise(answerLesson(session, expectedAnswer(item)));
+      }
+      const attempt = createLessonAttempt(id + '-run', session, START, END);
+      await repository.save(attempt);
+      expect(
+        JSON.parse(
+          String(
+            db.prepare('SELECT payload FROM lesson_attempts WHERE id = ?').get(attempt.id)?.[
+              'payload'
+            ],
+          ),
+        ),
+      ).toEqual(attempt);
+      expect(await repository.latest(id)).toMatchObject({
+        lesson_id: id,
+        content_version: id.includes('.keyboard.') ? 4 : 3,
+        correct: content.exercises.length,
+        answered: content.exercises.length,
+      });
+    }
+    expect(db.prepare('SELECT COUNT(*) AS n FROM lesson_attempts').get()?.['n']).toBe(4);
+    expect(db.prepare('PRAGMA user_version').get()?.['user_version']).toBe(1);
+  });
   it('trennt drei neue Lektionen mit Version 3 von der bisherigen Lektion und ihren neuesten Ergebnissen', async () => {
     await initializeLessonDatabase(adapter(db));
     const repository = createLessonRepository(adapter(db));

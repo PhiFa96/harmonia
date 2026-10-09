@@ -49,6 +49,20 @@ export const enUS = {
       'Match each concept with its explanation. Each explanation belongs to exactly one concept.',
     question_ORDER: 'Put all the items in order {{direction}}. {{rule}}',
     knowledgeExplanation: '{{term}}: {{definition}}',
+    knowledgeKeyboard_semitone: '$t(glossary:semitone_one)',
+    knowledgeKeyboard_wholeTone: '$t(glossary:wholeTone_one)',
+    knowledgeKeyboard_twoBlackKeys: '$t(glossary:twoBlackKeys_one)',
+    knowledgeKeyboard_threeBlackKeys: '$t(glossary:threeBlackKeys_one)',
+    knowledgeKeyboardDefinition_semitone:
+      'Distance between immediately adjacent $t(glossary:pianoKey_other), including black keys. There is no key in between.',
+    knowledgeKeyboardDefinition_wholeTone:
+      'Distance of two $t(glossary:semitone_other). Exactly one key lies between the start and end on the $t(glossary:keyboard_one).',
+    knowledgeKeyboardDefinition_twoBlackKeys:
+      'Repeating group of two black keys. The white key immediately to its left is C.',
+    knowledgeKeyboardDefinition_threeBlackKeys:
+      'Repeating group of three black keys. The white key immediately to its left is F.',
+    knowledgeHint_keyboard:
+      'Use the black-key groups to find your place and count every key step, including black keys.',
     knowledgeRaises: 'Raises a natural note by {{distance}}.',
     knowledgeLowers: 'Lowers a natural note by {{distance}}.',
     knowledgeNatural: 'Cancels an existing alteration and restores the natural pitch of the note.',
@@ -244,14 +258,19 @@ export const enUS = {
     type_INTERVAL_BUILD: 'Build intervals',
     question_NOTE_PLACE: 'Write {{note}} on the empty staff. Check its accidental and octave.',
     question_KEY_FIND: 'Find the key for {{note}}. Check the octave.',
+    question_KEY_FIND_name: 'Find the key for {{note}}.',
     question_INTERVAL_BUILD:
       'Write the second note: {{interval}} from {{from}}. Place it in the empty second measure.',
     writtenPitch:
       'The complete answer is {{note}}. The letter, accidental and octave must match; an equally sounding note with a different spelling does not count here.',
     keyExplanation:
       'The required key sounds as {{note}}. Start from the natural note {{natural}} in the same octave. {{alteration}} Equally sounding spellings belong to the same key; a different octave does not count.',
+    keyNameExplanation:
+      'The required key sounds as {{note}}. The $t(glossary:naturalNote_one) {{natural}} occurs only once in the shown range. Start there. {{alteration}} Equally sounding spellings belong to the same key.',
     keyHint1:
       'Find the groups of two black keys: C is immediately to their left, and D is between the two black keys. Count from there to the required natural note in the stated octave.',
+    keyNameHint1:
+      'Find the $t(glossary:twoBlackKeys_other): C is immediately to their left, and D is between their keys. Count along the white keys to the requested $t(glossary:naturalNote_one) in the shown range.',
     keyHint2:
       'First find {{natural}}. {{alteration}} Moving to the immediately adjacent key is one semitone, including between E and F and between B and C.',
     buildHint2:
@@ -333,10 +352,13 @@ export const enUS = {
       'Your first lesson: ten reading and listening questions. Learn the basics, practice with hints and revisit mistakes with new notation examples.',
     open: 'View lesson',
     openNamed: 'Open {{title}}',
+    openAnother: 'Open lesson',
     taskCount_one: '{{count}} question',
     taskCount_other: '{{count}} questions',
-    exampleTempo: 'Sound example at ♩ = {{bpm}}',
+    exampleTempo: 'Sound example: {{bpm}} $t(glossary:notes.quarter_other) per minute.',
     scrollExample: 'Scroll the notation sideways to see all the notes.',
+    keyboardExample: 'Piano keyboard example; marked keys: {{notes}}.',
+    keyboardMarkers: 'Dots mark the keys used in the notation example.',
     start_one: 'Start {{count}} question',
     start_other: 'Start {{count}} questions',
     restart: 'Practice lesson again',
@@ -395,6 +417,7 @@ export const enUS = {
     range_practice: 'C4–E5',
     range_middle: 'C3–C6',
     range_full: 'Full piano (A0–C8)',
+    range_fixed: 'Range: {{from}}–{{to}}',
     eitherName: '{{sharp}} or {{flat}}',
     smaller: '−',
     larger: '+',
@@ -408,6 +431,8 @@ export const enUS = {
     moveHint: 'Swipe left or right. Choose Play to turn the sound back on.',
     shortcutHint:
       'With the piano keyboard focused: the physical keys starting at A play C4–E5 (QWERTY: A W S E D F T G Y H U J K O L P ;). Tab and Space or Enter play individual keys.',
+    shortcutFixedHint:
+      'With the piano keyboard focused, letter keys only play notes in the shown range. Tab and Space or Enter play individual keys.',
   },
   audioTest: {
     title: 'Audio test',
@@ -459,6 +484,7 @@ export const enUS = {
       'Piano sound: Salamander Grand Piano by Alexander Holm, CC BY 3.0 (creativecommons.org/licenses/by/3.0). Modified: selection, shortened, mono, tuning corrected.',
   },
   gallery: {
+    keyboardExample: '$t(glossary:keyboard_one): learning example',
     title: 'Components',
     intro: 'All basic components of the design system. Development builds only.',
     preview: 'Preview',

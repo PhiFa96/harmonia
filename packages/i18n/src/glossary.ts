@@ -46,6 +46,40 @@ export const GLOSSARY = {
     en: { term: 'natural note', plural: 'natural notes' },
     note: 'Unalterierter Ton C, D, E, F, G, A, H/englisch B; nicht das Auflösungszeichen natural.',
   },
+  keyboard: {
+    category: 'notation',
+    de: { term: 'Klaviatur', gender: 'f', plural: 'Klaviaturen' },
+    en: { term: 'piano keyboard', plural: 'piano keyboards' },
+  },
+  enharmonic: {
+    category: 'pitch',
+    de: { term: 'Enharmonik', gender: 'f' },
+    en: { term: 'enharmonic equivalence' },
+    note: 'Hier: verschiedene Notenschreibweisen für dieselbe Taste auf dem gleichstufig gestimmten Klavier.',
+  },
+  pianoKey: {
+    category: 'notation',
+    de: { term: 'Klaviertaste', gender: 'f', plural: 'Klaviertasten' },
+    en: { term: 'piano key', plural: 'piano keys' },
+  },
+  twoBlackKeys: {
+    category: 'notation',
+    de: {
+      term: 'Zweiergruppe schwarzer Tasten',
+      gender: 'f',
+      plural: 'Zweiergruppen schwarzer Tasten',
+    },
+    en: { term: 'group of two black keys', plural: 'groups of two black keys' },
+  },
+  threeBlackKeys: {
+    category: 'notation',
+    de: {
+      term: 'Dreiergruppe schwarzer Tasten',
+      gender: 'f',
+      plural: 'Dreiergruppen schwarzer Tasten',
+    },
+    en: { term: 'group of three black keys', plural: 'groups of three black keys' },
+  },
   rest: {
     category: 'notation',
     de: { term: 'Pause', gender: 'f', plural: 'Pausen' },

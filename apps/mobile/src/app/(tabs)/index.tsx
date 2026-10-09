@@ -45,6 +45,9 @@ export default function LearnScreen() {
                       </AppText>
                       <Button
                         label={
+                          lesson.id === firstLesson?.id ? t('lesson.open') : t('lesson.openAnother')
+                        }
+                        accessibilityLabel={
                           lesson.id === firstLesson?.id
                             ? t('lesson.open')
                             : t('lesson.openNamed', { title: contentText(lesson.titleKey) })

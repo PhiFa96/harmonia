@@ -41,6 +41,8 @@ export interface PianoKeyboardProps {
   readonly spellPitch?: (midi: number) => Pitch;
   readonly enabled?: boolean;
   readonly initialRange?: 'practice' | 'middle' | 'full';
+  /** Fester Lern-Ausschnitt, ohne Wechsel auf weitere Oktaven. */
+  readonly fixedRange?: KeyboardRange;
 }
 
 type RangeName = 'practice' | 'middle' | 'full';
@@ -59,6 +61,7 @@ export function PianoKeyboard({
   spellPitch,
   enabled = true,
   initialRange = 'practice',
+  fixedRange,
 }: PianoKeyboardProps) {
   const { t } = useTranslation();
   const locale = useLocale();
@@ -73,7 +76,7 @@ export function PianoKeyboard({
   const scroller = useRef<ScrollView>(null);
   const scrollX = useRef(0);
   const viewportWidth = useRef(0);
-  const range = RANGES[rangeName];
+  const range = fixedRange ?? RANGES[rangeName];
   const layout = useMemo(() => keyboardLayout(range, KEY_WIDTHS[zoom]), [range, zoom]);
   const selectedMidi = selected ? keyboardMidi(selected) : undefined;
   // react-native-web unterstützt touchAction; die nativen ViewStyle-Typen kennen es nicht.
@@ -250,7 +253,18 @@ export function PianoKeyboard({
       >
         <View style={styles.settings}>
           <AppText variant="small" tone="muted">
-            {t(`piano.range_${rangeName}`)}
+            {fixedRange
+              ? t('piano.range_fixed', {
+                  from: keyboardLabel(
+                    keyboardPitch(fixedRange.first),
+                    locale === 'de' ? 'de' : 'intl',
+                  ),
+                  to: keyboardLabel(
+                    keyboardPitch(fixedRange.last),
+                    locale === 'de' ? 'de' : 'intl',
+                  ),
+                })
+              : t(`piano.range_${rangeName}`)}
           </AppText>
           <View style={styles.controls}>
             <Button
@@ -262,15 +276,17 @@ export function PianoKeyboard({
                 setSheet('labels');
               }}
             />
-            <Button
-              style={styles.compactButton}
-              size="medium"
-              variant="secondary"
-              label={t('piano.range')}
-              onPress={() => {
-                setSheet('range');
-              }}
-            />
+            {!fixedRange ? (
+              <Button
+                style={styles.compactButton}
+                size="medium"
+                variant="secondary"
+                label={t('piano.range')}
+                onPress={() => {
+                  setSheet('range');
+                }}
+              />
+            ) : null}
             <Button
               style={styles.compactButton}
               size="medium"
@@ -299,7 +315,7 @@ export function PianoKeyboard({
           </AppText>
           {Platform.OS === 'web' ? (
             <AppText variant="footnote" tone="muted">
-              {t('piano.shortcutHint')}
+              {t(fixedRange ? 'piano.shortcutFixedHint' : 'piano.shortcutHint')}
             </AppText>
           ) : null}
         </View>
@@ -318,7 +334,7 @@ export function PianoKeyboard({
         onSelect={setLabels}
       />
       <OptionSheet
-        visible={sheet === 'range'}
+        visible={!fixedRange && sheet === 'range'}
         onClose={() => {
           setSheet(null);
         }}
