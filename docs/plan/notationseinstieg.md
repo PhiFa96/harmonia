@@ -55,4 +55,6 @@ Der vorhandene Engine-Vergleich gegen `tonal` läuft in der Gesamtprüfung mit. 
 
 Review-Zweig: `codex/p2-07-notation-start`, Basis `codex/p2-06-knowledge` bei `ff3d896`. Dieser Vorgänger und die davorliegenden Akkord-/Rhythmuszweige waren zum Prüfzeitpunkt noch nicht in `main`. Gegen den Wissenszweig prüfen; ein Merge nach `main` ist nicht Teil dieser Umsetzung.
 
+Der Review-Zweig ist gepusht; Implementierungscommit `c22732a`. Die automatische Draft-PR-Erstellung scheitert am Cloud-Zugriff auf `https://api.github.com/graphql` mit `Forbidden`; es wurde kein PR angelegt. [Änderungen gegen den Wissens-Vorgänger vergleichen](https://github.com/PhiFa96/harmonia/compare/codex/p2-06-knowledge...codex/p2-07-notation-start).
+
 Für Claude Code: zuerst die neue erste Einheit und vollständigen Beispielklänge prüfen, dann die nächste Notationseinheit `notation.l1.keyboard` mit Tastenordnung, Halb-/Ganzton und einfachen Vorzeichen ausarbeiten. Anschließend folgen Register/Hilfslinien, weitere Notation und die übrigen Stufe-1-Bereiche. Alle neuen Inhalte brauchen den getrennten fachlichen Prüfdurchgang vor `freigegeben`. Die vollständige Stufe 1, Stufe 2, Bestehenslogik und spätere Chor-/Orchester- und Tonsatzstufen bleiben weitere Arbeitsschritte.
