@@ -10,7 +10,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { LessonHistory } from '@/components/lesson-history';
 import { useLocale } from '@/i18n';
-import { firstLesson } from '@/content';
+import { firstLesson, lessonGroups } from '@/content';
 import { useContentText } from '@/content/use-content-text';
 
 /** Beispiel bis zu den echten Lektionen: zeigt, dass das Notenbild auf allen Plattformen läuft. */
@@ -28,25 +28,43 @@ export default function LearnScreen() {
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.content}>
         <AppText variant="title1">{t('tabs.learn')}</AppText>
-        {firstLesson ? (
-          <Card>
-            <View style={styles.lesson}>
-              <AppText variant="title2">{contentText(firstLesson.titleKey)}</AppText>
-              <AppText>{t('lesson.overview')}</AppText>
-              <Button
-                label={t('lesson.open')}
-                onPress={() => {
-                  router.push('/lesson');
-                }}
-              />
+        {lessonGroups.length ? (
+          lessonGroups.map(({ unit, level, lessons }) => (
+            <View key={unit.id} testID={`lesson-group-${unit.id}`} style={styles.lesson}>
+              <AppText variant="overline" tone="muted">
+                {contentText(level.titleKey)}
+              </AppText>
+              <AppText variant="title2">{contentText(unit.titleKey)}</AppText>
+              {lessons.map((lesson) => (
+                <View key={lesson.id} style={styles.lesson}>
+                  <Card>
+                    <View style={styles.lesson}>
+                      <AppText variant="title3">{contentText(lesson.titleKey)}</AppText>
+                      <AppText variant="small" tone="muted">
+                        {t('lesson.taskCount', { count: lesson.exercises.length })}
+                      </AppText>
+                      <Button
+                        label={
+                          lesson.id === firstLesson?.id
+                            ? t('lesson.open')
+                            : t('lesson.openNamed', { title: contentText(lesson.titleKey) })
+                        }
+                        onPress={() => {
+                          router.push({ pathname: '/lesson', params: { id: lesson.id } });
+                        }}
+                      />
+                    </View>
+                  </Card>
+                  <LessonHistory lesson={lesson} />
+                </View>
+              ))}
             </View>
-          </Card>
+          ))
         ) : (
           <Card>
             <AppText>{t('learn.unavailable')}</AppText>
           </Card>
         )}
-        {firstLesson ? <LessonHistory lesson={firstLesson} /> : null}
         <AppText>{t('learn.exampleScale')}</AppText>
         <Card style={styles.card}>
           <ScrollView horizontal contentContainerStyle={styles.score}>

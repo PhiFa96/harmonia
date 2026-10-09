@@ -124,6 +124,7 @@ Die Blöcke B, C und D können teilweise parallel laufen.
   - [ ] Entwürfe durch Claude, getrennter Prüfdurchgang durch Claude, Status `freigegeben`
   - [ ] Wissensartikel für die Tutor-Wissensbasis zu allen Themen der Stufe
 - **Fertig, wenn:** Stufe 1 ist durchspielbar, fachlich freigegeben und in beiden Sprachen vollständig.
+- **Stand 09.10.2026:** Erster Teil technisch umgesetzt: `notation.l1.staff` mit drei auswählbaren Lektionen (8/10/12 Aufgaben), sieben Wissenskarten mit vollständigem Klang und einem vierteiligen Artikelentwurf in DE/US/UK. Die drei vorhandenen Fähigkeiten zum System, Violinschlüssel und natürlichen Tönen werden geübt; der bisherige Prototyp bleibt erhalten. Katalog und Plan haben Version 3, alle neuen Inhalte bleiben `entwurf`. Prüfung und konkrete Fortsetzung: [notationseinstieg.md](notationseinstieg.md). Weitere Stufe-1-Einheiten, Claudes getrennter fachlicher Prüfdurchgang und echte Plattformtests bleiben offen; P2.07 ist nicht abgeschlossen.
 
 ### P2.08 – Inhalte Stufe 2 (DE + EN)
 

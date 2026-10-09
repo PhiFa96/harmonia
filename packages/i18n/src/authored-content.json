@@ -150,6 +150,36 @@
         "popularContexts": "Aufnahme, Medien und Gesellschaft an Pop-Beispielen verbinden",
         "compareSources": "Zwei Quellen zu einem Musikbeispiel vergleichen und Unsicherheiten benennen"
       }
+    },
+    "notationStart": {
+      "anchorLesson": "Den $t(glossary:trebleClef_one) lesen",
+      "positionsLesson": "Linien und Zwischenräume",
+      "readingLesson": "$t(glossary:naturalNote_other) sicher lesen",
+      "staffTitle": "Fünf Linien, vier Zwischenräume",
+      "staffBody": "Ein $t(glossary:staff_one) hat fünf Linien und vier Zwischenräume. Zähle die Linien von unten nach oben. Eine $t(glossary:note_one) kann auf einer Linie oder in einem Zwischenraum stehen. Ihre Höhe im System hilft dir, die $t(glossary:pitch_one) zu lesen. Im Beispiel liegt die Note auf der zweiten Linie von unten. Der $t(glossary:clef_one) am Anfang legt fest, welcher Ton dort gemeint ist.",
+      "anchorTitle": "G als Orientierung",
+      "anchorBody": "Der $t(glossary:trebleClef_one) legt g¹ auf der zweiten Linie von unten fest. Darum heißt er auch G-Schlüssel. Die $t(glossary:naturalNote_other) heißen auf Deutsch C, D, E, F, G, A, H; danach wiederholt sich die Buchstabenfolge. Ein $t(glossary:naturalNote_one) ist ein Ton ohne Erhöhung oder Erniedrigung. In diesen Aufgaben gibt es noch keine $t(glossary:accidental_other).",
+      "neighborsTitle": "Von G zu den Nachbartönen",
+      "neighborsBody": "Wechsle im $t(glossary:staff_one) von einer Linie zum nächsten Zwischenraum oder umgekehrt: So gelangst du zum nächsten $t(glossary:naturalNote_one). Unter g¹ liegt f¹ im ersten Zwischenraum; darüber liegen a¹ im zweiten Zwischenraum und h¹ auf der dritten Linie. Lies das Beispiel als F, G, A, H. Die Aufgaben dieser Lektion bleiben bei diesen vier Tonnamen. Im Englischen heißt der deutsche Ton H B.",
+      "linesTitle": "Töne auf den Linien",
+      "linesBody": "Im $t(glossary:trebleClef_one) heißen die fünf Linientöne von unten nach oben E, G, H, D, F. Zwischen zwei Linien liegt ein weiterer $t(glossary:naturalNote_one) im Zwischenraum. Nutze G auf der zweiten Linie als Bezug: eine Position tiefer ist F, noch eine tiefer E. Springe beim Zählen nicht über die Zwischenräume hinweg. Die Aufgaben fragen den Tonnamen, noch nicht die genaue $t(glossary:octave_one).",
+      "spacesTitle": "Töne in den Zwischenräumen",
+      "spacesBody": "Die vier Zwischenräume heißen im $t(glossary:trebleClef_one) von unten nach oben F, A, C, E. Linie und Zwischenraum wechseln sich ab. Zusammen entsteht von der untersten zur obersten Linie die Folge E, F, G, A, H, C, D, E, F. Achte auf die Mitte des Notenkopfs: Sie zeigt die Position, nicht das Ende des Notenhalses.",
+      "namesTitle": "Die Buchstabenfolge wiederholt sich",
+      "namesBody": "Nach H folgt wieder C. Die $t(glossary:naturalNote_other) bilden die wiederkehrende Folge C, D, E, F, G, A, H. Aufwärts im $t(glossary:staff_one) gehen ihre Positionen nach oben, abwärts nach unten. In der gezeigten Folge erscheinen E und F zweimal, jeweils in unterschiedlicher Lage. Bei der Frage nach dem Tonnamen bleibt die Antwort in beiden Lagen E beziehungsweise F. Die genaue $t(glossary:octave_one) lernst du in einer späteren Einheit.",
+      "readingTitle": "Eine sichere Leseroutine",
+      "readingBody": "Prüfe zuerst den $t(glossary:clef_one). Finde dann die Linie oder den Zwischenraum des Notenkopfs. Gehe vom bekannten G auf der zweiten Linie bis zur gesuchten Position und zähle die $t(glossary:naturalNote_other). Höre das Beispiel erst an, wenn du möchtest. Lies zunächst G, A, H, C, D, C, H, A; das Klangbeispiel spielt dieselbe Folge. Hinweise erklären die Zählweise, und Fehler werden anschließend mit neuen Noten wiederholt.",
+      "anchorCaption": "g¹ auf der zweiten Linie von unten",
+      "neighborsCaption": "Nachbartöne: f¹–g¹–a¹–h¹",
+      "linesCaption": "Linientöne: e¹–g¹–h¹–d²–f²",
+      "spacesCaption": "Zwischenräume: f¹–a¹–c²–e²",
+      "namesCaption": "Alle neun Positionen: e¹ bis f²",
+      "readingCaption": "Tonfolge: g¹–a¹–h¹–c²–d²–c²–h¹–a¹",
+      "articleTitle": "$t(glossary:staff_one) und $t(glossary:trebleClef_one) verstehen",
+      "staffArticle": "Eine $t(glossary:note_one) verbindet mehrere Informationen. Die Lage des Notenkopfs im $t(glossary:staff_one) beschreibt zusammen mit dem $t(glossary:clef_one) die $t(glossary:pitch_one). Die Form der Note gibt ihren Wert an; Notenwerte behandelst du im Rhythmusbereich. Für den Einstieg trennst du diese Fragen: Hier liest du die Tonhöhe. Fünf Linien und vier Zwischenräume ergeben neun Positionen innerhalb des Systems. Du zählst von der untersten Linie aus. Für weiter entfernte Positionen außerhalb des Systems brauchst du später $t(glossary:ledgerLine_other).",
+      "anchorArticle": "Der $t(glossary:trebleClef_one) ist ein G-Schlüssel: Er bezeichnet die zweite Linie von unten als g¹, international G4. Von dieser Referenz aus führen abwechselnde Linien und Zwischenräume durch die Folge der $t(glossary:naturalNote_other). Diese Buchstabenschritte sind keine gleich großen Klangabstände; $t(glossary:semitone_other) und $t(glossary:wholeTone_other) behandelst du im nächsten Notationsblock. Die $t(glossary:naturalNote_other) C, D, E, F, G, A, H sind unalterierte Töne. Der deutsche Ton H entspricht dem internationalen B; das deutsche B bezeichnet dagegen das erniedrigte H. Diese Aufgaben verwenden keine Alterationen.",
+      "namesArticle": "Im $t(glossary:trebleClef_one) liegen E, G, H, D, F auf den fünf Linien und F, A, C, E in den vier Zwischenräumen. Zusammengenommen liest du E, F, G, A, H, C, D, E, F. Nach H beginnt die Buchstabenfolge wieder bei C; zugleich steigt die $t(glossary:pitch_one) weiter an. Ein Tonname kann daher in mehreren $t(glossary:octave_other) vorkommen. Die deutsche Anzeige verwendet etwa e¹ und e², die internationale E4 und E5. Dieser Übungssatz fragt allein den Tonnamen E. Eine spätere Einheit übt die vollständige Oktavlage.",
+      "readingArticle": "Für jede neue Note prüfst du zuerst den $t(glossary:clef_one), dann die Position des Notenkopfs und schließlich die Buchstabenfolge. Gehe Schritt für Schritt vom bekannten G aus oder verwende bereits sicher gelernte Linien- und Zwischenraumtöne. Prüfe deinen Tonnamen am Klangbeispiel, ohne ihn allein aus dem Klang erraten zu müssen. Kleine regelmäßige Sätze bauen Sicherheit auf; ein längerer gemischter Satz festigt dieselben Grundlagen. Die Aufgaben werden bei jedem Durchgang neu erzeugt. Ein Fehler erzeugt am Ende eine andere geschriebene Note, damit du die Zählweise erneut anwendest."
     }
   },
   "en-US": {
@@ -303,6 +333,36 @@
         "popularContexts": "Relate recording, media and society using examples of popular music",
         "compareSources": "Compare two sources about a musical example and identify uncertainties"
       }
+    },
+    "notationStart": {
+      "anchorLesson": "Read the $t(glossary:trebleClef_one)",
+      "positionsLesson": "Lines and spaces",
+      "readingLesson": "Read $t(glossary:naturalNote_other) confidently",
+      "staffTitle": "Five lines, four spaces",
+      "staffBody": "A $t(glossary:staff_one) has five lines and four spaces. Count the lines from bottom to top. A $t(glossary:note_one) can sit on a line or in a space. Its position helps you read the $t(glossary:pitch_one). In this example, the note is on the second line from the bottom. The $t(glossary:clef_one) at the beginning tells you which pitch that line represents.",
+      "anchorTitle": "Use G as your reference",
+      "anchorBody": "The $t(glossary:trebleClef_one) places G4 on the second line from the bottom. It is also called the G clef. The $t(glossary:naturalNote_other) are C, D, E, F, G, A, B; then the letter sequence repeats. A $t(glossary:naturalNote_one) is a note without a raised or lowered pitch. These questions do not yet use $t(glossary:accidental_other).",
+      "neighborsTitle": "Find the notes next to G",
+      "neighborsBody": "Move from a line to the next space or from a space to the next line: you reach the next $t(glossary:naturalNote_one). Below G4 is F4 in the first space; above it are A4 in the second space and B4 on the third line. Read this example as F, G, A, B. This lesson only asks for these four note names. The international B corresponds to the German H.",
+      "linesTitle": "Notes on the lines",
+      "linesBody": "In the $t(glossary:trebleClef_one), the five line notes from bottom to top are E, G, B, D, F. Another $t(glossary:naturalNote_one) sits in the space between each pair of lines. Use G on the second line as your reference: one position below it is F, and one more is E. Include the spaces when counting. The questions ask for the note name, not yet its exact $t(glossary:octave_one).",
+      "spacesTitle": "Notes in the spaces",
+      "spacesBody": "The four spaces in the $t(glossary:trebleClef_one) are F, A, C, E from bottom to top. Lines and spaces alternate. Together, from the lowest to the highest line, they give E, F, G, A, B, C, D, E, F. Look at the center of the notehead: it shows the position, not the end of the stem.",
+      "namesTitle": "The letter sequence repeats",
+      "namesBody": "After B comes C again. The $t(glossary:naturalNote_other) form the repeating sequence C, D, E, F, G, A, B. Their positions rise as you move up the $t(glossary:staff_one), and fall as you move down. This example includes E and F twice, each in a different register. When asked for the note name, the answer remains E or F in both registers. You will learn the exact $t(glossary:octave_one) in a later unit.",
+      "readingTitle": "A reliable reading routine",
+      "readingBody": "Check the $t(glossary:clef_one) first. Find the line or space of the notehead. Count $t(glossary:naturalNote_other) from the known G on the second line to the required position. Listen to the example when you choose to. Start by reading G, A, B, C, D, C, B, A; the audio plays that same sequence. Hints explain how to count, and mistakes are followed by new notes in the review.",
+      "anchorCaption": "G4 on the second line from the bottom",
+      "neighborsCaption": "Neighboring notes: F4–G4–A4–B4",
+      "linesCaption": "Line notes: E4–G4–B4–D5–F5",
+      "spacesCaption": "Spaces: F4–A4–C5–E5",
+      "namesCaption": "All nine positions: E4 to F5",
+      "readingCaption": "Note sequence: G4–A4–B4–C5–D5–C5–B4–A4",
+      "articleTitle": "Understand the $t(glossary:staff_one) and $t(glossary:trebleClef_one)",
+      "staffArticle": "A $t(glossary:note_one) combines several kinds of information. The position of its notehead on the $t(glossary:staff_one), together with the $t(glossary:clef_one), describes its $t(glossary:pitch_one). Its shape indicates its value; you will study note values in the rhythm area. Keep those questions separate at first: here you read pitch. Five lines and four spaces give nine positions within the staff. Count from the lowest line. Later, pitches farther beyond the $t(glossary:staff_one) need $t(glossary:ledgerLine_other).",
+      "anchorArticle": "The $t(glossary:trebleClef_one) is a G clef: it identifies the second line from the bottom as G4, or g¹ in German notation. Alternating lines and spaces lead from that reference through the sequence of $t(glossary:naturalNote_other). These letter steps are not equal distances in sound; the next notation unit covers $t(glossary:semitone_other) and $t(glossary:wholeTone_other). The $t(glossary:naturalNote_other) C, D, E, F, G, A, B are unaltered notes. The international B corresponds to German H; German B means the lowered H. These questions do not use alterations.",
+      "namesArticle": "In the $t(glossary:trebleClef_one), E, G, B, D, F sit on the five lines, and F, A, C, E occupy the four spaces. Together they read E, F, G, A, B, C, D, E, F. The letter sequence starts again at C after B while the pitch continues to rise. A note name can therefore appear in several $t(glossary:octave_other). International notation uses E4 and E5, for example; German notation uses e¹ and e². This exercise set only asks for the note name E. A later unit practices the complete octave register.",
+      "readingArticle": "For each new note, check the $t(glossary:clef_one), then the position of the notehead, then the letter sequence. Work step by step from the known G or use line and space notes you already know reliably. Check your reading with the audio example; you do not need to guess the note name from sound alone. Short, regular sets build confidence, and a longer mixed set consolidates the same basics. Each run generates new questions. A mistake leads to a different written note in the review so that you apply the reading method again."
     }
   },
   "en-GB": {
@@ -456,6 +516,36 @@
         "popularContexts": "Relate recording, media and society using examples of popular music",
         "compareSources": "Compare two sources about a musical example and identify uncertainties"
       }
+    },
+    "notationStart": {
+      "anchorLesson": "Read the $t(glossary:trebleClef_one)",
+      "positionsLesson": "Lines and spaces",
+      "readingLesson": "Read $t(glossary:naturalNote_other) confidently",
+      "staffTitle": "Five lines, four spaces",
+      "staffBody": "A $t(glossary:staff_one) has five lines and four spaces. Count the lines from bottom to top. A $t(glossary:note_one) can sit on a line or in a space. Its position helps you read the $t(glossary:pitch_one). In this example, the note is on the second line from the bottom. The $t(glossary:clef_one) at the beginning tells you which pitch that line represents.",
+      "anchorTitle": "Use G as your reference",
+      "anchorBody": "The $t(glossary:trebleClef_one) places G4 on the second line from the bottom. It is also called the G clef. The $t(glossary:naturalNote_other) are C, D, E, F, G, A, B; then the letter sequence repeats. A $t(glossary:naturalNote_one) is a note without a raised or lowered pitch. These questions do not yet use $t(glossary:accidental_other).",
+      "neighborsTitle": "Find the notes next to G",
+      "neighborsBody": "Move from a line to the next space or from a space to the next line: you reach the next $t(glossary:naturalNote_one). Below G4 is F4 in the first space; above it are A4 in the second space and B4 on the third line. Read this example as F, G, A, B. This lesson only asks for these four note names. The international B corresponds to the German H.",
+      "linesTitle": "Notes on the lines",
+      "linesBody": "In the $t(glossary:trebleClef_one), the five line notes from bottom to top are E, G, B, D, F. Another $t(glossary:naturalNote_one) sits in the space between each pair of lines. Use G on the second line as your reference: one position below it is F, and one more is E. Include the spaces when counting. The questions ask for the note name, not yet its exact $t(glossary:octave_one).",
+      "spacesTitle": "Notes in the spaces",
+      "spacesBody": "The four spaces in the $t(glossary:trebleClef_one) are F, A, C, E from bottom to top. Lines and spaces alternate. Together, from the lowest to the highest line, they give E, F, G, A, B, C, D, E, F. Look at the centre of the notehead: it shows the position, not the end of the stem.",
+      "namesTitle": "The letter sequence repeats",
+      "namesBody": "After B comes C again. The $t(glossary:naturalNote_other) form the repeating sequence C, D, E, F, G, A, B. Their positions rise as you move up the $t(glossary:staff_one), and fall as you move down. This example includes E and F twice, each in a different register. When asked for the note name, the answer remains E or F in both registers. You will learn the exact $t(glossary:octave_one) in a later unit.",
+      "readingTitle": "A reliable reading routine",
+      "readingBody": "Check the $t(glossary:clef_one) first. Find the line or space of the notehead. Count $t(glossary:naturalNote_other) from the known G on the second line to the required position. Listen to the example when you choose to. Start by reading G, A, B, C, D, C, B, A; the audio plays that same sequence. Hints explain how to count, and mistakes are followed by new notes in the review.",
+      "anchorCaption": "G4 on the second line from the bottom",
+      "neighborsCaption": "Neighbouring notes: F4–G4–A4–B4",
+      "linesCaption": "Line notes: E4–G4–B4–D5–F5",
+      "spacesCaption": "Spaces: F4–A4–C5–E5",
+      "namesCaption": "All nine positions: E4 to F5",
+      "readingCaption": "Note sequence: G4–A4–B4–C5–D5–C5–B4–A4",
+      "articleTitle": "Understand the $t(glossary:staff_one) and $t(glossary:trebleClef_one)",
+      "staffArticle": "A $t(glossary:note_one) combines several kinds of information. The position of its notehead on the $t(glossary:staff_one), together with the $t(glossary:clef_one), describes its $t(glossary:pitch_one). Its shape indicates its value; you will study note values in the rhythm area. Keep those questions separate at first: here you read pitch. Five lines and four spaces give nine positions within the stave. Count from the lowest line. Later, positions outside the stave need $t(glossary:ledgerLine_other).",
+      "anchorArticle": "The $t(glossary:trebleClef_one) is a G clef: it identifies the second line from the bottom as G4, or g¹ in German notation. Alternating lines and spaces lead from that reference through the sequence of $t(glossary:naturalNote_other). These letter steps are not equal distances in sound; the next notation unit covers $t(glossary:semitone_other) and $t(glossary:wholeTone_other). The $t(glossary:naturalNote_other) C, D, E, F, G, A, B are unaltered notes. The international B corresponds to German H; German B means the lowered H. These questions do not use alterations.",
+      "namesArticle": "In the $t(glossary:trebleClef_one), E, G, B, D, F sit on the five lines, and F, A, C, E occupy the four spaces. Together they read E, F, G, A, B, C, D, E, F. The letter sequence starts again at C after B while the pitch continues to rise. A note name can therefore appear in several $t(glossary:octave_other). International notation uses E4 and E5, for example; German notation uses e¹ and e². This exercise set only asks for the note name E. A later unit practises the complete octave register.",
+      "readingArticle": "For each new note, check the $t(glossary:clef_one), then the position of the notehead, then the letter sequence. Work step by step from the known G or use line and space notes you already know reliably. Check your reading with the audio example; you do not need to guess the note name from sound alone. Short, regular sets build confidence, and a longer mixed set consolidates the same basics. Each run generates new questions. A mistake leads to a different written note in the review so that you apply the reading method again."
     }
   }
 }

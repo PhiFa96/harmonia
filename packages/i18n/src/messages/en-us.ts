@@ -332,6 +332,11 @@ export const enUS = {
     overview:
       'Your first lesson: ten reading and listening questions. Learn the basics, practice with hints and revisit mistakes with new notation examples.',
     open: 'View lesson',
+    openNamed: 'Open {{title}}',
+    taskCount_one: '{{count}} question',
+    taskCount_other: '{{count}} questions',
+    exampleTempo: 'Sound example at ♩ = {{bpm}}',
+    scrollExample: 'Scroll the notation sideways to see all the notes.',
     start_one: 'Start {{count}} question',
     start_other: 'Start {{count}} questions',
     restart: 'Practice lesson again',

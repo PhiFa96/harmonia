@@ -40,6 +40,12 @@ export const GLOSSARY = {
     de: { term: 'Note', gender: 'f', plural: 'Noten' },
     en: { term: 'note', plural: 'notes' },
   },
+  naturalNote: {
+    category: 'pitch',
+    de: { term: 'Stammton', gender: 'm', plural: 'Stammtöne' },
+    en: { term: 'natural note', plural: 'natural notes' },
+    note: 'Unalterierter Ton C, D, E, F, G, A, H/englisch B; nicht das Auflösungszeichen natural.',
+  },
   rest: {
     category: 'notation',
     de: { term: 'Pause', gender: 'f', plural: 'Pausen' },

@@ -22,12 +22,14 @@ export function LessonHistory({
   useFocusEffect(
     useCallback(() => {
       let active = true;
+      setLatest(null);
+      setError(false);
       void getLessonRepository()
         .then((repository) => repository.latest(lesson.id))
         .then(
           (result) => {
             if (active) {
-              setLatest(result);
+              setLatest(result?.lesson_id === lesson.id ? result : null);
               setError(false);
             }
           },

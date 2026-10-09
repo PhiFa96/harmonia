@@ -2,7 +2,8 @@ import { DatabaseSync } from 'node:sqlite';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
-import { firstLesson } from '@harmonia/content/authoring';
+import { firstLesson, catalogue } from '@harmonia/content/authoring';
+import { resolveLesson } from '@harmonia/content';
 import {
   activeLessonSession,
   answerLesson,
@@ -54,6 +55,54 @@ afterEach(() => {
 });
 
 describe('Lokale Ergebnisse mit echter SQLite', () => {
+  it('trennt drei neue Lektionen mit Version 3 von der bisherigen Lektion und ihren neuesten Ergebnissen', async () => {
+    await initializeLessonDatabase(adapter(db));
+    const repository = createLessonRepository(adapter(db));
+    await repository.save(createLessonAttempt('previous-lesson', completed(), START, END));
+    for (const [name, count] of [
+      ['anchor', 8],
+      ['positions', 10],
+      ['reading', 12],
+    ] as const) {
+      const content = required(resolveLesson(catalogue, `notation.l1.staff.${name}`));
+      let state = createLessonSession(content, 'sqlite-notation');
+      while (state.phase === 'initial') {
+        const item = required(currentItem(required(activeLessonSession(state))));
+        state = nextLessonExercise(answerLesson(state, expectedAnswer(item)));
+      }
+      const attempt = createLessonAttempt(
+        `notation-${name}`,
+        state,
+        START,
+        '2026-10-09T10:05:00.000Z',
+      );
+      await repository.save(attempt);
+      expect(await repository.latest(content.id)).toMatchObject({
+        id: `notation-${name}`,
+        lesson_id: content.id,
+        content_version: 3,
+        answered: count,
+        correct: count,
+      });
+      expect(
+        JSON.parse(
+          String(
+            db.prepare('SELECT payload FROM lesson_attempts WHERE id = ?').get(attempt.id)?.[
+              'payload'
+            ],
+          ),
+        ),
+      ).toEqual(attempt);
+    }
+    expect(await repository.latest(firstLesson.id)).toMatchObject({
+      id: 'previous-lesson',
+      content_version: 1,
+      answered: 10,
+    });
+    expect(await repository.latest('unknown.lesson')).toBeNull();
+    expect(db.prepare('SELECT COUNT(*) AS total FROM lesson_attempts').get()?.['total']).toBe(4);
+    expect(db.prepare('PRAGMA user_version').get()?.['user_version']).toBe(1);
+  });
   it('speichert Wissensfrage, vertauschte Zuordnung und Reihenfolge mit Hilfe und neuer Wiederholung ohne Migration', async () => {
     let session = createLessonSession(
       {

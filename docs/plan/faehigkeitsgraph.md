@@ -2,6 +2,8 @@
 
 Stand: 05.10.2026. Der Entwurf für Stufen 1–2 liegt als geprüfte Daten mit Planungsdiagrammen vor. Claudes separate fachliche Abnahme bleibt offen; alle neuen Datensätze sind `entwurf`.
 
+Fortsetzung 09.10.2026: Katalog und Plan stehen auf Version 3. Die erste Notationseinheit `notation.l1.staff` besitzt nun drei interne Lektionen mit 8/10/12 Aufgaben, sieben Karten und einen vorbereiteten Artikel. Alle 90 Fähigkeiten und 29 Einheiten bleiben erhalten. Der folgende Prüfstand beschreibt die ursprüngliche Graph-Umsetzung; aktueller Inhalt und Übergabe stehen in [notationseinstieg.md](notationseinstieg.md).
+
 ## Umfang
 
 Der Katalog enthält 90 Fähigkeiten in 29 Einheiten und acht Bereichen. 40 Fähigkeiten gehören zu Stufe 1, 50 zu Stufe 2. Der Bereich `fundament` enthält die drei bestehenden Einführungsfähigkeiten aus P1.20; dazu kommen die sieben MVP-Fachbereiche aus [Phase 2](phase-2-mvp.md). Die vollständige Reihenfolge, alle Lernziele in Deutsch und Englisch (US/UK), stabile IDs und direkte Voraussetzungen stehen in den [erzeugten Diagrammen und Tabellen](faehigkeitsgraph-diagramme.md).

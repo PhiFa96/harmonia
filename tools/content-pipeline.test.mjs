@@ -39,6 +39,33 @@ test('Die bestehende Lektion behält ID, Inhaltsversion und zehn generierte Aufg
   assert.equal(lesson.exercises.length, 10);
   assert.equal(lesson.introduction.length, 3);
 });
+
+test('Die neuen Notationsbeispiele stimmen mit unabhängigen Linien-/Zwischenraumtabellen überein', () => {
+  const expected = {
+    staff: ['G4'],
+    anchor: ['G4'],
+    lines: ['E4', 'G4', 'B4', 'D5', 'F5'],
+    spaces: ['F4', 'A4', 'C5', 'E5'],
+    neighbors: ['F4', 'G4', 'A4', 'B4'],
+    names: ['E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5'],
+    reading: ['G4', 'A4', 'B4', 'C5', 'D5', 'C5', 'B4', 'A4'],
+  };
+  for (const [name, pitches] of Object.entries(expected)) {
+    const card = catalogue.knowledgeCards.find(
+      (value) => value.id === `notation.l1.staff.card-${name}`,
+    );
+    const score = parseScore(card.examples[0].score);
+    assert.deepEqual(validateScore(score), []);
+    const actual = score.staves[0].measures
+      .flatMap((measure) => measure.voices[0].events)
+      .map((event) => {
+        assert.equal(event.kind, 'note');
+        assert.equal(event.pitch.alter, 0);
+        return `${event.pitch.letter}${event.pitch.octave}`;
+      });
+    assert.deepEqual(actual, pitches);
+  }
+});
 test('Aktuelle Entwürfe werden weder als Daten noch als Texte veröffentlicht', () => {
   const data = publicCatalogue(catalogue);
   assert.equal(data.lessons.length, 0);
@@ -62,7 +89,11 @@ test('Freigegebene Kette wird vollständig aufgelöst; Entwurfsartikel und desse
   source.content.secret = { title: 'Private draft', body: 'Never distribute this draft' };
   const output = publicCatalogue(parseCatalogue(data));
   assert.equal(resolveLesson(output, catalogue.lessons[0].id).exercises.length, 10);
-  assert.equal(output.knowledgeArticles.length, 0);
+  assert.equal(output.knowledgeArticles.length, catalogue.knowledgeArticles.length);
+  assert.equal(
+    output.knowledgeArticles.some((article) => article.id === 'draft.article'),
+    false,
+  );
   const messages = publicMessages(output, source);
   assert.equal(messages.content.firstLesson.notesBody, source.content.firstLesson.notesBody);
   assert.equal(JSON.stringify(messages).includes('Never distribute'), false);

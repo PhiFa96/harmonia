@@ -2,6 +2,8 @@
 
 Stand: 05.10.2026. Lokale Inhaltsprüfung, Freigabefilter und App-Anbindung sind implementiert. Die echte EAS-Projektbindung und eine nachgewiesene OTA-Auslieferung bleiben offen.
 
+Fortsetzung 09.10.2026: Katalog und Fähigkeitsplan haben Version 3. Intern sind vier Lektionen auswählbar; drei neue Notationslektionen besitzen 8/10/12 Aufgaben und sieben Karten. Ein vierteiliger Artikel ist als Datensatz vorbereitet. Die App löst eine ausdrücklich ausgewählte ID nur aus dem ausgelieferten Katalog auf und hält Ergebnisse je Lektion getrennt. Alle Inhalte bleiben Entwurf, der öffentliche Katalog enthält weiterhin keine Lektion. Aktueller Prüfstand: [notationseinstieg.md](notationseinstieg.md). Die offene EAS-/OTA-Anbindung bleibt bestehen.
+
 ## Daten und Einstiegspunkte
 
 `packages/content/src/catalogue.json` ist der vollständige interne Katalog. Strenge Zod-Schemas beschreiben Bereiche, Stufen, Einheiten, Fähigkeiten, Übungssätze, Wissenskarten, Wissensartikel und Lektionen. Jeder Datensatz hat eine stabile `id`, eine positive `contentVersion`, einen Freigabestatus und einen `titleKey`. Die Katalogversion ist mindestens so groß wie die Version jedes enthaltenen Datensatzes; `schemaVersion: 1` bezeichnet das Dateiformat.

@@ -49,3 +49,15 @@ it('ein direkter Lektionslink umgeht die Freigabe nicht; Rückweg und Englisch f
   expect(router.getPathname()).toBe('/');
   expect(mockRepository).not.toHaveBeenCalled();
 });
+
+it.each(['anchor', 'positions', 'reading'])(
+  'ein Direktlink zur neuen %s-Lektion lädt im öffentlichen Build keinen Entwurf oder Verlauf',
+  (name) => {
+    renderRouter('./src/app', { initialUrl: `/lesson?id=notation.l1.staff.${name}` });
+    expect(
+      screen.getByText('Neue Lektionen werden vorbereitet. Du kannst schon frei üben.'),
+    ).toBeTruthy();
+    expect(screen.queryByText(/Einführung 1/)).toBeNull();
+    expect(mockRepository).not.toHaveBeenCalled();
+  },
+);
