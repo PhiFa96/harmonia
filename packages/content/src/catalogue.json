@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": 5,
+  "contentVersion": 6,
   "areas": [
     {
       "id": "fundament",
@@ -1503,6 +1503,99 @@
           "count": 12
         }
       ]
+    },
+    {
+      "contentVersion": 6,
+      "status": "entwurf",
+      "id": "rhythm.l1.pulse.steady.exercises",
+      "titleKey": "content.pulseStart.steadyLesson",
+      "skillIds": ["rhythm.pulse"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["pulse"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "RHYTHM_TAP",
+            "params": {
+              "meters": ["3/4", "4/4"],
+              "level": "pulse",
+              "tempos": [72],
+              "rests": false,
+              "toleranceMs": 160
+            }
+          },
+          "count": 4
+        }
+      ]
+    },
+    {
+      "contentVersion": 6,
+      "status": "entwurf",
+      "id": "rhythm.l1.pulse.tempo.exercises",
+      "titleKey": "content.pulseStart.tempoLesson",
+      "skillIds": ["rhythm.pulse", "rhythm.tempo"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["tempo"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "RHYTHM_TAP",
+            "params": {
+              "meters": ["2/4", "3/4", "4/4"],
+              "level": "pulse",
+              "tempos": [60, 90, 120],
+              "rests": false,
+              "toleranceMs": 160
+            }
+          },
+          "count": 6
+        }
+      ]
+    },
+    {
+      "contentVersion": 6,
+      "status": "entwurf",
+      "id": "rhythm.l1.pulse.groups.exercises",
+      "titleKey": "content.pulseStart.groupsLesson",
+      "skillIds": ["rhythm.pulse", "rhythm.tempo", "rhythm.beat-group"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["beatGroup"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "RHYTHM_TAP",
+            "params": {
+              "meters": ["2/4", "3/4", "4/4"],
+              "level": "pulse",
+              "tempos": [72, 96, 108],
+              "rests": false,
+              "toleranceMs": 160
+            }
+          },
+          "count": 8
+        }
+      ]
     }
   ],
   "knowledgeCards": [
@@ -2034,6 +2127,177 @@
           }
         }
       ]
+    },
+    {
+      "contentVersion": 6,
+      "status": "entwurf",
+      "id": "rhythm.l1.pulse.card-pulse",
+      "titleKey": "content.pulseStart.pulseTitle",
+      "bodyKey": "content.pulseStart.pulseBody",
+      "skillIds": ["rhythm.pulse"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+          "captionKey": "content.pulseStart.steadyCaption",
+          "pulse": {
+            "bpm": 72
+          }
+        },
+        {
+          "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+          "captionKey": "content.pulseStart.steadyFasterCaption",
+          "pulse": {
+            "bpm": 96
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 6,
+      "status": "entwurf",
+      "id": "rhythm.l1.pulse.card-rhythm",
+      "titleKey": "content.pulseStart.rhythmTitle",
+      "bodyKey": "content.pulseStart.rhythmBody",
+      "skillIds": ["rhythm.pulse"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+          "captionKey": "content.pulseStart.referenceCaption",
+          "pulse": {
+            "bpm": 72
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 6,
+      "status": "entwurf",
+      "id": "rhythm.l1.pulse.card-count-in",
+      "titleKey": "content.pulseStart.countInTitle",
+      "bodyKey": "content.pulseStart.countInBody",
+      "skillIds": ["rhythm.pulse"],
+      "examples": [
+        {
+          "score": "treble | 3/4 | G4/4 G4/4 G4/4",
+          "captionKey": "content.pulseStart.countInCaption",
+          "pulse": {
+            "bpm": 72
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 6,
+      "status": "entwurf",
+      "id": "rhythm.l1.pulse.card-tempo",
+      "titleKey": "content.pulseStart.tempoTitle",
+      "bodyKey": "content.pulseStart.tempoBody",
+      "skillIds": ["rhythm.pulse", "rhythm.tempo"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+          "captionKey": "content.pulseStart.sixtyCaption",
+          "pulse": {
+            "bpm": 60
+          }
+        },
+        {
+          "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+          "captionKey": "content.pulseStart.hundredTwentyCaption",
+          "pulse": {
+            "bpm": 120
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 6,
+      "status": "entwurf",
+      "id": "rhythm.l1.pulse.card-bpm",
+      "titleKey": "content.pulseStart.bpmTitle",
+      "bodyKey": "content.pulseStart.bpmBody",
+      "skillIds": ["rhythm.pulse", "rhythm.tempo"],
+      "examples": [
+        {
+          "score": "treble | 3/4 | G4/4 G4/4 G4/4",
+          "captionKey": "content.pulseStart.ninetyCaption",
+          "pulse": {
+            "bpm": 90
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 6,
+      "status": "entwurf",
+      "id": "rhythm.l1.pulse.card-compare",
+      "titleKey": "content.pulseStart.compareTitle",
+      "bodyKey": "content.pulseStart.compareBody",
+      "skillIds": ["rhythm.pulse", "rhythm.tempo"],
+      "examples": [
+        {
+          "score": "treble | 3/4 | G4/4 G4/4 G4/4",
+          "captionKey": "content.pulseStart.slowerCaption",
+          "pulse": {
+            "bpm": 72
+          }
+        },
+        {
+          "score": "treble | 3/4 | G4/4 G4/4 G4/4",
+          "captionKey": "content.pulseStart.fasterCaption",
+          "pulse": {
+            "bpm": 108
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 6,
+      "status": "entwurf",
+      "id": "rhythm.l1.pulse.card-groups",
+      "titleKey": "content.pulseStart.groupsTitle",
+      "bodyKey": "content.pulseStart.groupsBody",
+      "skillIds": ["rhythm.pulse", "rhythm.beat-group"],
+      "examples": [
+        {
+          "score": "treble | 2/4 | G4/4 G4/4",
+          "captionKey": "content.pulseStart.twoCaption",
+          "pulse": {
+            "bpm": 84
+          }
+        },
+        {
+          "score": "treble | 3/4 | G4/4 G4/4 G4/4",
+          "captionKey": "content.pulseStart.threeCaption",
+          "pulse": {
+            "bpm": 84
+          }
+        },
+        {
+          "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+          "captionKey": "content.pulseStart.fourCaption",
+          "pulse": {
+            "bpm": 84
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 6,
+      "status": "entwurf",
+      "id": "rhythm.l1.pulse.card-strategy",
+      "titleKey": "content.pulseStart.strategyTitle",
+      "bodyKey": "content.pulseStart.strategyBody",
+      "skillIds": ["rhythm.pulse", "rhythm.tempo", "rhythm.beat-group"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+          "captionKey": "content.pulseStart.strategyCaption",
+          "pulse": {
+            "bpm": 96
+          }
+        }
+      ]
     }
   ],
   "knowledgeArticles": [
@@ -2316,6 +2580,108 @@
           ]
         }
       ]
+    },
+    {
+      "contentVersion": 6,
+      "status": "entwurf",
+      "id": "rhythm.l1.pulse.article",
+      "titleKey": "content.pulseStart.articleTitle",
+      "skillIds": ["rhythm.pulse", "rhythm.tempo", "rhythm.beat-group"],
+      "sections": [
+        {
+          "headingKey": "content.pulseStart.pulseTitle",
+          "bodyKey": "content.pulseStart.pulseArticle",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+              "captionKey": "content.pulseStart.steadyCaption",
+              "pulse": {
+                "bpm": 72
+              }
+            },
+            {
+              "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+              "captionKey": "content.pulseStart.steadyFasterCaption",
+              "pulse": {
+                "bpm": 96
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.pulseStart.rhythmTitle",
+          "bodyKey": "content.pulseStart.rhythmArticle",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+              "captionKey": "content.pulseStart.referenceCaption",
+              "pulse": {
+                "bpm": 72
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.pulseStart.tempoTitle",
+          "bodyKey": "content.pulseStart.tempoArticle",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+              "captionKey": "content.pulseStart.sixtyCaption",
+              "pulse": {
+                "bpm": 60
+              }
+            },
+            {
+              "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+              "captionKey": "content.pulseStart.hundredTwentyCaption",
+              "pulse": {
+                "bpm": 120
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.pulseStart.countInTitle",
+          "bodyKey": "content.pulseStart.countInArticle",
+          "examples": [
+            {
+              "score": "treble | 3/4 | G4/4 G4/4 G4/4",
+              "captionKey": "content.pulseStart.countInCaption",
+              "pulse": {
+                "bpm": 72
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.pulseStart.groupsTitle",
+          "bodyKey": "content.pulseStart.groupsArticle",
+          "examples": [
+            {
+              "score": "treble | 2/4 | G4/4 G4/4",
+              "captionKey": "content.pulseStart.twoCaption",
+              "pulse": {
+                "bpm": 84
+              }
+            },
+            {
+              "score": "treble | 3/4 | G4/4 G4/4 G4/4",
+              "captionKey": "content.pulseStart.threeCaption",
+              "pulse": {
+                "bpm": 84
+              }
+            },
+            {
+              "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+              "captionKey": "content.pulseStart.fourCaption",
+              "pulse": {
+                "bpm": 84
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "lessons": [
@@ -2448,6 +2814,44 @@
         "notation.l1.register.card-strategy"
       ],
       "exerciseSetIds": ["notation.l1.register.match.exercises"]
+    },
+    {
+      "contentVersion": 6,
+      "status": "entwurf",
+      "id": "rhythm.l1.pulse.steady",
+      "titleKey": "content.pulseStart.steadyLesson",
+      "unitId": "rhythm.l1.pulse",
+      "skillIds": ["rhythm.pulse"],
+      "introductionCardIds": [
+        "rhythm.l1.pulse.card-pulse",
+        "rhythm.l1.pulse.card-rhythm",
+        "rhythm.l1.pulse.card-count-in"
+      ],
+      "exerciseSetIds": ["rhythm.l1.pulse.steady.exercises"]
+    },
+    {
+      "contentVersion": 6,
+      "status": "entwurf",
+      "id": "rhythm.l1.pulse.tempo",
+      "titleKey": "content.pulseStart.tempoLesson",
+      "unitId": "rhythm.l1.pulse",
+      "skillIds": ["rhythm.pulse", "rhythm.tempo"],
+      "introductionCardIds": [
+        "rhythm.l1.pulse.card-tempo",
+        "rhythm.l1.pulse.card-bpm",
+        "rhythm.l1.pulse.card-compare"
+      ],
+      "exerciseSetIds": ["rhythm.l1.pulse.tempo.exercises"]
+    },
+    {
+      "contentVersion": 6,
+      "status": "entwurf",
+      "id": "rhythm.l1.pulse.groups",
+      "titleKey": "content.pulseStart.groupsLesson",
+      "unitId": "rhythm.l1.pulse",
+      "skillIds": ["rhythm.pulse", "rhythm.tempo", "rhythm.beat-group"],
+      "introductionCardIds": ["rhythm.l1.pulse.card-groups", "rhythm.l1.pulse.card-strategy"],
+      "exerciseSetIds": ["rhythm.l1.pulse.groups.exercises"]
     }
   ]
 }

@@ -151,7 +151,13 @@ export function exercisePrompt(item: ExerciseItem, locale: AppLocale): string {
   if (isKnowledgeItem(item))
     return translate(locale, `exercise.question_${item.type}`, knowledgeValues(item, locale));
   if (isRhythmItem(item))
-    return translate(locale, `exercise.question_${item.type}`, rhythmValues(item, locale));
+    return translate(
+      locale,
+      item.presentation === 'pulse'
+        ? 'exercise.question_PULSE_TAP'
+        : `exercise.question_${item.type}`,
+      rhythmValues(item, locale),
+    );
   if (isChordItem(item))
     return translate(
       locale,
@@ -255,16 +261,24 @@ export function exerciseFeedback(
       message = translate(locale, 'exercise.meterExplanation', rhythmValues(item, locale));
     else {
       const assessment = assessRhythm(item, rhythmAnswerTaps(item, result.answer) ?? []);
-      message = translate(locale, 'exercise.rhythmExplanation', {
-        matched: assessment.matched,
-        total: assessment.targets.length,
-        missing: assessment.missing,
-        extra: assessment.extras.length,
-        tolerance: assessment.toleranceMs,
-        pattern: translate(locale, 'exercise.rhythmPattern', {
-          times: rhythmOnsets(item).join(', '),
-        }),
-      });
+      message = translate(
+        locale,
+        item.presentation === 'pulse' ? 'exercise.pulseExplanation' : 'exercise.rhythmExplanation',
+        {
+          matched: assessment.matched,
+          total: assessment.targets.length,
+          missing: assessment.missing,
+          extra: assessment.extras.length,
+          tolerance: assessment.toleranceMs,
+          pattern: translate(
+            locale,
+            item.presentation === 'pulse' ? 'exercise.pulsePattern' : 'exercise.rhythmPattern',
+            {
+              times: rhythmOnsets(item).join(', '),
+            },
+          ),
+        },
+      );
     }
   } else if (isChordItem(item))
     message = translate(locale, 'exercise.chordExplanation', chordExplanationValues(item, locale));
@@ -342,9 +356,13 @@ export function exerciseHints(item: ExerciseItem, level: 1 | 2 | 3): ExerciseHin
       level,
       key:
         item.type === 'RHYTHM_TAP'
-          ? level === 1
-            ? 'exercise.rhythmHint1'
-            : 'exercise.rhythmHint2'
+          ? item.presentation === 'pulse'
+            ? level === 1
+              ? 'exercise.pulseHint1'
+              : 'exercise.pulseHint2'
+            : level === 1
+              ? 'exercise.rhythmHint1'
+              : 'exercise.rhythmHint2'
           : level === 1
             ? 'exercise.meterHint1'
             : 'exercise.meterHint2',
@@ -486,6 +504,8 @@ function alterationText(pitch: Pitch, locale: AppLocale): string {
 /** Positionen statt Tonnamen: Vor dem Prüfen darf der Screenreader die Lösung nicht vorwegnehmen. */
 export function exerciseDescription(item: ExerciseItem, locale: AppLocale): string {
   if (isKnowledgeItem(item)) return exercisePrompt(item, locale);
+  if (isRhythmItem(item) && item.presentation === 'pulse')
+    return translate(locale, 'exercise.pulseDescription', rhythmValues(item, locale));
   if (isRhythmItem(item))
     return translate(locale, 'exercise.rhythmDescription', {
       meter: formatTimeSignature(rhythmMeter(item)),
@@ -556,6 +576,12 @@ export function exerciseDescription(item: ExerciseItem, locale: AppLocale): stri
 }
 export function knowledgeFactLabel(fact: KnowledgeFact, locale: AppLocale): string {
   switch (fact.topic) {
+    case 'pulse':
+      return translate(locale, `exercise.knowledge_pulse_${fact.kind}`);
+    case 'tempo':
+      return translate(locale, `exercise.knowledge_tempo_${fact.kind}`);
+    case 'beatGroup':
+      return translate(locale, `exercise.knowledge_beatGroup_${fact.kind}`);
     case 'keyboard':
       return translate(locale, `exercise.knowledgeKeyboard_${fact.kind}`);
     case 'accidentals': {
@@ -582,6 +608,12 @@ export function knowledgeFactLabel(fact: KnowledgeFact, locale: AppLocale): stri
 }
 export function knowledgeDefinition(fact: KnowledgeFact, locale: AppLocale): string {
   switch (fact.topic) {
+    case 'pulse':
+      return translate(locale, `exercise.knowledgeDefinition_pulse_${fact.kind}`);
+    case 'tempo':
+      return translate(locale, `exercise.knowledgeDefinition_tempo_${fact.kind}`);
+    case 'beatGroup':
+      return translate(locale, `exercise.knowledgeDefinition_beatGroup_${fact.kind}`);
     case 'keyboard':
       return translate(locale, `exercise.knowledgeKeyboardDefinition_${fact.kind}`);
     case 'accidentals':

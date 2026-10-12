@@ -1,6 +1,6 @@
 import { LOCALE_NAMES } from '@harmonia/i18n';
 import type { Evaluation } from '@harmonia/exercises';
-import { createRng, evaluateExercise, generateNote } from '@harmonia/exercises';
+import { createRng, evaluateExercise, generateNote, pulseExample } from '@harmonia/exercises';
 import type { Pitch } from '@harmonia/notation';
 import { parseScore } from '@harmonia/notation';
 import type { ColorScheme, TextVariant } from '@harmonia/ui';
@@ -28,6 +28,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { useSettings } from '@/state/settings';
 import { PianoKeyboard } from '@/components/piano-keyboard';
 import { KeyboardExample } from '@/components/keyboard-example';
+import { PulseExample } from '@/components/pulse-example';
 import { ExerciseChoices } from '@/components/exercise-choices';
 
 // Galerie aller Bausteine (P1.06), nur in Entwicklungsbuilds. Vorschau wahlweise hell oder dunkel,
@@ -106,6 +107,20 @@ export default function GalleryScreen() {
                   showOctaves
                 />
               </Card>
+            </Section>
+            <Section title={t('gallery.pulseExample')}>
+              {[2, 3, 4].map((count) => (
+                <Card key={count}>
+                  <PulseExample
+                    item={pulseExample(
+                      parseScore(
+                        `treble | ${String(count)}/4 | ${Array.from({ length: count }, () => 'G4/4').join(' ')}`,
+                      ),
+                      84,
+                    )}
+                  />
+                </Card>
+              ))}
             </Section>
             <Answers />
           </View>

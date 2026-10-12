@@ -34,7 +34,8 @@ describe('Glossar: Form der Einträge', () => {
       if (id !== 'flat') {
         expect(entry.de.term[0], id).toMatch(/\p{Lu}/u);
       }
-      expect(entry.en.term, id).toBe(entry.en.term.toLowerCase());
+      if (id === 'beatsPerMinute') expect(entry.en.term).toBe('BPM (beats per minute)');
+      else expect(entry.en.term, id).toBe(entry.en.term.toLowerCase());
       expect(entry.enGB?.term ?? '', id).toBe((entry.enGB?.term ?? '').toLowerCase());
     }
   });

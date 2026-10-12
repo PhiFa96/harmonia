@@ -29,6 +29,67 @@ function checks() {
 }
 const fresh = () => structuredClone(catalogue);
 
+test('Pulsbeispiele entsprechen unabhängigen Zähl- und Tempotabellen; Klangdauer folgt dem BPM', () => {
+  const table = {
+    pulse: [
+      [4, 72],
+      [4, 96],
+    ],
+    rhythm: [[4, 72]],
+    'count-in': [[3, 72]],
+    tempo: [
+      [4, 60],
+      [4, 120],
+    ],
+    bpm: [[3, 90]],
+    compare: [
+      [3, 72],
+      [3, 108],
+    ],
+    groups: [
+      [2, 84],
+      [3, 84],
+      [4, 84],
+    ],
+    strategy: [[4, 96]],
+  };
+  for (const [name, expected] of Object.entries(table)) {
+    const card = catalogue.knowledgeCards.find(
+      (value) => value.id === `rhythm.l1.pulse.card-${name}`,
+    );
+    assert.equal(card.examples.length, expected.length);
+    for (const [index, [count, bpm]] of expected.entries()) {
+      const example = card.examples[index];
+      assert.deepEqual(example.pulse, { bpm });
+      validateContentExample(example.score, example.keyboard, example.pulse);
+      const score = parseScore(example.score),
+        timeline = scoreTimeline(score, { bpm });
+      assert.equal(timeline.tones.length, count);
+      assert.ok(Math.abs(timeline.durationSeconds - (count * 60) / bpm) < 1e-8);
+      timeline.tones.forEach((tone, position) => {
+        assert.ok(Math.abs(tone.onsetSeconds - (position * 60) / bpm) < 1e-8);
+        assert.ok(Math.abs(tone.durationSeconds - 60 / bpm) < 1e-8);
+      });
+      assert.equal(score.staves[0].timeSignature.numerator, count);
+      assert.equal(score.staves[0].timeSignature.denominator, 4);
+    }
+  }
+});
+test('Inhaltspipeline weist fachlich unpassende Pulsdarstellungen auch bei Entwürfen zurück', () => {
+  for (const source of [
+    'treble | 3/4 | G4/2 G4/4',
+    'treble | 3/4 | r/4 G4/4 G4/4',
+    'treble | 6/8 | G4/4. G4/4.',
+    'treble | 4/4 | G4/4 G4/4 G4/4',
+    'treble | 3/4 | G4/4~ G4/4 G4/4',
+  ]) {
+    const data = fresh(),
+      card = data.knowledgeCards.find((value) => value.id === 'rhythm.l1.pulse.card-pulse');
+    card.examples[0].score = source;
+    assert.throws(() => parseCatalogue(data, checks()), /ungültiges Notenbeispiel/);
+  }
+});
+
 test('Registerbeispiele stimmen mit unabhängigen Ton-, MIDI- und Hilfslinientabellen überein', () => {
   const table = {
     repetition: [

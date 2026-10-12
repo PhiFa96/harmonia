@@ -371,6 +371,32 @@ export const GLOSSARY = {
     de: { term: 'Triole', gender: 'f', plural: 'Triolen' },
     en: { term: 'triplet', plural: 'triplets' },
   },
+  pulse: {
+    category: 'rhythm',
+    de: { term: 'Puls', gender: 'm' },
+    en: { term: 'pulse' },
+    note: 'Gleichmäßiger Grundschlag als zeitliches Bezugsmuster.',
+  },
+  metronome: {
+    category: 'rhythm',
+    de: { term: 'Metronom', gender: 'n', plural: 'Metronome' },
+    en: { term: 'metronome', plural: 'metronomes' },
+  },
+  countIn: {
+    category: 'rhythm',
+    de: { term: 'Einzählen', gender: 'n' },
+    en: { term: 'count-in' },
+  },
+  beatsPerMinute: {
+    category: 'rhythm',
+    de: { term: 'BPM-Angabe (Schläge pro Minute)', gender: 'f' },
+    en: { term: 'BPM (beats per minute)' },
+  },
+  beatGroup: {
+    category: 'rhythm',
+    de: { term: 'Zählgruppe', gender: 'f', plural: 'Zählgruppen' },
+    en: { term: 'beat group', plural: 'beat groups' },
+  },
 } as const satisfies Readonly<Record<string, GlossaryEntry>>;
 
 export type GlossaryKey = keyof typeof GLOSSARY;

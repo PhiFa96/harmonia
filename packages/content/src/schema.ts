@@ -33,7 +33,7 @@ const meterParams = z
 const rhythmParams = meterParams
   .extend({
     tempos: z.array(z.number().int().min(60).max(120)).nonempty().optional(),
-    level: z.enum(['basic', 'dotted']).optional(),
+    level: z.enum(['basic', 'dotted', 'pulse']).optional(),
     rests: z.boolean().optional(),
     toleranceMs: z.number().int().min(40).max(180).optional(),
   })
@@ -306,6 +306,10 @@ export const contentStatusSchema = z.enum(['entwurf', 'in_pruefung', 'freigegebe
 export const exampleSchema = z
   .object({ score: z.string().min(1), captionKey: contentTextKeySchema })
   .extend({
+    pulse: z
+      .object({ bpm: z.number().int().min(60).max(120) })
+      .strict()
+      .optional(),
     keyboard: z
       .object({
         first: z.number().int().min(21).max(108),
@@ -316,7 +320,8 @@ export const exampleSchema = z
       .refine((value) => value.first <= value.last, 'Ungültiger Klaviatur-Ausschnitt')
       .optional(),
   })
-  .strict();
+  .strict()
+  .refine((value) => !(value.pulse && value.keyboard), 'Ein Beispiel hat nur eine Darstellungsart');
 export const introductionSchema = z
   .object({
     titleKey: contentTextKeySchema,

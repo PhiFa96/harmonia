@@ -76,6 +76,9 @@ export function RhythmAnswerInput({
     recording: 'rhythmRecording',
     complete: 'rhythmFinished',
   } as const;
+  const tapHint = t(
+    item.presentation === 'pulse' ? 'exercise.pulseTapHint' : 'exercise.rhythmTapHint',
+  );
   return (
     <View style={styles.container}>
       {!result ? (
@@ -104,7 +107,7 @@ export function RhythmAnswerInput({
         ref={pad}
         role="button"
         aria-label={t('exercise.rhythmTap')}
-        accessibilityHint={t('exercise.rhythmTapHint')}
+        accessibilityHint={tapHint}
         accessibilityActions={[{ name: 'activate', label: t('exercise.rhythmTap') }]}
         onAccessibilityAction={(event) => {
           if (event.nativeEvent.actionName === 'activate') recording.tap();
@@ -125,13 +128,15 @@ export function RhythmAnswerInput({
         <AppText variant="title2">{t('exercise.rhythmTap')}</AppText>
       </Pressable>
       <AppText variant="small" tone="muted">
-        {t('exercise.rhythmTapHint')}
+        {tapHint}
       </AppText>
       <AppText aria-live="polite">
         {t('exercise.rhythmTapCount', { count: recording.taps.length })}
       </AppText>
       <AppText variant="small" tone="muted">
-        {t('exercise.rhythmWindow', { tolerance: rhythmTolerance(item) })}
+        {t(item.presentation === 'pulse' ? 'exercise.pulseWindow' : 'exercise.rhythmWindow', {
+          tolerance: rhythmTolerance(item),
+        })}
       </AppText>
       {running ? (
         <Button variant="ghost" label={t('exercise.rhythmCancel')} onPress={recording.cancel} />
@@ -167,7 +172,12 @@ export function RhythmAnswerInput({
               />
               <View style={styles.targetText}>
                 <AppText>
-                  {t('exercise.rhythmTarget', { index: index + 1, time: target.expectedMs })}
+                  {t(
+                    item.presentation === 'pulse'
+                      ? 'exercise.pulseTarget'
+                      : 'exercise.rhythmTarget',
+                    { index: index + 1, time: target.expectedMs },
+                  )}
                 </AppText>
                 <AppText variant="small">
                   {target.offsetMs === undefined
