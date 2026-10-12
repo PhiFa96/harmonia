@@ -30,6 +30,7 @@ import { generateScale, generateKeySignature } from './tonality.ts';
 import { generateChord } from './chords.ts';
 import { generatePickup, generateRhythm } from './rhythm.ts';
 import { generateKnowledge, generateMatch, generateOrder } from './knowledge.ts';
+import { intervalMotion, intervalReadingAnswer } from './interval-reading.ts';
 export function noteAnswerId(pitch: Pick<Pitch, 'letter' | 'alter'>): string {
   return `${pitch.letter}:${String(pitch.alter)}`;
 }
@@ -205,8 +206,15 @@ function generateInterval(
   type: IntervalItem['type'] | 'INTERVAL_BUILD',
 ): IntervalItem | IntervalBuildItem {
   const aural = type === 'INTERVAL_IDENTIFY_AURAL';
+  const question = 'question' in params ? params.question : undefined;
+  if (
+    question !== undefined &&
+    (type !== 'INTERVAL_IDENTIFY_VISUAL' || !['number', 'direction', 'motion'].includes(question))
+  )
+    throw new RangeError('Unbekannte Intervall-Grundlagenfrage');
   const allowedClefs = clefs(params);
-  const limit = accidentalLimit(params, 1);
+  const limit = accidentalLimit(params, question ? 0 : 1);
+  if (question && limit !== 0) throw new RangeError('Grundlagenfragen verwenden natürliche Töne');
   const playback = 'playback' in params ? (params.playback ?? 'melodic-up') : 'melodic-up';
   if (!['melodic-up', 'melodic-down', 'harmonic'].includes(playback))
     throw new RangeError('Unbekannte Wiedergabe');
@@ -218,6 +226,22 @@ function generateInterval(
       ? [1, -1]
       : [direction === 'down' ? -1 : 1];
   const intervals = allowedIntervals(params.intervals, aural);
+  if (question && intervals.some((interval) => interval.number > 8))
+    throw new RangeError('Grundlagenfragen unterstützen Prime bis Oktave');
+  const readingChoices =
+    question === 'number'
+      ? intervals.map((interval) => `interval-number:${String(interval.number)}`)
+      : question === 'direction'
+        ? intervals.flatMap((interval) =>
+            interval.number === 1
+              ? ['interval-direction:same']
+              : directions.map((dir) => `interval-direction:${dir === 1 ? 'up' : 'down'}`),
+          )
+        : question === 'motion'
+          ? intervals.map((interval) => `interval-motion:${intervalMotion(interval.number)}`)
+          : [];
+  if (question && new Set(readingChoices).size < 2)
+    throw new RangeError('Grundlagenfrage braucht mindestens zwei verschiedene Antworten');
   const pools = allowedClefs.map((clef) => ({
     clef,
     range: rangeFor(params, clef),
@@ -258,12 +282,13 @@ function generateInterval(
   });
   const group = rng.pick(groups);
   const pair = rng.pick(group.pairs);
-  return {
+  const item: IntervalItem | IntervalBuildItem = {
     type,
     clef: pair.clef,
     from: pair.from,
     to: pair.to,
     playback: aural ? playback : pair.direction < 0 ? 'melodic-down' : 'melodic-up',
+    ...(question ? { question } : {}),
     score:
       type === 'INTERVAL_BUILD'
         ? singleStaffScore([[note(pair.from, duration('whole'))], [rest(duration('whole'))]], {
@@ -275,8 +300,13 @@ function generateInterval(
     choices:
       type === 'INTERVAL_BUILD'
         ? []
-        : options(intervalAnswerId(group.interval), intervals.map(intervalAnswerId), rng),
+        : question
+          ? []
+          : options(intervalAnswerId(group.interval), intervals.map(intervalAnswerId), rng),
   };
+  if (question && item.type === 'INTERVAL_IDENTIFY_VISUAL')
+    return { ...item, choices: options(intervalReadingAnswer(item), readingChoices, rng) };
+  return item;
 }
 export function generateVisualInterval(params: VisualIntervalParams, rng: Rng): IntervalItem {
   return generateInterval(params, rng, 'INTERVAL_IDENTIFY_VISUAL');

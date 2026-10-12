@@ -2,7 +2,7 @@
 
 Stand: 05.10.2026. Lokale Inhaltsprüfung, Freigabefilter und App-Anbindung sind implementiert. Die echte EAS-Projektbindung und eine nachgewiesene OTA-Auslieferung bleiben offen.
 
-Fortsetzung 12.10.2026: Katalog und Fähigkeitsplan haben Version 8. Drei Notationseinheiten und drei Rhythmuseinheiten besitzen je drei Lektionen mit 8/10/12 Aufgaben, zusammen 49 neue Karten und sechs vorbereitete Artikel. Intern sind 19 Lektionen mit insgesamt 190 Aufgaben pro vollständigem Erstversuch auswählbar; alle Inhalte bleiben Entwurf. Neu sind einfache Takte, Einzählen, Auftaktfragen und kurze Rhythmusfolgen. Aktueller Prüfstand und nächste Einheit `intervals.l1.size`: [einfache-taktarten-und-auftakt.md](einfache-taktarten-und-auftakt.md). Schemaformat 1 und öffentliche Freigabefilter bleiben bestehen. Die EAS-/OTA-Anbindung bleibt offen.
+Fortsetzung 12.10.2026: Sieben Stufe-1-Einheiten besitzen je drei Lektionen mit 8/10/12 Aufgaben, zusammen 58 neue Karten und sieben vorbereitete Artikel. Intern sind 22 Lektionen mit 220 Aufgaben auswählbar. Katalog und Plan haben Version 9. Die neue Intervalleinheit fragt Nummern, Richtung und Wiederholung/Schritt/Sprung aus dem Notenbild ab. Alle Inhalte bleiben Entwurf für Claudes separate fachliche Abnahme. Prüfstand und nächste Einheit `intervals.l1.first-qualities`: [intervallgroesse-und-richtung.md](intervallgroesse-und-richtung.md). Schemaformat 1 und Freigabefilter bleiben bestehen; die EAS-/OTA-Anbindung bleibt offen.
 
 ## Daten und Einstiegspunkte
 

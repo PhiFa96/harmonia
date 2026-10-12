@@ -405,6 +405,46 @@ export const enUS = {
       'Which $t(glossary:interval_one) do you hear between these two notes?',
     type_NOTE_NAME: 'Note names',
     type_INTERVAL_IDENTIFY_VISUAL: 'Read intervals',
+    type_interval_number: 'Count the interval number',
+    type_interval_direction: 'Read the direction',
+    type_interval_motion: 'Repeated note, step or leap',
+    question_interval_number:
+      'What interval number do the two written notes form? Count the letter-name positions, including both end notes.',
+    question_interval_direction: 'How does pitch move from the first written note to the second?',
+    question_interval_motion: 'Is the pattern a repeated note, a step or a leap?',
+    intervalNumberOption: '{{number}} · {{name}}',
+    intervalNumber1: '$t(glossary:unison_one)',
+    intervalNumber2: '$t(glossary:second_one)',
+    intervalNumber3: '$t(glossary:third_one)',
+    intervalNumber4: '$t(glossary:fourth_one)',
+    intervalNumber5: '$t(glossary:fifth_one)',
+    intervalNumber6: '$t(glossary:sixth_one)',
+    intervalNumber7: '$t(glossary:seventh_one)',
+    intervalNumber8: '$t(glossary:octave_one)',
+    intervalDirectionUp: 'Ascending',
+    intervalDirectionDown: 'Descending',
+    intervalDirectionSame: 'Same pitch',
+    intervalMotionRepeat: '$t(glossary:noteRepetition_one)',
+    intervalMotionStep: '$t(glossary:melodicStep_one)',
+    intervalMotionLeap: '$t(glossary:melodicLeap_one)',
+    intervalReadingExplanation_number:
+      '{{from}} → {{to}}: {{path}}. Include both end positions. Number of letter-name positions: {{count}}. Answer: {{answer}}.',
+    intervalReadingExplanation_direction:
+      '{{from}} → {{to}}: Compare the vertical positions of the two noteheads from left to right. Answer: {{answer}}.',
+    intervalReadingExplanation_motion:
+      '{{from}} → {{to}}: {{path}}. Interval number {{count}}. A unison is a repeated note, a second is a step; a third or larger is a leap. Answer: {{answer}}.',
+    intervalReadingHint_number_1:
+      'Begin at the first note with 1. Each next line or space takes you to the next number.',
+    intervalReadingHint_number_2:
+      'Count the destination note too. Two identical natural pitches form a unison with the number 1.',
+    intervalReadingHint_direction_1:
+      'Read the left notehead first, then the right. Compare their height on the staff.',
+    intervalReadingHint_direction_2:
+      'A higher second notehead means ascending; a lower one means descending. The same position here means the same pitch.',
+    intervalReadingHint_motion_1:
+      'First check whether the two noteheads occupy the same position. Otherwise, count the intervening letter-name positions too.',
+    intervalReadingHint_motion_2:
+      'The same pitch is a repetition; the immediately adjacent letter-name position is a step. Skipping positions makes a leap.',
     type_INTERVAL_IDENTIFY_AURAL: 'Hear intervals',
     progress: 'Question {{current}} of {{total}}',
     progressLabel: 'Practice set progress',

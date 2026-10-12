@@ -11,6 +11,7 @@ import {
   isPitchInput,
   itemVariantKey,
   isKnowledgeItem,
+  isIntervalReadingItem,
 } from '@harmonia/exercises';
 import { engineLanguage } from '@harmonia/i18n';
 import { layoutScore } from '@harmonia/notation';
@@ -133,7 +134,9 @@ export function ExerciseTask({
               ? 'exercise.type_PULSE_TAP'
               : item.type === 'METER_IDENTIFY' && item.presentation === 'pickup'
                 ? 'exercise.type_PICKUP_IDENTIFY'
-                : `exercise.type_${item.type}`,
+                : isIntervalReadingItem(item)
+                  ? `exercise.type_interval_${item.question}`
+                  : `exercise.type_${item.type}`,
           )}
         </AppText>
         <MusicText variant="title2">{prompt}</MusicText>

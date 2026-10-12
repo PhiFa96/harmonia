@@ -15,6 +15,7 @@ import {
 } from './session.ts';
 import type { ExerciseSession } from './session.ts';
 import type { ExerciseItem, ExerciseSpec } from './types.ts';
+import { isIntervalReadingItem, intervalReadingAnswer } from './interval-reading.ts';
 
 export interface LessonDefinition {
   readonly id: string;
@@ -63,6 +64,8 @@ export function revealLessonHint(lesson: LessonSession): LessonSession {
 }
 /** Das Musikbeispiel muss sich ändern; bloßes Mischen der Antworten ist keine neue Variante. */
 export function itemVariantKey(item: ExerciseItem): string {
+  if (isIntervalReadingItem(item))
+    return JSON.stringify([item.type, item.question, intervalReadingAnswer(item)]);
   if (item.type === 'KNOWLEDGE_MC')
     return JSON.stringify([item.type, knowledgeFactId(item.fact), ...(item.gap ? [item.gap] : [])]);
   if (item.type === 'MATCH')

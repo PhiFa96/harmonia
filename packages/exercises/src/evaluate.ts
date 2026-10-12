@@ -49,9 +49,11 @@ import {
   pitchAnswerId,
 } from './pitch-input.ts';
 import type { Evaluation, ExerciseItem } from './types.ts';
+import { isIntervalReadingItem, intervalReadingAnswer } from './interval-reading.ts';
 
 /** Die Engine berechnet die Lösung aus den Fachdaten, nie aus dem sichtbaren Antworttext. */
 export function expectedAnswer(item: ExerciseItem): string {
+  if (isIntervalReadingItem(item)) return intervalReadingAnswer(item);
   if (item.type === 'KNOWLEDGE_MC')
     return knowledgeFactId(item.gap ? measureGapFact(item.gap) : item.fact);
   if (item.type === 'MATCH') return matchAnswerId(item.facts.map(knowledgeFactId));

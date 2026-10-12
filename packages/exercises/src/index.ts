@@ -10,6 +10,7 @@ export * from './tonality.ts';
 export * from './chords.ts';
 export * from './rhythm.ts';
 export * from './knowledge.ts';
+export * from './interval-reading.ts';
 export { createRng } from '@harmonia/theory';
 
 import {

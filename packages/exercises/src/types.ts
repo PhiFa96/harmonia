@@ -54,7 +54,10 @@ export interface VisualIntervalParams extends NoteParams {
   /** Positive Kurzschreibweise, z. B. m3/M3/P5; Richtung separat. */
   readonly intervals: readonly string[];
   readonly direction?: 'up' | 'down' | 'both';
+  /** Grundlagen ohne Qualitätsbestimmung; nur natürliche Töne, Prime bis Oktave. */
+  readonly question?: IntervalReadingQuestion;
 }
+export type IntervalReadingQuestion = 'number' | 'direction' | 'motion';
 export interface AuralIntervalParams extends NoteParams {
   readonly intervals: readonly string[];
   readonly playback?: IntervalPlayback;
@@ -187,6 +190,7 @@ export interface IntervalItem extends ItemBase {
   readonly from: Pitch;
   readonly to: Pitch;
   readonly playback: IntervalPlayback;
+  readonly question?: IntervalReadingQuestion;
 }
 export interface NotePlaceItem extends ItemBase {
   readonly type: 'NOTE_PLACE';
