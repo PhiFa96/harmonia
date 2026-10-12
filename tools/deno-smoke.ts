@@ -8,6 +8,13 @@ import {
   expectedAnswer,
   exerciseFeedback,
   createLessonSession,
+  LISTENING_QUESTIONS,
+  generateListening,
+  listeningAnswer,
+  listeningTimeline,
+  answerLesson,
+  nextLessonExercise,
+  lessonSummary,
   generateNotePlace,
   generateNote,
   generateKeyFind,
@@ -72,6 +79,40 @@ const exercise = generateExercise(
   exerciseRng('deno-exercises'),
 );
 const plannedSkills = curriculumSkills(catalogue, curriculumPlan);
+check('Stufe 1 mit 37 internen Lektionen', catalogue.lessons.length, 37);
+let firstLevelTasks = 0;
+for (const record of catalogue.lessons) {
+  const lesson = resolveLesson(catalogue, record.id);
+  if (!lesson) throw new Error('Lektion fehlt');
+  let state = createLessonSession(lesson, 'deno-level-one-complete');
+  for (const item of state.initial.items)
+    state = nextLessonExercise(answerLesson(state, expectedAnswer(item)));
+  if (state.phase !== 'complete' || lessonSummary(state).correct !== lesson.exercises.length)
+    throw new Error('Stufe-1-Durchgang fehlerhaft');
+  firstLevelTasks += lesson.exercises.length;
+}
+check('Alle 370 Stufe-1-Aufgaben unter Deno durchspielbar', firstLevelTasks, 370);
+check(
+  'Alle sechs Hörfrageformen unter Deno bewertbar',
+  LISTENING_QUESTIONS.every((question) => {
+    const item = generateListening({ question }, exerciseRng(question));
+    return (
+      evaluateExercise(item, listeningAnswer(item)).correct &&
+      listeningTimeline(item).tones.length > 0
+    );
+  }),
+  true,
+);
+check(
+  'Sechs Epochen unter Deno aufsteigend ordnen',
+  expectedAnswer(
+    generateOrder(
+      { topics: ['periods'], count: 6, direction: 'ascending' },
+      exerciseRng('deno-history-order'),
+    ),
+  ),
+  'order:period:medieval,period:renaissance,period:baroque,period:classical,period:romantic,period:since1900',
+);
 check(
   'Erste Intervallqualitäten mit acht, zehn und zwölf Aufgaben',
   ['distance', 'thirds', 'perfect']

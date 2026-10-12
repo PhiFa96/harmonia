@@ -29,6 +29,8 @@ import type {
   MeasureGap,
   RhythmValue,
   KnowledgeTopic,
+  HistoryKind,
+  HistoryTopic,
   MatchItem,
   MatchParams,
   OrderItem,
@@ -36,7 +38,32 @@ import type {
   OrderValue,
 } from './types.ts';
 
+export const HISTORY_FACTS: Readonly<Record<HistoryTopic, readonly HistoryKind[]>> = {
+  soundSources: ['voice', 'instrument', 'recording', 'electronic'],
+  sourceTypes: ['score', 'recording', 'report', 'programme'],
+  context: ['place', 'time', 'occasion', 'author'],
+  periods: ['medieval', 'renaissance', 'baroque', 'classical', 'romantic', 'since1900'],
+  genreContext: ['genre', 'forces', 'occasion', 'function'],
+  evidence: ['observation', 'metadata', 'inference', 'uncertainty'],
+};
+export const HISTORY_PERIODS = [
+  'medieval',
+  'renaissance',
+  'baroque',
+  'classical',
+  'romantic',
+  'since1900',
+] as const;
+export function isHistoryTopic(topic: KnowledgeTopic): topic is HistoryTopic {
+  return Object.hasOwn(HISTORY_FACTS, topic);
+}
 export const KNOWLEDGE_TOPICS = [
+  'soundSources',
+  'sourceTypes',
+  'context',
+  'periods',
+  'genreContext',
+  'evidence',
   'accidentals',
   'noteValues',
   'rests',
@@ -50,7 +77,7 @@ export const KNOWLEDGE_TOPICS = [
   'tempo',
   'beatGroup',
 ] as const;
-export const ORDER_TOPICS = ['noteValues', 'pitches'] as const;
+export const ORDER_TOPICS = ['noteValues', 'pitches', 'periods'] as const;
 const VALUES = ['whole', 'half', 'quarter', 'eighth', 'sixteenth'] as const;
 export function isKnowledgeItem(item: ExerciseItem): item is KnowledgeExerciseItem {
   return item.type === 'KNOWLEDGE_MC' || item.type === 'MATCH' || item.type === 'ORDER';
@@ -61,6 +88,7 @@ export function knowledgeFacts(
   maxAccidentals: 1 | 2 = 2,
 ): readonly KnowledgeFact[] {
   if (![1, 2].includes(maxAccidentals)) throw new RangeError('Ungültiger Wissens-Vorzeichenumfang');
+  if (isHistoryTopic(topic)) return HISTORY_FACTS[topic].map((kind) => ({ topic, kind }));
   switch (topic) {
     case 'pulse':
       return (['pulse', 'rhythm', 'metronome', 'countIn'] as const).map((kind) => ({
@@ -113,6 +141,11 @@ export function knowledgeFacts(
   }
 }
 export function knowledgeFactId(fact: KnowledgeFact): string {
+  if (isHistoryTopic(fact.topic) && 'kind' in fact) {
+    if (!HISTORY_FACTS[fact.topic].includes(fact.kind as HistoryKind))
+      throw new RangeError('Unbekannter Geschichtsbegriff');
+    return `${fact.topic}:${fact.kind}`;
+  }
   switch (fact.topic) {
     case 'pulse':
     case 'tempo':
@@ -136,6 +169,7 @@ export function knowledgeFactId(fact: KnowledgeFact): string {
     case 'meters':
       return `meter:${fact.meter}`;
   }
+  throw new RangeError('Unbekannter Wissensbegriff');
 }
 function topics(params: KnowledgeParams): readonly KnowledgeTopic[] {
   if (!params.topics.length || params.topics.some((topic) => !KNOWLEDGE_TOPICS.includes(topic)))
@@ -245,6 +279,7 @@ export function generateMatch(params: MatchParams, rng: Rng): MatchItem {
   return { type: 'MATCH', facts, choices: rng.shuffle(facts.map(knowledgeFactId)) };
 }
 export function orderValueId(value: OrderValue): string {
+  if (value.kind === 'period') return `period:${value.period}`;
   return value.kind === 'pitch'
     ? `pitch:${formatPitch(value.pitch)}`
     : `duration:${value.duration.value}:${String(value.duration.dots)}`;
@@ -257,7 +292,10 @@ export function orderedValues(item: OrderItem): readonly OrderValue[] {
         ? midi(a.pitch) - midi(b.pitch)
         : a.kind === 'duration' && b.kind === 'duration'
           ? compareFractions(durationValue(a.duration), durationValue(b.duration))
-          : 0;
+          : a.kind === 'period' && b.kind === 'period'
+            ? HISTORY_PERIODS.indexOf(a.period as (typeof HISTORY_PERIODS)[number]) -
+              HISTORY_PERIODS.indexOf(b.period as (typeof HISTORY_PERIODS)[number])
+            : 0;
     return item.direction === 'ascending' ? comparison : -comparison;
   });
 }
@@ -285,12 +323,14 @@ export function generateOrder(params: OrderParams, rng: Rng): OrderItem {
             .filter((dots) => dots <= (params.maxDots ?? 1))
             .map((dots) => ({ kind: 'duration' as const, duration: duration(value, dots) })),
         )
-      : [4, 5].flatMap((octave) =>
-          LETTERS.map((letter) => ({
-            kind: 'pitch' as const,
-            pitch: { letter, alter: 0, octave },
-          })),
-        );
+      : topic === 'periods'
+        ? HISTORY_PERIODS.map((period) => ({ kind: 'period' as const, period }))
+        : [4, 5].flatMap((octave) =>
+            LETTERS.map((letter) => ({
+              kind: 'pitch' as const,
+              pitch: { letter, alter: 0, octave },
+            })),
+          );
   if (count > available.length) throw new RangeError('Zu wenige verschiedene Werte');
   const values = rng.shuffle(available).slice(0, count);
   return {

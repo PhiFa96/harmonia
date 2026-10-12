@@ -15,6 +15,7 @@ import { getAudioEngine } from '@/audio';
 import { playScale } from '@/exercises/play-scale';
 import { playChordExercise } from '@/exercises/play-chord';
 import { playRhythm } from '@/exercises/play-rhythm';
+import { playListening } from '@/exercises/play-listening';
 import { playExample } from '@/exercises/play-example';
 
 /** Keine automatische Wiedergabe. Ein verspätetes resume() darf nach dem Verlassen nicht klingen. */
@@ -79,20 +80,22 @@ export function useExercisePlayback(item: ExerciseItem | Score | undefined) {
       playback.current =
         'staves' in item
           ? playExample(engine, item)
-          : isRhythmItem(item)
-            ? playRhythm(engine, item, 'demo')
-            : isChordItem(item)
-              ? playChordExercise(engine, item)
-              : isScaleItem(item)
-                ? playScale(engine, item)
-                : 'pitch' in item
-                  ? engine.playPitch(item.pitch, { duration: 0.8 })
-                  : engine.playInterval(
-                      item.from,
-                      item.to,
-                      item.playback === 'harmonic' ? 'harmonic' : 'melodic',
-                      { duration: 0.8 },
-                    );
+          : item.type === 'LISTENING_CHOICE'
+            ? playListening(engine, item)
+            : isRhythmItem(item)
+              ? playRhythm(engine, item, 'demo')
+              : isChordItem(item)
+                ? playChordExercise(engine, item)
+                : isScaleItem(item)
+                  ? playScale(engine, item)
+                  : 'pitch' in item
+                    ? engine.playPitch(item.pitch, { duration: 0.8 })
+                    : engine.playInterval(
+                        item.from,
+                        item.to,
+                        item.playback === 'harmonic' ? 'harmonic' : 'melodic',
+                        { duration: 0.8 },
+                      );
       setPlaying(true);
       setHeard(true);
       timer.current = setTimeout(
@@ -101,7 +104,11 @@ export function useExercisePlayback(item: ExerciseItem | Score | undefined) {
           timer.current = null;
           setPlaying(false);
         },
-        'staves' in item || isRhythmItem(item) || isChordItem(item) || isScaleItem(item)
+        'staves' in item ||
+          item.type === 'LISTENING_CHOICE' ||
+          isRhythmItem(item) ||
+          isChordItem(item) ||
+          isScaleItem(item)
           ? Math.max(0, playback.current.endTime - engine.context.currentTime) * 1000 + 50
           : 'pitch' in item || item.playback === 'harmonic'
             ? 850

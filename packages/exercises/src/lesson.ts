@@ -1,3 +1,4 @@
+import { listeningVariantKey, listeningAnswer } from './listening.ts';
 import { createRng, keyFifths, midi } from '@harmonia/theory';
 import { isKeySignatureItem, isScaleItem } from './tonality.ts';
 import { chordReferencePitch, chordTargets, isChordItem } from './chords.ts';
@@ -64,6 +65,7 @@ export function revealLessonHint(lesson: LessonSession): LessonSession {
 }
 /** Das Musikbeispiel muss sich ändern; bloßes Mischen der Antworten ist keine neue Variante. */
 export function itemVariantKey(item: ExerciseItem): string {
+  if (item.type === 'LISTENING_CHOICE') return listeningVariantKey(item);
   if (isIntervalReadingItem(item))
     return JSON.stringify([item.type, item.question, intervalReadingAnswer(item)]);
   if (item.type === 'KNOWLEDGE_MC')
@@ -122,7 +124,13 @@ function newVariant(lesson: LessonSession, index: number): ExerciseItem {
   const rng = createRng(`${String(lesson.seed)}:review:${String(index)}`);
   for (let attempt = 0; attempt < 256; attempt++) {
     const item = generateExercise(spec, rng);
-    if (itemVariantKey(item) !== itemVariantKey(original)) return item;
+    if (
+      itemVariantKey(item) !== itemVariantKey(original) &&
+      (item.type !== 'LISTENING_CHOICE' ||
+        original.type !== 'LISTENING_CHOICE' ||
+        listeningAnswer(item) !== listeningAnswer(original))
+    )
+      return item;
   }
   throw new RangeError('Die Parameter müssen mindestens zwei Aufgabenvarianten erlauben');
 }

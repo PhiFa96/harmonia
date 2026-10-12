@@ -34,6 +34,141 @@ export const de = {
     wrongTitle: 'Noch nicht ganz',
   },
   exercise: {
+    type_LISTENING_CHOICE: 'Hören und vergleichen',
+    question_listening_pulse:
+      'Höre die zwei gleichmäßigen Pulsgruppen. Wie viele Schläge gehören jeweils zu einer Gruppe? Zähle den höheren Startklang als 1; der nächste Start gehört zur nächsten Gruppe.',
+    'question_listening_rhythm-compare':
+      'Höre Beispiel A und nach der Pause Beispiel B. Haben beide denselben Rhythmus? Vergleiche Einsätze, Tondauern und Pausen.',
+    'question_listening_rhythm-choice':
+      'Welches der drei Notenbilder passt zum gehörten Rhythmus? Alle Beispiele verwenden dieselbe Tonhöhe.',
+    'question_listening_pitch-direction':
+      'Höre die beiden Töne nacheinander. Ist der zweite höher, tiefer oder gleich hoch?',
+    'question_listening_melody-compare':
+      'Höre Tonfolge A und nach der Pause Tonfolge B. Stimmen alle Tonhöhen in derselben Reihenfolge und alle Dauern überein?',
+    question_listening_observation:
+      'Welche Aussage beschreibt etwas, das du in diesem Lehrbeispiel direkt hören kannst?',
+    listeningOption: 'Notenbild {{count}}',
+    listeningClip: 'Hörbeispiel {{count}}',
+    listeningPulseCount: 'Pulsgruppe mit {{count}} Schlägen',
+    listeningSame: 'Gleich',
+    listeningDifferent: 'Verschieden',
+    listeningUp: 'Zweiter Ton höher',
+    listeningDown: 'Zweiter Ton tiefer',
+    listeningRepeat: 'Gleiche Tonhöhe',
+    listeningSingle: 'Es erklingt jeweils nur eine Tonhöhe',
+    listeningTogether: 'Mindestens zwei Tonhöhen erklingen zugleich',
+    listeningDate: 'Das Werk entstand sicher im Jahr 1750',
+    listeningPlace: 'Die Musik wurde sicher in einer Kirche aufgeführt',
+    listeningHint1:
+      'Höre zuerst das ganze Beispiel. Du kannst es stoppen und erneut starten. Achte auf die Eigenschaft, nach der die Frage fragt.',
+    listeningHint2:
+      'Vergleiche Schläge und Pausen beim Rhythmus, Tonhöhen bei der Melodie. Ein Notenbild beschreibt die Töne; historische Aussagen brauchen zusätzliche Quellen.',
+    listeningExplanation_pulse:
+      'Der höhere Klang markiert jeweils den Gruppenanfang. Zwischen zwei Anfängen gehören die gleichmäßigen Schläge zu einer Gruppe. Antwort: {{answer}}. Der nächste Start gehört bereits zur nächsten Gruppe.',
+    'listeningExplanation_rhythm-compare':
+      'Die Bewertung vergleicht die tatsächlichen Einsätze, Tondauern und Pausen beider Klangquellen. Antwort: {{answer}}. Die Tonhöhe bleibt in diesen Aufgaben gleich.',
+    'listeningExplanation_rhythm-choice':
+      '{{answer}} hat dieselben Einsätze, Tondauern und Pausen wie das gespielte Beispiel. Die drei vollständigen Takte unterscheiden sich hörbar.',
+    'listeningExplanation_pitch-direction':
+      'Die zweite klingende Tonhöhe wird mit der ersten verglichen. Antwort: {{answer}}. Lautstärke und Dauer entscheiden nicht über höher oder tiefer.',
+    'listeningExplanation_melody-compare':
+      'Verglichen werden die klingenden Tonhöhen, ihre Reihenfolge, Einsätze und Dauern. Antwort: {{answer}}. Hier meint „gleich“ dieselben Tonhöhen, nicht nur eine ähnliche Richtung.',
+    listeningExplanation_observation:
+      '{{answer}} ist im Klangbeispiel überprüfbar. Jahr und Aufführungsort lassen sich daraus allein nicht sicher bestimmen. Dies ist ein eigenes Klavier-Lehrmodell und keine historische Aufnahme.',
+    orderRule_periods:
+      'Ordne nach der üblichen groben europäischen Epochenfolge; die Grenzen können sich überschneiden.',
+    order_periods_ascending: 'Ordne die Epochen von früher nach später.',
+    order_periods_descending: 'Ordne die Epochen von später nach früher.',
+    knowledgeHint_soundSources:
+      'Lies die beschriebene Eigenschaft genau. Trenne den Begriff von verwandten Kategorien und beachte die Grenzen der Quelle.',
+    knowledgeHistory_soundSources_voice: '$t(glossary:voice_one)',
+    knowledgeHistoryDefinition_soundSources_voice:
+      'Der Klang entsteht durch die schwingenden Stimmlippen eines singenden Menschen.',
+    knowledgeHistory_soundSources_instrument: '$t(glossary:instrument_one)',
+    knowledgeHistoryDefinition_soundSources_instrument:
+      'Eine spielende Person bringt etwa eine Saite oder Luftsäule zum Schwingen.',
+    knowledgeHistory_soundSources_recording: '$t(glossary:recording_one)',
+    knowledgeHistoryDefinition_soundSources_recording:
+      'Gespeicherter Klang wird wiedergegeben; er kann Stimmen, Instrumente oder elektronische Klänge enthalten.',
+    knowledgeHistory_soundSources_electronic: '$t(glossary:electronicSound)',
+    knowledgeHistoryDefinition_soundSources_electronic:
+      'Ein elektronisches Gerät oder Programm erzeugt das Audiosignal.',
+    knowledgeHint_sourceTypes:
+      'Lies die beschriebene Eigenschaft genau. Trenne den Begriff von verwandten Kategorien und beachte die Grenzen der Quelle.',
+    knowledgeHistory_sourceTypes_score: '$t(glossary:scoreSource_one)',
+    knowledgeHistoryDefinition_sourceTypes_score:
+      'Eine schriftliche Quelle legt Tonhöhen, Dauern und weitere Spielanweisungen fest; sie ist selbst keine klingende Aufführung.',
+    knowledgeHistory_sourceTypes_recording: '$t(glossary:recording_one)',
+    knowledgeHistoryDefinition_sourceTypes_recording:
+      'Diese Quelle dokumentiert eine bestimmte klingende Darbietung einschließlich ihrer Interpretationsentscheidungen.',
+    knowledgeHistory_sourceTypes_report: '$t(glossary:report_one)',
+    knowledgeHistoryDefinition_sourceTypes_report:
+      'Ein Mensch beschreibt ein musikalisches Ereignis in Worten; seine Perspektive und Erinnerung sind zu prüfen.',
+    knowledgeHistory_sourceTypes_programme: '$t(glossary:programmeSource_one)',
+    knowledgeHistoryDefinition_sourceTypes_programme:
+      'Eine Ankündigung nennt beispielsweise Werke, Mitwirkende, Ort und Termin; sie beweist allein nicht, dass alles wie angekündigt stattfand.',
+    knowledgeHint_context:
+      'Lies die beschriebene Eigenschaft genau. Trenne den Begriff von verwandten Kategorien und beachte die Grenzen der Quelle.',
+    knowledgeHistory_context_place: '$t(glossary:place_one)',
+    knowledgeHistoryDefinition_context_place:
+      'Die Frage lautet: Wo fand die Aufführung statt, beispielsweise in einem Konzertsaal?',
+    knowledgeHistory_context_time: '$t(glossary:time_one)',
+    knowledgeHistoryDefinition_context_time:
+      'Die Frage lautet: Wann fand das Ereignis statt? Kompositionsdatum und Aufnahmedatum können verschieden sein.',
+    knowledgeHistory_context_occasion: '$t(glossary:occasion_one)',
+    knowledgeHistoryDefinition_context_occasion:
+      'Die Frage lautet: Zu welchem Ereignis gehörte die Musik, beispielsweise zu einer Hochzeit?',
+    knowledgeHistory_context_author: '$t(glossary:author)',
+    knowledgeHistoryDefinition_context_author:
+      'Die Frage lautet: Wer verfasste die Musik oder den Bericht? Das ist nicht automatisch dieselbe Person wie die Ausführenden.',
+    knowledgeHint_periods:
+      'Lies die beschriebene Eigenschaft genau. Trenne den Begriff von verwandten Kategorien und beachte die Grenzen der Quelle.',
+    knowledgeHistory_periods_medieval: '$t(glossary:medieval)',
+    knowledgeHistoryDefinition_periods_medieval:
+      'In dieser groben europäischen Kunstmusik-Übersicht etwa 500–1400; die Grenzen unterscheiden sich nach Region und Thema.',
+    knowledgeHistory_periods_renaissance: '$t(glossary:renaissance)',
+    knowledgeHistoryDefinition_periods_renaissance:
+      'In dieser groben europäischen Kunstmusik-Übersicht etwa 1400–1600, nach dem Mittelalter und vor dem Barock.',
+    knowledgeHistory_periods_baroque: '$t(glossary:baroque)',
+    knowledgeHistoryDefinition_periods_baroque:
+      'In dieser groben europäischen Kunstmusik-Übersicht etwa 1600–1750, nach der Renaissance und vor der Klassik.',
+    knowledgeHistory_periods_classical: '$t(glossary:classicalPeriod)',
+    knowledgeHistoryDefinition_periods_classical:
+      'In dieser groben europäischen Kunstmusik-Übersicht etwa 1750–1820; Überschneidungen mit der Romantik sind möglich.',
+    knowledgeHistory_periods_romantic: '$t(glossary:romanticPeriod)',
+    knowledgeHistoryDefinition_periods_romantic:
+      'In dieser groben europäischen Kunstmusik-Übersicht vor allem das 19. Jahrhundert, ungefähr 1800–1900.',
+    knowledgeHistory_periods_since1900: '$t(glossary:musicSince1900)',
+    knowledgeHistoryDefinition_periods_since1900:
+      'In dieser Übersicht das 20. und 21. Jahrhundert mit vielen gleichzeitig bestehenden Stilen; kein einzelner Klangstil.',
+    knowledgeHint_genreContext:
+      'Lies die beschriebene Eigenschaft genau. Trenne den Begriff von verwandten Kategorien und beachte die Grenzen der Quelle.',
+    knowledgeHistory_genreContext_genre: '$t(glossary:genre_one)',
+    knowledgeHistoryDefinition_genreContext_genre:
+      'Die Frage lautet: Welche Art von Werk ist es, beispielsweise eine Oper oder eine Sinfonie?',
+    knowledgeHistory_genreContext_forces: '$t(glossary:performingForces_one)',
+    knowledgeHistoryDefinition_genreContext_forces:
+      'Die Frage lautet: Welche Stimmen oder Instrumente wirken mit, beispielsweise ein Chor oder ein Streichquartett?',
+    knowledgeHistory_genreContext_occasion: '$t(glossary:occasion_one)',
+    knowledgeHistoryDefinition_genreContext_occasion:
+      'Die Frage lautet: Bei welchem konkreten Ereignis wurde Musik aufgeführt, beispielsweise bei einer Trauung?',
+    knowledgeHistory_genreContext_function: '$t(glossary:function_one)',
+    knowledgeHistoryDefinition_genreContext_function:
+      'Die Frage lautet: Wozu diente die Musik, beispielsweise zum Tanzen, zur Andacht oder zum konzentrierten Zuhören?',
+    knowledgeHint_evidence:
+      'Lies die beschriebene Eigenschaft genau. Trenne den Begriff von verwandten Kategorien und beachte die Grenzen der Quelle.',
+    knowledgeHistory_evidence_observation: '$t(glossary:observation_one)',
+    knowledgeHistoryDefinition_evidence_observation:
+      'Eine Aussage beschreibt direkt Gehörtes, beispielsweise zwei gleichzeitig erklingende Tonhöhen.',
+    knowledgeHistory_evidence_metadata: '$t(glossary:sourceInformation_one)',
+    knowledgeHistoryDefinition_evidence_metadata:
+      'Eine beschriftete Quelle nennt etwa Urheberschaft, Ort oder Datum; ihre Zuverlässigkeit ist gesondert zu prüfen.',
+    knowledgeHistory_evidence_inference: '$t(glossary:inference_one)',
+    knowledgeHistoryDefinition_evidence_inference:
+      'Aus Beobachtungen und Quellen wird eine begründete Vermutung abgeleitet; sie ist nicht identisch mit einer direkten Wahrnehmung.',
+    knowledgeHistory_evidence_uncertainty: '$t(glossary:uncertainty)',
+    knowledgeHistoryDefinition_evidence_uncertainty:
+      'Fehlende oder widersprüchliche Belege werden ausdrücklich benannt; ein Klang allein verrät keinen sicheren Ort oder Entstehungszeitpunkt.',
     question_durationSymbol: 'Welchen Wert hat dieses Zeichen für eine {{kind}}?',
     question_measureGap: 'Welche {{kind}} ergänzt diesen Takt auf genau vier Viertelwerte?',
     measureGapDescription:

@@ -35,6 +35,141 @@ export const enUS = {
     wrongTitle: 'Not quite',
   },
   exercise: {
+    type_LISTENING_CHOICE: 'Listen and compare',
+    question_listening_pulse:
+      'Listen to the two steady pulse groups. How many beats belong to each group? Count the higher starting sound as 1; the next start belongs to the next group.',
+    'question_listening_rhythm-compare':
+      'Listen to example A and, after the gap, example B. Do they have the same rhythm? Compare starts, sound durations and rests.',
+    'question_listening_rhythm-choice':
+      'Which of the three scores matches the heard rhythm? All examples use the same pitch.',
+    'question_listening_pitch-direction':
+      'Listen to the two pitches in sequence. Is the second higher, lower or the same pitch?',
+    'question_listening_melody-compare':
+      'Listen to melody A and, after the gap, melody B. Do all pitches in the same order and all durations match?',
+    question_listening_observation:
+      'Which statement describes something you can directly hear in this teaching example?',
+    listeningOption: 'Score {{count}}',
+    listeningClip: 'Listening example {{count}}',
+    listeningPulseCount: 'Pulse group with {{count}} beats',
+    listeningSame: 'Same',
+    listeningDifferent: 'Different',
+    listeningUp: 'Second pitch higher',
+    listeningDown: 'Second pitch lower',
+    listeningRepeat: 'Same pitch',
+    listeningSingle: 'Only one pitch sounds at a time',
+    listeningTogether: 'At least two pitches sound together',
+    listeningDate: 'The work was certainly composed in 1750',
+    listeningPlace: 'The music was certainly performed in a church',
+    listeningHint1:
+      'Listen to the whole example first. You can stop and replay it. Focus on the property asked about.',
+    listeningHint2:
+      'Compare beats and rests for rhythm, and pitches for melody. A score describes the sounds; historical claims require additional sources.',
+    listeningExplanation_pulse:
+      'The higher sound marks the beginning of each group. The evenly spaced beats between two beginnings form one group. Answer: {{answer}}. The next starting sound belongs to the next group.',
+    'listeningExplanation_rhythm-compare':
+      'The assessment compares actual starts, sound durations and rests in both sound sources. Answer: {{answer}}. Pitch stays the same in these questions.',
+    'listeningExplanation_rhythm-choice':
+      '{{answer}} has the same starts, sound durations and rests as the played example. The three complete measures differ audibly.',
+    'listeningExplanation_pitch-direction':
+      'The second sounding pitch is compared with the first. Answer: {{answer}}. Loudness and duration do not determine higher or lower.',
+    'listeningExplanation_melody-compare':
+      'The sounding pitches, their order, starts and durations are compared. Answer: {{answer}}. Here, “same” means the same pitches, not just a similar direction.',
+    listeningExplanation_observation:
+      '{{answer}} can be checked in the sound example. Date and performance venue cannot be established from it alone. This is an original piano teaching model, not a historical recording.',
+    orderRule_periods:
+      'Order by the conventional broad sequence of European periods; their boundaries can overlap.',
+    order_periods_ascending: 'Order the periods from earlier to later.',
+    order_periods_descending: 'Order the periods from later to earlier.',
+    knowledgeHint_soundSources:
+      'Read the described property carefully. Distinguish the term from related categories and consider the limits of the source.',
+    knowledgeHistory_soundSources_voice: '$t(glossary:voice_one)',
+    knowledgeHistoryDefinition_soundSources_voice:
+      'Sound is produced by the vibrating vocal folds of a singing person.',
+    knowledgeHistory_soundSources_instrument: '$t(glossary:instrument_one)',
+    knowledgeHistoryDefinition_soundSources_instrument:
+      'A performer sets a string or a column of air, for example, into vibration.',
+    knowledgeHistory_soundSources_recording: '$t(glossary:recording_one)',
+    knowledgeHistoryDefinition_soundSources_recording:
+      'Stored sound is played back; it can contain voices, instruments or electronic sounds.',
+    knowledgeHistory_soundSources_electronic: '$t(glossary:electronicSound)',
+    knowledgeHistoryDefinition_soundSources_electronic:
+      'An electronic device or program generates the audio signal.',
+    knowledgeHint_sourceTypes:
+      'Read the described property carefully. Distinguish the term from related categories and consider the limits of the source.',
+    knowledgeHistory_sourceTypes_score: '$t(glossary:scoreSource_one)',
+    knowledgeHistoryDefinition_sourceTypes_score:
+      'A written source specifies pitches, durations and other performance instructions; it is not itself a sounding performance.',
+    knowledgeHistory_sourceTypes_recording: '$t(glossary:recording_one)',
+    knowledgeHistoryDefinition_sourceTypes_recording:
+      'This source documents a particular sounding performance, including its interpretation.',
+    knowledgeHistory_sourceTypes_report: '$t(glossary:report_one)',
+    knowledgeHistoryDefinition_sourceTypes_report:
+      'A person describes a musical event in words; their perspective and memory need to be examined.',
+    knowledgeHistory_sourceTypes_programme: '$t(glossary:programmeSource_one)',
+    knowledgeHistoryDefinition_sourceTypes_programme:
+      'An announcement lists works, performers, venue and date, for example; it alone does not prove that everything happened as announced.',
+    knowledgeHint_context:
+      'Read the described property carefully. Distinguish the term from related categories and consider the limits of the source.',
+    knowledgeHistory_context_place: '$t(glossary:place_one)',
+    knowledgeHistoryDefinition_context_place:
+      'The question is: where did the performance take place, for example in a concert hall?',
+    knowledgeHistory_context_time: '$t(glossary:time_one)',
+    knowledgeHistoryDefinition_context_time:
+      'The question is: when did the event take place? Composition and recording dates can differ.',
+    knowledgeHistory_context_occasion: '$t(glossary:occasion_one)',
+    knowledgeHistoryDefinition_context_occasion:
+      'The question is: what event was the music part of, for example a wedding?',
+    knowledgeHistory_context_author: '$t(glossary:author)',
+    knowledgeHistoryDefinition_context_author:
+      'The question is: who wrote the music or the report? This is not automatically the same person as the performer.',
+    knowledgeHint_periods:
+      'Read the described property carefully. Distinguish the term from related categories and consider the limits of the source.',
+    knowledgeHistory_periods_medieval: '$t(glossary:medieval)',
+    knowledgeHistoryDefinition_periods_medieval:
+      'In this broad overview of European art music, roughly 500–1400; boundaries vary by region and topic.',
+    knowledgeHistory_periods_renaissance: '$t(glossary:renaissance)',
+    knowledgeHistoryDefinition_periods_renaissance:
+      'In this broad overview of European art music, roughly 1400–1600, after the Middle Ages and before the Baroque.',
+    knowledgeHistory_periods_baroque: '$t(glossary:baroque)',
+    knowledgeHistoryDefinition_periods_baroque:
+      'In this broad overview of European art music, roughly 1600–1750, after the Renaissance and before the Classical period.',
+    knowledgeHistory_periods_classical: '$t(glossary:classicalPeriod)',
+    knowledgeHistoryDefinition_periods_classical:
+      'In this broad overview of European art music, roughly 1750–1820; overlap with Romanticism is possible.',
+    knowledgeHistory_periods_romantic: '$t(glossary:romanticPeriod)',
+    knowledgeHistoryDefinition_periods_romantic:
+      'In this broad overview of European art music, mainly the nineteenth century, approximately 1800–1900.',
+    knowledgeHistory_periods_since1900: '$t(glossary:musicSince1900)',
+    knowledgeHistoryDefinition_periods_since1900:
+      'In this overview, the twentieth and twenty-first centuries with many coexisting styles; not a single sound style.',
+    knowledgeHint_genreContext:
+      'Read the described property carefully. Distinguish the term from related categories and consider the limits of the source.',
+    knowledgeHistory_genreContext_genre: '$t(glossary:genre_one)',
+    knowledgeHistoryDefinition_genreContext_genre:
+      'The question is: what kind of work is it, for example an opera or a symphony?',
+    knowledgeHistory_genreContext_forces: '$t(glossary:performingForces_one)',
+    knowledgeHistoryDefinition_genreContext_forces:
+      'The question is: which voices or instruments take part, for example a choir or a string quartet?',
+    knowledgeHistory_genreContext_occasion: '$t(glossary:occasion_one)',
+    knowledgeHistoryDefinition_genreContext_occasion:
+      'The question is: at which specific event was music performed, for example a wedding ceremony?',
+    knowledgeHistory_genreContext_function: '$t(glossary:function_one)',
+    knowledgeHistoryDefinition_genreContext_function:
+      'The question is: what purpose did the music serve, for example dancing, worship or focused listening?',
+    knowledgeHint_evidence:
+      'Read the described property carefully. Distinguish the term from related categories and consider the limits of the source.',
+    knowledgeHistory_evidence_observation: '$t(glossary:observation_one)',
+    knowledgeHistoryDefinition_evidence_observation:
+      'A statement describes something directly heard, for example two pitches sounding at the same time.',
+    knowledgeHistory_evidence_metadata: '$t(glossary:sourceInformation_one)',
+    knowledgeHistoryDefinition_evidence_metadata:
+      'A labelled source gives authorship, place or date, for example; its reliability must be checked separately.',
+    knowledgeHistory_evidence_inference: '$t(glossary:inference_one)',
+    knowledgeHistoryDefinition_evidence_inference:
+      'An informed conclusion is drawn from observations and sources; it is not identical to direct perception.',
+    knowledgeHistory_evidence_uncertainty: '$t(glossary:uncertainty)',
+    knowledgeHistoryDefinition_evidence_uncertainty:
+      'Missing or conflicting evidence is explicitly identified; sound alone does not establish a certain place or date of origin.',
     question_durationSymbol: 'What value does this {{kind}} symbol have?',
     question_measureGap:
       'Which {{kind}} completes this $t(glossary:measure_one) to exactly four $t(glossary:notes.quarter_other)?',

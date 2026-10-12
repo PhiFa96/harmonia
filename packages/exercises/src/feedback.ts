@@ -1,6 +1,8 @@
 import type { AppLocale, Messages } from '@harmonia/i18n';
 import { createI18n, engineLanguage } from '@harmonia/i18n';
 import type { NoteName, Pitch } from '@harmonia/theory';
+import { listeningAnswer } from './listening.ts';
+import { isHistoryTopic } from './knowledge.ts';
 import {
   diatonicIndex,
   intervalBetween,
@@ -36,7 +38,13 @@ import {
   orderedValues,
   orderValueId,
 } from './knowledge.ts';
-import type { KnowledgeFact, KnowledgeExerciseItem, OrderValue, RhythmValue } from './types.ts';
+import type {
+  KnowledgeFact,
+  KnowledgeExerciseItem,
+  ListeningItem,
+  OrderValue,
+  RhythmValue,
+} from './types.ts';
 import { expectedAnswer } from './evaluate.ts';
 import type { Evaluation, ExerciseFeedback, ExerciseHint, ExerciseItem } from './types.ts';
 import {
@@ -120,6 +128,27 @@ export function pitchInputLabel(pitch: Pitch, locale: AppLocale): string {
   return noteName(pitch, locale);
 }
 export function choiceLabel(item: ExerciseItem, answer: string, locale: AppLocale): string {
+  if (item.type === 'LISTENING_CHOICE') {
+    if (!item.choices.includes(answer)) return translate(locale, 'exercise.unknownAnswer');
+    if (answer.startsWith('listening:option:'))
+      return translate(locale, 'exercise.listeningOption', { count: Number(answer.split(':')[2]) });
+    if (answer.startsWith('listening:pulse:'))
+      return translate(locale, 'exercise.listeningPulseCount', {
+        count: Number(answer.split(':')[2]),
+      });
+    const keys: Readonly<Record<string, TextKey>> = {
+      'listening:same': 'exercise.listeningSame',
+      'listening:different': 'exercise.listeningDifferent',
+      'listening:up': 'exercise.listeningUp',
+      'listening:down': 'exercise.listeningDown',
+      'listening:repeat': 'exercise.listeningRepeat',
+      'listening:one-at-a-time': 'exercise.listeningSingle',
+      'listening:together': 'exercise.listeningTogether',
+      'listening:date': 'exercise.listeningDate',
+      'listening:place': 'exercise.listeningPlace',
+    };
+    return translate(locale, keys[answer] ?? 'exercise.unknownAnswer');
+  }
   if (!item.choices.includes(answer)) return translate(locale, 'exercise.unknownAnswer');
   if (isIntervalReadingItem(item)) {
     if (item.question === 'semitones')
@@ -208,6 +237,8 @@ export function choiceLabel(item: ExerciseItem, answer: string, locale: AppLocal
   return noteName(pitch, locale, false);
 }
 export function exercisePrompt(item: ExerciseItem, locale: AppLocale): string {
+  if (item.type === 'LISTENING_CHOICE')
+    return translate(locale, `exercise.question_listening_${item.question}`);
   if (isIntervalReadingItem(item))
     return translate(locale, `exercise.question_interval_${item.question}`);
   if (item.type === 'KNOWLEDGE_MC' && item.presentation)
@@ -283,7 +314,7 @@ export function exercisePrompt(item: ExerciseItem, locale: AppLocale): string {
         : {},
   );
 }
-function reference(item: Exclude<ExerciseItem, KnowledgeExerciseItem>) {
+function reference(item: Exclude<ExerciseItem, KnowledgeExerciseItem | ListeningItem>) {
   return item.clef === 'treble'
     ? { pitch: { letter: 'G', alter: 0, octave: 4 } as const, line: 2 }
     : { pitch: { letter: 'F', alter: 0, octave: 3 } as const, line: 4 };
@@ -316,7 +347,11 @@ export function exerciseFeedback(
   locale: AppLocale,
 ): ExerciseFeedback {
   let message: string;
-  if (isIntervalReadingItem(item)) {
+  if (item.type === 'LISTENING_CHOICE') {
+    message = translate(locale, `exercise.listeningExplanation_${item.question}`, {
+      answer: choiceLabel(item, listeningAnswer(item), locale),
+    });
+  } else if (isIntervalReadingItem(item)) {
     const [from, to] = intervalReadingPitches(item);
     message = translate(locale, `exercise.intervalReadingExplanation_${item.question}`, {
       from: noteName(from, locale),
@@ -436,6 +471,12 @@ export function exerciseFeedback(
 /** Sprachneutraler Hinweis; erst die Oberfläche wählt die Sprache. Level 3 ist die erklärte Lösung. */
 export function exerciseHints(item: ExerciseItem, level: 1 | 2 | 3): ExerciseHint {
   if (level === 3) return { level, key: 'solution', values: {} };
+  if (item.type === 'LISTENING_CHOICE')
+    return {
+      level,
+      key: level === 1 ? 'exercise.listeningHint1' : 'exercise.listeningHint2',
+      values: {},
+    };
   if (isIntervalReadingItem(item))
     return {
       level,
@@ -623,6 +664,7 @@ function alterationText(pitch: Pitch, locale: AppLocale): string {
 
 /** Positionen statt Tonnamen: Vor dem Prüfen darf der Screenreader die Lösung nicht vorwegnehmen. */
 export function exerciseDescription(item: ExerciseItem, locale: AppLocale): string {
+  if (item.type === 'LISTENING_CHOICE') return exercisePrompt(item, locale);
   if (item.type === 'KNOWLEDGE_MC' && item.presentation === 'symbol' && 'duration' in item.fact)
     return durationSymbolDescription(
       { kind: item.fact.topic === 'rests' ? 'rest' : 'note', duration: item.fact.duration },
@@ -716,6 +758,8 @@ export function exerciseDescription(item: ExerciseItem, locale: AppLocale): stri
   });
 }
 export function knowledgeFactLabel(fact: KnowledgeFact, locale: AppLocale): string {
+  if (isHistoryTopic(fact.topic) && 'kind' in fact)
+    return translate(locale, `exercise.knowledgeHistory_${fact.topic}_${fact.kind}` as TextKey);
   switch (fact.topic) {
     case 'barlines':
       return translate(locale, `exercise.knowledge_barlines_${fact.kind}`);
@@ -752,8 +796,14 @@ export function knowledgeFactLabel(fact: KnowledgeFact, locale: AppLocale): stri
     case 'meters':
       return fact.meter;
   }
+  throw new RangeError('Unbekannter Wissensbegriff');
 }
 export function knowledgeDefinition(fact: KnowledgeFact, locale: AppLocale): string {
+  if (isHistoryTopic(fact.topic) && 'kind' in fact)
+    return translate(
+      locale,
+      `exercise.knowledgeHistoryDefinition_${fact.topic}_${fact.kind}` as TextKey,
+    );
   switch (fact.topic) {
     case 'barlines':
       return translate(locale, `exercise.knowledgeDefinition_barlines_${fact.kind}`);
@@ -821,8 +871,11 @@ export function knowledgeDefinition(fact: KnowledgeFact, locale: AppLocale): str
       });
     }
   }
+  throw new RangeError('Unbekannter Wissensbegriff');
 }
 export function orderValueLabel(value: OrderValue, locale: AppLocale): string {
+  if (value.kind === 'period')
+    return knowledgeFactLabel({ topic: 'periods', kind: value.period }, locale);
   return value.kind === 'pitch'
     ? noteName(value.pitch, locale)
     : durationName(value.duration, engineLanguage(locale));
