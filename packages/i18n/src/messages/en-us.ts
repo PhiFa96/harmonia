@@ -408,6 +408,35 @@ export const enUS = {
     type_interval_number: 'Count the interval number',
     type_interval_direction: 'Read the direction',
     type_interval_motion: 'Repeated note, step or leap',
+    type_interval_semitones: 'Count half steps',
+    type_interval_quality: 'Identify interval quality',
+    type_interval_perfect: 'Check perfect intervals',
+    question_interval_semitones:
+      'How many half steps separate the two written pitches? Count the moves between adjacent piano keys. The starting key counts as 0.',
+    question_interval_quality:
+      'What is the full name of the written interval? Check its number and distance in half steps.',
+    question_interval_perfect:
+      'Is the written interval a perfect fourth, perfect fifth or perfect octave? Check both its number and half-step distance.',
+    intervalPerfectYes: 'Yes, a perfect interval',
+    intervalPerfectNo: 'No, not a perfect interval here',
+    intervalReadingExplanation_semitones:
+      '{{from}} → {{to}}: distance {{distance}}. Count moves between immediately adjacent keys, including black keys. The starting key counts as 0; identical pitches have distance 0.',
+    intervalReadingExplanation_quality:
+      '{{from}} → {{to}}: letter-name sequence {{path}}, interval number {{count}}, sounding distance {{distance}}. Number and distance together give {{answer}}.',
+    intervalReadingExplanation_perfect:
+      '{{from}} → {{to}}: interval number {{count}}, sounding distance {{distance}}. A perfect fourth has 5 half steps, a perfect fifth 7 and a perfect octave 12. Number and distance must both fit. Answer: {{answer}}.',
+    intervalReadingHint_semitones_1:
+      'Begin at the first marked key with 0. Each move to the next key counts 1, regardless of key color.',
+    intervalReadingHint_semitones_2:
+      'E to F and B to C have no intervening black key: one half step. Other adjacent white keys have a black key between them: two half steps.',
+    intervalReadingHint_quality_1:
+      'Count the letter-name positions first, including the start and destination. Then find the half-step distance between the pitches.',
+    intervalReadingHint_quality_2:
+      'A minor third has 3 half steps; a major third has 4. Perfect fourth, fifth and octave combine the numbers 4, 5 and 8 with 5, 7 and 12 half steps.',
+    intervalReadingHint_perfect_1:
+      'A fourth or fifth letter-name position alone is not enough. Also check the number of half steps.',
+    intervalReadingHint_perfect_2:
+      'Compare number and distance: fourth 4 with 5 half steps, fifth 5 with 7, octave 8 with 12. A distance of 6 half steps meets none of these conditions.',
     question_interval_number:
       'What interval number do the two written notes form? Count the letter-name positions, including both end notes.',
     question_interval_direction: 'How does pitch move from the first written note to the second?',

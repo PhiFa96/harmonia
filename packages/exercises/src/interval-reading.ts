@@ -1,5 +1,15 @@
-import { diatonicIndex, durationValue, fraction, fractionEquals, LETTERS } from '@harmonia/theory';
+import {
+  diatonicIndex,
+  durationValue,
+  fraction,
+  fractionEquals,
+  LETTERS,
+  midi,
+  intervalBetween,
+  formatInterval,
+} from '@harmonia/theory';
 import type { Pitch } from '@harmonia/theory';
+import type { KeyboardRange } from '@harmonia/notation';
 import type { ExerciseItem, IntervalItem, IntervalReadingQuestion } from './types.ts';
 
 export function isIntervalReadingItem(
@@ -10,7 +20,10 @@ export function isIntervalReadingItem(
 
 /** Die beiden sichtbaren natürlichen Noten sind die Quelle für Beschreibung und Bewertung. */
 export function intervalReadingPitches(item: IntervalItem): readonly [Pitch, Pitch] {
-  if (!isIntervalReadingItem(item) || !['number', 'direction', 'motion'].includes(item.question))
+  if (
+    !isIntervalReadingItem(item) ||
+    !['number', 'direction', 'motion', 'semitones', 'quality', 'perfect'].includes(item.question)
+  )
     throw new RangeError('Keine Grundlagenfrage zum Intervall');
   const staff = item.score.staves[0];
   const measure = staff?.measures[0];
@@ -41,6 +54,8 @@ export function intervalReadingPitches(item: IntervalItem): readonly [Pitch, Pit
     throw new RangeError('Grundlagenfrage braucht zwei natürliche Halben in einem 4/4-Takt');
   const number = Math.abs(diatonicIndex(second.pitch) - diatonicIndex(first.pitch)) + 1;
   if (number > 8) throw new RangeError('Grundlagenfrage unterstützt Prime bis Oktave');
+  if (item.question === 'perfect' && ![4, 5, 8].includes(number))
+    throw new RangeError('Reinheitsfrage unterstützt Quarte, Quinte und Oktave');
   return [first.pitch, second.pitch];
 }
 
@@ -70,6 +85,24 @@ export function intervalMotion(number: number): 'repeat' | 'step' | 'leap' {
     throw new RangeError('Ungültige Intervallnummer');
   return number === 1 ? 'repeat' : number === 2 ? 'step' : 'leap';
 }
+export function intervalReadingSemitones(item: IntervalItem): number {
+  const [from, to] = intervalReadingPitches(item);
+  return Math.abs(midi(to) - midi(from));
+}
+/** Ausschnitt einschließlich beider weißen Endtasten und aller schwarzen Tasten dazwischen. */
+export function intervalReadingKeyboardRange(item: IntervalItem): KeyboardRange {
+  const pitches = intervalReadingPitches(item).map(midi);
+  return { first: Math.min(...pitches), last: Math.max(...pitches) };
+}
+export function intervalReadingPerfect(item: IntervalItem): boolean {
+  const number = intervalReadingNumber(item),
+    distance = intervalReadingSemitones(item);
+  return (
+    (number === 4 && distance === 5) ||
+    (number === 5 && distance === 7) ||
+    (number === 8 && distance === 12)
+  );
+}
 export function intervalReadingAnswer(item: IntervalItem): string {
   const number = intervalReadingNumber(item);
   switch (item.question) {
@@ -79,6 +112,14 @@ export function intervalReadingAnswer(item: IntervalItem): string {
       return `interval-direction:${intervalReadingDirection(item)}`;
     case 'motion':
       return `interval-motion:${intervalMotion(number)}`;
+    case 'semitones':
+      return `interval-semitones:${String(intervalReadingSemitones(item))}`;
+    case 'quality': {
+      const [from, to] = intervalReadingPitches(item);
+      return formatInterval({ ...intervalBetween(from, to), direction: 1 });
+    }
+    case 'perfect':
+      return intervalReadingPerfect(item) ? 'interval-perfect:yes' : 'interval-perfect:no';
     default:
       throw new RangeError('Grundlagenfrage fehlt');
   }

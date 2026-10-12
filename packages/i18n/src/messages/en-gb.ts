@@ -10,6 +10,27 @@ export const enGB = {
     licenses: 'Licences',
   },
   exercise: {
+    type_interval_semitones: 'Count semitones',
+    question_interval_semitones:
+      'How many semitones separate the two written pitches? Count the moves between adjacent piano keys. The starting key counts as 0.',
+    question_interval_quality:
+      'What is the full name of the written interval? Check its number and distance in semitones.',
+    question_interval_perfect:
+      'Is the written interval a perfect fourth, perfect fifth or perfect octave? Check both its number and semitone distance.',
+    intervalReadingExplanation_perfect:
+      '{{from}} → {{to}}: interval number {{count}}, sounding distance {{distance}}. A perfect fourth has 5 semitones, a perfect fifth 7 and a perfect octave 12. Number and distance must both fit. Answer: {{answer}}.',
+    intervalReadingHint_semitones_1:
+      'Begin at the first marked key with 0. Each move to the next key counts 1, regardless of key colour.',
+    intervalReadingHint_semitones_2:
+      'E to F and B to C have no intervening black key: one semitone. Other adjacent white keys have a black key between them: two semitones.',
+    intervalReadingHint_quality_1:
+      'Count the letter-name positions first, including the start and destination. Then find the semitone distance between the pitches.',
+    intervalReadingHint_quality_2:
+      'A minor third has 3 semitones; a major third has 4. Perfect fourth, fifth and octave combine the numbers 4, 5 and 8 with 5, 7 and 12 semitones.',
+    intervalReadingHint_perfect_1:
+      'A fourth or fifth letter-name position alone is not enough. Also check the number of semitones.',
+    intervalReadingHint_perfect_2:
+      'Compare number and distance: fourth 4 with 5 semitones, fifth 5 with 7, octave 8 with 12. A distance of 6 semitones meets none of these conditions.',
     intervalReadingHint_direction_1:
       'Read the left notehead first, then the right. Compare their height on the stave.',
     knowledgeStart: 'Practise knowledge, matching and ordering',

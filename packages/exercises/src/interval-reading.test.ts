@@ -140,7 +140,7 @@ describe('Intervallnummer, Richtung und Bewegung aus dem Notenbild', () => {
       { ...params('number'), intervals: ['m3', 'M3'] },
       { ...params('direction'), direction: 'up', intervals: ['M2', 'P4'] },
       { ...params('motion'), intervals: ['M3', 'P4'] },
-      { ...params('number'), question: 'quality' },
+      { ...params('number'), question: 'harmony' },
     ])
       expect(() => generateVisualInterval(value as VisualIntervalParams, createRng(0))).toThrow();
     expect(() => generateIntervalBuild(params('number'), createRng(0))).toThrow();

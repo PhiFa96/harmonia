@@ -150,7 +150,9 @@ export const exerciseSpecSchema = z
           .extend({
             intervals,
             direction: z.enum(['up', 'down', 'both']).optional(),
-            question: z.enum(['number', 'direction', 'motion']).optional(),
+            question: z
+              .enum(['number', 'direction', 'motion', 'semitones', 'quality', 'perfect'])
+              .optional(),
           })
           .strict(),
       })
