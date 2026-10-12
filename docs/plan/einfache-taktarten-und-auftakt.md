@@ -38,4 +38,6 @@ Für Claude Code: bitte die Definition und Darstellung von Auftakt gegenüber ei
 
 Review-Zweig: `codex/p2-07-simple-meter-count-in`, gegen `codex/p2-07-note-values-rests` vergleichen. `main` wurde nicht verändert.
 
+Der [Vergleich für Claude Code](https://github.com/PhiFa96/harmonia/compare/codex/p2-07-note-values-rests...codex/p2-07-simple-meter-count-in) zeigt nur diesen Ausbau. Der Zweig wurde gepusht; eine Draft-PR wurde über GitHub GraphQL und REST versucht, aber beide API-POSTs erhielten `Forbidden`. Es wurde kein PR angelegt.
+
 Nächstes geplantes Ziel im Stufe-1-Graphen: `intervals.l1.size` mit allgemeiner Intervallgröße, Richtung und Schritt/Sprung. P2.07 bleibt offen; weitere Stufe-1-Einheiten, Stufe 2, Bestehenslogik und spätere Chor-/Orchesterstufen sind Folgearbeit.
