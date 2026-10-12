@@ -38,11 +38,16 @@ const rhythmParams = meterParams
     toleranceMs: z.number().int().min(40).max(180).optional(),
   })
   .strict();
+const maxDots = z.union([z.literal(0), z.literal(1)]).optional();
 const knowledgeParams = z
   .object({
     topics: z.array(z.enum(KNOWLEDGE_TOPICS)).nonempty(),
+    maxDots,
     maxAccidentals: z.union([z.literal(1), z.literal(2)]).optional(),
   })
+  .strict();
+const knowledgeMcParams = knowledgeParams
+  .extend({ presentation: z.enum(['symbol', 'measure-gap']).optional() })
   .strict();
 const matchParams = knowledgeParams
   .extend({ count: z.number().int().min(2).max(4).optional() })
@@ -50,6 +55,7 @@ const matchParams = knowledgeParams
 const orderParams = z
   .object({
     topics: z.array(z.enum(ORDER_TOPICS)).nonempty(),
+    maxDots,
     count: z.number().int().min(3).max(6).optional(),
     direction: z.enum(['ascending', 'descending', 'both']).optional(),
   })
@@ -90,7 +96,7 @@ const signatureParams = z
   .strict();
 export const exerciseSpecSchema = z
   .discriminatedUnion('type', [
-    z.object({ type: z.literal('KNOWLEDGE_MC'), params: knowledgeParams }).strict(),
+    z.object({ type: z.literal('KNOWLEDGE_MC'), params: knowledgeMcParams }).strict(),
     z.object({ type: z.literal('MATCH'), params: matchParams }).strict(),
     z.object({ type: z.literal('ORDER'), params: orderParams }).strict(),
     z.object({ type: z.literal('RHYTHM_TAP'), params: rhythmParams }).strict(),
@@ -162,7 +168,9 @@ export const exerciseSpecSchema = z
       return {
         type: value.type,
         params: {
+          ...(value.params.presentation ? { presentation: value.params.presentation } : {}),
           topics: value.params.topics,
+          ...(value.params.maxDots === undefined ? {} : { maxDots: value.params.maxDots }),
           ...(value.params.maxAccidentals === undefined
             ? {}
             : { maxAccidentals: value.params.maxAccidentals }),
@@ -173,6 +181,7 @@ export const exerciseSpecSchema = z
         type: value.type,
         params: {
           topics: value.params.topics,
+          ...(value.params.maxDots === undefined ? {} : { maxDots: value.params.maxDots }),
           ...(value.params.count === undefined ? {} : { count: value.params.count }),
           ...(value.params.maxAccidentals === undefined
             ? {}
@@ -184,6 +193,7 @@ export const exerciseSpecSchema = z
         type: value.type,
         params: {
           topics: value.params.topics,
+          ...(value.params.maxDots === undefined ? {} : { maxDots: value.params.maxDots }),
           ...(value.params.count === undefined ? {} : { count: value.params.count }),
           ...(value.params.direction ? { direction: value.params.direction } : {}),
         },

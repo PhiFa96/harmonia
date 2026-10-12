@@ -1,6 +1,12 @@
 import { LOCALE_NAMES } from '@harmonia/i18n';
 import type { Evaluation } from '@harmonia/exercises';
-import { createRng, evaluateExercise, generateNote, pulseExample } from '@harmonia/exercises';
+import {
+  createRng,
+  evaluateExercise,
+  generateNote,
+  generateKnowledge,
+  pulseExample,
+} from '@harmonia/exercises';
 import type { Pitch } from '@harmonia/notation';
 import { parseScore } from '@harmonia/notation';
 import type { ColorScheme, TextVariant } from '@harmonia/ui';
@@ -28,6 +34,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { useSettings } from '@/state/settings';
 import { PianoKeyboard } from '@/components/piano-keyboard';
 import { KeyboardExample } from '@/components/keyboard-example';
+import { DurationQuestion } from '@/components/duration-question';
 import { PulseExample } from '@/components/pulse-example';
 import { ExerciseChoices } from '@/components/exercise-choices';
 
@@ -121,6 +128,20 @@ export default function GalleryScreen() {
                   />
                 </Card>
               ))}
+            </Section>
+            <Section title={t('gallery.durationSymbols')}>
+              {(['noteValues', 'rests'] as const).flatMap((topic) =>
+                (['symbol', 'measure-gap'] as const).map((presentation) => (
+                  <Card key={`${topic}:${presentation}`}>
+                    <DurationQuestion
+                      item={generateKnowledge(
+                        { topics: [topic], maxDots: 0, presentation },
+                        createRng(20708),
+                      )}
+                    />
+                  </Card>
+                )),
+              )}
             </Section>
             <Answers />
           </View>

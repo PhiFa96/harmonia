@@ -20,6 +20,8 @@ import {
   generateMatch,
   generateOrder,
   pulseExample,
+  measureGapFact,
+  knowledgeFactId,
   rhythmOnsets,
 } from '../packages/exercises/src/index.ts';
 import { firstLesson, catalogue, curriculumPlan } from '../packages/content/src/authoring.ts';
@@ -259,6 +261,20 @@ check(
   exerciseFeedback(exercise, evaluation, 'en-GB').message.includes('semitones'),
   true,
 );
+
+for (const topic of ['noteValues', 'rests'] as const) {
+  for (const presentation of ['symbol', 'measure-gap'] as const) {
+    const item = generateKnowledge(
+      { topics: [topic], maxDots: 0, presentation },
+      exerciseRng('deno-values'),
+    );
+    check(
+      `${topic}/${presentation}: quellbasierte Bewertung unter Deno`,
+      item.choices.filter((id) => evaluateExercise(item, id).correct).join(','),
+      item.gap ? knowledgeFactId(measureGapFact(item.gap)) : knowledgeFactId(item.fact),
+    );
+  }
+}
 
 check('midi(C4)', midi(parsePitch('C4')), 60);
 check('frequency(A4)', frequency(parsePitch('A4')), 440);

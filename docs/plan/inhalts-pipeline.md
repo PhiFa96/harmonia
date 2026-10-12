@@ -2,7 +2,7 @@
 
 Stand: 05.10.2026. Lokale Inhaltsprüfung, Freigabefilter und App-Anbindung sind implementiert. Die echte EAS-Projektbindung und eine nachgewiesene OTA-Auslieferung bleiben offen.
 
-Fortsetzung 12.10.2026: Katalog und Fähigkeitsplan haben Version 6. Drei Notationseinheiten und die erste Rhythmuseinheit besitzen je drei Lektionen mit 8/10/12 Aufgaben, zusammen 31 neue Karten und vier vorbereitete Artikel. Intern sind 13 Lektionen auswählbar; alle bleiben Entwurf. Pulsübungen zeigen Zählgruppen und verwenden die Audio-Uhr, ohne Notenlese-Voraussetzung. Aktueller Prüfstand und Fortsetzung mit `rhythm.l1.values`: [puls-tempo-und-zaehlgruppen.md](puls-tempo-und-zaehlgruppen.md). Schemaformat 1 und öffentliche Freigabefilter bleiben bestehen; optionale Pulsbeispiele ergänzen ein geprüftes Tempo und schließen Klaviaturdarstellungen aus. Die EAS-/OTA-Anbindung bleibt offen.
+Fortsetzung 12.10.2026: Katalog und Fähigkeitsplan haben Version 7. Drei Notationseinheiten und zwei Rhythmuseinheiten besitzen je drei Lektionen mit 8/10/12 Aufgaben, zusammen 40 neue Karten und fünf vorbereitete Artikel. Intern sind 16 Lektionen mit insgesamt 160 Aufgaben pro vollständigem Erstversuch auswählbar; alle Inhalte bleiben Entwurf. Die neue Einheit ergänzt unpunktierte Noten- und Pausenzeichen, Zuordnen, Ordnen und exakt berechnete Taktlücken. Aktueller Prüfstand und Fortsetzung mit `rhythm.l1.simple-meter`: [notenwerte-und-pausen.md](notenwerte-und-pausen.md). Schemaformat 1 und öffentliche Freigabefilter bleiben bestehen. Die EAS-/OTA-Anbindung bleibt offen.
 
 ## Daten und Einstiegspunkte
 

@@ -34,6 +34,45 @@ export const de = {
     wrongTitle: 'Noch nicht ganz',
   },
   exercise: {
+    question_durationSymbol: 'Welchen Wert hat dieses Zeichen für eine {{kind}}?',
+    question_measureGap: 'Welche {{kind}} ergänzt diesen Takt auf genau vier Viertelwerte?',
+    measureGapDescription:
+      'Vier-Viertel-Takt. Vorhanden, in Reihenfolge: {{events}}. Am Ende fehlt eine {{kind}}.',
+    measureGapExplanation:
+      'Die vorhandenen Werte ergeben {{used}} Viertelwerte. 4 − {{used}} = {{missing}}. Es fehlt: {{answer}}. Pausen zählen mit; Taktstriche haben keine Dauer.',
+    durationSymbolHint1:
+      'Betrachte Form, Füllung, Hals und Fähnchen. Bei den rechteckigen Pausen ist die Lage zur Linie entscheidend.',
+    durationSymbolHint2:
+      'Bei Noten halbiert jeder Schritt von ganz zu halb, Viertel, Achtel und Sechzehntel die Dauer. Pausenzeichen haben dieselben Zeitwerte.',
+    measureGapHint1:
+      'Rechne Noten und Pausen in Viertelwerte um. Addiere sie und ziehe die Summe von vier ab.',
+    measureGapHint2:
+      'Eine Halbe zählt zwei Viertel, zwei Achtel zählen ein Viertel, vier Sechzehntel zählen ein Viertel. Der fehlende Wert muss genau passen.',
+    knowledgeRestDuration: 'Stille für {{value}} × die Dauer einer ganzen Note.',
+    knowledge_barlines_single: '$t(glossary:barline_one)',
+    knowledge_barlines_final: '$t(glossary:finalBarline_one)',
+    knowledgeDefinition_barlines_single:
+      'Eine dünne senkrechte Linie trennt benachbarte Takte; sie hat selbst keine Dauer.',
+    knowledgeDefinition_barlines_final:
+      'Eine dünne und eine dicke senkrechte Linie kennzeichnen das Ende eines Stücks oder abgeschlossenen Abschnitts.',
+    knowledgeHint_rests:
+      'Pausen haben feste Zeitwerte. Der gleichmäßige Puls läuft während der Stille weiter.',
+    knowledgeHint_barlines:
+      'Eine einzelne dünne Linie grenzt Takte ab; dünn plus dick kennzeichnet einen Abschluss.',
+    durationShape_note_whole: 'Ungefüllter ovaler Notenkopf ohne Hals.',
+    durationShape_note_half: 'Ungefüllter ovaler Notenkopf mit Hals, ohne Fähnchen.',
+    durationShape_note_quarter: 'Gefüllter Notenkopf mit Hals, ohne Fähnchen.',
+    durationShape_note_eighth: 'Gefüllter Notenkopf mit Hals und einem Fähnchen.',
+    durationShape_note_sixteenth: 'Gefüllter Notenkopf mit Hals und zwei Fähnchen.',
+    durationShape_rest_whole: 'Gefülltes Rechteck, das unter einer kurzen Bezugslinie hängt.',
+    durationShape_rest_half: 'Gefülltes Rechteck, das auf einer kurzen Bezugslinie sitzt.',
+    durationShape_rest_quarter:
+      'Senkrechtes, gezacktes Pausenzeichen mit einem gebogenen unteren Ende.',
+    durationShape_rest_eighth: 'Schräges Pausenzeichen mit einem Haken.',
+    durationShape_rest_sixteenth: 'Schräges Pausenzeichen mit zwei Haken.',
+    measureGapSlot: 'Fehlender Wert',
+    measureGapCapacity: 'Ziel: insgesamt vier Viertelwerte',
+
     knowledgeStart: 'Wissen, Zuordnen und Reihenfolgen üben',
     knowledgeIntro:
       'Neun Aufgaben: Begriffe aus den Grundlagen erkennen, Erklärungen zuordnen und Notenwerte oder Tonhöhen ordnen.',
@@ -560,6 +599,7 @@ export const de = {
       'Klavierklang: Salamander Grand Piano von Alexander Holm, CC BY 3.0 (creativecommons.org/licenses/by/3.0). Bearbeitet: Auswahl, gekürzt, Mono, Stimmung ausgeglichen.',
   },
   gallery: {
+    durationSymbols: 'Notenwerte und Pausen',
     keyboardExample: '$t(glossary:keyboard_one): Lernbeispiel',
     pulseExample: '$t(glossary:pulse): Zählgruppen',
     title: 'Bausteine',

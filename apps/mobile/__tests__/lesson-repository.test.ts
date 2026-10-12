@@ -55,6 +55,41 @@ afterEach(() => {
 });
 
 describe('Lokale Ergebnisse mit echter SQLite', () => {
+  it('bewahrt Dauerzeichen und Taktlücken in Version 7 neben dem Pulskurs', async () => {
+    await initializeLessonDatabase(adapter(db));
+    const repository = createLessonRepository(adapter(db));
+    for (const id of [
+      'rhythm.l1.pulse.steady',
+      'rhythm.l1.values.notes',
+      'rhythm.l1.values.rests',
+      'rhythm.l1.values.fill',
+    ]) {
+      const content = required(resolveLesson(catalogue, id));
+      let session = createLessonSession(content, 'sqlite-values');
+      while (session.phase === 'initial') {
+        const item = required(currentItem(required(activeLessonSession(session))));
+        session = nextLessonExercise(answerLesson(session, expectedAnswer(item)));
+      }
+      const attempt = createLessonAttempt(id + '-run', session, START, END);
+      await repository.save(attempt);
+      expect(
+        JSON.parse(
+          String(
+            db.prepare('SELECT payload FROM lesson_attempts WHERE id = ?').get(attempt.id)?.[
+              'payload'
+            ],
+          ),
+        ),
+      ).toEqual(attempt);
+      expect(await repository.latest(id)).toMatchObject({
+        lesson_id: id,
+        content_version: id.startsWith('rhythm.l1.values.') ? 7 : 6,
+        correct: content.exercises.length,
+      });
+    }
+    expect(db.prepare('SELECT COUNT(*) AS n FROM lesson_attempts').get()?.['n']).toBe(4);
+    expect(db.prepare('PRAGMA user_version').get()?.['user_version']).toBe(1);
+  });
   it('bewahrt Pulsdarstellung und rohe Anschlagzeiten in Version 6 neben dem Registerkurs', async () => {
     await initializeLessonDatabase(adapter(db));
     const repository = createLessonRepository(adapter(db));
