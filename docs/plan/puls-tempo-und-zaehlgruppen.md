@@ -50,6 +50,8 @@ Intern sind jetzt 13 Lektionen mit insgesamt 130 Aufgaben pro vollständigem Ers
 
 Claudes getrennte fachliche Abnahme nach [ADR 0005](../decisions/0005-fachliche-pruefung-durch-claude.md), GitHub-CI vor dem Merge, VoiceOver/TalkBack und echte iOS-/Android-Geräteproben bleiben offen. Browser-Automation und gemeldete Latenz ersetzen keine körperliche Bedien- und Hörprobe durch Testpersonen.
 
-Review-Zweig: `codex/p2-07-pulse-tempo`, auf dem gepushten Registerstand `213a2ea` aufgebaut. `main` bleibt unverändert; der fachliche Review erfolgt gesondert.
+Review-Zweig: `codex/p2-07-pulse-tempo`, auf dem gepushten Registerstand `213a2ea` aufgebaut. Feature-Commit `808699b` ist gepusht. `main` bleibt unverändert; der fachliche Review erfolgt gesondert.
+
+Die Draft-PR-Erstellung gegen `codex/p2-07-register-ledger-lines` wurde versucht und ist am GitHub-API-Zugriff gescheitert: `Post "https://api.github.com/graphql": Forbidden`. HTTPS-Git-Zugriff und Push funktionieren; es wurde kein PR angelegt. Der [Vergleich für Claude Code](https://github.com/PhiFa96/harmonia/compare/codex/p2-07-register-ledger-lines...codex/p2-07-pulse-tempo) zeigt ausschließlich diesen Ausbau gegenüber dem vorherigen Review-Zweig.
 
 Für Claude Code: Definitionen von Puls/Rhythmus, BPM-Bezug, betonte 1 und den Einstieg ohne Notenlese-Voraussetzung fachlich prüfen. Danach folgt gemäß Fähigkeitsplan `rhythm.l1.values` mit Notenwerten, Pausen, Taktfüllung und Taktstrichen. Alle vier Einheiten brauchen vor `freigegeben` den separaten fachlichen Prüfdurchgang. Vollständige Stufe 1, Stufe 2, Bestehens-/Freischaltlogik sowie spätere Chor-, Orchester- und mehrstimmige Tonsatzstufen bleiben Folgearbeit; P2.07 ist nicht abgeschlossen.
