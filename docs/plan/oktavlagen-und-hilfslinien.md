@@ -68,4 +68,6 @@ Claudes getrennter Prüfdurchgang in frischem Kontext und Literaturabgleich nach
 
 Review-Zweig: `codex/p2-07-register-ledger-lines`, Basis `codex/p2-07-keyboard-accidentals` bei `594e29e`. Gegen diesen Vorgänger prüfen. Die vorherigen Notations-, Wissens-, Rhythmus- und Akkordzweige waren zu Beginn weiterhin separat; `main` bleibt unverändert.
 
+Der Review-Zweig ist gepusht; Implementierungscommit `9b81e2e`. `main` blieb beim abschließenden Fetch auf `ea48230`. Die automatische Draft-PR-Erstellung scheitert am Cloud-Zugriff auf `https://api.github.com/graphql` mit `Forbidden`; es wurde kein PR angelegt. [Änderungen gegen die Klaviatureinheit vergleichen](https://github.com/PhiFa96/harmonia/compare/codex/p2-07-keyboard-accidentals...codex/p2-07-register-ledger-lines).
+
 Für Claude Code: zuerst die vollständigen Namensantworten, die Registergrenze H/B–C, die Hilfslinienpositionen und die schriftbasierte Tastenfrage prüfen. Danach folgt gemäß Fähigkeitsplan `rhythm.l1.pulse` mit Puls, Tempo und Zählzeiten. Alle drei Notationseinheiten brauchen vor `freigegeben` den separaten fachlichen Prüfdurchgang. Die vollständige Stufe 1, Stufe 2, Bestehens-/Freischaltlogik und spätere Chor-, Orchester- und mehrstimmige Tonsatzstufen bleiben Folgearbeit; P2.07 ist nicht abgeschlossen.
