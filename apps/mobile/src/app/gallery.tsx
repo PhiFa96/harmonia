@@ -44,6 +44,7 @@ const VARIANTS: readonly TextVariant[] = [
   'overline',
 ];
 const KEYBOARD_EXAMPLE = parseScore('treble | 4/4 | C4/2 E4/2');
+const REGISTER_EXAMPLE = parseScore('treble | 4/4 | C4/2 C5/2');
 
 export default function GalleryScreen() {
   const { t } = useTranslation();
@@ -97,6 +98,13 @@ export default function GalleryScreen() {
             <Section title={t('gallery.keyboardExample')}>
               <Card>
                 <KeyboardExample score={KEYBOARD_EXAMPLE} range={{ first: 60, last: 72 }} />
+              </Card>
+              <Card>
+                <KeyboardExample
+                  score={REGISTER_EXAMPLE}
+                  range={{ first: 60, last: 84 }}
+                  showOctaves
+                />
               </Card>
             </Section>
             <Answers />

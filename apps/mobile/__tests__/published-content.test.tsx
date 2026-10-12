@@ -74,3 +74,16 @@ it.each(['keys', 'steps', 'accidentals'])(
     expect(mockRepository).not.toHaveBeenCalled();
   },
 );
+
+it.each(['octaves', 'ledger', 'match'])(
+  'die interne Registerlektion %s ist im öffentlichen Katalog nicht erreichbar',
+  (name) => {
+    renderRouter('./src/app', { initialUrl: `/lesson?id=notation.l1.register.${name}` });
+    expect(
+      screen.getByText('Neue Lektionen werden vorbereitet. Du kannst schon frei üben.'),
+    ).toBeTruthy();
+    expect(screen.queryByTestId('keyboard-example')).toBeNull();
+    expect(screen.queryByTestId('piano-canvas')).toBeNull();
+    expect(mockRepository).not.toHaveBeenCalled();
+  },
+);

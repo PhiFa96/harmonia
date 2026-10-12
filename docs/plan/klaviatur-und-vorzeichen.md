@@ -2,6 +2,8 @@
 
 Stand: 09.10.2026. Die zweite Notationseinheit `notation.l1.keyboard` ergänzt drei interne Lektionen mit 8/10/12 Aufgaben, acht Wissenskarten mit dreizehn Noten-/Klaviaturbeispielen und einen fünfteiligen Artikelentwurf in DE/US/UK. Alle neuen Datensätze bleiben `entwurf`; P2.07 ist weiterhin offen bis zur vollständigen, fachlich freigegebenen Stufe 1.
 
+Fortsetzung 12.10.2026: [Oktavlagen und Hilfslinien](oktavlagen-und-hilfslinien.md) ergänzt die dritte Einheit. Katalog und Plan haben jetzt Version 5, zehn Lektionen sind intern auswählbar. Die hier beschriebenen Klaviaturinhalte behalten Version 4; der folgende Prüfstand dokumentiert ihre damalige Umsetzung. Als Nächstes folgt `rhythm.l1.pulse`.
+
 ## Lektionen und Voraussetzungen
 
 | Lektions-ID | Titel | Aufgaben | Einführung | Fähigkeiten |

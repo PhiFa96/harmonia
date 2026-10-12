@@ -259,6 +259,8 @@ export const enUS = {
     question_NOTE_PLACE: 'Write {{note}} on the empty staff. Check its accidental and octave.',
     question_KEY_FIND: 'Find the key for {{note}}. Check the octave.',
     question_KEY_FIND_name: 'Find the key for {{note}}.',
+    question_KEY_FIND_score:
+      'Play the written note on the $t(glossary:keyboard_one). Check its $t(glossary:noteName_one) and $t(glossary:octave_one).',
     question_INTERVAL_BUILD:
       'Write the second note: {{interval}} from {{from}}. Place it in the empty second measure.',
     writtenPitch:
@@ -271,6 +273,8 @@ export const enUS = {
       'Find the groups of two black keys: C is immediately to their left, and D is between the two black keys. Count from there to the required natural note in the stated octave.',
     keyNameHint1:
       'Find the $t(glossary:twoBlackKeys_other): C is immediately to their left, and D is between their keys. Count along the white keys to the requested $t(glossary:naturalNote_one) in the shown range.',
+    keyScoreHint1:
+      'First read the $t(glossary:clef_one) and the note position, including its $t(glossary:ledgerLine_other). Work out the complete $t(glossary:noteName_one). Find C in the same $t(glossary:octave_one) on the $t(glossary:keyboard_one), then move to the matching key.',
     keyHint2:
       'First find {{natural}}. {{alteration}} Moving to the immediately adjacent key is one semitone, including between E and F and between B and C.',
     buildHint2:
@@ -280,6 +284,8 @@ export const enUS = {
       'Tap the empty measure or adjust the rest with your screen reader. Drag to move your note. Choose its accidental with the controls below.',
     back: 'Back to exercises',
     question_NOTE_NAME: 'What is this note called? Choose the name without its octave.',
+    question_NOTE_NAME_octave:
+      'What is the written note called, including its $t(glossary:octave_one)?',
     question_INTERVAL_IDENTIFY_VISUAL:
       'Which $t(glossary:interval_one) do you see between these two notes?',
     question_INTERVAL_IDENTIFY_AURAL:
@@ -359,6 +365,8 @@ export const enUS = {
     scrollExample: 'Scroll the notation sideways to see all the notes.',
     keyboardExample: 'Piano keyboard example; marked keys: {{notes}}.',
     keyboardMarkers: 'Dots mark the keys used in the notation example.',
+    scrollKeyboardExample:
+      'Scroll the piano keyboard sideways to see all labeled octave registers.',
     start_one: 'Start {{count}} question',
     start_other: 'Start {{count}} questions',
     restart: 'Practice lesson again',

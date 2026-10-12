@@ -108,13 +108,18 @@ export const exerciseSpecSchema = z
     z.object({ type: z.literal('SCALE_IDENTIFY'), params: scaleParams }).strict(),
     z.object({ type: z.literal('KEYSIG_BUILD'), params: signatureParams }).strict(),
     z.object({ type: z.literal('KEYSIG_IDENTIFY'), params: signatureParams }).strict(),
-    z.object({ type: z.literal('NOTE_NAME'), params: noteParams }).strict(),
+    z
+      .object({
+        type: z.literal('NOTE_NAME'),
+        params: noteParams.extend({ includeOctave: z.boolean().optional() }).strict(),
+      })
+      .strict(),
     z.object({ type: z.literal('NOTE_PLACE'), params: noteParams }).strict(),
     z
       .object({
         type: z.literal('KEY_FIND'),
         params: noteParams
-          .extend({ presentation: z.enum(['notation', 'name']).optional() })
+          .extend({ presentation: z.enum(['notation', 'name', 'score']).optional() })
           .strict(),
       })
       .strict(),
@@ -248,8 +253,17 @@ export const exerciseSpecSchema = z
           ...(value.params.presentation ? { presentation: value.params.presentation } : {}),
         },
       };
-    if (value.type === 'NOTE_NAME' || value.type === 'NOTE_PLACE')
-      return { type: value.type, params: base };
+    if (value.type === 'NOTE_NAME')
+      return {
+        type: value.type,
+        params: {
+          ...base,
+          ...(value.params.includeOctave === undefined
+            ? {}
+            : { includeOctave: value.params.includeOctave }),
+        },
+      };
+    if (value.type === 'NOTE_PLACE') return { type: value.type, params: base };
     if (value.type === 'INTERVAL_IDENTIFY_VISUAL' || value.type === 'INTERVAL_BUILD')
       return {
         type: value.type,
@@ -293,7 +307,11 @@ export const exampleSchema = z
   .object({ score: z.string().min(1), captionKey: contentTextKeySchema })
   .extend({
     keyboard: z
-      .object({ first: z.number().int().min(21).max(108), last: z.number().int().min(21).max(108) })
+      .object({
+        first: z.number().int().min(21).max(108),
+        last: z.number().int().min(21).max(108),
+        showOctaves: z.boolean().optional(),
+      })
       .strict()
       .refine((value) => value.first <= value.last, 'Ungültiger Klaviatur-Ausschnitt')
       .optional(),

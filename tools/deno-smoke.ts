@@ -9,6 +9,7 @@ import {
   exerciseFeedback,
   createLessonSession,
   generateNotePlace,
+  generateNote,
   generateKeyFind,
   generateIntervalBuild,
   generateScale,
@@ -66,6 +67,32 @@ const exercise = generateExercise(
   exerciseRng('deno-exercises'),
 );
 const plannedSkills = curriculumSkills(catalogue, curriculumPlan);
+check(
+  'Registereinheit mit acht, zehn und zwölf Aufgaben',
+  ['octaves', 'ledger', 'match']
+    .map((name) => resolveLesson(catalogue, `notation.l1.register.${name}`)?.exercises.length)
+    .join(','),
+  '8,10,12',
+);
+const registerNote = generateNote(
+  { includeOctave: true, range: { minMidi: 64, maxMidi: 77 } },
+  exerciseRng('deno-register-note'),
+);
+check(
+  'Oktavgenaue Namensantwort unter Deno',
+  registerNote.includeOctave === true &&
+    evaluateExercise(registerNote, expectedAnswer(registerNote)).correct,
+  true,
+);
+const registerKey = generateKeyFind(
+  { presentation: 'score', range: { minMidi: 57, maxMidi: 84 } },
+  exerciseRng('deno-register-key'),
+);
+check(
+  'Score-Tastenfrage mit A3–C6 unter Deno',
+  `${String(registerKey.presentation)}:${String(registerKey.keyboardRange?.first)}-${String(registerKey.keyboardRange?.last)}:${String(evaluateExercise(registerKey, expectedAnswer(registerKey)).correct)}`,
+  'score:57-84:true',
+);
 check(
   'Erste Notationseinheit mit acht, zehn und zwölf Aufgaben',
   ['anchor', 'positions', 'reading']

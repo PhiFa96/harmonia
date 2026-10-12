@@ -71,6 +71,7 @@ export function LessonIntroduction({
               key={`keyboard:${example.score}`}
               score={score}
               range={example.keyboard}
+              showOctaves={example.keyboard.showOctaves ?? false}
             />
           ) : null}
           <ScrollView

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": 4,
+  "contentVersion": 5,
   "areas": [
     {
       "id": "fundament",
@@ -1431,6 +1431,78 @@
           "count": 4
         }
       ]
+    },
+    {
+      "contentVersion": 5,
+      "status": "entwurf",
+      "id": "notation.l1.register.octaves.exercises",
+      "titleKey": "content.registerStart.octavesLesson",
+      "skillIds": ["notation.octave-register"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "NOTE_NAME",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 64,
+                "maxMidi": 77
+              },
+              "maxAccidentals": 0,
+              "includeOctave": true
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "contentVersion": 5,
+      "status": "entwurf",
+      "id": "notation.l1.register.ledger.exercises",
+      "titleKey": "content.registerStart.ledgerLesson",
+      "skillIds": ["notation.octave-register", "notation.ledger-lines"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "NOTE_NAME",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 57,
+                "maxMidi": 84
+              },
+              "maxAccidentals": 0,
+              "includeOctave": true
+            }
+          },
+          "count": 10
+        }
+      ]
+    },
+    {
+      "contentVersion": 5,
+      "status": "entwurf",
+      "id": "notation.l1.register.match.exercises",
+      "titleKey": "content.registerStart.matchLesson",
+      "skillIds": ["notation.octave-register", "notation.ledger-lines", "notation.pitch-match"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KEY_FIND",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 57,
+                "maxMidi": 84
+              },
+              "maxAccidentals": 0,
+              "presentation": "score"
+            }
+          },
+          "count": 12
+        }
+      ]
     }
   ],
   "knowledgeCards": [
@@ -1765,6 +1837,203 @@
           }
         }
       ]
+    },
+    {
+      "contentVersion": 5,
+      "status": "entwurf",
+      "id": "notation.l1.register.card-repetition",
+      "titleKey": "content.registerStart.repetitionTitle",
+      "bodyKey": "content.registerStart.repetitionBody",
+      "skillIds": ["notation.octave-register"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/2 E5/2",
+          "captionKey": "content.registerStart.eCaption",
+          "keyboard": {
+            "first": 64,
+            "last": 76,
+            "showOctaves": true
+          }
+        },
+        {
+          "score": "treble | 4/4 | G4/2 G5/2",
+          "captionKey": "content.registerStart.gCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 79,
+            "showOctaves": true
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 5,
+      "status": "entwurf",
+      "id": "notation.l1.register.card-boundary",
+      "titleKey": "content.registerStart.boundaryTitle",
+      "bodyKey": "content.registerStart.boundaryBody",
+      "skillIds": ["notation.octave-register"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | B4/2 C5/2",
+          "captionKey": "content.registerStart.boundaryCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 72,
+            "showOctaves": true
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 5,
+      "status": "entwurf",
+      "id": "notation.l1.register.card-names",
+      "titleKey": "content.registerStart.namesTitle",
+      "bodyKey": "content.registerStart.namesBody",
+      "skillIds": ["notation.octave-register"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/2 C5/2",
+          "captionKey": "content.registerStart.cCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 72,
+            "showOctaves": true
+          }
+        },
+        {
+          "score": "treble | 4/4 | F4/2 F5/2",
+          "captionKey": "content.registerStart.fCaption",
+          "keyboard": {
+            "first": 65,
+            "last": 77,
+            "showOctaves": true
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 5,
+      "status": "entwurf",
+      "id": "notation.l1.register.card-extend",
+      "titleKey": "content.registerStart.extendTitle",
+      "bodyKey": "content.registerStart.extendBody",
+      "skillIds": ["notation.octave-register", "notation.ledger-lines"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | D4/2 G5/2",
+          "captionKey": "content.registerStart.extendCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 79,
+            "showOctaves": true
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 5,
+      "status": "entwurf",
+      "id": "notation.l1.register.card-lower",
+      "titleKey": "content.registerStart.lowerTitle",
+      "bodyKey": "content.registerStart.lowerBody",
+      "skillIds": ["notation.octave-register", "notation.ledger-lines"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/2 A3/2",
+          "captionKey": "content.registerStart.lowerLinesCaption",
+          "keyboard": {
+            "first": 57,
+            "last": 72,
+            "showOctaves": true
+          }
+        },
+        {
+          "score": "treble | 4/4 | D4/4 C4/4 B3/4 A3/4",
+          "captionKey": "content.registerStart.lowerStepsCaption",
+          "keyboard": {
+            "first": 57,
+            "last": 72,
+            "showOctaves": true
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 5,
+      "status": "entwurf",
+      "id": "notation.l1.register.card-upper",
+      "titleKey": "content.registerStart.upperTitle",
+      "bodyKey": "content.registerStart.upperBody",
+      "skillIds": ["notation.octave-register", "notation.ledger-lines"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | A5/2 C6/2",
+          "captionKey": "content.registerStart.upperLinesCaption",
+          "keyboard": {
+            "first": 72,
+            "last": 84,
+            "showOctaves": true
+          }
+        },
+        {
+          "score": "treble | 4/4 | F5/4 G5/4 A5/4 B5/4 | C6/1",
+          "captionKey": "content.registerStart.upperStepsCaption",
+          "keyboard": {
+            "first": 65,
+            "last": 84,
+            "showOctaves": true
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 5,
+      "status": "entwurf",
+      "id": "notation.l1.register.card-match",
+      "titleKey": "content.registerStart.matchTitle",
+      "bodyKey": "content.registerStart.matchBody",
+      "skillIds": ["notation.octave-register", "notation.ledger-lines", "notation.pitch-match"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/2 C5/2",
+          "captionKey": "content.registerStart.matchCCaption",
+          "keyboard": {
+            "first": 57,
+            "last": 84,
+            "showOctaves": true
+          }
+        },
+        {
+          "score": "treble | 4/4 | A3/2 C6/2",
+          "captionKey": "content.registerStart.matchEdgesCaption",
+          "keyboard": {
+            "first": 57,
+            "last": 84,
+            "showOctaves": true
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 5,
+      "status": "entwurf",
+      "id": "notation.l1.register.card-strategy",
+      "titleKey": "content.registerStart.strategyTitle",
+      "bodyKey": "content.registerStart.strategyBody",
+      "skillIds": ["notation.octave-register", "notation.ledger-lines", "notation.pitch-match"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 G5/4 C5/2",
+          "captionKey": "content.registerStart.strategyCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 84,
+            "showOctaves": true
+          }
+        }
+      ]
     }
   ],
   "knowledgeArticles": [
@@ -1927,6 +2196,126 @@
           ]
         }
       ]
+    },
+    {
+      "contentVersion": 5,
+      "status": "entwurf",
+      "id": "notation.l1.register.article",
+      "titleKey": "content.registerStart.articleTitle",
+      "skillIds": ["notation.octave-register", "notation.ledger-lines", "notation.pitch-match"],
+      "sections": [
+        {
+          "headingKey": "content.registerStart.repetitionTitle",
+          "bodyKey": "content.registerStart.octavesArticle",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/2 E5/2",
+              "captionKey": "content.registerStart.eCaption",
+              "keyboard": {
+                "first": 64,
+                "last": 76,
+                "showOctaves": true
+              }
+            },
+            {
+              "score": "treble | 4/4 | G4/2 G5/2",
+              "captionKey": "content.registerStart.gCaption",
+              "keyboard": {
+                "first": 60,
+                "last": 79,
+                "showOctaves": true
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.registerStart.namesTitle",
+          "bodyKey": "content.registerStart.namesArticle",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/2 C5/2",
+              "captionKey": "content.registerStart.cCaption",
+              "keyboard": {
+                "first": 60,
+                "last": 72,
+                "showOctaves": true
+              }
+            },
+            {
+              "score": "treble | 4/4 | F4/2 F5/2",
+              "captionKey": "content.registerStart.fCaption",
+              "keyboard": {
+                "first": 65,
+                "last": 77,
+                "showOctaves": true
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.registerStart.lowerTitle",
+          "bodyKey": "content.registerStart.lowerArticle",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/2 A3/2",
+              "captionKey": "content.registerStart.lowerLinesCaption",
+              "keyboard": {
+                "first": 57,
+                "last": 72,
+                "showOctaves": true
+              }
+            },
+            {
+              "score": "treble | 4/4 | D4/4 C4/4 B3/4 A3/4",
+              "captionKey": "content.registerStart.lowerStepsCaption",
+              "keyboard": {
+                "first": 57,
+                "last": 72,
+                "showOctaves": true
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.registerStart.upperTitle",
+          "bodyKey": "content.registerStart.upperArticle",
+          "examples": [
+            {
+              "score": "treble | 4/4 | A5/2 C6/2",
+              "captionKey": "content.registerStart.upperLinesCaption",
+              "keyboard": {
+                "first": 72,
+                "last": 84,
+                "showOctaves": true
+              }
+            },
+            {
+              "score": "treble | 4/4 | F5/4 G5/4 A5/4 B5/4 | C6/1",
+              "captionKey": "content.registerStart.upperStepsCaption",
+              "keyboard": {
+                "first": 65,
+                "last": 84,
+                "showOctaves": true
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.registerStart.strategyTitle",
+          "bodyKey": "content.registerStart.matchArticle",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 G5/4 C5/2",
+              "captionKey": "content.registerStart.strategyCaption",
+              "keyboard": {
+                "first": 60,
+                "last": 84,
+                "showOctaves": true
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "lessons": [
@@ -2018,6 +2407,47 @@
         "notation.l1.keyboard.card-same"
       ],
       "exerciseSetIds": ["notation.l1.keyboard.accidentals.exercises"]
+    },
+    {
+      "contentVersion": 5,
+      "status": "entwurf",
+      "id": "notation.l1.register.octaves",
+      "titleKey": "content.registerStart.octavesLesson",
+      "unitId": "notation.l1.register",
+      "skillIds": ["notation.octave-register"],
+      "introductionCardIds": [
+        "notation.l1.register.card-repetition",
+        "notation.l1.register.card-boundary",
+        "notation.l1.register.card-names"
+      ],
+      "exerciseSetIds": ["notation.l1.register.octaves.exercises"]
+    },
+    {
+      "contentVersion": 5,
+      "status": "entwurf",
+      "id": "notation.l1.register.ledger",
+      "titleKey": "content.registerStart.ledgerLesson",
+      "unitId": "notation.l1.register",
+      "skillIds": ["notation.octave-register", "notation.ledger-lines"],
+      "introductionCardIds": [
+        "notation.l1.register.card-extend",
+        "notation.l1.register.card-lower",
+        "notation.l1.register.card-upper"
+      ],
+      "exerciseSetIds": ["notation.l1.register.ledger.exercises"]
+    },
+    {
+      "contentVersion": 5,
+      "status": "entwurf",
+      "id": "notation.l1.register.match",
+      "titleKey": "content.registerStart.matchLesson",
+      "unitId": "notation.l1.register",
+      "skillIds": ["notation.octave-register", "notation.ledger-lines", "notation.pitch-match"],
+      "introductionCardIds": [
+        "notation.l1.register.card-match",
+        "notation.l1.register.card-strategy"
+      ],
+      "exerciseSetIds": ["notation.l1.register.match.exercises"]
     }
   ]
 }

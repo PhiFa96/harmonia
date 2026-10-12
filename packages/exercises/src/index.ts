@@ -31,6 +31,8 @@ import type {
   NoteItem,
   NotePlaceItem,
   NoteParams,
+  NoteNameParams,
+  KeyFindParams,
   VisualIntervalParams,
   ScaleParams,
   ScaleItem,
@@ -99,7 +101,7 @@ export const chordIdentifyExercise: ExerciseDefinition<ChordIdentifyParams, Chor
   hints: exerciseHints,
 };
 
-export const noteNameExercise: ExerciseDefinition<NoteParams, NoteItem> = {
+export const noteNameExercise: ExerciseDefinition<NoteNameParams, NoteItem> = {
   generate: generateNote,
   evaluate: evaluateExercise,
   feedback: exerciseFeedback,
@@ -123,7 +125,7 @@ export const notePlaceExercise: ExerciseDefinition<NoteParams, NotePlaceItem> = 
   feedback: exerciseFeedback,
   hints: exerciseHints,
 };
-export const keyFindExercise: ExerciseDefinition<NoteParams, KeyFindItem> = {
+export const keyFindExercise: ExerciseDefinition<KeyFindParams, KeyFindItem> = {
   generate: generateKeyFind,
   evaluate: evaluateExercise,
   feedback: exerciseFeedback,

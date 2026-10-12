@@ -3,6 +3,7 @@ import type { Interval, Pitch, Rng } from '@harmonia/theory';
 import {
   LETTERS,
   duration,
+  formatPitch,
   formatInterval,
   midi,
   parseInterval,
@@ -20,6 +21,7 @@ import type {
   NoteItem,
   NotePlaceItem,
   NoteParams,
+  NoteNameParams,
   VisualIntervalParams,
 } from './types.ts';
 
@@ -57,8 +59,66 @@ function choosePitch(params: NoteParams, rng: Rng, editable = false, naturalInRa
   const pitch = rng.pick(pool.pitches);
   return { clef: pool.clef, pitch, limit };
 }
-export function generateNote(params: NoteParams, rng: Rng): NoteItem {
+export function generateNote(params: NoteNameParams, rng: Rng): NoteItem {
+  if (![undefined, true, false].includes(params.includeOctave))
+    throw new RangeError('Ungültige Oktav-Antwortvorgabe');
   const { clef, pitch, limit } = choosePitch(params, rng);
+  if (params.includeOctave) {
+    const sourcePitches = pitchPool(rangeFor(params, clef), limit);
+    const octaves = [...new Set(sourcePitches.map((value) => value.octave))];
+    if (octaves.length < 2) throw new RangeError('Oktavfragen brauchen mindestens zwei Oktavlagen');
+    const candidates = octaves
+      .flatMap((octave) =>
+        LETTERS.flatMap((letter) =>
+          Array.from({ length: limit * 2 + 1 }, (_, index) => ({
+            letter,
+            alter: index - limit,
+            octave,
+          })),
+        ),
+      )
+      .filter((value) => midi(value) >= 21 && midi(value) <= 108);
+    if (
+      sourcePitches.some(
+        (source) =>
+          !candidates.some(
+            (value) =>
+              value.letter === source.letter &&
+              value.alter === source.alter &&
+              value.octave !== source.octave,
+          ),
+      )
+    )
+      throw new RangeError('Jede Oktavfrage braucht eine zweite erreichbare Lage desselben Namens');
+    const otherRegisters = candidates.filter(
+      (value) =>
+        value.letter === pitch.letter &&
+        value.alter === pitch.alter &&
+        value.octave !== pitch.octave,
+    );
+    const closest = Math.min(
+      ...otherRegisters.map((value) => Math.abs(value.octave - pitch.octave)),
+    );
+    const confusion = formatPitch(
+      rng.pick(otherRegisters.filter((value) => Math.abs(value.octave - pitch.octave) === closest)),
+    );
+    const answer = formatPitch(pitch);
+    const others = options(
+      answer,
+      candidates.map((value) => formatPitch(value)).filter((value) => value !== confusion),
+      rng,
+    )
+      .filter((value) => value !== answer)
+      .slice(0, 2);
+    return {
+      type: 'NOTE_NAME',
+      clef,
+      pitch,
+      includeOctave: true,
+      score: singleStaffScore([[note(pitch, duration('whole'))]], { clef }),
+      choices: rng.shuffle([answer, confusion, ...others]),
+    };
+  }
   const names = LETTERS.flatMap((letter) =>
     Array.from({ length: limit * 2 + 1 }, (_, index) =>
       noteAnswerId({ letter, alter: index - limit }),
@@ -83,7 +143,7 @@ export function generateNotePlace(params: NoteParams, rng: Rng): NotePlaceItem {
   };
 }
 export function generateKeyFind(params: KeyFindParams, rng: Rng): KeyFindItem {
-  if (!['notation', 'name'].includes(params.presentation ?? 'notation'))
+  if (!['notation', 'name', 'score'].includes(params.presentation ?? 'notation'))
     throw new RangeError('Unbekannte Tasten-Vorgabe');
   const named = params.presentation === 'name',
     range = params.range ?? { minMidi: 60, maxMidi: named ? 71 : 76 };
@@ -96,9 +156,9 @@ export function generateKeyFind(params: KeyFindParams, rng: Rng): KeyFindItem {
     pitch,
     choices: [],
     score: singleStaffScore([[note(pitch, duration('whole'))]], { clef }),
-    ...(named
+    ...(named || params.presentation === 'score'
       ? {
-          presentation: 'name' as const,
+          presentation: named ? ('name' as const) : ('score' as const),
           keyboardRange: { first: range.minMidi, last: range.maxMidi },
         }
       : {}),
