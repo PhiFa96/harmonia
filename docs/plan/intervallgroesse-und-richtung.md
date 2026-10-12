@@ -40,3 +40,5 @@ Für Claude Code: Nummernzählung einschließlich Prime und Oktavgrenze, die Def
 Review-Zweig: `codex/p2-07-interval-size-direction`, gegen `codex/p2-07-simple-meter-count-in` vergleichen. `main` bleibt unverändert. Nächste Einheit: `intervals.l1.first-qualities` mit Halbtonabstand, kleinen/großen Terzen und reinen Quarten, Quinten und Oktaven. P2.07 ist weiterhin offen.
 
 Der [Vergleich für Claude Code](https://github.com/PhiFa96/harmonia/compare/codex/p2-07-simple-meter-count-in...codex/p2-07-interval-size-direction) enthält ausschließlich diesen Ausbau.
+
+Der Zweig ist gepusht. Die Draft-PR-Erstellung wurde versucht, aber der GitHub-API-Aufruf erhielt erneut `Post "https://api.github.com/graphql": Forbidden`. Es wurde kein PR angelegt; der Vergleich bleibt direkt erreichbar.
