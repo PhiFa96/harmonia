@@ -14,6 +14,18 @@ export const enGB = {
     knowledgeHint_meters:
       'Distinguish the number of denominator units from the number of beats. In compound metres, three units form one beat.',
     rhythmStart: 'Practise rhythm and metre',
+    type_PICKUP_IDENTIFY: 'Recognise an $t(glossary:pickup_one)',
+    question_PICKUP_IDENTIFY:
+      'Is the first notated bar before the first bar line an upbeat? Compare its duration with the following complete bar.',
+    pickupYes: 'Yes, an upbeat',
+    pickupNo: 'No, a complete bar',
+    pickupExplanation:
+      '{{meter}} holds {{capacity}} × one crotchet value. Before the first bar line: {{first}} × one crotchet value. {{answer}}. The second bar shows the full length.',
+    pickupDescription:
+      'Time signature {{meter}}. First bar before the bar line: {{events}} A complete bar follows.',
+    pickupHint2:
+      'Compare that sum with the numerator of the time signature: 2/4, 3/4 or 4/4. Two quavers equal one crotchet.',
+    pickupScroll: 'Scroll the notation sideways to see the full following bar.',
     meterHint1:
       'The numerator gives the number of units; the denominator gives their note value. In 6/8, 9/8 and 12/8, three quavers form one beat.',
     chordStart: 'Recognise and write chords',

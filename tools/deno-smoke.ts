@@ -94,6 +94,33 @@ check(
   'pulse',
 );
 check(
+  'Einfache Taktarten mit acht, zehn und zwölf Aufgaben',
+  ['meter', 'count-in', 'read']
+    .map((name) => resolveLesson(catalogue, `rhythm.l1.simple-meter.${name}`)?.exercises.length)
+    .join(','),
+  '8,10,12',
+);
+check(
+  'Viertelmodus erzeugt drei notierte Einsätze in 3/4 unter Deno',
+  rhythmOnsets(
+    generateRhythm(
+      { meters: ['3/4'], level: 'quarters', rests: false, tempos: [90] },
+      exerciseRng('deno-quarters'),
+      'RHYTHM_TAP',
+    ),
+  ).length,
+  3,
+);
+const pickup = generateExercise(
+  { type: 'METER_IDENTIFY', params: { meters: ['2/4', '3/4', '4/4'], presentation: 'pickup' } },
+  exerciseRng('deno-pickup'),
+);
+check(
+  'Auftaktfrage bewertet den notierten Takt unter Deno',
+  pickup.type === 'METER_IDENTIFY' && evaluateExercise(pickup, expectedAnswer(pickup)).correct,
+  true,
+);
+check(
   'Registereinheit mit acht, zehn und zwölf Aufgaben',
   ['octaves', 'ledger', 'match']
     .map((name) => resolveLesson(catalogue, `notation.l1.register.${name}`)?.exercises.length)

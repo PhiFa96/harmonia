@@ -28,7 +28,7 @@ import type {
 import { accidentalLimit, clefs, options, pitchPool, rangeFor } from './parameters.ts';
 import { generateScale, generateKeySignature } from './tonality.ts';
 import { generateChord } from './chords.ts';
-import { generateRhythm } from './rhythm.ts';
+import { generatePickup, generateRhythm } from './rhythm.ts';
 import { generateKnowledge, generateMatch, generateOrder } from './knowledge.ts';
 export function noteAnswerId(pitch: Pick<Pitch, 'letter' | 'alter'>): string {
   return `${pitch.letter}:${String(pitch.alter)}`;
@@ -296,8 +296,11 @@ export function generateExercise(spec: ExerciseSpec, rng: Rng) {
     case 'ORDER':
       return generateOrder(spec.params, rng);
     case 'RHYTHM_TAP':
-    case 'METER_IDENTIFY':
       return generateRhythm(spec.params, rng, spec.type);
+    case 'METER_IDENTIFY':
+      return spec.params.presentation === 'pickup'
+        ? generatePickup(spec.params, rng)
+        : generateRhythm(spec.params, rng, spec.type);
     case 'CHORD_IDENTIFY':
     case 'CHORD_BUILD':
       return generateChord(spec.params, rng, spec.type);

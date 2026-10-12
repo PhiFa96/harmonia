@@ -1,7 +1,7 @@
 import { createRng, keyFifths, midi } from '@harmonia/theory';
 import { isKeySignatureItem, isScaleItem } from './tonality.ts';
 import { chordReferencePitch, chordTargets, isChordItem } from './chords.ts';
-import { isRhythmItem, rhythmMeter } from './rhythm.ts';
+import { isRhythmItem, pickupAnswer, rhythmMeter } from './rhythm.ts';
 import { knowledgeFactId, orderValueId } from './knowledge.ts';
 import { generateExercise } from './generate.ts';
 import {
@@ -73,6 +73,11 @@ export function itemVariantKey(item: ExerciseItem): string {
       item.topic,
       item.direction,
       item.values.map(orderValueId).sort(),
+    ]);
+  if (item.type === 'METER_IDENTIFY')
+    return JSON.stringify([
+      item.type,
+      item.presentation === 'pickup' ? pickupAnswer(item) : rhythmMeter(item),
     ]);
   if (isRhythmItem(item))
     return JSON.stringify([

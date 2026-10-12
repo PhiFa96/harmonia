@@ -13,6 +13,7 @@ import {
   assessRhythm,
   isRhythmItem,
   meterAnswerId,
+  pickupAnswer,
   rhythmAnswerId,
   rhythmAnswerTaps,
   rhythmMeter,
@@ -58,7 +59,9 @@ export function expectedAnswer(item: ExerciseItem): string {
   if (isRhythmItem(item))
     return item.type === 'RHYTHM_TAP'
       ? rhythmAnswerId(rhythmOnsets(item))
-      : meterAnswerId(rhythmMeter(item));
+      : item.presentation === 'pickup'
+        ? pickupAnswer(item)
+        : meterAnswerId(rhythmMeter(item));
   if (isChordItem(item))
     return item.type === 'CHORD_BUILD'
       ? canonicalChordAnswer(chordTargets(item))

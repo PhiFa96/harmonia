@@ -33,10 +33,13 @@ const meterParams = z
 const rhythmParams = meterParams
   .extend({
     tempos: z.array(z.number().int().min(60).max(120)).nonempty().optional(),
-    level: z.enum(['basic', 'dotted', 'pulse']).optional(),
+    level: z.enum(['basic', 'dotted', 'pulse', 'quarters']).optional(),
     rests: z.boolean().optional(),
     toleranceMs: z.number().int().min(40).max(180).optional(),
   })
+  .strict();
+const meterIdentifyParams = meterParams
+  .extend({ presentation: z.literal('pickup').optional() })
   .strict();
 const maxDots = z.union([z.literal(0), z.literal(1)]).optional();
 const knowledgeParams = z
@@ -100,7 +103,7 @@ export const exerciseSpecSchema = z
     z.object({ type: z.literal('MATCH'), params: matchParams }).strict(),
     z.object({ type: z.literal('ORDER'), params: orderParams }).strict(),
     z.object({ type: z.literal('RHYTHM_TAP'), params: rhythmParams }).strict(),
-    z.object({ type: z.literal('METER_IDENTIFY'), params: meterParams }).strict(),
+    z.object({ type: z.literal('METER_IDENTIFY'), params: meterIdentifyParams }).strict(),
     z.object({ type: z.literal('CHORD_BUILD'), params: chordParams }).strict(),
     z
       .object({
@@ -204,6 +207,9 @@ export const exerciseSpecSchema = z
         params: {
           meters: value.params.meters,
           ...(value.params.clefs ? { clefs: value.params.clefs } : {}),
+          ...(value.type === 'METER_IDENTIFY' && value.params.presentation
+            ? { presentation: value.params.presentation }
+            : {}),
           ...(value.type === 'RHYTHM_TAP'
             ? {
                 ...(value.params.tempos ? { tempos: value.params.tempos } : {}),

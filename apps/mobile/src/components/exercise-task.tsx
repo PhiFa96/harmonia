@@ -83,10 +83,15 @@ export function ExerciseTask({
   const prompt = exercisePrompt(item, locale);
   const feedbackRegion = useRef<View>(null);
   const [scoreWidth, setScoreWidth] = useState(0);
+  const pickup = item.type === 'METER_IDENTIFY' && item.presentation === 'pickup';
   const rhythmWidth = useMemo(
     () =>
       item.type === 'RHYTHM_TAP' ? layoutScore(item.score, { endBarline: 'final' }).width + 2 : 0,
     [item],
+  );
+  const pickupWidth = useMemo(
+    () => (pickup ? (layoutScore(item.score, { endBarline: 'final' }).width + 2) * 14 : 0),
+    [item, pickup],
   );
   // Ein vollständiger Rhythmustakt muss beim Mittippen ohne seitliches Scrollen lesbar sein.
   const staffSpace =
@@ -126,7 +131,9 @@ export function ExerciseTask({
           {t(
             item.type === 'RHYTHM_TAP' && item.presentation === 'pulse'
               ? 'exercise.type_PULSE_TAP'
-              : `exercise.type_${item.type}`,
+              : item.type === 'METER_IDENTIFY' && item.presentation === 'pickup'
+                ? 'exercise.type_PICKUP_IDENTIFY'
+                : `exercise.type_${item.type}`,
           )}
         </AppText>
         <MusicText variant="title2">{prompt}</MusicText>
@@ -153,7 +160,7 @@ export function ExerciseTask({
         <Card
           padding={SPACE.s}
           onLayout={(event) => {
-            if (item.type === 'RHYTHM_TAP') setScoreWidth(event.nativeEvent.layout.width);
+            setScoreWidth(event.nativeEvent.layout.width);
           }}
         >
           <ScrollView horizontal contentContainerStyle={styles.score}>
@@ -193,6 +200,11 @@ export function ExerciseTask({
           />
         </Card>
       )}
+      {pickup && scoreWidth > 0 && pickupWidth > scoreWidth - 2 * SPACE.s - 2 ? (
+        <AppText variant="footnote" tone="muted">
+          {t('exercise.pickupScroll')}
+        </AppText>
+      ) : null}
       {isAuralExercise(item) && !result ? (
         <Button
           size="medium"

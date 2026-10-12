@@ -169,6 +169,13 @@ export const GLOSSARY = {
     en: { term: 'bar line', plural: 'bar lines' },
     note: 'Auch zusammengeschrieben „barline“.',
   },
+  pickup: {
+    category: 'rhythm',
+    de: { term: 'Auftakt', gender: 'm', plural: 'Auftakte' },
+    en: { term: 'pickup', plural: 'pickups' },
+    enGB: { term: 'upbeat', plural: 'upbeats' },
+    note: 'Ein unvollständiger erster Takt vor dem ersten Taktstrich.',
+  },
   finalBarline: {
     category: 'notation',
     de: { term: 'Schlussstrich', gender: 'm', plural: 'Schlussstriche' },

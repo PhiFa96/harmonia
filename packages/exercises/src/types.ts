@@ -86,11 +86,15 @@ export interface MeterParams {
   readonly meters: readonly MvpMeter[];
   readonly clefs?: readonly ExerciseClef[];
 }
+export interface MeterIdentifyParams extends MeterParams {
+  /** Auftakt aus zwei sichtbaren Takten anhand der Dauer vor dem ersten Taktstrich erkennen. */
+  readonly presentation?: 'pickup';
+}
 export interface RhythmParams extends MeterParams {
   /** Tempo des tatsächlichen Grundschlags, auch der punktierten Viertel in 6/8. */
   readonly tempos?: readonly number[];
   /** pulse: nur gleichmäßige Schläge in 2/4, 3/4 oder 4/4, ohne Notenlesen. */
-  readonly level?: 'basic' | 'dotted' | 'pulse';
+  readonly level?: 'basic' | 'dotted' | 'pulse' | 'quarters';
   readonly rests?: boolean;
   /** Maximale Abweichung in ms; zusätzlich auf 40 % des kürzesten Einsatzabstands begrenzt. */
   readonly toleranceMs?: number;
@@ -162,7 +166,7 @@ export type ExerciseSpec =
   | { readonly type: 'CHORD_BUILD'; readonly params: ChordParams }
   | { readonly type: 'CHORD_IDENTIFY'; readonly params: ChordIdentifyParams }
   | { readonly type: 'RHYTHM_TAP'; readonly params: RhythmParams }
-  | { readonly type: 'METER_IDENTIFY'; readonly params: MeterParams }
+  | { readonly type: 'METER_IDENTIFY'; readonly params: MeterIdentifyParams }
   | { readonly type: 'INTERVAL_IDENTIFY_VISUAL'; readonly params: VisualIntervalParams }
   | { readonly type: 'INTERVAL_IDENTIFY_AURAL'; readonly params: AuralIntervalParams };
 
@@ -226,7 +230,7 @@ export interface RhythmItem extends ItemBase {
   readonly bpm: number;
   readonly toleranceMs: number;
   /** Zahlen und gleichmäßige Klicks statt eines sichtbaren Notenbilds. */
-  readonly presentation?: 'pulse';
+  readonly presentation?: 'pulse' | 'pickup';
 }
 /** Wissensaufgaben benötigen kein künstliches Notenbild und keinen Notenschlüssel. */
 export interface RhythmValue {

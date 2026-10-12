@@ -5,17 +5,26 @@ import {
   addFractions,
   beats,
   compareFractions,
+  checkMeasure,
   duration,
   durationSeconds,
   durationValue,
   fraction,
   fractionEquals,
+  sumFractions,
   formatTimeSignature,
   multiplyFractions,
   parseTimeSignature,
 } from '@harmonia/theory';
 import { clefs, options } from './parameters.ts';
-import type { ExerciseItem, MeterParams, MvpMeter, RhythmItem, RhythmParams } from './types.ts';
+import type {
+  ExerciseItem,
+  MeterIdentifyParams,
+  MeterParams,
+  MvpMeter,
+  RhythmItem,
+  RhythmParams,
+} from './types.ts';
 
 export const MVP_METERS = [
   '2/2',
@@ -182,7 +191,7 @@ interface CellNote {
 function cells(meter: TimeSignature, params: RhythmParams): readonly (readonly VoiceEvent[])[] {
   const beat = beats(meter)[0];
   if (!beat) throw new RangeError('Grundschlag fehlt');
-  if (params.level === 'pulse')
+  if (params.level === 'pulse' || params.level === 'quarters')
     return [[note({ letter: 'G', alter: 0, octave: 4 }, duration('quarter'))]];
   const ratios: (readonly CellNote[])[] = [
     [{ value: fraction(1), rest: false }],
@@ -242,7 +251,11 @@ export function generateRhythm(
   if (
     !tempos.length ||
     tempos.some((bpm) => !Number.isInteger(bpm) || bpm < 60 || bpm > 120) ||
-    !['basic', 'dotted', 'pulse'].includes(params.level ?? 'basic') ||
+    !['basic', 'dotted', 'pulse', 'quarters'].includes(params.level ?? 'basic') ||
+    (params.level === 'quarters' &&
+      (type !== 'RHYTHM_TAP' ||
+        meters.some((meter) => !['2/4', '3/4', '4/4'].includes(meter)) ||
+        params.rests === true)) ||
     (params.level === 'pulse' &&
       (type !== 'RHYTHM_TAP' ||
         meters.some((meter) => !['2/4', '3/4', '4/4'].includes(meter)) ||
@@ -327,4 +340,85 @@ export function pulseExample(score: Score, bpm: number): RhythmItem {
     toleranceMs: 120,
     choices: [],
   };
+}
+
+/** Liefert die Antwort ausschließlich aus der Länge des ersten sichtbaren Takts. */
+export function pickupAnswer(item: RhythmItem): 'pickup:yes' | 'pickup:no' {
+  if (item.type !== 'METER_IDENTIFY' || item.presentation !== 'pickup')
+    throw new RangeError('Keine Auftaktfrage');
+  const staff = item.score.staves[0];
+  const measures = staff?.measures;
+  const first = measures?.[0]?.voices[0]?.events;
+  const second = measures?.[1]?.voices[0]?.events;
+  if (
+    !staff ||
+    !['2/4', '3/4', '4/4'].includes(formatTimeSignature(staff.timeSignature)) ||
+    item.score.staves.length !== 1 ||
+    measures?.length !== 2 ||
+    (staff.clef !== 'treble' && staff.clef !== 'bass') ||
+    measures[0]?.voices.length !== 1 ||
+    measures[1]?.voices.length !== 1 ||
+    measures[0].changes !== undefined ||
+    measures[1].changes !== undefined ||
+    !first?.length ||
+    !second?.length ||
+    checkMeasure(
+      second.map((event) => event.duration),
+      staff.timeSignature,
+    ).status !== 'complete' ||
+    [...first, ...second].some(
+      (event) =>
+        event.kind !== 'note' ||
+        event.tie ||
+        event.duration.dots !== 0 ||
+        event.duration.tuplet !== undefined ||
+        (event.duration.value !== 'quarter' && event.duration.value !== 'eighth'),
+    )
+  )
+    throw new RangeError('Auftaktfrage braucht zwei einfache Takte mit Vierteln und Achteln');
+  const status = checkMeasure(
+    first.map((event) => event.duration),
+    staff.timeSignature,
+  ).status;
+  if (status !== 'complete' && status !== 'incomplete') throw new RangeError('Erster Takt zu lang');
+  return status === 'incomplete' ? 'pickup:yes' : 'pickup:no';
+}
+export function pickupFirstDuration(item: RhythmItem): Fraction {
+  pickupAnswer(item);
+  const events = item.score.staves[0]?.measures[0]?.voices[0]?.events ?? [];
+  return sumFractions(events.map((event) => durationValue(event.duration)));
+}
+/** Erster kurzer Takt oder vollständiger Takt, gefolgt von einem vollen Takt als Bezug. */
+export function generatePickup(params: MeterIdentifyParams, rng: Rng): RhythmItem {
+  if (params.presentation !== 'pickup') throw new RangeError('Auftaktdarstellung fehlt');
+  const meters = allowedMeters(params);
+  if (meters.some((meter) => !['2/4', '3/4', '4/4'].includes(meter)))
+    throw new RangeError('Auftaktfrage unterstützt 2/4, 3/4 und 4/4');
+  const clef = rng.pick(clefs(params));
+  const meter = parseTimeSignature(rng.pick(meters));
+  const count = beats(meter).length;
+  const hasPickup = rng.pick([true, false]);
+  const firstCount = hasPickup
+    ? rng.pick(Array.from({ length: count - 1 }, (_, index) => index + 1))
+    : count;
+  const pitch = { letter: 'G' as const, alter: 0, octave: clef === 'treble' ? 4 : 3 };
+  const beatCell = () =>
+    rng.pick([
+      [note(pitch, duration('quarter'))],
+      [note(pitch, duration('eighth')), note(pitch, duration('eighth'))],
+    ]);
+  const first = Array.from({ length: firstCount }, beatCell).flat();
+  const second = Array.from({ length: count }, beatCell).flat();
+  const item: RhythmItem = {
+    type: 'METER_IDENTIFY',
+    presentation: 'pickup',
+    clef,
+    meter,
+    bpm: 84,
+    toleranceMs: 120,
+    score: singleStaffScore([first, second], { clef, timeSignature: meter }),
+    choices: rng.shuffle(['pickup:yes', 'pickup:no']),
+  };
+  pickupAnswer(item);
+  return item;
 }

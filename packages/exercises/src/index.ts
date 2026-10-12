@@ -42,7 +42,7 @@ import type {
   ChordIdentifyParams,
   ChordItem,
   RhythmParams,
-  MeterParams,
+  MeterIdentifyParams,
   RhythmItem,
   KnowledgeParams,
   MatchParams,
@@ -53,7 +53,7 @@ import type {
 } from './types.ts';
 import { generateScale, generateKeySignature } from './tonality.ts';
 import { generateChord } from './chords.ts';
-import { generateRhythm } from './rhythm.ts';
+import { generatePickup, generateRhythm } from './rhythm.ts';
 import { generateKnowledge, generateMatch, generateOrder } from './knowledge.ts';
 
 export const knowledgeExercise: ExerciseDefinition<KnowledgeParams, KnowledgeItem> = {
@@ -81,8 +81,11 @@ export const rhythmTapExercise: ExerciseDefinition<RhythmParams, RhythmItem> = {
   feedback: exerciseFeedback,
   hints: exerciseHints,
 };
-export const meterIdentifyExercise: ExerciseDefinition<MeterParams, RhythmItem> = {
-  generate: (params, rng) => generateRhythm(params, rng, 'METER_IDENTIFY'),
+export const meterIdentifyExercise: ExerciseDefinition<MeterIdentifyParams, RhythmItem> = {
+  generate: (params, rng) =>
+    params.presentation === 'pickup'
+      ? generatePickup(params, rng)
+      : generateRhythm(params, rng, 'METER_IDENTIFY'),
   evaluate: evaluateExercise,
   feedback: exerciseFeedback,
   hints: exerciseHints,

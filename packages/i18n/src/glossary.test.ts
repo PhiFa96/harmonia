@@ -129,7 +129,15 @@ describe('Glossar als i18next-Namensraum', () => {
   it('en-GB enthält nur die britischen Abweichungen', () => {
     const { notes, rests, ...terms } = glossaryResource('en-GB');
     const ids = new Set(Object.keys(terms).map((k) => k.replace(/_(one|other)$/, '')));
-    expect([...ids].sort()).toEqual(['measure', 'meter', 'semitone', 'staff', 'wholeTone']);
+    expect([...ids].sort()).toEqual([
+      'measure',
+      'meter',
+      'pickup',
+      'semitone',
+      'staff',
+      'wholeTone',
+    ]);
+    expect(terms['pickup_one']).toBe('upbeat');
     expect(notes).toMatchObject({ quarter: 'crotchet', quarter_other: 'crotchets' });
     expect(rests).toMatchObject({ half: 'minim rest' });
   });
