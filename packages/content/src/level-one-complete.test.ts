@@ -138,6 +138,8 @@ describe('Vollständige interne Stufe 1', () => {
         expect(JSON.parse(JSON.stringify(session))).toEqual(session);
       }
     },
+    // 100 vollständige Durchgänge dauern bis etwa 3 s, unter Last in der CI auch über 5 s
+    20_000,
   );
   it.each(newLessons.filter((l) => l.unitId.startsWith('aural.')).map((l) => l.id))(
     '%s: Hörpause zählt keine erfundenen richtigen Antworten',

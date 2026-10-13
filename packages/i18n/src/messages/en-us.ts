@@ -332,7 +332,7 @@ export const enUS = {
     'listeningExplanation_rhythm-compare':
       'The assessment compares actual starts, sound durations and rests in both sound sources. Answer: {{answer}}. Pitch stays the same in these questions.',
     'listeningExplanation_rhythm-choice':
-      '{{answer}} has the same starts, sound durations and rests as the played example. The three complete measures differ audibly.',
+      '{{answer}} has the same starts, sound durations and rests as the played example. The three complete $t(glossary:measure_other) differ audibly.',
     'listeningExplanation_pitch-direction':
       'The second sounding pitch is compared with the first. Answer: {{answer}}. Loudness and duration do not determine higher or lower.',
     'listeningExplanation_melody-compare':
@@ -426,7 +426,7 @@ export const enUS = {
       'A statement describes something directly heard, for example two pitches sounding at the same time.',
     knowledgeHistory_evidence_metadata: '$t(glossary:sourceInformation_one)',
     knowledgeHistoryDefinition_evidence_metadata:
-      'A labelled source gives authorship, place or date, for example; its reliability must be checked separately.',
+      'A labeled source gives authorship, place or date, for example; its reliability must be checked separately.',
     knowledgeHistory_evidence_inference: '$t(glossary:inference_one)',
     knowledgeHistoryDefinition_evidence_inference:
       'An informed conclusion is drawn from observations and sources; it is not identical to direct perception.',
