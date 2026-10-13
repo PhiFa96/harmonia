@@ -1,6 +1,7 @@
 import type { LessonContent } from '@harmonia/content';
 import { engineLanguage } from '@harmonia/i18n';
 import { parseScore } from '@harmonia/notation';
+import { pulseExample } from '@harmonia/exercises';
 import { ScoreView } from '@harmonia/notation/native';
 import { SPACE } from '@harmonia/ui';
 import { AppText, Button, Card, MusicText, useUiTheme } from '@harmonia/ui/native';
@@ -12,6 +13,7 @@ import { useContentText } from '@/content/use-content-text';
 import { useExercisePlayback } from './use-exercise-playback';
 import { EXAMPLE_BPM } from '@/exercises/play-example';
 import { KeyboardExample } from './keyboard-example';
+import { PulseExample } from './pulse-example';
 export function LessonIntroduction({
   lesson,
   onStart,
@@ -34,7 +36,11 @@ export function LessonIntroduction({
   const example = card.examples[exampleIndex];
   if (!example) throw new Error('Einführungsbeispiel fehlt');
   const score = useMemo(() => parseScore(example.score), [example.score]);
-  const audio = useExercisePlayback(score);
+  const pulse = useMemo(
+    () => (example.pulse ? pulseExample(score, example.pulse.bpm) : undefined),
+    [score, example.pulse],
+  );
+  const audio = useExercisePlayback(pulse ?? score);
   const scrollable = viewportWidth > 0 && scoreWidth > viewportWidth + 1;
   return (
     <>
@@ -74,34 +80,40 @@ export function LessonIntroduction({
               showOctaves={example.keyboard.showOctaves ?? false}
             />
           ) : null}
-          <ScrollView
-            key={`score:${example.score}`}
-            testID="lesson-example-scroll"
-            horizontal
-            contentContainerStyle={styles.score}
-            onLayout={(event) => {
-              setViewportWidth(event.nativeEvent.layout.width);
-            }}
-            onContentSizeChange={(width) => {
-              setScoreWidth(width);
-            }}
-            {...(Platform.OS === 'web' && scrollable ? { tabIndex: 0 } : {})}
-          >
-            <ScoreView
-              score={score}
-              staffSpace={14}
-              color={colors.text}
-              describeOptions={engineLanguage(locale)}
-              layoutOptions={{ endBarline: 'final' }}
-            />
-          </ScrollView>
-          {scrollable ? (
+          {pulse ? (
+            <PulseExample item={pulse} />
+          ) : (
+            <ScrollView
+              key={`score:${example.score}`}
+              testID="lesson-example-scroll"
+              horizontal
+              contentContainerStyle={styles.score}
+              onLayout={(event) => {
+                setViewportWidth(event.nativeEvent.layout.width);
+              }}
+              onContentSizeChange={(width) => {
+                setScoreWidth(width);
+              }}
+              {...(Platform.OS === 'web' && scrollable ? { tabIndex: 0 } : {})}
+            >
+              <ScoreView
+                score={score}
+                staffSpace={14}
+                color={colors.text}
+                describeOptions={engineLanguage(locale)}
+                layoutOptions={{ endBarline: 'final' }}
+              />
+            </ScrollView>
+          )}
+          {!pulse && scrollable ? (
             <AppText variant="footnote" tone="muted">
               {t('lesson.scrollExample')}
             </AppText>
           ) : null}
           <AppText variant="footnote" tone="muted">
-            {t('lesson.exampleTempo', { bpm: EXAMPLE_BPM })}
+            {t(pulse ? 'lesson.pulseExampleTempo' : 'lesson.exampleTempo', {
+              bpm: pulse?.bpm ?? EXAMPLE_BPM,
+            })}
           </AppText>
           <Button
             variant="secondary"

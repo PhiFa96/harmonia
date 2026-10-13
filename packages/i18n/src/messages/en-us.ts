@@ -63,6 +63,66 @@ export const enUS = {
       'Repeating group of three black keys. The white key immediately to its left is F.',
     knowledgeHint_keyboard:
       'Use the black-key groups to find your place and count every key step, including black keys.',
+    knowledge_pulse_pulse: '$t(glossary:pulse)',
+    knowledge_pulse_rhythm: '$t(glossary:rhythm_one)',
+    knowledge_pulse_metronome: '$t(glossary:metronome_one)',
+    knowledge_pulse_countIn: '$t(glossary:countIn)',
+    knowledge_tempo_tempo: '$t(glossary:tempo)',
+    knowledge_tempo_bpm: '$t(glossary:beatsPerMinute)',
+    knowledge_tempo_faster: 'Higher $t(glossary:tempo)',
+    knowledge_tempo_slower: 'Lower $t(glossary:tempo)',
+    knowledge_beatGroup_first: 'First $t(glossary:beat_one)',
+    knowledge_beatGroup_duple: '$t(glossary:beatGroup_one) of two $t(glossary:beat_other)',
+    knowledge_beatGroup_triple: '$t(glossary:beatGroup_one) of three $t(glossary:beat_other)',
+    knowledge_beatGroup_quadruple: '$t(glossary:beatGroup_one) of four $t(glossary:beat_other)',
+    knowledgeDefinition_pulse_pulse:
+      'Steady underlying beats that provide a timing reference when making music. Their spacing stays equal here.',
+    knowledgeDefinition_pulse_rhythm:
+      'The sequence of sounding events and rests in time. It can include long and short durations while the underlying beats stay steady.',
+    knowledgeDefinition_pulse_metronome:
+      'A device or app that produces evenly spaced clicks at a chosen speed.',
+    knowledgeDefinition_pulse_countIn:
+      'Steady clicks before your entrance. They establish the speed and starting point together.',
+    knowledgeDefinition_tempo_tempo:
+      'The speed of the underlying beat. It determines how quickly evenly spaced clicks follow one another.',
+    knowledgeDefinition_tempo_bpm:
+      'The unit for the number of underlying beats in one minute. At 60, consecutive clicks are one second apart.',
+    knowledgeDefinition_tempo_faster:
+      'More beats per minute than before: the gaps between clicks become shorter.',
+    knowledgeDefinition_tempo_slower:
+      'Fewer beats per minute than before: the gaps between clicks become longer.',
+    knowledgeDefinition_beatGroup_first:
+      'Here, the accented counting position that starts a new group. Counting returns to 1; the time interval stays equal.',
+    knowledgeDefinition_beatGroup_duple:
+      'Repeating count 1–2, 1–2. After the second position, the next group begins.',
+    knowledgeDefinition_beatGroup_triple:
+      'Repeating count 1–2–3, 1–2–3. After the third position, the next group begins.',
+    knowledgeDefinition_beatGroup_quadruple:
+      'Repeating count 1–2–3–4, 1–2–3–4. After the fourth position, the next group begins.',
+    knowledgeHint_pulse:
+      'Distinguish the steady timing reference, the sequence of sounds and rests, the click device and the lead-in before your entrance.',
+    knowledgeHint_tempo:
+      'Compare speed, its unit and changing click intervals: more beats per minute means shorter intervals.',
+    knowledgeHint_beatGroup:
+      'Count each position once. After the last position, return to 1; accenting a beat does not change the time interval.',
+    type_PULSE_TAP: 'Tap the $t(glossary:pulse)',
+    question_PULSE_TAP:
+      'After the $t(glossary:countIn), tap every click: {{count}} steady beats at {{bpm}} beats per minute. Listen to one whole group first; recording starts on the next 1.',
+    pulseDescription:
+      '{{count}} evenly spaced counting positions at {{bpm}} beats per minute. The first is accented; all time intervals are equal.',
+    pulseGroup: '{{count}} beats · {{bpm}} BPM · 1 starts the group',
+    pulseHint1:
+      'Listen to the whole count-in group first. Start tapping on the next accented 1 and tap every click, including unaccented ones.',
+    pulseHint2:
+      'Tap exactly {{count}} times at evenly spaced intervals at {{bpm}} beats per minute. Holding the button counts as one tap.',
+    pulseExplanation:
+      '{{matched}} of {{total}} beats within ±{{tolerance}} ms; {{missing}} are missing or outside the window, {{extra}} are extra. {{pattern}} Tap every click once. The accented 1 is no longer than other beats.',
+    pulsePattern: 'Beats after recording starts: {{times}} ms.',
+    pulseTapHint:
+      'Tap every click. With a keyboard, press Space or Enter on this button. Holding a key counts once.',
+    pulseWindow:
+      'Timing window: ±{{tolerance}} ms. Tap onsets are measured, not how long you hold the button.',
+    pulseTarget: 'Beat {{index}}: {{time}} ms',
     knowledgeRaises: 'Raises a natural note by {{distance}}.',
     knowledgeLowers: 'Lowers a natural note by {{distance}}.',
     knowledgeNatural: 'Cancels an existing alteration and restores the natural pitch of the note.',
@@ -364,6 +424,7 @@ export const enUS = {
     exampleTempo: 'Sound example: {{bpm}} $t(glossary:notes.quarter_other) per minute.',
     scrollExample: 'Scroll the notation sideways to see all the notes.',
     keyboardExample: 'Piano keyboard example; marked keys: {{notes}}.',
+    pulseExampleTempo: 'Sound example: {{bpm}} beats per minute, two beat groups.',
     keyboardMarkers: 'Dots mark the keys used in the notation example.',
     scrollKeyboardExample:
       'Scroll the piano keyboard sideways to see all labeled octave registers.',
@@ -493,6 +554,7 @@ export const enUS = {
   },
   gallery: {
     keyboardExample: '$t(glossary:keyboard_one): learning example',
+    pulseExample: '$t(glossary:pulse): counting groups',
     title: 'Components',
     intro: 'All basic components of the design system. Development builds only.',
     preview: 'Preview',

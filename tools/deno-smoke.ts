@@ -19,6 +19,8 @@ import {
   generateKnowledge,
   generateMatch,
   generateOrder,
+  pulseExample,
+  rhythmOnsets,
 } from '../packages/exercises/src/index.ts';
 import { firstLesson, catalogue, curriculumPlan } from '../packages/content/src/authoring.ts';
 import { publicCatalogue, resolveLesson, curriculumSkills } from '../packages/content/src/index.ts';
@@ -67,6 +69,28 @@ const exercise = generateExercise(
   exerciseRng('deno-exercises'),
 );
 const plannedSkills = curriculumSkills(catalogue, curriculumPlan);
+check(
+  'Pulseinheit mit acht, zehn und zwölf Aufgaben',
+  ['steady', 'tempo', 'groups']
+    .map((name) => resolveLesson(catalogue, `rhythm.l1.pulse.${name}`)?.exercises.length)
+    .join(','),
+  '8,10,12',
+);
+const pulse = pulseExample(parseScore('treble | 3/4 | G4/4 G4/4 G4/4'), 90);
+check(
+  'Pulsbeispiel mit unabhängigen Millisekunden unter Deno',
+  rhythmOnsets(pulse).join(','),
+  '0,667,1333',
+);
+check(
+  'Pulsmodus erzeugt gleichmäßige Zählgruppen unter Deno',
+  generateRhythm(
+    { meters: ['3/4'], level: 'pulse', tempos: [90] },
+    exerciseRng('deno-pulse'),
+    'RHYTHM_TAP',
+  ).presentation,
+  'pulse',
+);
 check(
   'Registereinheit mit acht, zehn und zwölf Aufgaben',
   ['octaves', 'ledger', 'match']

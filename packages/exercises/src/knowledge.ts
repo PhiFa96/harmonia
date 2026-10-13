@@ -35,6 +35,9 @@ export const KNOWLEDGE_TOPICS = [
   'scales',
   'meters',
   'keyboard',
+  'pulse',
+  'tempo',
+  'beatGroup',
 ] as const;
 export const ORDER_TOPICS = ['noteValues', 'pitches'] as const;
 const VALUES = ['whole', 'half', 'quarter', 'eighth', 'sixteenth'] as const;
@@ -48,6 +51,15 @@ export function knowledgeFacts(
 ): readonly KnowledgeFact[] {
   if (![1, 2].includes(maxAccidentals)) throw new RangeError('Ungültiger Wissens-Vorzeichenumfang');
   switch (topic) {
+    case 'pulse':
+      return (['pulse', 'rhythm', 'metronome', 'countIn'] as const).map((kind) => ({
+        topic,
+        kind,
+      }));
+    case 'tempo':
+      return (['tempo', 'bpm', 'faster', 'slower'] as const).map((kind) => ({ topic, kind }));
+    case 'beatGroup':
+      return (['first', 'duple', 'triple', 'quadruple'] as const).map((kind) => ({ topic, kind }));
     case 'keyboard':
       return (['semitone', 'wholeTone', 'twoBlackKeys', 'threeBlackKeys'] as const).map((kind) => ({
         topic,
@@ -88,6 +100,10 @@ export function knowledgeFacts(
 }
 export function knowledgeFactId(fact: KnowledgeFact): string {
   switch (fact.topic) {
+    case 'pulse':
+    case 'tempo':
+    case 'beatGroup':
+      return `${fact.topic}:${fact.kind}`;
     case 'keyboard':
       return `keyboard:${fact.kind}`;
     case 'accidentals':

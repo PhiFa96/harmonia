@@ -78,3 +78,5 @@ Die Oberfläche verwendet die bestehende Notendarstellung, Buttons, Karten, Feed
 Claudes getrennte fachliche Abnahme nach [ADR 0005](../decisions/0005-fachliche-pruefung-durch-claude.md), GitHub-CI vor dem Merge, VoiceOver/TalkBack und echte iOS-/Android-Geräteproben bleiben offen. Browser-Automation und gemeldete Latenz ersetzen keine körperliche Bedien- und Hörprobe durch Testpersonen.
 
 Fortsetzung 08.10.2026: `KNOWLEDGE_MC`, `MATCH` und `ORDER` sind im [fünften Teil von P2.06](wissensaufgaben.md) technisch umgesetzt. Damit sind alle 14 zusätzlichen Typen vorhanden. Der obige Prüfstand dokumentiert die Rhythmus-/Taktumsetzung vor diesem Ausbau. Vollständige Stufen-1–2-Lektionen, Bestehens- und Freischaltlogik bleiben die anschließenden geplanten Schritte; fachliche Abnahme und echte Plattformtests bleiben offen.
+
+Fortsetzung 12.10.2026: Der [Pulseinstieg P2.07](puls-tempo-und-zaehlgruppen.md) ergänzt `level: pulse` mit Zahlen statt Notenbild, gleichmäßigen Schlägen ohne Pausen und drei internen Lektionen. Der freie Rhythmus-/Taktsatz verwendet weiter die oben beschriebenen Notenmuster.

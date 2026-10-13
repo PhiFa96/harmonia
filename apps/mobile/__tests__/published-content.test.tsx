@@ -87,3 +87,15 @@ it.each(['octaves', 'ledger', 'match'])(
     expect(mockRepository).not.toHaveBeenCalled();
   },
 );
+
+it.each(['steady', 'tempo', 'groups'])(
+  'die interne Pulslektion %s samt Klangbeispiel ist öffentlich nicht erreichbar',
+  (name) => {
+    renderRouter('./src/app', { initialUrl: `/lesson?id=rhythm.l1.pulse.${name}` });
+    expect(
+      screen.getByText('Neue Lektionen werden vorbereitet. Du kannst schon frei üben.'),
+    ).toBeTruthy();
+    expect(screen.queryByTestId('pulse-example')).toBeNull();
+    expect(mockRepository).not.toHaveBeenCalled();
+  },
+);

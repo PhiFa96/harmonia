@@ -89,13 +89,23 @@ export interface MeterParams {
 export interface RhythmParams extends MeterParams {
   /** Tempo des tatsächlichen Grundschlags, auch der punktierten Viertel in 6/8. */
   readonly tempos?: readonly number[];
-  readonly level?: 'basic' | 'dotted';
+  /** pulse: nur gleichmäßige Schläge in 2/4, 3/4 oder 4/4, ohne Notenlesen. */
+  readonly level?: 'basic' | 'dotted' | 'pulse';
   readonly rests?: boolean;
   /** Maximale Abweichung in ms; zusätzlich auf 40 % des kürzesten Einsatzabstands begrenzt. */
   readonly toleranceMs?: number;
 }
 export type KnowledgeTopic =
-  'accidentals' | 'noteValues' | 'intervals' | 'triads' | 'scales' | 'meters' | 'keyboard';
+  | 'accidentals'
+  | 'noteValues'
+  | 'intervals'
+  | 'triads'
+  | 'scales'
+  | 'meters'
+  | 'keyboard'
+  | 'pulse'
+  | 'tempo'
+  | 'beatGroup';
 export interface KnowledgeParams {
   readonly topics: readonly KnowledgeTopic[];
   /** Einfache Zeichen oder zusätzlich doppelte Vorzeichen. Standard: 2. */
@@ -111,6 +121,9 @@ export interface OrderParams {
   readonly direction?: ScaleDirection | 'both';
 }
 export type KnowledgeFact =
+  | { readonly topic: 'pulse'; readonly kind: 'pulse' | 'rhythm' | 'metronome' | 'countIn' }
+  | { readonly topic: 'tempo'; readonly kind: 'tempo' | 'bpm' | 'faster' | 'slower' }
+  | { readonly topic: 'beatGroup'; readonly kind: 'first' | 'duple' | 'triple' | 'quadruple' }
   | {
       readonly topic: 'keyboard';
       readonly kind: 'semitone' | 'wholeTone' | 'twoBlackKeys' | 'threeBlackKeys';
@@ -202,6 +215,8 @@ export interface RhythmItem extends ItemBase {
   readonly meter: TimeSignature;
   readonly bpm: number;
   readonly toleranceMs: number;
+  /** Zahlen und gleichmäßige Klicks statt eines sichtbaren Notenbilds. */
+  readonly presentation?: 'pulse';
 }
 /** Wissensaufgaben benötigen kein künstliches Notenbild und keinen Notenschlüssel. */
 export interface KnowledgeItem {

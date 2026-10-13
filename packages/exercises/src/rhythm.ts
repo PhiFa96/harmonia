@@ -1,5 +1,5 @@
 import { note, rest, singleStaffScore } from '@harmonia/notation';
-import type { VoiceEvent } from '@harmonia/notation';
+import type { Score, VoiceEvent } from '@harmonia/notation';
 import type { Duration, Fraction, Rng, TimeSignature } from '@harmonia/theory';
 import {
   addFractions,
@@ -182,6 +182,8 @@ interface CellNote {
 function cells(meter: TimeSignature, params: RhythmParams): readonly (readonly VoiceEvent[])[] {
   const beat = beats(meter)[0];
   if (!beat) throw new RangeError('Grundschlag fehlt');
+  if (params.level === 'pulse')
+    return [[note({ letter: 'G', alter: 0, octave: 4 }, duration('quarter'))]];
   const ratios: (readonly CellNote[])[] = [
     [{ value: fraction(1), rest: false }],
     ...(meter.grouping[0] === 3
@@ -240,7 +242,11 @@ export function generateRhythm(
   if (
     !tempos.length ||
     tempos.some((bpm) => !Number.isInteger(bpm) || bpm < 60 || bpm > 120) ||
-    !['basic', 'dotted'].includes(params.level ?? 'basic') ||
+    !['basic', 'dotted', 'pulse'].includes(params.level ?? 'basic') ||
+    (params.level === 'pulse' &&
+      (type !== 'RHYTHM_TAP' ||
+        meters.some((meter) => !['2/4', '3/4', '4/4'].includes(meter)) ||
+        params.rests === true)) ||
     (params.rests !== undefined && typeof params.rests !== 'boolean') ||
     !Number.isInteger(params.toleranceMs ?? 120) ||
     (params.toleranceMs ?? 120) < 40 ||
@@ -261,6 +267,7 @@ export function generateRhythm(
     );
   return {
     type,
+    ...(params.level === 'pulse' ? { presentation: 'pulse' as const } : {}),
     clef,
     meter,
     bpm: type === 'METER_IDENTIFY' ? 84 : rng.pick([...new Set(tempos)]),
@@ -278,4 +285,46 @@ export function generateRhythm(
 }
 export function rhythmBeatCount(item: RhythmItem): number {
   return beats(rhythmMeter(item)).length;
+}
+
+/** Derselbe geprüfte Puls für Inhaltsbeispiele, Darstellung und Audio; keine zweite Zeitquelle. */
+export function pulseExample(score: Score, bpm: number): RhythmItem {
+  const staff = score.staves[0],
+    meter = staff?.timeSignature,
+    measure = staff?.measures[0],
+    events = measure?.voices[0]?.events;
+  if (
+    !Number.isInteger(bpm) ||
+    bpm < 60 ||
+    bpm > 120 ||
+    score.staves.length !== 1 ||
+    staff?.measures.length !== 1 ||
+    !meter ||
+    !['2/4', '3/4', '4/4'].includes(formatTimeSignature(meter)) ||
+    meter.grouping.some((value) => value !== 1) ||
+    (staff.clef !== 'treble' && staff.clef !== 'bass') ||
+    !fractionEquals(beats(meter)[0] ?? fraction(0), fraction(1, 4)) ||
+    measure?.voices.length !== 1 ||
+    measure.changes !== undefined ||
+    events?.length !== beats(meter).length ||
+    events.some(
+      (event) =>
+        event.kind !== 'note' ||
+        !fractionEquals(durationValue(event.duration), fraction(1, 4)) ||
+        event.tie,
+    )
+  )
+    throw new RangeError(
+      'Pulsbeispiel braucht einen vollständigen gleichmäßigen Zweier-, Dreier- oder Vierertakt',
+    );
+  return {
+    type: 'RHYTHM_TAP',
+    presentation: 'pulse',
+    score,
+    clef: staff.clef,
+    meter,
+    bpm,
+    toleranceMs: 120,
+    choices: [],
+  };
 }

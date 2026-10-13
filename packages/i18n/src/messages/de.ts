@@ -62,6 +62,66 @@ export const de = {
       'Wiederkehrende Gruppe aus drei schwarzen Tasten. Die weiße Taste unmittelbar links davon heißt F.',
     knowledgeHint_keyboard:
       'Nutze die Gruppen schwarzer Tasten als Orientierung und zähle alle Tastenschritte, auch über schwarze Tasten.',
+    knowledge_pulse_pulse: '$t(glossary:pulse)',
+    knowledge_pulse_rhythm: '$t(glossary:rhythm_one)',
+    knowledge_pulse_metronome: '$t(glossary:metronome_one)',
+    knowledge_pulse_countIn: '$t(glossary:countIn)',
+    knowledge_tempo_tempo: '$t(glossary:tempo)',
+    knowledge_tempo_bpm: '$t(glossary:beatsPerMinute)',
+    knowledge_tempo_faster: 'Höheres $t(glossary:tempo)',
+    knowledge_tempo_slower: 'Niedrigeres $t(glossary:tempo)',
+    knowledge_beatGroup_first: 'Erster $t(glossary:beat_one)',
+    knowledge_beatGroup_duple: '$t(glossary:beatGroup_one) aus zwei $t(glossary:beat_other)',
+    knowledge_beatGroup_triple: '$t(glossary:beatGroup_one) aus drei $t(glossary:beat_other)',
+    knowledge_beatGroup_quadruple: '$t(glossary:beatGroup_one) aus vier $t(glossary:beat_other)',
+    knowledgeDefinition_pulse_pulse:
+      'Gleichmäßiger Grundschlag, der beim Musizieren als zeitliche Orientierung dient. Seine Abstände bleiben hier gleich.',
+    knowledgeDefinition_pulse_rhythm:
+      'Die zeitliche Folge von klingenden Ereignissen und Pausen. Sie kann lange und kurze Dauern enthalten, während der Grundschlag gleichmäßig weiterläuft.',
+    knowledgeDefinition_pulse_metronome:
+      'Gerät oder App, die gleichmäßige Klicks in einer gewählten Geschwindigkeit erzeugt.',
+    knowledgeDefinition_pulse_countIn:
+      'Gleichmäßiger Vorlauf vor dem eigenen Einsatz. Er macht Geschwindigkeit und Beginn gemeinsam hörbar.',
+    knowledgeDefinition_tempo_tempo:
+      'Geschwindigkeit des Grundschlags. Sie bestimmt, wie schnell die gleichmäßigen Klicks aufeinanderfolgen.',
+    knowledgeDefinition_tempo_bpm:
+      'Einheit für die Anzahl der Grundschläge in einer Minute. Bei 60 liegt zwischen zwei Klicks eine Sekunde.',
+    knowledgeDefinition_tempo_faster:
+      'Mehr Grundschläge pro Minute als zuvor: Die Abstände zwischen den Klicks werden kürzer.',
+    knowledgeDefinition_tempo_slower:
+      'Weniger Grundschläge pro Minute als zuvor: Die Abstände zwischen den Klicks werden länger.',
+    knowledgeDefinition_beatGroup_first:
+      'Hier die betonte Zählposition, bei der eine neue Gruppe beginnt. Gezählt wird wieder ab 1; der zeitliche Abstand bleibt gleich.',
+    knowledgeDefinition_beatGroup_duple:
+      'Wiederkehrendes Zählmuster 1–2, 1–2. Nach der zweiten Position beginnt die nächste Gruppe.',
+    knowledgeDefinition_beatGroup_triple:
+      'Wiederkehrendes Zählmuster 1–2–3, 1–2–3. Nach der dritten Position beginnt die nächste Gruppe.',
+    knowledgeDefinition_beatGroup_quadruple:
+      'Wiederkehrendes Zählmuster 1–2–3–4, 1–2–3–4. Nach der vierten Position beginnt die nächste Gruppe.',
+    knowledgeHint_pulse:
+      'Unterscheide gleichmäßige Orientierung, die Folge von Klängen und Pausen, das Klickgerät und den Vorlauf vor dem Einsatz.',
+    knowledgeHint_tempo:
+      'Vergleiche Geschwindigkeit, ihre Einheit und die Änderung der Klickabstände: mehr Schläge pro Minute bedeuten kürzere Abstände.',
+    knowledgeHint_beatGroup:
+      'Zähle jede Position einmal. Nach dem Gruppenende folgt wieder 1; die Betonung verändert nicht den Zeitabstand.',
+    type_PULSE_TAP: '$t(glossary:pulse) mittippen',
+    question_PULSE_TAP:
+      'Tippe nach dem $t(glossary:countIn) auf jeden Klick: {{count}} gleichmäßige Schläge bei {{bpm}} Schlägen pro Minute. Höre zuerst eine ganze Gruppe; bei der nächsten 1 beginnt deine Aufnahme.',
+    pulseDescription:
+      '{{count}} gleichmäßige Zählpositionen bei {{bpm}} Schlägen pro Minute. Die erste Position ist betont; alle Zeitabstände sind gleich.',
+    pulseGroup: '{{count}} Schläge · {{bpm}} BPM · 1 beginnt die Gruppe',
+    pulseHint1:
+      'Höre zuerst die ganze Einzählgruppe. Tippe ab der nächsten betonten 1 auf jeden Klick, auch auf die unbetonten.',
+    pulseHint2:
+      'Tippe genau {{count}} Mal in gleichmäßigen Abständen bei {{bpm}} Schlägen pro Minute. Gedrückthalten zählt als ein Anschlag.',
+    pulseExplanation:
+      '{{matched}} von {{total}} Schlägen innerhalb von ±{{tolerance}} ms; {{missing}} fehlen oder liegen außerhalb, {{extra}} sind zusätzlich. {{pattern}} Tippe jeden Klick einmal. Die betonte 1 ist nicht länger als die anderen Schläge.',
+    pulsePattern: 'Schläge nach Aufnahmebeginn: {{times}} ms.',
+    pulseTapHint:
+      'Tippe auf jeden Klick. Mit der Tastatur: Leertaste oder Enter auf diesem Knopf. Gedrückthalten zählt einmal.',
+    pulseWindow:
+      'Toleranz: ±{{tolerance}} ms. Bewertet wird der Anschlagbeginn, nicht die Dauer des Gedrückthaltens.',
+    pulseTarget: 'Schlag {{index}}: {{time}} ms',
     knowledgeRaises: 'Erhöht einen Stammton um {{distance}}.',
     knowledgeLowers: 'Erniedrigt einen Stammton um {{distance}}.',
     knowledgeNatural:
@@ -370,6 +430,7 @@ export const de = {
     exampleTempo: 'Klangbeispiel: {{bpm}} $t(glossary:notes.quarter_other) pro Minute.',
     scrollExample: 'Verschiebe das Notenbild seitlich, um alle Töne zu sehen.',
     keyboardExample: 'Klaviaturbeispiel; markierte Tasten: {{notes}}.',
+    pulseExampleTempo: 'Klangbeispiel: {{bpm}} Schläge pro Minute, zwei Zählgruppen.',
     keyboardMarkers: 'Punkte markieren die Tasten des Notenbeispiels.',
     scrollKeyboardExample:
       'Verschiebe die Klaviatur seitlich, um alle beschrifteten Oktavlagen zu sehen.',
@@ -500,6 +561,7 @@ export const de = {
   },
   gallery: {
     keyboardExample: '$t(glossary:keyboard_one): Lernbeispiel',
+    pulseExample: '$t(glossary:pulse): Zählgruppen',
     title: 'Bausteine',
     intro: 'Alle Grundbausteine des Design-Systems. Nur in Entwicklungsbuilds.',
     preview: 'Vorschau',

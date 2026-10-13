@@ -36,7 +36,7 @@ export function playRhythm(
           },
         ),
       );
-    if (mode === 'demo')
+    if (mode === 'demo' && item.presentation !== 'pulse')
       for (const event of rhythmTimeline(item))
         if (!event.rest)
           voices.push(

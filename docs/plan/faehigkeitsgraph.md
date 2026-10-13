@@ -2,7 +2,7 @@
 
 Stand: 05.10.2026. Der Entwurf für Stufen 1–2 liegt als geprüfte Daten mit Planungsdiagrammen vor. Claudes separate fachliche Abnahme bleibt offen; alle neuen Datensätze sind `entwurf`.
 
-Fortsetzung 12.10.2026: Katalog und Fähigkeitsplan haben Version 5. Die ersten drei Notationseinheiten besitzen je drei Lektionen mit 8/10/12 Aufgaben, zusammen 23 neue Karten und drei vorbereitete Artikel. Intern sind zehn Lektionen auswählbar; alle bleiben Entwurf. Neue Fragen prüfen vollständige Namen und die Klaviertaste aus dem Notenbild. Der aktuelle Prüfstand und die Fortsetzung mit `rhythm.l1.pulse` stehen in [oktavlagen-und-hilfslinien.md](oktavlagen-und-hilfslinien.md). 90 Fähigkeiten und 29 Einheiten bleiben erhalten; die folgenden Graph-Prüfungen dokumentieren die ursprüngliche Umsetzung.
+Fortsetzung 12.10.2026: Katalog und Fähigkeitsplan haben Version 6. Drei Notationseinheiten und die erste Rhythmuseinheit besitzen je drei Lektionen mit 8/10/12 Aufgaben, zusammen 31 neue Karten und vier vorbereitete Artikel. Intern sind 13 Lektionen auswählbar; alle bleiben Entwurf. Pulsübungen zeigen Zählgruppen und verwenden die Audio-Uhr, ohne Notenlese-Voraussetzung. Aktueller Prüfstand und Fortsetzung mit `rhythm.l1.values`: [puls-tempo-und-zaehlgruppen.md](puls-tempo-und-zaehlgruppen.md). 90 Fähigkeiten und 29 Einheiten bleiben erhalten; die folgenden Graph-Prüfungen dokumentieren die ursprüngliche Umsetzung.
 
 ## Umfang
 

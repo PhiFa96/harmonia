@@ -37,6 +37,7 @@ import { PitchAnswerInput } from './pitch-answer-input';
 import { ScaleAnswerInput } from './scale-answer-input';
 import { SignatureAnswerInput } from './signature-answer-input';
 import { RhythmAnswerInput } from './rhythm-answer-input';
+import { PulseExample } from './pulse-example';
 import { MatchAnswerInput, OrderAnswerInput } from './knowledge-answer-input';
 import { useExercisePlayback } from './use-exercise-playback';
 
@@ -121,12 +122,20 @@ export function ExerciseTask({
         {...(Platform.OS === 'web' ? { tabIndex: -1 } : {})}
       >
         <AppText variant="overline" tone="muted">
-          {t(`exercise.type_${item.type}`)}
+          {t(
+            item.type === 'RHYTHM_TAP' && item.presentation === 'pulse'
+              ? 'exercise.type_PULSE_TAP'
+              : `exercise.type_${item.type}`,
+          )}
         </AppText>
         <MusicText variant="title2">{prompt}</MusicText>
       </View>
-      {isKnowledgeItem(item) ||
-      (item.type === 'KEY_FIND' && item.presentation === 'name') ? null : [
+      {item.type === 'RHYTHM_TAP' && item.presentation === 'pulse' ? (
+        <Card>
+          <PulseExample item={item} />
+        </Card>
+      ) : isKnowledgeItem(item) ||
+        (item.type === 'KEY_FIND' && item.presentation === 'name') ? null : [
           'NOTE_PLACE',
           'INTERVAL_BUILD',
           'SCALE_BUILD',
