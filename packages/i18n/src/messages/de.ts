@@ -261,6 +261,8 @@ export const de = {
       'Schreibe {{note}} in das leere Notensystem. Achte auf Vorzeichen und Oktavlage.',
     question_KEY_FIND: 'Finde die Taste für {{note}}. Achte auf die Oktavlage.',
     question_KEY_FIND_name: 'Finde die Taste für {{note}}.',
+    question_KEY_FIND_score:
+      'Spiele die notierte Note auf der $t(glossary:keyboard_one). Achte auf $t(glossary:noteName_one) und $t(glossary:octave_one).',
     question_INTERVAL_BUILD:
       'Schreibe den zweiten Ton: {{interval}} von {{from}} aus. Setze ihn in den leeren zweiten Takt.',
     writtenPitch:
@@ -273,6 +275,8 @@ export const de = {
       'Suche die Zweiergruppen der schwarzen Tasten: C liegt direkt links davon, D zwischen den beiden schwarzen Tasten. Zähle von dort bis zum gesuchten Stammton in der angegebenen Oktave.',
     keyNameHint1:
       'Suche die $t(glossary:twoBlackKeys_other): C liegt direkt links davon, D zwischen den beiden schwarzen Tasten. Zähle von dort bis zum gesuchten $t(glossary:naturalNote_one) im gezeigten Ausschnitt.',
+    keyScoreHint1:
+      'Lies zuerst den $t(glossary:clef_one) und die Position der Note, einschließlich der $t(glossary:ledgerLine_other). Bestimme dann den vollständigen $t(glossary:noteName_one). Suche auf der $t(glossary:keyboard_one) das C in derselben $t(glossary:octave_one) und gehe von dort zur passenden Taste.',
     keyHint2:
       'Suche zuerst {{natural}}. {{alteration}} Jeder Schritt zur unmittelbar benachbarten Taste ist ein Halbtonschritt, auch zwischen E und F sowie H und C.',
     buildHint2:
@@ -282,6 +286,8 @@ export const de = {
       'Tippe in den leeren Takt oder verstelle die Pause mit dem Screenreader. Ziehen verschiebt deine Note. Wähle das Vorzeichen mit der Leiste darunter.',
     back: 'Zurück zu den Übungen',
     question_NOTE_NAME: 'Wie heißt diese Note? Wähle den Namen ohne Oktavlage.',
+    question_NOTE_NAME_octave:
+      'Wie heißt die notierte Note einschließlich ihrer $t(glossary:octave_one)?',
     question_INTERVAL_IDENTIFY_VISUAL:
       'Welches $t(glossary:interval_one) siehst du zwischen den beiden Tönen?',
     question_INTERVAL_IDENTIFY_AURAL:
@@ -365,6 +371,8 @@ export const de = {
     scrollExample: 'Verschiebe das Notenbild seitlich, um alle Töne zu sehen.',
     keyboardExample: 'Klaviaturbeispiel; markierte Tasten: {{notes}}.',
     keyboardMarkers: 'Punkte markieren die Tasten des Notenbeispiels.',
+    scrollKeyboardExample:
+      'Verschiebe die Klaviatur seitlich, um alle beschrifteten Oktavlagen zu sehen.',
     start_one: 'Mit {{count}} Aufgabe starten',
     start_other: 'Mit {{count}} Aufgaben starten',
     restart: 'Lektion erneut üben',

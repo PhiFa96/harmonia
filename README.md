@@ -2,7 +2,7 @@
 
 Musiktheorie lernen – hörbar, spielerisch und so tief, wie du willst. Vom ersten Notenschlüssel bis zum Hochschulniveau, mit KI-Tutor und echten Coaches. Im Browser und als App für iOS und Android.
 
-> **Status: Technisches Fundament und erster MVP-Ausbau.** Theorie-Engine, Notenbild, Klavierklang, Klaviatur und 17 Übungstypen sind implementiert. Intern gibt es sieben auswählbare Lektionen: den Zehn-Aufgaben-Prototyp und je drei Lektionen mit acht, zehn und zwölf Aufgaben für Notensystem sowie Klaviatur/Vorzeichen. Die beiden Einheiten besitzen insgesamt 15 Wissenskarten mit vollständigen Klangbeispielen und vorbereiteten Artikeln. Klaviaturabbildungen zeigen die zugehörigen Tasten; einfache Vorzeichen werden gelesen und gespielt. Ergebnisse werden pro Lektion lokal in SQLite gespeichert; Fehler erhalten neue Varianten. Im Tab „Üben“ gibt es sechs freie Sätze zum Lesen/Hören, zu Tonhöheneingaben, Tonleitern/Vorzeichnungen, Akkorden, Rhythmus/Taktgliederung sowie Wissensfragen, Zuordnen und Ordnen. Geräteprüfungen, Testpersonen und fachliche Inhaltsabnahme sind offen; öffentliche Builds enthalten nur freigegebene Kursinhalte. Details: [Klaviatur und Vorzeichen P2.07](docs/plan/klaviatur-und-vorzeichen.md), [Notationseinstieg](docs/plan/notationseinstieg.md) und [Phase 2](docs/plan/phase-2-mvp.md).
+> **Status: Technisches Fundament und erster MVP-Ausbau.** Theorie-Engine, Notenbild, Klavierklang, Klaviatur und 17 Übungstypen sind implementiert. Intern gibt es zehn auswählbare Lektionen: den Zehn-Aufgaben-Prototyp und je drei Lektionen mit acht, zehn und zwölf Aufgaben für Notensystem, Klaviatur/Vorzeichen sowie Oktavlagen/Hilfslinien. Die drei Einheiten besitzen 23 neue Wissenskarten mit vollständigen Klangbeispielen und vorbereiteten Artikeln. Neue Fragen prüfen vollständige Tonhöhen und die richtige Klaviertaste aus dem Notenbild; Ergebnisse bleiben pro Lektion in SQLite getrennt. Im Tab „Üben“ gibt es sechs freie Sätze zu Lesen/Hören, Tonhöheneingaben, Tonleitern/Vorzeichnungen, Akkorden, Rhythmus/Takt sowie Wissen/Zuordnen/Ordnen. Geräteprüfungen, Testpersonen und fachliche Inhaltsabnahme sind offen; öffentliche Builds enthalten nur freigegebene Kursinhalte. Aktueller Stand: [Oktavlagen und Hilfslinien P2.07](docs/plan/oktavlagen-und-hilfslinien.md) und [Phase 2](docs/plan/phase-2-mvp.md).
 
 ## Konzept
 
@@ -54,13 +54,13 @@ Aufbau des Monorepos: [docs/plan/architektur.md](docs/plan/architektur.md).
 
 Lokales Backend, Profilmigration und offene staging/production-Einrichtung: [Supabase-Grundlage P1.04](docs/plan/supabase-grundlage.md).
 
-Inhaltsproduktion, interne Vorschau, öffentliche Freigaben und EAS-Übergabe: [Inhalts-Pipeline P2.04](docs/plan/inhalts-pipeline.md). `APP_VARIANT=production` baut nur freigegebene Inhalte; ohne separate fachliche Abnahme bleiben die sieben Lektionen intern.
+Inhaltsproduktion, interne Vorschau, öffentliche Freigaben und EAS-Übergabe: [Inhalts-Pipeline P2.04](docs/plan/inhalts-pipeline.md). `APP_VARIANT=production` baut nur freigegebene Inhalte; ohne separate fachliche Abnahme bleiben die zehn Lektionen intern.
 
 Entwurf für Stufen 1–2 mit 90 Fähigkeiten, Voraussetzungen und Einheitenreihenfolge: [Fähigkeitsgraph P2.05](docs/plan/faehigkeitsgraph.md). Fachliche Abnahme und die vollständigen Lektionen folgen.
 
 Neue Aufgaben: [Tonhöheneingaben](docs/plan/tonhoeheneingabe.md), [Tonleitern und Vorzeichnungen](docs/plan/tonleitern-und-vorzeichnungen.md), [Akkorde](docs/plan/akkorduebungen.md), [Rhythmus und Taktgliederung](docs/plan/rhythmus-und-takt.md) sowie [Wissensfragen, Zuordnen und Ordnen](docs/plan/wissensaufgaben.md). Alle 14 zusätzlich geplanten MVP-Typen sind technisch umgesetzt. P2.06 bleibt bis zur fachlichen Abnahme und den echten Plattformtests offen; vollständige Kurse und Bestehens-/Freischaltlogik sind die Folgearbeit.
 
-Der [erste Teil von P2.07](docs/plan/notationseinstieg.md) führt durch Notensystem, Violinschlüssel und Stammtöne. [Klaviatur und Vorzeichen](docs/plan/klaviatur-und-vorzeichen.md) ergänzt Tastenordnung, Halb-/Ganztonschritte und einfache Vorzeichen. Zwei Artikel sind für die spätere Tutor-Wissensbasis vorbereitet. Als Nächstes folgen Oktavlagen und Hilfslinien; weitere Stufe-1-Einheiten und die separate Inhaltsfreigabe bleiben offen.
+Der [erste Teil von P2.07](docs/plan/notationseinstieg.md) führt durch Notensystem, Violinschlüssel und Stammtöne. [Klaviatur und Vorzeichen](docs/plan/klaviatur-und-vorzeichen.md) ergänzt Tastenordnung, Halb-/Ganztonschritte und einfache Vorzeichen. [Oktavlagen und Hilfslinien](docs/plan/oktavlagen-und-hilfslinien.md) ergänzt vollständige Namen und Tastenfragen aus dem Notenbild. Drei Artikel sind für die spätere Tutor-Wissensbasis vorbereitet. Als Nächstes folgen Puls, Tempo und Zählzeiten; weitere Stufe-1-Einheiten und die separate Inhaltsfreigabe bleiben offen.
 
 ## Lizenz
 

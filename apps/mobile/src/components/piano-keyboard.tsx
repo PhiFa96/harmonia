@@ -114,7 +114,9 @@ export function PianoKeyboard({
   };
   const page = (direction: 1 | -1) => {
     stop();
-    const step = (KEY_WIDTHS[zoom] ?? 80) * 7;
+    const octaveWidth = (KEY_WIDTHS[zoom] ?? 80) * 7;
+    // Schmale Ansichten dürfen beim Blättern keine dazwischenliegenden Tasten überspringen.
+    const step = Math.min(octaveWidth, viewportWidth.current || octaveWidth);
     scrollX.current = Math.max(
       0,
       Math.min(layout.width - viewportWidth.current, scrollX.current + direction * step),

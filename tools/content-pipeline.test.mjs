@@ -10,6 +10,7 @@ import {
 import { contentMessages } from '../packages/i18n/src/authoring-content-messages.ts';
 import {
   keyboardMidi,
+  layoutScore,
   parseScore,
   scoreTimeline,
   validateScore,
@@ -27,6 +28,76 @@ function checks() {
   };
 }
 const fresh = () => structuredClone(catalogue);
+
+test('Registerbeispiele stimmen mit unabhängigen Ton-, MIDI- und Hilfslinientabellen überein', () => {
+  const table = {
+    repetition: [
+      [['E4', 'E5'], 0],
+      [['G4', 'G5'], 0],
+    ],
+    boundary: [[['B4', 'C5'], 0]],
+    names: [
+      [['C4', 'C5'], 1],
+      [['F4', 'F5'], 0],
+    ],
+    extend: [[['D4', 'G5'], 0]],
+    lower: [
+      [['C4', 'A3'], 3],
+      [['D4', 'C4', 'B3', 'A3'], 4],
+    ],
+    upper: [
+      [['A5', 'C6'], 3],
+      [['F5', 'G5', 'A5', 'B5', 'C6'], 4],
+    ],
+    match: [
+      [['C4', 'C5'], 1],
+      [['A3', 'C6'], 4],
+    ],
+    strategy: [[['G4', 'G5', 'C5'], 0]],
+  };
+  const midi = {
+    A3: 57,
+    B3: 59,
+    C4: 60,
+    D4: 62,
+    E4: 64,
+    F4: 65,
+    G4: 67,
+    B4: 71,
+    C5: 72,
+    E5: 76,
+    F5: 77,
+    G5: 79,
+    A5: 81,
+    B5: 83,
+    C6: 84,
+  };
+  for (const [name, expected] of Object.entries(table)) {
+    const card = catalogue.knowledgeCards.find(
+      (value) => value.id === `notation.l1.register.card-${name}`,
+    );
+    assert.equal(card.examples.length, expected.length);
+    for (const [index, [pitches, ledgerLines]] of expected.entries()) {
+      const example = card.examples[index],
+        score = parseScore(example.score);
+      validateContentExample(example.score, example.keyboard);
+      const tones = scoreTimeline(score, { bpm: 90 }).tones;
+      assert.deepEqual(
+        tones.map(({ pitch }) => `${pitch.letter}${pitch.octave}`),
+        pitches,
+      );
+      assert.deepEqual(
+        tones.map(({ pitch }) => keyboardMidi(pitch)),
+        pitches.map((value) => midi[value]),
+      );
+      assert.equal(
+        layoutScore(score).items.filter((item) => item.role === 'ledgerLine').length,
+        ledgerLines,
+      );
+      assert.equal(example.keyboard.showOctaves, true);
+    }
+  }
+});
 const released = () => {
   const data = fresh();
   for (const value of Object.values(data))

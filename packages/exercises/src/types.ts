@@ -42,9 +42,13 @@ export interface NoteParams {
   readonly range?: PitchRange;
   readonly maxAccidentals?: 0 | 1 | 2;
 }
+export interface NoteNameParams extends NoteParams {
+  /** Vollständige Tonhöhen statt allein Stammton und Vorzeichen. Standard: false. */
+  readonly includeOctave?: boolean;
+}
 export interface KeyFindParams extends NoteParams {
   /** Namen innerhalb eines festen Ausschnitts; Notenbild bleibt der bisherige Standard. */
-  readonly presentation?: 'notation' | 'name';
+  readonly presentation?: 'notation' | 'name' | 'score';
 }
 export interface VisualIntervalParams extends NoteParams {
   /** Positive Kurzschreibweise, z. B. m3/M3/P5; Richtung separat. */
@@ -124,7 +128,7 @@ export type ExerciseSpec =
   | { readonly type: 'KNOWLEDGE_MC'; readonly params: KnowledgeParams }
   | { readonly type: 'MATCH'; readonly params: MatchParams }
   | { readonly type: 'ORDER'; readonly params: OrderParams }
-  | { readonly type: 'NOTE_NAME'; readonly params: NoteParams }
+  | { readonly type: 'NOTE_NAME'; readonly params: NoteNameParams }
   | { readonly type: 'NOTE_PLACE'; readonly params: NoteParams }
   | { readonly type: 'KEY_FIND'; readonly params: KeyFindParams }
   | { readonly type: 'INTERVAL_BUILD'; readonly params: VisualIntervalParams }
@@ -148,6 +152,7 @@ interface ItemBase {
 export interface NoteItem extends ItemBase {
   readonly type: 'NOTE_NAME';
   readonly pitch: Pitch;
+  readonly includeOctave?: true;
 }
 export interface IntervalItem extends ItemBase {
   readonly type: 'INTERVAL_IDENTIFY_VISUAL' | 'INTERVAL_IDENTIFY_AURAL';
@@ -163,7 +168,7 @@ export interface NotePlaceItem extends ItemBase {
 export interface KeyFindItem extends ItemBase {
   readonly type: 'KEY_FIND';
   readonly pitch: Pitch;
-  readonly presentation?: 'name';
+  readonly presentation?: 'name' | 'score';
   readonly keyboardRange?: KeyboardRange;
 }
 export interface IntervalBuildItem extends ItemBase {

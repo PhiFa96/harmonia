@@ -2,7 +2,7 @@
 
 Stand: 05.10.2026. Lokale Inhaltsprüfung, Freigabefilter und App-Anbindung sind implementiert. Die echte EAS-Projektbindung und eine nachgewiesene OTA-Auslieferung bleiben offen.
 
-Fortsetzung 09.10.2026: Katalog und Fähigkeitsplan haben Version 4. Intern sind sieben Lektionen auswählbar; die ersten beiden Notationseinheiten besitzen jeweils 8/10/12 Aufgaben, insgesamt 15 neue Karten und zwei vorbereitete Artikel. Das Schemaformat bleibt 1; optionale Klaviaturbeispiele müssen jede klingende Taste ihres Scores abdecken. Die App löst eine ausdrücklich ausgewählte ID nur aus dem ausgelieferten Katalog auf und hält Ergebnisse je Lektion getrennt. Alle Inhalte bleiben Entwurf, der öffentliche Katalog enthält weiterhin keine Lektion. Aktueller Prüfstand: [klaviatur-und-vorzeichen.md](klaviatur-und-vorzeichen.md). Die offene EAS-/OTA-Anbindung bleibt bestehen.
+Fortsetzung 12.10.2026: Katalog und Fähigkeitsplan haben Version 5. Die ersten drei Notationseinheiten besitzen je drei Lektionen mit 8/10/12 Aufgaben, zusammen 23 neue Karten und drei vorbereitete Artikel. Intern sind zehn Lektionen auswählbar; alle bleiben Entwurf. Neue Fragen prüfen vollständige Namen und die Klaviertaste aus dem Notenbild. Der aktuelle Prüfstand und die Fortsetzung mit `rhythm.l1.pulse` stehen in [oktavlagen-und-hilfslinien.md](oktavlagen-und-hilfslinien.md). Schemaformat 1 und öffentliche Freigabefilter bleiben bestehen; optionale Oktavbeschriftungen erweitern die Klaviaturbeispiele. Die EAS-/OTA-Anbindung bleibt offen.
 
 ## Daten und Einstiegspunkte
 

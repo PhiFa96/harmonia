@@ -72,7 +72,9 @@ export function expectedAnswer(item: ExerciseItem): string {
   if (isPitchInput(item))
     return item.type === 'KEY_FIND' ? keyAnswerId(item.pitch) : pitchAnswerId(inputTarget(item));
   return item.type === 'NOTE_NAME'
-    ? noteAnswerId(item.pitch)
+    ? item.includeOctave
+      ? pitchAnswerId(item.pitch)
+      : noteAnswerId(item.pitch)
     : intervalAnswerId(intervalBetween(item.from, item.to));
 }
 export function evaluateExercise(item: ExerciseItem, answer: string): Evaluation {

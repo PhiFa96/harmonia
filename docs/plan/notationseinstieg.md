@@ -2,7 +2,7 @@
 
 Stand: 09.10.2026. Die erste Notationseinheit aus dem Fähigkeitsgraphen besitzt drei spielbare interne Lektionen, sieben Wissenskarten und einen vierteiligen Grundlagenartikel in Deutsch sowie US-/UK-Englisch. Alle neuen Inhalte bleiben `entwurf`. P2.07 verlangt die vollständige, fachlich freigegebene Stufe 1 und ist mit diesem Einstieg noch nicht abgeschlossen.
 
-Fortsetzung am selben Tag: [Klaviatur und Vorzeichen](klaviatur-und-vorzeichen.md) ist als zweite Einheit ergänzt. Der aktuelle Katalog hat Version 4 und sieben interne Lektionen; die hier beschriebenen ersten drei Notationslektionen behalten Version 3. Der folgende Prüfstand dokumentiert die erste Umsetzung. Als Nächstes folgt `notation.l1.register`.
+Fortsetzungen: [Klaviatur und Vorzeichen](klaviatur-und-vorzeichen.md) ergänzt am 09.10.2026 die zweite Einheit, [Oktavlagen und Hilfslinien](oktavlagen-und-hilfslinien.md) am 12.10.2026 die dritte. Der aktuelle Katalog hat Version 5 und zehn interne Lektionen; die hier beschriebenen ersten drei Notationslektionen behalten Version 3. Der folgende Prüfstand dokumentiert die erste Umsetzung. Als Nächstes folgt `rhythm.l1.pulse`.
 
 ## Lektionen und Lernziele
 

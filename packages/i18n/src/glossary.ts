@@ -213,6 +213,12 @@ export const GLOSSARY = {
     de: { term: 'Oktave', gender: 'f', plural: 'Oktaven' },
     en: { term: 'octave', plural: 'octaves' },
   },
+  octaveRegister: {
+    category: 'pitch',
+    de: { term: 'Oktavlage', gender: 'f', plural: 'Oktavlagen' },
+    en: { term: 'octave register', plural: 'octave registers' },
+    note: 'Registerangabe im vollständigen Tonnamen; die nächste Lage beginnt jeweils bei C.',
+  },
   interval: {
     category: 'pitch',
     de: { term: 'Intervall', gender: 'n', plural: 'Intervalle' },

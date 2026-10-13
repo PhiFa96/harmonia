@@ -26,6 +26,8 @@ export const enGB = {
       'Tap the empty bar or adjust the rest with your screen reader. Drag to move your note. Choose its accidental with the controls below.',
   },
   lesson: {
+    scrollKeyboardExample:
+      'Scroll the piano keyboard sideways to see all labelled octave registers.',
     overview:
       'Your first lesson: ten reading and listening questions. Learn the basics, practise with hints and revisit mistakes with new notation examples.',
     restart: 'Practise lesson again',

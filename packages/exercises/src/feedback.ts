@@ -6,6 +6,7 @@ import {
   intervalBetween,
   intervalName,
   parseInterval,
+  parsePitch,
   pitchName,
   semitones,
   keyName,
@@ -141,6 +142,7 @@ export function choiceLabel(item: ExerciseItem, answer: string, locale: AppLocal
   if (isKeySignatureItem(item)) return keyName(tonalityFromId(answer), engineLanguage(locale));
   if (item.type !== 'NOTE_NAME')
     return intervalName(parseInterval(answer), { ...engineLanguage(locale), showDirection: false });
+  if (item.includeOctave) return noteName(parsePitch(answer), locale);
   const [letter, alter] = answer.split(':');
   const pitch = { ...item.pitch, letter: letter as Pitch['letter'], alter: Number(alter) };
   return noteName(pitch, locale, false);
@@ -180,9 +182,13 @@ export function exercisePrompt(item: ExerciseItem, locale: AppLocale): string {
     });
   return translate(
     locale,
-    item.type === 'KEY_FIND' && item.presentation === 'name'
-      ? 'exercise.question_KEY_FIND_name'
-      : `exercise.question_${item.type}`,
+    item.type === 'NOTE_NAME' && item.includeOctave
+      ? 'exercise.question_NOTE_NAME_octave'
+      : item.type === 'KEY_FIND' && item.presentation === 'score'
+        ? 'exercise.question_KEY_FIND_score'
+        : item.type === 'KEY_FIND' && item.presentation === 'name'
+          ? 'exercise.question_KEY_FIND_name'
+          : `exercise.question_${item.type}`,
     'pitch' in item
       ? {
           note: noteName(
@@ -223,7 +229,7 @@ function noteExplanation(
     line: anchor.line,
     steps,
     alteration: alterationText(item.pitch, locale),
-    answer: noteName(item.pitch, locale, false),
+    answer: noteName(item.pitch, locale, item.type === 'NOTE_NAME' && item.includeOctave === true),
   });
 }
 export function exerciseFeedback(
@@ -374,7 +380,9 @@ export function exerciseHints(item: ExerciseItem, level: 1 | 2 | 3): ExerciseHin
         level === 1
           ? item.presentation === 'name'
             ? 'exercise.keyNameHint1'
-            : 'exercise.keyHint1'
+            : item.presentation === 'score'
+              ? 'exercise.keyScoreHint1'
+              : 'exercise.keyHint1'
           : 'exercise.keyHint2',
       values: {},
     };
