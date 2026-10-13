@@ -12,3 +12,4 @@ export * from './keyboard.ts';
 export { ENGRAVING_DEFAULTS, FONT } from './smufl-data.ts';
 
 export * from './duration-symbol.ts';
+export * from './grand-staff.ts';

@@ -2,7 +2,7 @@
 
 Musiktheorie lernen – hörbar, spielerisch und so tief, wie du willst. Vom ersten Notenschlüssel bis zum Hochschulniveau, mit KI-Tutor und echten Coaches. Im Browser und als App für iOS und Android.
 
-> **Status: Vollständige interne Stufe 1; fachliche Freigabe offen.** 18 Übungstypen und sechs freie Sätze sind implementiert. Alle 13 geplanten Stufe-1-Einheiten einschließlich Prototyp sind mit 37 Lektionen, 370 Aufgaben, 106 Wissenskarten und 13 Artikeln abgedeckt. Die letzten Einheiten ergänzen Gehörbildung sowie Klangquellen und Musikgeschichte in DE/US/UK. Alle Inhalte bleiben Entwurf bis zu Claude Codes getrennter fachlicher Prüfung. Bestehens-/Freischaltregeln und echte Geräteabnahme bleiben offen. Aktueller Stand: [Stufe 1 vollständig intern](docs/plan/stufe-1-vollstaendig.md) und [Phase 2](docs/plan/phase-2-mvp.md).
+> **Status: Stufe 1 intern vollständig; erste Stufe-2-Einheit umgesetzt.** 18 Übungstypen und sechs freie Sätze sind implementiert. Zu den 37 Stufe-1-Lektionen mit 370 Aufgaben kommen drei Lektionen zu Bassschlüssel, großem Notensystem und Oktavnamen. Insgesamt: 40 Lektionen, 400 Aufgaben, 115 Wissenskarten mit 172 Beispielen und 14 Artikel in DE/US/UK, Inhaltsversion 12. Alle Inhalte bleiben Entwurf bis zu Claude Codes getrennter fachlicher Prüfung. Bestehens-/Freischaltregeln und echte Geräteabnahme bleiben offen. Aktueller Stand: [Bassschlüssel und großes System](docs/plan/bassschluessel-und-grosses-system.md), [Stufe 1 vollständig intern](docs/plan/stufe-1-vollstaendig.md) und [Phase 2](docs/plan/phase-2-mvp.md).
 
 ## Konzept
 

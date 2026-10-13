@@ -10,6 +10,8 @@ export const enGB = {
     licenses: 'Licences',
   },
   exercise: {
+    grandStaffDescription:
+      'Grand stave: treble clef above, bass clef below. {{description}} The stave in {{silent}} contains a rest for the entire bar.',
     type_interval_semitones: 'Count semitones',
     question_interval_semitones:
       'How many semitones separate the two written pitches? Count the moves between adjacent piano keys. The starting key counts as 0.',

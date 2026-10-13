@@ -1,4 +1,5 @@
 // Sprachneutrale freie Antworten. Notenschreiben bewahrt die Schreibweise, Tasten die MIDI-Höhe.
+import { grandStaffTarget } from '@harmonia/notation';
 import type { EventRef } from '@harmonia/notation';
 import { MAX_STEP, MIN_STEP, setPitch, stepOf } from '@harmonia/notation';
 import type { Pitch } from '@harmonia/theory';
@@ -16,7 +17,11 @@ export function keyAnswerId(pitch: Pitch): string {
   return `key:${String(midi(pitch))}`;
 }
 export function inputTarget(item: PitchInputItem): Pitch {
-  return item.type === 'INTERVAL_BUILD' ? item.to : item.pitch;
+  return item.type === 'INTERVAL_BUILD'
+    ? item.to
+    : item.type === 'KEY_FIND' && item.presentation === 'grand-staff'
+      ? grandStaffTarget(item.score).pitch
+      : item.pitch;
 }
 export function inputSlot(item: PitchInputItem): EventRef {
   return { measure: item.type === 'INTERVAL_BUILD' ? 1 : 0, event: 0 };

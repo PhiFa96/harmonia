@@ -16,7 +16,7 @@ import {
 } from '@harmonia/exercises';
 import { engineLanguage } from '@harmonia/i18n';
 import { layoutScore, describeScore } from '@harmonia/notation';
-import { ScoreView } from '@harmonia/notation/native';
+import { ScoreView, GrandStaffView } from '@harmonia/notation/native';
 import { RADIUS, SPACE } from '@harmonia/ui';
 import {
   AppText,
@@ -159,7 +159,8 @@ export function ExerciseTask({
           <PulseExample item={item} />
         </Card>
       ) : isKnowledgeItem(item) ||
-        (item.type === 'KEY_FIND' && item.presentation === 'name') ? null : [
+        (item.type === 'KEY_FIND' && item.presentation === 'name') ||
+        (item.type === 'NOTE_NAME' && item.presentation === 'octave-name') ? null : [
           'NOTE_PLACE',
           'INTERVAL_BUILD',
           'SCALE_BUILD',
@@ -179,13 +180,17 @@ export function ExerciseTask({
           <ScrollView horizontal contentContainerStyle={styles.score}>
             <View accessible role="img" aria-label={exerciseDescription(item, locale)}>
               <View aria-hidden importantForAccessibility="no-hide-descendants">
-                <ScoreView
-                  score={item.score}
-                  staffSpace={staffSpace}
-                  color={colors.text}
-                  describeOptions={engineLanguage(locale)}
-                  layoutOptions={{ endBarline: 'final' }}
-                />
+                {item.type === 'KEY_FIND' && item.presentation === 'grand-staff' ? (
+                  <GrandStaffView score={item.score} staffSpace={staffSpace} color={colors.text} />
+                ) : (
+                  <ScoreView
+                    score={item.score}
+                    staffSpace={staffSpace}
+                    color={colors.text}
+                    describeOptions={engineLanguage(locale)}
+                    layoutOptions={{ endBarline: 'final' }}
+                  />
+                )}
               </View>
             </View>
           </ScrollView>

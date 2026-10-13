@@ -62,9 +62,9 @@ describe('Intervallgröße, Richtung und Schritt/Sprung', () => {
     }
   });
   it('Version 9 ergänzt neun Karten, 15 vollständige Notenbeispiele und einen Artikel', () => {
-    expect(catalogue.contentVersion).toBe(11);
-    expect(curriculumPlan.contentVersion).toBe(11);
-    expect(catalogue.lessons).toHaveLength(37);
+    expect(catalogue.contentVersion).toBe(12);
+    expect(curriculumPlan.contentVersion).toBe(12);
+    expect(catalogue.lessons).toHaveLength(40);
     const cards = catalogue.knowledgeCards.filter((card) =>
       card.id.startsWith('intervals.l1.size.'),
     );

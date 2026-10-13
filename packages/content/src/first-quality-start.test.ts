@@ -64,9 +64,9 @@ describe('Erste Intervallqualitäten', () => {
     }
   });
   it('neun Karten und 15 vollständige Klaviatur-/Notenbeispiele bleiben Entwurf', () => {
-    expect(catalogue.contentVersion).toBe(11);
-    expect(curriculumPlan.contentVersion).toBe(11);
-    expect(catalogue.lessons).toHaveLength(37);
+    expect(catalogue.contentVersion).toBe(12);
+    expect(curriculumPlan.contentVersion).toBe(12);
+    expect(catalogue.lessons).toHaveLength(40);
     const cards = catalogue.knowledgeCards.filter((c) =>
       c.id.startsWith('intervals.l1.first-qualities.'),
     );

@@ -1,3 +1,5 @@
+import { inputTarget } from './pitch-input.ts';
+import { octaveNamePitch } from './octave-names.ts';
 import { listeningVariantKey, listeningAnswer } from './listening.ts';
 import { createRng, keyFifths, midi } from '@harmonia/theory';
 import { isKeySignatureItem, isScaleItem } from './tonality.ts';
@@ -110,7 +112,9 @@ export function itemVariantKey(item: ExerciseItem): string {
     return JSON.stringify([item.type, item.tonic, item.scaleType, item.direction]);
   if (isKeySignatureItem(item))
     return JSON.stringify([item.type, keyFifths(item.key), item.key.mode]);
-  if (item.type === 'KEY_FIND') return JSON.stringify([item.type, midi(item.pitch)]);
+  if (item.type === 'KEY_FIND') return JSON.stringify([item.type, midi(inputTarget(item))]);
+  if (item.type === 'NOTE_NAME' && item.presentation === 'octave-name')
+    return JSON.stringify([item.type, octaveNamePitch(item)]);
   return JSON.stringify(
     'pitch' in item
       ? [item.type, item.clef, item.pitch]

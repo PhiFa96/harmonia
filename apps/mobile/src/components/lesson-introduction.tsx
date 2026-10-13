@@ -2,7 +2,7 @@ import type { LessonContent } from '@harmonia/content';
 import { engineLanguage } from '@harmonia/i18n';
 import { parseScore } from '@harmonia/notation';
 import { pulseExample } from '@harmonia/exercises';
-import { ScoreView } from '@harmonia/notation/native';
+import { ScoreView, GrandStaffView } from '@harmonia/notation/native';
 import { SPACE } from '@harmonia/ui';
 import { AppText, Button, Card, MusicText, useUiTheme } from '@harmonia/ui/native';
 import { useMemo, useState } from 'react';
@@ -96,13 +96,19 @@ export function LessonIntroduction({
               }}
               {...(Platform.OS === 'web' && scrollable ? { tabIndex: 0 } : {})}
             >
-              <ScoreView
-                score={score}
-                staffSpace={14}
-                color={colors.text}
-                describeOptions={engineLanguage(locale)}
-                layoutOptions={{ endBarline: 'final' }}
-              />
+              {score.staves.length === 2 ? (
+                <View accessible role="img" aria-label={contentText(example.captionKey)}>
+                  <GrandStaffView score={score} staffSpace={14} color={colors.text} />
+                </View>
+              ) : (
+                <ScoreView
+                  score={score}
+                  staffSpace={14}
+                  color={colors.text}
+                  describeOptions={engineLanguage(locale)}
+                  layoutOptions={{ endBarline: 'final' }}
+                />
+              )}
             </ScrollView>
           )}
           {!pulse && scrollable ? (

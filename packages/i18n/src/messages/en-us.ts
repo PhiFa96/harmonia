@@ -35,6 +35,23 @@ export const enUS = {
     wrongTitle: 'Not quite',
   },
   exercise: {
+    question_octaveName: 'What is {{name}} in {{system}}?',
+    scientificSystem: '$t(glossary:scientificNotation)',
+    helmholtzSystem: '$t(glossary:helmholtzNotation)',
+    question_grandStaff:
+      'Which key matches the only written note on the $t(glossary:grandStaff_one)?',
+    octaveNameExplanation:
+      '{{source}} and {{answer}} name the same pitch. Scientific octave number {{octave}} starts at C and runs through the following B. Uppercase/lowercase letters and superscript numbers indicate the register in Helmholtz notation.',
+    octaveNameHint1:
+      'Read the register first: c = C3, c¹ = C4, c² = C5. Each new register starts at C.',
+    octaveNameHint2:
+      'The number applies to all seven natural notes in that register: b = B3 and b¹ = B4. International B is German H.',
+    grandStaffHint1:
+      'Find the staff containing the note. The upper staff uses the $t(glossary:trebleClef_one); the lower one uses the $t(glossary:bassClef_one).',
+    grandStaffHint2:
+      'C4/c¹ lies on the first $t(glossary:ledgerLine_one) below the upper staff and the first above the lower staff. Both spellings belong to the same key.',
+    grandStaffDescription:
+      'Grand staff: treble clef above, bass clef below. {{description}} The staff in {{silent}} contains a whole-measure rest.',
     type_LISTENING_CHOICE: 'Listen and compare',
     question_listening_pulse:
       'Listen to the two steady pulse groups. How many beats belong to each group? Count the higher starting sound as 1; the next start belongs to the next group.',
@@ -810,6 +827,7 @@ export const enUS = {
       'Piano sound: Salamander Grand Piano by Alexander Holm, CC BY 3.0 (creativecommons.org/licenses/by/3.0). Modified: selection, shortened, mono, tuning corrected.',
   },
   gallery: {
+    grandStaff: '$t(glossary:grandStaff_one): learning example',
     durationSymbols: 'Note values and rests',
     keyboardExample: '$t(glossary:keyboard_one): learning example',
     pulseExample: '$t(glossary:pulse): counting groups',

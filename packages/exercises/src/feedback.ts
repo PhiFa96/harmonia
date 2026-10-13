@@ -1,6 +1,9 @@
 import type { AppLocale, Messages } from '@harmonia/i18n';
 import { createI18n, engineLanguage } from '@harmonia/i18n';
 import type { NoteName, Pitch } from '@harmonia/theory';
+import { octaveName, octaveNamePitch } from './octave-names.ts';
+import { grandStaffTarget } from '@harmonia/notation';
+import { inputTarget } from './pitch-input.ts';
 import { listeningAnswer } from './listening.ts';
 import { isHistoryTopic } from './knowledge.ts';
 import {
@@ -231,12 +234,26 @@ export function choiceLabel(item: ExerciseItem, answer: string, locale: AppLocal
   if (isKeySignatureItem(item)) return keyName(tonalityFromId(answer), engineLanguage(locale));
   if (item.type !== 'NOTE_NAME')
     return intervalName(parseInterval(answer), { ...engineLanguage(locale), showDirection: false });
+  if (item.presentation === 'octave-name')
+    return octaveName(item, locale, false, parsePitch(answer));
   if (item.includeOctave) return noteName(parsePitch(answer), locale);
   const [letter, alter] = answer.split(':');
   const pitch = { ...item.pitch, letter: letter as Pitch['letter'], alter: Number(alter) };
   return noteName(pitch, locale, false);
 }
 export function exercisePrompt(item: ExerciseItem, locale: AppLocale): string {
+  if (item.type === 'NOTE_NAME' && item.presentation === 'octave-name')
+    return translate(locale, 'exercise.question_octaveName', {
+      name: octaveName(item, locale),
+      system: translate(
+        locale,
+        item.sourceSystem === 'helmholtz'
+          ? 'exercise.scientificSystem'
+          : 'exercise.helmholtzSystem',
+      ),
+    });
+  if (item.type === 'KEY_FIND' && item.presentation === 'grand-staff')
+    return translate(locale, 'exercise.question_grandStaff');
   if (item.type === 'LISTENING_CHOICE')
     return translate(locale, `exercise.question_listening_${item.question}`);
   if (isIntervalReadingItem(item))
@@ -347,7 +364,14 @@ export function exerciseFeedback(
   locale: AppLocale,
 ): ExerciseFeedback {
   let message: string;
-  if (item.type === 'LISTENING_CHOICE') {
+  if (item.type === 'NOTE_NAME' && item.presentation === 'octave-name') {
+    const pitch = octaveNamePitch(item);
+    message = translate(locale, 'exercise.octaveNameExplanation', {
+      source: octaveName(item, locale),
+      answer: octaveName(item, locale, false),
+      octave: pitch.octave,
+    });
+  } else if (item.type === 'LISTENING_CHOICE') {
     message = translate(locale, `exercise.listeningExplanation_${item.question}`, {
       answer: choiceLabel(item, listeningAnswer(item), locale),
     });
@@ -442,9 +466,9 @@ export function exerciseFeedback(
       locale,
       item.presentation === 'name' ? 'exercise.keyNameExplanation' : 'exercise.keyExplanation',
       {
-        note: noteName(item.pitch, locale, item.presentation !== 'name'),
-        natural: noteName({ ...item.pitch, alter: 0 }, locale, item.presentation !== 'name'),
-        alteration: alterationText(item.pitch, locale),
+        note: noteName(inputTarget(item), locale, item.presentation !== 'name'),
+        natural: noteName({ ...inputTarget(item), alter: 0 }, locale, item.presentation !== 'name'),
+        alteration: alterationText(inputTarget(item), locale),
       },
     );
   else if ('pitch' in item) {
@@ -551,6 +575,18 @@ export function exerciseHints(item: ExerciseItem, level: 1 | 2 | 3): ExerciseHin
       key: level === 1 ? 'exercise.signatureHint1' : 'exercise.signatureHint2',
       values: {},
     };
+  if (item.type === 'NOTE_NAME' && item.presentation === 'octave-name')
+    return {
+      level,
+      key: level === 1 ? 'exercise.octaveNameHint1' : 'exercise.octaveNameHint2',
+      values: {},
+    };
+  if (item.type === 'KEY_FIND' && item.presentation === 'grand-staff')
+    return {
+      level,
+      key: level === 1 ? 'exercise.grandStaffHint1' : 'exercise.grandStaffHint2',
+      values: {},
+    };
   if (item.type === 'KEY_FIND')
     return {
       level,
@@ -622,9 +658,14 @@ export function hintText(item: ExerciseItem, hint: ExerciseHint, locale: AppLoca
           }
         : { signature: signatureText(item, locale) },
     );
+  if (
+    (item.type === 'NOTE_NAME' && item.presentation === 'octave-name') ||
+    (item.type === 'KEY_FIND' && item.presentation === 'grand-staff')
+  )
+    return translate(locale, hint.key, hint.values);
   if (item.type === 'KEY_FIND' && hint.level === 2)
     return translate(locale, 'exercise.keyHint2', {
-      natural: noteName({ ...item.pitch, alter: 0 }, locale, item.presentation !== 'name'),
+      natural: noteName({ ...inputTarget(item), alter: 0 }, locale, item.presentation !== 'name'),
       alteration: alterationText(item.pitch, locale),
     });
   if ('pitch' in item && hint.level === 2)
@@ -715,26 +756,38 @@ export function exerciseDescription(item: ExerciseItem, locale: AppLocale): stri
           .map((note) => noteName({ ...note, octave: 4 }, locale, false))
           .join(' → ') || translate(locale, 'exercise.signatureEmpty'),
     });
-  const clef = isIntervalReadingItem(item) ? (item.score.staves[0]?.clef ?? item.clef) : item.clef;
+  if (item.type === 'NOTE_NAME' && item.presentation === 'octave-name')
+    return exercisePrompt(item, locale);
+  const grand =
+    item.type === 'KEY_FIND' && item.presentation === 'grand-staff'
+      ? grandStaffTarget(item.score)
+      : undefined;
+  const clef = grand
+    ? grand.clef
+    : isIntervalReadingItem(item)
+      ? (item.score.staves[0]?.clef ?? item.clef)
+      : item.clef;
   const bottom: Pitch =
     clef === 'treble' ? { letter: 'E', alter: 0, octave: 4 } : { letter: 'G', alter: 0, octave: 2 };
-  const pitches = isIntervalReadingItem(item)
-    ? intervalReadingPitches(item)
-    : isChordItem(item)
-      ? item.type === 'CHORD_BUILD'
-        ? [item.bass]
-        : item.pitches
-      : isScaleItem(item)
-        ? item.type === 'SCALE_BUILD'
-          ? [item.tonic]
+  const pitches = grand
+    ? [grand.pitch]
+    : isIntervalReadingItem(item)
+      ? intervalReadingPitches(item)
+      : isChordItem(item)
+        ? item.type === 'CHORD_BUILD'
+          ? [item.bass]
           : item.pitches
-        : item.type === 'NOTE_PLACE'
-          ? []
-          : 'pitch' in item
-            ? [item.pitch]
-            : item.type === 'INTERVAL_BUILD'
-              ? [item.from]
-              : [item.from, item.to];
+        : isScaleItem(item)
+          ? item.type === 'SCALE_BUILD'
+            ? [item.tonic]
+            : item.pitches
+          : item.type === 'NOTE_PLACE'
+            ? []
+            : 'pitch' in item
+              ? [item.pitch]
+              : item.type === 'INTERVAL_BUILD'
+                ? [item.from]
+                : [item.from, item.to];
   const notes = pitches
     .map((pitch, index) => {
       const steps = diatonicIndex(pitch) - diatonicIndex(bottom);
@@ -749,13 +802,22 @@ export function exerciseDescription(item: ExerciseItem, locale: AppLocale): stri
       });
     })
     .join(' ');
-  return translate(locale, 'exercise.notationDescription', {
+  const description = translate(locale, 'exercise.notationDescription', {
     clef: translate(
       locale,
       clef === 'treble' ? 'glossary:trebleClef_one' : 'glossary:bassClef_one',
     ),
     notes,
   });
+  return grand
+    ? translate(locale, 'exercise.grandStaffDescription', {
+        description,
+        silent: translate(
+          locale,
+          grand.clef === 'treble' ? 'glossary:bassClef_one' : 'glossary:trebleClef_one',
+        ),
+      })
+    : description;
 }
 export function knowledgeFactLabel(fact: KnowledgeFact, locale: AppLocale): string {
   if (isHistoryTopic(fact.topic) && 'kind' in fact)

@@ -132,7 +132,13 @@ export const exerciseSpecSchema = z
     z
       .object({
         type: z.literal('NOTE_NAME'),
-        params: noteParams.extend({ includeOctave: z.boolean().optional() }).strict(),
+        params: noteParams
+          .extend({
+            includeOctave: z.boolean().optional(),
+            presentation: z.literal('octave-name').optional(),
+            sourceSystem: z.enum(['helmholtz', 'scientific', 'both']).optional(),
+          })
+          .strict(),
       })
       .strict(),
     z.object({ type: z.literal('NOTE_PLACE'), params: noteParams }).strict(),
@@ -140,7 +146,7 @@ export const exerciseSpecSchema = z
       .object({
         type: z.literal('KEY_FIND'),
         params: noteParams
-          .extend({ presentation: z.enum(['notation', 'name', 'score']).optional() })
+          .extend({ presentation: z.enum(['notation', 'name', 'score', 'grand-staff']).optional() })
           .strict(),
       })
       .strict(),
@@ -297,6 +303,8 @@ export const exerciseSpecSchema = z
         type: value.type,
         params: {
           ...base,
+          ...(value.params.presentation ? { presentation: value.params.presentation } : {}),
+          ...(value.params.sourceSystem ? { sourceSystem: value.params.sourceSystem } : {}),
           ...(value.params.includeOctave === undefined
             ? {}
             : { includeOctave: value.params.includeOctave }),

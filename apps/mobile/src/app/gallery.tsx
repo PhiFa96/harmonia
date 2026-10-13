@@ -8,6 +8,8 @@ import {
   pulseExample,
 } from '@harmonia/exercises';
 import type { Pitch } from '@harmonia/notation';
+import { GrandStaffView } from '@harmonia/notation/native';
+import { grandStaffExample } from '@harmonia/notation';
 import { parseScore } from '@harmonia/notation';
 import type { ColorScheme, TextVariant } from '@harmonia/ui';
 import { COLORS, LAYOUT, RADIUS, SPACE } from '@harmonia/ui';
@@ -52,6 +54,7 @@ const VARIANTS: readonly TextVariant[] = [
   'overline',
 ];
 const KEYBOARD_EXAMPLE = parseScore('treble | 4/4 | C4/2 E4/2');
+const GRAND_EXAMPLE = grandStaffExample({ letter: 'C', alter: 0, octave: 4 }, 'bass');
 const REGISTER_EXAMPLE = parseScore('treble | 4/4 | C4/2 C5/2');
 
 export default function GalleryScreen() {
@@ -103,6 +106,9 @@ export default function GalleryScreen() {
             <Lists />
             <Sheet />
             <Piano />
+            <Section title={t('gallery.grandStaff')}>
+              <GrandStaffView score={GRAND_EXAMPLE} color={COLORS[scheme].text} />
+            </Section>
             <Section title={t('gallery.keyboardExample')}>
               <Card>
                 <KeyboardExample score={KEYBOARD_EXAMPLE} range={{ first: 60, last: 72 }} />
