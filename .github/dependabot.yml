@@ -39,6 +39,10 @@ updates:
         update-types: [version-update:semver-major, version-update:semver-minor]
       - dependency-name: jest-expo
         update-types: [version-update:semver-major, version-update:semver-minor]
+      # Ab v14 ist render() asynchron; renderRouter aus expo-router 57 ruft es synchron auf und
+      # erweitert das Ergebnis. Erst mit einem SDK, dessen expo-router v14 unterstützt.
+      - dependency-name: '@testing-library/react-native'
+        update-types: [version-update:semver-major]
 
   - package-ecosystem: github-actions
     directory: /
