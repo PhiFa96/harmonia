@@ -74,4 +74,4 @@ Die SQLite-Ablage speichert Aufgaben, Antwortstrings, Hilfen, Erstwertung und Wi
 
 Claudes getrennte fachliche Abnahme nach [ADR 0005](../decisions/0005-fachliche-pruefung-durch-claude.md), GitHub-CI vor dem Merge, VoiceOver/TalkBack und echte iOS-/Android-Geräteproben bleiben offen. Diese technische Prüfung ersetzt keine Hör- oder Bedienprobe durch Testpersonen.
 
-Als Nächstes folgen `RHYTHM_TAP`, `METER_IDENTIFY`, `KNOWLEDGE_MC`, `MATCH` und `ORDER`. Vollständige Stufen-1–2-Lektionen und Bestehens-/Freischaltlogik bleiben die anschließenden geplanten Schritte.
+Fortsetzung 08.10.2026: `RHYTHM_TAP` und `METER_IDENTIFY` sind im [vierten Teil von P2.06](rhythmus-und-takt.md) technisch umgesetzt. Als Nächstes folgen `KNOWLEDGE_MC`, `MATCH` und `ORDER`. Vollständige Stufen-1–2-Lektionen und Bestehens-/Freischaltlogik bleiben die anschließenden geplanten Schritte. Der obige Prüfstand dokumentiert die Akkordumsetzung vom 07.10.2026.

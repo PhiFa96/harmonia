@@ -21,6 +21,7 @@ import {
   createPracticeSession,
   createTonalitySession,
   createChordSession,
+  createRhythmSession,
 } from '@/exercises/practice';
 import { useLocale } from '@/i18n';
 
@@ -29,7 +30,9 @@ export default function PracticeScreen() {
   const locale = useLocale();
   const [session, setSession] = useState<ExerciseSession | null>(null);
   const [answer, setAnswer] = useState<string | null>(null);
-  const [mode, setMode] = useState<'reading' | 'pitch' | 'tonality' | 'chords'>('reading');
+  const [mode, setMode] = useState<'reading' | 'pitch' | 'tonality' | 'chords' | 'rhythm'>(
+    'reading',
+  );
   const run = useRef(0);
   const scroll = useRef<ScrollView>(null);
   const question = useRef<View>(null);
@@ -47,6 +50,7 @@ export default function PracticeScreen() {
         pitch: createPitchInputSession,
         tonality: createTonalitySession,
         chords: createChordSession,
+        rhythm: createRhythmSession,
       }[selected](Date.now() + run.current++),
     );
     scroll.current?.scrollTo({ y: 0, animated: false });
@@ -117,6 +121,17 @@ export default function PracticeScreen() {
               label={t('exercise.chordStart')}
               onPress={() => {
                 start('chords');
+              }}
+            />
+            <Card>
+              <AppText variant="title3">{t('exercise.rhythmStart')}</AppText>
+              <AppText tone="muted">{t('exercise.rhythmIntro')}</AppText>
+            </Card>
+            <Button
+              variant="secondary"
+              label={t('exercise.rhythmStart')}
+              onPress={() => {
+                start('rhythm');
               }}
             />
           </>

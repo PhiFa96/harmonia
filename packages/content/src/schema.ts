@@ -1,6 +1,12 @@
 import { z } from 'zod';
 import type { ExerciseSpec } from '@harmonia/exercises';
-import { createRng, generateExercise, MVP_SCALE_TYPES, MVP_TRIAD_TYPES } from '@harmonia/exercises';
+import {
+  createRng,
+  generateExercise,
+  MVP_SCALE_TYPES,
+  MVP_TRIAD_TYPES,
+  MVP_METERS,
+} from '@harmonia/exercises';
 const range = z
   .object({
     minMidi: z.number().int().min(21).max(108),
@@ -19,6 +25,17 @@ const noteParams = z
   })
   .strict();
 const intervals = z.array(z.string().regex(/^(?:P|m|M|A|d)(?:[1-9]|1[0-5])$/)).nonempty();
+const meterParams = z
+  .object({ meters: z.array(z.enum(MVP_METERS)).nonempty(), clefs: noteParams.shape.clefs })
+  .strict();
+const rhythmParams = meterParams
+  .extend({
+    tempos: z.array(z.number().int().min(60).max(120)).nonempty().optional(),
+    level: z.enum(['basic', 'dotted']).optional(),
+    rests: z.boolean().optional(),
+    toleranceMs: z.number().int().min(40).max(180).optional(),
+  })
+  .strict();
 const chordParams = noteParams
   .extend({
     types: z.array(z.enum(MVP_TRIAD_TYPES)).nonempty(),
@@ -55,6 +72,8 @@ const signatureParams = z
   .strict();
 export const exerciseSpecSchema = z
   .discriminatedUnion('type', [
+    z.object({ type: z.literal('RHYTHM_TAP'), params: rhythmParams }).strict(),
+    z.object({ type: z.literal('METER_IDENTIFY'), params: meterParams }).strict(),
     z.object({ type: z.literal('CHORD_BUILD'), params: chordParams }).strict(),
     z
       .object({
@@ -106,6 +125,24 @@ export const exerciseSpecSchema = z
       .strict(),
   ])
   .transform((value): ExerciseSpec => {
+    if (value.type === 'RHYTHM_TAP' || value.type === 'METER_IDENTIFY')
+      return {
+        type: value.type,
+        params: {
+          meters: value.params.meters,
+          ...(value.params.clefs ? { clefs: value.params.clefs } : {}),
+          ...(value.type === 'RHYTHM_TAP'
+            ? {
+                ...(value.params.tempos ? { tempos: value.params.tempos } : {}),
+                ...(value.params.level ? { level: value.params.level } : {}),
+                ...(value.params.rests !== undefined ? { rests: value.params.rests } : {}),
+                ...(value.params.toleranceMs !== undefined
+                  ? { toleranceMs: value.params.toleranceMs }
+                  : {}),
+              }
+            : {}),
+        },
+      };
     if (value.type === 'KEYSIG_BUILD' || value.type === 'KEYSIG_IDENTIFY')
       return {
         type: value.type,

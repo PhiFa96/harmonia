@@ -1,5 +1,14 @@
 import { equals, intervalBetween, keySignature } from '@harmonia/theory';
 import {
+  assessRhythm,
+  isRhythmItem,
+  meterAnswerId,
+  rhythmAnswerId,
+  rhythmAnswerTaps,
+  rhythmMeter,
+  rhythmOnsets,
+} from './rhythm.ts';
+import {
   canonicalChordAnswer,
   chordAnswerPitches,
   chordChoiceId,
@@ -32,6 +41,10 @@ import type { Evaluation, ExerciseItem } from './types.ts';
 
 /** Die Engine berechnet die Lösung aus den Tönen, nie aus dem sichtbaren Antworttext. */
 export function expectedAnswer(item: ExerciseItem): string {
+  if (isRhythmItem(item))
+    return item.type === 'RHYTHM_TAP'
+      ? rhythmAnswerId(rhythmOnsets(item))
+      : meterAnswerId(rhythmMeter(item));
   if (isChordItem(item))
     return item.type === 'CHORD_BUILD'
       ? canonicalChordAnswer(chordTargets(item))
@@ -52,6 +65,15 @@ export function expectedAnswer(item: ExerciseItem): string {
 }
 export function evaluateExercise(item: ExerciseItem, answer: string): Evaluation {
   const expected = expectedAnswer(item);
+  if (item.type === 'RHYTHM_TAP') {
+    const taps = rhythmAnswerTaps(item, answer);
+    return {
+      answer,
+      expected,
+      validAnswer: taps !== undefined,
+      correct: taps !== undefined && assessRhythm(item, taps).correct,
+    };
+  }
   if (item.type === 'CHORD_BUILD') {
     const pitches = chordAnswerPitches(item, answer);
     const complete = pitches?.filter((pitch): pitch is NonNullable<typeof pitch> => pitch !== null);

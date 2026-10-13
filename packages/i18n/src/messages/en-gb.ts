@@ -10,6 +10,9 @@ export const enGB = {
     licenses: 'Licences',
   },
   exercise: {
+    rhythmStart: 'Practise rhythm and metre',
+    meterHint1:
+      'The numerator gives the number of units; the denominator gives their note value. In 6/8, 9/8 and 12/8, three quavers form one beat.',
     chordStart: 'Recognise and write chords',
     chordIntro:
       'Nine questions: write major, minor, diminished and augmented triads with inversions, recognise them in notation and identify them by ear.',

@@ -42,6 +42,54 @@ export const de = {
     noteInput: 'Noten und Klaviatur ausprobieren',
     constructionStart: 'Noten und Intervalle selbst eingeben',
     chooseSet: 'Übungssatz auswählen',
+    rhythmStart: 'Rhythmus und Taktgliederung üben',
+    rhythmIntro:
+      'Sechs Aufgaben: Notenanfänge nach einem Einzähltakt mittippen und die Gliederung von Taktangaben bestimmen. Pausen bleiben still.',
+    type_RHYTHM_TAP: '$t(glossary:rhythm_one) mittippen',
+    type_METER_IDENTIFY: '$t(glossary:meter_one) gliedern',
+    question_RHYTHM_TAP:
+      'Tippe jeden Notenanfang dieses Takts. Ein $t(glossary:beat_one) ist eine {{beat}}; das $t(glossary:tempo) beträgt {{bpm}} Schläge pro Minute. Nach einem Einzähltakt beginnt deine Aufnahme.',
+    question_METER_IDENTIFY:
+      'Wie gliedert sich diese $t(glossary:meter_one)? Wähle die Zahl der Grundschläge und ihren Notenwert.',
+    meterOption: '{{count}} Grundschläge mit dem Wert {{beat}}',
+    meterExplanation:
+      '{{meter}}: {{count}} Grundschläge pro $t(glossary:measure_one), jeweils im Wert {{beat}}. Jeder Grundschlag wird in {{division}} gleiche Teile unterteilt. Die Gruppierung in Einheiten des Nenners ist {{groups}}. Der Zähler zählt Nenner-Einheiten, nicht immer die Grundschläge.',
+    rhythmExplanation:
+      '{{matched}} von {{total}} Notenanfängen innerhalb von ±{{tolerance}} ms; {{missing}} fehlen oder liegen außerhalb, {{extra}} sind zusätzlich. {{pattern}} Tippe nur die Notenanfänge; während einer Pause bleibt die Hand still. Auch ein fehlender oder zusätzlicher Anschlag zählt als Fehler.',
+    rhythmPattern: 'Notenanfänge nach Taktbeginn: {{times}} ms.',
+    rhythmDescription: 'Taktangabe {{meter}}. {{events}}',
+    rhythmEvent: '{{index}}: {{kind}}, {{duration}}.',
+    rhythmNote: 'Note',
+    rhythmRest: 'Pause',
+    rhythmHint1:
+      'Zähle den Grundschlag weiter. Tippe nur beim Beginn einer Note, nicht für ihre gesamte Dauer. Pausen haben eine Dauer, aber keinen Anschlag.',
+    rhythmHint2:
+      'Dieser Takt enthält {{total}} Notenanfänge. Halte {{count}} gleichmäßige Grundschläge im Wert {{beat}} bei {{bpm}} Schlägen pro Minute.',
+    meterHint1:
+      'Der Zähler gibt die Zahl der Einheiten an; der Nenner ihren Notenwert. Bei 6/8, 9/8 und 12/8 gehören jeweils drei Achtel zu einem Grundschlag.',
+    meterHint2: 'Gruppiere die Einheiten so: {{groups}}. Jede Gruppe bildet einen Grundschlag.',
+    rhythmReady: 'Bereit zum Einzählen.',
+    rhythmPreparing: 'Klang wird vorbereitet …',
+    rhythmCountIn: 'Einzählen: {{current}} von {{count}}',
+    rhythmRecording: 'Aufnahme: {{current}} von {{count}} Grundschlägen',
+    rhythmFinished: 'Aufnahme vollständig. Du kannst sie prüfen oder neu aufnehmen.',
+    rhythmBegin: 'Einzählen und aufnehmen',
+    rhythmRetry: 'Neu aufnehmen',
+    rhythmCancel: 'Aufnahme abbrechen',
+    rhythmTap: 'Jetzt tippen',
+    rhythmTapHint:
+      'Tippe beim Notenanfang. Mit der Tastatur: Leertaste oder Enter auf diesem Knopf. Gedrückthalten zählt einmal.',
+    rhythmTapCount_one: '{{count}} Anschlag aufgenommen.',
+    rhythmTapCount_other: '{{count}} Anschläge aufgenommen.',
+    rhythmWindow:
+      'Toleranz: ±{{tolerance}} ms. Gemessen werden Notenanfänge, nicht die Dauer des Gedrückthaltens.',
+    rhythmPreview: 'Rhythmus als Beispiel anhören',
+    rhythmTarget: 'Notenanfang {{index}}: {{time}} ms',
+    rhythmHit: 'getroffen, Abweichung {{offset}} ms',
+    rhythmMiss: 'fehlt oder außerhalb der Toleranz',
+    rhythmExtras: 'Zusätzliche Anschläge: {{times}} ms.',
+    rhythmLatency:
+      'Gemeldete Audio-Verzögerung: {{latency}} ms; beim Messen deiner Anschläge berücksichtigt.',
     chordStart: 'Akkorde erkennen und schreiben',
     chordIntro:
       'Neun Aufgaben: Dur-, Moll-, verminderte und übermäßige Dreiklänge mit Umkehrungen schreiben, im Notenbild erkennen und nach Gehör bestimmen.',

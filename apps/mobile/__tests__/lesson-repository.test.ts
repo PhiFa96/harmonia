@@ -54,6 +54,56 @@ afterEach(() => {
 });
 
 describe('Lokale Ergebnisse mit echter SQLite', () => {
+  it('speichert Rhythmus-Zeitwerte, Erstfehler, Hilfe und Wiederholung ohne Migration', async () => {
+    let session = createLessonSession(
+      {
+        id: 'test.rhythm',
+        contentVersion: 1,
+        exercises: [
+          { type: 'RHYTHM_TAP', params: { meters: ['4/4'], tempos: [96] } },
+          { type: 'METER_IDENTIFY', params: { meters: ['3/4', '6/8'] } },
+        ],
+      },
+      'sqlite-rhythm',
+    );
+    const source = required(currentItem(session.initial));
+    const correct = expectedAnswer(source),
+      duplicate = correct.replace('taps:', 'taps:0,');
+    session = nextLessonExercise(answerLesson(revealLessonHint(session), duplicate));
+    while (
+      session.phase === 'initial' ||
+      session.phase === 'review' ||
+      session.phase === 'review-intro'
+    ) {
+      if (session.phase === 'review-intro') session = startLessonReview(session);
+      const item = required(currentItem(required(activeLessonSession(session))));
+      session = nextLessonExercise(answerLesson(session, expectedAnswer(item)));
+    }
+    await initializeLessonDatabase(adapter(db));
+    const attempt = createLessonAttempt('rhythm-id', session, START, END),
+      repository = createLessonRepository(adapter(db));
+    await repository.save(attempt);
+    expect(
+      JSON.parse(
+        String(
+          db.prepare('SELECT payload FROM lesson_attempts WHERE id = ?').get('rhythm-id')?.[
+            'payload'
+          ],
+        ),
+      ),
+    ).toEqual(attempt);
+    expect(await repository.latest(session.lesson.id)).toMatchObject({
+      correct: 1,
+      answered: 2,
+      review_correct: 1,
+      review_total: 1,
+    });
+    expect(attempt.session.initial.records[0]).toMatchObject({
+      hintLevel: 1,
+      result: { answer: duplicate, correct: false },
+    });
+    expect(db.prepare('PRAGMA user_version').get()?.['user_version']).toBe(1);
+  });
   it('speichert Akkorde samt falscher Erstwertung, Hinweis und neuer Wiederholung ohne Migration', async () => {
     let session = createLessonSession(
       {

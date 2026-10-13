@@ -1,6 +1,6 @@
 import type { AppLocale, Messages } from '@harmonia/i18n';
 import type { Score } from '@harmonia/notation';
-import type { Chord, Key, Mode, Pitch, Rng, TriadType } from '@harmonia/theory';
+import type { Chord, Key, Mode, Pitch, Rng, TriadType, TimeSignature } from '@harmonia/theory';
 
 export type ExerciseType =
   | 'NOTE_NAME'
@@ -14,7 +14,9 @@ export type ExerciseType =
   | 'KEYSIG_IDENTIFY'
   | 'KEYSIG_BUILD'
   | 'CHORD_IDENTIFY'
-  | 'CHORD_BUILD';
+  | 'CHORD_BUILD'
+  | 'RHYTHM_TAP'
+  | 'METER_IDENTIFY';
 export type ExerciseClef = 'treble' | 'bass';
 export type IntervalPlayback = 'melodic-up' | 'melodic-down' | 'harmonic';
 
@@ -58,6 +60,19 @@ export interface ChordParams extends NoteParams {
 export interface ChordIdentifyParams extends ChordParams {
   readonly presentation?: 'visual' | 'aural';
 }
+export type MvpMeter = '2/2' | '2/4' | '3/4' | '4/4' | '3/8' | '6/8' | '9/8' | '12/8';
+export interface MeterParams {
+  readonly meters: readonly MvpMeter[];
+  readonly clefs?: readonly ExerciseClef[];
+}
+export interface RhythmParams extends MeterParams {
+  /** Tempo des tatsächlichen Grundschlags, auch der punktierten Viertel in 6/8. */
+  readonly tempos?: readonly number[];
+  readonly level?: 'basic' | 'dotted';
+  readonly rests?: boolean;
+  /** Maximale Abweichung in ms; zusätzlich auf 40 % des kürzesten Einsatzabstands begrenzt. */
+  readonly toleranceMs?: number;
+}
 export type ExerciseSpec =
   | { readonly type: 'NOTE_NAME'; readonly params: NoteParams }
   | { readonly type: 'NOTE_PLACE'; readonly params: NoteParams }
@@ -69,6 +84,8 @@ export type ExerciseSpec =
   | { readonly type: 'KEYSIG_BUILD'; readonly params: KeySignatureParams }
   | { readonly type: 'CHORD_BUILD'; readonly params: ChordParams }
   | { readonly type: 'CHORD_IDENTIFY'; readonly params: ChordIdentifyParams }
+  | { readonly type: 'RHYTHM_TAP'; readonly params: RhythmParams }
+  | { readonly type: 'METER_IDENTIFY'; readonly params: MeterParams }
   | { readonly type: 'INTERVAL_IDENTIFY_VISUAL'; readonly params: VisualIntervalParams }
   | { readonly type: 'INTERVAL_IDENTIFY_AURAL'; readonly params: AuralIntervalParams };
 
@@ -123,8 +140,14 @@ export interface ChordItem extends ItemBase {
   readonly pitches: readonly Pitch[];
   readonly presentation: 'visual' | 'aural';
 }
+export interface RhythmItem extends ItemBase {
+  readonly type: 'RHYTHM_TAP' | 'METER_IDENTIFY';
+  readonly meter: TimeSignature;
+  readonly bpm: number;
+  readonly toleranceMs: number;
+}
 export type ExerciseItem =
-  NoteItem | IntervalItem | PitchInputItem | ScaleItem | KeySignatureItem | ChordItem;
+  NoteItem | IntervalItem | PitchInputItem | ScaleItem | KeySignatureItem | ChordItem | RhythmItem;
 
 export interface Evaluation {
   readonly answer: string;

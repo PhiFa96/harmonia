@@ -20,6 +20,7 @@ Dieser Plan beschreibt, wie wir Harmonia Schritt für Schritt bauen: vom leeren 
 | [Tonhöheneingaben P2.06](tonhoeheneingabe.md) | Noten setzen, Tasten finden und Intervalle aufbauen; erster technisch umgesetzter Teil |
 | [Tonleitern und Vorzeichnungen P2.06](tonleitern-und-vorzeichnungen.md) | Vier weitere Typen, Zwölf-Aufgaben-Satz, schrittweise Schreibaufgaben und fachliche Konventionen |
 | [Akkordübungen P2.06](akkorduebungen.md) | Dreiklänge schreiben, sehen und mit klingendem Grundtonbezug hören; neun Aufgaben und Fehlerwiederholung |
+| [Rhythmus und Takt P2.06](rhythmus-und-takt.md) | Notenanfänge nach Einzähltakt mittippen, sichtbare Taktangaben gliedern; sechs Aufgaben und Timing-Auswertung |
 | [Übungs-Framework P1.19](uebungs-framework.md) | Generatoren, Engine-Bewertung, Hinweise, Aufgabenablauf und Hör-Pause |
 | [Erste Lektion P1.20](erste-lektion.md) | Einführung, zehn Aufgaben, Fehlerwiederholung, SQLite und Personen-Test |
 | [Rückblick Phase 1](phase-1-rueckblick.md) | Technischer Zwischenstand, offene Abnahmen und Konsequenzen für Phase 2 |

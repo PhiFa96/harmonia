@@ -124,3 +124,25 @@ export function createChordSession(seed: number | string) {
     Array.from({ length: 3 }, () => CHORD_TYPES.map((spec) => generateExercise(spec, rng))).flat(),
   );
 }
+const RHYTHM_TYPES: readonly ExerciseSpec[] = [
+  {
+    type: 'RHYTHM_TAP',
+    params: {
+      meters: ['2/4', '3/4', '4/4', '6/8'],
+      tempos: [72, 96],
+      level: 'dotted',
+      rests: true,
+      toleranceMs: 120,
+    },
+  },
+  {
+    type: 'METER_IDENTIFY',
+    params: { meters: ['2/4', '3/4', '4/4', '6/8'], clefs: ['treble', 'bass'] },
+  },
+];
+export function createRhythmSession(seed: number | string) {
+  const rng = createRng(seed);
+  return createSession(
+    Array.from({ length: 3 }, () => RHYTHM_TYPES.map((spec) => generateExercise(spec, rng))).flat(),
+  );
+}

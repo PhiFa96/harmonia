@@ -14,6 +14,7 @@ import {
   generateScale,
   generateKeySignature,
   generateChord,
+  generateRhythm,
 } from '../packages/exercises/src/index.ts';
 import { firstLesson, catalogue, curriculumPlan } from '../packages/content/src/authoring.ts';
 import { publicCatalogue, resolveLesson, curriculumSkills } from '../packages/content/src/index.ts';
@@ -86,6 +87,16 @@ check(
 );
 const evaluation = evaluateExercise(exercise, expectedAnswer(exercise));
 for (const item of [
+  generateRhythm(
+    { meters: ['2/4', '3/4', '4/4', '6/8'], level: 'dotted' },
+    exerciseRng('deno-rhythm'),
+    'RHYTHM_TAP',
+  ),
+  generateRhythm(
+    { meters: ['2/4', '3/4', '4/4', '6/8'] },
+    exerciseRng('deno-meter'),
+    'METER_IDENTIFY',
+  ),
   generateNotePlace({ clefs: ['treble', 'bass'], maxAccidentals: 2 }, exerciseRng('deno-place')),
   generateKeyFind({ maxAccidentals: 1 }, exerciseRng('deno-key')),
   generateIntervalBuild(
