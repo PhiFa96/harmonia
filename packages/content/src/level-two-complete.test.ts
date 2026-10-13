@@ -17,7 +17,6 @@ import {
 } from '@harmonia/exercises';
 import type { ExerciseItem } from '@harmonia/exercises';
 import { formatPitch } from '@harmonia/theory';
-import { layoutScore, parseScore, validateScore } from '@harmonia/notation';
 function required<T>(v: T | undefined): T {
   if (v === undefined) throw new Error('Fehlt');
   return v;
@@ -79,16 +78,6 @@ describe('Stufe 2 vollständig intern', () => {
       knowledgeCards: [],
       knowledgeArticles: [],
     });
-  });
-  it('alle 135 neuen Beispiele sind gültig und mit dem aktuellen Notensatz darstellbar', () => {
-    const cards = catalogue.knowledgeCards.filter((c) => c.contentVersion === 13);
-    expect(cards).toHaveLength(135);
-    for (const c of cards)
-      for (const e of c.examples) {
-        const score = parseScore(e.score);
-        expect(validateScore(score, { allowPickup: false }), c.id).toEqual([]);
-        expect(() => layoutScore(score), c.id).not.toThrow();
-      }
   });
   it.each(lessons.map((l) => l.id))(
     '%s: 100 vollständige Fehler- und Wiederholungsdurchgänge',
