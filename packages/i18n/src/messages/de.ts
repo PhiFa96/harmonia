@@ -234,10 +234,23 @@ export const de = {
       'Sechs Aufgaben: Notenanfänge nach einem Einzähltakt mittippen und die Gliederung von Taktangaben bestimmen. Pausen bleiben still.',
     type_RHYTHM_TAP: '$t(glossary:rhythm_one) mittippen',
     type_METER_IDENTIFY: '$t(glossary:meter_one) gliedern',
+    type_PICKUP_IDENTIFY: '$t(glossary:pickup_one) erkennen',
     question_RHYTHM_TAP:
       'Tippe jeden Notenanfang dieses Takts. Ein $t(glossary:beat_one) ist eine {{beat}}; das $t(glossary:tempo) beträgt {{bpm}} Schläge pro Minute. Nach einem Einzähltakt beginnt deine Aufnahme.',
     question_METER_IDENTIFY:
       'Wie gliedert sich diese $t(glossary:meter_one)? Wähle die Zahl der Grundschläge und ihren Notenwert.',
+    question_PICKUP_IDENTIFY:
+      'Ist der erste notierte Takt vor dem ersten Taktstrich ein Auftakt? Vergleiche seine Dauer mit dem folgenden vollständigen Takt.',
+    pickupYes: 'Ja, ein Auftakt',
+    pickupNo: 'Nein, ein vollständiger Takt',
+    pickupExplanation:
+      '{{meter}} fasst {{capacity}} × einen Viertelwert. Vor dem ersten Taktstrich: {{first}} × ein Viertelwert. {{answer}}. Der zweite Takt zeigt die volle Taktlänge.',
+    pickupDescription:
+      'Taktangabe {{meter}}. Erster Takt vor dem Taktstrich: {{events}} Danach folgt ein vollständiger Takt.',
+    pickupHint1: 'Addiere nur die Notenwerte vor dem ersten Taktstrich.',
+    pickupHint2:
+      'Vergleiche diese Summe mit dem Zähler der Taktangabe: 2/4, 3/4 oder 4/4. Zwei Achtel ergeben einen Viertelwert.',
+    pickupScroll: 'Verschiebe das Notenbild seitlich, um den ganzen folgenden Takt zu sehen.',
     meterOption: '{{count}} Grundschläge mit dem Wert {{beat}}',
     meterExplanation:
       '{{meter}}: {{count}} Grundschläge pro $t(glossary:measure_one), jeweils im Wert {{beat}}. Jeder Grundschlag wird in {{division}} gleiche Teile unterteilt. Die Gruppierung in Einheiten des Nenners ist {{groups}}. Der Zähler zählt Nenner-Einheiten, nicht immer die Grundschläge.',

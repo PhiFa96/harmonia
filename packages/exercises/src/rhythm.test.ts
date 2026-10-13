@@ -1,5 +1,13 @@
 import { note, rest, singleStaffScore, validateScore } from '@harmonia/notation';
-import { checkMeasure, duration, parseTimeSignature } from '@harmonia/theory';
+import {
+  checkMeasure,
+  duration,
+  durationValue,
+  fraction,
+  fractionEquals,
+  parseTimeSignature,
+  sumFractions,
+} from '@harmonia/theory';
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import {
@@ -19,12 +27,15 @@ import {
   exercisePrompt,
   expectedAnswer,
   generateRhythm,
+  generatePickup,
   hintText,
   itemVariantKey,
   lessonSummary,
   meterFromId,
   MVP_METERS,
   nextLessonExercise,
+  pickupAnswer,
+  pickupFirstDuration,
   rhythmAnswerId,
   rhythmAnswerTaps,
   rhythmBeatCount,
@@ -62,6 +73,88 @@ function required<T>(value: T | undefined): T {
   return value;
 }
 describe('Rhythmus- und Taktaufgaben', () => {
+  it('Auftakturteil folgt bei 150 Seeds ausschließlich der Länge vor dem ersten Taktstrich', () => {
+    const outcomes = new Set<string>();
+    for (let seed = 0; seed < 150; seed++) {
+      const source = generatePickup(
+        { meters: ['2/4', '3/4', '4/4'], presentation: 'pickup' },
+        createRng(seed),
+      );
+      expect(source).toEqual(
+        generatePickup({ meters: ['2/4', '3/4', '4/4'], presentation: 'pickup' }, createRng(seed)),
+      );
+      expect(validateScore(source.score)).toEqual([]);
+      const staff = required(source.score.staves[0]);
+      const first = required(staff.measures[0]?.voices[0]?.events);
+      const second = required(staff.measures[1]?.voices[0]?.events);
+      const firstLength = sumFractions(first.map((event) => durationValue(event.duration)));
+      expect(pickupFirstDuration(source)).toEqual(firstLength);
+      expect(
+        checkMeasure(
+          second.map((event) => event.duration),
+          staff.timeSignature,
+        ).status,
+      ).toBe('complete');
+      const correct = fractionEquals(firstLength, fraction(staff.timeSignature.numerator, 4))
+        ? 'pickup:no'
+        : 'pickup:yes';
+      expect(expectedAnswer(source)).toBe(correct);
+      expect(pickupAnswer(source)).toBe(correct);
+      expect(source.choices).toHaveLength(2);
+      expect(source.choices.filter((answer) => evaluateExercise(source, answer).correct)).toEqual([
+        correct,
+      ]);
+      expect(evaluateExercise(source, correct)).toMatchObject({ validAnswer: true, correct: true });
+      expect(
+        evaluateExercise(source, correct === 'pickup:yes' ? 'pickup:no' : 'pickup:yes'),
+      ).toMatchObject({ validAnswer: true, correct: false });
+      expect(expectedAnswer({ ...source, meter: parseTimeSignature('6/8') })).toBe(correct);
+      expect(exerciseDescription(source, 'de')).not.toMatch(/Auftakt|vollständig.*erster/);
+      outcomes.add(correct);
+    }
+    expect(outcomes).toEqual(new Set(['pickup:yes', 'pickup:no']));
+  });
+  it('Auftaktfragen weisen übervolle, punktierte und unvollständige Folgetakte zurück', () => {
+    const source = generatePickup({ meters: ['2/4'], presentation: 'pickup' }, createRng(5));
+    const quarter = note(pitch, duration('quarter'));
+    const full = [quarter, quarter];
+    for (const measures of [
+      [[quarter, quarter, quarter], full],
+      [[quarter], [quarter]],
+      [[note(pitch, duration('quarter', 1))], full],
+      [[rest(duration('quarter'))], full],
+    ])
+      expect(() =>
+        pickupAnswer({
+          ...source,
+          score: singleStaffScore(measures, { timeSignature: parseTimeSignature('2/4') }),
+        }),
+      ).toThrow();
+  });
+  it('Viertelmodus zeigt einen vollständigen Takt aus Viertelnoten und bewertet deren Einsätze', () => {
+    for (const meter of ['2/4', '3/4', '4/4'] as const)
+      for (let seed = 0; seed < 50; seed++) {
+        const source = generateRhythm(
+          { meters: [meter], level: 'quarters', rests: false, tempos: [72] },
+          createRng(seed),
+          'RHYTHM_TAP',
+        );
+        const events = required(source.score.staves[0]?.measures[0]?.voices[0]?.events);
+        expect(validateScore(source.score, { allowPickup: false })).toEqual([]);
+        expect(events).toHaveLength(Number(meter[0]));
+        expect(
+          events.every(
+            (event) =>
+              event.kind === 'note' &&
+              fractionEquals(durationValue(event.duration), fraction(1, 4)),
+          ),
+        ).toBe(true);
+        expect(evaluateExercise(source, rhythmAnswerId(rhythmOnsets(source))).correct).toBe(true);
+        expect(
+          evaluateExercise(source, rhythmAnswerId(rhythmOnsets(source).slice(1))).correct,
+        ).toBe(false);
+      }
+  });
   it.each([
     { meters: MVP_METERS, level: 'basic', rests: true },
     { meters: MVP_METERS, level: 'dotted', rests: true, tempos: [60, 120], toleranceMs: 180 },
@@ -302,6 +395,23 @@ describe('Rhythmus- und Taktaufgaben', () => {
             ? 'dotted crotchet'
             : 'dotted quarter note',
       );
+      const pickup = generatePickup(
+        { meters: ['2/4', '3/4', '4/4'], presentation: 'pickup' },
+        createRng(3),
+      );
+      for (const text of [
+        exercisePrompt(pickup, locale),
+        exerciseDescription(pickup, locale),
+        exerciseFeedback(pickup, evaluateExercise(pickup, expectedAnswer(pickup)), locale).message,
+        choiceLabel(pickup, 'pickup:yes', locale),
+        choiceLabel(pickup, 'pickup:no', locale),
+        ...([1, 2, 3] as const).map((level) =>
+          hintText(pickup, exerciseHints(pickup, level), locale),
+        ),
+      ]) {
+        expect(text.length).toBeGreaterThan(10);
+        expect(text).not.toMatch(/exercise\.|glossary:|\{\{|\$t\(/);
+      }
     },
   );
   it('unerlaubte Parameter scheitern bei jedem Seed', () => {

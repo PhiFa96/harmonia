@@ -234,10 +234,23 @@ export const enUS = {
       'Six questions: tap note onsets after a count-in $t(glossary:measure_one) and identify how $t(glossary:timeSignature_other) are grouped. Stay silent during rests.',
     type_RHYTHM_TAP: 'Tap $t(glossary:rhythm_one)',
     type_METER_IDENTIFY: 'Group the $t(glossary:meter_one)',
+    type_PICKUP_IDENTIFY: 'Recognize a $t(glossary:pickup_one)',
     question_RHYTHM_TAP:
       'Tap each note onset in this $t(glossary:measure_one). Each $t(glossary:beat_one) has the value {{beat}}; the $t(glossary:tempo) is {{bpm}} beats per minute. Your recording starts after one count-in $t(glossary:measure_one).',
     question_METER_IDENTIFY:
       'How is this $t(glossary:meter_one) grouped? Choose the number of beats and their note value.',
+    question_PICKUP_IDENTIFY:
+      'Is the first notated measure before the first bar line a pickup? Compare its duration with the following complete measure.',
+    pickupYes: 'Yes, a pickup',
+    pickupNo: 'No, a complete measure',
+    pickupExplanation:
+      '{{meter}} holds {{capacity}} × one quarter-note value. Before the first bar line: {{first}} × one quarter-note value. {{answer}}. The second measure shows the full length.',
+    pickupDescription:
+      'Time signature {{meter}}. First measure before the bar line: {{events}} A complete measure follows.',
+    pickupHint1: 'Add only the note values before the first bar line.',
+    pickupHint2:
+      'Compare that sum with the numerator of the time signature: 2/4, 3/4 or 4/4. Two eighth notes equal one quarter note.',
+    pickupScroll: 'Scroll the notation sideways to see the full following measure.',
     meterOption: '{{count}} beats with the value {{beat}}',
     meterExplanation:
       '{{meter}}: {{count}} beats per $t(glossary:measure_one), each with the value {{beat}}. Each beat divides into {{division}} equal parts. The grouping in denominator units is {{groups}}. The numerator counts denominator units, which are not always the beats.',

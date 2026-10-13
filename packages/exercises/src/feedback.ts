@@ -60,6 +60,8 @@ import {
   rhythmMeter,
   rhythmOnsets,
   rhythmTolerance,
+  pickupAnswer,
+  pickupFirstDuration,
 } from './rhythm.ts';
 
 const translations = new Map<AppLocale, ReturnType<typeof createI18n>>();
@@ -124,6 +126,11 @@ export function choiceLabel(item: ExerciseItem, answer: string, locale: AppLocal
       : translate(locale, 'exercise.unknownAnswer');
   }
   if (isRhythmItem(item)) {
+    if (item.type === 'METER_IDENTIFY' && item.presentation === 'pickup')
+      return translate(
+        locale,
+        answer === 'pickup:yes' ? 'exercise.pickupYes' : 'exercise.pickupNo',
+      );
     const meter = meterFromId(answer),
       value = {
         ...item,
@@ -165,7 +172,9 @@ export function exercisePrompt(item: ExerciseItem, locale: AppLocale): string {
       locale,
       item.presentation === 'pulse'
         ? 'exercise.question_PULSE_TAP'
-        : `exercise.question_${item.type}`,
+        : item.presentation === 'pickup'
+          ? 'exercise.question_PICKUP_IDENTIFY'
+          : `exercise.question_${item.type}`,
       rhythmValues(item, locale),
     );
   if (isChordItem(item))
@@ -270,7 +279,17 @@ export function exerciseFeedback(
               .join('\n');
   } else if (isRhythmItem(item)) {
     if (item.type === 'METER_IDENTIFY')
-      message = translate(locale, 'exercise.meterExplanation', rhythmValues(item, locale));
+      message =
+        item.presentation === 'pickup'
+          ? translate(locale, 'exercise.pickupExplanation', {
+              meter: formatTimeSignature(rhythmMeter(item)),
+              first: new Intl.NumberFormat(locale).format(
+                (pickupFirstDuration(item).num * 4) / pickupFirstDuration(item).den,
+              ),
+              capacity: rhythmBeatCount(item),
+              answer: choiceLabel(item, pickupAnswer(item), locale),
+            })
+          : translate(locale, 'exercise.meterExplanation', rhythmValues(item, locale));
     else {
       const assessment = assessRhythm(item, rhythmAnswerTaps(item, result.answer) ?? []);
       message = translate(
@@ -388,9 +407,13 @@ export function exerciseHints(item: ExerciseItem, level: 1 | 2 | 3): ExerciseHin
             : level === 1
               ? 'exercise.rhythmHint1'
               : 'exercise.rhythmHint2'
-          : level === 1
-            ? 'exercise.meterHint1'
-            : 'exercise.meterHint2',
+          : item.presentation === 'pickup'
+            ? level === 1
+              ? 'exercise.pickupHint1'
+              : 'exercise.pickupHint2'
+            : level === 1
+              ? 'exercise.meterHint1'
+              : 'exercise.meterHint2',
       values: {},
     };
   if (isChordItem(item))
@@ -538,6 +561,19 @@ export function exerciseDescription(item: ExerciseItem, locale: AppLocale): stri
   if (isKnowledgeItem(item)) return exercisePrompt(item, locale);
   if (isRhythmItem(item) && item.presentation === 'pulse')
     return translate(locale, 'exercise.pulseDescription', rhythmValues(item, locale));
+  if (isRhythmItem(item) && item.presentation === 'pickup')
+    return translate(locale, 'exercise.pickupDescription', {
+      meter: formatTimeSignature(rhythmMeter(item)),
+      events: (item.score.staves[0]?.measures[0]?.voices[0]?.events ?? [])
+        .map((event, index) =>
+          translate(locale, 'exercise.rhythmEvent', {
+            index: index + 1,
+            kind: translate(locale, 'exercise.rhythmNote'),
+            duration: durationName(event.duration, engineLanguage(locale)),
+          }),
+        )
+        .join(' '),
+    });
   if (isRhythmItem(item))
     return translate(locale, 'exercise.rhythmDescription', {
       meter: formatTimeSignature(rhythmMeter(item)),
