@@ -169,6 +169,11 @@ export const GLOSSARY = {
     en: { term: 'bar line', plural: 'bar lines' },
     note: 'Auch zusammengeschrieben „barline“.',
   },
+  finalBarline: {
+    category: 'notation',
+    de: { term: 'Schlussstrich', gender: 'm', plural: 'Schlussstriche' },
+    en: { term: 'final bar line', plural: 'final bar lines' },
+  },
   notehead: {
     category: 'notation',
     de: { term: 'Notenkopf', gender: 'm', plural: 'Notenköpfe' },

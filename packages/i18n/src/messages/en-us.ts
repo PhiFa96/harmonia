@@ -35,6 +35,46 @@ export const enUS = {
     wrongTitle: 'Not quite',
   },
   exercise: {
+    question_durationSymbol: 'What value does this {{kind}} symbol have?',
+    question_measureGap:
+      'Which {{kind}} completes this $t(glossary:measure_one) to exactly four $t(glossary:notes.quarter_other)?',
+    measureGapDescription:
+      'Four-four $t(glossary:measure_one). Present, in order: {{events}}. One {{kind}} is missing at the end.',
+    measureGapExplanation:
+      'The given values total {{used}} $t(glossary:notes.quarter_other). 4 − {{used}} = {{missing}}. Missing: {{answer}}. Rests count too; bar lines have no duration.',
+    durationSymbolHint1:
+      'Look at the shape, fill, stem and flags. For rectangular rests, their position relative to the line matters.',
+    durationSymbolHint2:
+      'Each step from $t(glossary:notes.whole_one) to $t(glossary:notes.half_one), $t(glossary:notes.quarter_one), $t(glossary:notes.eighth_one) and $t(glossary:notes.sixteenth_one) halves the duration. Rest symbols have matching values.',
+    measureGapHint1:
+      'Express notes and rests in $t(glossary:notes.quarter_other). Add them, then subtract the total from four.',
+    measureGapHint2:
+      'One $t(glossary:notes.half_one) equals two $t(glossary:notes.quarter_other); two $t(glossary:notes.eighth_other) or four $t(glossary:notes.sixteenth_other) equal one $t(glossary:notes.quarter_one). The missing value must fit exactly.',
+    knowledgeRestDuration:
+      'Silence for {{value}} × the duration of a $t(glossary:notes.whole_one).',
+    knowledge_barlines_single: '$t(glossary:barline_one)',
+    knowledge_barlines_final: '$t(glossary:finalBarline_one)',
+    knowledgeDefinition_barlines_single:
+      'A thin vertical line separates adjacent $t(glossary:measure_other); it has no duration of its own.',
+    knowledgeDefinition_barlines_final:
+      'A thin and a thick vertical line mark the end of a piece or complete section.',
+    knowledgeHint_rests:
+      'Rests have definite durations. The steady pulse continues during silence.',
+    knowledgeHint_barlines:
+      'One thin line separates $t(glossary:measure_other); thin plus thick marks an ending.',
+    durationShape_note_whole: 'Unfilled oval notehead without a stem.',
+    durationShape_note_half: 'Unfilled oval notehead with a stem and no flag.',
+    durationShape_note_quarter: 'Filled notehead with a stem and no flag.',
+    durationShape_note_eighth: 'Filled notehead with a stem and one flag.',
+    durationShape_note_sixteenth: 'Filled notehead with a stem and two flags.',
+    durationShape_rest_whole: 'Filled rectangle hanging below a short reference line.',
+    durationShape_rest_half: 'Filled rectangle sitting on a short reference line.',
+    durationShape_rest_quarter: 'Vertical jagged rest symbol with a curved lower end.',
+    durationShape_rest_eighth: 'Slanted rest symbol with one hook.',
+    durationShape_rest_sixteenth: 'Slanted rest symbol with two hooks.',
+    measureGapSlot: 'Missing value',
+    measureGapCapacity: 'Target: four $t(glossary:notes.quarter_other) in total',
+
     knowledgeStart: 'Practice knowledge, matching and ordering',
     knowledgeIntro:
       'Nine questions: identify basic concepts, match their explanations and order note values or pitches.',
@@ -553,6 +593,7 @@ export const enUS = {
       'Piano sound: Salamander Grand Piano by Alexander Holm, CC BY 3.0 (creativecommons.org/licenses/by/3.0). Modified: selection, shortened, mono, tuning corrected.',
   },
   gallery: {
+    durationSymbols: 'Note values and rests',
     keyboardExample: '$t(glossary:keyboard_one): learning example',
     pulseExample: '$t(glossary:pulse): counting groups',
     title: 'Components',

@@ -670,3 +670,44 @@ test('Inhaltsreferenzen dürfen keine JavaScript-Prototypen als Textpfad verwend
   data.lessons[0].titleKey = 'content.constructor.leak';
   rejects(data, /Unzulässiger Textpfad/);
 });
+
+test('15 Notenwert-Beispiele: unabhängige Viertel-Tabelle prüft Klang, Stille und vollständige Takte', () => {
+  const patterns = [
+    [4],
+    [2, 2],
+    [1, 1, 1, 1],
+    [2, 1, 0.5, 0.25, 0.25],
+    Array(8).fill(0.5),
+    Array(16).fill(0.25),
+    [-4],
+    [-2, 2],
+    [-1, 1, -0.5, 0.5, -0.25, 0.25, 0.5],
+    [1, -1, 1, -1],
+    [2, -2],
+    [2, -1, 1],
+    [2, 2, 1, -1, 2],
+    [2, -1, 0.5, 0.5],
+    [2, 1, 0.5, 0.25, -0.25],
+  ];
+  const examples = catalogue.knowledgeCards
+    .filter((c) => c.id.startsWith('rhythm.l1.values.'))
+    .flatMap((c) => c.examples);
+  assert.equal(examples.length, patterns.length);
+  examples.forEach((example, index) => {
+    const score = parseScore(example.score),
+      timeline = scoreTimeline(score, { bpm: 90 });
+    assert.deepEqual(validateScore(score), []);
+    let beat = 0;
+    const expected = [];
+    for (const value of patterns[index]) {
+      if (value > 0) expected.push([(beat * 2) / 3, (value * 2) / 3]);
+      beat += Math.abs(value);
+    }
+    assert.ok(Math.abs(timeline.durationSeconds - (beat * 2) / 3) < 1e-10);
+    assert.equal(timeline.tones.length, expected.length);
+    timeline.tones.forEach((tone, i) => {
+      assert.ok(Math.abs(tone.onsetSeconds - expected[i][0]) < 1e-10);
+      assert.ok(Math.abs(tone.durationSeconds - expected[i][1]) < 1e-10);
+    });
+  });
+});

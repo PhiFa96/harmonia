@@ -98,6 +98,8 @@ export interface RhythmParams extends MeterParams {
 export type KnowledgeTopic =
   | 'accidentals'
   | 'noteValues'
+  | 'rests'
+  | 'barlines'
   | 'intervals'
   | 'triads'
   | 'scales'
@@ -106,16 +108,23 @@ export type KnowledgeTopic =
   | 'pulse'
   | 'tempo'
   | 'beatGroup';
-export interface KnowledgeParams {
+export interface DurationLimits {
+  /** 0: nur unpunktierte Werte; Standard 1 bewahrt bestehende Aufgaben. */
+  readonly maxDots?: 0 | 1;
+}
+export interface KnowledgeParams extends DurationLimits {
   readonly topics: readonly KnowledgeTopic[];
   /** Einfache Zeichen oder zusätzlich doppelte Vorzeichen. Standard: 2. */
   readonly maxAccidentals?: 1 | 2;
+}
+export interface KnowledgeMcParams extends KnowledgeParams {
+  readonly presentation?: 'symbol' | 'measure-gap';
 }
 export interface MatchParams extends KnowledgeParams {
   readonly count?: number;
 }
 export type OrderTopic = 'noteValues' | 'pitches';
-export interface OrderParams {
+export interface OrderParams extends DurationLimits {
   readonly topics: readonly OrderTopic[];
   readonly count?: number;
   readonly direction?: ScaleDirection | 'both';
@@ -129,7 +138,8 @@ export type KnowledgeFact =
       readonly kind: 'semitone' | 'wholeTone' | 'twoBlackKeys' | 'threeBlackKeys';
     }
   | { readonly topic: 'accidentals'; readonly alter: -2 | -1 | 0 | 1 | 2 }
-  | { readonly topic: 'noteValues'; readonly duration: Duration }
+  | { readonly topic: 'noteValues' | 'rests'; readonly duration: Duration }
+  | { readonly topic: 'barlines'; readonly kind: 'single' | 'final' }
   | { readonly topic: 'intervals'; readonly interval: Interval }
   | { readonly topic: 'triads'; readonly triad: TriadType }
   | { readonly topic: 'scales'; readonly scale: MvpScaleType }
@@ -138,7 +148,7 @@ export type OrderValue =
   | { readonly kind: 'duration'; readonly duration: Duration }
   | { readonly kind: 'pitch'; readonly pitch: Pitch };
 export type ExerciseSpec =
-  | { readonly type: 'KNOWLEDGE_MC'; readonly params: KnowledgeParams }
+  | { readonly type: 'KNOWLEDGE_MC'; readonly params: KnowledgeMcParams }
   | { readonly type: 'MATCH'; readonly params: MatchParams }
   | { readonly type: 'ORDER'; readonly params: OrderParams }
   | { readonly type: 'NOTE_NAME'; readonly params: NoteNameParams }
@@ -219,9 +229,20 @@ export interface RhythmItem extends ItemBase {
   readonly presentation?: 'pulse';
 }
 /** Wissensaufgaben benötigen kein künstliches Notenbild und keinen Notenschlüssel. */
+export interface RhythmValue {
+  readonly kind: 'note' | 'rest';
+  readonly duration: Duration;
+}
+/** Ein Vier-Viertel-Takt mit genau einer fehlenden Dauer am Ende. */
+export interface MeasureGap {
+  readonly events: readonly RhythmValue[];
+  readonly missingKind: 'note' | 'rest';
+}
 export interface KnowledgeItem {
   readonly type: 'KNOWLEDGE_MC';
   readonly fact: KnowledgeFact;
+  readonly presentation?: 'symbol' | 'measure-gap';
+  readonly gap?: MeasureGap;
   readonly choices: readonly string[];
 }
 export interface MatchItem {

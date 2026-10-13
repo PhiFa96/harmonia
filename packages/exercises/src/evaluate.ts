@@ -1,6 +1,7 @@
 import { equals, intervalBetween, keySignature } from '@harmonia/theory';
 import {
   knowledgeFactId,
+  measureGapFact,
   matchAnswerId,
   matchAnswerValues,
   orderedValues,
@@ -50,7 +51,8 @@ import type { Evaluation, ExerciseItem } from './types.ts';
 
 /** Die Engine berechnet die Lösung aus den Fachdaten, nie aus dem sichtbaren Antworttext. */
 export function expectedAnswer(item: ExerciseItem): string {
-  if (item.type === 'KNOWLEDGE_MC') return knowledgeFactId(item.fact);
+  if (item.type === 'KNOWLEDGE_MC')
+    return knowledgeFactId(item.gap ? measureGapFact(item.gap) : item.fact);
   if (item.type === 'MATCH') return matchAnswerId(item.facts.map(knowledgeFactId));
   if (item.type === 'ORDER') return orderAnswerId(orderedValues(item).map(orderValueId));
   if (isRhythmItem(item))

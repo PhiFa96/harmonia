@@ -26,6 +26,7 @@ Dieser Plan beschreibt, wie wir Harmonia Schritt für Schritt bauen: vom leeren 
 | [Klaviatur und Vorzeichen P2.07](klaviatur-und-vorzeichen.md) | Zweite Einheit mit drei Lektionen, acht Karten, dreizehn Klaviaturbeispielen und festen Tastenfragen ohne Oktavvoraussetzung |
 | [Oktavlagen und Hilfslinien P2.07](oktavlagen-und-hilfslinien.md) | Dritte Einheit mit drei Lektionen, vollständigen Namen, bis zu zwei Hilfslinien und Tastenfragen aus dem Notenbild |
 | [Puls, Tempo und Zählgruppen P2.07](puls-tempo-und-zaehlgruppen.md) | Erste Rhythmuseinheit mit drei Lektionen, gleichmäßigem Mittippen, acht Karten und dreizehn Klickbeispielen ohne Notenlese-Voraussetzung |
+| [Notenwerte und Pausen P2.07](notenwerte-und-pausen.md) | Fünfte Einheit: Noten-/Pausenzeichen, exakte Taktlücken, neun Karten, 15 Hörbeispiele und drei Lektionen |
 | [Übungs-Framework P1.19](uebungs-framework.md) | Generatoren, Engine-Bewertung, Hinweise, Aufgabenablauf und Hör-Pause |
 | [Erste Lektion P1.20](erste-lektion.md) | Einführung, zehn Aufgaben, Fehlerwiederholung, SQLite und Personen-Test |
 | [Rückblick Phase 1](phase-1-rueckblick.md) | Technischer Zwischenstand, offene Abnahmen und Konsequenzen für Phase 2 |

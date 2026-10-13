@@ -38,6 +38,7 @@ import { ScaleAnswerInput } from './scale-answer-input';
 import { SignatureAnswerInput } from './signature-answer-input';
 import { RhythmAnswerInput } from './rhythm-answer-input';
 import { PulseExample } from './pulse-example';
+import { DurationQuestion } from './duration-question';
 import { MatchAnswerInput, OrderAnswerInput } from './knowledge-answer-input';
 import { useExercisePlayback } from './use-exercise-playback';
 
@@ -130,7 +131,11 @@ export function ExerciseTask({
         </AppText>
         <MusicText variant="title2">{prompt}</MusicText>
       </View>
-      {item.type === 'RHYTHM_TAP' && item.presentation === 'pulse' ? (
+      {item.type === 'KNOWLEDGE_MC' && item.presentation ? (
+        <Card>
+          <DurationQuestion item={item} />
+        </Card>
+      ) : item.type === 'RHYTHM_TAP' && item.presentation === 'pulse' ? (
         <Card>
           <PulseExample item={item} />
         </Card>

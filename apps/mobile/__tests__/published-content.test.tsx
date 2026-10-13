@@ -99,3 +99,15 @@ it.each(['steady', 'tempo', 'groups'])(
     expect(mockRepository).not.toHaveBeenCalled();
   },
 );
+
+it.each(['notes', 'rests', 'fill'])(
+  'die interne Notenwertlektion %s samt Klangbeispiel ist öffentlich nicht erreichbar',
+  (name) => {
+    renderRouter('./src/app', { initialUrl: `/lesson?id=rhythm.l1.values.${name}` });
+    expect(
+      screen.getByText('Neue Lektionen werden vorbereitet. Du kannst schon frei üben.'),
+    ).toBeTruthy();
+    expect(screen.queryByTestId('duration-symbol')).toBeNull();
+    expect(mockRepository).not.toHaveBeenCalled();
+  },
+);

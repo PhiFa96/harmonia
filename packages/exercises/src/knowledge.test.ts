@@ -74,19 +74,21 @@ describe('Wissensfragen, Zuordnen und Reihenfolgen', () => {
           const item = generateKnowledge({ topics: [topic] }, createRng(seed));
           expect(item).toEqual(generateKnowledge({ topics: [topic] }, createRng(seed)));
           expect('score' in item).toBe(false);
-          expect(item.choices).toHaveLength(4);
-          expect(new Set(item.choices).size).toBe(4);
+          expect(item.choices).toHaveLength(Math.min(4, knowledgeFacts(topic).length));
+          expect(new Set(item.choices).size).toBe(Math.min(4, knowledgeFacts(topic).length));
           expect(item.choices.filter((answer) => evaluateExercise(item, answer).correct)).toEqual([
             knowledgeFactId(item.fact),
           ]);
           for (const locale of ['de', 'en-US', 'en-GB'] as const)
-            expect(new Set(item.choices.map((id) => choiceLabel(item, id, locale))).size).toBe(4);
+            expect(new Set(item.choices.map((id) => choiceLabel(item, id, locale))).size).toBe(
+              Math.min(4, knowledgeFacts(topic).length),
+            );
         }),
         { numRuns: 150, seed: 20661 },
       );
     },
   );
-  it.each(KNOWLEDGE_TOPICS)(
+  it.each(KNOWLEDGE_TOPICS.filter((topic) => knowledgeFacts(topic).length > 3))(
     'Zuordnung %s: 150 Seeds haben eindeutige Begriff-/Erklärungspaare',
     (topic) => {
       const definitions = knowledgeFacts(topic).map((fact) => knowledgeDefinition(fact, 'de'));
@@ -314,7 +316,7 @@ describe('Wissensfragen, Zuordnen und Reihenfolgen', () => {
         );
         const items: readonly ExerciseItem[] = [
           generateKnowledge({ topics: [topic] }, createRng(1)),
-          generateMatch({ topics: [topic] }, createRng(1)),
+          ...(facts.length > 3 ? [generateMatch({ topics: [topic] }, createRng(1))] : []),
           generateOrder({ topics: ['pitches', 'noteValues'] }, createRng(1)),
         ];
         for (const item of items) {

@@ -1,4 +1,9 @@
 import {
+  addFractions,
+  fraction,
+  fractionEquals,
+  subtractFractions,
+  ZERO,
   compareFractions,
   duration,
   durationValue,
@@ -19,6 +24,10 @@ import type {
   KnowledgeFact,
   KnowledgeItem,
   KnowledgeParams,
+  KnowledgeMcParams,
+  DurationLimits,
+  MeasureGap,
+  RhythmValue,
   KnowledgeTopic,
   MatchItem,
   MatchParams,
@@ -30,6 +39,8 @@ import type {
 export const KNOWLEDGE_TOPICS = [
   'accidentals',
   'noteValues',
+  'rests',
+  'barlines',
   'intervals',
   'triads',
   'scales',
@@ -69,6 +80,9 @@ export function knowledgeFacts(
       return ([-2, -1, 0, 1, 2] as const)
         .filter((alter) => Math.abs(alter) <= maxAccidentals)
         .map((alter) => ({ topic, alter }));
+    case 'barlines':
+      return (['single', 'final'] as const).map((kind) => ({ topic, kind }));
+    case 'rests':
     case 'noteValues':
       return VALUES.flatMap((value) =>
         [0, 1].map((dots) => ({ topic, duration: duration(value, dots) })),
@@ -103,11 +117,14 @@ export function knowledgeFactId(fact: KnowledgeFact): string {
     case 'pulse':
     case 'tempo':
     case 'beatGroup':
+    case 'barlines':
       return `${fact.topic}:${fact.kind}`;
     case 'keyboard':
       return `keyboard:${fact.kind}`;
     case 'accidentals':
       return `accidental:${String(fact.alter)}`;
+    case 'rests':
+      return `rest:${fact.duration.value}:${String(fact.duration.dots)}`;
     case 'noteValues':
       return `duration:${fact.duration.value}:${String(fact.duration.dots)}`;
     case 'intervals':
@@ -125,29 +142,106 @@ function topics(params: KnowledgeParams): readonly KnowledgeTopic[] {
     throw new RangeError('Ungültige Wissensthemen');
   return [...new Set(params.topics)];
 }
-export function generateKnowledge(params: KnowledgeParams, rng: Rng): KnowledgeItem {
-  const facts = knowledgeFacts(rng.pick(topics(params)), params.maxAccidentals),
-    fact = rng.pick(facts);
+function durationLimit(params: DurationLimits, allowed: readonly string[]) {
+  if (
+    params.maxDots !== undefined &&
+    (![0, 1].includes(params.maxDots) ||
+      allowed.some((topic) => !['noteValues', 'rests'].includes(topic)))
+  )
+    throw new RangeError('Punktierungsgrenze nur für Noten- und Pausenwerte');
+}
+function factsFor(topic: KnowledgeTopic, params: KnowledgeParams) {
+  return knowledgeFacts(topic, params.maxAccidentals).filter(
+    (fact) => !('duration' in fact) || fact.duration.dots <= (params.maxDots ?? 1),
+  );
+}
+/** Exakte Summe der sichtbaren Ereignisse; die gespeicherte Antwort ist kein Bewertungsorakel. */
+export function measureGapFact(gap: MeasureGap): KnowledgeFact {
+  if (
+    !['note', 'rest'].includes(gap.missingKind) ||
+    !gap.events.length ||
+    gap.events.some(
+      (event) =>
+        !['note', 'rest'].includes(event.kind) ||
+        !VALUES.includes(event.duration.value as (typeof VALUES)[number]) ||
+        event.duration.dots !== 0 ||
+        event.duration.tuplet !== undefined,
+    )
+  )
+    throw new RangeError('Ungültige Taktlücke');
+  const used = gap.events.reduce(
+    (sum, event) => addFractions(sum, durationValue(event.duration)),
+    ZERO,
+  );
+  const missing = subtractFractions(fraction(1, 1), used);
+  const value = VALUES.find((value) => fractionEquals(durationValue(duration(value)), missing));
+  if (!value) throw new RangeError('Taktlücke braucht genau einen unpunktierten Wert');
+  return { topic: gap.missingKind === 'rest' ? 'rests' : 'noteValues', duration: duration(value) };
+}
+function generateGap(kind: 'note' | 'rest', rng: Rng): MeasureGap {
+  const missing = rng.pick([8, 4, 2, 1]);
+  let remaining = 16 - missing;
+  const parts: number[] = [];
+  for (const size of [8, 4, 2, 1]) {
+    if (remaining >= size) {
+      parts.push(size);
+      remaining -= size;
+    }
+  }
+  // Höchstens sechs sichtbare Ereignisse, mit wechselnden Noten und Pausen.
+  for (let i = 0; i < 2; i++) {
+    const candidates = parts.flatMap((size, index) => (size > 1 ? [index] : []));
+    if (!candidates.length) break;
+    const index = rng.pick(candidates),
+      size = parts[index];
+    if (size) parts.splice(index, 1, size / 2, size / 2);
+  }
+  const events: RhythmValue[] = rng.shuffle(parts).map((size) => ({
+    kind: rng.pick(['note', 'rest'] as const),
+    duration: duration(
+      size === 8 ? 'half' : size === 4 ? 'quarter' : size === 2 ? 'eighth' : 'sixteenth',
+    ),
+  }));
+  return { events, missingKind: kind };
+}
+export function generateKnowledge(params: KnowledgeMcParams, rng: Rng): KnowledgeItem {
+  const allowed = topics(params);
+  durationLimit(params, allowed);
+  if (
+    params.presentation !== undefined &&
+    (!['symbol', 'measure-gap'].includes(params.presentation) ||
+      allowed.some((topic) => !['noteValues', 'rests'].includes(topic)) ||
+      params.maxDots !== 0)
+  )
+    throw new RangeError('Zeichen und Taktlücken brauchen unpunktierte Noten-/Pausenwerte');
+  const topic = rng.pick(allowed),
+    facts = factsFor(topic, params);
+  const gap =
+    params.presentation === 'measure-gap'
+      ? generateGap(topic === 'rests' ? 'rest' : 'note', rng)
+      : undefined;
+  const fact = gap ? measureGapFact(gap) : rng.pick(facts);
   return {
     type: 'KNOWLEDGE_MC',
     fact,
+    ...(params.presentation ? { presentation: params.presentation } : {}),
+    ...(gap ? { gap } : {}),
     choices: options(knowledgeFactId(fact), facts.map(knowledgeFactId), rng),
   };
 }
 export function generateMatch(params: MatchParams, rng: Rng): MatchItem {
   const allowed = topics(params),
     count = params.count ?? 3;
+  durationLimit(params, allowed);
   // Eine andere Begriffsauswahl muss für Fehlerwiederholungen möglich bleiben.
   if (
     !Number.isInteger(count) ||
     count < 2 ||
     count > 4 ||
-    allowed.some((topic) => count >= knowledgeFacts(topic, params.maxAccidentals).length)
+    allowed.some((topic) => count >= factsFor(topic, params).length)
   )
     throw new RangeError('Zuordnung braucht 2–4 Begriffe und mindestens eine weitere Variante');
-  const facts = rng
-    .shuffle(knowledgeFacts(rng.pick(allowed), params.maxAccidentals))
-    .slice(0, count);
+  const facts = rng.shuffle(factsFor(rng.pick(allowed), params)).slice(0, count);
   return { type: 'MATCH', facts, choices: rng.shuffle(facts.map(knowledgeFactId)) };
 }
 export function orderValueId(value: OrderValue): string {
@@ -169,6 +263,7 @@ export function orderedValues(item: OrderItem): readonly OrderValue[] {
 }
 export function generateOrder(params: OrderParams, rng: Rng): OrderItem {
   const count = params.count ?? 4;
+  durationLimit(params, params.topics);
   if (
     !params.topics.length ||
     params.topics.some((topic) => !ORDER_TOPICS.includes(topic)) ||
@@ -186,7 +281,9 @@ export function generateOrder(params: OrderParams, rng: Rng): OrderItem {
   const available: readonly OrderValue[] =
     topic === 'noteValues'
       ? VALUES.flatMap((value) =>
-          [0, 1].map((dots) => ({ kind: 'duration' as const, duration: duration(value, dots) })),
+          [0, 1]
+            .filter((dots) => dots <= (params.maxDots ?? 1))
+            .map((dots) => ({ kind: 'duration' as const, duration: duration(value, dots) })),
         )
       : [4, 5].flatMap((octave) =>
           LETTERS.map((letter) => ({
@@ -194,6 +291,7 @@ export function generateOrder(params: OrderParams, rng: Rng): OrderItem {
             pitch: { letter, alter: 0, octave },
           })),
         );
+  if (count > available.length) throw new RangeError('Zu wenige verschiedene Werte');
   const values = rng.shuffle(available).slice(0, count);
   return {
     type: 'ORDER',

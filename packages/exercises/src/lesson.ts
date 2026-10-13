@@ -63,7 +63,8 @@ export function revealLessonHint(lesson: LessonSession): LessonSession {
 }
 /** Das Musikbeispiel muss sich ändern; bloßes Mischen der Antworten ist keine neue Variante. */
 export function itemVariantKey(item: ExerciseItem): string {
-  if (item.type === 'KNOWLEDGE_MC') return JSON.stringify([item.type, knowledgeFactId(item.fact)]);
+  if (item.type === 'KNOWLEDGE_MC')
+    return JSON.stringify([item.type, knowledgeFactId(item.fact), ...(item.gap ? [item.gap] : [])]);
   if (item.type === 'MATCH')
     return JSON.stringify([item.type, item.facts.map(knowledgeFactId).sort()]);
   if (item.type === 'ORDER')
