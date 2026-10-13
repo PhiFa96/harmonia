@@ -21,6 +21,7 @@ import {
 } from '../packages/exercises/src/index.ts';
 import { firstLesson, catalogue, curriculumPlan } from '../packages/content/src/authoring.ts';
 import { publicCatalogue, resolveLesson, curriculumSkills } from '../packages/content/src/index.ts';
+import { parseScore, scoreTimeline } from '../packages/notation/src/index.ts';
 
 import {
   buildScale,
@@ -65,6 +66,20 @@ const exercise = generateExercise(
   exerciseRng('deno-exercises'),
 );
 const plannedSkills = curriculumSkills(catalogue, curriculumPlan);
+check(
+  'Erste Notationseinheit mit acht, zehn und zwölf Aufgaben',
+  ['anchor', 'positions', 'reading']
+    .map((name) => resolveLesson(catalogue, `notation.l1.staff.${name}`)?.exercises.length)
+    .join(','),
+  '8,10,12',
+);
+check(
+  'Vollständiges Notenbeispiel mit acht Tönen',
+  scoreTimeline(parseScore('treble | 4/4 | C4/4 D4/4 E4/4 F4/4 | G4/4 A4/4 B4/4 C5/4'), {
+    bpm: 120,
+  }).tones.length,
+  8,
+);
 check('Vollständiger Fähigkeitsplan', plannedSkills.length, catalogue.skills.length);
 check(
   'Fähigkeiten den Stufen 1–2 zugeordnet',

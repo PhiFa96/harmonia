@@ -1,5 +1,4 @@
 import type { LessonContent } from '@harmonia/content';
-import type { NoteItem, IntervalItem } from '@harmonia/exercises';
 import { engineLanguage } from '@harmonia/i18n';
 import { parseScore } from '@harmonia/notation';
 import { ScoreView } from '@harmonia/notation/native';
@@ -7,29 +6,11 @@ import { SPACE } from '@harmonia/ui';
 import { AppText, Button, Card, MusicText, useUiTheme } from '@harmonia/ui/native';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { useLocale } from '@/i18n';
 import { useContentText } from '@/content/use-content-text';
 import { useExercisePlayback } from './use-exercise-playback';
-
-/** Die maschinenlesbaren Referenznoten sind zugleich die Quelle für Notenbild und Klang. */
-export function referenceItem(source: string): NoteItem | IntervalItem {
-  const score = parseScore(source);
-  const notes = score.staves[0]?.measures[0]?.voices[0]?.events;
-  const first = notes?.[0];
-  const second = notes?.[1];
-  if (first?.kind !== 'note') throw new Error('Referenznote fehlt');
-  const base = { score, clef: 'treble' as const, choices: [] };
-  if (!second) return { ...base, type: 'NOTE_NAME', pitch: first.pitch };
-  if (second.kind !== 'note') throw new Error('Referenzintervall fehlt');
-  return {
-    ...base,
-    type: 'INTERVAL_IDENTIFY_VISUAL',
-    from: first.pitch,
-    to: second.pitch,
-    playback: 'melodic-up',
-  };
-}
+import { EXAMPLE_BPM } from '@/exercises/play-example';
 export function LessonIntroduction({
   lesson,
   onStart,
@@ -45,12 +26,15 @@ export function LessonIntroduction({
   const { colors } = useUiTheme();
   const [index, setIndex] = useState(0);
   const [exampleIndex, setExampleIndex] = useState(0);
+  const [scoreWidth, setScoreWidth] = useState(0);
+  const [viewportWidth, setViewportWidth] = useState(0);
   const card = lesson.introduction[index];
   if (!card) throw new Error('Einführungskarte fehlt');
   const example = card.examples[exampleIndex];
   if (!example) throw new Error('Einführungsbeispiel fehlt');
-  const item = useMemo(() => referenceItem(example.score), [example.score]);
-  const audio = useExercisePlayback(item);
+  const score = useMemo(() => parseScore(example.score), [example.score]);
+  const audio = useExercisePlayback(score);
+  const scrollable = viewportWidth > 0 && scoreWidth > viewportWidth + 1;
   return (
     <>
       <AppText variant="small" tone="muted">
@@ -81,15 +65,35 @@ export function LessonIntroduction({
           ) : (
             <MusicText variant="title3">{contentText(example.captionKey)}</MusicText>
           )}
-          <ScrollView horizontal contentContainerStyle={styles.score}>
+          <ScrollView
+            key={example.score}
+            testID="lesson-example-scroll"
+            horizontal
+            contentContainerStyle={styles.score}
+            onLayout={(event) => {
+              setViewportWidth(event.nativeEvent.layout.width);
+            }}
+            onContentSizeChange={(width) => {
+              setScoreWidth(width);
+            }}
+            {...(Platform.OS === 'web' && scrollable ? { tabIndex: 0 } : {})}
+          >
             <ScoreView
-              score={item.score}
+              score={score}
               staffSpace={14}
               color={colors.text}
               describeOptions={engineLanguage(locale)}
               layoutOptions={{ endBarline: 'final' }}
             />
           </ScrollView>
+          {scrollable ? (
+            <AppText variant="footnote" tone="muted">
+              {t('lesson.scrollExample')}
+            </AppText>
+          ) : null}
+          <AppText variant="footnote" tone="muted">
+            {t('lesson.exampleTempo', { bpm: EXAMPLE_BPM })}
+          </AppText>
           <Button
             variant="secondary"
             icon="speaker"

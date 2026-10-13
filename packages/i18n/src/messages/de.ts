@@ -338,6 +338,11 @@ export const de = {
     overview:
       'Deine erste Lektion: zehn Aufgaben zum Lesen und Hören. Lerne die Grundlagen, übe mit Hinweisen und wiederhole deine Fehler mit neuen Notenbeispielen.',
     open: 'Lektion ansehen',
+    openNamed: '{{title}} öffnen',
+    taskCount_one: '{{count}} Aufgabe',
+    taskCount_other: '{{count}} Aufgaben',
+    exampleTempo: 'Klangbeispiel bei ♩ = {{bpm}}',
+    scrollExample: 'Verschiebe das Notenbild seitlich, um alle Töne zu sehen.',
     start_one: 'Mit {{count}} Aufgabe starten',
     start_other: 'Mit {{count}} Aufgaben starten',
     restart: 'Lektion erneut üben',

@@ -16,20 +16,22 @@ import {
 import { LAYOUT, SPACE } from '@harmonia/ui';
 import { AppText, Button, Card, Icon, useUiTheme } from '@harmonia/ui/native';
 import { randomUUID } from 'expo-crypto';
-import { router, Stack, useFocusEffect } from 'expo-router';
-import { useCallback, useRef, useState } from 'react';
+import { router, Stack, useFocusEffect, useLocalSearchParams } from 'expo-router';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AccessibilityInfo, Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { ExerciseTask } from '@/components/exercise-task';
 import { LessonIntroduction } from '@/components/lesson-introduction';
 import { useLocale } from '@/i18n';
 import { useLessonResult } from '@/storage/use-lesson-result';
-import { firstLesson } from '@/content';
+import { selectedLesson } from '@/content';
 import { useContentText } from '@/content/use-content-text';
 
 export default function LessonScreen() {
   const { t } = useTranslation();
-  if (!firstLesson)
+  const { id } = useLocalSearchParams();
+  const content = useMemo(() => selectedLesson(id), [id]);
+  if (!content)
     return (
       <View style={styles.container}>
         <Stack.Screen options={{ headerShown: true, title: t('tabs.learn') }} />
@@ -45,7 +47,7 @@ export default function LessonScreen() {
         />
       </View>
     );
-  return <LessonPlayer content={firstLesson} />;
+  return <LessonPlayer key={`${content.id}:${String(content.contentVersion)}`} content={content} />;
 }
 
 function LessonPlayer({ content }: { readonly content: LessonContent }) {
