@@ -138,6 +138,21 @@ describe('Einstufung mit echter SQLite und Replay', () => {
       restorePlacement(bank, { ...snapshot, actions: [...snapshot.actions, { type: 'finish' }] }),
     ).toThrow();
   });
+  it('eine neue Versuch-ID erzeugt bei gleichem Seed eine neue laufende Quelle', () => {
+    const snapshot = data().active;
+    if (!snapshot) throw new Error('Test fehlt');
+    const original = resumePlacement(bank, { ...snapshot, id: 'first' });
+    const repeated = resumePlacement(bank, { ...snapshot, id: 'second' }, original);
+    expect(currentPlacementTask(repeated.state)?.session.items[0]).not.toBe(
+      currentPlacementTask(original.state)?.session.items[0],
+    );
+    expect(repeated.state).toEqual(original.state);
+    expect(
+      parsePlacementData(
+        JSON.stringify({ schemaVersion: 1, active: { ...snapshot, id: 'second' }, last: null }),
+      ).active?.id,
+    ).toBe('second');
+  });
   it('laufende Quelle behält bei Auswahl, Hilfe und Prüfung ihre Identität; Neustart reproduziert dieselben Daten', () => {
     const checked = data().active;
     if (!checked) throw new Error('Test fehlt');

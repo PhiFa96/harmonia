@@ -2,6 +2,7 @@ import type { PlacementAction, PlacementBank, PlacementSession } from '@harmonia
 import { replayPlacement, actPlacement } from '@harmonia/exercises';
 
 export interface PlacementSnapshot {
+  readonly id?: string;
   readonly bankKey: string;
   readonly seed: string;
   readonly startedAt: number;
@@ -53,6 +54,7 @@ function parseSnapshot(value: unknown): PlacementSnapshot | null {
     throw new Error('Unbekannte Einstufungsaktion');
   });
   return {
+    ...(v['id'] === undefined ? {} : { id: text(v['id'], 256) }),
     bankKey: text(v['bankKey'], 64),
     seed: text(v['seed'], 128),
     startedAt,
@@ -89,6 +91,7 @@ export function resumePlacement(
 ): PlacementReplay {
   if (snapshot.bankKey !== bank.key) throw new Error('Einstufungskatalog hat sich geändert');
   if (
+    previous?.snapshot.id !== snapshot.id ||
     previous?.snapshot.bankKey !== snapshot.bankKey ||
     previous.snapshot.seed !== snapshot.seed ||
     previous.snapshot.actions.length > snapshot.actions.length ||

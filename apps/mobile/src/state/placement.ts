@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { randomUUID } from 'expo-crypto';
 import { actPlacement, currentPlacementTask } from '@harmonia/exercises';
 import type { PlacementAction } from '@harmonia/exercises';
 import { placementBank } from '@harmonia/content';
@@ -22,6 +23,22 @@ export const usePlacementState = create<PlacementStore>()(() => ({
 let initialization: Promise<void> | undefined;
 let queue: Promise<void> = Promise.resolve();
 let revision = 0;
+let persist = async (data: PlacementData) => {
+  await (await getDeviceRepository()).savePlacement(data);
+};
+/** P2.11 bindet den lokalen Test an das gewählte Konto; laufende Writes behalten ihr altes Ziel. */
+export function configurePlacementStorage(
+  data: PlacementData,
+  saveData: (data: PlacementData) => Promise<void>,
+  temporary = false,
+) {
+  revision++;
+  persist = saveData;
+  usePlacementState.setState({ phase: 'ready', data, storage: temporary ? 'memory' : 'saved' });
+}
+export function flushPlacementWrites() {
+  return queue;
+}
 function memory() {
   return (
     useDeviceState.getState().storage === 'memory' ||
@@ -34,11 +51,12 @@ function save(data: PlacementData): Promise<void> {
     return Promise.resolve();
   }
   const current = ++revision;
+  const target = persist;
   usePlacementState.setState({ storage: 'saving' });
   const operation = queue
     .catch(() => undefined)
     .then(async () => {
-      await (await getDeviceRepository()).savePlacement(data);
+      await target(data);
     });
   queue = operation;
   void operation.then(
@@ -79,6 +97,7 @@ export function initializePlacement(): Promise<void> {
 export function startPlacement(now = Date.now(), seed = `${String(now)}:${String(Math.random())}`) {
   if (usePlacementState.getState().phase !== 'ready' || !bank.areas.length) return;
   const active = {
+    id: randomUUID(),
     bankKey: bank.key,
     seed,
     startedAt: now,

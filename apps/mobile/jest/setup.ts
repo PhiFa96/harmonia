@@ -42,3 +42,15 @@ jest.mock('@/state/device', () => ({
   ...jest.requireActual<object>('@/state/device'),
   initializeDeviceState: () => Promise.resolve(),
 }));
+
+// Screen-Prüfungen verwenden einen vorbereiteten Pfad. Repository, Freischaltung
+// und Synchronisation werden separat mit echten Nachweisen geprüft.
+jest.mock('expo-network', () => ({
+  useNetworkState: () => ({ isConnected: true, isInternetReachable: true }),
+}));
+jest.mock('@/state/learning', () => ({
+  ...jest.requireActual<object>('@/state/learning'),
+  initializeLearning: () => Promise.resolve(),
+  syncLearning: () => Promise.resolve(),
+  recordLessonLearning: () => Promise.resolve(),
+}));

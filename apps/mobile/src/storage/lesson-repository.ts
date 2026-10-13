@@ -74,6 +74,14 @@ export function createLessonAttempt(
 }
 export function createLessonRepository(db: LessonDatabase) {
   return {
+    async allAttempts(): Promise<readonly unknown[]> {
+      const row = await db.getFirstAsync<{ value: string }>(
+        'SELECT json_group_array(json(payload)) AS value FROM lesson_attempts',
+      );
+      const values: unknown = JSON.parse(row?.value ?? '[]');
+      if (!Array.isArray(values)) throw new Error('Lokale Lektionsversuche beschädigt');
+      return values as unknown[];
+    },
     async save(attempt: LessonAttempt): Promise<void> {
       if (attempt.session.phase !== 'complete') throw new Error('Lektion nicht abgeschlossen');
       const { summary, session } = attempt;

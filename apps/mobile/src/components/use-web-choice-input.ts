@@ -15,8 +15,9 @@ export function useWebChoiceInput(
   const current = useRef(options);
   current.current = options;
   useEffect(() => {
-    if (Platform.OS !== 'web') return;
-    const element = group.current as unknown as HTMLElement;
+    if (Platform.OS !== 'web' || !options.enabled) return;
+    const element = group.current as unknown as HTMLElement | null;
+    if (!element) return;
     const keydown = (event: KeyboardEvent) => {
       if (!current.current.enabled || event.altKey || event.ctrlKey || event.metaKey) return;
       const target = (event.target as HTMLElement).closest<HTMLElement>('[role="radio"]');
@@ -59,5 +60,5 @@ export function useWebChoiceInput(
     return () => {
       element.removeEventListener('keydown', keydown, true);
     };
-  }, [group]);
+  }, [group, options.enabled]);
 }

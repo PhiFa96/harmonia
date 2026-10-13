@@ -22,8 +22,40 @@ import { useContentText } from '@/content/use-content-text';
 import { ExerciseTask } from '@/components/exercise-task';
 import { PlacementResults } from '@/components/placement-results';
 import { PlacementStatus } from '@/components/placement-status';
+import { useAuthState } from '@/auth';
+import { initializeLearning, startTemporaryLearning, useLearningState } from '@/state/learning';
 
 export default function PlacementScreen() {
+  const { t } = useTranslation(),
+    learning = useLearningState(),
+    owner = useAuthState((s) => s.session?.user.id ?? 'guest');
+  if (learning.phase !== 'ready' || learning.scope !== owner)
+    return (
+      <View style={styles.container}>
+        <Stack.Screen options={{ headerShown: true, title: t('placement.title') }} />
+        <Card>
+          <AppText>{t(learning.phase === 'error' ? 'path.loadError' : 'path.loading')}</AppText>
+        </Card>
+        {learning.phase === 'error' ? (
+          <>
+            <Button
+              label={t('onboarding.retry')}
+              onPress={() => {
+                void initializeLearning();
+              }}
+            />
+            <Button
+              variant="ghost"
+              label={t('onboarding.temporary')}
+              onPress={startTemporaryLearning}
+            />
+          </>
+        ) : null}
+      </View>
+    );
+  return <OwnedPlacementScreen key={owner} />;
+}
+function OwnedPlacementScreen() {
   const { t } = useTranslation(),
     text = useContentText(),
     router = useRouter(),

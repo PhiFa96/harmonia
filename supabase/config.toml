@@ -66,7 +66,11 @@ enabled = false
 enabled = false
 
 [edge_runtime]
-enabled = false
+enabled = true
+
+[functions.learning-sync]
+verify_jwt = false
+import_map = "./functions/deno.json"
 
 [analytics]
 enabled = false

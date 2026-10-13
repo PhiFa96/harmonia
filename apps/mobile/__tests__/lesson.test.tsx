@@ -195,39 +195,6 @@ describe('Vollständige Lektion', () => {
     expect(mockSave).toHaveBeenCalledTimes(2);
     expect(required(mockSave.mock.calls[1])[0]).toBe(required(mockSave.mock.calls[0])[0]);
   });
-  it('zeigt den gespeicherten letzten Durchgang beim erneuten Öffnen von Lernen', async () => {
-    mockLatest.mockResolvedValue({
-      id: 'saved',
-      lesson_id: firstLesson.id,
-      content_version: 1,
-      finished_at: '2026-10-04T10:03:12.000Z',
-      correct: 8,
-      answered: 10,
-      skipped: 0,
-      review_correct: 2,
-      review_total: 2,
-      review_answered: 2,
-      review_skipped: 0,
-    });
-    renderRouter('./src/app', { initialUrl: '/' });
-    await waitFor(() => {
-      expect(screen.getByText('Dein letzter Durchgang')).toBeTruthy();
-    });
-    expect(screen.getByText('8 von 10 im Erstversuch richtig.')).toBeTruthy();
-    expect(screen.getByText('2 von 2 Wiederholungen richtig.')).toBeTruthy();
-  });
-  it('lässt die Lektion bei Ladefehler erreichbar und bietet erneutes Laden', async () => {
-    mockLatest.mockRejectedValueOnce(new Error('Nicht verfügbar'));
-    renderRouter('./src/app', { initialUrl: '/' });
-    await waitFor(() => {
-      expect(screen.getByText('Ergebnisse erneut laden')).toBeTruthy();
-    });
-    expect(screen.getByText('Lektion ansehen')).toBeEnabled();
-    fireEvent.press(screen.getByText('Ergebnisse erneut laden'));
-    await waitFor(() => {
-      expect(screen.queryByText('Ergebnisse erneut laden')).toBeNull();
-    });
-  });
   it('zeigt englische Einführung und UK-Halbtonbegriffe', () => {
     useSettings.setState({ locale: 'en-GB' });
     renderRouter('./src/app', { initialUrl: '/lesson' });

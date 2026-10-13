@@ -34,6 +34,7 @@ Dieser Plan beschreibt, wie wir Harmonia Schritt für Schritt bauen: vom leeren 
 | [Stufe 2 vollständig intern P2.08](stufe-2-vollstaendig.md) | Alle 16 Einheiten, 50 Fähigkeiten, 48 Lektionen und 480 Aufgaben; getrennte fachliche Freigabe offen |
 | [Onboarding P2.09](onboarding.md) | Gespeicherter Erststart, Mini-Aufgabe, Gast-/E-Mail-Anmeldung und offene Testpersonen-/Geräteabnahme |
 | [Einstufungstest P2.10](einstufungstest.md) | Adaptive Aufgaben, getrennte Bereichsniveaus, Startpunkte, Wiederholung und SQLite-Wiederaufnahme |
+| [Lernpfad P2.11](lernpfad.md) | Graphbasierte Freischaltung, 80-%-Regel, freiwillige Wiederholung, Offline-Nachweise und Kontosynchronisation |
 | [Erste Intervallqualitäten P2.07](erste-intervallqualitaeten.md) | Achte Einheit: Halbtonabstände, kleine/große Terzen, reine Quarte/Quinte/Oktave und Tritonus-Kontrast |
 | [Übungs-Framework P1.19](uebungs-framework.md) | Generatoren, Engine-Bewertung, Hinweise, Aufgabenablauf und Hör-Pause |
 | [Erste Lektion P1.20](erste-lektion.md) | Einführung, zehn Aufgaben, Fehlerwiederholung, SQLite und Personen-Test |

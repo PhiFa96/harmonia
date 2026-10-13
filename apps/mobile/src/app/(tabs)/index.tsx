@@ -2,16 +2,13 @@ import { engineLanguage } from '@harmonia/i18n';
 import { parseScore } from '@harmonia/notation';
 import { ScoreView } from '@harmonia/notation/native';
 import { LAYOUT as PAGE_LAYOUT, SPACE } from '@harmonia/ui';
-import { AppText, Button, Card, useUiTheme } from '@harmonia/ui/native';
-import { router } from 'expo-router';
+import { AppText, Card, useUiTheme } from '@harmonia/ui/native';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
-import { LessonHistory } from '@/components/lesson-history';
+import { LearningPath } from '@/components/learning-path';
 import { useLocale } from '@/i18n';
-import { firstLesson, lessonGroups } from '@/content';
-import { useContentText } from '@/content/use-content-text';
 import { useDeviceState } from '@/state/device';
 import { DeviceStatus } from '@/components/device-status';
 import { PlacementEntry } from '@/components/placement-entry';
@@ -22,7 +19,6 @@ const LAYOUT = { endBarline: 'final' } as const;
 
 export default function LearnScreen() {
   const { t } = useTranslation();
-  const contentText = useContentText();
   const locale = useLocale();
   const { colors } = useUiTheme();
   const score = useMemo(() => parseScore(EXAMPLE), []);
@@ -45,46 +41,7 @@ export default function LearnScreen() {
           </Card>
         ) : null}
         <PlacementEntry />
-        {lessonGroups.length ? (
-          lessonGroups.map(({ unit, level, lessons }) => (
-            <View key={unit.id} testID={`lesson-group-${unit.id}`} style={styles.lesson}>
-              <AppText variant="overline" tone="muted">
-                {contentText(level.titleKey)}
-              </AppText>
-              <AppText variant="title2">{contentText(unit.titleKey)}</AppText>
-              {lessons.map((lesson) => (
-                <View key={lesson.id} style={styles.lesson}>
-                  <Card>
-                    <View style={styles.lesson}>
-                      <AppText variant="title3">{contentText(lesson.titleKey)}</AppText>
-                      <AppText variant="small" tone="muted">
-                        {t('lesson.taskCount', { count: lesson.exercises.length })}
-                      </AppText>
-                      <Button
-                        label={
-                          lesson.id === firstLesson?.id ? t('lesson.open') : t('lesson.openAnother')
-                        }
-                        accessibilityLabel={
-                          lesson.id === firstLesson?.id
-                            ? t('lesson.open')
-                            : t('lesson.openNamed', { title: contentText(lesson.titleKey) })
-                        }
-                        onPress={() => {
-                          router.push({ pathname: '/lesson', params: { id: lesson.id } });
-                        }}
-                      />
-                    </View>
-                  </Card>
-                  <LessonHistory lesson={lesson} />
-                </View>
-              ))}
-            </View>
-          ))
-        ) : (
-          <Card>
-            <AppText>{t('learn.unavailable')}</AppText>
-          </Card>
-        )}
+        <LearningPath />
         <AppText>{t('learn.exampleScale')}</AppText>
         <Card style={styles.card}>
           <ScrollView horizontal contentContainerStyle={styles.score}>

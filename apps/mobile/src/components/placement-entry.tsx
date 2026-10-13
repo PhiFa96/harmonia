@@ -5,11 +5,20 @@ import { AppText, Button, Card } from '@harmonia/ui/native';
 import { bank, initializePlacement, usePlacementState } from '@/state/placement';
 import { useDeviceState } from '@/state/device';
 import { PlacementStatus } from './placement-status';
+import { useLearningState } from '@/state/learning';
+import { useAuthState } from '@/auth';
+import { EMPTY_PLACEMENT } from '@/placement/model';
 
 export function PlacementEntry() {
   const { t } = useTranslation(),
     router = useRouter(),
-    state = usePlacementState();
+    store = usePlacementState();
+  const learning = useLearningState(),
+    owner = useAuthState((s) => s.session?.user.id ?? 'guest');
+  const state =
+    learning.phase === 'ready' && learning.scope === owner
+      ? store
+      : { ...store, data: EMPTY_PLACEMENT };
   const requested = useDeviceState((s) => s.data?.placement === 'requested');
   useEffect(() => {
     void initializePlacement();

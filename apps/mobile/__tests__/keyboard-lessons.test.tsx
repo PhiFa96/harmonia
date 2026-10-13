@@ -79,7 +79,7 @@ describe('Klaviaturlektionen im vorhandenen Spieler', () => {
     expect(screen.getByText('Punkte markieren die Tasten des Notenbeispiels.')).toBeTruthy();
     expect(mockPlay).not.toHaveBeenCalled();
     await waitFor(() => {
-      expect(mockLatest).toHaveBeenCalledTimes(catalogue.lessons.length);
+      expect(mockLatest).not.toHaveBeenCalled();
     });
   });
   it.each([

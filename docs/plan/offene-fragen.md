@@ -22,6 +22,8 @@
 | 03.10.2026 | Design-Richtung entscheidet Claude (Phillip: „Du machst alles. Sehr schön modern und animiert.“): Prinzipien, Farben, Schrift Figtree, Bewegung, Logo-Entwurf, Kern-Screens | [design-richtung.md](design-richtung.md) |
 | 02.10.2026 | F04 für Dreiklänge: C, Cm, C°, C+, Umkehrung als C/E; Tonbuchstaben international, deutsch (H, B) wählbar | [theorie-engine.md](theorie-engine.md) |
 
+| 13.10.2026 | F11: mindestens 80 % anrechenbare richtige Erstversuchsantworten einer Lektion; Hinweise 1–2 erlaubt, Lösungen und ausgelassene Aufgaben liefern keine Richtig-Gutschrift; frühere Erfolge bleiben gültig | [ADR 0011](../decisions/0011-lernfortschritt-aus-geprueften-versuchen.md), [Lernpfad](lernpfad.md) |
+
 ## Offen
 
 | # | Frage | Optionen | Entscheidet | Bis |
@@ -34,7 +36,6 @@
 | F08 | Preise Premium und Max | nach Marktvergleich | Phillip | P2.19 |
 | F09 | Werbung im Gratis-Bereich | ja / nein | Phillip | P2.20 |
 | F10 | Gastmodus ohne Konto | ja (Fortschritt lokal, später verknüpfen) / nein | gemeinsam | P2.01 |
-| F11 | Bestehensschwelle einer Lektion | 80 % / anderer Wert | gemeinsam | P2.12 |
 | F13 | Wer trägt Stripe-Gebühren im Marktplatz | Plattform / Coach | Phillip | P4.04 |
 | F14 | Coaching für Minderjährige | ab 18 / mit Eltern-Einwilligung | Phillip (nach Rechtsberatung) | P4.01 |
 | F15 | Rechtsform | Einzelunternehmen / UG / GmbH | Phillip (nach Beratung) | P0.02 |

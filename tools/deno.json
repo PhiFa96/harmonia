@@ -13,7 +13,7 @@
     "@harmonia/i18n/content-messages": "../packages/i18n/src/published-content-messages.ts",
     "@harmonia/exercises": "../packages/exercises/src/index.ts",
     "@harmonia/content": "../packages/content/src/index.ts",
-    "i18next": "npm:i18next@26.4.2",
-    "zod": "npm:zod@3.25.76"
+    "i18next": "npm:i18next@26.4.3",
+    "zod": "npm:zod@4.6.5"
   }
 }

@@ -22,6 +22,7 @@ import { useSettings } from '@/state/settings';
 import { navigationTheme, useAppColorScheme } from '@/theme';
 import { initializeDeviceState, startTemporarySession, useDeviceState } from '@/state/device';
 import { initializeAuth } from '@/auth';
+import { LearningLifecycle } from '@/components/learning-lifecycle';
 
 export default function RootLayout() {
   const [queryClient] = useState(() => new QueryClient());
@@ -52,6 +53,7 @@ export default function RootLayout() {
     <UiProvider scheme={scheme} reduceMotion={reduceMotion} haptics={haptics}>
       <ThemeProvider value={theme}>
         <QueryClientProvider client={queryClient}>
+          <LearningLifecycle />
           {device.phase !== 'ready' ? (
             <View style={bootStyles.container}>
               <Card>

@@ -1285,6 +1285,51 @@ export const de = {
     pianoLicense:
       'Klavierklang: Salamander Grand Piano von Alexander Holm, CC BY 3.0 (creativecommons.org/licenses/by/3.0). Bearbeitet: Auswahl, gekürzt, Mono, Stimmung ausgeglichen.',
   },
+  path: {
+    title: 'Dein Lernpfad',
+    overview:
+      '{{completed}} von {{total}} Einheiten bestanden · {{tested}} durch Einstufung getestet',
+    rule: 'Bestehen: mindestens {{percent}} % richtige Erstversuchsantworten. Hinweise 1–2 sind erlaubt; Lösungen und ausgelassene Aufgaben zählen nicht als richtig.',
+    loading: 'Lernpfad wird geladen …',
+    loadError:
+      'Der Lernpfad konnte nicht geladen werden. Versuche es erneut oder lerne vorübergehend ohne Speicherung.',
+    guest:
+      'Fortschritt auf diesem Gerät gespeichert. Mit einem Konto kannst du ihn synchronisieren.',
+    syncing: 'Fortschritt wird synchronisiert …',
+    syncError:
+      'Synchronisation fehlgeschlagen. Deine Ergebnisse bleiben auf diesem Gerät. Bei Verbindung wird erneut synchronisiert.',
+    synced: 'Fortschritt mit deinem Konto synchronisiert.',
+    syncNow: 'Jetzt synchronisieren',
+    outdated:
+      'Einige gespeicherte Versuche stammen aus einer anderen Inhaltsversion. Sie bleiben erhalten, schalten diese Version aber nicht frei.',
+    areas: 'Lernbereich',
+    allAreas: 'Alle Bereiche',
+    areaHint:
+      'Du kannst den Bereich jederzeit wechseln. Voraussetzungen können auch aus anderen Bereichen stammen.',
+    allLevels: 'Alle Stufen',
+    level: 'Stufe {{level}}',
+    unitPosition: 'Einheit {{count}} · Stufe {{level}}',
+    status_locked: 'Gesperrt',
+    status_open: 'Offen',
+    status_completed: 'Bestanden',
+    status_tested: 'Durch Einstufung getestet',
+    unitProgress: 'Bestandene Lektionen',
+    lessonProgress: '{{completed}} von {{total}} Lektionen bestanden',
+    testedHint:
+      'Durch deine Einstufung zugänglich. Die Lektionen kannst du jederzeit üben; sie zählen erst nach einem bestandenen Versuch als bestanden.',
+    prerequisite: 'Voraussetzung: {{title}}',
+    showLessons: 'Lektionen anzeigen',
+    hideLessons: 'Lektionen ausblenden',
+    showNamed: 'Lektionen in {{title}} anzeigen',
+    hideNamed: 'Lektionen in {{title}} ausblenden',
+    lessonLocked:
+      'Diese Lektion ist noch gesperrt. Bestehe zuerst die vorherigen Lektionen und die Voraussetzungen im Lernpfad.',
+    passed: 'Bestanden: {{correct}} von {{total}} Aufgaben zählen für die Freischaltung.',
+    failed:
+      'Noch nicht bestanden: {{correct}} von {{total}} Aufgaben zählen. Für die Freischaltung brauchst du mindestens {{percent}} %.',
+    resultHint:
+      'Die Fehlerwiederholung verändert die Erstversuchsquote nicht. Ein früherer bestandener Versuch bleibt gültig.',
+  },
   gallery: {
     contextQuestion: 'Quellenbezogene Aufgabe',
     grandStaff: '$t(glossary:grandStaff_one): Lernbild',

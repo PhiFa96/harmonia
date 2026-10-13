@@ -10,7 +10,7 @@
     "lint": "eslint . && node tools/check-package-graph.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "typecheck": "pnpm -r --if-present typecheck && tsc -p tools --noEmit",
+    "typecheck": "pnpm -r --if-present typecheck && tsc -p tools --noEmit && tsc -p supabase/functions --noEmit",
     "test": "pnpm -r --if-present test && node --test tools/content-pipeline.test.mjs tools/curriculum-view.test.mjs tools/local-backend-setup.test.mjs",
     "check:i18n": "node tools/check-translations.ts",
     "check:content": "node tools/check-content.mjs --check",
@@ -19,14 +19,16 @@
     "check:content:bundle": "node tools/check-public-bundle.mjs",
     "content:publish": "node tools/check-content.mjs --write",
     "preview:web": "node tools/serve-web.mjs",
-    "check:deno": "npx -y deno@2.9.6 check --config tools/deno.json tools/deno-smoke.ts && npx -y deno@2.9.6 run --config tools/deno.json tools/deno-smoke.ts",
+    "check:deno": "npx -y deno@2.9.6 check --config tools/deno.json tools/deno-smoke.ts && npx -y deno@2.9.6 run --config tools/deno.json tools/deno-smoke.ts && npx -y deno@2.9.6 check --config supabase/functions/deno.json supabase/functions/learning-sync/index.ts",
     "db:start": "node tools/start-local-supabase.mjs",
     "db:stop": "supabase stop",
     "db:reset": "supabase db reset --local --yes",
     "db:lint": "supabase db lint --local --level warning --fail-on warning",
     "db:test": "supabase test db --local",
     "db:test:api": "node tools/test-local-supabase.mjs",
-    "db:test:email": "node tools/test-email-auth.mjs"
+    "db:test:email": "node tools/test-email-auth.mjs",
+    "db:serve:learning": "node tools/serve-local-learning.mjs",
+    "db:test:learning": "node tools/test-learning-sync.mjs"
   },
   "devDependencies": {
     "@eslint/js": "catalog:",

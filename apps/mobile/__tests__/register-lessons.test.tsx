@@ -88,7 +88,7 @@ describe('Oktavlagen und Hilfslinien im Spieler', () => {
     ).toBeTruthy();
     expect(mockPlay).not.toHaveBeenCalled();
     await waitFor(() => {
-      expect(mockLatest).toHaveBeenCalledTimes(catalogue.lessons.length);
+      expect(mockLatest).not.toHaveBeenCalled();
     });
   });
   it.each([

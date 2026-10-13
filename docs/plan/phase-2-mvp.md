@@ -177,10 +177,12 @@ Die Blöcke B, C und D können teilweise parallel laufen.
 - **Abhängig von:** P2.03, P2.05
 - **Umfang:** L
 - **Aufgaben:**
-  - [ ] Pfad mit Einheiten, Lektionen, Status (gesperrt, offen, abgeschlossen, getestet)
-  - [ ] Freischalten nach Graph; Wiederholen jederzeit
-  - [ ] Bereichswechsel (z. B. Gehörbildung, Theorie, Geschichte)
+  - [x] Pfad mit Einheiten, Lektionen, Status (gesperrt, offen, abgeschlossen, getestet)
+  - [x] Freischalten nach Graph; Wiederholen jederzeit
+  - [x] Bereichswechsel (z. B. Gehörbildung, Theorie, Geschichte)
 - **Fertig, wenn:** Der Pfad spiegelt den Fortschritt korrekt nach Sync und auf allen Geräten.
+
+- **Stand 13.10.2026:** Technisch umgesetzt: Einheiten-/Lektionsstatus, Graphvoraussetzungen, Bereichs-/Stufenwechsel, freiwillige Wiederholung und gesicherte direkte Zugänge. F11 (80 % im Erstversuch) ist entschieden und vorgezogen. Additive SQLite-Nachweise und die Engine-geprüfte Kontosynchronisation bilden den notwendigen Teil aus P2.03 ab; Offline-Warteschlange und Kontowechsel bleiben getrennt. Produktionsfilter und fachliche Freigabe bleiben wirksam. Details und Prüfnachweise: [Lernpfad](lernpfad.md), [ADR 0011](../decisions/0011-lernfortschritt-aus-geprueften-versuchen.md). Nächster Schritt: P2.12 Lektionsablauf.
 
 ### P2.12 – Lektionsablauf
 
@@ -190,11 +192,11 @@ Die Blöcke B, C und D können teilweise parallel laufen.
 - **Aufgaben:**
   - [ ] Mischung aus neuem Stoff und Wiederholung
   - [ ] Falsche Aufgaben am Ende in neuer Variante
-  - [ ] Bestehensschwelle (F11)
+  - [x] Bestehensschwelle (F11, in P2.11 umgesetzt)
   - [ ] Ergebnis-Screen mit XP, Genauigkeit, Streak
   - [ ] Abbrechen und Fortsetzen
 - **Fertig, wenn:** Alle Fälle (bestanden, nicht bestanden, abgebrochen, offline) funktionieren.
-- **Vorarbeit P1.20:** Einführung, Aufgaben, neue Varianten für Fehler, getrennte Rundenergebnisse und lokale Speicherung wiederverwenden. Bestehen, XP/Streak und Abbrechen/Fortsetzen bleiben hier offen. Erstversuch, Hinweise und ausgelassene Hörfragen in Statistik und Bewertung getrennt halten.
+- **Vorarbeit P1.20:** Einführung, Aufgaben, neue Varianten für Fehler, getrennte Rundenergebnisse und lokale Speicherung wiederverwenden. Die Bestehensregel wurde in P2.11 umgesetzt; XP/Streak und Abbrechen/Fortsetzen bleiben hier offen. Erstversuch, Hinweise und ausgelassene Hörfragen in Statistik und Bewertung getrennt halten.
 
 ### P2.13 – Feedback, Erklärungen, „Fehler melden“
 

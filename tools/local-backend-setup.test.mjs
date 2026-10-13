@@ -48,3 +48,45 @@ test('Lokaler Docker-Wrapper ergänzt nur den Auth-Template-Host vor dem Image u
     rmSync(dir, { recursive: true });
   }
 });
+test('Eigener Edge-Container erhält internes Kong und CA-Vertrauen ohne externe Proxyziele zu umgehen', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'harmonia-edge-test-')),
+    fake = join(dir, 'docker'),
+    ca = join(dir, 'ca.pem');
+  try {
+    writeFileSync(
+      fake,
+      '#!/usr/bin/env node\nprocess.stdout.write(JSON.stringify(process.argv.slice(2)));',
+      { mode: 0o755 },
+    );
+    writeFileSync(ca, 'public-test-certificate');
+    const run = (args) =>
+      spawnSync(process.execPath, ['tools/docker-local-wrapper.cjs', ...args], {
+        env: {
+          ...process.env,
+          HARMONIA_DOCKER_BINARY: fake,
+          HTTP_PROXY: 'http://example.invalid',
+          NO_PROXY: 'localhost,old.internal',
+          no_proxy: 'localhost,old.internal',
+          SSL_CERT_FILE: ca,
+        },
+        encoding: 'utf8',
+      });
+    const image = 'ghcr.io/supabase/cli/edge-runtime:version';
+    const own = run(['create', '--name', 'supabase_edge_runtime_harmonia', image]);
+    assert.equal(own.status, 0);
+    const args = JSON.parse(own.stdout);
+    assert.equal(args.at(-1), image);
+    assert.ok(args.includes('NO_PROXY=localhost,old.internal,supabase_kong_harmonia,kong'));
+    assert.ok(args.includes(ca + ':/tmp/harmonia-proxy-ca.pem:ro'));
+    assert.ok(args.includes('SSL_CERT_FILE=/tmp/harmonia-proxy-ca.pem'));
+    assert.ok(args.includes('DENO_TLS_CA_STORE=system'));
+    const other = ['create', '--name', 'supabase_edge_runtime_other', image];
+    assert.deepEqual(JSON.parse(run(other).stdout), other);
+    assert.equal(
+      run(['create', '--name', 'supabase_edge_runtime_harmonia', 'unrelated:version']).status,
+      1,
+    );
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});

@@ -128,7 +128,7 @@ describe('Pulslektionen mit Audio-Uhr im Spieler', () => {
     expect(screen.queryByTestId('lesson-example-scroll')).toBeNull();
     expect(mockPlay).not.toHaveBeenCalled();
     await waitFor(() => {
-      expect(mockLatest).toHaveBeenCalledTimes(catalogue.lessons.length);
+      expect(mockLatest).not.toHaveBeenCalled();
     });
   });
   it.each([

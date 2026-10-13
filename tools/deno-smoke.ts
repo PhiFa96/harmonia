@@ -46,6 +46,9 @@ import {
   resolveLesson,
   curriculumSkills,
   placementBank,
+  learningPath,
+  lessonEvent,
+  validateLearningEvent,
 } from '../packages/content/src/index.ts';
 import { parseScore, scoreTimeline, layoutGrandStaff } from '../packages/notation/src/index.ts';
 
@@ -102,9 +105,12 @@ for (const record of catalogue.lessons) {
     state = nextLessonExercise(answerLesson(state, expectedAnswer(item)));
   if (state.phase !== 'complete' || lessonSummary(state).correct !== lesson.exercises.length)
     throw new Error('Interner Lektionsdurchgang fehlerhaft');
+  if (!validateLearningEvent(catalogue, lessonEvent(record.id, state, 1, 2)).lesson?.passed)
+    throw new Error('Lernnachweis nicht unter Deno reproduzierbar');
   internalTasks += lesson.exercises.length;
 }
 check('Alle 850 internen Aufgaben unter Deno durchspielbar', internalTasks, 850);
+check('29 graphbasierte Einheiten unter Deno', learningPath(catalogue, []).length, 29);
 const placement = placementBank(catalogue);
 for (const profile of ['assisted', 'advanced']) {
   let state = createPlacement(placement, `deno-${profile}`);

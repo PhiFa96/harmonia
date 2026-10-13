@@ -1,0 +1,10 @@
+{
+  "extends": "../../packages/config/tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["ES2023", "DOM"],
+    "paths": {
+      "npm:@supabase/supabase-js@2.117.3": ["../../apps/mobile/node_modules/@supabase/supabase-js"]
+    }
+  },
+  "include": ["**/*.ts"]
+}

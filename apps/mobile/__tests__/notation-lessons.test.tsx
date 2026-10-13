@@ -1,3 +1,5 @@
+import { learningPath } from '@harmonia/content';
+import { useLearningState } from '@/state/learning';
 import { catalogue } from '@harmonia/content/authoring';
 import { resolveLesson } from '@harmonia/content';
 import { createLessonSession, expectedAnswer } from '@harmonia/exercises';
@@ -85,7 +87,7 @@ describe('Auswahl und Wiedergabe der Notationslektionen', () => {
     expect(screen.queryByText('Fünf Linien, vier Zwischenräume')).toBeNull();
     expect(mockPlay).not.toHaveBeenCalled();
     await waitFor(() => {
-      expect(mockLatest).toHaveBeenCalledTimes(catalogue.lessons.length);
+      expect(mockLatest).not.toHaveBeenCalled();
     });
   });
   it.each([
@@ -192,29 +194,20 @@ describe('Auswahl und Wiedergabe der Notationslektionen', () => {
     expect(mockPlay).not.toHaveBeenCalled();
     expect(screen.getByText('G als Orientierung')).toBeTruthy();
   });
-  it('ordnet geladene Ergebnisse ihrer eigenen Lektion zu und zeigt sie einmal', async () => {
-    const saved: SavedLessonSummary = {
-      id: 'saved',
-      lesson_id: 'notation.l1.staff.positions',
-      content_version: 3,
-      finished_at: '2026-10-09T10:00:00Z',
-      correct: 9,
-      answered: 10,
-      skipped: 0,
-      review_correct: 1,
-      review_total: 1,
-      review_answered: 1,
-      review_skipped: 0,
-    };
-    mockLatest.mockImplementation((id) => Promise.resolve(id === saved.lesson_id ? saved : null));
-    renderRouter('./src/app', { initialUrl: '/' });
-    await waitFor(() => {
-      expect(screen.getByText('9 von 10 im Erstversuch richtig.')).toBeTruthy();
+  it('ordnet bestandene Versuche dem eigenen Lernpfad zu und nutzt keine globale letzte Zusammenfassung', () => {
+    const id = 'notation.l1.staff.anchor';
+    const version = catalogue.lessons.find((l) => l.id === id)?.contentVersion ?? 1;
+    useLearningState.setState({
+      path: learningPath(catalogue, [
+        { lessonId: id, contentVersion: version, passed: true, eligibleCorrect: 8, total: 8 },
+      ]),
     });
-    expect(screen.getAllByText('Dein letzter Durchgang')).toHaveLength(1);
-    expect(new Set(mockLatest.mock.calls.map(([id]) => id))).toEqual(
-      new Set(catalogue.lessons.map((lesson) => lesson.id)),
-    );
+    renderRouter('./src/app', { initialUrl: '/' });
+    const unit = within(screen.getByTestId('lesson-group-notation.l1.staff'));
+    expect(unit.getAllByText('Bestanden')).toHaveLength(1);
+    expect(unit.getAllByText('1 von 3 Lektionen bestanden').length).toBeGreaterThan(0);
+    expect(screen.getByRole('button', { name: 'Linien und Zwischenräume öffnen' })).toBeEnabled();
+    expect(mockLatest).not.toHaveBeenCalled();
   });
   it.each([
     ['en-US', 'A staff'],

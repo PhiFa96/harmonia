@@ -2,11 +2,13 @@
 
 Musiktheorie lernen – hörbar, spielerisch und so tief, wie du willst. Vom ersten Notenschlüssel bis zum Hochschulniveau, mit KI-Tutor und echten Coaches. Im Browser und als App für iOS und Android.
 
-> **Status: Stufen 1 und 2 intern vollständig; fachliche Freigabe offen.** Alle 29 geplanten Einheiten und 90 Fähigkeiten sind mit 85 Lektionen, 850 Aufgaben, 250 Wissenskarten mit 307 eigenen Beispielen und 29 Artikeln in DE/US/UK umgesetzt. Stufe 2 umfasst 48 Lektionen mit 480 Aufgaben. 19 Übungstypen, Inhaltsversion 13 und weiterhin sechs freie Sätze. Alle Inhalte bleiben Entwurf bis zu Claude Codes getrenntem fachlichen Durchgang. Bestehens-/Freischaltregeln und echte Geräteabnahme bleiben offen. Aktueller Prüfstand: [Stufe 2 vollständig intern](docs/plan/stufe-2-vollstaendig.md), [Stufe 1 vollständig intern](docs/plan/stufe-1-vollstaendig.md) und [Phase 2](docs/plan/phase-2-mvp.md).
+> **Status: Stufen 1 und 2 intern vollständig; fachliche Freigabe offen.** Alle 29 geplanten Einheiten und 90 Fähigkeiten sind mit 85 Lektionen, 850 Aufgaben, 250 Wissenskarten mit 307 eigenen Beispielen und 29 Artikeln in DE/US/UK umgesetzt. Stufe 2 umfasst 48 Lektionen mit 480 Aufgaben. 19 Übungstypen, Inhaltsversion 13 und weiterhin sechs freie Sätze. Alle Inhalte bleiben Entwurf bis zu Claude Codes getrenntem fachlichen Durchgang. Bestehens-/Freischaltregeln sind mit P2.11 umgesetzt; echte Geräteabnahme bleibt offen. Aktueller Prüfstand: [Stufe 2 vollständig intern](docs/plan/stufe-2-vollstaendig.md), [Stufe 1 vollständig intern](docs/plan/stufe-1-vollstaendig.md) und [Phase 2](docs/plan/phase-2-mvp.md).
 
 
 **P2.09 ist technisch implementiert:** gespeicherter Einstieg in DE/US/UK, Mini-Aufgabe vor dem Konto, Gaststart und vorgezogene E-Mail-Anmeldung mit Bestätigungscode. Lernangaben bleiben nach Neustart erhalten. Echte Testpersonen-/Geräteabnahme und produktive Auth-/SMTP-Anbindung sind offen. Funktionen, Prüfungen und Einrichtung: [Onboarding](docs/plan/onboarding.md).
 **P2.10 ist technisch implementiert:** adaptiver Einstufungstest mit sieben Bereichen, Startpunkten, Wiederholung und gespeicherter Wiederaufnahme. Der öffentliche Inhaltsfilter gilt auch für den Test. Verfahren und Prüfstand: [Einstufungstest](docs/plan/einstufungstest.md).
+
+**P2.11 ist technisch implementiert:** Lernpfad mit Graphvoraussetzungen, vier Status, Bereichs-/Stufenwechsel und freiwilliger Wiederholung. Die gewählte 80-%-Regel und Kontosynchronisation für Lernnachweise sind vorgezogen; Offline-Ergebnisse und Konten bleiben getrennt. Funktionen, Einrichtung und Prüfstand: [Lernpfad](docs/plan/lernpfad.md). Als Nächstes folgt P2.12.
 
 ## Konzept
 

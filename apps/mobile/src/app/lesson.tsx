@@ -1,4 +1,5 @@
 import type { LessonContent } from '@harmonia/content';
+import { lessonProgress, PASS_PERCENT } from '@harmonia/content';
 import type { LessonSession } from '@harmonia/exercises';
 import {
   activeLessonSession,
@@ -26,11 +27,18 @@ import { useLocale } from '@/i18n';
 import { useLessonResult } from '@/storage/use-lesson-result';
 import { selectedLesson } from '@/content';
 import { useContentText } from '@/content/use-content-text';
+import { useLearningState } from '@/state/learning';
+import { useAuthState } from '@/auth';
 
 export default function LessonScreen() {
   const { t } = useTranslation();
   const { id } = useLocalSearchParams();
   const content = useMemo(() => selectedLesson(id), [id]);
+  const learning = useLearningState();
+  const owner = useAuthState((s) => s.session?.user.id ?? 'guest');
+  const status = learning.path
+    .flatMap((unit) => unit.lessons)
+    .find((l) => l.id === content?.id)?.status;
   if (!content)
     return (
       <View style={styles.container}>
@@ -42,12 +50,38 @@ export default function LessonScreen() {
           variant="ghost"
           label={t('lesson.home')}
           onPress={() => {
-            router.replace('/');
+            router.dismissTo('/');
           }}
         />
       </View>
     );
-  return <LessonPlayer key={`${content.id}:${String(content.contentVersion)}`} content={content} />;
+  if (learning.phase !== 'ready' || learning.scope !== owner || status === 'locked' || !status)
+    return (
+      <View style={styles.container}>
+        <Stack.Screen options={{ headerShown: true, title: t('tabs.learn') }} />
+        <Card>
+          <AppText role="alert">
+            {t(
+              learning.phase === 'ready' && learning.scope === owner
+                ? 'path.lessonLocked'
+                : 'path.loading',
+            )}
+          </AppText>
+        </Card>
+        <Button
+          label={t('lesson.home')}
+          onPress={() => {
+            router.dismissTo('/');
+          }}
+        />
+      </View>
+    );
+  return (
+    <LessonPlayer
+      key={`${owner}:${content.id}:${String(content.contentVersion)}`}
+      content={content}
+    />
+  );
 }
 
 function LessonPlayer({ content }: { readonly content: LessonContent }) {
@@ -185,6 +219,16 @@ function LessonPlayer({ content }: { readonly content: LessonContent }) {
                 <View style={styles.result}>
                   <Icon name="check" color={colors.primaryText} size={SPACE.xxl} />
                   <AppText variant="title2">{t('lesson.initialResult', summary)}</AppText>
+                  <AppText tone={lessonProgress(lesson).passed ? 'success' : 'default'}>
+                    {t(lessonProgress(lesson).passed ? 'path.passed' : 'path.failed', {
+                      correct: lessonProgress(lesson).eligibleCorrect,
+                      total: lessonProgress(lesson).total,
+                      percent: PASS_PERCENT,
+                    })}
+                  </AppText>
+                  <AppText variant="footnote" tone="muted">
+                    {t('path.resultHint')}
+                  </AppText>
                   {summary.accuracy !== null ? (
                     <AppText>
                       {t('lesson.accuracy', { value: Math.round(summary.accuracy * 100) })}
@@ -231,26 +275,28 @@ function LessonPlayer({ content }: { readonly content: LessonContent }) {
                 </View>
               </Card>
               <AppText aria-live="polite" tone={storage.status === 'error' ? 'danger' : 'muted'}>
-                {storage.status === 'saved'
-                  ? t('lesson.saved')
-                  : storage.status === 'error'
-                    ? t('lesson.saveError')
-                    : t('lesson.saving')}
+                {storage.status === 'memory'
+                  ? t('onboarding.temporaryHint')
+                  : storage.status === 'saved'
+                    ? t('lesson.saved')
+                    : storage.status === 'error'
+                      ? t('lesson.saveError')
+                      : t('lesson.saving')}
               </AppText>
               {storage.status === 'error' ? (
                 <Button label={t('lesson.retrySave')} onPress={storage.retrySave} />
               ) : null}
               <Button
                 label={t('lesson.restart')}
-                disabled={storage.status !== 'saved'}
+                disabled={storage.status !== 'saved' && storage.status !== 'memory'}
                 onPress={start}
               />
               <Button
                 variant="ghost"
                 label={t('lesson.home')}
-                disabled={storage.status !== 'saved'}
+                disabled={storage.status !== 'saved' && storage.status !== 'memory'}
                 onPress={() => {
-                  router.replace('/');
+                  router.dismissTo('/');
                 }}
               />
             </>

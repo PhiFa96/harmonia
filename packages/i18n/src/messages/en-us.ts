@@ -1264,6 +1264,47 @@ export const enUS = {
     pianoLicense:
       'Piano sound: Salamander Grand Piano by Alexander Holm, CC BY 3.0 (creativecommons.org/licenses/by/3.0). Modified: selection, shortened, mono, tuning corrected.',
   },
+  path: {
+    title: 'Your learning path',
+    overview: '{{completed}} of {{total}} units passed · {{tested}} estimated by placement',
+    rule: 'To pass: at least {{percent}}% correct first-attempt answers. Hints 1–2 are allowed; revealed solutions and skipped tasks do not count as correct.',
+    loading: 'Loading your learning path…',
+    loadError:
+      'Your learning path could not be loaded. Try again or learn temporarily without saving.',
+    guest: 'Progress saved on this device. Sign in to sync it with your account.',
+    syncing: 'Syncing progress…',
+    syncError: 'Sync failed. Your results remain on this device. Sync will retry when connected.',
+    synced: 'Progress synced with your account.',
+    syncNow: 'Sync now',
+    outdated:
+      'Some saved attempts belong to another content version. They are retained, but do not unlock this version.',
+    areas: 'Learning area',
+    allAreas: 'All areas',
+    areaHint: 'You can switch areas at any time. Prerequisites may come from other areas.',
+    allLevels: 'All levels',
+    level: 'Level {{level}}',
+    unitPosition: 'Unit {{count}} · Level {{level}}',
+    status_locked: 'Locked',
+    status_open: 'Open',
+    status_completed: 'Passed',
+    status_tested: 'Estimated by placement',
+    unitProgress: 'Passed lessons',
+    lessonProgress: '{{completed}} of {{total}} lessons passed',
+    testedHint:
+      'Available through your placement estimate. You can practise these lessons at any time; they count as passed only after a passing attempt.',
+    prerequisite: 'Prerequisite: {{title}}',
+    showLessons: 'Show lessons',
+    hideLessons: 'Hide lessons',
+    showNamed: 'Show lessons in {{title}}',
+    hideNamed: 'Hide lessons in {{title}}',
+    lessonLocked:
+      'This lesson is still locked. First pass the preceding lessons and prerequisites in your learning path.',
+    passed: 'Passed: {{correct}} of {{total}} tasks count towards unlocking.',
+    failed:
+      'Not passed yet: {{correct}} of {{total}} tasks count. You need at least {{percent}}% to unlock.',
+    resultHint:
+      'The error review does not change your first-attempt score. An earlier passing attempt remains valid.',
+  },
   gallery: {
     contextQuestion: 'Source-based question',
     grandStaff: '$t(glossary:grandStaff_one): learning example',
