@@ -29,6 +29,7 @@ Dieser Plan beschreibt, wie wir Harmonia Schritt für Schritt bauen: vom leeren 
 | [Notenwerte und Pausen P2.07](notenwerte-und-pausen.md) | Fünfte Einheit: Noten-/Pausenzeichen, exakte Taktlücken, neun Karten, 15 Hörbeispiele und drei Lektionen |
 | [Einfache Taktarten und Auftakt P2.07](einfache-taktarten-und-auftakt.md) | Sechste Einheit: 2/4, 3/4 und 4/4, Einzählen, Auftaktfragen und kurze Rhythmen mit Pausen |
 | [Intervallgröße und Richtung P2.07](intervallgroesse-und-richtung.md) | Siebte Einheit: Prime bis Oktave zählen, Richtung und Wiederholung/Schritt/Sprung erkennen |
+| [Stufe 1 vollständig intern P2.07](stufe-1-vollstaendig.md) | Alle 13 geplanten Einheiten, 40 Fähigkeiten, 37 Lektionen, 370 Aufgaben und die offene getrennte Abnahme |
 | [Erste Intervallqualitäten P2.07](erste-intervallqualitaeten.md) | Achte Einheit: Halbtonabstände, kleine/große Terzen, reine Quarte/Quinte/Oktave und Tritonus-Kontrast |
 | [Übungs-Framework P1.19](uebungs-framework.md) | Generatoren, Engine-Bewertung, Hinweise, Aufgabenablauf und Hör-Pause |
 | [Erste Lektion P1.20](erste-lektion.md) | Einführung, zehn Aufgaben, Fehlerwiederholung, SQLite und Personen-Test |

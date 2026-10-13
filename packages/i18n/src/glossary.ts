@@ -10,7 +10,7 @@ import { NOTE_VALUES, duration, durationName } from '@harmonia/theory';
 
 import type { AppLocale } from './locale.ts';
 
-export type GlossaryCategory = 'notation' | 'pitch' | 'scales' | 'chords' | 'rhythm';
+export type GlossaryCategory = 'notation' | 'pitch' | 'scales' | 'chords' | 'rhythm' | 'history';
 
 /** Grammatisches Geschlecht (für Artikel in deutschen Texten). */
 export type GermanGender = 'm' | 'f' | 'n';
@@ -34,6 +34,128 @@ export interface GlossaryEntry {
 
 /** Kernbegriffe, Version 1 (P1.05). Ausbau auf etwa 150 Begriffe in P0.05. */
 export const GLOSSARY = {
+  voice: {
+    category: 'history',
+    de: { term: 'Stimme', gender: 'f', plural: 'Stimmen' },
+    en: { term: 'voice', plural: 'voices' },
+  },
+  instrument: {
+    category: 'history',
+    de: { term: 'Instrument', gender: 'n', plural: 'Instrumente' },
+    en: { term: 'instrument', plural: 'instruments' },
+  },
+  recording: {
+    category: 'history',
+    de: { term: 'Aufnahme', gender: 'f', plural: 'Aufnahmen' },
+    en: { term: 'recording', plural: 'recordings' },
+  },
+  electronicSound: {
+    category: 'history',
+    de: { term: 'Elektronische Klangerzeugung', gender: 'f' },
+    en: { term: 'electronic sound generation' },
+  },
+  scoreSource: {
+    category: 'history',
+    de: { term: 'Notentext', gender: 'm', plural: 'Notentexte' },
+    en: { term: 'score', plural: 'scores' },
+  },
+  report: {
+    category: 'history',
+    de: { term: 'Bericht', gender: 'm', plural: 'Berichte' },
+    en: { term: 'report', plural: 'reports' },
+  },
+  programmeSource: {
+    category: 'history',
+    de: { term: 'Programmzettel', gender: 'm', plural: 'Programmzettel' },
+    en: { term: 'program', plural: 'programs' },
+    enGB: { term: 'programme', plural: 'programmes' },
+  },
+  place: {
+    category: 'history',
+    de: { term: 'Ort', gender: 'm', plural: 'Orte' },
+    en: { term: 'place', plural: 'places' },
+  },
+  time: {
+    category: 'history',
+    de: { term: 'Zeit', gender: 'f', plural: 'Zeiten' },
+    en: { term: 'time', plural: 'times' },
+  },
+  occasion: {
+    category: 'history',
+    de: { term: 'Anlass', gender: 'm', plural: 'Anlässe' },
+    en: { term: 'occasion', plural: 'occasions' },
+  },
+  author: {
+    category: 'history',
+    de: { term: 'Urheberschaft', gender: 'f' },
+    en: { term: 'authorship' },
+  },
+  medieval: {
+    category: 'history',
+    de: { term: 'Mittelalter', gender: 'n' },
+    en: { term: 'Middle Ages' },
+  },
+  renaissance: {
+    category: 'history',
+    de: { term: 'Renaissance', gender: 'f' },
+    en: { term: 'Renaissance' },
+  },
+  baroque: { category: 'history', de: { term: 'Barock', gender: 'm' }, en: { term: 'Baroque' } },
+  classicalPeriod: {
+    category: 'history',
+    de: { term: 'Klassik', gender: 'f' },
+    en: { term: 'Classical period' },
+  },
+  romanticPeriod: {
+    category: 'history',
+    de: { term: 'Romantik', gender: 'f' },
+    en: { term: 'Romantic period' },
+  },
+  musicSince1900: {
+    category: 'history',
+    de: { term: 'Musik seit 1900', gender: 'f' },
+    en: { term: 'music since 1900' },
+  },
+  genre: {
+    category: 'history',
+    de: { term: 'Gattung', gender: 'f', plural: 'Gattungen' },
+    en: { term: 'genre', plural: 'genres' },
+  },
+  performingForces: {
+    category: 'history',
+    de: { term: 'Besetzung', gender: 'f', plural: 'Besetzungen' },
+    en: { term: 'performing forces', plural: 'sets of performing forces' },
+  },
+  function: {
+    category: 'history',
+    de: { term: 'Funktion', gender: 'f', plural: 'Funktionen' },
+    en: { term: 'function', plural: 'functions' },
+  },
+  observation: {
+    category: 'history',
+    de: { term: 'Hörbeobachtung', gender: 'f', plural: 'Hörbeobachtungen' },
+    en: { term: 'listening observation', plural: 'listening observations' },
+  },
+  sourceInformation: {
+    category: 'history',
+    de: { term: 'Quellenangabe', gender: 'f', plural: 'Quellenangaben' },
+    en: { term: 'source reference', plural: 'source references' },
+  },
+  inference: {
+    category: 'history',
+    de: { term: 'Schlussfolgerung', gender: 'f', plural: 'Schlussfolgerungen' },
+    en: { term: 'inference', plural: 'inferences' },
+  },
+  uncertainty: {
+    category: 'history',
+    de: { term: 'Ungewissheit', gender: 'f' },
+    en: { term: 'uncertainty' },
+  },
+  soundSource: {
+    category: 'history',
+    de: { term: 'Klangquelle', gender: 'f', plural: 'Klangquellen' },
+    en: { term: 'sound source', plural: 'sound sources' },
+  },
   // Notenschrift
   note: {
     category: 'notation',

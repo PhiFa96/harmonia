@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": 10,
+  "contentVersion": 11,
   "areas": [
     {
       "id": "fundament",
@@ -2085,6 +2085,327 @@
           "count": 4
         }
       ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pulse-rhythm.pulse.exercises",
+      "titleKey": "content.auralRhythmStart.lesson1",
+      "skillIds": ["aural.pulse"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "LISTENING_CHOICE",
+            "params": {
+              "question": "pulse",
+              "tempos": [72, 90, 108]
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pulse-rhythm.compare.exercises",
+      "titleKey": "content.auralRhythmStart.lesson2",
+      "skillIds": ["aural.same-different-rhythm"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "LISTENING_CHOICE",
+            "params": {
+              "question": "rhythm-compare",
+              "tempos": [72, 90, 108]
+            }
+          },
+          "count": 10
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pulse-rhythm.choice.exercises",
+      "titleKey": "content.auralRhythmStart.lesson3",
+      "skillIds": ["aural.rhythm-choice-basic"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "LISTENING_CHOICE",
+            "params": {
+              "question": "rhythm-choice",
+              "tempos": [72, 90, 108]
+            }
+          },
+          "count": 12
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pitch-intervals.direction.exercises",
+      "titleKey": "content.auralPitchStart.lesson1",
+      "skillIds": ["aural.pitch-direction"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "LISTENING_CHOICE",
+            "params": {
+              "question": "pitch-direction",
+              "tempos": [72, 90, 108]
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pitch-intervals.melodies.exercises",
+      "titleKey": "content.auralPitchStart.lesson2",
+      "skillIds": ["aural.same-different-melody"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "LISTENING_CHOICE",
+            "params": {
+              "question": "melody-compare",
+              "tempos": [72, 90, 108]
+            }
+          },
+          "count": 10
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pitch-intervals.intervals.exercises",
+      "titleKey": "content.auralPitchStart.lesson3",
+      "skillIds": ["aural.third-fourth-fifth"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_AURAL",
+            "params": {
+              "intervals": ["m3", "M3"],
+              "playback": "melodic-up",
+              "clefs": ["treble"],
+              "maxAccidentals": 0,
+              "range": {
+                "minMidi": 64,
+                "maxMidi": 77
+              }
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_AURAL",
+            "params": {
+              "intervals": ["P4", "P5"],
+              "playback": "melodic-up",
+              "clefs": ["treble"],
+              "maxAccidentals": 0,
+              "range": {
+                "minMidi": 64,
+                "maxMidi": 77
+              }
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_AURAL",
+            "params": {
+              "intervals": ["m3", "M3", "P4", "P5"],
+              "playback": "melodic-up",
+              "clefs": ["treble"],
+              "maxAccidentals": 0,
+              "range": {
+                "minMidi": 64,
+                "maxMidi": 77
+              }
+            }
+          },
+          "count": 4
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.sources.sound.exercises",
+      "titleKey": "content.historySourcesStart.lesson1",
+      "skillIds": ["history.sound-source"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["soundSources"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["soundSources"],
+              "count": 3
+            }
+          },
+          "count": 4
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.sources.documents.exercises",
+      "titleKey": "content.historySourcesStart.lesson2",
+      "skillIds": ["history.source-types"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["sourceTypes"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["sourceTypes"],
+              "count": 3
+            }
+          },
+          "count": 6
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.sources.context.exercises",
+      "titleKey": "content.historySourcesStart.lesson3",
+      "skillIds": ["history.context"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["context"]
+            }
+          },
+          "count": 6
+        },
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["context"],
+              "count": 3
+            }
+          },
+          "count": 6
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.overview.periods.exercises",
+      "titleKey": "content.historyOverviewStart.lesson1",
+      "skillIds": ["history.european-timeline"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["periods"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "ORDER",
+            "params": {
+              "topics": ["periods"],
+              "count": 3,
+              "direction": "ascending"
+            }
+          },
+          "count": 4
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.overview.genre.exercises",
+      "titleKey": "content.historyOverviewStart.lesson2",
+      "skillIds": ["history.genre-function"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["genreContext"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["genreContext"],
+              "count": 3
+            }
+          },
+          "count": 6
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.overview.observation.exercises",
+      "titleKey": "content.historyOverviewStart.lesson3",
+      "skillIds": ["history.listening-observation"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["evidence"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "LISTENING_CHOICE",
+            "params": {
+              "question": "observation",
+              "tempos": [72, 90, 108]
+            }
+          },
+          "count": 8
+        }
+      ]
     }
   ],
   "knowledgeCards": [
@@ -3447,6 +3768,559 @@
           }
         }
       ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pulse-rhythm.card-steady",
+      "titleKey": "content.auralRhythmStart.card1Title",
+      "bodyKey": "content.auralRhythmStart.card1Body",
+      "skillIds": ["aural.pulse"],
+      "examples": [
+        {
+          "score": "treble | 2/4 | G4/4 G4/4",
+          "pulse": {
+            "bpm": 90
+          },
+          "captionKey": "content.auralRhythmStart.card1Example1"
+        },
+        {
+          "score": "treble | 3/4 | G4/4 G4/4 G4/4",
+          "pulse": {
+            "bpm": 90
+          },
+          "captionKey": "content.auralRhythmStart.card1Example2"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pulse-rhythm.card-pulse-rhythm",
+      "titleKey": "content.auralRhythmStart.card2Title",
+      "bodyKey": "content.auralRhythmStart.card2Body",
+      "skillIds": ["aural.pulse"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+          "captionKey": "content.auralRhythmStart.card2Example1"
+        },
+        {
+          "score": "treble | 4/4 | G4/8 G4/8 G4/4 G4/4 G4/4",
+          "captionKey": "content.auralRhythmStart.card2Example2"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pulse-rhythm.card-group-start",
+      "titleKey": "content.auralRhythmStart.card3Title",
+      "bodyKey": "content.auralRhythmStart.card3Body",
+      "skillIds": ["aural.pulse"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+          "pulse": {
+            "bpm": 90
+          },
+          "captionKey": "content.auralRhythmStart.card3Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pulse-rhythm.card-compare",
+      "titleKey": "content.auralRhythmStart.card4Title",
+      "bodyKey": "content.auralRhythmStart.card4Body",
+      "skillIds": ["aural.same-different-rhythm"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 G4/8 G4/8 G4/4 G4/4",
+          "captionKey": "content.auralRhythmStart.card4Example1"
+        },
+        {
+          "score": "treble | 4/4 | G4/4 G4/8 G4/8 G4/4 G4/4",
+          "captionKey": "content.auralRhythmStart.card4Example2"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pulse-rhythm.card-changed",
+      "titleKey": "content.auralRhythmStart.card5Title",
+      "bodyKey": "content.auralRhythmStart.card5Body",
+      "skillIds": ["aural.same-different-rhythm"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/8 G4/8 G4/4 G4/4 G4/4",
+          "captionKey": "content.auralRhythmStart.card5Example1"
+        },
+        {
+          "score": "treble | 4/4 | G4/4 G4/8 G4/8 G4/4 G4/4",
+          "captionKey": "content.auralRhythmStart.card5Example2"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pulse-rhythm.card-silence",
+      "titleKey": "content.auralRhythmStart.card6Title",
+      "bodyKey": "content.auralRhythmStart.card6Body",
+      "skillIds": ["aural.same-different-rhythm"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/8 G4/8 G4/4 r/4 G4/4",
+          "captionKey": "content.auralRhythmStart.card6Example1"
+        },
+        {
+          "score": "treble | 4/4 | G4/8 G4/8 G4/4 G4/4 G4/4",
+          "captionKey": "content.auralRhythmStart.card6Example2"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pulse-rhythm.card-match",
+      "titleKey": "content.auralRhythmStart.card7Title",
+      "bodyKey": "content.auralRhythmStart.card7Body",
+      "skillIds": ["aural.rhythm-choice-basic"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 G4/4 G4/8 G4/8 G4/4",
+          "captionKey": "content.auralRhythmStart.card7Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pulse-rhythm.card-values",
+      "titleKey": "content.auralRhythmStart.card8Title",
+      "bodyKey": "content.auralRhythmStart.card8Body",
+      "skillIds": ["aural.rhythm-choice-basic"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 G4/8 G4/8 G4/4 G4/4",
+          "captionKey": "content.auralRhythmStart.card8Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pulse-rhythm.card-rest-choice",
+      "titleKey": "content.auralRhythmStart.card9Title",
+      "bodyKey": "content.auralRhythmStart.card9Body",
+      "skillIds": ["aural.rhythm-choice-basic"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 r/8 G4/8 G4/4 G4/4",
+          "captionKey": "content.auralRhythmStart.card9Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pitch-intervals.card-higher",
+      "titleKey": "content.auralPitchStart.card1Title",
+      "bodyKey": "content.auralPitchStart.card1Body",
+      "skillIds": ["aural.pitch-direction"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | F4/2 A4/2",
+          "captionKey": "content.auralPitchStart.card1Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pitch-intervals.card-lower",
+      "titleKey": "content.auralPitchStart.card2Title",
+      "bodyKey": "content.auralPitchStart.card2Body",
+      "skillIds": ["aural.pitch-direction"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | A4/2 F4/2",
+          "captionKey": "content.auralPitchStart.card2Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pitch-intervals.card-repeat",
+      "titleKey": "content.auralPitchStart.card3Title",
+      "bodyKey": "content.auralPitchStart.card3Body",
+      "skillIds": ["aural.pitch-direction"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | F4/2 F4/2",
+          "captionKey": "content.auralPitchStart.card3Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pitch-intervals.card-same",
+      "titleKey": "content.auralPitchStart.card4Title",
+      "bodyKey": "content.auralPitchStart.card4Body",
+      "skillIds": ["aural.same-different-melody"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | F4/4 G4/4 A4/4 G4/4",
+          "captionKey": "content.auralPitchStart.card4Example1"
+        },
+        {
+          "score": "treble | 4/4 | F4/4 G4/4 A4/4 G4/4",
+          "captionKey": "content.auralPitchStart.card4Example2"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pitch-intervals.card-changed-note",
+      "titleKey": "content.auralPitchStart.card5Title",
+      "bodyKey": "content.auralPitchStart.card5Body",
+      "skillIds": ["aural.same-different-melody"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | F4/4 G4/4 A4/4 G4/4",
+          "captionKey": "content.auralPitchStart.card5Example1"
+        },
+        {
+          "score": "treble | 4/4 | F4/4 A4/4 A4/4 G4/4",
+          "captionKey": "content.auralPitchStart.card5Example2"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pitch-intervals.card-memory",
+      "titleKey": "content.auralPitchStart.card6Title",
+      "bodyKey": "content.auralPitchStart.card6Body",
+      "skillIds": ["aural.same-different-melody"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 E4/4 F4/4 G4/4",
+          "captionKey": "content.auralPitchStart.card6Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pitch-intervals.card-thirds",
+      "titleKey": "content.auralPitchStart.card7Title",
+      "bodyKey": "content.auralPitchStart.card7Body",
+      "skillIds": ["aural.third-fourth-fifth"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/2 G4/2",
+          "captionKey": "content.auralPitchStart.card7Example1"
+        },
+        {
+          "score": "treble | 4/4 | F4/2 A4/2",
+          "captionKey": "content.auralPitchStart.card7Example2"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pitch-intervals.card-fourth-fifth",
+      "titleKey": "content.auralPitchStart.card8Title",
+      "bodyKey": "content.auralPitchStart.card8Body",
+      "skillIds": ["aural.third-fourth-fifth"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/2 A4/2",
+          "captionKey": "content.auralPitchStart.card8Example1"
+        },
+        {
+          "score": "treble | 4/4 | E4/2 B4/2",
+          "captionKey": "content.auralPitchStart.card8Example2"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pitch-intervals.card-interval-choice",
+      "titleKey": "content.auralPitchStart.card9Title",
+      "bodyKey": "content.auralPitchStart.card9Body",
+      "skillIds": ["aural.third-fourth-fifth"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/2 B4/2",
+          "captionKey": "content.auralPitchStart.card9Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.sources.card-producer",
+      "titleKey": "content.historySourcesStart.card1Title",
+      "bodyKey": "content.historySourcesStart.card1Body",
+      "skillIds": ["history.sound-source"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 A4/4 B4/4 A4/4",
+          "captionKey": "content.historySourcesStart.card1Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.sources.card-medium",
+      "titleKey": "content.historySourcesStart.card2Title",
+      "bodyKey": "content.historySourcesStart.card2Body",
+      "skillIds": ["history.sound-source"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/2 G4/2",
+          "captionKey": "content.historySourcesStart.card2Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.sources.card-mixture",
+      "titleKey": "content.historySourcesStart.card3Title",
+      "bodyKey": "content.historySourcesStart.card3Body",
+      "skillIds": ["history.sound-source"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | F4/4 A4/4 G4/4 F4/4",
+          "captionKey": "content.historySourcesStart.card3Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.sources.card-notation-source",
+      "titleKey": "content.historySourcesStart.card4Title",
+      "bodyKey": "content.historySourcesStart.card4Body",
+      "skillIds": ["history.source-types"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 G4/8 G4/8 A4/4 G4/4",
+          "captionKey": "content.historySourcesStart.card4Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.sources.card-recorded-source",
+      "titleKey": "content.historySourcesStart.card5Title",
+      "bodyKey": "content.historySourcesStart.card5Body",
+      "skillIds": ["history.source-types"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | F4/2 r/4 A4/4",
+          "captionKey": "content.historySourcesStart.card5Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.sources.card-word-source",
+      "titleKey": "content.historySourcesStart.card6Title",
+      "bodyKey": "content.historySourcesStart.card6Body",
+      "skillIds": ["history.source-types"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/4 F4/4 G4/4 E4/4",
+          "captionKey": "content.historySourcesStart.card6Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.sources.card-place",
+      "titleKey": "content.historySourcesStart.card7Title",
+      "bodyKey": "content.historySourcesStart.card7Body",
+      "skillIds": ["history.context"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/2 A4/2",
+          "captionKey": "content.historySourcesStart.card7Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.sources.card-dates",
+      "titleKey": "content.historySourcesStart.card8Title",
+      "bodyKey": "content.historySourcesStart.card8Body",
+      "skillIds": ["history.context"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/2 A4/2",
+          "captionKey": "content.historySourcesStart.card8Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.sources.card-occasion-author",
+      "titleKey": "content.historySourcesStart.card9Title",
+      "bodyKey": "content.historySourcesStart.card9Body",
+      "skillIds": ["history.context"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | F4/4 G4/4 A4/4 F4/4",
+          "captionKey": "content.historySourcesStart.card9Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.overview.card-sequence",
+      "titleKey": "content.historyOverviewStart.card1Title",
+      "bodyKey": "content.historyOverviewStart.card1Body",
+      "skillIds": ["history.european-timeline"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 A4/4 B4/4 G4/4",
+          "captionKey": "content.historyOverviewStart.card1Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.overview.card-boundaries",
+      "titleKey": "content.historyOverviewStart.card2Title",
+      "bodyKey": "content.historyOverviewStart.card2Body",
+      "skillIds": ["history.european-timeline"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | F4/4 A4/4 G4/4 F4/4",
+          "captionKey": "content.historyOverviewStart.card2Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.overview.card-coexistence",
+      "titleKey": "content.historyOverviewStart.card3Title",
+      "bodyKey": "content.historyOverviewStart.card3Body",
+      "skillIds": ["history.european-timeline"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/4 G4/4 F4/4 E4/4",
+          "captionKey": "content.historyOverviewStart.card3Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.overview.card-genre",
+      "titleKey": "content.historyOverviewStart.card4Title",
+      "bodyKey": "content.historyOverviewStart.card4Body",
+      "skillIds": ["history.genre-function"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 B4/4 A4/4 G4/4",
+          "captionKey": "content.historyOverviewStart.card4Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.overview.card-forces",
+      "titleKey": "content.historyOverviewStart.card5Title",
+      "bodyKey": "content.historyOverviewStart.card5Body",
+      "skillIds": ["history.genre-function"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | F4/2 A4/2",
+          "captionKey": "content.historyOverviewStart.card5Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.overview.card-purpose",
+      "titleKey": "content.historyOverviewStart.card6Title",
+      "bodyKey": "content.historyOverviewStart.card6Body",
+      "skillIds": ["history.genre-function"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/4 F4/4 G4/4 E4/4",
+          "captionKey": "content.historyOverviewStart.card6Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.overview.card-hear",
+      "titleKey": "content.historyOverviewStart.card7Title",
+      "bodyKey": "content.historyOverviewStart.card7Body",
+      "skillIds": ["history.listening-observation"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/2 r/4 A4/4",
+          "captionKey": "content.historyOverviewStart.card7Example1"
+        },
+        {
+          "score": "treble | 4/4 | (E4 B4)/2 r/4 A4/4",
+          "captionKey": "content.historyOverviewStart.card7Example2"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.overview.card-evidence",
+      "titleKey": "content.historyOverviewStart.card8Title",
+      "bodyKey": "content.historyOverviewStart.card8Body",
+      "skillIds": ["history.listening-observation"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/2 r/4 A4/4",
+          "captionKey": "content.historyOverviewStart.card8Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.overview.card-uncertain",
+      "titleKey": "content.historyOverviewStart.card9Title",
+      "bodyKey": "content.historyOverviewStart.card9Body",
+      "skillIds": ["history.listening-observation"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | (F4 B4)/2 r/4 A4/4",
+          "captionKey": "content.historyOverviewStart.card9Example1"
+        }
+      ]
     }
   ],
   "knowledgeArticles": [
@@ -4387,6 +5261,506 @@
           ]
         }
       ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pulse-rhythm.article",
+      "titleKey": "content.auralRhythmStart.articleTitle",
+      "skillIds": ["aural.pulse", "aural.same-different-rhythm", "aural.rhythm-choice-basic"],
+      "sections": [
+        {
+          "headingKey": "content.auralRhythmStart.card1Title",
+          "bodyKey": "content.auralRhythmStart.card1Body",
+          "examples": [
+            {
+              "score": "treble | 2/4 | G4/4 G4/4",
+              "pulse": {
+                "bpm": 90
+              },
+              "captionKey": "content.auralRhythmStart.card1Example1"
+            },
+            {
+              "score": "treble | 3/4 | G4/4 G4/4 G4/4",
+              "pulse": {
+                "bpm": 90
+              },
+              "captionKey": "content.auralRhythmStart.card1Example2"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.auralRhythmStart.card2Title",
+          "bodyKey": "content.auralRhythmStart.card2Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+              "captionKey": "content.auralRhythmStart.card2Example1"
+            },
+            {
+              "score": "treble | 4/4 | G4/8 G4/8 G4/4 G4/4 G4/4",
+              "captionKey": "content.auralRhythmStart.card2Example2"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.auralRhythmStart.card3Title",
+          "bodyKey": "content.auralRhythmStart.card3Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+              "pulse": {
+                "bpm": 90
+              },
+              "captionKey": "content.auralRhythmStart.card3Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.auralRhythmStart.card4Title",
+          "bodyKey": "content.auralRhythmStart.card4Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 G4/8 G4/8 G4/4 G4/4",
+              "captionKey": "content.auralRhythmStart.card4Example1"
+            },
+            {
+              "score": "treble | 4/4 | G4/4 G4/8 G4/8 G4/4 G4/4",
+              "captionKey": "content.auralRhythmStart.card4Example2"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.auralRhythmStart.card5Title",
+          "bodyKey": "content.auralRhythmStart.card5Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/8 G4/8 G4/4 G4/4 G4/4",
+              "captionKey": "content.auralRhythmStart.card5Example1"
+            },
+            {
+              "score": "treble | 4/4 | G4/4 G4/8 G4/8 G4/4 G4/4",
+              "captionKey": "content.auralRhythmStart.card5Example2"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.auralRhythmStart.card6Title",
+          "bodyKey": "content.auralRhythmStart.card6Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/8 G4/8 G4/4 r/4 G4/4",
+              "captionKey": "content.auralRhythmStart.card6Example1"
+            },
+            {
+              "score": "treble | 4/4 | G4/8 G4/8 G4/4 G4/4 G4/4",
+              "captionKey": "content.auralRhythmStart.card6Example2"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.auralRhythmStart.card7Title",
+          "bodyKey": "content.auralRhythmStart.card7Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 G4/4 G4/8 G4/8 G4/4",
+              "captionKey": "content.auralRhythmStart.card7Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.auralRhythmStart.card8Title",
+          "bodyKey": "content.auralRhythmStart.card8Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 G4/8 G4/8 G4/4 G4/4",
+              "captionKey": "content.auralRhythmStart.card8Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.auralRhythmStart.card9Title",
+          "bodyKey": "content.auralRhythmStart.card9Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 r/8 G4/8 G4/4 G4/4",
+              "captionKey": "content.auralRhythmStart.card9Example1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pitch-intervals.article",
+      "titleKey": "content.auralPitchStart.articleTitle",
+      "skillIds": [
+        "aural.pitch-direction",
+        "aural.same-different-melody",
+        "aural.third-fourth-fifth"
+      ],
+      "sections": [
+        {
+          "headingKey": "content.auralPitchStart.card1Title",
+          "bodyKey": "content.auralPitchStart.card1Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | F4/2 A4/2",
+              "captionKey": "content.auralPitchStart.card1Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.auralPitchStart.card2Title",
+          "bodyKey": "content.auralPitchStart.card2Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | A4/2 F4/2",
+              "captionKey": "content.auralPitchStart.card2Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.auralPitchStart.card3Title",
+          "bodyKey": "content.auralPitchStart.card3Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | F4/2 F4/2",
+              "captionKey": "content.auralPitchStart.card3Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.auralPitchStart.card4Title",
+          "bodyKey": "content.auralPitchStart.card4Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | F4/4 G4/4 A4/4 G4/4",
+              "captionKey": "content.auralPitchStart.card4Example1"
+            },
+            {
+              "score": "treble | 4/4 | F4/4 G4/4 A4/4 G4/4",
+              "captionKey": "content.auralPitchStart.card4Example2"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.auralPitchStart.card5Title",
+          "bodyKey": "content.auralPitchStart.card5Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | F4/4 G4/4 A4/4 G4/4",
+              "captionKey": "content.auralPitchStart.card5Example1"
+            },
+            {
+              "score": "treble | 4/4 | F4/4 A4/4 A4/4 G4/4",
+              "captionKey": "content.auralPitchStart.card5Example2"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.auralPitchStart.card6Title",
+          "bodyKey": "content.auralPitchStart.card6Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 E4/4 F4/4 G4/4",
+              "captionKey": "content.auralPitchStart.card6Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.auralPitchStart.card7Title",
+          "bodyKey": "content.auralPitchStart.card7Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/2 G4/2",
+              "captionKey": "content.auralPitchStart.card7Example1"
+            },
+            {
+              "score": "treble | 4/4 | F4/2 A4/2",
+              "captionKey": "content.auralPitchStart.card7Example2"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.auralPitchStart.card8Title",
+          "bodyKey": "content.auralPitchStart.card8Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/2 A4/2",
+              "captionKey": "content.auralPitchStart.card8Example1"
+            },
+            {
+              "score": "treble | 4/4 | E4/2 B4/2",
+              "captionKey": "content.auralPitchStart.card8Example2"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.auralPitchStart.card9Title",
+          "bodyKey": "content.auralPitchStart.card9Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/2 B4/2",
+              "captionKey": "content.auralPitchStart.card9Example1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.sources.article",
+      "titleKey": "content.historySourcesStart.articleTitle",
+      "skillIds": ["history.sound-source", "history.source-types", "history.context"],
+      "sections": [
+        {
+          "headingKey": "content.historySourcesStart.card1Title",
+          "bodyKey": "content.historySourcesStart.card1Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 A4/4 B4/4 A4/4",
+              "captionKey": "content.historySourcesStart.card1Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.historySourcesStart.card2Title",
+          "bodyKey": "content.historySourcesStart.card2Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/2 G4/2",
+              "captionKey": "content.historySourcesStart.card2Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.historySourcesStart.card3Title",
+          "bodyKey": "content.historySourcesStart.card3Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | F4/4 A4/4 G4/4 F4/4",
+              "captionKey": "content.historySourcesStart.card3Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.historySourcesStart.card4Title",
+          "bodyKey": "content.historySourcesStart.card4Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 G4/8 G4/8 A4/4 G4/4",
+              "captionKey": "content.historySourcesStart.card4Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.historySourcesStart.card5Title",
+          "bodyKey": "content.historySourcesStart.card5Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | F4/2 r/4 A4/4",
+              "captionKey": "content.historySourcesStart.card5Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.historySourcesStart.card6Title",
+          "bodyKey": "content.historySourcesStart.card6Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/4 F4/4 G4/4 E4/4",
+              "captionKey": "content.historySourcesStart.card6Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.historySourcesStart.card7Title",
+          "bodyKey": "content.historySourcesStart.card7Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/2 A4/2",
+              "captionKey": "content.historySourcesStart.card7Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.historySourcesStart.card8Title",
+          "bodyKey": "content.historySourcesStart.card8Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/2 A4/2",
+              "captionKey": "content.historySourcesStart.card8Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.historySourcesStart.card9Title",
+          "bodyKey": "content.historySourcesStart.card9Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | F4/4 G4/4 A4/4 F4/4",
+              "captionKey": "content.historySourcesStart.card9Example1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.overview.article",
+      "titleKey": "content.historyOverviewStart.articleTitle",
+      "skillIds": [
+        "history.european-timeline",
+        "history.genre-function",
+        "history.listening-observation"
+      ],
+      "sections": [
+        {
+          "headingKey": "content.historyOverviewStart.card1Title",
+          "bodyKey": "content.historyOverviewStart.card1Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 A4/4 B4/4 G4/4",
+              "captionKey": "content.historyOverviewStart.card1Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.historyOverviewStart.card2Title",
+          "bodyKey": "content.historyOverviewStart.card2Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | F4/4 A4/4 G4/4 F4/4",
+              "captionKey": "content.historyOverviewStart.card2Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.historyOverviewStart.card3Title",
+          "bodyKey": "content.historyOverviewStart.card3Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/4 G4/4 F4/4 E4/4",
+              "captionKey": "content.historyOverviewStart.card3Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.historyOverviewStart.card4Title",
+          "bodyKey": "content.historyOverviewStart.card4Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 B4/4 A4/4 G4/4",
+              "captionKey": "content.historyOverviewStart.card4Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.historyOverviewStart.card5Title",
+          "bodyKey": "content.historyOverviewStart.card5Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | F4/2 A4/2",
+              "captionKey": "content.historyOverviewStart.card5Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.historyOverviewStart.card6Title",
+          "bodyKey": "content.historyOverviewStart.card6Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/4 F4/4 G4/4 E4/4",
+              "captionKey": "content.historyOverviewStart.card6Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.historyOverviewStart.card7Title",
+          "bodyKey": "content.historyOverviewStart.card7Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/2 r/4 A4/4",
+              "captionKey": "content.historyOverviewStart.card7Example1"
+            },
+            {
+              "score": "treble | 4/4 | (E4 B4)/2 r/4 A4/4",
+              "captionKey": "content.historyOverviewStart.card7Example2"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.historyOverviewStart.card8Title",
+          "bodyKey": "content.historyOverviewStart.card8Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/2 r/4 A4/4",
+              "captionKey": "content.historyOverviewStart.card8Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.historyOverviewStart.card9Title",
+          "bodyKey": "content.historyOverviewStart.card9Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (F4 B4)/2 r/4 A4/4",
+              "captionKey": "content.historyOverviewStart.card9Example1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "fundament.reading-and-listening.article",
+      "titleKey": "content.firstLesson.title",
+      "skillIds": ["notation.note-name", "interval.identify.visual", "interval.identify.aural"],
+      "sections": [
+        {
+          "headingKey": "content.firstLesson.notesTitle",
+          "bodyKey": "content.firstLesson.notesBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/1",
+              "captionKey": "content.firstLesson.referenceG"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.firstLesson.intervalsTitle",
+          "bodyKey": "content.firstLesson.intervalsBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/2 Eb4/2",
+              "captionKey": "content.firstLesson.minorThird"
+            },
+            {
+              "score": "treble | 4/4 | C4/2 E4/2",
+              "captionKey": "content.firstLesson.majorThird"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.firstLesson.hearingTitle",
+          "bodyKey": "content.firstLesson.hearingBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/2 F4/2",
+              "captionKey": "content.firstLesson.fourth"
+            },
+            {
+              "score": "treble | 4/4 | C4/2 G4/2",
+              "captionKey": "content.firstLesson.fifth"
+            }
+          ]
+        }
+      ]
     }
   ],
   "lessons": [
@@ -4725,6 +6099,174 @@
         "intervals.l1.first-qualities.card-tritone"
       ],
       "exerciseSetIds": ["intervals.l1.first-qualities.perfect.exercises"]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pulse-rhythm.pulse",
+      "titleKey": "content.auralRhythmStart.lesson1",
+      "unitId": "aural.l1.pulse-rhythm",
+      "skillIds": ["aural.pulse"],
+      "introductionCardIds": [
+        "aural.l1.pulse-rhythm.card-steady",
+        "aural.l1.pulse-rhythm.card-pulse-rhythm",
+        "aural.l1.pulse-rhythm.card-group-start"
+      ],
+      "exerciseSetIds": ["aural.l1.pulse-rhythm.pulse.exercises"]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pulse-rhythm.compare",
+      "titleKey": "content.auralRhythmStart.lesson2",
+      "unitId": "aural.l1.pulse-rhythm",
+      "skillIds": ["aural.same-different-rhythm"],
+      "introductionCardIds": [
+        "aural.l1.pulse-rhythm.card-compare",
+        "aural.l1.pulse-rhythm.card-changed",
+        "aural.l1.pulse-rhythm.card-silence"
+      ],
+      "exerciseSetIds": ["aural.l1.pulse-rhythm.compare.exercises"]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pulse-rhythm.choice",
+      "titleKey": "content.auralRhythmStart.lesson3",
+      "unitId": "aural.l1.pulse-rhythm",
+      "skillIds": ["aural.rhythm-choice-basic"],
+      "introductionCardIds": [
+        "aural.l1.pulse-rhythm.card-match",
+        "aural.l1.pulse-rhythm.card-values",
+        "aural.l1.pulse-rhythm.card-rest-choice"
+      ],
+      "exerciseSetIds": ["aural.l1.pulse-rhythm.choice.exercises"]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pitch-intervals.direction",
+      "titleKey": "content.auralPitchStart.lesson1",
+      "unitId": "aural.l1.pitch-intervals",
+      "skillIds": ["aural.pitch-direction"],
+      "introductionCardIds": [
+        "aural.l1.pitch-intervals.card-higher",
+        "aural.l1.pitch-intervals.card-lower",
+        "aural.l1.pitch-intervals.card-repeat"
+      ],
+      "exerciseSetIds": ["aural.l1.pitch-intervals.direction.exercises"]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pitch-intervals.melodies",
+      "titleKey": "content.auralPitchStart.lesson2",
+      "unitId": "aural.l1.pitch-intervals",
+      "skillIds": ["aural.same-different-melody"],
+      "introductionCardIds": [
+        "aural.l1.pitch-intervals.card-same",
+        "aural.l1.pitch-intervals.card-changed-note",
+        "aural.l1.pitch-intervals.card-memory"
+      ],
+      "exerciseSetIds": ["aural.l1.pitch-intervals.melodies.exercises"]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pitch-intervals.intervals",
+      "titleKey": "content.auralPitchStart.lesson3",
+      "unitId": "aural.l1.pitch-intervals",
+      "skillIds": ["aural.third-fourth-fifth"],
+      "introductionCardIds": [
+        "aural.l1.pitch-intervals.card-thirds",
+        "aural.l1.pitch-intervals.card-fourth-fifth",
+        "aural.l1.pitch-intervals.card-interval-choice"
+      ],
+      "exerciseSetIds": ["aural.l1.pitch-intervals.intervals.exercises"]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.sources.sound",
+      "titleKey": "content.historySourcesStart.lesson1",
+      "unitId": "history.l1.sources",
+      "skillIds": ["history.sound-source"],
+      "introductionCardIds": [
+        "history.l1.sources.card-producer",
+        "history.l1.sources.card-medium",
+        "history.l1.sources.card-mixture"
+      ],
+      "exerciseSetIds": ["history.l1.sources.sound.exercises"]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.sources.documents",
+      "titleKey": "content.historySourcesStart.lesson2",
+      "unitId": "history.l1.sources",
+      "skillIds": ["history.source-types"],
+      "introductionCardIds": [
+        "history.l1.sources.card-notation-source",
+        "history.l1.sources.card-recorded-source",
+        "history.l1.sources.card-word-source"
+      ],
+      "exerciseSetIds": ["history.l1.sources.documents.exercises"]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.sources.context",
+      "titleKey": "content.historySourcesStart.lesson3",
+      "unitId": "history.l1.sources",
+      "skillIds": ["history.context"],
+      "introductionCardIds": [
+        "history.l1.sources.card-place",
+        "history.l1.sources.card-dates",
+        "history.l1.sources.card-occasion-author"
+      ],
+      "exerciseSetIds": ["history.l1.sources.context.exercises"]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.overview.periods",
+      "titleKey": "content.historyOverviewStart.lesson1",
+      "unitId": "history.l1.overview",
+      "skillIds": ["history.european-timeline"],
+      "introductionCardIds": [
+        "history.l1.overview.card-sequence",
+        "history.l1.overview.card-boundaries",
+        "history.l1.overview.card-coexistence"
+      ],
+      "exerciseSetIds": ["history.l1.overview.periods.exercises"]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.overview.genre",
+      "titleKey": "content.historyOverviewStart.lesson2",
+      "unitId": "history.l1.overview",
+      "skillIds": ["history.genre-function"],
+      "introductionCardIds": [
+        "history.l1.overview.card-genre",
+        "history.l1.overview.card-forces",
+        "history.l1.overview.card-purpose"
+      ],
+      "exerciseSetIds": ["history.l1.overview.genre.exercises"]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.overview.observation",
+      "titleKey": "content.historyOverviewStart.lesson3",
+      "unitId": "history.l1.overview",
+      "skillIds": ["history.listening-observation"],
+      "introductionCardIds": [
+        "history.l1.overview.card-hear",
+        "history.l1.overview.card-evidence",
+        "history.l1.overview.card-uncertain"
+      ],
+      "exerciseSetIds": ["history.l1.overview.observation.exercises"]
     }
   ]
 }

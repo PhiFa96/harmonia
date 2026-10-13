@@ -56,10 +56,23 @@ function oracle(item: OrderItem) {
   const ranked = item.values.map((value) => ({
     id: orderValueId(value),
     rank:
-      value.kind === 'pitch'
-        ? (value.pitch.octave + 1) * 12 + heights[value.pitch.letter] + value.pitch.alter
-        : required(fractions[value.duration.value as keyof typeof fractions]) *
-          (value.duration.dots ? 1.5 : 1),
+      value.kind === 'period'
+        ? required(
+            (
+              {
+                medieval: 500,
+                renaissance: 1400,
+                baroque: 1600,
+                classical: 1750,
+                romantic: 1800,
+                since1900: 1900,
+              } as Readonly<Record<string, number>>
+            )[value.period],
+          )
+        : value.kind === 'pitch'
+          ? (value.pitch.octave + 1) * 12 + heights[value.pitch.letter] + value.pitch.alter
+          : required(fractions[value.duration.value as keyof typeof fractions]) *
+            (value.duration.dots ? 1.5 : 1),
   }));
   return ranked
     .sort((a, b) => (item.direction === 'ascending' ? a.rank - b.rank : b.rank - a.rank))

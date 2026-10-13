@@ -35,7 +35,18 @@ describe('Glossar: Form der Einträge', () => {
         expect(entry.de.term[0], id).toMatch(/\p{Lu}/u);
       }
       if (id === 'beatsPerMinute') expect(entry.en.term).toBe('BPM (beats per minute)');
-      else expect(entry.en.term, id).toBe(entry.en.term.toLowerCase());
+      else if (
+        ['medieval', 'renaissance', 'baroque', 'classicalPeriod', 'romanticPeriod'].includes(id)
+      ) {
+        const proper: Readonly<Record<string, string>> = {
+          medieval: 'Middle Ages',
+          renaissance: 'Renaissance',
+          baroque: 'Baroque',
+          classicalPeriod: 'Classical period',
+          romanticPeriod: 'Romantic period',
+        };
+        expect(entry.en.term, id).toBe(proper[id]);
+      } else expect(entry.en.term, id).toBe(entry.en.term.toLowerCase());
       expect(entry.enGB?.term ?? '', id).toBe((entry.enGB?.term ?? '').toLowerCase());
     }
   });
@@ -133,6 +144,7 @@ describe('Glossar als i18next-Namensraum', () => {
       'measure',
       'meter',
       'pickup',
+      'programmeSource',
       'semitone',
       'staff',
       'wholeTone',

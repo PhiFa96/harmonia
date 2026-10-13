@@ -30,6 +30,7 @@ import { generateScale, generateKeySignature } from './tonality.ts';
 import { generateChord } from './chords.ts';
 import { generatePickup, generateRhythm } from './rhythm.ts';
 import { generateKnowledge, generateMatch, generateOrder } from './knowledge.ts';
+import { generateListening } from './listening.ts';
 import { intervalMotion, intervalReadingAnswer } from './interval-reading.ts';
 export function noteAnswerId(pitch: Pick<Pitch, 'letter' | 'alter'>): string {
   return `${pitch.letter}:${String(pitch.alter)}`;
@@ -332,6 +333,8 @@ export function generateIntervalBuild(params: VisualIntervalParams, rng: Rng): I
 }
 export function generateExercise(spec: ExerciseSpec, rng: Rng) {
   switch (spec.type) {
+    case 'LISTENING_CHOICE':
+      return generateListening(spec.params, rng);
     case 'KNOWLEDGE_MC':
       return generateKnowledge(spec.params, rng);
     case 'MATCH':

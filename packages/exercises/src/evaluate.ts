@@ -1,3 +1,4 @@
+import { listeningAnswer } from './listening.ts';
 import { equals, intervalBetween, keySignature } from '@harmonia/theory';
 import {
   knowledgeFactId,
@@ -53,6 +54,7 @@ import { isIntervalReadingItem, intervalReadingAnswer } from './interval-reading
 
 /** Die Engine berechnet die Lösung aus den Fachdaten, nie aus dem sichtbaren Antworttext. */
 export function expectedAnswer(item: ExerciseItem): string {
+  if (item.type === 'LISTENING_CHOICE') return listeningAnswer(item);
   if (isIntervalReadingItem(item)) return intervalReadingAnswer(item);
   if (item.type === 'KNOWLEDGE_MC')
     return knowledgeFactId(item.gap ? measureGapFact(item.gap) : item.fact);

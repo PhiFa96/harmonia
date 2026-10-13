@@ -8,6 +8,7 @@ import {
   MVP_METERS,
   KNOWLEDGE_TOPICS,
   ORDER_TOPICS,
+  LISTENING_QUESTIONS,
 } from '@harmonia/exercises';
 const range = z
   .object({
@@ -99,6 +100,17 @@ const signatureParams = z
   .strict();
 export const exerciseSpecSchema = z
   .discriminatedUnion('type', [
+    z
+      .object({
+        type: z.literal('LISTENING_CHOICE'),
+        params: z
+          .object({
+            question: z.enum(LISTENING_QUESTIONS),
+            tempos: z.array(z.number().int().min(60).max(120)).nonempty().optional(),
+          })
+          .strict(),
+      })
+      .strict(),
     z.object({ type: z.literal('KNOWLEDGE_MC'), params: knowledgeMcParams }).strict(),
     z.object({ type: z.literal('MATCH'), params: matchParams }).strict(),
     z.object({ type: z.literal('ORDER'), params: orderParams }).strict(),
@@ -170,6 +182,14 @@ export const exerciseSpecSchema = z
       .strict(),
   ])
   .transform((value): ExerciseSpec => {
+    if (value.type === 'LISTENING_CHOICE')
+      return {
+        type: value.type,
+        params: {
+          question: value.params.question,
+          ...(value.params.tempos ? { tempos: value.params.tempos } : {}),
+        },
+      };
     if (value.type === 'KNOWLEDGE_MC')
       return {
         type: value.type,

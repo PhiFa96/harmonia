@@ -2,7 +2,7 @@
 
 Stand: 05.10.2026. Lokale Inhaltsprüfung, Freigabefilter und App-Anbindung sind implementiert. Die echte EAS-Projektbindung und eine nachgewiesene OTA-Auslieferung bleiben offen.
 
-Fortsetzung 12.10.2026: Acht Stufe-1-Einheiten besitzen je drei Lektionen mit 8/10/12 Aufgaben, zusammen 67 neue Karten und acht vorbereitete Artikel. Intern sind 25 Lektionen mit 250 Aufgaben auswählbar. Katalog und Plan haben Version 10. Neu sind Halbtonfragen mit Klaviatur, kleine/große Terzen und die Prüfung reiner Quarten/Quinten/Oktaven mit Tritonus-Kontrast. Alle Inhalte bleiben Entwurf für Claudes separate fachliche Abnahme. Prüfstand und nächstes Ziel `aural.l1.pulse-rhythm`: [erste-intervallqualitaeten.md](erste-intervallqualitaeten.md). Schemaformat 1 und Freigabefilter bleiben bestehen; EAS/OTA bleibt offen.
+Fortsetzung 12.10.2026: Alle 13 geplanten Stufe-1-Einheiten einschließlich Prototyp und alle 40 Fähigkeiten sind intern durchspielbar: 37 Lektionen, 370 Aufgaben, 106 Karten mit 157 Beispielen und 13 Artikel in DE/US/UK. Katalog und Plan haben Version 11. Alle Inhalte bleiben Entwurf bis zu Claudes getrenntem fachlichen Durchgang. Vollständiger Prüfstand und offene Abnahme: [stufe-1-vollstaendig.md](stufe-1-vollstaendig.md). 90 Fähigkeiten und 29 Einheiten bleiben erhalten; die folgenden Abschnitte dokumentieren die bisherige Grundlage.
 
 ## Daten und Einstiegspunkte
 

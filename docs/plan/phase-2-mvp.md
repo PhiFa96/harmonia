@@ -119,12 +119,12 @@ Die Blöcke B, C und D können teilweise parallel laufen.
 - **Abhängig von:** P2.05, P2.06
 - **Umfang:** XL
 - **Aufgaben:**
-  - [ ] Einheiten und Lektionen nach Graph
-  - [ ] Wissenskarten mit Notenbild und Klang
+  - [x] Einheiten und Lektionen nach Graph
+  - [x] Wissenskarten mit Notenbild und Klang
   - [ ] Entwürfe durch Claude, getrennter Prüfdurchgang durch Claude, Status `freigegeben`
-  - [ ] Wissensartikel für die Tutor-Wissensbasis zu allen Themen der Stufe
+  - [x] Wissensartikel für die Tutor-Wissensbasis zu allen Themen der Stufe
 - **Fertig, wenn:** Stufe 1 ist durchspielbar, fachlich freigegeben und in beiden Sprachen vollständig.
-- **Stand 12.10.2026:** Acht Stufe-1-Einheiten besitzen je drei Lektionen mit 8/10/12 Aufgaben, zusammen 67 neue Karten und acht vorbereitete Artikel. Intern sind 25 Lektionen mit 250 Aufgaben auswählbar. Katalog und Plan haben Version 10. Neu sind Halbtonfragen mit Klaviatur, kleine/große Terzen und die Prüfung reiner Quarten/Quinten/Oktaven mit Tritonus-Kontrast. Alle Inhalte bleiben Entwurf für Claudes separate fachliche Abnahme. Prüfstand und nächstes Ziel `aural.l1.pulse-rhythm`: [erste-intervallqualitaeten.md](erste-intervallqualitaeten.md). P2.07 bleibt offen.
+- **Stand 12.10.2026:** Alle 13 geplanten Stufe-1-Einheiten einschließlich Prototyp und alle 40 Fähigkeiten sind intern durchspielbar: 37 Lektionen mit 370 Aufgaben, 106 Karten mit 157 Beispielen, 13 Artikel in DE/US/UK. Die vier letzten Einheiten ergänzen Puls-/Rhythmushören, Tonrichtung/Melodievergleich/erste Hörintervalle sowie Klangquellen, Quellenkritik und die grobe europäische Epochenfolge. 18 Übungstypen, Inhaltsversion 11. Technische Umsetzung vollständig; alle Inhalte bleiben `entwurf`. Die getrennte Claude-Abnahme nach ADR 0005 samt Literaturabgleich ist mangels Claude-Ausführung und zugänglicher Literatur in dieser Umgebung offen. **P2.07 ist deshalb noch nicht fachlich abgeschlossen.** Prüfstand und vollständige Abnahmeunterlagen: [stufe-1-vollstaendig.md](stufe-1-vollstaendig.md).
 
 ### P2.08 – Inhalte Stufe 2 (DE + EN)
 

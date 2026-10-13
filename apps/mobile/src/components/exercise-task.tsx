@@ -15,7 +15,7 @@ import {
   intervalReadingKeyboardRange,
 } from '@harmonia/exercises';
 import { engineLanguage } from '@harmonia/i18n';
-import { layoutScore } from '@harmonia/notation';
+import { layoutScore, describeScore } from '@harmonia/notation';
 import { ScoreView } from '@harmonia/notation/native';
 import { RADIUS, SPACE } from '@harmonia/ui';
 import {
@@ -165,10 +165,11 @@ export function ExerciseTask({
           'SCALE_BUILD',
           'KEYSIG_BUILD',
           'CHORD_BUILD',
-        ].includes(item.type) ? null : item.type === 'RHYTHM_TAP' ||
-        !isAuralExercise(item) ||
-        result ||
-        session.hintLevel === 3 ? (
+        ].includes(item.type) ? null : item.type !== 'LISTENING_CHOICE' &&
+        (item.type === 'RHYTHM_TAP' ||
+          !isAuralExercise(item) ||
+          result ||
+          session.hintLevel === 3) ? (
         <Card
           padding={SPACE.s}
           onLayout={(event) => {
@@ -217,6 +218,53 @@ export function ExerciseTask({
           />
         </Card>
       )}
+      {item.type === 'LISTENING_CHOICE' &&
+      (item.candidates || result || session.hintLevel === 3) ? (
+        <View style={{ gap: SPACE.s }} testID="listening-scores">
+          {(item.candidates ?? item.clips).map((score, index) => (
+            <Card
+              key={index}
+              padding={SPACE.s}
+              onLayout={(event) => {
+                setScoreWidth(event.nativeEvent.layout.width);
+              }}
+            >
+              <AppText variant="small">
+                {t(item.candidates ? 'exercise.listeningOption' : 'exercise.listeningClip', {
+                  count: index + 1,
+                })}
+              </AppText>
+              <ScrollView horizontal>
+                <View
+                  accessible
+                  role="img"
+                  aria-label={describeScore(score, engineLanguage(locale))
+                    .map((e) => e.text)
+                    .join('; ')}
+                >
+                  <View aria-hidden importantForAccessibility="no-hide-descendants">
+                    <ScoreView
+                      score={score}
+                      staffSpace={
+                        scoreWidth
+                          ? Math.min(
+                              14,
+                              Math.max(1, scoreWidth - 2 * SPACE.s - 2) /
+                                (layoutScore(score, { endBarline: 'final' }).width + 2),
+                            )
+                          : 14
+                      }
+                      color={colors.text}
+                      describeOptions={engineLanguage(locale)}
+                      layoutOptions={{ endBarline: 'final' }}
+                    />
+                  </View>
+                </View>
+              </ScrollView>
+            </Card>
+          ))}
+        </View>
+      ) : null}
       {pickup && scoreWidth > 0 && pickupWidth > scoreWidth - 2 * SPACE.s - 2 ? (
         <AppText variant="footnote" tone="muted">
           {t('exercise.pickupScroll')}

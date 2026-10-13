@@ -13,6 +13,7 @@ import type {
 } from '@harmonia/theory';
 
 export type ExerciseType =
+  | 'LISTENING_CHOICE'
   | 'NOTE_NAME'
   | 'INTERVAL_IDENTIFY_VISUAL'
   | 'INTERVAL_IDENTIFY_AURAL'
@@ -103,7 +104,34 @@ export interface RhythmParams extends MeterParams {
   /** Maximale Abweichung in ms; zusätzlich auf 40 % des kürzesten Einsatzabstands begrenzt. */
   readonly toleranceMs?: number;
 }
+export type ListeningQuestion =
+  | 'pulse'
+  | 'rhythm-compare'
+  | 'rhythm-choice'
+  | 'pitch-direction'
+  | 'melody-compare'
+  | 'observation';
+export interface ListeningParams {
+  readonly question: ListeningQuestion;
+  readonly tempos?: readonly number[];
+}
+export interface ListeningItem {
+  readonly type: 'LISTENING_CHOICE';
+  readonly question: ListeningQuestion;
+  readonly bpm: number;
+  /** Bewertungs- und Audioquelle; keine gespeicherte Zielantwort. */
+  readonly clips: readonly Score[];
+  /** Nur bei Rhythmusauswahl vor der Wertung sichtbar. */
+  readonly candidates?: readonly Score[];
+  readonly choices: readonly string[];
+}
 export type KnowledgeTopic =
+  | 'soundSources'
+  | 'sourceTypes'
+  | 'context'
+  | 'periods'
+  | 'genreContext'
+  | 'evidence'
   | 'accidentals'
   | 'noteValues'
   | 'rests'
@@ -131,13 +159,41 @@ export interface KnowledgeMcParams extends KnowledgeParams {
 export interface MatchParams extends KnowledgeParams {
   readonly count?: number;
 }
-export type OrderTopic = 'noteValues' | 'pitches';
+export type OrderTopic = 'noteValues' | 'pitches' | 'periods';
 export interface OrderParams extends DurationLimits {
   readonly topics: readonly OrderTopic[];
   readonly count?: number;
   readonly direction?: ScaleDirection | 'both';
 }
+export type HistoryTopic =
+  'soundSources' | 'sourceTypes' | 'context' | 'periods' | 'genreContext' | 'evidence';
+export type HistoryKind =
+  | 'voice'
+  | 'instrument'
+  | 'recording'
+  | 'electronic'
+  | 'score'
+  | 'report'
+  | 'programme'
+  | 'place'
+  | 'time'
+  | 'occasion'
+  | 'author'
+  | 'medieval'
+  | 'renaissance'
+  | 'baroque'
+  | 'classical'
+  | 'romantic'
+  | 'since1900'
+  | 'genre'
+  | 'forces'
+  | 'function'
+  | 'observation'
+  | 'metadata'
+  | 'inference'
+  | 'uncertainty';
 export type KnowledgeFact =
+  | { readonly topic: HistoryTopic; readonly kind: HistoryKind }
   | { readonly topic: 'pulse'; readonly kind: 'pulse' | 'rhythm' | 'metronome' | 'countIn' }
   | { readonly topic: 'tempo'; readonly kind: 'tempo' | 'bpm' | 'faster' | 'slower' }
   | { readonly topic: 'beatGroup'; readonly kind: 'first' | 'duple' | 'triple' | 'quadruple' }
@@ -153,9 +209,11 @@ export type KnowledgeFact =
   | { readonly topic: 'scales'; readonly scale: MvpScaleType }
   | { readonly topic: 'meters'; readonly meter: MvpMeter };
 export type OrderValue =
+  | { readonly kind: 'period'; readonly period: HistoryKind }
   | { readonly kind: 'duration'; readonly duration: Duration }
   | { readonly kind: 'pitch'; readonly pitch: Pitch };
 export type ExerciseSpec =
+  | { readonly type: 'LISTENING_CHOICE'; readonly params: ListeningParams }
   | { readonly type: 'KNOWLEDGE_MC'; readonly params: KnowledgeMcParams }
   | { readonly type: 'MATCH'; readonly params: MatchParams }
   | { readonly type: 'ORDER'; readonly params: OrderParams }
@@ -269,6 +327,7 @@ export interface OrderItem {
 }
 export type KnowledgeExerciseItem = KnowledgeItem | MatchItem | OrderItem;
 export type ExerciseItem =
+  | ListeningItem
   | NoteItem
   | IntervalItem
   | PitchInputItem

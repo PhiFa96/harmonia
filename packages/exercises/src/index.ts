@@ -1,5 +1,6 @@
 // Reines TypeScript: Aufgabe, Bewertung und Ablauf funktionieren auch ohne App und Klang.
 export * from './types.ts';
+export * from './listening.ts';
 export * from './generate.ts';
 export * from './evaluate.ts';
 export * from './feedback.ts';
@@ -56,6 +57,15 @@ import { generateScale, generateKeySignature } from './tonality.ts';
 import { generateChord } from './chords.ts';
 import { generatePickup, generateRhythm } from './rhythm.ts';
 import { generateKnowledge, generateMatch, generateOrder } from './knowledge.ts';
+import { generateListening } from './listening.ts';
+import type { ListeningParams, ListeningItem } from './types.ts';
+
+export const listeningChoiceExercise: ExerciseDefinition<ListeningParams, ListeningItem> = {
+  generate: generateListening,
+  evaluate: evaluateExercise,
+  feedback: exerciseFeedback,
+  hints: exerciseHints,
+};
 
 export const knowledgeExercise: ExerciseDefinition<KnowledgeParams, KnowledgeItem> = {
   generate: generateKnowledge,

@@ -34,6 +34,8 @@ export const enGB = {
     intervalReadingHint_direction_1:
       'Read the left notehead first, then the right. Compare their height on the stave.',
     knowledgeStart: 'Practise knowledge, matching and ordering',
+    knowledgeHistoryDefinition_evidence_metadata:
+      'A labelled source gives authorship, place or date, for example; its reliability must be checked separately.',
     knowledgeHint_meters:
       'Distinguish the number of denominator units from the number of beats. In compound metres, three units form one beat.',
     rhythmStart: 'Practise rhythm and metre',
