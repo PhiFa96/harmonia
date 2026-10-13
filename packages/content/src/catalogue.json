@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": 11,
+  "contentVersion": 12,
   "areas": [
     {
       "id": "fundament",
@@ -2406,6 +2406,126 @@
           "count": 8
         }
       ]
+    },
+    {
+      "contentVersion": 12,
+      "status": "entwurf",
+      "id": "notation.l2.clefs-registers.bass.exercises",
+      "titleKey": "content.clefsStart.bassLesson",
+      "skillIds": ["notation.bass-natural"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "NOTE_NAME",
+            "params": {
+              "clefs": ["bass"],
+              "range": {
+                "minMidi": 48,
+                "maxMidi": 59
+              },
+              "maxAccidentals": 0
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "NOTE_NAME",
+            "params": {
+              "clefs": ["bass"],
+              "range": {
+                "minMidi": 48,
+                "maxMidi": 60
+              },
+              "maxAccidentals": 0,
+              "includeOctave": true
+            }
+          },
+          "count": 4
+        }
+      ]
+    },
+    {
+      "contentVersion": 12,
+      "status": "entwurf",
+      "id": "notation.l2.clefs-registers.grand.exercises",
+      "titleKey": "content.clefsStart.grandLesson",
+      "skillIds": ["notation.bass-natural", "notation.grand-staff"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KEY_FIND",
+            "params": {
+              "clefs": ["treble", "bass"],
+              "range": {
+                "minMidi": 59,
+                "maxMidi": 60
+              },
+              "maxAccidentals": 0,
+              "presentation": "grand-staff"
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "KEY_FIND",
+            "params": {
+              "clefs": ["treble", "bass"],
+              "range": {
+                "minMidi": 57,
+                "maxMidi": 64
+              },
+              "maxAccidentals": 0,
+              "presentation": "grand-staff"
+            }
+          },
+          "count": 6
+        }
+      ]
+    },
+    {
+      "contentVersion": 12,
+      "status": "entwurf",
+      "id": "notation.l2.clefs-registers.names.exercises",
+      "titleKey": "content.clefsStart.namesLesson",
+      "skillIds": ["notation.octave-systems"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "NOTE_NAME",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 48,
+                "maxMidi": 77
+              },
+              "maxAccidentals": 0,
+              "presentation": "octave-name",
+              "includeOctave": true,
+              "sourceSystem": "helmholtz"
+            }
+          },
+          "count": 6
+        },
+        {
+          "spec": {
+            "type": "NOTE_NAME",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 48,
+                "maxMidi": 77
+              },
+              "maxAccidentals": 0,
+              "presentation": "octave-name",
+              "includeOctave": true,
+              "sourceSystem": "scientific"
+            }
+          },
+          "count": 6
+        }
+      ]
     }
   ],
   "knowledgeCards": [
@@ -4321,6 +4441,231 @@
           "captionKey": "content.historyOverviewStart.card9Example1"
         }
       ]
+    },
+    {
+      "contentVersion": 12,
+      "status": "entwurf",
+      "id": "notation.l2.clefs-registers.card-anchor",
+      "titleKey": "content.clefsStart.anchorTitle",
+      "bodyKey": "content.clefsStart.anchorBody",
+      "skillIds": ["notation.bass-natural"],
+      "examples": [
+        {
+          "score": "bass | 4/4 | F3/1",
+          "captionKey": "content.clefsStart.anchorExample1",
+          "keyboard": {
+            "first": 53,
+            "last": 55,
+            "showOctaves": true
+          }
+        },
+        {
+          "score": "bass | 4/4 | D3/2 F3/2",
+          "captionKey": "content.clefsStart.anchorExample2",
+          "keyboard": {
+            "first": 50,
+            "last": 53,
+            "showOctaves": true
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 12,
+      "status": "entwurf",
+      "id": "notation.l2.clefs-registers.card-ladder",
+      "titleKey": "content.clefsStart.ladderTitle",
+      "bodyKey": "content.clefsStart.ladderBody",
+      "skillIds": ["notation.bass-natural"],
+      "examples": [
+        {
+          "score": "bass | 4/4 | C3/4 D3/4 E3/4 F3/4 | G3/4 A3/4 B3/2",
+          "captionKey": "content.clefsStart.ladderExample1",
+          "keyboard": {
+            "first": 48,
+            "last": 59,
+            "showOctaves": true
+          }
+        },
+        {
+          "score": "bass | 4/4 | B3/4 A3/4 G3/4 F3/4",
+          "captionKey": "content.clefsStart.ladderExample2",
+          "keyboard": {
+            "first": 53,
+            "last": 59,
+            "showOctaves": true
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 12,
+      "status": "entwurf",
+      "id": "notation.l2.clefs-registers.card-middle",
+      "titleKey": "content.clefsStart.middleTitle",
+      "bodyKey": "content.clefsStart.middleBody",
+      "skillIds": ["notation.bass-natural"],
+      "examples": [
+        {
+          "score": "bass | 4/4 | B3/2 C4/2",
+          "captionKey": "content.clefsStart.middleExample1",
+          "keyboard": {
+            "first": 59,
+            "last": 61,
+            "showOctaves": true
+          }
+        },
+        {
+          "score": "bass | 4/4 | C3/2 C4/2",
+          "captionKey": "content.clefsStart.middleExample2",
+          "keyboard": {
+            "first": 48,
+            "last": 60,
+            "showOctaves": true
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 12,
+      "status": "entwurf",
+      "id": "notation.l2.clefs-registers.card-pair",
+      "titleKey": "content.clefsStart.pairTitle",
+      "bodyKey": "content.clefsStart.pairBody",
+      "skillIds": ["notation.grand-staff"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/1\nbass | 4/4 | r/1",
+          "captionKey": "content.clefsStart.pairExample1",
+          "keyboard": {
+            "first": 57,
+            "last": 64,
+            "showOctaves": true
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 12,
+      "status": "entwurf",
+      "id": "notation.l2.clefs-registers.card-shared",
+      "titleKey": "content.clefsStart.sharedTitle",
+      "bodyKey": "content.clefsStart.sharedBody",
+      "skillIds": ["notation.grand-staff"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/1\nbass | 4/4 | r/1",
+          "captionKey": "content.clefsStart.sharedExample1",
+          "keyboard": {
+            "first": 57,
+            "last": 64,
+            "showOctaves": true
+          }
+        },
+        {
+          "score": "treble | 4/4 | r/1\nbass | 4/4 | C4/1",
+          "captionKey": "content.clefsStart.sharedExample2",
+          "keyboard": {
+            "first": 57,
+            "last": 64,
+            "showOctaves": true
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 12,
+      "status": "entwurf",
+      "id": "notation.l2.clefs-registers.card-find",
+      "titleKey": "content.clefsStart.findTitle",
+      "bodyKey": "content.clefsStart.findBody",
+      "skillIds": ["notation.grand-staff"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | r/1\nbass | 4/4 | B3/1",
+          "captionKey": "content.clefsStart.findExample1",
+          "keyboard": {
+            "first": 57,
+            "last": 64,
+            "showOctaves": true
+          }
+        },
+        {
+          "score": "treble | 4/4 | E4/1\nbass | 4/4 | r/1",
+          "captionKey": "content.clefsStart.findExample2",
+          "keyboard": {
+            "first": 57,
+            "last": 64,
+            "showOctaves": true
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 12,
+      "status": "entwurf",
+      "id": "notation.l2.clefs-registers.card-helm",
+      "titleKey": "content.clefsStart.helmTitle",
+      "bodyKey": "content.clefsStart.helmBody",
+      "skillIds": ["notation.octave-systems"],
+      "examples": [
+        {
+          "score": "bass | 4/4 | C2/2 C3/2",
+          "captionKey": "content.clefsStart.helmExample1",
+          "keyboard": {
+            "first": 36,
+            "last": 48,
+            "showOctaves": true
+          }
+        },
+        {
+          "score": "treble | 4/4 | C4/2 C5/2",
+          "captionKey": "content.clefsStart.helmExample2",
+          "keyboard": {
+            "first": 60,
+            "last": 72,
+            "showOctaves": true
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 12,
+      "status": "entwurf",
+      "id": "notation.l2.clefs-registers.card-science",
+      "titleKey": "content.clefsStart.scienceTitle",
+      "bodyKey": "content.clefsStart.scienceBody",
+      "skillIds": ["notation.octave-systems"],
+      "examples": [
+        {
+          "score": "bass | 4/4 | B3/2 C4/2",
+          "captionKey": "content.clefsStart.scienceExample1",
+          "keyboard": {
+            "first": 59,
+            "last": 61,
+            "showOctaves": true
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 12,
+      "status": "entwurf",
+      "id": "notation.l2.clefs-registers.card-letters",
+      "titleKey": "content.clefsStart.lettersTitle",
+      "bodyKey": "content.clefsStart.lettersBody",
+      "skillIds": ["notation.octave-systems"],
+      "examples": [
+        {
+          "score": "bass | 4/4 | B3/1",
+          "captionKey": "content.clefsStart.lettersExample1",
+          "keyboard": {
+            "first": 59,
+            "last": 61,
+            "showOctaves": true
+          }
+        }
+      ]
     }
   ],
   "knowledgeArticles": [
@@ -5761,6 +6106,204 @@
           ]
         }
       ]
+    },
+    {
+      "contentVersion": 12,
+      "status": "entwurf",
+      "id": "notation.l2.clefs-registers.article",
+      "titleKey": "content.clefsStart.articleTitle",
+      "skillIds": ["notation.bass-natural", "notation.grand-staff", "notation.octave-systems"],
+      "sections": [
+        {
+          "headingKey": "content.clefsStart.anchorTitle",
+          "bodyKey": "content.clefsStart.anchorBody",
+          "examples": [
+            {
+              "score": "bass | 4/4 | F3/1",
+              "captionKey": "content.clefsStart.anchorExample1",
+              "keyboard": {
+                "first": 53,
+                "last": 55,
+                "showOctaves": true
+              }
+            },
+            {
+              "score": "bass | 4/4 | D3/2 F3/2",
+              "captionKey": "content.clefsStart.anchorExample2",
+              "keyboard": {
+                "first": 50,
+                "last": 53,
+                "showOctaves": true
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.clefsStart.ladderTitle",
+          "bodyKey": "content.clefsStart.ladderBody",
+          "examples": [
+            {
+              "score": "bass | 4/4 | C3/4 D3/4 E3/4 F3/4 | G3/4 A3/4 B3/2",
+              "captionKey": "content.clefsStart.ladderExample1",
+              "keyboard": {
+                "first": 48,
+                "last": 59,
+                "showOctaves": true
+              }
+            },
+            {
+              "score": "bass | 4/4 | B3/4 A3/4 G3/4 F3/4",
+              "captionKey": "content.clefsStart.ladderExample2",
+              "keyboard": {
+                "first": 53,
+                "last": 59,
+                "showOctaves": true
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.clefsStart.middleTitle",
+          "bodyKey": "content.clefsStart.middleBody",
+          "examples": [
+            {
+              "score": "bass | 4/4 | B3/2 C4/2",
+              "captionKey": "content.clefsStart.middleExample1",
+              "keyboard": {
+                "first": 59,
+                "last": 61,
+                "showOctaves": true
+              }
+            },
+            {
+              "score": "bass | 4/4 | C3/2 C4/2",
+              "captionKey": "content.clefsStart.middleExample2",
+              "keyboard": {
+                "first": 48,
+                "last": 60,
+                "showOctaves": true
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.clefsStart.pairTitle",
+          "bodyKey": "content.clefsStart.pairBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/1\nbass | 4/4 | r/1",
+              "captionKey": "content.clefsStart.pairExample1",
+              "keyboard": {
+                "first": 57,
+                "last": 64,
+                "showOctaves": true
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.clefsStart.sharedTitle",
+          "bodyKey": "content.clefsStart.sharedBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/1\nbass | 4/4 | r/1",
+              "captionKey": "content.clefsStart.sharedExample1",
+              "keyboard": {
+                "first": 57,
+                "last": 64,
+                "showOctaves": true
+              }
+            },
+            {
+              "score": "treble | 4/4 | r/1\nbass | 4/4 | C4/1",
+              "captionKey": "content.clefsStart.sharedExample2",
+              "keyboard": {
+                "first": 57,
+                "last": 64,
+                "showOctaves": true
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.clefsStart.findTitle",
+          "bodyKey": "content.clefsStart.findBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | r/1\nbass | 4/4 | B3/1",
+              "captionKey": "content.clefsStart.findExample1",
+              "keyboard": {
+                "first": 57,
+                "last": 64,
+                "showOctaves": true
+              }
+            },
+            {
+              "score": "treble | 4/4 | E4/1\nbass | 4/4 | r/1",
+              "captionKey": "content.clefsStart.findExample2",
+              "keyboard": {
+                "first": 57,
+                "last": 64,
+                "showOctaves": true
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.clefsStart.helmTitle",
+          "bodyKey": "content.clefsStart.helmBody",
+          "examples": [
+            {
+              "score": "bass | 4/4 | C2/2 C3/2",
+              "captionKey": "content.clefsStart.helmExample1",
+              "keyboard": {
+                "first": 36,
+                "last": 48,
+                "showOctaves": true
+              }
+            },
+            {
+              "score": "treble | 4/4 | C4/2 C5/2",
+              "captionKey": "content.clefsStart.helmExample2",
+              "keyboard": {
+                "first": 60,
+                "last": 72,
+                "showOctaves": true
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.clefsStart.scienceTitle",
+          "bodyKey": "content.clefsStart.scienceBody",
+          "examples": [
+            {
+              "score": "bass | 4/4 | B3/2 C4/2",
+              "captionKey": "content.clefsStart.scienceExample1",
+              "keyboard": {
+                "first": 59,
+                "last": 61,
+                "showOctaves": true
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.clefsStart.lettersTitle",
+          "bodyKey": "content.clefsStart.lettersBody",
+          "examples": [
+            {
+              "score": "bass | 4/4 | B3/1",
+              "captionKey": "content.clefsStart.lettersExample1",
+              "keyboard": {
+                "first": 59,
+                "last": 61,
+                "showOctaves": true
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "lessons": [
@@ -6267,6 +6810,48 @@
         "history.l1.overview.card-uncertain"
       ],
       "exerciseSetIds": ["history.l1.overview.observation.exercises"]
+    },
+    {
+      "contentVersion": 12,
+      "status": "entwurf",
+      "id": "notation.l2.clefs-registers.bass",
+      "titleKey": "content.clefsStart.bassLesson",
+      "unitId": "notation.l2.clefs-registers",
+      "skillIds": ["notation.bass-natural"],
+      "introductionCardIds": [
+        "notation.l2.clefs-registers.card-anchor",
+        "notation.l2.clefs-registers.card-ladder",
+        "notation.l2.clefs-registers.card-middle"
+      ],
+      "exerciseSetIds": ["notation.l2.clefs-registers.bass.exercises"]
+    },
+    {
+      "contentVersion": 12,
+      "status": "entwurf",
+      "id": "notation.l2.clefs-registers.grand",
+      "titleKey": "content.clefsStart.grandLesson",
+      "unitId": "notation.l2.clefs-registers",
+      "skillIds": ["notation.bass-natural", "notation.grand-staff"],
+      "introductionCardIds": [
+        "notation.l2.clefs-registers.card-pair",
+        "notation.l2.clefs-registers.card-shared",
+        "notation.l2.clefs-registers.card-find"
+      ],
+      "exerciseSetIds": ["notation.l2.clefs-registers.grand.exercises"]
+    },
+    {
+      "contentVersion": 12,
+      "status": "entwurf",
+      "id": "notation.l2.clefs-registers.names",
+      "titleKey": "content.clefsStart.namesLesson",
+      "unitId": "notation.l2.clefs-registers",
+      "skillIds": ["notation.octave-systems"],
+      "introductionCardIds": [
+        "notation.l2.clefs-registers.card-helm",
+        "notation.l2.clefs-registers.card-science",
+        "notation.l2.clefs-registers.card-letters"
+      ],
+      "exerciseSetIds": ["notation.l2.clefs-registers.names.exercises"]
     }
   ]
 }

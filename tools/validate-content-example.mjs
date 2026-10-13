@@ -1,4 +1,5 @@
 import {
+  grandStaffTarget,
   keyboardMidi,
   parseScore,
   scoreTimeline,
@@ -11,6 +12,7 @@ export function validateContentExample(source, keyboard, pulse) {
   const score = parseScore(source);
   if (validateScore(score).length > 0)
     throw new Error('Notenbeispiel ist rhythmisch oder strukturell ungültig');
+  if (score.staves.length === 2) grandStaffTarget(score);
   if (pulse) pulseExample(score, pulse.bpm);
   if (
     keyboard &&

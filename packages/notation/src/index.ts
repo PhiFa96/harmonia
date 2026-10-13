@@ -9,6 +9,8 @@ export * from './describe.ts';
 export * from './input.ts';
 export * from './highlight.ts';
 export * from './keyboard.ts';
+export * from './grand-staff.ts';
 export { ENGRAVING_DEFAULTS, FONT } from './smufl-data.ts';
 
 export * from './duration-symbol.ts';
+export * from './grand-staff.ts';

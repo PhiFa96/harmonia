@@ -31,10 +31,14 @@ describe('Glossar: Form der Einträge', () => {
   it('deutsche Substantive groß, englische Begriffe in Grundform klein', () => {
     for (const [id, entry] of entries) {
       // Ausnahme: das Versetzungszeichen „b“ (Duden: das b)
-      if (id !== 'flat') {
+      if (id === 'grandStaff' || id === 'scientificNotation') {
+        // Adjektive bleiben klein; das folgende Substantiv wird großgeschrieben.
+        expect(entry.de.term.split(' ')[1]?.[0], id).toMatch(/\p{Lu}/u);
+      } else if (id !== 'flat') {
         expect(entry.de.term[0], id).toMatch(/\p{Lu}/u);
       }
       if (id === 'beatsPerMinute') expect(entry.en.term).toBe('BPM (beats per minute)');
+      else if (id === 'helmholtzNotation') expect(entry.en.term).toBe('Helmholtz pitch notation');
       else if (
         ['medieval', 'renaissance', 'baroque', 'classicalPeriod', 'romanticPeriod'].includes(id)
       ) {
@@ -141,6 +145,7 @@ describe('Glossar als i18next-Namensraum', () => {
     const { notes, rests, ...terms } = glossaryResource('en-GB');
     const ids = new Set(Object.keys(terms).map((k) => k.replace(/_(one|other)$/, '')));
     expect([...ids].sort()).toEqual([
+      'grandStaff',
       'measure',
       'meter',
       'pickup',

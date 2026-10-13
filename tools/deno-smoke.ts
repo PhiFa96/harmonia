@@ -31,10 +31,11 @@ import {
   measureGapFact,
   knowledgeFactId,
   rhythmOnsets,
+  octaveName,
 } from '../packages/exercises/src/index.ts';
 import { firstLesson, catalogue, curriculumPlan } from '../packages/content/src/authoring.ts';
 import { publicCatalogue, resolveLesson, curriculumSkills } from '../packages/content/src/index.ts';
-import { parseScore, scoreTimeline } from '../packages/notation/src/index.ts';
+import { parseScore, scoreTimeline, layoutGrandStaff } from '../packages/notation/src/index.ts';
 
 import {
   buildScale,
@@ -79,19 +80,19 @@ const exercise = generateExercise(
   exerciseRng('deno-exercises'),
 );
 const plannedSkills = curriculumSkills(catalogue, curriculumPlan);
-check('Stufe 1 mit 37 internen Lektionen', catalogue.lessons.length, 37);
-let firstLevelTasks = 0;
+check('40 interne Lektionen in Stufe 1 und 2', catalogue.lessons.length, 40);
+let internalTasks = 0;
 for (const record of catalogue.lessons) {
   const lesson = resolveLesson(catalogue, record.id);
   if (!lesson) throw new Error('Lektion fehlt');
-  let state = createLessonSession(lesson, 'deno-level-one-complete');
+  let state = createLessonSession(lesson, 'deno-all-lessons');
   for (const item of state.initial.items)
     state = nextLessonExercise(answerLesson(state, expectedAnswer(item)));
   if (state.phase !== 'complete' || lessonSummary(state).correct !== lesson.exercises.length)
-    throw new Error('Stufe-1-Durchgang fehlerhaft');
-  firstLevelTasks += lesson.exercises.length;
+    throw new Error('Interner Lektionsdurchgang fehlerhaft');
+  internalTasks += lesson.exercises.length;
 }
-check('Alle 370 Stufe-1-Aufgaben unter Deno durchspielbar', firstLevelTasks, 370);
+check('Alle 400 internen Aufgaben unter Deno durchspielbar', internalTasks, 400);
 check(
   'Alle sechs Hörfrageformen unter Deno bewertbar',
   LISTENING_QUESTIONS.every((question) => {
@@ -185,6 +186,35 @@ check(
     .join(','),
   '8,10,12',
 );
+const grand = generateKeyFind({ presentation: 'grand-staff' }, exerciseRng('deno-grand'));
+check(
+  'Großes Lernsystem hat zehn Linien unter Deno',
+  layoutGrandStaff(grand.score).items.filter((i) => i.kind === 'line' && i.role === 'staffLine')
+    .length,
+  10,
+);
+check(
+  'Großes Lernsystem spielt nur einen Zielton',
+  scoreTimeline(grand.score, { bpm: 90 }).tones.length,
+  1,
+);
+const namedOctave = {
+  ...generateNote(
+    {
+      presentation: 'octave-name',
+      sourceSystem: 'scientific',
+      range: { minMidi: 48, maxMidi: 77 },
+    },
+    exerciseRng('deno-octave'),
+  ),
+  score: parseScore('treble | 4/4 | B3/1'),
+};
+check(
+  'Internationales B3 als deutsche Helmholtz-Antwort',
+  octaveName(namedOctave, 'de', false),
+  'h',
+);
+check('Oktavnamenslösung folgt der Quelle unter Deno', expectedAnswer(namedOctave), 'B3');
 const pulse = pulseExample(parseScore('treble | 3/4 | G4/4 G4/4 G4/4'), 90);
 check(
   'Pulsbeispiel mit unabhängigen Millisekunden unter Deno',

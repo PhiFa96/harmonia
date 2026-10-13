@@ -34,6 +34,23 @@ export const de = {
     wrongTitle: 'Noch nicht ganz',
   },
   exercise: {
+    question_octaveName: 'Welche {{system}} entspricht {{name}}?',
+    scientificSystem: '$t(glossary:scientificNotation)',
+    helmholtzSystem: '$t(glossary:helmholtzNotation)',
+    question_grandStaff:
+      'Welche Taste gehört zum einzigen notierten Ton? Gezeigt ist ein $t(glossary:grandStaff_one).',
+    octaveNameExplanation:
+      '{{source}} und {{answer}} bezeichnen dieselbe Tonhöhe. Die wissenschaftliche Oktavnummer {{octave}} beginnt bei C und gilt bis zum folgenden B (deutsch H). Groß-/Kleinschreibung und Hochzahlen geben bei Helmholtz die Lage an.',
+    octaveNameHint1:
+      'Lies zuerst die Lage: c = C3, c¹ = C4, c² = C5. Jeder neue Abschnitt beginnt bei C.',
+    octaveNameHint2:
+      'Die Zahl gilt für alle sieben Stammtöne der Lage: h = B3 und h¹ = B4. Internationales B ist deutsches H.',
+    grandStaffHint1:
+      'Suche das System mit der Note. Oben gilt der $t(glossary:trebleClef_one), unten der $t(glossary:bassClef_one).',
+    grandStaffHint2:
+      'c¹/C4 steht oben auf der ersten $t(glossary:ledgerLine_one) unter dem System und unten auf der ersten darüber. Beide Schreibweisen gehören zu derselben Taste.',
+    grandStaffDescription:
+      'Großes System: oben Violinschlüssel, unten Bassschlüssel. {{description}} Das System im {{silent}} enthält eine ganze Pause.',
     type_LISTENING_CHOICE: 'Hören und vergleichen',
     question_listening_pulse:
       'Höre die zwei gleichmäßigen Pulsgruppen. Wie viele Schläge gehören jeweils zu einer Gruppe? Zähle den höheren Startklang als 1; der nächste Start gehört zur nächsten Gruppe.',
@@ -818,6 +835,7 @@ export const de = {
       'Klavierklang: Salamander Grand Piano von Alexander Holm, CC BY 3.0 (creativecommons.org/licenses/by/3.0). Bearbeitet: Auswahl, gekürzt, Mono, Stimmung ausgeglichen.',
   },
   gallery: {
+    grandStaff: '$t(glossary:grandStaff_one): Lernbild',
     durationSymbols: 'Notenwerte und Pausen',
     keyboardExample: '$t(glossary:keyboard_one): Lernbeispiel',
     pulseExample: '$t(glossary:pulse): Zählgruppen',

@@ -63,17 +63,24 @@ describe('Vollständige interne Stufe 1', () => {
         ).toBe(true);
       }
     }
-    expect(catalogue.lessons).toHaveLength(37);
+    const firstUnitIds = new Set(firstUnits.map((u) => u.id));
+    const firstLessons = catalogue.lessons.filter((l) => firstUnitIds.has(l.unitId));
+    const firstSkills = new Set(firstLessons.flatMap((l) => l.skillIds));
+    expect(firstLessons).toHaveLength(37);
     expect(
-      catalogue.lessons.reduce(
+      firstLessons.reduce(
         (n, l) => n + required(resolveLesson(catalogue, l.id)).exercises.length,
         0,
       ),
     ).toBe(370);
-    expect(catalogue.knowledgeCards).toHaveLength(106);
-    expect(catalogue.knowledgeArticles).toHaveLength(13);
-    expect(catalogue.contentVersion).toBe(11);
-    expect(curriculumPlan.contentVersion).toBe(11);
+    expect(
+      catalogue.knowledgeCards.filter((c) => c.skillIds.some((id) => firstSkills.has(id))),
+    ).toHaveLength(106);
+    expect(
+      catalogue.knowledgeArticles.filter((a) => a.skillIds.some((id) => firstSkills.has(id))),
+    ).toHaveLength(13);
+    expect(catalogue.contentVersion).toBe(12);
+    expect(curriculumPlan.contentVersion).toBe(12);
     expect(publicCatalogue(catalogue)).toMatchObject({
       lessons: [],
       knowledgeCards: [],

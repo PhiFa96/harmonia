@@ -46,10 +46,12 @@ export interface NoteParams {
 export interface NoteNameParams extends NoteParams {
   /** Vollständige Tonhöhen statt allein Stammton und Vorzeichen. Standard: false. */
   readonly includeOctave?: boolean;
+  readonly presentation?: 'octave-name';
+  readonly sourceSystem?: 'helmholtz' | 'scientific' | 'both';
 }
 export interface KeyFindParams extends NoteParams {
   /** Namen innerhalb eines festen Ausschnitts; Notenbild bleibt der bisherige Standard. */
-  readonly presentation?: 'notation' | 'name' | 'score';
+  readonly presentation?: 'notation' | 'name' | 'score' | 'grand-staff';
 }
 export interface VisualIntervalParams extends NoteParams {
   /** Positive Kurzschreibweise, z. B. m3/M3/P5; Richtung separat. */
@@ -242,6 +244,8 @@ export interface NoteItem extends ItemBase {
   readonly type: 'NOTE_NAME';
   readonly pitch: Pitch;
   readonly includeOctave?: true;
+  readonly presentation?: 'octave-name';
+  readonly sourceSystem?: 'helmholtz' | 'scientific';
 }
 export interface IntervalItem extends ItemBase {
   readonly type: 'INTERVAL_IDENTIFY_VISUAL' | 'INTERVAL_IDENTIFY_AURAL';
@@ -258,7 +262,7 @@ export interface NotePlaceItem extends ItemBase {
 export interface KeyFindItem extends ItemBase {
   readonly type: 'KEY_FIND';
   readonly pitch: Pitch;
-  readonly presentation?: 'name' | 'score';
+  readonly presentation?: 'name' | 'score' | 'grand-staff';
   readonly keyboardRange?: KeyboardRange;
 }
 export interface IntervalBuildItem extends ItemBase {

@@ -178,3 +178,5 @@ export const keySignatureIdentifyExercise: ExerciseDefinition<
   feedback: exerciseFeedback,
   hints: exerciseHints,
 };
+
+export { octaveName, octaveNamePitch } from './octave-names.ts';

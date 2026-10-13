@@ -231,6 +231,24 @@ export const GLOSSARY = {
     en: { term: 'treble clef', plural: 'treble clefs' },
     note: 'Auch G-Schlüssel / G clef.',
   },
+  grandStaff: {
+    category: 'notation',
+    de: { term: 'großes Notensystem', gender: 'n', plural: 'große Notensysteme' },
+    en: { term: 'grand staff', plural: 'grand staves' },
+    enGB: { term: 'grand stave', plural: 'grand staves' },
+    note: 'Verbundenes Violin- und Basssystem; beide Schlüssel teilen sich das mittlere C.',
+  },
+  helmholtzNotation: {
+    category: 'pitch',
+    de: { term: 'Helmholtz-Oktavbezeichnung', gender: 'f' },
+    en: { term: 'Helmholtz pitch notation' },
+  },
+  scientificNotation: {
+    category: 'pitch',
+    de: { term: 'wissenschaftliche Oktavbezeichnung', gender: 'f' },
+    en: { term: 'scientific pitch notation' },
+    note: 'Internationale Buchstaben C–B; Oktavnummer wechselt bei C, mittleres C = C4.',
+  },
   bassClef: {
     category: 'notation',
     de: { term: 'Bassschlüssel', gender: 'm', plural: 'Bassschlüssel' },

@@ -1,4 +1,12 @@
-import { MAX_STEP, MIN_STEP, note, rest, singleStaffScore, stepOf } from '@harmonia/notation';
+import {
+  MAX_STEP,
+  MIN_STEP,
+  note,
+  rest,
+  singleStaffScore,
+  stepOf,
+  grandStaffExample,
+} from '@harmonia/notation';
 import type { Interval, Pitch, Rng } from '@harmonia/theory';
 import {
   LETTERS,
@@ -62,6 +70,31 @@ function choosePitch(params: NoteParams, rng: Rng, editable = false, naturalInRa
   return { clef: pool.clef, pitch, limit };
 }
 export function generateNote(params: NoteNameParams, rng: Rng): NoteItem {
+  if (![undefined, 'octave-name'].includes(params.presentation))
+    throw new RangeError('Unbekannte Oktavnamens-Vorgabe');
+  if (
+    params.sourceSystem !== undefined &&
+    (!params.presentation || !['helmholtz', 'scientific', 'both'].includes(params.sourceSystem))
+  )
+    throw new RangeError('Ungültiges Quellsystem');
+  if (params.presentation === 'octave-name') {
+    if (params.includeOctave === false || (params.maxAccidentals ?? 0) !== 0)
+      throw new RangeError('Oktavnamen brauchen vollständige natürliche Tonhöhen');
+    const item = generateNote(
+      {
+        ...(params.clefs ? { clefs: params.clefs } : {}),
+        ...(params.range ? { range: params.range } : {}),
+        ...(params.maxAccidentals === undefined ? {} : { maxAccidentals: params.maxAccidentals }),
+        includeOctave: true,
+      },
+      rng,
+    );
+    const sourceSystem =
+      params.sourceSystem === undefined || params.sourceSystem === 'both'
+        ? rng.pick(['helmholtz', 'scientific'] as const)
+        : params.sourceSystem;
+    return { ...item, presentation: 'octave-name', sourceSystem };
+  }
   if (![undefined, true, false].includes(params.includeOctave))
     throw new RangeError('Ungültige Oktav-Antwortvorgabe');
   const { clef, pitch, limit } = choosePitch(params, rng);
@@ -145,6 +178,24 @@ export function generateNotePlace(params: NoteParams, rng: Rng): NotePlaceItem {
   };
 }
 export function generateKeyFind(params: KeyFindParams, rng: Rng): KeyFindItem {
+  if (params.presentation === 'grand-staff') {
+    if ((params.maxAccidentals ?? 0) !== 0)
+      throw new RangeError('Der Einstieg ins große System verwendet natürliche Töne');
+    const range = params.range ?? { minMidi: 57, maxMidi: 64 };
+    if (range.minMidi < 57 || range.maxMidi > 64)
+      throw new RangeError('Großes Lernsystem: A3 bis E4');
+    const { clef, pitch } = choosePitch({ ...params, range }, rng);
+    const score = grandStaffExample(pitch, clef);
+    return {
+      type: 'KEY_FIND',
+      clef,
+      pitch,
+      score,
+      choices: [],
+      presentation: 'grand-staff',
+      keyboardRange: { first: range.minMidi, last: range.maxMidi },
+    };
+  }
   if (!['notation', 'name', 'score'].includes(params.presentation ?? 'notation'))
     throw new RangeError('Unbekannte Tasten-Vorgabe');
   const named = params.presentation === 'name',

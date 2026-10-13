@@ -1,3 +1,4 @@
+import { octaveNamePitch } from './octave-names.ts';
 import { listeningAnswer } from './listening.ts';
 import { equals, intervalBetween, keySignature } from '@harmonia/theory';
 import {
@@ -79,10 +80,12 @@ export function expectedAnswer(item: ExerciseItem): string {
       ? signatureAnswerId(keySignature(item.key))
       : tonalityAnswerId(signatureKey(item));
   if (isPitchInput(item))
-    return item.type === 'KEY_FIND' ? keyAnswerId(item.pitch) : pitchAnswerId(inputTarget(item));
+    return item.type === 'KEY_FIND'
+      ? keyAnswerId(inputTarget(item))
+      : pitchAnswerId(inputTarget(item));
   return item.type === 'NOTE_NAME'
     ? item.includeOctave
-      ? pitchAnswerId(item.pitch)
+      ? pitchAnswerId(item.presentation === 'octave-name' ? octaveNamePitch(item) : item.pitch)
       : noteAnswerId(item.pitch)
     : intervalAnswerId(intervalBetween(item.from, item.to));
 }
