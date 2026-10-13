@@ -7,7 +7,7 @@ catalog:
   '@eslint/js': ^10.0.1
   # App (Expo SDK 57): Versionen wie von `expo install` für SDK 57 vorgegeben
   '@types/react': ~19.2.2
-  expo: ~57.0.26
+  expo: ~57.0.27
   react: 19.2.3
   react-dom: 19.2.3
   react-native: 0.86.3
@@ -15,7 +15,7 @@ catalog:
   react-native-reanimated: 4.5.1
   react-native-safe-area-context: ~5.7.0
   expo-haptics: ~57.0.3
-  react-native-web: ~0.21.0
+  react-native-web: ~0.21.4
   # Notenfont Bravura (SIL OFL 1.1) mit SMuFL-Metadaten
   '@vexflow-fonts/bravura': 1.0.2
   eslint: ^10.12.0
