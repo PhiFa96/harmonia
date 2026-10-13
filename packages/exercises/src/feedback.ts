@@ -1,3 +1,10 @@
+import type { ContextItem } from './context.ts';
+import {
+  contextPrompt,
+  contextChoiceLabel,
+  contextExplanation,
+  contextHint,
+} from './context-text.ts';
 import type { AppLocale, Messages } from '@harmonia/i18n';
 import { createI18n, engineLanguage } from '@harmonia/i18n';
 import type { NoteName, Pitch } from '@harmonia/theory';
@@ -131,10 +138,32 @@ export function pitchInputLabel(pitch: Pitch, locale: AppLocale): string {
   return noteName(pitch, locale);
 }
 export function choiceLabel(item: ExerciseItem, answer: string, locale: AppLocale): string {
+  if (item.type === 'CONTEXT_CHOICE') return contextChoiceLabel(item, answer, locale);
   if (item.type === 'LISTENING_CHOICE') {
     if (!item.choices.includes(answer)) return translate(locale, 'exercise.unknownAnswer');
     if (answer.startsWith('listening:option:'))
-      return translate(locale, 'exercise.listeningOption', { count: Number(answer.split(':')[2]) });
+      return translate(
+        locale,
+        item.question === 'rhythm-completion'
+          ? 'exercise.listeningCell'
+          : 'exercise.listeningOption',
+        { count: Number(answer.split(':')[2]) },
+      );
+    if (answer.startsWith('listening:subdivision:'))
+      return translate(locale, 'exercise.listeningSubdivision', {
+        count: Number(answer.split(':')[2]),
+      });
+    if (answer.startsWith('listening:position:'))
+      return translate(locale, 'exercise.listeningPosition', {
+        count: Number(answer.split(':')[2]),
+      });
+    if (answer.startsWith('listening:scale:'))
+      return translate(
+        locale,
+        answer.endsWith('naturalMinor')
+          ? 'exercise.listeningMinorScale'
+          : 'exercise.listeningMajorScale',
+      );
     if (answer.startsWith('listening:pulse:'))
       return translate(locale, 'exercise.listeningPulseCount', {
         count: Number(answer.split(':')[2]),
@@ -242,6 +271,7 @@ export function choiceLabel(item: ExerciseItem, answer: string, locale: AppLocal
   return noteName(pitch, locale, false);
 }
 export function exercisePrompt(item: ExerciseItem, locale: AppLocale): string {
+  if (item.type === 'CONTEXT_CHOICE') return contextPrompt(item, locale);
   if (item.type === 'NOTE_NAME' && item.presentation === 'octave-name')
     return translate(locale, 'exercise.question_octaveName', {
       name: octaveName(item, locale),
@@ -278,6 +308,12 @@ export function exercisePrompt(item: ExerciseItem, locale: AppLocale): string {
           : `exercise.question_${item.type}`,
       rhythmValues(item, locale),
     );
+  if (isChordItem(item) && item.diatonic)
+    return translate(locale, 'exercise.question_CHORD_DIATONIC', {
+      key: keyName(item.diatonic.key, engineLanguage(locale)),
+      degree: item.diatonic.degree,
+      bass: noteName(item.bass, locale),
+    });
   if (isChordItem(item))
     return translate(
       locale,
@@ -331,7 +367,9 @@ export function exercisePrompt(item: ExerciseItem, locale: AppLocale): string {
         : {},
   );
 }
-function reference(item: Exclude<ExerciseItem, KnowledgeExerciseItem | ListeningItem>) {
+function reference(
+  item: Exclude<ExerciseItem, KnowledgeExerciseItem | ListeningItem | ContextItem>,
+) {
   return item.clef === 'treble'
     ? { pitch: { letter: 'G', alter: 0, octave: 4 } as const, line: 2 }
     : { pitch: { letter: 'F', alter: 0, octave: 3 } as const, line: 4 };
@@ -364,7 +402,8 @@ export function exerciseFeedback(
   locale: AppLocale,
 ): ExerciseFeedback {
   let message: string;
-  if (item.type === 'NOTE_NAME' && item.presentation === 'octave-name') {
+  if (item.type === 'CONTEXT_CHOICE') message = contextExplanation(item, locale);
+  else if (item.type === 'NOTE_NAME' && item.presentation === 'octave-name') {
     const pitch = octaveNamePitch(item);
     message = translate(locale, 'exercise.octaveNameExplanation', {
       source: octaveName(item, locale),
@@ -494,6 +533,7 @@ export function exerciseFeedback(
 }
 /** Sprachneutraler Hinweis; erst die Oberfläche wählt die Sprache. Level 3 ist die erklärte Lösung. */
 export function exerciseHints(item: ExerciseItem, level: 1 | 2 | 3): ExerciseHint {
+  if (item.type === 'CONTEXT_CHOICE') return { level, key: 'solution', values: {} };
   if (level === 3) return { level, key: 'solution', values: {} };
   if (item.type === 'LISTENING_CHOICE')
     return {
@@ -621,6 +661,10 @@ export function exerciseHints(item: ExerciseItem, level: 1 | 2 | 3): ExerciseHin
   };
 }
 export function hintText(item: ExerciseItem, hint: ExerciseHint, locale: AppLocale): string {
+  if (item.type === 'CONTEXT_CHOICE')
+    return hint.level === 3
+      ? contextExplanation(item, locale)
+      : contextHint(item, hint.level, locale);
   if (hint.level === 3)
     return exerciseFeedback(
       item,
@@ -636,6 +680,7 @@ export function hintText(item: ExerciseItem, hint: ExerciseHint, locale: AppLoca
   if (isIntervalReadingItem(item)) return translate(locale, hint.key, hint.values);
   if (isKnowledgeItem(item)) return translate(locale, hint.key, knowledgeValues(item, locale));
   if (isRhythmItem(item)) return translate(locale, hint.key, rhythmValues(item, locale));
+
   if (isChordItem(item))
     return translate(
       locale,
@@ -705,6 +750,7 @@ function alterationText(pitch: Pitch, locale: AppLocale): string {
 
 /** Positionen statt Tonnamen: Vor dem Prüfen darf der Screenreader die Lösung nicht vorwegnehmen. */
 export function exerciseDescription(item: ExerciseItem, locale: AppLocale): string {
+  if (item.type === 'CONTEXT_CHOICE') return contextPrompt(item, locale);
   if (item.type === 'LISTENING_CHOICE') return exercisePrompt(item, locale);
   if (item.type === 'KNOWLEDGE_MC' && item.presentation === 'symbol' && 'duration' in item.fact)
     return durationSymbolDescription(

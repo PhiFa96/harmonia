@@ -1,3 +1,4 @@
+import { contextAnswer } from './context.ts';
 import { octaveNamePitch } from './octave-names.ts';
 import { listeningAnswer } from './listening.ts';
 import { equals, intervalBetween, keySignature } from '@harmonia/theory';
@@ -55,6 +56,7 @@ import { isIntervalReadingItem, intervalReadingAnswer } from './interval-reading
 
 /** Die Engine berechnet die Lösung aus den Fachdaten, nie aus dem sichtbaren Antworttext. */
 export function expectedAnswer(item: ExerciseItem): string {
+  if (item.type === 'CONTEXT_CHOICE') return contextAnswer(item);
   if (item.type === 'LISTENING_CHOICE') return listeningAnswer(item);
   if (isIntervalReadingItem(item)) return intervalReadingAnswer(item);
   if (item.type === 'KNOWLEDGE_MC')

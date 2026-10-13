@@ -228,9 +228,9 @@ describe('Schreiben', () => {
     expect(() => formatScore(score)).toThrow(RangeError);
   });
 
-  it('N-tolen kennt die Kurzschreibweise noch nicht', () => {
+  it('andere N-tolen als Achteltriolen bleiben außerhalb der Kurzschreibweise', () => {
     const score = singleStaffScore([
-      [note(parseNoteNamePitch('C', 4), duration('eighth', 0, TRIPLET))],
+      [note(parseNoteNamePitch('C', 4), duration('quarter', 0, TRIPLET))],
     ]);
     expect(() => formatScore(score)).toThrow(RangeError);
   });

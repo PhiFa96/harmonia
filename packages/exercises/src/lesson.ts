@@ -1,3 +1,4 @@
+import { contextAnswer, contextVariantKey } from './context.ts';
 import { inputTarget } from './pitch-input.ts';
 import { octaveNamePitch } from './octave-names.ts';
 import { listeningVariantKey, listeningAnswer } from './listening.ts';
@@ -67,6 +68,7 @@ export function revealLessonHint(lesson: LessonSession): LessonSession {
 }
 /** Das Musikbeispiel muss sich ändern; bloßes Mischen der Antworten ist keine neue Variante. */
 export function itemVariantKey(item: ExerciseItem): string {
+  if (item.type === 'CONTEXT_CHOICE') return contextVariantKey(item);
   if (item.type === 'LISTENING_CHOICE') return listeningVariantKey(item);
   if (isIntervalReadingItem(item))
     return JSON.stringify([item.type, item.question, intervalReadingAnswer(item)]);
@@ -130,6 +132,10 @@ function newVariant(lesson: LessonSession, index: number): ExerciseItem {
     const item = generateExercise(spec, rng);
     if (
       itemVariantKey(item) !== itemVariantKey(original) &&
+      (item.type !== 'CONTEXT_CHOICE' ||
+        original.type !== 'CONTEXT_CHOICE' ||
+        ['scale-pattern', 'triplet-duration'].includes(item.topic) ||
+        contextAnswer(item) !== contextAnswer(original)) &&
       (item.type !== 'LISTENING_CHOICE' ||
         original.type !== 'LISTENING_CHOICE' ||
         listeningAnswer(item) !== listeningAnswer(original))

@@ -56,7 +56,8 @@ export type LayoutItem =
         | 'accidental'
         | 'rest'
         | 'flag'
-        | 'dot';
+        | 'dot'
+        | 'tuplet';
       readonly ref?: EventRef;
     }
   | {
@@ -97,6 +98,8 @@ export interface ScoreLayout {
 }
 
 export interface LayoutOptions {
+  /** Taktangabe bei ausdrücklich beschrifteten Rhythmusbausteinen ausblenden; Standard true. */
+  readonly showTimeSignature?: boolean;
   /** Platz für eine Viertel in Notenlinienabständen. Standard: 3,5. */
   readonly quarterSpace?: number;
   /** Abschluss: einfacher Taktstrich (Standard), Schlussstrich oder keiner. */
@@ -133,7 +136,9 @@ export function layoutScore(score: Score, options: LayoutOptions = {}): ScoreLay
   let x = 0.5;
   x = layoutClef(staff.clef, x, items) + 1;
   x = layoutKeySignature(staff, x, items);
-  x = layoutTimeSignature(staff.timeSignature, x, items) + HEADER_GAP;
+  x =
+    (options.showTimeSignature === false ? x : layoutTimeSignature(staff.timeSignature, x, items)) +
+    HEADER_GAP;
 
   const events = prepareEvents(score, staff);
   const placed = new Map<string, PlacedEvent>();
@@ -166,6 +171,7 @@ export function layoutScore(score: Score, options: LayoutOptions = {}): ScoreLay
   });
 
   layoutBeams(events, items);
+  layoutTriplets(events, items);
   layoutTies(score, placed, items);
 
   const end = options.endBarline ?? 'single';
@@ -189,6 +195,50 @@ export function layoutScore(score: Score, options: LayoutOptions = {}): ScoreLay
   };
 }
 
+/** Bewusst begrenzt auf vollständige, zusammenhängende Achteltriolen innerhalb einer Viertel. */
+function layoutTriplets(events: readonly PlacedEvent[], items: LayoutItem[]) {
+  for (let index = 0; index < events.length; index++) {
+    const first = events[index];
+    if (!first?.event.duration.tuplet) continue;
+    const group = events.slice(index, index + 3);
+    if (
+      group.length !== 3 ||
+      !Number.isInteger(fractionToNumber(first.onset) * 4) ||
+      group.some(
+        (e) =>
+          e.measure !== first.measure ||
+          e.event.kind !== 'note' ||
+          e.event.duration.value !== 'eighth' ||
+          e.event.duration.dots !== 0 ||
+          e.event.duration.tuplet?.actual !== 3 ||
+          e.event.duration.tuplet.normal !== 2,
+      )
+    )
+      throw new RangeError(
+        'Layout unterstützt nur vollständige unpunktierte 3:2-Achteltriolen ohne Pausen',
+      );
+    const last = group[2];
+    if (
+      !last ||
+      !fractionEquals(durationValue(first.event.duration), durationValue(last.event.duration))
+    )
+      throw new RangeError('Ungültige Triole');
+    const down = first.stem === 'down';
+    const y = down
+      ? Math.max(...group.map((e) => e.stemTip ?? 4)) + 1.5
+      : Math.min(...group.map((e) => e.stemTip ?? 0)) - 0.8;
+    items.push(
+      glyph(
+        'tuplet3',
+        (first.x + last.x) / 2 -
+          (glyphMetrics('tuplet3').bBoxNE[0] + glyphMetrics('tuplet3').bBoxSW[0]) / 2,
+        y,
+        'tuplet',
+      ),
+    );
+    index += 2;
+  }
+}
 /** Auf Tausendstel eines Abstands runden: stabile, lesbare Daten (ein Tausendstel ist weit unter einem Pixel). */
 function round(value: number): number {
   return Math.round(value * 1000) / 1000 || 0;

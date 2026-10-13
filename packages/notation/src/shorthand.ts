@@ -8,7 +8,7 @@
 // - Note: Tonhöhe + Dauer, z. B. C4/4, F#5/8., Bb3/2.. – Dauer 1, 2, 4 … 64 oder breve, Punkte mit "."
 // - Pause: r/4 · Akkord: (C4 E4 G4)/2 · Haltebogen: "~" hinter Note oder Akkordton, (C4 E4)/2~ bindet alle Töne
 // - Mehrere Stimmen in einem Takt mit "&" trennen, mehrere Systeme in eigenen Zeilen (ab Phase 3)
-// N-tolen kennt die Kurzschreibweise noch nicht (Darstellung ab Phase 3).
+// Unpunktierte Achteltriolen: /8{3:2}; weitere N-tolen bleiben Phase 3.
 
 import type { Duration, Key, NoteValue, Pitch, TimeSignature } from '@harmonia/theory';
 import {
@@ -209,7 +209,7 @@ function parseEvents(text: string, where: string): VoiceEvent[] {
   return tokens.map((token) => parseEvent(token, where));
 }
 
-const DURATION_PATTERN = /^\/(breve|\d+)(\.*)(~?)$/;
+const DURATION_PATTERN = /^\/(breve|\d+)(\.*)(?:\{(3):(2)\})?(~?)$/;
 
 function parseEvent(token: string, where: string): VoiceEvent {
   const fail = (reason: string): never => {
@@ -224,12 +224,23 @@ function parseEvent(token: string, where: string): VoiceEvent {
   if (!match) {
     return fail('ungültige Dauer');
   }
-  const [, valueText = '', dots = '', tie = ''] = match;
+  const [, valueText = '', dots = '', actual, normal, tie = ''] = match;
   const value = VALUE_BY_TEXT[valueText];
   if (value === undefined) {
     return fail(`unbekannter Notenwert /${valueText}`);
   }
-  const d = withSyntaxError(() => makeDuration(value, dots.length), where, token);
+  if (actual && (value !== 'eighth' || dots.length !== 0))
+    return fail('Nur unpunktierte 3:2-Achteltriolen sind unterstützt');
+  const d = withSyntaxError(
+    () =>
+      makeDuration(
+        value,
+        dots.length,
+        actual && normal ? { actual: Number(actual), normal: Number(normal) } : undefined,
+      ),
+    where,
+    token,
+  );
   if (head === 'r') {
     return tie ? fail('Pausen haben keinen Haltebogen') : rest(d);
   }
@@ -348,7 +359,9 @@ function formatEvent(event: VoiceEvent): string {
 
 function formatDuration(d: Duration): string {
   if (d.tuplet) {
-    throw new RangeError('N-tolen kennt die Kurzschreibweise noch nicht (ab Phase 3)');
+    if (d.tuplet.actual !== 3 || d.tuplet.normal !== 2 || d.value !== 'eighth' || d.dots !== 0)
+      throw new RangeError('Kurzschreibweise unterstützt nur unpunktierte 3:2-Achteltriolen');
+    return '/8{3:2}';
   }
   return `/${TEXT_BY_VALUE[d.value]}${'.'.repeat(d.dots)}`;
 }

@@ -66,7 +66,8 @@ export function useExercisePlayback(item: ExerciseItem | Score | undefined) {
     const canPlay = () => focused.current && appActive.current;
     if (
       !item ||
-      ('type' in item && (isKnowledgeItem(item) || isKeySignatureItem(item))) ||
+      ('type' in item &&
+        (isKnowledgeItem(item) || isKeySignatureItem(item) || item.type === 'CONTEXT_CHOICE')) ||
       !canPlay()
     )
       return;

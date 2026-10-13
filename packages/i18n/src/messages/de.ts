@@ -34,6 +34,258 @@ export const de = {
     wrongTitle: 'Noch nicht ganz',
   },
   exercise: {
+    listeningCell: 'Baustein {{count}}',
+    'contextQuestion_crossbar-duration':
+      'Wie viele Viertelnotenwerte dauert der erste Ton über den Taktstrich hinweg?',
+    'contextHint1_crossbar-duration':
+      'Folge dem Haltebogen in den nächsten Takt. Die Stille vor dem ersten Ton zählt nicht zur Klangdauer.',
+    'contextHint2_crossbar-duration':
+      'Addiere den letzten Notenwert des ersten Takts und den gebundenen Anfang des zweiten.',
+    'contextExplain_crossbar-duration':
+      'Die Taktgrenze unterbricht die Bindung nicht. Es gibt nur einen Einsatz; beide Notenwerte werden zu einer Klangdauer addiert.',
+    'contextQuestion_jazz-roots':
+      'Welchen sozialen Zusammenhang dokumentiert dieses fiktive Jazz-Lehrdossier?',
+    'contextHint1_jazz-roots':
+      'Suche, ob die Quelle lokales Musizieren, einen Ortswechsel oder die Herstellung einer Aufnahme beschreibt.',
+    'contextHint2_jazz-roots':
+      'Gemeinschaft, Migration und Aufnahmegeschäft sind verschiedene Ebenen. Keine dieser Quellen beweist allein einen ersten Ursprung.',
+    'contextExplain_jazz-roots':
+      'Die Zuordnung bleibt bei der ausdrücklich beschriebenen sozialen Tätigkeit. Afroamerikanische musikalische Praxis, Migration und Medienwirtschaft wirken zusammen, sind aber nicht austauschbar.',
+    contextSocial_neighbourhood:
+      'Fiktiver Quartiersbericht, {{year}}: Afroamerikanische Musiker organisieren lokale Auftritte und tauschen musikalische Ideen in ihrer Gemeinschaft aus.',
+    contextSocial_migration:
+      'Fiktiver Reisebericht, {{year}}: Musiker ziehen vom Süden der USA in eine nördliche Stadt und bauen dort neue musikalische Netzwerke auf.',
+    'contextSocial_recording-business':
+      'Fiktive Studioakte, {{year}}: Eine Firma engagiert Musiker, produziert eine Schallplattenaufnahme und vertreibt sie kommerziell.',
+    contextSocialOption_neighbourhood: 'Lokales Gemeinschaftsleben und musikalischer Austausch',
+    contextSocialOption_migration: 'Migration und neue musikalische Netzwerke',
+    'contextSocialOption_recording-business': 'Kommerzielle Aufnahmeproduktion und Verbreitung',
+    listeningSubdivision: 'Je Grundschlag {{count}} gleich lange Unterteilungen',
+    listeningPosition: 'Ton {{count}} wurde verändert',
+    listeningMajorScale: 'Durtonleiter',
+    listeningMinorScale: 'Natürliches Moll',
+    question_CHORD_DIATONIC:
+      'Baue den leitereigenen Dreiklang auf Stufe {{degree}} in {{key}}. Moll ist natürlich; vorgegebener Grundton: {{bass}}.',
+    'question_listening_rhythm-choice-dotted':
+      'Welches vollständige Notenbild passt zum gehörten punktierten Rhythmus?',
+    'question_listening_pulse-subdivision':
+      'Wie viele gleich lange Unterteilungen bilden einen Grundschlag? Zähle den höheren Anfangston als ersten Teil mit.',
+    'question_listening_rhythm-completion':
+      'Höre den ganzen Takt. Welcher Baustein ergänzt die fehlende vierte Viertel-Zählzeit des Notengerüsts?',
+    'question_listening_scale-mode':
+      'Höre die aufsteigende Tonfolge vom Grundton bis zur Oktave. Ist sie Dur oder natürliches Moll?',
+    'question_listening_melodic-memory':
+      'Höre A und B. Welcher der vier Töne hat sich im zweiten Beispiel verändert?',
+    'listeningExplanation_rhythm-choice-dotted':
+      'Verglichen werden tatsächliche Einsätze, Pausen und Dauern einschließlich der Punktierung. Antwort: {{answer}}.',
+    'listeningExplanation_pulse-subdivision':
+      'Der höhere Ton markiert jeden Grundschlaganfang. Die gleich langen Unterteilungen bis zum nächsten Anfang bilden die Gruppe. Antwort: {{answer}}. Eine gehörte Gruppe allein bestimmt noch keine Taktart.',
+    'listeningExplanation_rhythm-completion':
+      'Die ersten drei Viertel stimmen mit dem Gerüst überein. Der letzte Baustein wird mit dem tatsächlichen Klang der vierten Zählzeit verglichen. Antwort: {{answer}}.',
+    'listeningExplanation_scale-mode':
+      'Die Tonabstände werden vom ersten Ton aus verglichen. Dur und natürliches Moll unterscheiden sich besonders an Stufe 3, 6 und 7. Antwort: {{answer}}.',
+    'listeningExplanation_melodic-memory':
+      'Beide Quellen enthalten vier gleich lange Töne; genau eine klingende Tonhöhe ist an ihrer Position anders. Antwort: {{answer}}.',
+    listeningOutline:
+      'Gerüst: Die vierte Zählzeit fehlt. Die Auswahl enthält jeweils einen Viertelnotenwert.',
+    contextEvent: 'Takt {{measure}}, Ereignis {{index}}: {{duration}}. {{positions}}',
+    contextPosition:
+      'Notenkopf {{index}}, {{steps}} Stammtonschritte von der untersten Linie; sichtbares Zeichen: {{sign}}.',
+    contextSign_none: 'kein Zeichen',
+    contextSign_sharp: 'Kreuz',
+    contextSign_flat: 'b',
+    contextSign_natural: 'Auflösungszeichen',
+    contextSign_doubleSharp: 'Doppelkreuz',
+    contextSign_doubleFlat: 'Doppel-b',
+    contextResult: ' {{explanation}} Antwort: {{answer}}.',
+    contextFraction: '{{fraction}} × Viertelnotenwert',
+    contextDegree: 'Stufe {{count}}',
+    contextPattern: 'Halbtonschritte: {{pattern}}',
+    contextYes: 'Ja',
+    contextNo: 'Nein',
+    contextRole_root: 'Grundton',
+    contextRole_third: 'Terz',
+    contextRole_fifth: 'Quinte',
+    contextScore: 'Notierte Quelle',
+    contextKey: 'Tonart: {{key}}',
+    contextDossier:
+      'Fiktives europäisches Lehrdossier: Werkjahr {{year}}. Genanntes Merkmal: {{feature}}. Das Klavierbeispiel ist ein eigenes Lehrmodell.',
+    contextDocument:
+      'Fiktive Quelle im Jahr {{year}}: {{medium}}. Gefragt ist nur, was dieses Medium dokumentiert.',
+    'contextComparison_same-event':
+      'Zwei Berichte datieren dieselbe Aufführung auf {{year}} beziehungsweise {{secondYear}}. Über ihre Abhängigkeit ist nichts bekannt.',
+    'contextComparison_work-recording':
+      'Quelle A nennt das Werkjahr {{year}}. Quelle B nennt das Aufnahmedatum {{secondYear}}.',
+    'contextComparison_advertised-performed':
+      'Ein Programm aus {{year}} kündigt eine Besetzung an. Ein Aufführungsbericht aus {{secondYear}} beschreibt die tatsächlich aufgetretene Besetzung derselben Veranstaltung.',
+    contextFeature_monophony: '$t(glossary:monophony) im Gesang',
+    contextFeature_imitation: '$t(glossary:imitation) in vokaler $t(glossary:polyphony)',
+    contextFeature_continuo: '$t(glossary:continuo)',
+    contextFeature_phrases: 'regelmäßige Periodenbildung',
+    contextFeature_chromaticism: 'Erweiterte $t(glossary:chromaticism)',
+    contextFeature_electronics: 'elektronische Klangerzeugung',
+    contextMedium_recording: '$t(glossary:recording_one)',
+    contextMedium_programme: '$t(glossary:programmeSource_one)',
+    contextMedium_report: '$t(glossary:report_one)',
+    contextMedium_broadcast: '$t(glossary:broadcast_one)',
+    contextMedium_stream: '$t(glossary:stream_one)',
+    'contextOption_recorded-performance': 'Dokumentierter Klang einer aufgenommenen Aufführung',
+    'contextOption_advertised-event': 'Angekündigtes Ereignis; tatsächliche Ausführung noch offen',
+    'contextOption_reported-view': 'Überlieferte Sicht des Berichtsverfassers',
+    'contextOption_mediated-distribution': 'Verbreitung über einen Medienkanal',
+    'contextOption_invented-origin': 'Beweis für den allerersten Ursprung des Musikstils',
+    'contextOption_universal-style': 'Beweis für alle Musiker und Werke dieser Tradition',
+    'contextOption_different-date-roles':
+      'Werkentstehung und Aufnahme datieren unterschiedliche Ereignisse',
+    'contextOption_intention-performance':
+      'Ankündigung und tatsächliche Aufführung sind verschiedene Aussagen',
+    'contextOption_unresolved-conflict': 'Ungelöster Widerspruch; weitere Belege nötig',
+    'contextOption_agreement-not-proof': 'Übereinstimmung; Unabhängigkeit noch nicht bewiesen',
+    type_CONTEXT_CHOICE: 'Musikalische Zusammenhänge',
+    question_CONTEXT_CHOICE: 'Prüfe die gezeigte Quelle.',
+    'contextQuestion_accidental-scope':
+      'Wie heißt Ton {{target}} einschließlich Oktavlage? Beachte Taktgrenze, Auflösungszeichen und Lage.',
+    'contextHint1_accidental-scope':
+      'Ein Versetzungszeichen gilt im Takt für denselben Stammton in derselben Oktavlage.',
+    'contextHint2_accidental-scope':
+      'Am Taktstrich gilt wieder die Vorzeichnung. Ein Auflösungszeichen hebt die zuvor geltende Veränderung auf.',
+    'contextExplain_accidental-scope':
+      'Die tatsächliche Schreibweise des gefragten Tons berücksichtigt den Zustand in seinem Takt und seiner Oktavlage.',
+    'contextQuestion_enharmonic-spelling':
+      'Welche andere Schreibweise klingt auf dem gleichstufigen Klavier wie der notierte Ton?',
+    'contextHint1_enharmonic-spelling': 'Vergleiche klingende Tasten, nicht nur Buchstaben.',
+    'contextHint2_enharmonic-spelling':
+      'Cis und Des teilen eine Taste. Eis ist die F-Taste; His erreicht die nächste C-Taste.',
+    'contextExplain_enharmonic-spelling':
+      'Enharmonische Schreibweisen behalten die klingende Taste, ändern aber den geschriebenen Stammton. Die Oktavzahl kann dabei wechseln.',
+    'contextQuestion_dotted-duration':
+      'Wie viele Viertelnotenwerte dauert die erste punktierte Note?',
+    'contextHint1_dotted-duration': 'Ein Punkt ergänzt die Hälfte des ursprünglichen Werts.',
+    'contextHint2_dotted-duration':
+      'Punktierte Achtel = Achtel + Sechzehntel; punktierte Viertel = Viertel + Achtel.',
+    'contextExplain_dotted-duration':
+      'Der erste Punkt multipliziert den ursprünglichen Wert mit 3/2. Die angehängten Pausen ändern die Dauer dieser Note nicht.',
+    'contextQuestion_tied-duration':
+      'Wie viele Viertelnotenwerte dauert der erste Ton einschließlich aller seiner Haltebögen?',
+    'contextHint1_tied-duration':
+      'Ein Haltebogen verbindet gleiche Tonhöhen zu einem durchgehenden Klang.',
+    'contextHint2_tied-duration':
+      'Addiere nur die gebundenen Notenwerte. Pausen gehören nicht dazu; am Taktstrich endet die Bindung nicht.',
+    'contextExplain_tied-duration':
+      'Die geprüfte Bindungskette zählt als ein Einsatz. Ihre ununterbrochene Dauer ist die Summe der gebundenen Werte, auch über einen Taktstrich.',
+    contextQuestion_syncopation:
+      'Beginnt hier ein Ton zwischen Viertel-Grundschlägen und reicht über den nächsten Grundschlag?',
+    contextHint1_syncopation: 'Suche einen Einsatz zwischen zwei Grundschlägen.',
+    contextHint2_syncopation:
+      'Eine Achtel auf der zweiten Hälfte allein reicht nicht: Ihr Klang muss die nächste Zählzeit überbrücken.',
+    contextExplain_syncopation:
+      'Diese Einstiegsfrage prüft genau die Überbrückung eines Viertel-Grundschlags durch einen zuvor zwischen den Schlägen begonnenen Ton.',
+    'contextQuestion_triplet-duration':
+      'Wie viele Viertelnotenwerte dauern die ersten drei Achtel unter der Triolenzahl 3 zusammen?',
+    'contextHint1_triplet-duration':
+      'Eine Achteltriole enthält drei gleich lange Achtel in der Zeit von zwei gewöhnlichen Achteln.',
+    'contextHint2_triplet-duration':
+      'Jede Triolenachtel ist 1/3 einer Viertel. Addiere alle drei, nicht die folgende Note.',
+    'contextExplain_triplet-duration':
+      'Das Verhältnis 3:2 verkürzt jede Achtel auf zwei Drittel ihres gewöhnlichen Werts. Drei davon ergeben genau einen Viertelnotenwert.',
+    'contextQuestion_interval-inversion':
+      'Welches Intervall entsteht, wenn du das notierte einfache Intervall durch Oktavversetzung umkehrst?',
+    'contextHint1_interval-inversion': 'Die beiden Intervallnummern ergänzen sich zu 9.',
+    'contextHint2_interval-inversion':
+      'Rein bleibt rein; klein wird groß; übermäßig wird vermindert und umgekehrt.',
+    'contextExplain_interval-inversion':
+      'Die Umkehrung ergänzt die Nummer zu 9 und kehrt die Qualität um. Prime und Oktave sind der Randfall dieses Modells.',
+    'contextQuestion_interval-reduction':
+      'Welches einfache Intervall entspricht dem notierten Abstand nach Wegnahme ganzer Oktaven?',
+    'contextHint1_interval-reduction': 'Eine zusätzliche Oktave erhöht die Intervallnummer um 7.',
+    'contextHint2_interval-reduction':
+      'Eine None entspricht einer Sekunde, eine Dezime einer Terz. Die Qualität bleibt erhalten.',
+    'contextExplain_interval-reduction':
+      'Ziehe bei zusammengesetzten Intervallen jeweils 7 von der Nummer ab. Die Qualität bleibt; reduziere nur bis zur einfachen Oktave.',
+    'contextQuestion_scale-pattern':
+      'Welche Halbtonfolge beschreibt die sieben Schritte der gezeigten aufsteigenden Tonleiter?',
+    'contextHint1_scale-pattern': 'Zähle Übergänge auf dem Klavier: Ganzton = 2, Halbton = 1.',
+    'contextHint2_scale-pattern':
+      'Eine Durtonleiter hat ihre Halbtonschritte zwischen Stufe 3–4 und 7–8.',
+    'contextExplain_scale-pattern':
+      'Die Folge wird aus allen benachbarten klingenden Tonhöhen berechnet, nicht aus der Anzahl sichtbarer Vorzeichen.',
+    'contextQuestion_scale-degree':
+      'Auf welcher Stufe der gezeigten Durtonleiter liegt {{focus}}? Zähle den Anfangston als 1.',
+    'contextHint1_scale-degree':
+      'Die Tonika ist Stufe 1; die nächsten Stammtöne folgen als 2, 3 und so weiter.',
+    'contextHint2_scale-degree':
+      'Lies vom tatsächlichen Anfangston aus. C ist nicht in jeder Tonart Stufe 1.',
+    'contextExplain_scale-degree':
+      'Die Stufe ergibt sich aus der Position des gefragten Tons in dieser Tonleiter. Der wiederholte Oktavton entspricht erneut der Tonika.',
+    'contextQuestion_fifth-neighbour':
+      'Welche Tonart liegt von {{key}} aus eine Quinte {{direction}} auf dem Quintenzirkel? Der Modus bleibt gleich.',
+    'contextHint1_fifth-neighbour':
+      'Eine Quinte aufwärts verschiebt die Vorzeichnung um ein Kreuz in die Kreuzrichtung.',
+    'contextHint2_fifth-neighbour':
+      'Abwärts geht es einen Schritt in die b-Richtung. Das kann zuerst ein vorhandenes Kreuz entfernen.',
+    'contextExplain_fifth-neighbour':
+      'Benachbarte Positionen des Quintenzirkels unterscheiden sich um genau eine Vorzeichnungseinheit. Grundton und Modus werden gemeinsam berücksichtigt.',
+    'contextQuestion_relative-key': 'Welche Paralleltonart teilt die Vorzeichnung mit {{key}}?',
+    'contextHint1_relative-key':
+      'Paralleltonarten haben verschiedene Grundtöne und verschiedene Modi, aber dieselbe Vorzeichnung.',
+    'contextHint2_relative-key':
+      'Zu Dur liegt die Molltonika eine kleine Terz tiefer. Gleichnamiges Moll wäre eine Varianttonart.',
+    'contextExplain_relative-key':
+      'Die Vorzeichenzahl bleibt gleich, der Modus wechselt. Deutsches Paralleltonart entspricht englischem relative key, nicht parallel key.',
+    'contextQuestion_chord-member':
+      'Welcher Ton ist hier {{role}} des Dreiklangs? Die Lage kann wechseln.',
+    'contextHint1_chord-member':
+      'Sortiere den geschriebenen Dreiklang gedanklich in Grundstellung.',
+    'contextHint2_chord-member':
+      'Grundton, Terz und Quinte werden vom Akkordgrundton aus benannt. Der tiefste Ton kann eine andere Rolle haben.',
+    'contextExplain_chord-member':
+      'Die Engine bestimmt den vollständigen geschriebenen Dreiklang und anschließend die gefragte Akkordtonrolle. Eine Umkehrung verändert diese Rollen nicht.',
+    'contextQuestion_chord-root': 'Was ist der Grundton dieses geschriebenen Dreiklangs?',
+    'contextHint1_chord-root': 'Grundton und tiefster klingender Ton sind verschiedene Begriffe.',
+    'contextHint2_chord-root':
+      'Suche die Terzschichtung in Grundstellung. Der Bass entscheidet nur über die Umkehrung.',
+    'contextExplain_chord-root':
+      'Die Akkordidentität ergibt sich aus allen drei geschriebenen Tönen. Ein höher notierter Grundton bleibt der Grundton.',
+    'contextQuestion_diatonic-triad':
+      'Welche Dreiklangart entsteht auf Stufe {{degree}} in {{key}}, wenn du nur Tonleitertöne in Terzen schichtest? Moll ist hier natürlich.',
+    'contextHint1_diatonic-triad':
+      'Nimm Stufe n, n+2 und n+4; setze oberhalb der siebten Stufe die Tonleiter in der nächsten Oktave fort.',
+    'contextHint2_diatonic-triad':
+      'Dur: groß–klein–klein–groß–groß–klein–vermindert. Natürliches Moll hat eine andere Folge.',
+    'contextExplain_diatonic-triad':
+      'Die drei Töne werden aus der tatsächlichen Dur- oder natürlichen Molltonleiter geschichtet und anschließend als Dreiklang bestimmt.',
+    'contextQuestion_period-context':
+      'Welche Epoche der groben europäischen Übersicht passt zum ausdrücklich angegebenen Werkjahr und Merkmal dieses Lehrdossiers?',
+    'contextHint1_period-context':
+      'Nutze das angegebene Werkjahr gemeinsam mit dem Merkmal; ein Klangmerkmal allein datiert kein Werk.',
+    'contextHint2_period-context':
+      'Die Beispiele liegen weit von den Übergängen. Die Übersicht ist europäisch, mit überlappenden Grenzen.',
+    'contextExplain_period-context':
+      'Das Lehrdossier nennt ein Werkjahr. Die Zuordnung verwendet die ausdrücklich gelehrte grobe Übersicht und behauptet keine Datierung aus dem Klaviermodell.',
+    'contextQuestion_jazz-source':
+      'Welche Aussage wird von dieser fiktiven Quelle zum Jazzkontext tatsächlich gestützt?',
+    'contextHint1_jazz-source':
+      'Unterscheide eine dokumentierte Aufführung von der Entstehung einer ganzen Musiktradition.',
+    'contextHint2_jazz-source':
+      'Eine Aufnahme belegt ihren aufgenommenen Klang; ein Programm eine Ankündigung; ein Bericht die Sicht seines Verfassers.',
+    'contextExplain_jazz-source':
+      'Das Medium begrenzt die Aussage. Die früheste erhaltene oder kommerziell veröffentlichte Quelle beweist nicht den ersten musikalischen Ursprung.',
+    'contextQuestion_popular-source':
+      'Welche Aussage wird von dieser fiktiven Quelle zu populärer Musik tatsächlich gestützt?',
+    'contextHint1_popular-source':
+      'Frage, ob die Quelle Klang, Ankündigung, Meinung oder Verbreitung dokumentiert.',
+    'contextHint2_popular-source':
+      'Sendung und Stream belegen Medienverbreitung, nicht automatisch die Entstehung des Werks oder die ursprüngliche Besetzung.',
+    'contextExplain_popular-source':
+      'Aufnahme, Medienkanal und Werkentstehung sind unterschiedliche Ebenen. Die Antwort bleibt bei der tatsächlich dokumentierten Ebene.',
+    'contextQuestion_source-comparison':
+      'Wie lässt sich das Verhältnis der beiden fiktiven Quellen begründet beschreiben?',
+    'contextHint1_source-comparison':
+      'Vergleiche zuerst, welches Ereignis oder welche Aussage jede Datumsangabe betrifft.',
+    'contextHint2_source-comparison':
+      'Werkdatum und Aufnahmedatum dürfen verschieden sein. Zwei abweichende Angaben zur selben Aufführung brauchen zusätzliche Belege.',
+    'contextExplain_source-comparison':
+      'Gleiche Angaben sind Übereinstimmung, keine automatische unabhängige Bestätigung. Unterschiedliche Rollen sind von einem ungelösten Widerspruch zu trennen.',
     question_octaveName: 'Welche {{system}} entspricht {{name}}?',
     scientificSystem: '$t(glossary:scientificNotation)',
     helmholtzSystem: '$t(glossary:helmholtzNotation)',
@@ -835,6 +1087,7 @@ export const de = {
       'Klavierklang: Salamander Grand Piano von Alexander Holm, CC BY 3.0 (creativecommons.org/licenses/by/3.0). Bearbeitet: Auswahl, gekürzt, Mono, Stimmung ausgeglichen.',
   },
   gallery: {
+    contextQuestion: 'Quellenbezogene Aufgabe',
     grandStaff: '$t(glossary:grandStaff_one): Lernbild',
     durationSymbols: 'Notenwerte und Pausen',
     keyboardExample: '$t(glossary:keyboard_one): Lernbeispiel',

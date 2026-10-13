@@ -180,3 +180,7 @@ export const keySignatureIdentifyExercise: ExerciseDefinition<
 };
 
 export { octaveName, octaveNamePitch } from './octave-names.ts';
+
+export * from './context.ts';
+
+export { contextSourceText, contextNotationDescription } from './context-text.ts';

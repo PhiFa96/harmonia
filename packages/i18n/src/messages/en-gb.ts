@@ -10,6 +10,56 @@ export const enGB = {
     licenses: 'Licences',
   },
   exercise: {
+    // Stufe 2: britische Fachwörter in neuen Quellenaufgaben.
+    'contextQuestion_crossbar-duration':
+      'How many crotchet values does the first pitch last across the bar line?',
+    'contextHint1_crossbar-duration':
+      'Follow the tie into the next bar. Silence before the first pitch is not part of its sounding duration.',
+    'contextHint2_crossbar-duration':
+      'Add the last note value of the first bar and its tied continuation at the start of the second.',
+    'contextExplain_crossbar-duration':
+      'The bar line does not interrupt the tie. There is only one onset; both note values add to one sounding duration.',
+    'question_listening_rhythm-completion':
+      'Listen to the complete bar. Which cell supplies the missing fourth crotchet beat in the written outline?',
+    'listeningExplanation_rhythm-completion':
+      'The first three crotchet beats match the outline. The final cell is compared with the actual sound of beat four. Answer: {{answer}}.',
+    listeningOutline: 'Outline: beat four is missing. Each option spans one crotchet value.',
+    contextEvent: 'Bar {{measure}}, event {{index}}: {{duration}}. {{positions}}',
+    contextFraction: '{{fraction}} × crotchet value',
+    'contextQuestion_accidental-scope':
+      'Name note {{target}}, including its octave. Check bar lines, naturals and register.',
+    'contextHint1_accidental-scope':
+      'An accidental applies within the bar to the same letter name in the same octave.',
+    'contextHint2_accidental-scope':
+      'At the bar line, the key signature applies again. A natural cancels the alteration previously in force.',
+    'contextExplain_accidental-scope':
+      'The target note’s actual spelling accounts for the accidental state in its bar and register.',
+    'contextQuestion_dotted-duration': 'How many crotchet values does the first dotted note last?',
+    'contextHint2_dotted-duration':
+      'Dotted quaver = quaver + semiquaver; dotted crotchet = crotchet + quaver.',
+    'contextQuestion_tied-duration':
+      'How many crotchet values does the first pitch last, including all its ties?',
+    'contextHint2_tied-duration':
+      'Add only the tied note values. Exclude rests; crossing a bar line does not end the tie.',
+    'contextExplain_tied-duration':
+      'The checked tie chain has one onset. Its continuous duration is the sum of its tied values, including across a bar line.',
+    contextQuestion_syncopation:
+      'Does a note start between crotchet beats and continue past the next beat?',
+    contextHint2_syncopation:
+      'An quaver on the second half alone is insufficient: its sound must cross the following beat.',
+    contextExplain_syncopation:
+      'This introductory question checks whether a pitch starting between beats continues across the following crotchet beat.',
+    'contextQuestion_triplet-duration':
+      'How many crotchet values do the first three quavers under the triplet number 3 occupy together?',
+    'contextHint1_triplet-duration':
+      'An quaver triplet has three equal quavers in the time of two ordinary quavers.',
+    'contextHint2_triplet-duration':
+      'Each triplet quaver is 1/3 of a crotchet. Add the three triplet notes, excluding the following note.',
+    'contextExplain_triplet-duration':
+      'The 3:2 ratio shortens each quaver to two thirds of its ordinary value. Three together equal exactly one crotchet value.',
+    'contextHint1_scale-pattern': 'Count piano-key steps: tone = 2, semitone = 1.',
+    'contextHint2_scale-pattern': 'A major scale has its semitones between degrees 3–4 and 7–8.',
+    // Ende Stufe 2.
     grandStaffDescription:
       'Grand stave: treble clef above, bass clef below. {{description}} The stave in {{silent}} contains a rest for the entire bar.',
     type_interval_semitones: 'Count semitones',

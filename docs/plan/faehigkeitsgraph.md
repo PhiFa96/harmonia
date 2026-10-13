@@ -6,6 +6,8 @@ Fortsetzung 12.10.2026: Alle 13 geplanten Stufe-1-Einheiten einschließlich Prot
 
 Fortsetzung 13.10.2026: `notation.l2.clefs-registers` setzt die ersten drei der 50 geplanten Stufe-2-Fähigkeiten mit drei Lektionen, neun Karten und einem Artikel um. Katalog und Plan haben nun Version 12; insgesamt 40 Lektionen mit 400 Aufgaben, 115 Karten mit 172 Beispielen und 14 Artikel. Alle Datensätze bleiben Entwurf. Nächste Einheit: `notation.l2.spelling`. Aktuelle Übergabe: [bassschluessel-und-grosses-system.md](bassschluessel-und-grosses-system.md).
 
+Vollständige Fortsetzung 13.10.2026: Alle 16 Stufe-2-Einheiten und 50 Fähigkeiten sind nun intern mit Lektionen, Karten und Artikeln abgedeckt. Beide Stufen zusammen umfassen 85 Lektionen und 850 Aufgaben, 250 Karten mit 307 Beispielen und 29 Artikel; Katalog/Plan Version 13. Alte Datensätze behalten ihre Versionen; alle Inhalte bleiben Entwurf. Prüfung und getrennte Abnahme: [stufe-2-vollstaendig.md](stufe-2-vollstaendig.md).
+
 ## Umfang
 
 Der Katalog enthält 90 Fähigkeiten in 29 Einheiten und acht Bereichen. 40 Fähigkeiten gehören zu Stufe 1, 50 zu Stufe 2. Der Bereich `fundament` enthält die drei bestehenden Einführungsfähigkeiten aus P1.20; dazu kommen die sieben MVP-Fachbereiche aus [Phase 2](phase-2-mvp.md). Die vollständige Reihenfolge, alle Lernziele in Deutsch und Englisch (US/UK), stabile IDs und direkte Voraussetzungen stehen in den [erzeugten Diagrammen und Tabellen](faehigkeitsgraph-diagramme.md).

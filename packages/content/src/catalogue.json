@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": 12,
+  "contentVersion": 13,
   "areas": [
     {
       "id": "fundament",
@@ -2526,6 +2526,1052 @@
           "count": 6
         }
       ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "notation.l2.spelling.foundation.exercises",
+      "titleKey": "content.levelTwoSpelling.lesson0",
+      "skillIds": ["notation.accidental-scope"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["accidental-scope"]
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "notation.l2.spelling.practice.exercises",
+      "titleKey": "content.levelTwoSpelling.lesson1",
+      "skillIds": ["notation.enharmonic-spelling"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["enharmonic-spelling"]
+            }
+          },
+          "count": 10
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "notation.l2.spelling.apply.exercises",
+      "titleKey": "content.levelTwoSpelling.lesson2",
+      "skillIds": ["notation.write-pitch"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "NOTE_PLACE",
+            "params": {
+              "clefs": ["treble", "bass"],
+              "range": {
+                "minMidi": 57,
+                "maxMidi": 64
+              },
+              "maxAccidentals": 1
+            }
+          },
+          "count": 12
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "rhythm.l2.dotted-tied.foundation.exercises",
+      "titleKey": "content.levelTwoDottedTied.lesson0",
+      "skillIds": ["rhythm.dotted-values"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["dotted-duration"]
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "rhythm.l2.dotted-tied.practice.exercises",
+      "titleKey": "content.levelTwoDottedTied.lesson1",
+      "skillIds": ["rhythm.ties"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["tied-duration"]
+            }
+          },
+          "count": 10
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "rhythm.l2.dotted-tied.apply.exercises",
+      "titleKey": "content.levelTwoDottedTied.lesson2",
+      "skillIds": ["rhythm.dotted-and-tied", "rhythm.syncopation-basic"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["crossbar-duration"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["syncopation"]
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "rhythm.l2.subdivision.foundation.exercises",
+      "titleKey": "content.levelTwoSubdivision.lesson0",
+      "skillIds": ["rhythm.triplet"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["triplet-duration"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "RHYTHM_TAP",
+            "params": {
+              "meters": ["2/4", "3/4", "4/4"],
+              "level": "triplets",
+              "rests": false,
+              "tempos": [60, 72]
+            }
+          },
+          "count": 4
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "rhythm.l2.subdivision.practice.exercises",
+      "titleKey": "content.levelTwoSubdivision.lesson1",
+      "skillIds": ["rhythm.compound-meter"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "METER_IDENTIFY",
+            "params": {
+              "meters": ["3/4", "6/8"]
+            }
+          },
+          "count": 10
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "rhythm.l2.subdivision.apply.exercises",
+      "titleKey": "content.levelTwoSubdivision.lesson2",
+      "skillIds": ["rhythm.group-6-8"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "RHYTHM_TAP",
+            "params": {
+              "meters": ["6/8"],
+              "level": "basic",
+              "rests": true,
+              "tempos": [60, 72, 90]
+            }
+          },
+          "count": 12
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "intervals.l2.qualities-build.foundation.exercises",
+      "titleKey": "content.levelTwoQualitiesBuild.lesson0",
+      "skillIds": ["interval.simple-qualities"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_VISUAL",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 84
+              },
+              "maxAccidentals": 1,
+              "intervals": [
+                "P1",
+                "m2",
+                "M2",
+                "m3",
+                "M3",
+                "P4",
+                "A4",
+                "d5",
+                "P5",
+                "m6",
+                "M6",
+                "m7",
+                "M7",
+                "P8"
+              ],
+              "direction": "up"
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "intervals.l2.qualities-build.practice.exercises",
+      "titleKey": "content.levelTwoQualitiesBuild.lesson1",
+      "skillIds": ["interval.build"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "INTERVAL_BUILD",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 84
+              },
+              "maxAccidentals": 1,
+              "intervals": [
+                "P1",
+                "m2",
+                "M2",
+                "m3",
+                "M3",
+                "P4",
+                "A4",
+                "d5",
+                "P5",
+                "m6",
+                "M6",
+                "m7",
+                "M7",
+                "P8"
+              ],
+              "direction": "up"
+            }
+          },
+          "count": 10
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "intervals.l2.qualities-build.apply.exercises",
+      "titleKey": "content.levelTwoQualitiesBuild.lesson2",
+      "skillIds": ["interval.enharmonic-distinction"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_VISUAL",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 84
+              },
+              "maxAccidentals": 1,
+              "intervals": ["A4", "d5", "M3", "d4"],
+              "direction": "up"
+            }
+          },
+          "count": 12
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "intervals.l2.inversion.foundation.exercises",
+      "titleKey": "content.levelTwoInversion.lesson0",
+      "skillIds": ["interval.inversion"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["interval-inversion"]
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "intervals.l2.inversion.practice.exercises",
+      "titleKey": "content.levelTwoInversion.lesson1",
+      "skillIds": ["interval.descending"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "INTERVAL_BUILD",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 84
+              },
+              "maxAccidentals": 1,
+              "intervals": [
+                "P1",
+                "m2",
+                "M2",
+                "m3",
+                "M3",
+                "P4",
+                "A4",
+                "d5",
+                "P5",
+                "m6",
+                "M6",
+                "m7",
+                "M7",
+                "P8"
+              ],
+              "direction": "down"
+            }
+          },
+          "count": 10
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "intervals.l2.inversion.apply.exercises",
+      "titleKey": "content.levelTwoInversion.lesson2",
+      "skillIds": ["interval.simple-compound"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["interval-reduction"]
+            }
+          },
+          "count": 12
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.major.foundation.exercises",
+      "titleKey": "content.levelTwoMajor.lesson0",
+      "skillIds": ["scale.major-pattern"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["scale-pattern"]
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.major.practice.exercises",
+      "titleKey": "content.levelTwoMajor.lesson1",
+      "skillIds": ["scale.major-build"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "SCALE_BUILD",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 84
+              },
+              "maxAccidentals": 1,
+              "fifths": [-3, -2, -1, 0, 1, 2, 3],
+              "types": ["major"],
+              "direction": "ascending"
+            }
+          },
+          "count": 10
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.major.apply.exercises",
+      "titleKey": "content.levelTwoMajor.lesson2",
+      "skillIds": ["scale.tonic"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["scale-degree"]
+            }
+          },
+          "count": 12
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.minor.foundation.exercises",
+      "titleKey": "content.levelTwoMinor.lesson0",
+      "skillIds": ["scale.natural-minor"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "SCALE_BUILD",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 84
+              },
+              "maxAccidentals": 1,
+              "fifths": [-3, -2, -1, 0, 1, 2, 3],
+              "types": ["naturalMinor"],
+              "direction": "ascending"
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.minor.practice.exercises",
+      "titleKey": "content.levelTwoMinor.lesson1",
+      "skillIds": ["scale.harmonic-minor"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "SCALE_BUILD",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 84
+              },
+              "maxAccidentals": 1,
+              "fifths": [-3, -2, -1, 0, 1, 2, 3],
+              "types": ["harmonicMinor"],
+              "direction": "ascending"
+            }
+          },
+          "count": 10
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.minor.apply.exercises",
+      "titleKey": "content.levelTwoMinor.lesson2",
+      "skillIds": ["scale.melodic-minor"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "SCALE_BUILD",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 84
+              },
+              "maxAccidentals": 1,
+              "fifths": [-3, -2, -1, 0, 1, 2, 3],
+              "types": ["melodicMinor"],
+              "direction": "both"
+            }
+          },
+          "count": 12
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.keys.foundation.exercises",
+      "titleKey": "content.levelTwoKeys.lesson0",
+      "skillIds": ["key.signature-major"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KEYSIG_IDENTIFY",
+            "params": {
+              "clefs": ["treble", "bass"],
+              "modes": ["major"],
+              "fifths": [-3, -2, -1, 0, 1, 2, 3]
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.keys.practice.exercises",
+      "titleKey": "content.levelTwoKeys.lesson1",
+      "skillIds": ["key.fifths"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["fifth-neighbour"],
+              "modes": ["major"]
+            }
+          },
+          "count": 10
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.keys.apply.exercises",
+      "titleKey": "content.levelTwoKeys.lesson2",
+      "skillIds": ["key.signature-minor", "key.relative"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KEYSIG_IDENTIFY",
+            "params": {
+              "clefs": ["treble", "bass"],
+              "modes": ["minor"],
+              "fifths": [-3, -2, -1, 0, 1, 2, 3]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["relative-key"]
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "chords.l2.qualities.foundation.exercises",
+      "titleKey": "content.levelTwoQualities.lesson0",
+      "skillIds": ["chord.triad-structure"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["chord-member"],
+              "rootPosition": true
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "chords.l2.qualities.practice.exercises",
+      "titleKey": "content.levelTwoQualities.lesson1",
+      "skillIds": ["chord.major-minor"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CHORD_BUILD",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 84
+              },
+              "maxAccidentals": 1,
+              "types": ["major", "minor"],
+              "inversions": [0]
+            }
+          },
+          "count": 10
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "chords.l2.qualities.apply.exercises",
+      "titleKey": "content.levelTwoQualities.lesson2",
+      "skillIds": ["chord.diminished-augmented"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CHORD_BUILD",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 84
+              },
+              "maxAccidentals": 1,
+              "types": ["diminished", "augmented"],
+              "inversions": [0]
+            }
+          },
+          "count": 12
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "chords.l2.inversions.foundation.exercises",
+      "titleKey": "content.levelTwoInversions.lesson0",
+      "skillIds": ["chord.root-and-bass"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["chord-root"]
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "chords.l2.inversions.practice.exercises",
+      "titleKey": "content.levelTwoInversions.lesson1",
+      "skillIds": ["chord.inversions"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CHORD_IDENTIFY",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 84
+              },
+              "maxAccidentals": 1,
+              "types": ["major", "minor", "diminished", "augmented"],
+              "inversions": [0, 1, 2],
+              "presentation": "visual"
+            }
+          },
+          "count": 10
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "chords.l2.inversions.apply.exercises",
+      "titleKey": "content.levelTwoInversions.lesson2",
+      "skillIds": ["chord.diatonic-triads"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["diatonic-triad"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "CHORD_BUILD",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 84
+              },
+              "maxAccidentals": 1,
+              "types": ["major", "minor", "diminished"],
+              "inversions": [0],
+              "diatonic": true
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.rhythm-detail.foundation.exercises",
+      "titleKey": "content.levelTwoRhythmDetail.lesson0",
+      "skillIds": ["aural.rhythm-choice-dotted"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "LISTENING_CHOICE",
+            "params": {
+              "question": "rhythm-choice-dotted",
+              "tempos": [72, 90, 108]
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.rhythm-detail.practice.exercises",
+      "titleKey": "content.levelTwoRhythmDetail.lesson1",
+      "skillIds": ["aural.simple-compound-pulse"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "LISTENING_CHOICE",
+            "params": {
+              "question": "pulse-subdivision",
+              "tempos": [72, 90, 108]
+            }
+          },
+          "count": 10
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.rhythm-detail.apply.exercises",
+      "titleKey": "content.levelTwoRhythmDetail.lesson2",
+      "skillIds": ["aural.rhythm-completion"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "LISTENING_CHOICE",
+            "params": {
+              "question": "rhythm-completion",
+              "tempos": [72, 90, 108]
+            }
+          },
+          "count": 12
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.melody.foundation.exercises",
+      "titleKey": "content.levelTwoMelody.lesson0",
+      "skillIds": ["aural.simple-intervals"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_AURAL",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 84
+              },
+              "maxAccidentals": 1,
+              "intervals": ["m2", "M2", "m3", "M3", "P4", "P5", "m6", "M6", "m7", "M7", "P8"],
+              "playback": "melodic-up"
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.melody.practice.exercises",
+      "titleKey": "content.levelTwoMelody.lesson1",
+      "skillIds": ["aural.major-minor-scale"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "LISTENING_CHOICE",
+            "params": {
+              "question": "scale-mode",
+              "tempos": [72, 90, 108]
+            }
+          },
+          "count": 10
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.melody.apply.exercises",
+      "titleKey": "content.levelTwoMelody.lesson2",
+      "skillIds": ["aural.melodic-memory"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "LISTENING_CHOICE",
+            "params": {
+              "question": "melodic-memory",
+              "tempos": [72, 90, 108]
+            }
+          },
+          "count": 12
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.triads.foundation.exercises",
+      "titleKey": "content.levelTwoTriads.lesson0",
+      "skillIds": ["aural.triad-major-minor"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CHORD_IDENTIFY",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 84
+              },
+              "maxAccidentals": 1,
+              "types": ["major", "minor"],
+              "inversions": [0],
+              "presentation": "aural"
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.triads.practice.exercises",
+      "titleKey": "content.levelTwoTriads.lesson1",
+      "skillIds": ["aural.triad-quality"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CHORD_IDENTIFY",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 84
+              },
+              "maxAccidentals": 1,
+              "types": ["major", "minor", "diminished", "augmented"],
+              "inversions": [0],
+              "presentation": "aural"
+            }
+          },
+          "count": 10
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.triads.apply.exercises",
+      "titleKey": "content.levelTwoTriads.lesson2",
+      "skillIds": ["aural.triad-inversions"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CHORD_IDENTIFY",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 84
+              },
+              "maxAccidentals": 1,
+              "types": ["major", "minor"],
+              "inversions": [0, 1, 2],
+              "presentation": "aural"
+            }
+          },
+          "count": 12
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "history.l2.period-contexts.foundation.exercises",
+      "titleKey": "content.levelTwoPeriodContexts.lesson0",
+      "skillIds": ["history.medieval-renaissance"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["period-context"],
+              "years": [1250, 1550]
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "history.l2.period-contexts.practice.exercises",
+      "titleKey": "content.levelTwoPeriodContexts.lesson1",
+      "skillIds": ["history.baroque-classical"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["period-context"],
+              "years": [1720, 1780]
+            }
+          },
+          "count": 10
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "history.l2.period-contexts.apply.exercises",
+      "titleKey": "content.levelTwoPeriodContexts.lesson2",
+      "skillIds": ["history.romantic-modern"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["period-context"],
+              "years": [1850, 1950]
+            }
+          },
+          "count": 12
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "history.l2.jazz-pop-sources.foundation.exercises",
+      "titleKey": "content.levelTwoJazzPopSources.lesson0",
+      "skillIds": ["history.jazz-roots"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["jazz-roots"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["jazz-source"]
+            }
+          },
+          "count": 4
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "history.l2.jazz-pop-sources.practice.exercises",
+      "titleKey": "content.levelTwoJazzPopSources.lesson1",
+      "skillIds": ["history.popular-contexts"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["popular-source"]
+            }
+          },
+          "count": 10
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "history.l2.jazz-pop-sources.apply.exercises",
+      "titleKey": "content.levelTwoJazzPopSources.lesson2",
+      "skillIds": ["history.compare-sources"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["source-comparison"]
+            }
+          },
+          "count": 12
+        }
+      ]
     }
   ],
   "knowledgeCards": [
@@ -4666,6 +5712,1896 @@
           }
         }
       ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "notation.l2.spelling.card-scope",
+      "titleKey": "content.levelTwoSpelling.scopeTitle",
+      "bodyKey": "content.levelTwoSpelling.scopeBody",
+      "skillIds": ["notation.accidental-scope"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | F#4/2 F#4/2",
+          "captionKey": "content.levelTwoSpelling.scopeCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "notation.l2.spelling.card-reset",
+      "titleKey": "content.levelTwoSpelling.resetTitle",
+      "bodyKey": "content.levelTwoSpelling.resetBody",
+      "skillIds": ["notation.accidental-scope"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | F#4/1 | F4/1",
+          "captionKey": "content.levelTwoSpelling.resetCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "notation.l2.spelling.card-natural",
+      "titleKey": "content.levelTwoSpelling.naturalTitle",
+      "bodyKey": "content.levelTwoSpelling.naturalBody",
+      "skillIds": ["notation.accidental-scope"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | F#4/4 F4/4 F#4/4 F5/4",
+          "captionKey": "content.levelTwoSpelling.naturalCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "notation.l2.spelling.card-enharmonic",
+      "titleKey": "content.levelTwoSpelling.enharmonicTitle",
+      "bodyKey": "content.levelTwoSpelling.enharmonicBody",
+      "skillIds": ["notation.enharmonic-spelling"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C#4/2 Db4/2",
+          "captionKey": "content.levelTwoSpelling.enharmonicCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "notation.l2.spelling.card-edges",
+      "titleKey": "content.levelTwoSpelling.edgesTitle",
+      "bodyKey": "content.levelTwoSpelling.edgesBody",
+      "skillIds": ["notation.enharmonic-spelling"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | B#3/2 C4/2",
+          "captionKey": "content.levelTwoSpelling.edgesCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "notation.l2.spelling.card-spelling",
+      "titleKey": "content.levelTwoSpelling.spellingTitle",
+      "bodyKey": "content.levelTwoSpelling.spellingBody",
+      "skillIds": ["notation.enharmonic-spelling"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C#4/4 Db4/4 C4/2",
+          "captionKey": "content.levelTwoSpelling.spellingCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "notation.l2.spelling.card-write",
+      "titleKey": "content.levelTwoSpelling.writeTitle",
+      "bodyKey": "content.levelTwoSpelling.writeBody",
+      "skillIds": ["notation.write-pitch"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | D4/2 D#4/2",
+          "captionKey": "content.levelTwoSpelling.writeCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "notation.l2.spelling.card-bass",
+      "titleKey": "content.levelTwoSpelling.bassTitle",
+      "bodyKey": "content.levelTwoSpelling.bassBody",
+      "skillIds": ["notation.write-pitch"],
+      "examples": [
+        {
+          "score": "bass | 4/4 | C4/2 C#4/2",
+          "captionKey": "content.levelTwoSpelling.bassCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "notation.l2.spelling.card-check",
+      "titleKey": "content.levelTwoSpelling.checkTitle",
+      "bodyKey": "content.levelTwoSpelling.checkBody",
+      "skillIds": ["notation.write-pitch"],
+      "examples": [
+        {
+          "score": "bass | 4/4 | Bb3/2 B3/2",
+          "captionKey": "content.levelTwoSpelling.checkCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "rhythm.l2.dotted-tied.card-dot",
+      "titleKey": "content.levelTwoDottedTied.dotTitle",
+      "bodyKey": "content.levelTwoDottedTied.dotBody",
+      "skillIds": ["rhythm.dotted-values"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4. G4/8 G4/2",
+          "captionKey": "content.levelTwoDottedTied.dotCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "rhythm.l2.dotted-tied.card-eighth",
+      "titleKey": "content.levelTwoDottedTied.eighthTitle",
+      "bodyKey": "content.levelTwoDottedTied.eighthBody",
+      "skillIds": ["rhythm.dotted-values"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/8. G4/16 G4/2.",
+          "captionKey": "content.levelTwoDottedTied.eighthCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "rhythm.l2.dotted-tied.card-fraction",
+      "titleKey": "content.levelTwoDottedTied.fractionTitle",
+      "bodyKey": "content.levelTwoDottedTied.fractionBody",
+      "skillIds": ["rhythm.dotted-values"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/2. r/4",
+          "captionKey": "content.levelTwoDottedTied.fractionCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "rhythm.l2.dotted-tied.card-tie",
+      "titleKey": "content.levelTwoDottedTied.tieTitle",
+      "bodyKey": "content.levelTwoDottedTied.tieBody",
+      "skillIds": ["rhythm.ties"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4~ G4/4 r/2",
+          "captionKey": "content.levelTwoDottedTied.tieCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "rhythm.l2.dotted-tied.card-chain",
+      "titleKey": "content.levelTwoDottedTied.chainTitle",
+      "bodyKey": "content.levelTwoDottedTied.chainBody",
+      "skillIds": ["rhythm.ties"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4~ G4/4~ G4/4 r/4",
+          "captionKey": "content.levelTwoDottedTied.chainCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "rhythm.l2.dotted-tied.card-compare",
+      "titleKey": "content.levelTwoDottedTied.compareTitle",
+      "bodyKey": "content.levelTwoDottedTied.compareBody",
+      "skillIds": ["rhythm.ties"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4. A4/4~ A4/8 r/4",
+          "captionKey": "content.levelTwoDottedTied.compareCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "rhythm.l2.dotted-tied.card-crossbar",
+      "titleKey": "content.levelTwoDottedTied.crossbarTitle",
+      "bodyKey": "content.levelTwoDottedTied.crossbarBody",
+      "skillIds": ["rhythm.dotted-and-tied", "rhythm.syncopation-basic"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | r/2 r/4 F#4/4~ | F#4/2 r/2",
+          "captionKey": "content.levelTwoDottedTied.crossbarCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "rhythm.l2.dotted-tied.card-syncopation",
+      "titleKey": "content.levelTwoDottedTied.syncopationTitle",
+      "bodyKey": "content.levelTwoDottedTied.syncopationBody",
+      "skillIds": ["rhythm.dotted-and-tied", "rhythm.syncopation-basic"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | r/8 G4/8~ G4/4 G4/2",
+          "captionKey": "content.levelTwoDottedTied.syncopationCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "rhythm.l2.dotted-tied.card-count",
+      "titleKey": "content.levelTwoDottedTied.countTitle",
+      "bodyKey": "content.levelTwoDottedTied.countBody",
+      "skillIds": ["rhythm.dotted-and-tied", "rhythm.syncopation-basic"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 G4/4 G4/2",
+          "captionKey": "content.levelTwoDottedTied.countCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "rhythm.l2.subdivision.card-three",
+      "titleKey": "content.levelTwoSubdivision.threeTitle",
+      "bodyKey": "content.levelTwoSubdivision.threeBody",
+      "skillIds": ["rhythm.triplet"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/8{3:2} G4/8{3:2} G4/8{3:2} G4/2.",
+          "captionKey": "content.levelTwoSubdivision.threeCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "rhythm.l2.subdivision.card-equal",
+      "titleKey": "content.levelTwoSubdivision.equalTitle",
+      "bodyKey": "content.levelTwoSubdivision.equalBody",
+      "skillIds": ["rhythm.triplet"],
+      "examples": [
+        {
+          "score": "treble | 2/4 | G4/8{3:2} G4/8{3:2} G4/8{3:2} G4/8{3:2} G4/8{3:2} G4/8{3:2}",
+          "captionKey": "content.levelTwoSubdivision.equalCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "rhythm.l2.subdivision.card-tap",
+      "titleKey": "content.levelTwoSubdivision.tapTitle",
+      "bodyKey": "content.levelTwoSubdivision.tapBody",
+      "skillIds": ["rhythm.triplet"],
+      "examples": [
+        {
+          "score": "treble | 3/4 | G4/8{3:2} G4/8{3:2} G4/8{3:2} G4/8{3:2} G4/8{3:2} G4/8{3:2} G4/8{3:2} G4/8{3:2} G4/8{3:2}",
+          "captionKey": "content.levelTwoSubdivision.tapCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "rhythm.l2.subdivision.card-simple",
+      "titleKey": "content.levelTwoSubdivision.simpleTitle",
+      "bodyKey": "content.levelTwoSubdivision.simpleBody",
+      "skillIds": ["rhythm.compound-meter"],
+      "examples": [
+        {
+          "score": "treble | 3/4 | G4/8 G4/8 G4/8 G4/8 G4/8 G4/8",
+          "captionKey": "content.levelTwoSubdivision.simpleCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "rhythm.l2.subdivision.card-compound",
+      "titleKey": "content.levelTwoSubdivision.compoundTitle",
+      "bodyKey": "content.levelTwoSubdivision.compoundBody",
+      "skillIds": ["rhythm.compound-meter"],
+      "examples": [
+        {
+          "score": "treble | 6/8 | G4/8 G4/8 G4/8 G4/8 G4/8 G4/8",
+          "captionKey": "content.levelTwoSubdivision.compoundCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "rhythm.l2.subdivision.card-same-total",
+      "titleKey": "content.levelTwoSubdivision.sameTotalTitle",
+      "bodyKey": "content.levelTwoSubdivision.sameTotalBody",
+      "skillIds": ["rhythm.compound-meter"],
+      "examples": [
+        {
+          "score": "treble | 6/8 | G4/4. G4/4.",
+          "captionKey": "content.levelTwoSubdivision.sameTotalCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "rhythm.l2.subdivision.card-group",
+      "titleKey": "content.levelTwoSubdivision.groupTitle",
+      "bodyKey": "content.levelTwoSubdivision.groupBody",
+      "skillIds": ["rhythm.group-6-8"],
+      "examples": [
+        {
+          "score": "treble | 6/8 | G4/4 G4/8 G4/8 G4/4",
+          "captionKey": "content.levelTwoSubdivision.groupCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "rhythm.l2.subdivision.card-rests",
+      "titleKey": "content.levelTwoSubdivision.restsTitle",
+      "bodyKey": "content.levelTwoSubdivision.restsBody",
+      "skillIds": ["rhythm.group-6-8"],
+      "examples": [
+        {
+          "score": "treble | 6/8 | r/8 G4/4 G4/4.",
+          "captionKey": "content.levelTwoSubdivision.restsCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "rhythm.l2.subdivision.card-distinguish",
+      "titleKey": "content.levelTwoSubdivision.distinguishTitle",
+      "bodyKey": "content.levelTwoSubdivision.distinguishBody",
+      "skillIds": ["rhythm.group-6-8"],
+      "examples": [
+        {
+          "score": "treble | 6/8 | G4/8 G4/8 G4/8 G4/4.",
+          "captionKey": "content.levelTwoSubdivision.distinguishCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "intervals.l2.qualities-build.card-number",
+      "titleKey": "content.levelTwoQualitiesBuild.numberTitle",
+      "bodyKey": "content.levelTwoQualitiesBuild.numberBody",
+      "skillIds": ["interval.simple-qualities"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/2 E4/2",
+          "captionKey": "content.levelTwoQualitiesBuild.numberCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "intervals.l2.qualities-build.card-families",
+      "titleKey": "content.levelTwoQualitiesBuild.familiesTitle",
+      "bodyKey": "content.levelTwoQualitiesBuild.familiesBody",
+      "skillIds": ["interval.simple-qualities"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/2 F4/2",
+          "captionKey": "content.levelTwoQualitiesBuild.familiesCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "intervals.l2.qualities-build.card-qualities",
+      "titleKey": "content.levelTwoQualitiesBuild.qualitiesTitle",
+      "bodyKey": "content.levelTwoQualitiesBuild.qualitiesBody",
+      "skillIds": ["interval.simple-qualities"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/2 Eb4/2",
+          "captionKey": "content.levelTwoQualitiesBuild.qualitiesCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "intervals.l2.qualities-build.card-build-number",
+      "titleKey": "content.levelTwoQualitiesBuild.buildNumberTitle",
+      "bodyKey": "content.levelTwoQualitiesBuild.buildNumberBody",
+      "skillIds": ["interval.build"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/1 | E4/1",
+          "captionKey": "content.levelTwoQualitiesBuild.buildNumberCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "intervals.l2.qualities-build.card-build-quality",
+      "titleKey": "content.levelTwoQualitiesBuild.buildQualityTitle",
+      "bodyKey": "content.levelTwoQualitiesBuild.buildQualityBody",
+      "skillIds": ["interval.build"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | D4/2 F#4/2",
+          "captionKey": "content.levelTwoQualitiesBuild.buildQualityCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "intervals.l2.qualities-build.card-build-check",
+      "titleKey": "content.levelTwoQualitiesBuild.buildCheckTitle",
+      "bodyKey": "content.levelTwoQualitiesBuild.buildCheckBody",
+      "skillIds": ["interval.build"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/2 G4/2",
+          "captionKey": "content.levelTwoQualitiesBuild.buildCheckCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "intervals.l2.qualities-build.card-tritone",
+      "titleKey": "content.levelTwoQualitiesBuild.tritoneTitle",
+      "bodyKey": "content.levelTwoQualitiesBuild.tritoneBody",
+      "skillIds": ["interval.enharmonic-distinction"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 F#4/4 C4/4 Gb4/4",
+          "captionKey": "content.levelTwoQualitiesBuild.tritoneCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "intervals.l2.qualities-build.card-third-fourth",
+      "titleKey": "content.levelTwoQualitiesBuild.thirdFourthTitle",
+      "bodyKey": "content.levelTwoQualitiesBuild.thirdFourthBody",
+      "skillIds": ["interval.enharmonic-distinction"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 E4/4 C4/4 Fb4/4",
+          "captionKey": "content.levelTwoQualitiesBuild.thirdFourthCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "intervals.l2.qualities-build.card-context",
+      "titleKey": "content.levelTwoQualitiesBuild.contextTitle",
+      "bodyKey": "content.levelTwoQualitiesBuild.contextBody",
+      "skillIds": ["interval.enharmonic-distinction"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/2 Gb4/2",
+          "captionKey": "content.levelTwoQualitiesBuild.contextCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "intervals.l2.inversion.card-invert",
+      "titleKey": "content.levelTwoInversion.invertTitle",
+      "bodyKey": "content.levelTwoInversion.invertBody",
+      "skillIds": ["interval.inversion"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 E4/4 E4/4 C5/4",
+          "captionKey": "content.levelTwoInversion.invertCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "intervals.l2.inversion.card-nine",
+      "titleKey": "content.levelTwoInversion.nineTitle",
+      "bodyKey": "content.levelTwoInversion.nineBody",
+      "skillIds": ["interval.inversion"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 F4/4 F4/4 C5/4",
+          "captionKey": "content.levelTwoInversion.nineCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "intervals.l2.inversion.card-quality",
+      "titleKey": "content.levelTwoInversion.qualityTitle",
+      "bodyKey": "content.levelTwoInversion.qualityBody",
+      "skillIds": ["interval.inversion"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/2 C5/2",
+          "captionKey": "content.levelTwoInversion.qualityCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "intervals.l2.inversion.card-descending",
+      "titleKey": "content.levelTwoInversion.descendingTitle",
+      "bodyKey": "content.levelTwoInversion.descendingBody",
+      "skillIds": ["interval.descending"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/2 C4/2",
+          "captionKey": "content.levelTwoInversion.descendingCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "intervals.l2.inversion.card-down-quality",
+      "titleKey": "content.levelTwoInversion.downQualityTitle",
+      "bodyKey": "content.levelTwoInversion.downQualityBody",
+      "skillIds": ["interval.descending"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/2 Ab3/2",
+          "captionKey": "content.levelTwoInversion.downQualityCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "intervals.l2.inversion.card-down-check",
+      "titleKey": "content.levelTwoInversion.downCheckTitle",
+      "bodyKey": "content.levelTwoInversion.downCheckBody",
+      "skillIds": ["interval.descending"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/2 C4/2",
+          "captionKey": "content.levelTwoInversion.downCheckCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "intervals.l2.inversion.card-compound",
+      "titleKey": "content.levelTwoInversion.compoundTitle",
+      "bodyKey": "content.levelTwoInversion.compoundBody",
+      "skillIds": ["interval.simple-compound"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/2 D5/2",
+          "captionKey": "content.levelTwoInversion.compoundCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "intervals.l2.inversion.card-reduce",
+      "titleKey": "content.levelTwoInversion.reduceTitle",
+      "bodyKey": "content.levelTwoInversion.reduceBody",
+      "skillIds": ["interval.simple-compound"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/2 E5/2",
+          "captionKey": "content.levelTwoInversion.reduceCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "intervals.l2.inversion.card-octaves",
+      "titleKey": "content.levelTwoInversion.octavesTitle",
+      "bodyKey": "content.levelTwoInversion.octavesBody",
+      "skillIds": ["interval.simple-compound"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/2 C6/2",
+          "captionKey": "content.levelTwoInversion.octavesCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.major.card-pattern",
+      "titleKey": "content.levelTwoMajor.patternTitle",
+      "bodyKey": "content.levelTwoMajor.patternBody",
+      "skillIds": ["scale.major-pattern"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 D4/4 E4/4 F4/4 | G4/4 A4/4 B4/4 C5/4",
+          "captionKey": "content.levelTwoMajor.patternCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.major.card-letters",
+      "titleKey": "content.levelTwoMajor.lettersTitle",
+      "bodyKey": "content.levelTwoMajor.lettersBody",
+      "skillIds": ["scale.major-pattern"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 A4/4 B4/4 C5/4 | D5/4 E5/4 F#5/4 G5/4",
+          "captionKey": "content.levelTwoMajor.lettersCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.major.card-transpose",
+      "titleKey": "content.levelTwoMajor.transposeTitle",
+      "bodyKey": "content.levelTwoMajor.transposeBody",
+      "skillIds": ["scale.major-pattern"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | F4/4 G4/4 A4/4 Bb4/4 | C5/4 D5/4 E5/4 F5/4",
+          "captionKey": "content.levelTwoMajor.transposeCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.major.card-build",
+      "titleKey": "content.levelTwoMajor.buildTitle",
+      "bodyKey": "content.levelTwoMajor.buildBody",
+      "skillIds": ["scale.major-build"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | D4/4 E4/4 F#4/4 G4/4 | A4/4 B4/4 C#5/4 D5/4",
+          "captionKey": "content.levelTwoMajor.buildCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.major.card-three",
+      "titleKey": "content.levelTwoMajor.threeTitle",
+      "bodyKey": "content.levelTwoMajor.threeBody",
+      "skillIds": ["scale.major-build"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | A4/4 B4/4 C#5/4 D5/4 | E5/4 F#5/4 G#5/4 A5/4",
+          "captionKey": "content.levelTwoMajor.threeCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.major.card-check",
+      "titleKey": "content.levelTwoMajor.checkTitle",
+      "bodyKey": "content.levelTwoMajor.checkBody",
+      "skillIds": ["scale.major-build"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | Eb4/4 F4/4 G4/4 Ab4/4 | Bb4/4 C5/4 D5/4 Eb5/4",
+          "captionKey": "content.levelTwoMajor.checkCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.major.card-tonic",
+      "titleKey": "content.levelTwoMajor.tonicTitle",
+      "bodyKey": "content.levelTwoMajor.tonicBody",
+      "skillIds": ["scale.tonic"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 A4/4 B4/4 C5/4 | D5/4 E5/4 F#5/4 G5/4",
+          "captionKey": "content.levelTwoMajor.tonicCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.major.card-degrees",
+      "titleKey": "content.levelTwoMajor.degreesTitle",
+      "bodyKey": "content.levelTwoMajor.degreesBody",
+      "skillIds": ["scale.tonic"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | F4/4 G4/4 A4/4 Bb4/4 | C5/4 D5/4 E5/4 F5/4",
+          "captionKey": "content.levelTwoMajor.degreesCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.major.card-relation",
+      "titleKey": "content.levelTwoMajor.relationTitle",
+      "bodyKey": "content.levelTwoMajor.relationBody",
+      "skillIds": ["scale.tonic"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 A4/4 B4/4 C5/4 | D5/4 E5/4 F#5/4 G5/4",
+          "captionKey": "content.levelTwoMajor.relationCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.minor.card-natural",
+      "titleKey": "content.levelTwoMinor.naturalTitle",
+      "bodyKey": "content.levelTwoMinor.naturalBody",
+      "skillIds": ["scale.natural-minor"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | A4/4 B4/4 C5/4 D5/4 | E5/4 F5/4 G5/4 A5/4",
+          "captionKey": "content.levelTwoMinor.naturalCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.minor.card-third",
+      "titleKey": "content.levelTwoMinor.thirdTitle",
+      "bodyKey": "content.levelTwoMinor.thirdBody",
+      "skillIds": ["scale.natural-minor"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 D4/4 Eb4/4 F4/4 | G4/4 Ab4/4 Bb4/4 C5/4",
+          "captionKey": "content.levelTwoMinor.thirdCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.minor.card-minor-signature",
+      "titleKey": "content.levelTwoMinor.minorSignatureTitle",
+      "bodyKey": "content.levelTwoMinor.minorSignatureBody",
+      "skillIds": ["scale.natural-minor"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/4 F#4/4 G4/4 A4/4 | B4/4 C5/4 D5/4 E5/4",
+          "captionKey": "content.levelTwoMinor.minorSignatureCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.minor.card-seventh",
+      "titleKey": "content.levelTwoMinor.seventhTitle",
+      "bodyKey": "content.levelTwoMinor.seventhBody",
+      "skillIds": ["scale.harmonic-minor"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | A4/4 B4/4 C5/4 D5/4 | E5/4 F5/4 G#5/4 A5/4",
+          "captionKey": "content.levelTwoMinor.seventhCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.minor.card-augmented-second",
+      "titleKey": "content.levelTwoMinor.augmentedSecondTitle",
+      "bodyKey": "content.levelTwoMinor.augmentedSecondBody",
+      "skillIds": ["scale.harmonic-minor"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | F5/2 G#5/2",
+          "captionKey": "content.levelTwoMinor.augmentedSecondCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.minor.card-raise",
+      "titleKey": "content.levelTwoMinor.raiseTitle",
+      "bodyKey": "content.levelTwoMinor.raiseBody",
+      "skillIds": ["scale.harmonic-minor"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 D4/4 Eb4/4 F4/4 | G4/4 Ab4/4 B4/4 C5/4",
+          "captionKey": "content.levelTwoMinor.raiseCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.minor.card-melodic-up",
+      "titleKey": "content.levelTwoMinor.melodicUpTitle",
+      "bodyKey": "content.levelTwoMinor.melodicUpBody",
+      "skillIds": ["scale.melodic-minor"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | A4/4 B4/4 C5/4 D5/4 | E5/4 F#5/4 G#5/4 A5/4",
+          "captionKey": "content.levelTwoMinor.melodicUpCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.minor.card-melodic-down",
+      "titleKey": "content.levelTwoMinor.melodicDownTitle",
+      "bodyKey": "content.levelTwoMinor.melodicDownBody",
+      "skillIds": ["scale.melodic-minor"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | A5/4 G5/4 F5/4 E5/4 | D5/4 C5/4 B4/4 A4/4",
+          "captionKey": "content.levelTwoMinor.melodicDownCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.minor.card-convention",
+      "titleKey": "content.levelTwoMinor.conventionTitle",
+      "bodyKey": "content.levelTwoMinor.conventionBody",
+      "skillIds": ["scale.melodic-minor"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 D4/4 Eb4/4 F4/4 | G4/4 A4/4 B4/4 C5/4",
+          "captionKey": "content.levelTwoMinor.conventionCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.keys.card-signature",
+      "titleKey": "content.levelTwoKeys.signatureTitle",
+      "bodyKey": "content.levelTwoKeys.signatureBody",
+      "skillIds": ["key.signature-major"],
+      "examples": [
+        {
+          "score": "treble | key:G | 4/4 | G4/4 A4/4 B4/4 F#5/4",
+          "captionKey": "content.levelTwoKeys.signatureCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.keys.card-sharps",
+      "titleKey": "content.levelTwoKeys.sharpsTitle",
+      "bodyKey": "content.levelTwoKeys.sharpsBody",
+      "skillIds": ["key.signature-major"],
+      "examples": [
+        {
+          "score": "treble | key:A | 4/4 | A4/2 G#4/2",
+          "captionKey": "content.levelTwoKeys.sharpsCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.keys.card-flats",
+      "titleKey": "content.levelTwoKeys.flatsTitle",
+      "bodyKey": "content.levelTwoKeys.flatsBody",
+      "skillIds": ["key.signature-major"],
+      "examples": [
+        {
+          "score": "bass | key:Eb | 4/4 | Eb3/2 Bb3/2",
+          "captionKey": "content.levelTwoKeys.flatsCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.keys.card-fifths",
+      "titleKey": "content.levelTwoKeys.fifthsTitle",
+      "bodyKey": "content.levelTwoKeys.fifthsBody",
+      "skillIds": ["key.fifths"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/2 G4/2",
+          "captionKey": "content.levelTwoKeys.fifthsCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.keys.card-backwards",
+      "titleKey": "content.levelTwoKeys.backwardsTitle",
+      "bodyKey": "content.levelTwoKeys.backwardsBody",
+      "skillIds": ["key.fifths"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C5/2 F4/2",
+          "captionKey": "content.levelTwoKeys.backwardsCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.keys.card-nearby",
+      "titleKey": "content.levelTwoKeys.nearbyTitle",
+      "bodyKey": "content.levelTwoKeys.nearbyBody",
+      "skillIds": ["key.fifths"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | F4/2 C5/2",
+          "captionKey": "content.levelTwoKeys.nearbyCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.keys.card-minor-keys",
+      "titleKey": "content.levelTwoKeys.minorKeysTitle",
+      "bodyKey": "content.levelTwoKeys.minorKeysBody",
+      "skillIds": ["key.signature-minor", "key.relative"],
+      "examples": [
+        {
+          "score": "treble | key:e | 4/4 | E4/4 F#4/4 G4/4 D#5/4",
+          "captionKey": "content.levelTwoKeys.minorKeysCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.keys.card-relative",
+      "titleKey": "content.levelTwoKeys.relativeTitle",
+      "bodyKey": "content.levelTwoKeys.relativeBody",
+      "skillIds": ["key.signature-minor", "key.relative"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C5/2 A4/2",
+          "captionKey": "content.levelTwoKeys.relativeCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.keys.card-parallel",
+      "titleKey": "content.levelTwoKeys.parallelTitle",
+      "bodyKey": "content.levelTwoKeys.parallelBody",
+      "skillIds": ["key.signature-minor", "key.relative"],
+      "examples": [
+        {
+          "score": "treble | key:Eb | 4/4 | Eb4/2 C4/2",
+          "captionKey": "content.levelTwoKeys.parallelCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "chords.l2.qualities.card-stack",
+      "titleKey": "content.levelTwoQualities.stackTitle",
+      "bodyKey": "content.levelTwoQualities.stackBody",
+      "skillIds": ["chord.triad-structure"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | (C4 E4 G4)/1",
+          "captionKey": "content.levelTwoQualities.stackCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "chords.l2.qualities.card-roles",
+      "titleKey": "content.levelTwoQualities.rolesTitle",
+      "bodyKey": "content.levelTwoQualities.rolesBody",
+      "skillIds": ["chord.triad-structure"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | (D4 F4 A4)/1",
+          "captionKey": "content.levelTwoQualities.rolesCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "chords.l2.qualities.card-fifth",
+      "titleKey": "content.levelTwoQualities.fifthTitle",
+      "bodyKey": "content.levelTwoQualities.fifthBody",
+      "skillIds": ["chord.triad-structure"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | (F4 A4 C5)/1",
+          "captionKey": "content.levelTwoQualities.fifthCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "chords.l2.qualities.card-major",
+      "titleKey": "content.levelTwoQualities.majorTitle",
+      "bodyKey": "content.levelTwoQualities.majorBody",
+      "skillIds": ["chord.major-minor"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | (G4 B4 D5)/1",
+          "captionKey": "content.levelTwoQualities.majorCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "chords.l2.qualities.card-minor",
+      "titleKey": "content.levelTwoQualities.minorTitle",
+      "bodyKey": "content.levelTwoQualities.minorBody",
+      "skillIds": ["chord.major-minor"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | (C4 Eb4 G4)/1",
+          "captionKey": "content.levelTwoQualities.minorCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "chords.l2.qualities.card-write-chord",
+      "titleKey": "content.levelTwoQualities.writeChordTitle",
+      "bodyKey": "content.levelTwoQualities.writeChordBody",
+      "skillIds": ["chord.major-minor"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | (D4 F#4 A4)/1",
+          "captionKey": "content.levelTwoQualities.writeChordCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "chords.l2.qualities.card-diminished",
+      "titleKey": "content.levelTwoQualities.diminishedTitle",
+      "bodyKey": "content.levelTwoQualities.diminishedBody",
+      "skillIds": ["chord.diminished-augmented"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | (B3 D4 F4)/1",
+          "captionKey": "content.levelTwoQualities.diminishedCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "chords.l2.qualities.card-augmented",
+      "titleKey": "content.levelTwoQualities.augmentedTitle",
+      "bodyKey": "content.levelTwoQualities.augmentedBody",
+      "skillIds": ["chord.diminished-augmented"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | (C4 E4 G#4)/1",
+          "captionKey": "content.levelTwoQualities.augmentedCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "chords.l2.qualities.card-four",
+      "titleKey": "content.levelTwoQualities.fourTitle",
+      "bodyKey": "content.levelTwoQualities.fourBody",
+      "skillIds": ["chord.diminished-augmented"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | (C4 Eb4 Gb4)/2 (C4 E4 G#4)/2",
+          "captionKey": "content.levelTwoQualities.fourCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "chords.l2.inversions.card-root-bass",
+      "titleKey": "content.levelTwoInversions.rootBassTitle",
+      "bodyKey": "content.levelTwoInversions.rootBassBody",
+      "skillIds": ["chord.root-and-bass"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | (E4 G4 C5)/1",
+          "captionKey": "content.levelTwoInversions.rootBassCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "chords.l2.inversions.card-reorder",
+      "titleKey": "content.levelTwoInversions.reorderTitle",
+      "bodyKey": "content.levelTwoInversions.reorderBody",
+      "skillIds": ["chord.root-and-bass"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | (G4 C5 E5)/1",
+          "captionKey": "content.levelTwoInversions.reorderCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "chords.l2.inversions.card-fixed-role",
+      "titleKey": "content.levelTwoInversions.fixedRoleTitle",
+      "bodyKey": "content.levelTwoInversions.fixedRoleBody",
+      "skillIds": ["chord.root-and-bass"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | (C4 E4 G4)/2 (E4 G4 C5)/2",
+          "captionKey": "content.levelTwoInversions.fixedRoleCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "chords.l2.inversions.card-first",
+      "titleKey": "content.levelTwoInversions.firstTitle",
+      "bodyKey": "content.levelTwoInversions.firstBody",
+      "skillIds": ["chord.inversions"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | (E4 G4 C5)/1",
+          "captionKey": "content.levelTwoInversions.firstCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "chords.l2.inversions.card-second",
+      "titleKey": "content.levelTwoInversions.secondTitle",
+      "bodyKey": "content.levelTwoInversions.secondBody",
+      "skillIds": ["chord.inversions"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | (G4 C5 E5)/1",
+          "captionKey": "content.levelTwoInversions.secondCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "chords.l2.inversions.card-recognize",
+      "titleKey": "content.levelTwoInversions.recognizeTitle",
+      "bodyKey": "content.levelTwoInversions.recognizeBody",
+      "skillIds": ["chord.inversions"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | (Eb4 G4 C5)/1",
+          "captionKey": "content.levelTwoInversions.recognizeCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "chords.l2.inversions.card-diatonic",
+      "titleKey": "content.levelTwoInversions.diatonicTitle",
+      "bodyKey": "content.levelTwoInversions.diatonicBody",
+      "skillIds": ["chord.diatonic-triads"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | (D4 F4 A4)/1",
+          "captionKey": "content.levelTwoInversions.diatonicCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "chords.l2.inversions.card-major-degrees",
+      "titleKey": "content.levelTwoInversions.majorDegreesTitle",
+      "bodyKey": "content.levelTwoInversions.majorDegreesBody",
+      "skillIds": ["chord.diatonic-triads"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | (B3 D4 F4)/1",
+          "captionKey": "content.levelTwoInversions.majorDegreesCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "chords.l2.inversions.card-minor-degrees",
+      "titleKey": "content.levelTwoInversions.minorDegreesTitle",
+      "bodyKey": "content.levelTwoInversions.minorDegreesBody",
+      "skillIds": ["chord.diatonic-triads"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | (E4 G4 B4)/1",
+          "captionKey": "content.levelTwoInversions.minorDegreesCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.rhythm-detail.card-long-short",
+      "titleKey": "content.levelTwoRhythmDetail.longShortTitle",
+      "bodyKey": "content.levelTwoRhythmDetail.longShortBody",
+      "skillIds": ["aural.rhythm-choice-dotted"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4. G4/8 G4/4 G4/4",
+          "captionKey": "content.levelTwoRhythmDetail.longShortCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.rhythm-detail.card-short-long",
+      "titleKey": "content.levelTwoRhythmDetail.shortLongTitle",
+      "bodyKey": "content.levelTwoRhythmDetail.shortLongBody",
+      "skillIds": ["aural.rhythm-choice-dotted"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/8 G4/4. G4/4 G4/4",
+          "captionKey": "content.levelTwoRhythmDetail.shortLongCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.rhythm-detail.card-small-values",
+      "titleKey": "content.levelTwoRhythmDetail.smallValuesTitle",
+      "bodyKey": "content.levelTwoRhythmDetail.smallValuesBody",
+      "skillIds": ["aural.rhythm-choice-dotted"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/8. G4/16 G4/4 r/4 G4/4",
+          "captionKey": "content.levelTwoRhythmDetail.smallValuesCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.rhythm-detail.card-two-parts",
+      "titleKey": "content.levelTwoRhythmDetail.twoPartsTitle",
+      "bodyKey": "content.levelTwoRhythmDetail.twoPartsBody",
+      "skillIds": ["aural.simple-compound-pulse"],
+      "examples": [
+        {
+          "score": "treble | 2/4 | C6/8 G5/8 C6/8 G5/8",
+          "captionKey": "content.levelTwoRhythmDetail.twoPartsCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.rhythm-detail.card-three-parts",
+      "titleKey": "content.levelTwoRhythmDetail.threePartsTitle",
+      "bodyKey": "content.levelTwoRhythmDetail.threePartsBody",
+      "skillIds": ["aural.simple-compound-pulse"],
+      "examples": [
+        {
+          "score": "treble | 6/8 | C6/8 G5/8 G5/8 C6/8 G5/8 G5/8",
+          "captionKey": "content.levelTwoRhythmDetail.threePartsCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.rhythm-detail.card-tempo-reference",
+      "titleKey": "content.levelTwoRhythmDetail.tempoReferenceTitle",
+      "bodyKey": "content.levelTwoRhythmDetail.tempoReferenceBody",
+      "skillIds": ["aural.simple-compound-pulse"],
+      "examples": [
+        {
+          "score": "treble | 6/8 | C6/4. C6/4.",
+          "captionKey": "content.levelTwoRhythmDetail.tempoReferenceCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.rhythm-detail.card-outline",
+      "titleKey": "content.levelTwoRhythmDetail.outlineTitle",
+      "bodyKey": "content.levelTwoRhythmDetail.outlineBody",
+      "skillIds": ["aural.rhythm-completion"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/8 G4/8",
+          "captionKey": "content.levelTwoRhythmDetail.outlineCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.rhythm-detail.card-complete",
+      "titleKey": "content.levelTwoRhythmDetail.completeTitle",
+      "bodyKey": "content.levelTwoRhythmDetail.completeBody",
+      "skillIds": ["aural.rhythm-completion"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/8. G4/16",
+          "captionKey": "content.levelTwoRhythmDetail.completeCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.rhythm-detail.card-silence",
+      "titleKey": "content.levelTwoRhythmDetail.silenceTitle",
+      "bodyKey": "content.levelTwoRhythmDetail.silenceBody",
+      "skillIds": ["aural.rhythm-completion"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/8 r/8",
+          "captionKey": "content.levelTwoRhythmDetail.silenceCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.melody.card-seconds",
+      "titleKey": "content.levelTwoMelody.secondsTitle",
+      "bodyKey": "content.levelTwoMelody.secondsBody",
+      "skillIds": ["aural.simple-intervals"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 Db4/4 C4/4 D4/4",
+          "captionKey": "content.levelTwoMelody.secondsCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.melody.card-thirds-sixths",
+      "titleKey": "content.levelTwoMelody.thirdsSixthsTitle",
+      "bodyKey": "content.levelTwoMelody.thirdsSixthsBody",
+      "skillIds": ["aural.simple-intervals"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 E4/4 E4/4 C5/4 | C4/4 Eb4/4 Eb4/4 C5/4",
+          "captionKey": "content.levelTwoMelody.thirdsSixthsCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.melody.card-frame",
+      "titleKey": "content.levelTwoMelody.frameTitle",
+      "bodyKey": "content.levelTwoMelody.frameBody",
+      "skillIds": ["aural.simple-intervals"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 F4/4 C4/4 G4/4 | C4/4 Bb4/4 C4/4 B4/4 | C4/2 C5/2",
+          "captionKey": "content.levelTwoMelody.frameCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.melody.card-major-sound",
+      "titleKey": "content.levelTwoMelody.majorSoundTitle",
+      "bodyKey": "content.levelTwoMelody.majorSoundBody",
+      "skillIds": ["aural.major-minor-scale"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/8 D4/8 E4/8 F4/8 G4/8 A4/8 B4/8 C5/8",
+          "captionKey": "content.levelTwoMelody.majorSoundCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.melody.card-minor-sound",
+      "titleKey": "content.levelTwoMelody.minorSoundTitle",
+      "bodyKey": "content.levelTwoMelody.minorSoundBody",
+      "skillIds": ["aural.major-minor-scale"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/8 D4/8 Eb4/8 F4/8 G4/8 Ab4/8 Bb4/8 C5/8",
+          "captionKey": "content.levelTwoMelody.minorSoundCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.melody.card-transpose-ear",
+      "titleKey": "content.levelTwoMelody.transposeEarTitle",
+      "bodyKey": "content.levelTwoMelody.transposeEarBody",
+      "skillIds": ["aural.major-minor-scale"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/8 F#4/8 G4/8 A4/8 B4/8 C5/8 D5/8 E5/8",
+          "captionKey": "content.levelTwoMelody.transposeEarCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.melody.card-remember",
+      "titleKey": "content.levelTwoMelody.rememberTitle",
+      "bodyKey": "content.levelTwoMelody.rememberBody",
+      "skillIds": ["aural.melodic-memory"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/4 G4/4 F4/4 A4/4",
+          "captionKey": "content.levelTwoMelody.rememberCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.melody.card-locate",
+      "titleKey": "content.levelTwoMelody.locateTitle",
+      "bodyKey": "content.levelTwoMelody.locateBody",
+      "skillIds": ["aural.melodic-memory"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/4 G4/4 G4/4 A4/4",
+          "captionKey": "content.levelTwoMelody.locateCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.melody.card-review-memory",
+      "titleKey": "content.levelTwoMelody.reviewMemoryTitle",
+      "bodyKey": "content.levelTwoMelody.reviewMemoryBody",
+      "skillIds": ["aural.melodic-memory"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | F4/4 E4/4 A4/4 G4/4",
+          "captionKey": "content.levelTwoMelody.reviewMemoryCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.triads.card-root-reference",
+      "titleKey": "content.levelTwoTriads.rootReferenceTitle",
+      "bodyKey": "content.levelTwoTriads.rootReferenceBody",
+      "skillIds": ["aural.triad-major-minor"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/2 (C4 E4 G4)/2",
+          "captionKey": "content.levelTwoTriads.rootReferenceCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.triads.card-hear-third",
+      "titleKey": "content.levelTwoTriads.hearThirdTitle",
+      "bodyKey": "content.levelTwoTriads.hearThirdBody",
+      "skillIds": ["aural.triad-major-minor"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | (C4 E4 G4)/2 (C4 Eb4 G4)/2",
+          "captionKey": "content.levelTwoTriads.hearThirdCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.triads.card-whole-chord",
+      "titleKey": "content.levelTwoTriads.wholeChordTitle",
+      "bodyKey": "content.levelTwoTriads.wholeChordBody",
+      "skillIds": ["aural.triad-major-minor"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/2 (G4 Bb4 D5)/2",
+          "captionKey": "content.levelTwoTriads.wholeChordCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.triads.card-diminished-ear",
+      "titleKey": "content.levelTwoTriads.diminishedEarTitle",
+      "bodyKey": "content.levelTwoTriads.diminishedEarBody",
+      "skillIds": ["aural.triad-quality"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/2 (C4 Eb4 Gb4)/2",
+          "captionKey": "content.levelTwoTriads.diminishedEarCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.triads.card-augmented-ear",
+      "titleKey": "content.levelTwoTriads.augmentedEarTitle",
+      "bodyKey": "content.levelTwoTriads.augmentedEarBody",
+      "skillIds": ["aural.triad-quality"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/2 (C4 E4 G#4)/2",
+          "captionKey": "content.levelTwoTriads.augmentedEarCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.triads.card-compare-four",
+      "titleKey": "content.levelTwoTriads.compareFourTitle",
+      "bodyKey": "content.levelTwoTriads.compareFourBody",
+      "skillIds": ["aural.triad-quality"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | (C4 E4 G4)/4 (C4 Eb4 G4)/4 (C4 Eb4 Gb4)/4 (C4 E4 G#4)/4",
+          "captionKey": "content.levelTwoTriads.compareFourCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.triads.card-bass-ear",
+      "titleKey": "content.levelTwoTriads.bassEarTitle",
+      "bodyKey": "content.levelTwoTriads.bassEarBody",
+      "skillIds": ["aural.triad-inversions"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C5/2 (E4 G4 C5)/2",
+          "captionKey": "content.levelTwoTriads.bassEarCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.triads.card-close-position",
+      "titleKey": "content.levelTwoTriads.closePositionTitle",
+      "bodyKey": "content.levelTwoTriads.closePositionBody",
+      "skillIds": ["aural.triad-inversions"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C5/2 (G4 C5 E5)/2",
+          "captionKey": "content.levelTwoTriads.closePositionCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.triads.card-quality-position",
+      "titleKey": "content.levelTwoTriads.qualityPositionTitle",
+      "bodyKey": "content.levelTwoTriads.qualityPositionBody",
+      "skillIds": ["aural.triad-inversions"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C5/2 (Eb4 G4 C5)/2",
+          "captionKey": "content.levelTwoTriads.qualityPositionCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "history.l2.period-contexts.card-medieval",
+      "titleKey": "content.levelTwoPeriodContexts.medievalTitle",
+      "bodyKey": "content.levelTwoPeriodContexts.medievalBody",
+      "skillIds": ["history.medieval-renaissance"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | D4/2 E4/4 D4/4",
+          "captionKey": "content.levelTwoPeriodContexts.medievalCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "history.l2.period-contexts.card-renaissance",
+      "titleKey": "content.levelTwoPeriodContexts.renaissanceTitle",
+      "bodyKey": "content.levelTwoPeriodContexts.renaissanceBody",
+      "skillIds": ["history.medieval-renaissance"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 D4/4 E4/4 G4/4",
+          "captionKey": "content.levelTwoPeriodContexts.renaissanceCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "history.l2.period-contexts.card-first-context",
+      "titleKey": "content.levelTwoPeriodContexts.firstContextTitle",
+      "bodyKey": "content.levelTwoPeriodContexts.firstContextBody",
+      "skillIds": ["history.medieval-renaissance"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/2 G4/2",
+          "captionKey": "content.levelTwoPeriodContexts.firstContextCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "history.l2.period-contexts.card-baroque",
+      "titleKey": "content.levelTwoPeriodContexts.baroqueTitle",
+      "bodyKey": "content.levelTwoPeriodContexts.baroqueBody",
+      "skillIds": ["history.baroque-classical"],
+      "examples": [
+        {
+          "score": "bass | 4/4 | C3/2 G2/2",
+          "captionKey": "content.levelTwoPeriodContexts.baroqueCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "history.l2.period-contexts.card-classical",
+      "titleKey": "content.levelTwoPeriodContexts.classicalTitle",
+      "bodyKey": "content.levelTwoPeriodContexts.classicalBody",
+      "skillIds": ["history.baroque-classical"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 D4/4 G4/4 C5/4",
+          "captionKey": "content.levelTwoPeriodContexts.classicalCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "history.l2.period-contexts.card-baroque-classical",
+      "titleKey": "content.levelTwoPeriodContexts.baroqueClassicalTitle",
+      "bodyKey": "content.levelTwoPeriodContexts.baroqueClassicalBody",
+      "skillIds": ["history.baroque-classical"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/2 C5/2",
+          "captionKey": "content.levelTwoPeriodContexts.baroqueClassicalCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "history.l2.period-contexts.card-romantic",
+      "titleKey": "content.levelTwoPeriodContexts.romanticTitle",
+      "bodyKey": "content.levelTwoPeriodContexts.romanticBody",
+      "skillIds": ["history.romantic-modern"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 C#4/4 D4/4 Eb4/4",
+          "captionKey": "content.levelTwoPeriodContexts.romanticCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "history.l2.period-contexts.card-since1900",
+      "titleKey": "content.levelTwoPeriodContexts.since1900Title",
+      "bodyKey": "content.levelTwoPeriodContexts.since1900Body",
+      "skillIds": ["history.romantic-modern"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 F#4/4 D4/4 Ab4/4",
+          "captionKey": "content.levelTwoPeriodContexts.since1900Caption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "history.l2.period-contexts.card-limits",
+      "titleKey": "content.levelTwoPeriodContexts.limitsTitle",
+      "bodyKey": "content.levelTwoPeriodContexts.limitsBody",
+      "skillIds": ["history.romantic-modern"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/2 G4/2",
+          "captionKey": "content.levelTwoPeriodContexts.limitsCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "history.l2.jazz-pop-sources.card-communities",
+      "titleKey": "content.levelTwoJazzPopSources.communitiesTitle",
+      "bodyKey": "content.levelTwoJazzPopSources.communitiesBody",
+      "skillIds": ["history.jazz-roots"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 Eb4/4 G4/4 Bb4/4",
+          "captionKey": "content.levelTwoJazzPopSources.communitiesCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "history.l2.jazz-pop-sources.card-migration",
+      "titleKey": "content.levelTwoJazzPopSources.migrationTitle",
+      "bodyKey": "content.levelTwoJazzPopSources.migrationBody",
+      "skillIds": ["history.jazz-roots"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 F4/4 Eb4/4 C4/4",
+          "captionKey": "content.levelTwoJazzPopSources.migrationCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "history.l2.jazz-pop-sources.card-record-business",
+      "titleKey": "content.levelTwoJazzPopSources.recordBusinessTitle",
+      "bodyKey": "content.levelTwoJazzPopSources.recordBusinessBody",
+      "skillIds": ["history.jazz-roots"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | (C4 Eb4 G4)/2 r/2",
+          "captionKey": "content.levelTwoJazzPopSources.recordBusinessCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "history.l2.jazz-pop-sources.card-popular",
+      "titleKey": "content.levelTwoJazzPopSources.popularTitle",
+      "bodyKey": "content.levelTwoJazzPopSources.popularBody",
+      "skillIds": ["history.popular-contexts"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 E4/4 G4/4 E4/4",
+          "captionKey": "content.levelTwoJazzPopSources.popularCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "history.l2.jazz-pop-sources.card-production",
+      "titleKey": "content.levelTwoJazzPopSources.productionTitle",
+      "bodyKey": "content.levelTwoJazzPopSources.productionBody",
+      "skillIds": ["history.popular-contexts"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | (C4 E4 G4)/2 (F4 A4 C5)/2",
+          "captionKey": "content.levelTwoJazzPopSources.productionCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "history.l2.jazz-pop-sources.card-distribution",
+      "titleKey": "content.levelTwoJazzPopSources.distributionTitle",
+      "bodyKey": "content.levelTwoJazzPopSources.distributionBody",
+      "skillIds": ["history.popular-contexts"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 G4/8 G4/8 C5/2",
+          "captionKey": "content.levelTwoJazzPopSources.distributionCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "history.l2.jazz-pop-sources.card-dates",
+      "titleKey": "content.levelTwoJazzPopSources.datesTitle",
+      "bodyKey": "content.levelTwoJazzPopSources.datesBody",
+      "skillIds": ["history.compare-sources"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/2 C5/2",
+          "captionKey": "content.levelTwoJazzPopSources.datesCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "history.l2.jazz-pop-sources.card-intent",
+      "titleKey": "content.levelTwoJazzPopSources.intentTitle",
+      "bodyKey": "content.levelTwoJazzPopSources.intentBody",
+      "skillIds": ["history.compare-sources"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | (C4 E4 G4)/2 C4/2",
+          "captionKey": "content.levelTwoJazzPopSources.intentCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "history.l2.jazz-pop-sources.card-uncertainty",
+      "titleKey": "content.levelTwoJazzPopSources.uncertaintyTitle",
+      "bodyKey": "content.levelTwoJazzPopSources.uncertaintyBody",
+      "skillIds": ["history.compare-sources"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 E4/4 G4/4 C5/4",
+          "captionKey": "content.levelTwoJazzPopSources.uncertaintyCaption"
+        }
+      ]
     }
   ],
   "knowledgeArticles": [
@@ -6304,6 +9240,1512 @@
           ]
         }
       ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "notation.l2.spelling.article",
+      "titleKey": "content.levelTwoSpelling.articleTitle",
+      "skillIds": [
+        "notation.accidental-scope",
+        "notation.enharmonic-spelling",
+        "notation.write-pitch"
+      ],
+      "sections": [
+        {
+          "headingKey": "content.levelTwoSpelling.scopeTitle",
+          "bodyKey": "content.levelTwoSpelling.scopeBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | F#4/2 F#4/2",
+              "captionKey": "content.levelTwoSpelling.scopeCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoSpelling.resetTitle",
+          "bodyKey": "content.levelTwoSpelling.resetBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | F#4/1 | F4/1",
+              "captionKey": "content.levelTwoSpelling.resetCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoSpelling.naturalTitle",
+          "bodyKey": "content.levelTwoSpelling.naturalBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | F#4/4 F4/4 F#4/4 F5/4",
+              "captionKey": "content.levelTwoSpelling.naturalCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoSpelling.enharmonicTitle",
+          "bodyKey": "content.levelTwoSpelling.enharmonicBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C#4/2 Db4/2",
+              "captionKey": "content.levelTwoSpelling.enharmonicCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoSpelling.edgesTitle",
+          "bodyKey": "content.levelTwoSpelling.edgesBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | B#3/2 C4/2",
+              "captionKey": "content.levelTwoSpelling.edgesCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoSpelling.spellingTitle",
+          "bodyKey": "content.levelTwoSpelling.spellingBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C#4/4 Db4/4 C4/2",
+              "captionKey": "content.levelTwoSpelling.spellingCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoSpelling.writeTitle",
+          "bodyKey": "content.levelTwoSpelling.writeBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | D4/2 D#4/2",
+              "captionKey": "content.levelTwoSpelling.writeCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoSpelling.bassTitle",
+          "bodyKey": "content.levelTwoSpelling.bassBody",
+          "examples": [
+            {
+              "score": "bass | 4/4 | C4/2 C#4/2",
+              "captionKey": "content.levelTwoSpelling.bassCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoSpelling.checkTitle",
+          "bodyKey": "content.levelTwoSpelling.checkBody",
+          "examples": [
+            {
+              "score": "bass | 4/4 | Bb3/2 B3/2",
+              "captionKey": "content.levelTwoSpelling.checkCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "rhythm.l2.dotted-tied.article",
+      "titleKey": "content.levelTwoDottedTied.articleTitle",
+      "skillIds": [
+        "rhythm.dotted-values",
+        "rhythm.ties",
+        "rhythm.dotted-and-tied",
+        "rhythm.syncopation-basic"
+      ],
+      "sections": [
+        {
+          "headingKey": "content.levelTwoDottedTied.dotTitle",
+          "bodyKey": "content.levelTwoDottedTied.dotBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4. G4/8 G4/2",
+              "captionKey": "content.levelTwoDottedTied.dotCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoDottedTied.eighthTitle",
+          "bodyKey": "content.levelTwoDottedTied.eighthBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/8. G4/16 G4/2.",
+              "captionKey": "content.levelTwoDottedTied.eighthCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoDottedTied.fractionTitle",
+          "bodyKey": "content.levelTwoDottedTied.fractionBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/2. r/4",
+              "captionKey": "content.levelTwoDottedTied.fractionCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoDottedTied.tieTitle",
+          "bodyKey": "content.levelTwoDottedTied.tieBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4~ G4/4 r/2",
+              "captionKey": "content.levelTwoDottedTied.tieCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoDottedTied.chainTitle",
+          "bodyKey": "content.levelTwoDottedTied.chainBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4~ G4/4~ G4/4 r/4",
+              "captionKey": "content.levelTwoDottedTied.chainCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoDottedTied.compareTitle",
+          "bodyKey": "content.levelTwoDottedTied.compareBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4. A4/4~ A4/8 r/4",
+              "captionKey": "content.levelTwoDottedTied.compareCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoDottedTied.crossbarTitle",
+          "bodyKey": "content.levelTwoDottedTied.crossbarBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | r/2 r/4 F#4/4~ | F#4/2 r/2",
+              "captionKey": "content.levelTwoDottedTied.crossbarCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoDottedTied.syncopationTitle",
+          "bodyKey": "content.levelTwoDottedTied.syncopationBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | r/8 G4/8~ G4/4 G4/2",
+              "captionKey": "content.levelTwoDottedTied.syncopationCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoDottedTied.countTitle",
+          "bodyKey": "content.levelTwoDottedTied.countBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 G4/4 G4/2",
+              "captionKey": "content.levelTwoDottedTied.countCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "rhythm.l2.subdivision.article",
+      "titleKey": "content.levelTwoSubdivision.articleTitle",
+      "skillIds": ["rhythm.triplet", "rhythm.compound-meter", "rhythm.group-6-8"],
+      "sections": [
+        {
+          "headingKey": "content.levelTwoSubdivision.threeTitle",
+          "bodyKey": "content.levelTwoSubdivision.threeBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/8{3:2} G4/8{3:2} G4/8{3:2} G4/2.",
+              "captionKey": "content.levelTwoSubdivision.threeCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoSubdivision.equalTitle",
+          "bodyKey": "content.levelTwoSubdivision.equalBody",
+          "examples": [
+            {
+              "score": "treble | 2/4 | G4/8{3:2} G4/8{3:2} G4/8{3:2} G4/8{3:2} G4/8{3:2} G4/8{3:2}",
+              "captionKey": "content.levelTwoSubdivision.equalCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoSubdivision.tapTitle",
+          "bodyKey": "content.levelTwoSubdivision.tapBody",
+          "examples": [
+            {
+              "score": "treble | 3/4 | G4/8{3:2} G4/8{3:2} G4/8{3:2} G4/8{3:2} G4/8{3:2} G4/8{3:2} G4/8{3:2} G4/8{3:2} G4/8{3:2}",
+              "captionKey": "content.levelTwoSubdivision.tapCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoSubdivision.simpleTitle",
+          "bodyKey": "content.levelTwoSubdivision.simpleBody",
+          "examples": [
+            {
+              "score": "treble | 3/4 | G4/8 G4/8 G4/8 G4/8 G4/8 G4/8",
+              "captionKey": "content.levelTwoSubdivision.simpleCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoSubdivision.compoundTitle",
+          "bodyKey": "content.levelTwoSubdivision.compoundBody",
+          "examples": [
+            {
+              "score": "treble | 6/8 | G4/8 G4/8 G4/8 G4/8 G4/8 G4/8",
+              "captionKey": "content.levelTwoSubdivision.compoundCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoSubdivision.sameTotalTitle",
+          "bodyKey": "content.levelTwoSubdivision.sameTotalBody",
+          "examples": [
+            {
+              "score": "treble | 6/8 | G4/4. G4/4.",
+              "captionKey": "content.levelTwoSubdivision.sameTotalCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoSubdivision.groupTitle",
+          "bodyKey": "content.levelTwoSubdivision.groupBody",
+          "examples": [
+            {
+              "score": "treble | 6/8 | G4/4 G4/8 G4/8 G4/4",
+              "captionKey": "content.levelTwoSubdivision.groupCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoSubdivision.restsTitle",
+          "bodyKey": "content.levelTwoSubdivision.restsBody",
+          "examples": [
+            {
+              "score": "treble | 6/8 | r/8 G4/4 G4/4.",
+              "captionKey": "content.levelTwoSubdivision.restsCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoSubdivision.distinguishTitle",
+          "bodyKey": "content.levelTwoSubdivision.distinguishBody",
+          "examples": [
+            {
+              "score": "treble | 6/8 | G4/8 G4/8 G4/8 G4/4.",
+              "captionKey": "content.levelTwoSubdivision.distinguishCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "intervals.l2.qualities-build.article",
+      "titleKey": "content.levelTwoQualitiesBuild.articleTitle",
+      "skillIds": [
+        "interval.simple-qualities",
+        "interval.build",
+        "interval.enharmonic-distinction"
+      ],
+      "sections": [
+        {
+          "headingKey": "content.levelTwoQualitiesBuild.numberTitle",
+          "bodyKey": "content.levelTwoQualitiesBuild.numberBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/2 E4/2",
+              "captionKey": "content.levelTwoQualitiesBuild.numberCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoQualitiesBuild.familiesTitle",
+          "bodyKey": "content.levelTwoQualitiesBuild.familiesBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/2 F4/2",
+              "captionKey": "content.levelTwoQualitiesBuild.familiesCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoQualitiesBuild.qualitiesTitle",
+          "bodyKey": "content.levelTwoQualitiesBuild.qualitiesBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/2 Eb4/2",
+              "captionKey": "content.levelTwoQualitiesBuild.qualitiesCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoQualitiesBuild.buildNumberTitle",
+          "bodyKey": "content.levelTwoQualitiesBuild.buildNumberBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/1 | E4/1",
+              "captionKey": "content.levelTwoQualitiesBuild.buildNumberCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoQualitiesBuild.buildQualityTitle",
+          "bodyKey": "content.levelTwoQualitiesBuild.buildQualityBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | D4/2 F#4/2",
+              "captionKey": "content.levelTwoQualitiesBuild.buildQualityCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoQualitiesBuild.buildCheckTitle",
+          "bodyKey": "content.levelTwoQualitiesBuild.buildCheckBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/2 G4/2",
+              "captionKey": "content.levelTwoQualitiesBuild.buildCheckCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoQualitiesBuild.tritoneTitle",
+          "bodyKey": "content.levelTwoQualitiesBuild.tritoneBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 F#4/4 C4/4 Gb4/4",
+              "captionKey": "content.levelTwoQualitiesBuild.tritoneCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoQualitiesBuild.thirdFourthTitle",
+          "bodyKey": "content.levelTwoQualitiesBuild.thirdFourthBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 E4/4 C4/4 Fb4/4",
+              "captionKey": "content.levelTwoQualitiesBuild.thirdFourthCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoQualitiesBuild.contextTitle",
+          "bodyKey": "content.levelTwoQualitiesBuild.contextBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/2 Gb4/2",
+              "captionKey": "content.levelTwoQualitiesBuild.contextCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "intervals.l2.inversion.article",
+      "titleKey": "content.levelTwoInversion.articleTitle",
+      "skillIds": ["interval.inversion", "interval.descending", "interval.simple-compound"],
+      "sections": [
+        {
+          "headingKey": "content.levelTwoInversion.invertTitle",
+          "bodyKey": "content.levelTwoInversion.invertBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 E4/4 E4/4 C5/4",
+              "captionKey": "content.levelTwoInversion.invertCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoInversion.nineTitle",
+          "bodyKey": "content.levelTwoInversion.nineBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 F4/4 F4/4 C5/4",
+              "captionKey": "content.levelTwoInversion.nineCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoInversion.qualityTitle",
+          "bodyKey": "content.levelTwoInversion.qualityBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/2 C5/2",
+              "captionKey": "content.levelTwoInversion.qualityCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoInversion.descendingTitle",
+          "bodyKey": "content.levelTwoInversion.descendingBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/2 C4/2",
+              "captionKey": "content.levelTwoInversion.descendingCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoInversion.downQualityTitle",
+          "bodyKey": "content.levelTwoInversion.downQualityBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/2 Ab3/2",
+              "captionKey": "content.levelTwoInversion.downQualityCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoInversion.downCheckTitle",
+          "bodyKey": "content.levelTwoInversion.downCheckBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/2 C4/2",
+              "captionKey": "content.levelTwoInversion.downCheckCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoInversion.compoundTitle",
+          "bodyKey": "content.levelTwoInversion.compoundBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/2 D5/2",
+              "captionKey": "content.levelTwoInversion.compoundCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoInversion.reduceTitle",
+          "bodyKey": "content.levelTwoInversion.reduceBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/2 E5/2",
+              "captionKey": "content.levelTwoInversion.reduceCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoInversion.octavesTitle",
+          "bodyKey": "content.levelTwoInversion.octavesBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/2 C6/2",
+              "captionKey": "content.levelTwoInversion.octavesCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.major.article",
+      "titleKey": "content.levelTwoMajor.articleTitle",
+      "skillIds": ["scale.major-pattern", "scale.major-build", "scale.tonic"],
+      "sections": [
+        {
+          "headingKey": "content.levelTwoMajor.patternTitle",
+          "bodyKey": "content.levelTwoMajor.patternBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 D4/4 E4/4 F4/4 | G4/4 A4/4 B4/4 C5/4",
+              "captionKey": "content.levelTwoMajor.patternCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoMajor.lettersTitle",
+          "bodyKey": "content.levelTwoMajor.lettersBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 A4/4 B4/4 C5/4 | D5/4 E5/4 F#5/4 G5/4",
+              "captionKey": "content.levelTwoMajor.lettersCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoMajor.transposeTitle",
+          "bodyKey": "content.levelTwoMajor.transposeBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | F4/4 G4/4 A4/4 Bb4/4 | C5/4 D5/4 E5/4 F5/4",
+              "captionKey": "content.levelTwoMajor.transposeCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoMajor.buildTitle",
+          "bodyKey": "content.levelTwoMajor.buildBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | D4/4 E4/4 F#4/4 G4/4 | A4/4 B4/4 C#5/4 D5/4",
+              "captionKey": "content.levelTwoMajor.buildCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoMajor.threeTitle",
+          "bodyKey": "content.levelTwoMajor.threeBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | A4/4 B4/4 C#5/4 D5/4 | E5/4 F#5/4 G#5/4 A5/4",
+              "captionKey": "content.levelTwoMajor.threeCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoMajor.checkTitle",
+          "bodyKey": "content.levelTwoMajor.checkBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | Eb4/4 F4/4 G4/4 Ab4/4 | Bb4/4 C5/4 D5/4 Eb5/4",
+              "captionKey": "content.levelTwoMajor.checkCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoMajor.tonicTitle",
+          "bodyKey": "content.levelTwoMajor.tonicBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 A4/4 B4/4 C5/4 | D5/4 E5/4 F#5/4 G5/4",
+              "captionKey": "content.levelTwoMajor.tonicCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoMajor.degreesTitle",
+          "bodyKey": "content.levelTwoMajor.degreesBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | F4/4 G4/4 A4/4 Bb4/4 | C5/4 D5/4 E5/4 F5/4",
+              "captionKey": "content.levelTwoMajor.degreesCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoMajor.relationTitle",
+          "bodyKey": "content.levelTwoMajor.relationBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 A4/4 B4/4 C5/4 | D5/4 E5/4 F#5/4 G5/4",
+              "captionKey": "content.levelTwoMajor.relationCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.minor.article",
+      "titleKey": "content.levelTwoMinor.articleTitle",
+      "skillIds": ["scale.natural-minor", "scale.harmonic-minor", "scale.melodic-minor"],
+      "sections": [
+        {
+          "headingKey": "content.levelTwoMinor.naturalTitle",
+          "bodyKey": "content.levelTwoMinor.naturalBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | A4/4 B4/4 C5/4 D5/4 | E5/4 F5/4 G5/4 A5/4",
+              "captionKey": "content.levelTwoMinor.naturalCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoMinor.thirdTitle",
+          "bodyKey": "content.levelTwoMinor.thirdBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 D4/4 Eb4/4 F4/4 | G4/4 Ab4/4 Bb4/4 C5/4",
+              "captionKey": "content.levelTwoMinor.thirdCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoMinor.minorSignatureTitle",
+          "bodyKey": "content.levelTwoMinor.minorSignatureBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/4 F#4/4 G4/4 A4/4 | B4/4 C5/4 D5/4 E5/4",
+              "captionKey": "content.levelTwoMinor.minorSignatureCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoMinor.seventhTitle",
+          "bodyKey": "content.levelTwoMinor.seventhBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | A4/4 B4/4 C5/4 D5/4 | E5/4 F5/4 G#5/4 A5/4",
+              "captionKey": "content.levelTwoMinor.seventhCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoMinor.augmentedSecondTitle",
+          "bodyKey": "content.levelTwoMinor.augmentedSecondBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | F5/2 G#5/2",
+              "captionKey": "content.levelTwoMinor.augmentedSecondCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoMinor.raiseTitle",
+          "bodyKey": "content.levelTwoMinor.raiseBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 D4/4 Eb4/4 F4/4 | G4/4 Ab4/4 B4/4 C5/4",
+              "captionKey": "content.levelTwoMinor.raiseCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoMinor.melodicUpTitle",
+          "bodyKey": "content.levelTwoMinor.melodicUpBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | A4/4 B4/4 C5/4 D5/4 | E5/4 F#5/4 G#5/4 A5/4",
+              "captionKey": "content.levelTwoMinor.melodicUpCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoMinor.melodicDownTitle",
+          "bodyKey": "content.levelTwoMinor.melodicDownBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | A5/4 G5/4 F5/4 E5/4 | D5/4 C5/4 B4/4 A4/4",
+              "captionKey": "content.levelTwoMinor.melodicDownCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoMinor.conventionTitle",
+          "bodyKey": "content.levelTwoMinor.conventionBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 D4/4 Eb4/4 F4/4 | G4/4 A4/4 B4/4 C5/4",
+              "captionKey": "content.levelTwoMinor.conventionCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.keys.article",
+      "titleKey": "content.levelTwoKeys.articleTitle",
+      "skillIds": ["key.signature-major", "key.fifths", "key.signature-minor", "key.relative"],
+      "sections": [
+        {
+          "headingKey": "content.levelTwoKeys.signatureTitle",
+          "bodyKey": "content.levelTwoKeys.signatureBody",
+          "examples": [
+            {
+              "score": "treble | key:G | 4/4 | G4/4 A4/4 B4/4 F#5/4",
+              "captionKey": "content.levelTwoKeys.signatureCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoKeys.sharpsTitle",
+          "bodyKey": "content.levelTwoKeys.sharpsBody",
+          "examples": [
+            {
+              "score": "treble | key:A | 4/4 | A4/2 G#4/2",
+              "captionKey": "content.levelTwoKeys.sharpsCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoKeys.flatsTitle",
+          "bodyKey": "content.levelTwoKeys.flatsBody",
+          "examples": [
+            {
+              "score": "bass | key:Eb | 4/4 | Eb3/2 Bb3/2",
+              "captionKey": "content.levelTwoKeys.flatsCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoKeys.fifthsTitle",
+          "bodyKey": "content.levelTwoKeys.fifthsBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/2 G4/2",
+              "captionKey": "content.levelTwoKeys.fifthsCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoKeys.backwardsTitle",
+          "bodyKey": "content.levelTwoKeys.backwardsBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C5/2 F4/2",
+              "captionKey": "content.levelTwoKeys.backwardsCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoKeys.nearbyTitle",
+          "bodyKey": "content.levelTwoKeys.nearbyBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | F4/2 C5/2",
+              "captionKey": "content.levelTwoKeys.nearbyCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoKeys.minorKeysTitle",
+          "bodyKey": "content.levelTwoKeys.minorKeysBody",
+          "examples": [
+            {
+              "score": "treble | key:e | 4/4 | E4/4 F#4/4 G4/4 D#5/4",
+              "captionKey": "content.levelTwoKeys.minorKeysCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoKeys.relativeTitle",
+          "bodyKey": "content.levelTwoKeys.relativeBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C5/2 A4/2",
+              "captionKey": "content.levelTwoKeys.relativeCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoKeys.parallelTitle",
+          "bodyKey": "content.levelTwoKeys.parallelBody",
+          "examples": [
+            {
+              "score": "treble | key:Eb | 4/4 | Eb4/2 C4/2",
+              "captionKey": "content.levelTwoKeys.parallelCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "chords.l2.qualities.article",
+      "titleKey": "content.levelTwoQualities.articleTitle",
+      "skillIds": ["chord.triad-structure", "chord.major-minor", "chord.diminished-augmented"],
+      "sections": [
+        {
+          "headingKey": "content.levelTwoQualities.stackTitle",
+          "bodyKey": "content.levelTwoQualities.stackBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (C4 E4 G4)/1",
+              "captionKey": "content.levelTwoQualities.stackCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoQualities.rolesTitle",
+          "bodyKey": "content.levelTwoQualities.rolesBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (D4 F4 A4)/1",
+              "captionKey": "content.levelTwoQualities.rolesCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoQualities.fifthTitle",
+          "bodyKey": "content.levelTwoQualities.fifthBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (F4 A4 C5)/1",
+              "captionKey": "content.levelTwoQualities.fifthCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoQualities.majorTitle",
+          "bodyKey": "content.levelTwoQualities.majorBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (G4 B4 D5)/1",
+              "captionKey": "content.levelTwoQualities.majorCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoQualities.minorTitle",
+          "bodyKey": "content.levelTwoQualities.minorBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (C4 Eb4 G4)/1",
+              "captionKey": "content.levelTwoQualities.minorCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoQualities.writeChordTitle",
+          "bodyKey": "content.levelTwoQualities.writeChordBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (D4 F#4 A4)/1",
+              "captionKey": "content.levelTwoQualities.writeChordCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoQualities.diminishedTitle",
+          "bodyKey": "content.levelTwoQualities.diminishedBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (B3 D4 F4)/1",
+              "captionKey": "content.levelTwoQualities.diminishedCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoQualities.augmentedTitle",
+          "bodyKey": "content.levelTwoQualities.augmentedBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (C4 E4 G#4)/1",
+              "captionKey": "content.levelTwoQualities.augmentedCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoQualities.fourTitle",
+          "bodyKey": "content.levelTwoQualities.fourBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (C4 Eb4 Gb4)/2 (C4 E4 G#4)/2",
+              "captionKey": "content.levelTwoQualities.fourCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "chords.l2.inversions.article",
+      "titleKey": "content.levelTwoInversions.articleTitle",
+      "skillIds": ["chord.root-and-bass", "chord.inversions", "chord.diatonic-triads"],
+      "sections": [
+        {
+          "headingKey": "content.levelTwoInversions.rootBassTitle",
+          "bodyKey": "content.levelTwoInversions.rootBassBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (E4 G4 C5)/1",
+              "captionKey": "content.levelTwoInversions.rootBassCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoInversions.reorderTitle",
+          "bodyKey": "content.levelTwoInversions.reorderBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (G4 C5 E5)/1",
+              "captionKey": "content.levelTwoInversions.reorderCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoInversions.fixedRoleTitle",
+          "bodyKey": "content.levelTwoInversions.fixedRoleBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (C4 E4 G4)/2 (E4 G4 C5)/2",
+              "captionKey": "content.levelTwoInversions.fixedRoleCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoInversions.firstTitle",
+          "bodyKey": "content.levelTwoInversions.firstBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (E4 G4 C5)/1",
+              "captionKey": "content.levelTwoInversions.firstCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoInversions.secondTitle",
+          "bodyKey": "content.levelTwoInversions.secondBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (G4 C5 E5)/1",
+              "captionKey": "content.levelTwoInversions.secondCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoInversions.recognizeTitle",
+          "bodyKey": "content.levelTwoInversions.recognizeBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (Eb4 G4 C5)/1",
+              "captionKey": "content.levelTwoInversions.recognizeCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoInversions.diatonicTitle",
+          "bodyKey": "content.levelTwoInversions.diatonicBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (D4 F4 A4)/1",
+              "captionKey": "content.levelTwoInversions.diatonicCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoInversions.majorDegreesTitle",
+          "bodyKey": "content.levelTwoInversions.majorDegreesBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (B3 D4 F4)/1",
+              "captionKey": "content.levelTwoInversions.majorDegreesCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoInversions.minorDegreesTitle",
+          "bodyKey": "content.levelTwoInversions.minorDegreesBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (E4 G4 B4)/1",
+              "captionKey": "content.levelTwoInversions.minorDegreesCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.rhythm-detail.article",
+      "titleKey": "content.levelTwoRhythmDetail.articleTitle",
+      "skillIds": [
+        "aural.rhythm-choice-dotted",
+        "aural.simple-compound-pulse",
+        "aural.rhythm-completion"
+      ],
+      "sections": [
+        {
+          "headingKey": "content.levelTwoRhythmDetail.longShortTitle",
+          "bodyKey": "content.levelTwoRhythmDetail.longShortBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4. G4/8 G4/4 G4/4",
+              "captionKey": "content.levelTwoRhythmDetail.longShortCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoRhythmDetail.shortLongTitle",
+          "bodyKey": "content.levelTwoRhythmDetail.shortLongBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/8 G4/4. G4/4 G4/4",
+              "captionKey": "content.levelTwoRhythmDetail.shortLongCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoRhythmDetail.smallValuesTitle",
+          "bodyKey": "content.levelTwoRhythmDetail.smallValuesBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/8. G4/16 G4/4 r/4 G4/4",
+              "captionKey": "content.levelTwoRhythmDetail.smallValuesCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoRhythmDetail.twoPartsTitle",
+          "bodyKey": "content.levelTwoRhythmDetail.twoPartsBody",
+          "examples": [
+            {
+              "score": "treble | 2/4 | C6/8 G5/8 C6/8 G5/8",
+              "captionKey": "content.levelTwoRhythmDetail.twoPartsCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoRhythmDetail.threePartsTitle",
+          "bodyKey": "content.levelTwoRhythmDetail.threePartsBody",
+          "examples": [
+            {
+              "score": "treble | 6/8 | C6/8 G5/8 G5/8 C6/8 G5/8 G5/8",
+              "captionKey": "content.levelTwoRhythmDetail.threePartsCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoRhythmDetail.tempoReferenceTitle",
+          "bodyKey": "content.levelTwoRhythmDetail.tempoReferenceBody",
+          "examples": [
+            {
+              "score": "treble | 6/8 | C6/4. C6/4.",
+              "captionKey": "content.levelTwoRhythmDetail.tempoReferenceCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoRhythmDetail.outlineTitle",
+          "bodyKey": "content.levelTwoRhythmDetail.outlineBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/8 G4/8",
+              "captionKey": "content.levelTwoRhythmDetail.outlineCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoRhythmDetail.completeTitle",
+          "bodyKey": "content.levelTwoRhythmDetail.completeBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/8. G4/16",
+              "captionKey": "content.levelTwoRhythmDetail.completeCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoRhythmDetail.silenceTitle",
+          "bodyKey": "content.levelTwoRhythmDetail.silenceBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/8 r/8",
+              "captionKey": "content.levelTwoRhythmDetail.silenceCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.melody.article",
+      "titleKey": "content.levelTwoMelody.articleTitle",
+      "skillIds": ["aural.simple-intervals", "aural.major-minor-scale", "aural.melodic-memory"],
+      "sections": [
+        {
+          "headingKey": "content.levelTwoMelody.secondsTitle",
+          "bodyKey": "content.levelTwoMelody.secondsBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 Db4/4 C4/4 D4/4",
+              "captionKey": "content.levelTwoMelody.secondsCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoMelody.thirdsSixthsTitle",
+          "bodyKey": "content.levelTwoMelody.thirdsSixthsBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 E4/4 E4/4 C5/4 | C4/4 Eb4/4 Eb4/4 C5/4",
+              "captionKey": "content.levelTwoMelody.thirdsSixthsCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoMelody.frameTitle",
+          "bodyKey": "content.levelTwoMelody.frameBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 F4/4 C4/4 G4/4 | C4/4 Bb4/4 C4/4 B4/4 | C4/2 C5/2",
+              "captionKey": "content.levelTwoMelody.frameCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoMelody.majorSoundTitle",
+          "bodyKey": "content.levelTwoMelody.majorSoundBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/8 D4/8 E4/8 F4/8 G4/8 A4/8 B4/8 C5/8",
+              "captionKey": "content.levelTwoMelody.majorSoundCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoMelody.minorSoundTitle",
+          "bodyKey": "content.levelTwoMelody.minorSoundBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/8 D4/8 Eb4/8 F4/8 G4/8 Ab4/8 Bb4/8 C5/8",
+              "captionKey": "content.levelTwoMelody.minorSoundCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoMelody.transposeEarTitle",
+          "bodyKey": "content.levelTwoMelody.transposeEarBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/8 F#4/8 G4/8 A4/8 B4/8 C5/8 D5/8 E5/8",
+              "captionKey": "content.levelTwoMelody.transposeEarCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoMelody.rememberTitle",
+          "bodyKey": "content.levelTwoMelody.rememberBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/4 G4/4 F4/4 A4/4",
+              "captionKey": "content.levelTwoMelody.rememberCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoMelody.locateTitle",
+          "bodyKey": "content.levelTwoMelody.locateBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/4 G4/4 G4/4 A4/4",
+              "captionKey": "content.levelTwoMelody.locateCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoMelody.reviewMemoryTitle",
+          "bodyKey": "content.levelTwoMelody.reviewMemoryBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | F4/4 E4/4 A4/4 G4/4",
+              "captionKey": "content.levelTwoMelody.reviewMemoryCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.triads.article",
+      "titleKey": "content.levelTwoTriads.articleTitle",
+      "skillIds": ["aural.triad-major-minor", "aural.triad-quality", "aural.triad-inversions"],
+      "sections": [
+        {
+          "headingKey": "content.levelTwoTriads.rootReferenceTitle",
+          "bodyKey": "content.levelTwoTriads.rootReferenceBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/2 (C4 E4 G4)/2",
+              "captionKey": "content.levelTwoTriads.rootReferenceCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoTriads.hearThirdTitle",
+          "bodyKey": "content.levelTwoTriads.hearThirdBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (C4 E4 G4)/2 (C4 Eb4 G4)/2",
+              "captionKey": "content.levelTwoTriads.hearThirdCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoTriads.wholeChordTitle",
+          "bodyKey": "content.levelTwoTriads.wholeChordBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/2 (G4 Bb4 D5)/2",
+              "captionKey": "content.levelTwoTriads.wholeChordCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoTriads.diminishedEarTitle",
+          "bodyKey": "content.levelTwoTriads.diminishedEarBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/2 (C4 Eb4 Gb4)/2",
+              "captionKey": "content.levelTwoTriads.diminishedEarCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoTriads.augmentedEarTitle",
+          "bodyKey": "content.levelTwoTriads.augmentedEarBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/2 (C4 E4 G#4)/2",
+              "captionKey": "content.levelTwoTriads.augmentedEarCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoTriads.compareFourTitle",
+          "bodyKey": "content.levelTwoTriads.compareFourBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (C4 E4 G4)/4 (C4 Eb4 G4)/4 (C4 Eb4 Gb4)/4 (C4 E4 G#4)/4",
+              "captionKey": "content.levelTwoTriads.compareFourCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoTriads.bassEarTitle",
+          "bodyKey": "content.levelTwoTriads.bassEarBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C5/2 (E4 G4 C5)/2",
+              "captionKey": "content.levelTwoTriads.bassEarCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoTriads.closePositionTitle",
+          "bodyKey": "content.levelTwoTriads.closePositionBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C5/2 (G4 C5 E5)/2",
+              "captionKey": "content.levelTwoTriads.closePositionCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoTriads.qualityPositionTitle",
+          "bodyKey": "content.levelTwoTriads.qualityPositionBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C5/2 (Eb4 G4 C5)/2",
+              "captionKey": "content.levelTwoTriads.qualityPositionCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "history.l2.period-contexts.article",
+      "titleKey": "content.levelTwoPeriodContexts.articleTitle",
+      "skillIds": [
+        "history.medieval-renaissance",
+        "history.baroque-classical",
+        "history.romantic-modern"
+      ],
+      "sections": [
+        {
+          "headingKey": "content.levelTwoPeriodContexts.medievalTitle",
+          "bodyKey": "content.levelTwoPeriodContexts.medievalBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | D4/2 E4/4 D4/4",
+              "captionKey": "content.levelTwoPeriodContexts.medievalCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoPeriodContexts.renaissanceTitle",
+          "bodyKey": "content.levelTwoPeriodContexts.renaissanceBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 D4/4 E4/4 G4/4",
+              "captionKey": "content.levelTwoPeriodContexts.renaissanceCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoPeriodContexts.firstContextTitle",
+          "bodyKey": "content.levelTwoPeriodContexts.firstContextBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/2 G4/2",
+              "captionKey": "content.levelTwoPeriodContexts.firstContextCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoPeriodContexts.baroqueTitle",
+          "bodyKey": "content.levelTwoPeriodContexts.baroqueBody",
+          "examples": [
+            {
+              "score": "bass | 4/4 | C3/2 G2/2",
+              "captionKey": "content.levelTwoPeriodContexts.baroqueCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoPeriodContexts.classicalTitle",
+          "bodyKey": "content.levelTwoPeriodContexts.classicalBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 D4/4 G4/4 C5/4",
+              "captionKey": "content.levelTwoPeriodContexts.classicalCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoPeriodContexts.baroqueClassicalTitle",
+          "bodyKey": "content.levelTwoPeriodContexts.baroqueClassicalBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/2 C5/2",
+              "captionKey": "content.levelTwoPeriodContexts.baroqueClassicalCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoPeriodContexts.romanticTitle",
+          "bodyKey": "content.levelTwoPeriodContexts.romanticBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 C#4/4 D4/4 Eb4/4",
+              "captionKey": "content.levelTwoPeriodContexts.romanticCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoPeriodContexts.since1900Title",
+          "bodyKey": "content.levelTwoPeriodContexts.since1900Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 F#4/4 D4/4 Ab4/4",
+              "captionKey": "content.levelTwoPeriodContexts.since1900Caption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoPeriodContexts.limitsTitle",
+          "bodyKey": "content.levelTwoPeriodContexts.limitsBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/2 G4/2",
+              "captionKey": "content.levelTwoPeriodContexts.limitsCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "history.l2.jazz-pop-sources.article",
+      "titleKey": "content.levelTwoJazzPopSources.articleTitle",
+      "skillIds": ["history.jazz-roots", "history.popular-contexts", "history.compare-sources"],
+      "sections": [
+        {
+          "headingKey": "content.levelTwoJazzPopSources.communitiesTitle",
+          "bodyKey": "content.levelTwoJazzPopSources.communitiesBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 Eb4/4 G4/4 Bb4/4",
+              "captionKey": "content.levelTwoJazzPopSources.communitiesCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoJazzPopSources.migrationTitle",
+          "bodyKey": "content.levelTwoJazzPopSources.migrationBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 F4/4 Eb4/4 C4/4",
+              "captionKey": "content.levelTwoJazzPopSources.migrationCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoJazzPopSources.recordBusinessTitle",
+          "bodyKey": "content.levelTwoJazzPopSources.recordBusinessBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (C4 Eb4 G4)/2 r/2",
+              "captionKey": "content.levelTwoJazzPopSources.recordBusinessCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoJazzPopSources.popularTitle",
+          "bodyKey": "content.levelTwoJazzPopSources.popularBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 E4/4 G4/4 E4/4",
+              "captionKey": "content.levelTwoJazzPopSources.popularCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoJazzPopSources.productionTitle",
+          "bodyKey": "content.levelTwoJazzPopSources.productionBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (C4 E4 G4)/2 (F4 A4 C5)/2",
+              "captionKey": "content.levelTwoJazzPopSources.productionCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoJazzPopSources.distributionTitle",
+          "bodyKey": "content.levelTwoJazzPopSources.distributionBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 G4/8 G4/8 C5/2",
+              "captionKey": "content.levelTwoJazzPopSources.distributionCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoJazzPopSources.datesTitle",
+          "bodyKey": "content.levelTwoJazzPopSources.datesBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/2 C5/2",
+              "captionKey": "content.levelTwoJazzPopSources.datesCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoJazzPopSources.intentTitle",
+          "bodyKey": "content.levelTwoJazzPopSources.intentBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (C4 E4 G4)/2 C4/2",
+              "captionKey": "content.levelTwoJazzPopSources.intentCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelTwoJazzPopSources.uncertaintyTitle",
+          "bodyKey": "content.levelTwoJazzPopSources.uncertaintyBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 E4/4 G4/4 C5/4",
+              "captionKey": "content.levelTwoJazzPopSources.uncertaintyCaption"
+            }
+          ]
+        }
+      ]
     }
   ],
   "lessons": [
@@ -6852,6 +11294,636 @@
         "notation.l2.clefs-registers.card-letters"
       ],
       "exerciseSetIds": ["notation.l2.clefs-registers.names.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "notation.l2.spelling.foundation",
+      "titleKey": "content.levelTwoSpelling.lesson0",
+      "unitId": "notation.l2.spelling",
+      "skillIds": ["notation.accidental-scope"],
+      "introductionCardIds": [
+        "notation.l2.spelling.card-scope",
+        "notation.l2.spelling.card-reset",
+        "notation.l2.spelling.card-natural"
+      ],
+      "exerciseSetIds": ["notation.l2.spelling.foundation.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "notation.l2.spelling.practice",
+      "titleKey": "content.levelTwoSpelling.lesson1",
+      "unitId": "notation.l2.spelling",
+      "skillIds": ["notation.enharmonic-spelling"],
+      "introductionCardIds": [
+        "notation.l2.spelling.card-enharmonic",
+        "notation.l2.spelling.card-edges",
+        "notation.l2.spelling.card-spelling"
+      ],
+      "exerciseSetIds": ["notation.l2.spelling.practice.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "notation.l2.spelling.apply",
+      "titleKey": "content.levelTwoSpelling.lesson2",
+      "unitId": "notation.l2.spelling",
+      "skillIds": ["notation.write-pitch"],
+      "introductionCardIds": [
+        "notation.l2.spelling.card-write",
+        "notation.l2.spelling.card-bass",
+        "notation.l2.spelling.card-check"
+      ],
+      "exerciseSetIds": ["notation.l2.spelling.apply.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "rhythm.l2.dotted-tied.foundation",
+      "titleKey": "content.levelTwoDottedTied.lesson0",
+      "unitId": "rhythm.l2.dotted-tied",
+      "skillIds": ["rhythm.dotted-values"],
+      "introductionCardIds": [
+        "rhythm.l2.dotted-tied.card-dot",
+        "rhythm.l2.dotted-tied.card-eighth",
+        "rhythm.l2.dotted-tied.card-fraction"
+      ],
+      "exerciseSetIds": ["rhythm.l2.dotted-tied.foundation.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "rhythm.l2.dotted-tied.practice",
+      "titleKey": "content.levelTwoDottedTied.lesson1",
+      "unitId": "rhythm.l2.dotted-tied",
+      "skillIds": ["rhythm.ties"],
+      "introductionCardIds": [
+        "rhythm.l2.dotted-tied.card-tie",
+        "rhythm.l2.dotted-tied.card-chain",
+        "rhythm.l2.dotted-tied.card-compare"
+      ],
+      "exerciseSetIds": ["rhythm.l2.dotted-tied.practice.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "rhythm.l2.dotted-tied.apply",
+      "titleKey": "content.levelTwoDottedTied.lesson2",
+      "unitId": "rhythm.l2.dotted-tied",
+      "skillIds": ["rhythm.dotted-and-tied", "rhythm.syncopation-basic"],
+      "introductionCardIds": [
+        "rhythm.l2.dotted-tied.card-crossbar",
+        "rhythm.l2.dotted-tied.card-syncopation",
+        "rhythm.l2.dotted-tied.card-count"
+      ],
+      "exerciseSetIds": ["rhythm.l2.dotted-tied.apply.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "rhythm.l2.subdivision.foundation",
+      "titleKey": "content.levelTwoSubdivision.lesson0",
+      "unitId": "rhythm.l2.subdivision",
+      "skillIds": ["rhythm.triplet"],
+      "introductionCardIds": [
+        "rhythm.l2.subdivision.card-three",
+        "rhythm.l2.subdivision.card-equal",
+        "rhythm.l2.subdivision.card-tap"
+      ],
+      "exerciseSetIds": ["rhythm.l2.subdivision.foundation.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "rhythm.l2.subdivision.practice",
+      "titleKey": "content.levelTwoSubdivision.lesson1",
+      "unitId": "rhythm.l2.subdivision",
+      "skillIds": ["rhythm.compound-meter"],
+      "introductionCardIds": [
+        "rhythm.l2.subdivision.card-simple",
+        "rhythm.l2.subdivision.card-compound",
+        "rhythm.l2.subdivision.card-same-total"
+      ],
+      "exerciseSetIds": ["rhythm.l2.subdivision.practice.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "rhythm.l2.subdivision.apply",
+      "titleKey": "content.levelTwoSubdivision.lesson2",
+      "unitId": "rhythm.l2.subdivision",
+      "skillIds": ["rhythm.group-6-8"],
+      "introductionCardIds": [
+        "rhythm.l2.subdivision.card-group",
+        "rhythm.l2.subdivision.card-rests",
+        "rhythm.l2.subdivision.card-distinguish"
+      ],
+      "exerciseSetIds": ["rhythm.l2.subdivision.apply.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "intervals.l2.qualities-build.foundation",
+      "titleKey": "content.levelTwoQualitiesBuild.lesson0",
+      "unitId": "intervals.l2.qualities-build",
+      "skillIds": ["interval.simple-qualities"],
+      "introductionCardIds": [
+        "intervals.l2.qualities-build.card-number",
+        "intervals.l2.qualities-build.card-families",
+        "intervals.l2.qualities-build.card-qualities"
+      ],
+      "exerciseSetIds": ["intervals.l2.qualities-build.foundation.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "intervals.l2.qualities-build.practice",
+      "titleKey": "content.levelTwoQualitiesBuild.lesson1",
+      "unitId": "intervals.l2.qualities-build",
+      "skillIds": ["interval.build"],
+      "introductionCardIds": [
+        "intervals.l2.qualities-build.card-build-number",
+        "intervals.l2.qualities-build.card-build-quality",
+        "intervals.l2.qualities-build.card-build-check"
+      ],
+      "exerciseSetIds": ["intervals.l2.qualities-build.practice.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "intervals.l2.qualities-build.apply",
+      "titleKey": "content.levelTwoQualitiesBuild.lesson2",
+      "unitId": "intervals.l2.qualities-build",
+      "skillIds": ["interval.enharmonic-distinction"],
+      "introductionCardIds": [
+        "intervals.l2.qualities-build.card-tritone",
+        "intervals.l2.qualities-build.card-third-fourth",
+        "intervals.l2.qualities-build.card-context"
+      ],
+      "exerciseSetIds": ["intervals.l2.qualities-build.apply.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "intervals.l2.inversion.foundation",
+      "titleKey": "content.levelTwoInversion.lesson0",
+      "unitId": "intervals.l2.inversion",
+      "skillIds": ["interval.inversion"],
+      "introductionCardIds": [
+        "intervals.l2.inversion.card-invert",
+        "intervals.l2.inversion.card-nine",
+        "intervals.l2.inversion.card-quality"
+      ],
+      "exerciseSetIds": ["intervals.l2.inversion.foundation.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "intervals.l2.inversion.practice",
+      "titleKey": "content.levelTwoInversion.lesson1",
+      "unitId": "intervals.l2.inversion",
+      "skillIds": ["interval.descending"],
+      "introductionCardIds": [
+        "intervals.l2.inversion.card-descending",
+        "intervals.l2.inversion.card-down-quality",
+        "intervals.l2.inversion.card-down-check"
+      ],
+      "exerciseSetIds": ["intervals.l2.inversion.practice.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "intervals.l2.inversion.apply",
+      "titleKey": "content.levelTwoInversion.lesson2",
+      "unitId": "intervals.l2.inversion",
+      "skillIds": ["interval.simple-compound"],
+      "introductionCardIds": [
+        "intervals.l2.inversion.card-compound",
+        "intervals.l2.inversion.card-reduce",
+        "intervals.l2.inversion.card-octaves"
+      ],
+      "exerciseSetIds": ["intervals.l2.inversion.apply.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.major.foundation",
+      "titleKey": "content.levelTwoMajor.lesson0",
+      "unitId": "scales.l2.major",
+      "skillIds": ["scale.major-pattern"],
+      "introductionCardIds": [
+        "scales.l2.major.card-pattern",
+        "scales.l2.major.card-letters",
+        "scales.l2.major.card-transpose"
+      ],
+      "exerciseSetIds": ["scales.l2.major.foundation.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.major.practice",
+      "titleKey": "content.levelTwoMajor.lesson1",
+      "unitId": "scales.l2.major",
+      "skillIds": ["scale.major-build"],
+      "introductionCardIds": [
+        "scales.l2.major.card-build",
+        "scales.l2.major.card-three",
+        "scales.l2.major.card-check"
+      ],
+      "exerciseSetIds": ["scales.l2.major.practice.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.major.apply",
+      "titleKey": "content.levelTwoMajor.lesson2",
+      "unitId": "scales.l2.major",
+      "skillIds": ["scale.tonic"],
+      "introductionCardIds": [
+        "scales.l2.major.card-tonic",
+        "scales.l2.major.card-degrees",
+        "scales.l2.major.card-relation"
+      ],
+      "exerciseSetIds": ["scales.l2.major.apply.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.minor.foundation",
+      "titleKey": "content.levelTwoMinor.lesson0",
+      "unitId": "scales.l2.minor",
+      "skillIds": ["scale.natural-minor"],
+      "introductionCardIds": [
+        "scales.l2.minor.card-natural",
+        "scales.l2.minor.card-third",
+        "scales.l2.minor.card-minor-signature"
+      ],
+      "exerciseSetIds": ["scales.l2.minor.foundation.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.minor.practice",
+      "titleKey": "content.levelTwoMinor.lesson1",
+      "unitId": "scales.l2.minor",
+      "skillIds": ["scale.harmonic-minor"],
+      "introductionCardIds": [
+        "scales.l2.minor.card-seventh",
+        "scales.l2.minor.card-augmented-second",
+        "scales.l2.minor.card-raise"
+      ],
+      "exerciseSetIds": ["scales.l2.minor.practice.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.minor.apply",
+      "titleKey": "content.levelTwoMinor.lesson2",
+      "unitId": "scales.l2.minor",
+      "skillIds": ["scale.melodic-minor"],
+      "introductionCardIds": [
+        "scales.l2.minor.card-melodic-up",
+        "scales.l2.minor.card-melodic-down",
+        "scales.l2.minor.card-convention"
+      ],
+      "exerciseSetIds": ["scales.l2.minor.apply.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.keys.foundation",
+      "titleKey": "content.levelTwoKeys.lesson0",
+      "unitId": "scales.l2.keys",
+      "skillIds": ["key.signature-major"],
+      "introductionCardIds": [
+        "scales.l2.keys.card-signature",
+        "scales.l2.keys.card-sharps",
+        "scales.l2.keys.card-flats"
+      ],
+      "exerciseSetIds": ["scales.l2.keys.foundation.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.keys.practice",
+      "titleKey": "content.levelTwoKeys.lesson1",
+      "unitId": "scales.l2.keys",
+      "skillIds": ["key.fifths"],
+      "introductionCardIds": [
+        "scales.l2.keys.card-fifths",
+        "scales.l2.keys.card-backwards",
+        "scales.l2.keys.card-nearby"
+      ],
+      "exerciseSetIds": ["scales.l2.keys.practice.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "scales.l2.keys.apply",
+      "titleKey": "content.levelTwoKeys.lesson2",
+      "unitId": "scales.l2.keys",
+      "skillIds": ["key.signature-minor", "key.relative"],
+      "introductionCardIds": [
+        "scales.l2.keys.card-minor-keys",
+        "scales.l2.keys.card-relative",
+        "scales.l2.keys.card-parallel"
+      ],
+      "exerciseSetIds": ["scales.l2.keys.apply.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "chords.l2.qualities.foundation",
+      "titleKey": "content.levelTwoQualities.lesson0",
+      "unitId": "chords.l2.qualities",
+      "skillIds": ["chord.triad-structure"],
+      "introductionCardIds": [
+        "chords.l2.qualities.card-stack",
+        "chords.l2.qualities.card-roles",
+        "chords.l2.qualities.card-fifth"
+      ],
+      "exerciseSetIds": ["chords.l2.qualities.foundation.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "chords.l2.qualities.practice",
+      "titleKey": "content.levelTwoQualities.lesson1",
+      "unitId": "chords.l2.qualities",
+      "skillIds": ["chord.major-minor"],
+      "introductionCardIds": [
+        "chords.l2.qualities.card-major",
+        "chords.l2.qualities.card-minor",
+        "chords.l2.qualities.card-write-chord"
+      ],
+      "exerciseSetIds": ["chords.l2.qualities.practice.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "chords.l2.qualities.apply",
+      "titleKey": "content.levelTwoQualities.lesson2",
+      "unitId": "chords.l2.qualities",
+      "skillIds": ["chord.diminished-augmented"],
+      "introductionCardIds": [
+        "chords.l2.qualities.card-diminished",
+        "chords.l2.qualities.card-augmented",
+        "chords.l2.qualities.card-four"
+      ],
+      "exerciseSetIds": ["chords.l2.qualities.apply.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "chords.l2.inversions.foundation",
+      "titleKey": "content.levelTwoInversions.lesson0",
+      "unitId": "chords.l2.inversions",
+      "skillIds": ["chord.root-and-bass"],
+      "introductionCardIds": [
+        "chords.l2.inversions.card-root-bass",
+        "chords.l2.inversions.card-reorder",
+        "chords.l2.inversions.card-fixed-role"
+      ],
+      "exerciseSetIds": ["chords.l2.inversions.foundation.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "chords.l2.inversions.practice",
+      "titleKey": "content.levelTwoInversions.lesson1",
+      "unitId": "chords.l2.inversions",
+      "skillIds": ["chord.inversions"],
+      "introductionCardIds": [
+        "chords.l2.inversions.card-first",
+        "chords.l2.inversions.card-second",
+        "chords.l2.inversions.card-recognize"
+      ],
+      "exerciseSetIds": ["chords.l2.inversions.practice.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "chords.l2.inversions.apply",
+      "titleKey": "content.levelTwoInversions.lesson2",
+      "unitId": "chords.l2.inversions",
+      "skillIds": ["chord.diatonic-triads"],
+      "introductionCardIds": [
+        "chords.l2.inversions.card-diatonic",
+        "chords.l2.inversions.card-major-degrees",
+        "chords.l2.inversions.card-minor-degrees"
+      ],
+      "exerciseSetIds": ["chords.l2.inversions.apply.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.rhythm-detail.foundation",
+      "titleKey": "content.levelTwoRhythmDetail.lesson0",
+      "unitId": "aural.l2.rhythm-detail",
+      "skillIds": ["aural.rhythm-choice-dotted"],
+      "introductionCardIds": [
+        "aural.l2.rhythm-detail.card-long-short",
+        "aural.l2.rhythm-detail.card-short-long",
+        "aural.l2.rhythm-detail.card-small-values"
+      ],
+      "exerciseSetIds": ["aural.l2.rhythm-detail.foundation.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.rhythm-detail.practice",
+      "titleKey": "content.levelTwoRhythmDetail.lesson1",
+      "unitId": "aural.l2.rhythm-detail",
+      "skillIds": ["aural.simple-compound-pulse"],
+      "introductionCardIds": [
+        "aural.l2.rhythm-detail.card-two-parts",
+        "aural.l2.rhythm-detail.card-three-parts",
+        "aural.l2.rhythm-detail.card-tempo-reference"
+      ],
+      "exerciseSetIds": ["aural.l2.rhythm-detail.practice.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.rhythm-detail.apply",
+      "titleKey": "content.levelTwoRhythmDetail.lesson2",
+      "unitId": "aural.l2.rhythm-detail",
+      "skillIds": ["aural.rhythm-completion"],
+      "introductionCardIds": [
+        "aural.l2.rhythm-detail.card-outline",
+        "aural.l2.rhythm-detail.card-complete",
+        "aural.l2.rhythm-detail.card-silence"
+      ],
+      "exerciseSetIds": ["aural.l2.rhythm-detail.apply.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.melody.foundation",
+      "titleKey": "content.levelTwoMelody.lesson0",
+      "unitId": "aural.l2.melody",
+      "skillIds": ["aural.simple-intervals"],
+      "introductionCardIds": [
+        "aural.l2.melody.card-seconds",
+        "aural.l2.melody.card-thirds-sixths",
+        "aural.l2.melody.card-frame"
+      ],
+      "exerciseSetIds": ["aural.l2.melody.foundation.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.melody.practice",
+      "titleKey": "content.levelTwoMelody.lesson1",
+      "unitId": "aural.l2.melody",
+      "skillIds": ["aural.major-minor-scale"],
+      "introductionCardIds": [
+        "aural.l2.melody.card-major-sound",
+        "aural.l2.melody.card-minor-sound",
+        "aural.l2.melody.card-transpose-ear"
+      ],
+      "exerciseSetIds": ["aural.l2.melody.practice.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.melody.apply",
+      "titleKey": "content.levelTwoMelody.lesson2",
+      "unitId": "aural.l2.melody",
+      "skillIds": ["aural.melodic-memory"],
+      "introductionCardIds": [
+        "aural.l2.melody.card-remember",
+        "aural.l2.melody.card-locate",
+        "aural.l2.melody.card-review-memory"
+      ],
+      "exerciseSetIds": ["aural.l2.melody.apply.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.triads.foundation",
+      "titleKey": "content.levelTwoTriads.lesson0",
+      "unitId": "aural.l2.triads",
+      "skillIds": ["aural.triad-major-minor"],
+      "introductionCardIds": [
+        "aural.l2.triads.card-root-reference",
+        "aural.l2.triads.card-hear-third",
+        "aural.l2.triads.card-whole-chord"
+      ],
+      "exerciseSetIds": ["aural.l2.triads.foundation.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.triads.practice",
+      "titleKey": "content.levelTwoTriads.lesson1",
+      "unitId": "aural.l2.triads",
+      "skillIds": ["aural.triad-quality"],
+      "introductionCardIds": [
+        "aural.l2.triads.card-diminished-ear",
+        "aural.l2.triads.card-augmented-ear",
+        "aural.l2.triads.card-compare-four"
+      ],
+      "exerciseSetIds": ["aural.l2.triads.practice.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "aural.l2.triads.apply",
+      "titleKey": "content.levelTwoTriads.lesson2",
+      "unitId": "aural.l2.triads",
+      "skillIds": ["aural.triad-inversions"],
+      "introductionCardIds": [
+        "aural.l2.triads.card-bass-ear",
+        "aural.l2.triads.card-close-position",
+        "aural.l2.triads.card-quality-position"
+      ],
+      "exerciseSetIds": ["aural.l2.triads.apply.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "history.l2.period-contexts.foundation",
+      "titleKey": "content.levelTwoPeriodContexts.lesson0",
+      "unitId": "history.l2.period-contexts",
+      "skillIds": ["history.medieval-renaissance"],
+      "introductionCardIds": [
+        "history.l2.period-contexts.card-medieval",
+        "history.l2.period-contexts.card-renaissance",
+        "history.l2.period-contexts.card-first-context"
+      ],
+      "exerciseSetIds": ["history.l2.period-contexts.foundation.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "history.l2.period-contexts.practice",
+      "titleKey": "content.levelTwoPeriodContexts.lesson1",
+      "unitId": "history.l2.period-contexts",
+      "skillIds": ["history.baroque-classical"],
+      "introductionCardIds": [
+        "history.l2.period-contexts.card-baroque",
+        "history.l2.period-contexts.card-classical",
+        "history.l2.period-contexts.card-baroque-classical"
+      ],
+      "exerciseSetIds": ["history.l2.period-contexts.practice.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "history.l2.period-contexts.apply",
+      "titleKey": "content.levelTwoPeriodContexts.lesson2",
+      "unitId": "history.l2.period-contexts",
+      "skillIds": ["history.romantic-modern"],
+      "introductionCardIds": [
+        "history.l2.period-contexts.card-romantic",
+        "history.l2.period-contexts.card-since1900",
+        "history.l2.period-contexts.card-limits"
+      ],
+      "exerciseSetIds": ["history.l2.period-contexts.apply.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "history.l2.jazz-pop-sources.foundation",
+      "titleKey": "content.levelTwoJazzPopSources.lesson0",
+      "unitId": "history.l2.jazz-pop-sources",
+      "skillIds": ["history.jazz-roots"],
+      "introductionCardIds": [
+        "history.l2.jazz-pop-sources.card-communities",
+        "history.l2.jazz-pop-sources.card-migration",
+        "history.l2.jazz-pop-sources.card-record-business"
+      ],
+      "exerciseSetIds": ["history.l2.jazz-pop-sources.foundation.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "history.l2.jazz-pop-sources.practice",
+      "titleKey": "content.levelTwoJazzPopSources.lesson1",
+      "unitId": "history.l2.jazz-pop-sources",
+      "skillIds": ["history.popular-contexts"],
+      "introductionCardIds": [
+        "history.l2.jazz-pop-sources.card-popular",
+        "history.l2.jazz-pop-sources.card-production",
+        "history.l2.jazz-pop-sources.card-distribution"
+      ],
+      "exerciseSetIds": ["history.l2.jazz-pop-sources.practice.exercises"]
+    },
+    {
+      "contentVersion": 13,
+      "status": "entwurf",
+      "id": "history.l2.jazz-pop-sources.apply",
+      "titleKey": "content.levelTwoJazzPopSources.lesson2",
+      "unitId": "history.l2.jazz-pop-sources",
+      "skillIds": ["history.compare-sources"],
+      "introductionCardIds": [
+        "history.l2.jazz-pop-sources.card-dates",
+        "history.l2.jazz-pop-sources.card-intent",
+        "history.l2.jazz-pop-sources.card-uncertainty"
+      ],
+      "exerciseSetIds": ["history.l2.jazz-pop-sources.apply.exercises"]
     }
   ]
 }

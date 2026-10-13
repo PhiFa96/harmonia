@@ -1,3 +1,4 @@
+import { ContextQuestion } from '@/components/context-question';
 import { LOCALE_NAMES } from '@harmonia/i18n';
 import type { Evaluation } from '@harmonia/exercises';
 import {
@@ -5,6 +6,7 @@ import {
   evaluateExercise,
   generateNote,
   generateKnowledge,
+  generateContext,
   pulseExample,
 } from '@harmonia/exercises';
 import type { Pitch } from '@harmonia/notation';
@@ -106,6 +108,14 @@ export default function GalleryScreen() {
             <Lists />
             <Sheet />
             <Piano />
+            <Section title={t('gallery.contextQuestion')}>
+              <ContextQuestion
+                item={generateContext(
+                  { topics: ['accidental-scope'] },
+                  createRng('gallery-context'),
+                )}
+              />
+            </Section>
             <Section title={t('gallery.grandStaff')}>
               <GrandStaffView score={GRAND_EXAMPLE} color={COLORS[scheme].text} />
             </Section>

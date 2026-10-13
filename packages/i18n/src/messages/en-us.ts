@@ -35,6 +35,252 @@ export const enUS = {
     wrongTitle: 'Not quite',
   },
   exercise: {
+    listeningCell: 'Cell {{count}}',
+    'contextQuestion_crossbar-duration':
+      'How many quarter-note values does the first pitch last across the barline?',
+    'contextHint1_crossbar-duration':
+      'Follow the tie into the next measure. Silence before the first pitch is not part of its sounding duration.',
+    'contextHint2_crossbar-duration':
+      'Add the last note value of the first measure and its tied continuation at the start of the second.',
+    'contextExplain_crossbar-duration':
+      'The barline does not interrupt the tie. There is only one onset; both note values add to one sounding duration.',
+    'contextQuestion_jazz-roots':
+      'Which social context does this fictional jazz teaching dossier document?',
+    'contextHint1_jazz-roots':
+      'Identify whether the source describes local music-making, relocation or the production of a recording.',
+    'contextHint2_jazz-roots':
+      'Community, migration and the recording business are different levels. None of these sources alone proves a first origin.',
+    'contextExplain_jazz-roots':
+      'Classification follows the social activity explicitly described. African American musical practice, migration and media businesses interact but are not interchangeable.',
+    contextSocial_neighbourhood:
+      'Fictional neighbourhood report, {{year}}: African American musicians organize local performances and exchange musical ideas within their community.',
+    contextSocial_migration:
+      'Fictional travel account, {{year}}: musicians move from the southern United States to a northern city and build new musical networks there.',
+    'contextSocial_recording-business':
+      'Fictional studio file, {{year}}: a company hires musicians, produces a record and distributes it commercially.',
+    contextSocialOption_neighbourhood: 'Local community life and musical exchange',
+    contextSocialOption_migration: 'Migration and new musical networks',
+    'contextSocialOption_recording-business': 'Commercial recording production and distribution',
+    listeningSubdivision: '{{count}} equal subdivisions per beat',
+    listeningPosition: 'Note {{count}} changed',
+    listeningMajorScale: 'Major scale',
+    listeningMinorScale: 'Natural minor',
+    question_CHORD_DIATONIC:
+      'Build the diatonic triad on degree {{degree}} in {{key}}. Use natural minor; given root: {{bass}}.',
+    'question_listening_rhythm-choice-dotted':
+      'Which complete score matches the dotted rhythm you heard?',
+    'question_listening_pulse-subdivision':
+      'How many equal subdivisions form one beat? Include the higher starting note as the first part.',
+    'question_listening_rhythm-completion':
+      'Listen to the complete measure. Which cell supplies the missing fourth quarter-note beat in the written outline?',
+    'question_listening_scale-mode':
+      'Listen to the ascending scale from tonic to octave. Is it major or natural minor?',
+    'question_listening_melodic-memory':
+      'Listen to A and B. Which of the four notes changed in the second example?',
+    'listeningExplanation_rhythm-choice-dotted':
+      'The comparison uses actual onsets, rests and durations, including dots. Answer: {{answer}}.',
+    'listeningExplanation_pulse-subdivision':
+      'The higher tone marks each beat start. Equal subdivisions up to the next start form the group. Answer: {{answer}}. A heard group alone does not determine a time signature.',
+    'listeningExplanation_rhythm-completion':
+      'The first three quarter-note beats match the outline. The final cell is compared with the actual sound of beat four. Answer: {{answer}}.',
+    'listeningExplanation_scale-mode':
+      'Distances are compared from the first note. Major and natural minor differ especially on degrees 3, 6 and 7. Answer: {{answer}}.',
+    'listeningExplanation_melodic-memory':
+      'Both sources contain four equal-duration notes; exactly one sounding pitch differs at its position. Answer: {{answer}}.',
+    listeningOutline: 'Outline: beat four is missing. Each option spans one quarter-note value.',
+    contextEvent: 'Measure {{measure}}, event {{index}}: {{duration}}. {{positions}}',
+    contextPosition:
+      'Notehead {{index}}, {{steps}} letter-name steps from the bottom line; visible accidental: {{sign}}.',
+    contextSign_none: 'none',
+    contextSign_sharp: 'sharp',
+    contextSign_flat: 'flat',
+    contextSign_natural: 'natural',
+    contextSign_doubleSharp: 'double sharp',
+    contextSign_doubleFlat: 'double flat',
+    contextResult: '{{explanation}} Answer: {{answer}}.',
+    contextFraction: '{{fraction}} × quarter-note value',
+    contextDegree: 'Degree {{count}}',
+    contextPattern: 'Semitone steps: {{pattern}}',
+    contextYes: 'Yes',
+    contextNo: 'No',
+    contextRole_root: 'root',
+    contextRole_third: 'third',
+    contextRole_fifth: 'fifth',
+    contextScore: 'Written source',
+    contextKey: 'Key: {{key}}',
+    contextDossier:
+      'Fictional European teaching dossier: composition year {{year}}. Stated feature: {{feature}}. The piano example is an original teaching model.',
+    contextDocument:
+      'Fictional source dated {{year}}: {{medium}}. Consider only what this medium documents.',
+    'contextComparison_same-event':
+      'Two reports date the same performance to {{year}} and {{secondYear}}, respectively. Their independence is unknown.',
+    'contextComparison_work-recording':
+      'Source A gives composition year {{year}}. Source B gives recording date {{secondYear}}.',
+    'contextComparison_advertised-performed':
+      'A programme from {{year}} advertises performing forces. A report from {{secondYear}} describes the forces that actually performed at the same event.',
+    contextFeature_monophony: '$t(glossary:monophony) in singing',
+    contextFeature_imitation: '$t(glossary:imitation) in vocal $t(glossary:polyphony)',
+    contextFeature_continuo: '$t(glossary:continuo)',
+    contextFeature_phrases: 'regular periodic phrases',
+    contextFeature_chromaticism: 'Expanded $t(glossary:chromaticism)',
+    contextFeature_electronics: 'electronic sound production',
+    contextMedium_recording: '$t(glossary:recording_one)',
+    contextMedium_programme: '$t(glossary:programmeSource_one)',
+    contextMedium_report: '$t(glossary:report_one)',
+    contextMedium_broadcast: '$t(glossary:broadcast_one)',
+    contextMedium_stream: '$t(glossary:stream_one)',
+    'contextOption_recorded-performance': 'Documented sound of a recorded performance',
+    'contextOption_advertised-event': 'Advertised event; actual execution remains unverified',
+    'contextOption_reported-view': 'Preserved view of the report’s author',
+    'contextOption_mediated-distribution': 'Distribution through a media channel',
+    'contextOption_invented-origin': 'Proof of the musical style’s very first origin',
+    'contextOption_universal-style': 'Proof about every musician and work in this tradition',
+    'contextOption_different-date-roles': 'Composition and recording date different events',
+    'contextOption_intention-performance':
+      'Announcement and actual performance are different claims',
+    'contextOption_unresolved-conflict': 'Unresolved conflict; additional evidence is needed',
+    'contextOption_agreement-not-proof': 'Agreement; independence remains unproven',
+    type_CONTEXT_CHOICE: 'Musical relationships',
+    question_CONTEXT_CHOICE: 'Examine the source shown.',
+    'contextQuestion_accidental-scope':
+      'Name note {{target}}, including its octave. Check barlines, naturals and register.',
+    'contextHint1_accidental-scope':
+      'An accidental applies within the measure to the same letter name in the same octave.',
+    'contextHint2_accidental-scope':
+      'At the barline, the key signature applies again. A natural cancels the alteration previously in force.',
+    'contextExplain_accidental-scope':
+      'The target note’s actual spelling accounts for the accidental state in its measure and register.',
+    'contextQuestion_enharmonic-spelling':
+      'Which different spelling sounds like the written note on an equal-tempered piano?',
+    'contextHint1_enharmonic-spelling': 'Compare sounding keys, not just letters.',
+    'contextHint2_enharmonic-spelling':
+      'C-sharp and D-flat share a key. E-sharp is the F key; B-sharp reaches the next C key.',
+    'contextExplain_enharmonic-spelling':
+      'Enharmonic spellings preserve the sounding key but change the written letter name. The octave number can change.',
+    'contextQuestion_dotted-duration':
+      'How many quarter-note values does the first dotted note last?',
+    'contextHint1_dotted-duration': 'One dot adds half of the original value.',
+    'contextHint2_dotted-duration':
+      'Dotted eighth = eighth + sixteenth; dotted quarter = quarter + eighth.',
+    'contextExplain_dotted-duration':
+      'The first dot multiplies the original value by 3/2. Following rests do not change this note’s duration.',
+    'contextQuestion_tied-duration':
+      'How many quarter-note values does the first pitch last, including all its ties?',
+    'contextHint1_tied-duration': 'A tie joins identical pitches into one continuous sound.',
+    'contextHint2_tied-duration':
+      'Add only the tied note values. Exclude rests; crossing a barline does not end the tie.',
+    'contextExplain_tied-duration':
+      'The checked tie chain has one onset. Its continuous duration is the sum of its tied values, including across a barline.',
+    contextQuestion_syncopation:
+      'Does a note start between quarter-note beats and continue past the next beat?',
+    contextHint1_syncopation: 'Find an onset between two beats.',
+    contextHint2_syncopation:
+      'An eighth on the second half alone is insufficient: its sound must cross the following beat.',
+    contextExplain_syncopation:
+      'This introductory question checks whether a pitch starting between beats continues across the following quarter-note beat.',
+    'contextQuestion_triplet-duration':
+      'How many quarter-note values do the first three eighth notes under the triplet number 3 occupy together?',
+    'contextHint1_triplet-duration':
+      'An eighth-note triplet has three equal eighth notes in the time of two ordinary eighth notes.',
+    'contextHint2_triplet-duration':
+      'Each triplet eighth is 1/3 of a quarter. Add the three triplet notes, excluding the following note.',
+    'contextExplain_triplet-duration':
+      'The 3:2 ratio shortens each eighth to two thirds of its ordinary value. Three together equal exactly one quarter-note value.',
+    'contextQuestion_interval-inversion':
+      'Which interval results when you invert the written simple interval by moving an endpoint by one octave?',
+    'contextHint1_interval-inversion': 'The two interval numbers add to 9.',
+    'contextHint2_interval-inversion':
+      'Perfect stays perfect; minor becomes major; augmented becomes diminished, and conversely.',
+    'contextExplain_interval-inversion':
+      'Inversion complements the number to 9 and reverses the quality. Unison and octave are the edge case in this model.',
+    'contextQuestion_interval-reduction':
+      'Which simple interval corresponds to the written distance after removing complete octaves?',
+    'contextHint1_interval-reduction': 'An additional octave increases the interval number by 7.',
+    'contextHint2_interval-reduction':
+      'A ninth corresponds to a second and a tenth to a third. The quality is preserved.',
+    'contextExplain_interval-reduction':
+      'For compound intervals, subtract 7 from the number for each octave. Preserve the quality; stop reduction at the simple octave.',
+    'contextQuestion_scale-pattern':
+      'Which semitone pattern describes the seven steps of the ascending scale shown?',
+    'contextHint1_scale-pattern': 'Count piano-key steps: whole step = 2, half step = 1.',
+    'contextHint2_scale-pattern': 'A major scale has its half steps between degrees 3–4 and 7–8.',
+    'contextExplain_scale-pattern':
+      'The pattern is calculated from every pair of adjacent sounding pitches, rather than the number of visible accidentals.',
+    'contextQuestion_scale-degree':
+      'Which degree of the major scale shown is {{focus}}? Count the starting note as 1.',
+    'contextHint1_scale-degree':
+      'The tonic is degree 1; following letter names are degrees 2, 3 and so on.',
+    'contextHint2_scale-degree':
+      'Read from the actual starting note. C is not degree 1 in every key.',
+    'contextExplain_scale-degree':
+      'The degree follows the queried note’s position in this scale. The octave repetition is the tonic again.',
+    'contextQuestion_fifth-neighbour':
+      'Which key is one fifth {{direction}} from {{key}} on the circle of fifths? Keep the same mode.',
+    'contextHint1_fifth-neighbour':
+      'An ascending fifth shifts the signature one step towards sharps.',
+    'contextHint2_fifth-neighbour':
+      'Downwards moves one step towards flats. This can first remove an existing sharp.',
+    'contextExplain_fifth-neighbour':
+      'Neighbouring circle-of-fifths positions differ by exactly one signature step. Tonic and mode are considered together.',
+    'contextQuestion_relative-key': 'Which relative key shares the signature of {{key}}?',
+    'contextHint1_relative-key':
+      'Relative keys have different tonics and modes but share the same key signature.',
+    'contextHint2_relative-key':
+      'The relative-minor tonic lies a minor third below the major tonic. Same-tonic minor would be a parallel key.',
+    'contextExplain_relative-key':
+      'The signature count is unchanged and the mode changes. German Paralleltonart means English relative key, not parallel key.',
+    'contextQuestion_chord-member':
+      'Which note is the {{role}} of this triad? Its inversion can vary.',
+    'contextHint1_chord-member': 'Mentally rearrange the written triad into root position.',
+    'contextHint2_chord-member':
+      'Root, third and fifth are named from the chord root. The lowest note may have a different role.',
+    'contextExplain_chord-member':
+      'The engine identifies the complete written triad, then the queried chord-member role. Inversion does not change those roles.',
+    'contextQuestion_chord-root': 'What is the root of this written triad?',
+    'contextHint1_chord-root': 'Root and lowest sounding note are different concepts.',
+    'contextHint2_chord-root':
+      'Find the stack of thirds in root position. The bass determines the inversion only.',
+    'contextExplain_chord-root':
+      'Chord identity follows from all three written notes. A root written above the bass remains the root.',
+    'contextQuestion_diatonic-triad':
+      'Which triad quality forms on degree {{degree}} in {{key}} when you stack only scale notes in thirds? Minor is natural here.',
+    'contextHint1_diatonic-triad':
+      'Take degrees n, n+2 and n+4; continue into the next octave above degree seven.',
+    'contextHint2_diatonic-triad':
+      'Major: major–minor–minor–major–major–minor–diminished. Natural minor follows a different sequence.',
+    'contextExplain_diatonic-triad':
+      'The three notes are stacked from the actual major or natural-minor scale, then identified as a triad.',
+    'contextQuestion_period-context':
+      'Which period in the broad European overview fits this teaching dossier’s explicitly stated composition year and feature?',
+    'contextHint1_period-context':
+      'Use the stated composition year together with the feature; one sonic feature alone cannot date a work.',
+    'contextHint2_period-context':
+      'The examples lie far from transitions. This is a European overview with overlapping boundaries.',
+    'contextExplain_period-context':
+      'The teaching dossier supplies a composition year. Classification uses the explicitly taught broad overview and makes no dating claim from the piano model.',
+    'contextQuestion_jazz-source':
+      'Which statement does this fictional source about a jazz context actually support?',
+    'contextHint1_jazz-source':
+      'Distinguish a documented performance from the origins of an entire musical tradition.',
+    'contextHint2_jazz-source':
+      'A recording documents its recorded sound; a programme an announcement; a report its author’s view.',
+    'contextExplain_jazz-source':
+      'The medium limits the claim. The earliest surviving or commercially issued source does not establish the first musical origin.',
+    'contextQuestion_popular-source':
+      'Which statement does this fictional source about popular music actually support?',
+    'contextHint1_popular-source':
+      'Ask whether the source documents sound, an announcement, a view or distribution.',
+    'contextHint2_popular-source':
+      'Broadcasts and streams document distribution, not automatically a work’s creation or original performing forces.',
+    'contextExplain_popular-source':
+      'Recording, media channel and composition are different levels. The answer stays at the level actually documented.',
+    'contextQuestion_source-comparison':
+      'How can you justify the relationship between these two fictional sources?',
+    'contextHint1_source-comparison': 'First compare which event or claim each date concerns.',
+    'contextHint2_source-comparison':
+      'Composition and recording dates can differ. Conflicting dates for the same performance require further evidence.',
+    'contextExplain_source-comparison':
+      'Matching claims are agreement, not automatic independent corroboration. Different date roles must be distinguished from an unresolved conflict.',
     question_octaveName: 'What is {{name}} in {{system}}?',
     scientificSystem: '$t(glossary:scientificNotation)',
     helmholtzSystem: '$t(glossary:helmholtzNotation)',
@@ -827,6 +1073,7 @@ export const enUS = {
       'Piano sound: Salamander Grand Piano by Alexander Holm, CC BY 3.0 (creativecommons.org/licenses/by/3.0). Modified: selection, shortened, mono, tuning corrected.',
   },
   gallery: {
+    contextQuestion: 'Source-based question',
     grandStaff: '$t(glossary:grandStaff_one): learning example',
     durationSymbols: 'Note values and rests',
     keyboardExample: '$t(glossary:keyboard_one): learning example',

@@ -9,6 +9,7 @@ import {
   KNOWLEDGE_TOPICS,
   ORDER_TOPICS,
   LISTENING_QUESTIONS,
+  CONTEXT_TOPICS,
 } from '@harmonia/exercises';
 const range = z
   .object({
@@ -34,7 +35,7 @@ const meterParams = z
 const rhythmParams = meterParams
   .extend({
     tempos: z.array(z.number().int().min(60).max(120)).nonempty().optional(),
-    level: z.enum(['basic', 'dotted', 'pulse', 'quarters']).optional(),
+    level: z.enum(['basic', 'dotted', 'pulse', 'quarters', 'triplets']).optional(),
     rests: z.boolean().optional(),
     toleranceMs: z.number().int().min(40).max(180).optional(),
   })
@@ -71,6 +72,7 @@ const chordParams = noteParams
       .array(z.string().regex(/^[A-G](?:bb|b|##|#)?$/))
       .nonempty()
       .optional(),
+    diatonic: z.boolean().optional(),
     inversions: z
       .array(z.union([z.literal(0), z.literal(1), z.literal(2)]))
       .nonempty()
@@ -100,6 +102,22 @@ const signatureParams = z
   .strict();
 export const exerciseSpecSchema = z
   .discriminatedUnion('type', [
+    z
+      .object({
+        type: z.literal('CONTEXT_CHOICE'),
+        params: z
+          .object({
+            topics: z.array(z.enum(CONTEXT_TOPICS)).nonempty(),
+            years: z.array(z.number().int()).nonempty().optional(),
+            modes: z
+              .array(z.enum(['major', 'minor']))
+              .nonempty()
+              .optional(),
+            rootPosition: z.boolean().optional(),
+          })
+          .strict(),
+      })
+      .strict(),
     z
       .object({
         type: z.literal('LISTENING_CHOICE'),
@@ -188,6 +206,18 @@ export const exerciseSpecSchema = z
       .strict(),
   ])
   .transform((value): ExerciseSpec => {
+    if (value.type === 'CONTEXT_CHOICE')
+      return {
+        type: value.type,
+        params: {
+          topics: value.params.topics,
+          ...(value.params.years ? { years: value.params.years } : {}),
+          ...(value.params.modes ? { modes: value.params.modes } : {}),
+          ...(value.params.rootPosition === undefined
+            ? {}
+            : { rootPosition: value.params.rootPosition }),
+        },
+      };
     if (value.type === 'LISTENING_CHOICE')
       return {
         type: value.type,
@@ -275,6 +305,7 @@ export const exerciseSpecSchema = z
           types: value.params.types,
           ...(value.params.roots ? { roots: value.params.roots } : {}),
           ...(value.params.inversions ? { inversions: value.params.inversions } : {}),
+          ...(value.params.diatonic === undefined ? {} : { diatonic: value.params.diatonic }),
           ...(value.type === 'CHORD_IDENTIFY' && value.params.presentation
             ? { presentation: value.params.presentation }
             : {}),
