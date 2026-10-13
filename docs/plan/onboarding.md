@@ -1,5 +1,7 @@
 # P2.09 – Onboarding und E-Mail-Anmeldung
 
+**Fortsetzung P2.10:** Der gespeicherte Einstufungswunsch führt jetzt zum Testangebot über Lernen/Profil. Ablauf und Ergebnis: [Einstufungstest](einstufungstest.md). Die folgenden Abschnitte dokumentieren die ursprüngliche P2.09-Abnahme; dessen damalige Vormerkung ist ersetzt. Gerätedatenbankversion 2 ergänzt die separate Testtabelle ohne Änderung des Onboarding-Payloadschemas.
+
 Stand 13.10.2026: Der vollständige Einstieg ist in DE/US/UK implementiert. Die E-Mail-Anmeldung aus P2.01 wurde auf ausdrücklichen Wunsch vorgezogen. Die technische Abnahme erfolgt lokal; echte Testpersonen, native Geräte und die produktive Supabase-/SMTP-Anbindung bleiben gesonderte Abnahmen.
 
 ## Tatsächlicher Ablauf

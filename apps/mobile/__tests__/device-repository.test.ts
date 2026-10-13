@@ -44,7 +44,7 @@ describe('Geräteeinstellungen mit echter SQLite', () => {
       db = new DatabaseSync(path);
       await initializeDeviceDatabase(adapter(db));
       expect(await createDeviceRepository(adapter(db)).load()).toEqual(snapshot);
-      expect(db.prepare('PRAGMA user_version').get()?.['user_version']).toBe(1);
+      expect(db.prepare('PRAGMA user_version').get()?.['user_version']).toBe(2);
       expect(
         db.prepare("SELECT name FROM sqlite_master WHERE name = 'lesson_attempts'").get(),
       ).toBeUndefined();
@@ -75,9 +75,9 @@ describe('Geräteeinstellungen mit echter SQLite', () => {
   it('überschreibt keine unbekannte Datenbankversion und keine defekten gespeicherten Daten', async () => {
     const db = new DatabaseSync(':memory:');
     try {
-      db.exec('PRAGMA user_version = 2');
+      db.exec('PRAGMA user_version = 3');
       await expect(initializeDeviceDatabase(adapter(db))).rejects.toThrow();
-      expect(db.prepare('PRAGMA user_version').get()?.['user_version']).toBe(2);
+      expect(db.prepare('PRAGMA user_version').get()?.['user_version']).toBe(3);
       db.exec('PRAGMA user_version = 0');
       await initializeDeviceDatabase(adapter(db));
       db.prepare('INSERT INTO device_preferences VALUES (1, ?)').run('{broken');

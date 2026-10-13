@@ -36,6 +36,14 @@ it('zeigt bei leerem öffentlichen Katalog keine Entwurfslektion und lädt keine
   expect(screen.queryByText('Lektion ansehen')).toBeNull();
   expect(mockRepository).not.toHaveBeenCalled();
 });
+it('ein direkter Einstufungslink verwendet im öffentlichen Build keine Entwurfsaufgaben', () => {
+  renderRouter('./src/app', { initialUrl: '/placement' });
+  expect(
+    screen.getByText(/Der Einstufungstest braucht fachlich freigegebene Kursaufgaben/),
+  ).toBeTruthy();
+  expect(screen.queryByRole('button', { name: 'Test beginnen' })).toBeNull();
+  expect(screen.queryByTestId('exercise-question')).toBeNull();
+});
 
 it('ein direkter Lektionslink umgeht die Freigabe nicht; Rückweg und Englisch funktionieren', () => {
   useSettings.setState({ locale: 'en-US' });

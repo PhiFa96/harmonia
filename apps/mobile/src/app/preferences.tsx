@@ -6,6 +6,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { OnboardingChoices } from '@/components/onboarding-choices';
 import { DeviceStatus } from '@/components/device-status';
 import { updateOnboarding, useDeviceState } from '@/state/device';
+import { PlacementEntry } from '@/components/placement-entry';
 
 export default function PreferencesScreen() {
   const { t } = useTranslation(),
@@ -69,6 +70,7 @@ export default function PreferencesScreen() {
           <AppText variant="footnote" tone="muted">
             {t('onboarding.placementHint')}
           </AppText>
+          <PlacementEntry />
           <AppText variant="title2">{t('onboarding.profileReminder')}</AppText>
           <ListGroup>
             <ListItem

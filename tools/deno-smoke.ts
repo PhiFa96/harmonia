@@ -35,9 +35,18 @@ import {
   generateContext,
   contextAnswer,
   octaveName,
+  createPlacement,
+  currentPlacementTask,
+  actPlacement,
+  placementEstimates,
 } from '../packages/exercises/src/index.ts';
 import { firstLesson, catalogue, curriculumPlan } from '../packages/content/src/authoring.ts';
-import { publicCatalogue, resolveLesson, curriculumSkills } from '../packages/content/src/index.ts';
+import {
+  publicCatalogue,
+  resolveLesson,
+  curriculumSkills,
+  placementBank,
+} from '../packages/content/src/index.ts';
 import { parseScore, scoreTimeline, layoutGrandStaff } from '../packages/notation/src/index.ts';
 
 import {
@@ -96,6 +105,31 @@ for (const record of catalogue.lessons) {
   internalTasks += lesson.exercises.length;
 }
 check('Alle 850 internen Aufgaben unter Deno durchspielbar', internalTasks, 850);
+const placement = placementBank(catalogue);
+for (const profile of ['assisted', 'advanced']) {
+  let state = createPlacement(placement, `deno-${profile}`);
+  for (let guard = 0; !state.ended && guard < 26; guard++) {
+    const task = currentPlacementTask(state),
+      item = task?.session.items[0];
+    if (!task || !item) throw new Error('Einstufungsaufgabe fehlt');
+    state = actPlacement(
+      placement,
+      state,
+      profile === 'assisted' ? { type: 'hint' } : { type: 'answer', answer: expectedAnswer(item) },
+    );
+    if (profile === 'assisted')
+      state = actPlacement(placement, state, { type: 'answer', answer: expectedAnswer(item) });
+    state = actPlacement(placement, state, { type: 'next' });
+  }
+  check(`Einstufung ${profile} unter Deno beendet`, state.ended, 'complete');
+  check(
+    `Einstufung ${profile} ohne erfundene Ratings`,
+    placementEstimates(placement, state).every(
+      (e) => e.confirmedTier === (profile === 'assisted' ? null : 2),
+    ),
+    true,
+  );
+}
 check(
   'Alle elf Hörfrageformen unter Deno bewertbar',
   LISTENING_QUESTIONS.every((question) => {

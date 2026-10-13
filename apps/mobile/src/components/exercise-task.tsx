@@ -54,6 +54,7 @@ interface Props {
   readonly scroll: RefObject<ScrollView | null>;
   readonly progressText: string;
   readonly progressLabel: string;
+  readonly progressValue?: number;
   readonly hearingPausedText: string;
   readonly continueLabel: string;
   readonly onSelect: (answer: string | null) => void;
@@ -70,6 +71,7 @@ export function ExerciseTask({
   scroll,
   progressText,
   progressLabel,
+  progressValue,
   hearingPausedText,
   continueLabel,
   onSelect,
@@ -123,7 +125,9 @@ export function ExerciseTask({
         {progressText}
       </AppText>
       <ProgressBar
-        value={(session.records.length + session.skipped.length) / session.items.length}
+        value={
+          progressValue ?? (session.records.length + session.skipped.length) / session.items.length
+        }
         label={progressLabel}
         valueText={progressText}
       />

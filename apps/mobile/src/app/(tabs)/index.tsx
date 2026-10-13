@@ -14,6 +14,7 @@ import { firstLesson, lessonGroups } from '@/content';
 import { useContentText } from '@/content/use-content-text';
 import { useDeviceState } from '@/state/device';
 import { DeviceStatus } from '@/components/device-status';
+import { PlacementEntry } from '@/components/placement-entry';
 
 /** Beispiel bis zu den echten Lektionen: zeigt, dass das Notenbild auf allen Plattformen läuft. */
 const EXAMPLE = 'treble | 4/4 | C4/4 D4/4 E4/4 F4/4 | G4/4 A4/4 B4/4 C5/4';
@@ -41,13 +42,9 @@ export default function LearnScreen() {
                 count: profile.dailyGoal,
               })}
             </AppText>
-            {profile.placement === 'requested' ? (
-              <AppText variant="footnote" tone="muted">
-                {t('onboarding.learnPlacement')}
-              </AppText>
-            ) : null}
           </Card>
         ) : null}
+        <PlacementEntry />
         {lessonGroups.length ? (
           lessonGroups.map(({ unit, level, lessons }) => (
             <View key={unit.id} testID={`lesson-group-${unit.id}`} style={styles.lesson}>

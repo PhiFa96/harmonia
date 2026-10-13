@@ -6,11 +6,11 @@ import { contentMessages } from '@harmonia/i18n/content-messages';
 
 export const enGB = {
   content: contentMessages['en-GB'],
-  onboarding: {
-    placementBody:
-      'The placement test is still to come. You can practise freely meanwhile. Would you like to save it for later?',
-    learnPlacement:
-      'Your placement preference is saved. You can practise freely until the test is available.',
+  placement: {
+    unavailable:
+      'The placement test needs reviewed course exercises. None are available in this app version yet. You can practise freely meanwhile.',
+    testedHint:
+      'Units estimated as tested remain available for optional practice. They do not count as completed lessons.',
   },
   profile: {
     licenses: 'Licences',

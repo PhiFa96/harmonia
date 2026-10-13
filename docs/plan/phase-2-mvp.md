@@ -164,10 +164,12 @@ Die Blöcke B, C und D können teilweise parallel laufen.
 - **Abhängig von:** P2.06, P2.05
 - **Umfang:** M
 - **Aufgaben:**
-  - [ ] Adaptiver Ablauf nach [inhalte-und-didaktik.md](inhalte-und-didaktik.md)
-  - [ ] Ergebnis-Screen: Startpunkt und Niveau je Bereich
-  - [ ] Jederzeit wiederholbar
+  - [x] Adaptiver Ablauf nach [inhalte-und-didaktik.md](inhalte-und-didaktik.md)
+  - [x] Ergebnis-Screen: Startpunkt und Niveau je Bereich
+  - [x] Jederzeit wiederholbar
 - **Fertig, wenn:** Simulierte Profile (Anfänger, Mittel, Fortgeschritten) landen an plausiblen Stellen.
+
+- **Stand 13.10.2026:** Technisch vollständig implementiert: sieben Bereiche, 15–25 adaptive Aufgaben, Engine-Bewertung, Startpunkte mit Voraussetzungen, freiwillig zugängliche getestete Einheiten, Hinweise/Hör-Pause, frühes Ende, Wiederholung und lokale Wiederaufnahme. Profilsimulationen bestanden. Produktionsfilter bleiben wirksam; Kursaufgaben bleiben Entwurf bis zur Claude-Abnahme. Echte Geräte-/Lernendenabnahme offen. Verfahren und Prüfstand: [Einstufungstest](einstufungstest.md), [ADR 0010](../decisions/0010-einstufung-mit-getrennter-evidenz.md). Nächster Schritt: P2.11 Lernpfad.
 
 ### P2.11 – Lernpfad
 

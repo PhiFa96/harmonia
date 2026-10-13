@@ -5,6 +5,7 @@ import { AppText, Button, Card, ListGroup, ListItem } from '@harmonia/ui/native'
 import { useDeviceState, updateOnboarding } from '@/state/device';
 import { signOutDevice, useAuthState } from '@/auth';
 import { DeviceStatus } from './device-status';
+import { PlacementEntry } from './placement-entry';
 
 export function LearningProfile() {
   const { t } = useTranslation(),
@@ -69,7 +70,7 @@ export function LearningProfile() {
               : 'onboarding.placementLater',
           )}
           onPress={() => {
-            router.push('/preferences');
+            router.push('/placement');
           }}
         />
         <ListItem
@@ -86,6 +87,7 @@ export function LearningProfile() {
           last
         />
       </ListGroup>
+      <PlacementEntry />
       <Button
         variant="secondary"
         label={t('onboarding.profileEdit')}

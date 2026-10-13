@@ -88,6 +88,7 @@ export default function RootLayout() {
                 <Stack.Screen name="gallery" />
                 <Stack.Screen name="preferences" />
                 <Stack.Screen name="account" />
+                <Stack.Screen name="placement" />
               </Stack.Protected>
             </Stack>
           )}

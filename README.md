@@ -6,6 +6,8 @@ Musiktheorie lernen – hörbar, spielerisch und so tief, wie du willst. Vom ers
 
 
 **P2.09 ist technisch implementiert:** gespeicherter Einstieg in DE/US/UK, Mini-Aufgabe vor dem Konto, Gaststart und vorgezogene E-Mail-Anmeldung mit Bestätigungscode. Lernangaben bleiben nach Neustart erhalten. Echte Testpersonen-/Geräteabnahme und produktive Auth-/SMTP-Anbindung sind offen. Funktionen, Prüfungen und Einrichtung: [Onboarding](docs/plan/onboarding.md).
+**P2.10 ist technisch implementiert:** adaptiver Einstufungstest mit sieben Bereichen, Startpunkten, Wiederholung und gespeicherter Wiederaufnahme. Der öffentliche Inhaltsfilter gilt auch für den Test. Verfahren und Prüfstand: [Einstufungstest](docs/plan/einstufungstest.md).
+
 ## Konzept
 
 | Dokument | Inhalt |

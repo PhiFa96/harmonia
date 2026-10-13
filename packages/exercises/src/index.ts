@@ -12,6 +12,7 @@ export * from './chords.ts';
 export * from './rhythm.ts';
 export * from './knowledge.ts';
 export * from './interval-reading.ts';
+export * from './placement.ts';
 export { createRng } from '@harmonia/theory';
 
 import {

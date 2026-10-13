@@ -4,6 +4,66 @@ import { contentMessages } from '@harmonia/i18n/content-messages';
 
 export const de = {
   content: contentMessages.de,
+  placement: {
+    title: 'Einstufungstest',
+    open: 'Einstufung ansehen',
+    offer: 'Finde einen passenden Einstieg. Du kannst den Test jederzeit machen oder wiederholen.',
+    requested: 'Dein Test ist bereit. Finde jetzt deinen Startpunkt.',
+    unavailable:
+      'Der Einstufungstest braucht fachlich freigegebene Kursaufgaben. Für diese App-Version sind noch keine verfügbar. Du kannst inzwischen frei üben.',
+    intro:
+      '15–25 Aufgaben prüfen die wichtigsten Fähigkeiten aus Stufe 1–2. Die Schwierigkeit passt sich in jedem Bereich an deine Antworten an.',
+    rules:
+      'Keine Zeitbegrenzung. Du kannst pausieren oder früher beenden. Hinweise helfen dir, zählen aber nicht als selbstständig gelöste Aufgaben. Hörfragen kannst du ohne Nachteil auslassen. Der Test vergibt keine XP.',
+    start: 'Test beginnen',
+    restart: 'Mit den aktuellen Aufgaben neu starten',
+    retake: 'Einstufungstest wiederholen',
+    resume: 'Test fortsetzen',
+    paused: 'Dein begonnener Test ist gespeichert. Setze ihn an derselben Stelle fort.',
+    savedResult: 'Deine letzte Einstufung ist gespeichert. Ergebnisse ansehen oder erneut testen.',
+    viewResult: 'Ergebnis ansehen',
+    progress: 'Aufgabe {{current}} · höchstens {{max}}',
+    progressLabel: 'Fortschritt des Einstufungstests',
+    hearingPaused:
+      'Hörfragen sind ausgelassen. Dafür wird kein Fehler und kein nachgewiesenes Hörniveau eingetragen.',
+    pause: 'Pausieren und zurück',
+    pauseHint:
+      'Zurückgehen pausiert den Test. Beim Fortsetzen bleibt auch eine bereits geprüfte Antwort erhalten.',
+    finishEarly: 'Test jetzt beenden',
+    close: 'Zurück zum Lernbereich',
+    discard: 'Begonnenen Test verwerfen',
+    changed:
+      'Die Aufgaben oder der gespeicherte Verlauf passen nicht mehr zu dieser App-Version. Starte einen neuen Test; deine Lektionen bleiben erhalten.',
+    loadError:
+      'Dein Test konnte nicht geladen werden. Versuche es erneut. Gespeicherte Daten werden nicht überschrieben.',
+    saving: 'Dein Test wird gespeichert …',
+    saveError:
+      'Dein Test ist noch nicht gespeichert. Versuche es erneut, bevor du die App schließt.',
+    resultTitle: 'Dein Einstieg',
+    resultBody:
+      'Deine Einstufung gilt getrennt für jeden Bereich. Wähle einen empfohlenen Einstieg oder wiederhole die Grundlagen freiwillig.',
+    partialTitle: 'Vorläufiges Ergebnis',
+    partialBody:
+      'Du hast den Test früher beendet. Diese Stichprobe reicht nicht für das Überspringen von Einheiten. Die Empfehlungen beginnen bei den Grundlagen.',
+    summary:
+      '{{answered}} beantwortet · {{correct}} selbstständig richtig · {{assisted}} mit Hilfe · {{skipped}} ausgelassen',
+    estimateHint:
+      'Eine Schätzung aus wenigen Aufgaben, kein Zeugnis und kein Nachweis aller Fähigkeiten. Stufe 2 ist die obere Grenze dieses Tests.',
+    notRated: 'Niveau noch nicht einschätzbar',
+    foundation: 'Grundlagen noch nicht sicher nachgewiesen',
+    level: 'Geschätztes Niveau: Stufe {{level}}',
+    areaEvidence:
+      '{{independent}} selbstständig beantwortet · {{correct}} richtig · {{assisted}} mit Hilfe · {{skipped}} ausgelassen',
+    uncertain: 'Die Stichprobe ist klein oder uneinheitlich. Prüfe hier lieber die Grundlagen.',
+    startPoint: 'Startpunkt: {{title}}',
+    startLearning: 'Hier weiterlernen',
+    startNamed: 'Weiterlernen: {{title}}',
+    testedHint:
+      'Als getestet eingeschätzte Einheiten bleiben freiwillig zugänglich. Sie zählen nicht als abgeschlossene Lektionen.',
+    testedUnit: 'Getestet · {{title}} · freiwillig wiederholen',
+    prerequisite: 'Hilfreiche Grundlage zuerst: {{title}}',
+    overallStart: 'Empfohlener erster Schritt',
+  },
   onboarding: {
     brand: 'Harmonia',
     progress: 'Schritt {{current}} von {{total}}',
@@ -50,10 +110,11 @@ export const de = {
     experience_experiencedBody: 'Ich möchte Lücken finden und weiterlernen.',
     placementTitle: 'Deinen Startpunkt finden',
     placementBody:
-      'Der Einstufungstest folgt noch. Bis dahin kannst du frei üben. Möchtest du ihn für später vormerken?',
+      'Ein kurzer adaptiver Test findet deinen Einstieg. Möchtest du ihn nach der Einrichtung machen oder erst die Grundlagen ausprobieren?',
     placement_later: 'Erst die Grundlagen ausprobieren',
-    placement_requested: 'Einstufungstest vormerken',
-    placementHint: 'Dein Wunsch wird gespeichert. Er ändert dein Niveau noch nicht.',
+    placement_requested: 'Nach der Einrichtung einstufen',
+    placementHint:
+      'Du erreichst den Test jederzeit über Lernen und Profil. Dein Niveau ändert sich erst durch den Test.',
     dailyTitle: 'Eine kleine Gewohnheit',
     dailyBody:
       'Wähle dein Tagesziel. Erfahrungspunkte (XP) werden später für gelöste Aufgaben vergeben.',
@@ -98,7 +159,7 @@ export const de = {
     reminderOn: 'Vorgemerkt: {{time}} Uhr',
     profilePlacement: 'Einstufung',
     placementLater: 'Später entscheiden',
-    placementRequested: 'Vorgemerkt',
+    placementRequested: 'Test gewünscht',
     profileAccount: 'Konto',
     guestLabel: 'Gast auf diesem Gerät',
     signedIn: 'Angemeldet: {{email}}',
@@ -107,7 +168,7 @@ export const de = {
     learnWelcome: 'Dein Einstieg ist eingerichtet.',
     learnPreference: 'Dein Ziel: {{goal}} · {{count}} XP am Tag',
     learnPlacement:
-      'Dein Einstufungswunsch ist vorgemerkt. Bis der Test verfügbar ist, kannst du frei üben.',
+      'Dein Einstufungswunsch ist gespeichert. Starte den Test über deinen Lernbereich.',
     editTitle: 'Deine Lernziele',
     editBody: 'Änderungen gelten sofort und werden auf diesem Gerät gespeichert.',
     done: 'Zurück zum Profil',

@@ -5,6 +5,63 @@ import type { Messages } from './types.ts';
 
 export const enUS = {
   content: contentMessages['en-US'],
+  placement: {
+    title: 'Placement test',
+    open: 'View placement',
+    offer: 'Find a suitable starting point. Take or repeat the test whenever you like.',
+    requested: 'Your test is ready. Find your starting point now.',
+    unavailable:
+      'The placement test needs reviewed course exercises. None are available in this app version yet. You can practice freely meanwhile.',
+    intro:
+      '15–25 tasks sample the key skills in levels 1–2. Difficulty adapts to your answers in each subject area.',
+    rules:
+      'No time limit. Pause or finish early whenever you like. Hints help you but do not count as independent answers. Skip listening tasks without a penalty. The test awards no XP.',
+    start: 'Start test',
+    restart: 'Start again with the current tasks',
+    retake: 'Repeat placement test',
+    resume: 'Continue test',
+    paused: 'Your unfinished test is saved. Continue where you left off.',
+    savedResult: 'Your last placement is saved. View the results or take another test.',
+    viewResult: 'View result',
+    progress: 'Task {{current}} · at most {{max}}',
+    progressLabel: 'Placement test progress',
+    hearingPaused:
+      'Listening tasks are skipped. They count as neither errors nor evidence of listening ability.',
+    pause: 'Pause and go back',
+    pauseHint: 'Going back pauses the test. A checked answer is also preserved when you continue.',
+    finishEarly: 'Finish test now',
+    close: 'Back to learning',
+    discard: 'Discard unfinished test',
+    changed:
+      'The tasks or saved history no longer match this app version. Start a new test; your lessons are preserved.',
+    loadError: 'Your test could not be loaded. Try again. Saved data will not be overwritten.',
+    saving: 'Saving your test …',
+    saveError: 'Your test has not been saved yet. Try again before closing the app.',
+    resultTitle: 'Your starting point',
+    resultBody:
+      'Placement is estimated separately for each subject area. Choose a recommended start or revisit the basics freely.',
+    partialTitle: 'Preliminary result',
+    partialBody:
+      'You finished the test early. This sample is too small to skip units. Recommendations start with the basics.',
+    summary:
+      '{{answered}} answered · {{correct}} independently correct · {{assisted}} with help · {{skipped}} skipped',
+    estimateHint:
+      'An estimate from a few tasks, not a qualification or proof of every skill. Level 2 is the ceiling of this test.',
+    notRated: 'Not enough evidence to estimate a level',
+    foundation: 'Basic skills not yet reliably demonstrated',
+    level: 'Estimated level: {{level}}',
+    areaEvidence:
+      '{{independent}} independently answered · {{correct}} correct · {{assisted}} with help · {{skipped}} skipped',
+    uncertain: 'The sample is small or inconsistent. Reviewing the basics is recommended here.',
+    startPoint: 'Starting point: {{title}}',
+    startLearning: 'Continue learning here',
+    startNamed: 'Continue learning: {{title}}',
+    testedHint:
+      'Units estimated as tested remain available for optional practice. They do not count as completed lessons.',
+    testedUnit: 'Tested · {{title}} · optional review',
+    prerequisite: 'Helpful foundation first: {{title}}',
+    overallStart: 'Recommended first step',
+  },
   onboarding: {
     brand: 'Harmonia',
     progress: 'Step {{current}} of {{total}}',
@@ -51,10 +108,11 @@ export const enUS = {
     experience_experiencedBody: 'I want to find gaps and keep learning.',
     placementTitle: 'Find your starting point',
     placementBody:
-      'The placement test is still to come. You can practice freely meanwhile. Would you like to save it for later?',
+      'A short adaptive test finds your starting point. Would you like to take it after setup or try the basics first?',
     placement_later: 'Try the basics first',
-    placement_requested: 'Save the placement test for later',
-    placementHint: 'Your preference will be saved. It does not change your level yet.',
+    placement_requested: 'Take the test after setup',
+    placementHint:
+      'Find the test in Learn and Profile whenever you like. Only the test changes your estimated level.',
     dailyTitle: 'A small daily habit',
     dailyBody:
       'Choose your daily goal. Experience points (XP) will be awarded for solved questions later.',
@@ -97,7 +155,7 @@ export const enUS = {
     reminderOn: 'Saved: {{time}}',
     profilePlacement: 'Placement',
     placementLater: 'Decide later',
-    placementRequested: 'Saved for later',
+    placementRequested: 'Test requested',
     profileAccount: 'Account',
     guestLabel: 'Guest on this device',
     signedIn: 'Signed in: {{email}}',
@@ -105,8 +163,7 @@ export const enUS = {
     accountOpen: 'Sign in by email',
     learnWelcome: 'Your learning setup is ready.',
     learnPreference: 'Your goal: {{goal}} · {{count}} XP a day',
-    learnPlacement:
-      'Your placement preference is saved. You can practice freely until the test is available.',
+    learnPlacement: 'Your placement preference is saved. Start the test from your learning area.',
     editTitle: 'Your learning goals',
     editBody: 'Changes take effect immediately and are saved on this device.',
     done: 'Back to profile',
