@@ -19,6 +19,18 @@ Dieser Plan beschreibt, wie wir Harmonia Schritt für Schritt bauen: vom leeren 
 | [Fähigkeitsgraph P2.05](faehigkeitsgraph.md) | Stufen 1–2 als Entwurf, Lernziele, geprüfte Reihenfolge und erzeugte Planungsdiagramme |
 | [Tonhöheneingaben P2.06](tonhoeheneingabe.md) | Noten setzen, Tasten finden und Intervalle aufbauen; erster technisch umgesetzter Teil |
 | [Tonleitern und Vorzeichnungen P2.06](tonleitern-und-vorzeichnungen.md) | Vier weitere Typen, Zwölf-Aufgaben-Satz, schrittweise Schreibaufgaben und fachliche Konventionen |
+| [Akkordübungen P2.06](akkorduebungen.md) | Dreiklänge schreiben, sehen und mit klingendem Grundtonbezug hören; neun Aufgaben und Fehlerwiederholung |
+| [Rhythmus und Takt P2.06](rhythmus-und-takt.md) | Notenanfänge nach Einzähltakt mittippen, sichtbare Taktangaben gliedern; sechs Aufgaben und Timing-Auswertung |
+| [Wissensaufgaben P2.06](wissensaufgaben.md) | 45 Grundlagenbegriffe, Erklärungen zuordnen und Dauern/Tonhöhen ordnen; neun Aufgaben, vollständige Eingaben und neue Fehlerwiederholungen |
+| [Notationseinstieg P2.07](notationseinstieg.md) | Drei Lektionen mit 8/10/12 Aufgaben, sieben Wissenskarten, vollständige Klangbeispiele und ein vorbereiteter Grundlagenartikel |
+| [Klaviatur und Vorzeichen P2.07](klaviatur-und-vorzeichen.md) | Zweite Einheit mit drei Lektionen, acht Karten, dreizehn Klaviaturbeispielen und festen Tastenfragen ohne Oktavvoraussetzung |
+| [Oktavlagen und Hilfslinien P2.07](oktavlagen-und-hilfslinien.md) | Dritte Einheit mit drei Lektionen, vollständigen Namen, bis zu zwei Hilfslinien und Tastenfragen aus dem Notenbild |
+| [Puls, Tempo und Zählgruppen P2.07](puls-tempo-und-zaehlgruppen.md) | Erste Rhythmuseinheit mit drei Lektionen, gleichmäßigem Mittippen, acht Karten und dreizehn Klickbeispielen ohne Notenlese-Voraussetzung |
+| [Notenwerte und Pausen P2.07](notenwerte-und-pausen.md) | Fünfte Einheit: Noten-/Pausenzeichen, exakte Taktlücken, neun Karten, 15 Hörbeispiele und drei Lektionen |
+| [Einfache Taktarten und Auftakt P2.07](einfache-taktarten-und-auftakt.md) | Sechste Einheit: 2/4, 3/4 und 4/4, Einzählen, Auftaktfragen und kurze Rhythmen mit Pausen |
+| [Intervallgröße und Richtung P2.07](intervallgroesse-und-richtung.md) | Siebte Einheit: Prime bis Oktave zählen, Richtung und Wiederholung/Schritt/Sprung erkennen |
+| [Stufe 1 vollständig intern P2.07](stufe-1-vollstaendig.md) | Alle 13 geplanten Einheiten, 40 Fähigkeiten, 37 Lektionen, 370 Aufgaben und die offene getrennte Abnahme |
+| [Erste Intervallqualitäten P2.07](erste-intervallqualitaeten.md) | Achte Einheit: Halbtonabstände, kleine/große Terzen, reine Quarte/Quinte/Oktave und Tritonus-Kontrast |
 | [Übungs-Framework P1.19](uebungs-framework.md) | Generatoren, Engine-Bewertung, Hinweise, Aufgabenablauf und Hör-Pause |
 | [Erste Lektion P1.20](erste-lektion.md) | Einführung, zehn Aufgaben, Fehlerwiederholung, SQLite und Personen-Test |
 | [Rückblick Phase 1](phase-1-rueckblick.md) | Technischer Zwischenstand, offene Abnahmen und Konsequenzen für Phase 2 |

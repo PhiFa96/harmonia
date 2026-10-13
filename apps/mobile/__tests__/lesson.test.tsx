@@ -25,11 +25,12 @@ const mockLatest = jest.fn<Promise<SavedLessonSummary | null>, []>();
 jest.mock('@/storage/lessons', () => ({
   getLessonRepository: () => Promise.resolve({ save: mockSave, latest: mockLatest }),
 }));
-const mockPlay = jest.fn();
+const mockPlay = jest.fn<unknown, unknown[]>();
 const mockStop = jest.fn();
 jest.mock('@/audio', () => ({
   usePianoStatus: () => 'ready',
   getAudioEngine: () => ({
+    context: { currentTime: 0 },
     resume: () => Promise.resolve(),
     playPitch: (...args: unknown[]) => {
       mockPlay(...args);
@@ -109,7 +110,10 @@ describe('Vollständige Lektion', () => {
       fireEvent.press(screen.getByText('Klangbeispiel'));
       await Promise.resolve();
     });
-    expect(mockPlay).toHaveBeenCalledWith({ letter: 'G', alter: 0, octave: 4 }, { duration: 0.8 });
+    expect(mockPlay).toHaveBeenCalledWith(
+      { letter: 'G', alter: 0, octave: 4 },
+      { when: 0.05, duration: 8 / 3 },
+    );
     fireEvent.press(screen.getByText('Nächste Einführungskarte'));
     expect(mockStop).toHaveBeenCalled();
     expect(screen.getByText('Einführung 2 von 3')).toBeTruthy();
@@ -119,12 +123,10 @@ describe('Vollständige Lektion', () => {
       fireEvent.press(screen.getByText('Klangbeispiel'));
       await Promise.resolve();
     });
-    expect(mockPlay).toHaveBeenLastCalledWith(
+    expect(mockPlay.mock.calls.slice(-2).map((call) => call[0])).toEqual([
       { letter: 'C', alter: 0, octave: 4 },
       { letter: 'E', alter: 0, octave: 4 },
-      'melodic',
-      { duration: 0.8 },
-    );
+    ]);
   });
   it('zehn richtige Antworten führen direkt zum Ergebnis und werden einmal gespeichert', async () => {
     start();

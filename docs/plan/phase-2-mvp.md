@@ -111,7 +111,7 @@ Die Blöcke B, C und D können teilweise parallel laufen.
   - [ ] `KNOWLEDGE_MC`, `MATCH`, `ORDER`
   - [ ] Je Typ: Parameter, Hinweise, Erklärtexte DE/EN, Barrierefreiheit
 - **Fertig, wenn:** Jeder Typ besteht Generator- und Bewertungstests und ist auf allen Plattformen bedienbar.
-- **Stand 07.10.2026:** Sieben der 14 zusätzlichen Typen technisch umgesetzt: `NOTE_PLACE`, `KEY_FIND`, `INTERVAL_BUILD` sowie `SCALE_BUILD`, `SCALE_IDENTIFY`, `KEYSIG_IDENTIFY`, `KEYSIG_BUILD`. Freie Neun- beziehungsweise Zwölf-Aufgaben-Sätze, freie Schreib-/Tasteneingaben, Hinweise, DE/US/UK-Texte und neue Fehlerwiederholungen sind vorhanden. Prüfstand und Folgearbeit: [Tonhöheneingaben](tonhoeheneingabe.md) und [Tonleitern und Vorzeichnungen](tonleitern-und-vorzeichnungen.md). Sieben weitere Typen, Claudes fachliche Abnahme und echte Gerätetests bleiben offen; P2.06 ist nicht abgeschlossen.
+- **Stand 08.10.2026:** Alle 14 zusätzlichen Typen technisch umgesetzt: `NOTE_PLACE`, `KEY_FIND`, `INTERVAL_BUILD`, `SCALE_BUILD`, `SCALE_IDENTIFY`, `KEYSIG_IDENTIFY`, `KEYSIG_BUILD`, `CHORD_IDENTIFY`, `CHORD_BUILD`, `RHYTHM_TAP`, `METER_IDENTIFY`, `KNOWLEDGE_MC`, `MATCH` und `ORDER`. Mit den drei bisherigen Typen gibt es 17 Typen und sechs freie Sätze mit sechs, neun beziehungsweise zwölf Aufgaben. Freie Schreib-/Tasten-/Timing-/Zuordnungs-/Reihenfolgeeingaben, Hinweise, DE/US/UK-Texte und neue Fehlerwiederholungen sind vorhanden. Akkorde umfassen die vier Dreiklangarten in allen Umkehrungen; Hörfragen geben einen klingenden Grundtonbezug. Rhythmusaufgaben bewerten Notenanfänge nach einem Einzähltakt auf der Audio-Uhr; Taktaufgaben fragen die Gliederung der sichtbaren Taktangabe ab. Wissensaufgaben verwenden 45 Grundlagenbegriffe, Reihenfolgen tatsächliche Dauern oder Tonhöhen. Prüfstand und Folgearbeit: [Tonhöheneingaben](tonhoeheneingabe.md), [Tonleitern und Vorzeichnungen](tonleitern-und-vorzeichnungen.md), [Akkordübungen](akkorduebungen.md), [Rhythmus und Takt](rhythmus-und-takt.md) und [Wissensaufgaben](wissensaufgaben.md). Claudes fachliche Abnahme und echte Gerätetests bleiben offen; P2.06 ist nicht abgeschlossen. Die erste interne Lektion und die Kursfreigaben bleiben unverändert; vollständige Lektionen und Bestehens-/Freischaltlogik folgen.
 
 ### P2.07 – Inhalte Stufe 1 (DE + EN)
 
@@ -119,11 +119,12 @@ Die Blöcke B, C und D können teilweise parallel laufen.
 - **Abhängig von:** P2.05, P2.06
 - **Umfang:** XL
 - **Aufgaben:**
-  - [ ] Einheiten und Lektionen nach Graph
-  - [ ] Wissenskarten mit Notenbild und Klang
+  - [x] Einheiten und Lektionen nach Graph
+  - [x] Wissenskarten mit Notenbild und Klang
   - [ ] Entwürfe durch Claude, getrennter Prüfdurchgang durch Claude, Status `freigegeben`
-  - [ ] Wissensartikel für die Tutor-Wissensbasis zu allen Themen der Stufe
+  - [x] Wissensartikel für die Tutor-Wissensbasis zu allen Themen der Stufe
 - **Fertig, wenn:** Stufe 1 ist durchspielbar, fachlich freigegeben und in beiden Sprachen vollständig.
+- **Stand 12.10.2026:** Alle 13 geplanten Stufe-1-Einheiten einschließlich Prototyp und alle 40 Fähigkeiten sind intern durchspielbar: 37 Lektionen mit 370 Aufgaben, 106 Karten mit 157 Beispielen, 13 Artikel in DE/US/UK. Die vier letzten Einheiten ergänzen Puls-/Rhythmushören, Tonrichtung/Melodievergleich/erste Hörintervalle sowie Klangquellen, Quellenkritik und die grobe europäische Epochenfolge. 18 Übungstypen, Inhaltsversion 11. Technische Umsetzung vollständig; alle Inhalte bleiben `entwurf`. Die getrennte Claude-Abnahme nach ADR 0005 samt Literaturabgleich ist mangels Claude-Ausführung und zugänglicher Literatur in dieser Umgebung offen. **P2.07 ist deshalb noch nicht fachlich abgeschlossen.** Prüfstand und vollständige Abnahmeunterlagen: [stufe-1-vollstaendig.md](stufe-1-vollstaendig.md).
 
 ### P2.08 – Inhalte Stufe 2 (DE + EN)
 

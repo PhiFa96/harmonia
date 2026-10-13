@@ -1,4 +1,5 @@
 import { evaluateExercise } from './evaluate.ts';
+import { isAuralExercise } from './chords.ts';
 import type { Evaluation, ExerciseItem } from './types.ts';
 
 export interface AnswerRecord {
@@ -52,10 +53,8 @@ export function nextExercise(session: ExerciseSession): ExerciseSession {
 export function skipAuralExercises(session: ExerciseSession): ExerciseSession {
   const skipped = new Set(session.skipped);
   for (let index = session.index; index < session.items.length; index++) {
-    if (
-      session.items[index]?.type === 'INTERVAL_IDENTIFY_AURAL' &&
-      !session.records.some((record) => record.index === index)
-    )
+    const item = session.items[index];
+    if (item && isAuralExercise(item) && !session.records.some((record) => record.index === index))
       skipped.add(index);
   }
   const next = { ...session, skipped: [...skipped], skipAural: true };

@@ -1,6 +1,7 @@
 // Öffentliche Schnittstelle des Notationspakets.
 
 export * from './score.ts';
+export * from './timeline.ts';
 export * from './shorthand.ts';
 export * from './layout.ts';
 export * from './svg.ts';
@@ -9,3 +10,5 @@ export * from './input.ts';
 export * from './highlight.ts';
 export * from './keyboard.ts';
 export { ENGRAVING_DEFAULTS, FONT } from './smufl-data.ts';
+
+export * from './duration-symbol.ts';

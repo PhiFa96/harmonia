@@ -1,11 +1,14 @@
 import type { AppLocale, Messages } from '@harmonia/i18n';
 import { createI18n, engineLanguage } from '@harmonia/i18n';
 import type { NoteName, Pitch } from '@harmonia/theory';
+import { listeningAnswer } from './listening.ts';
+import { isHistoryTopic } from './knowledge.ts';
 import {
   diatonicIndex,
   intervalBetween,
   intervalName,
   parseInterval,
+  parsePitch,
   pitchName,
   semitones,
   keyName,
@@ -14,7 +17,34 @@ import {
   scaleTypeName,
   SHARP_ORDER,
   FLAT_ORDER,
+  chordName,
+  chordIntervals,
+  inversionName,
+  durationName,
+  formatTimeSignature,
+  durationValue,
+  fraction,
+  duration,
+  fractionEquals,
+  beats,
+  parseTimeSignature,
+  scaleIntervals,
 } from '@harmonia/theory';
+import {
+  isKnowledgeItem,
+  measureGapFact,
+  knowledgeChoiceFact,
+  knowledgeFactId,
+  orderedValues,
+  orderValueId,
+} from './knowledge.ts';
+import type {
+  KnowledgeFact,
+  KnowledgeExerciseItem,
+  ListeningItem,
+  OrderValue,
+  RhythmValue,
+} from './types.ts';
 import { expectedAnswer } from './evaluate.ts';
 import type { Evaluation, ExerciseFeedback, ExerciseHint, ExerciseItem } from './types.ts';
 import {
@@ -26,7 +56,29 @@ import {
   MVP_SCALE_TYPES,
   scaleChoiceId,
 } from './tonality.ts';
-import type { KeySignatureItem, ScaleItem } from './types.ts';
+import type { ChordItem, KeySignatureItem, ScaleItem, RhythmItem } from './types.ts';
+import { chordFromId, chordTargets, isChordItem, resolvedChord } from './chords.ts';
+import {
+  assessRhythm,
+  isRhythmItem,
+  meterFromId,
+  rhythmAnswerTaps,
+  rhythmBeat,
+  rhythmBeatCount,
+  rhythmMeter,
+  rhythmOnsets,
+  rhythmTolerance,
+  pickupAnswer,
+  pickupFirstDuration,
+} from './rhythm.ts';
+import {
+  isIntervalReadingItem,
+  intervalReadingAnswer,
+  intervalReadingNumber,
+  intervalReadingPitches,
+  intervalReadingPath,
+  intervalReadingSemitones,
+} from './interval-reading.ts';
 
 const translations = new Map<AppLocale, ReturnType<typeof createI18n>>();
 type TextKey =
@@ -34,6 +86,7 @@ type TextKey =
   | 'exercise.noteSteps'
   | 'exercise.halfSteps'
   | 'exercise.diatonicCount'
+  | 'exercise.knowledgePositions'
   | 'practice.correctTitle'
   | 'practice.wrongTitle'
   | 'glossary:trebleClef_one'
@@ -44,9 +97,15 @@ type TextKey =
   | 'glossary:sharp_other'
   | 'glossary:flat_one'
   | 'glossary:flat_other';
+type AccidentalKey =
+  | 'glossary:doubleFlat_one'
+  | 'glossary:flat_one'
+  | 'glossary:natural_one'
+  | 'glossary:sharp_one'
+  | 'glossary:doubleSharp_one';
 function translate(
   locale: AppLocale,
-  key: TextKey,
+  key: TextKey | AccidentalKey,
   values: Readonly<Record<string, string | number>> = {},
 ): string {
   let instance = translations.get(locale);
@@ -65,8 +124,104 @@ function noteName(pitch: Pitch, locale: AppLocale, octave = true): string {
 export function signatureNoteLabel(note: NoteName, locale: AppLocale): string {
   return noteName({ ...note, octave: 4 }, locale, false);
 }
+export function pitchInputLabel(pitch: Pitch, locale: AppLocale): string {
+  return noteName(pitch, locale);
+}
 export function choiceLabel(item: ExerciseItem, answer: string, locale: AppLocale): string {
+  if (item.type === 'LISTENING_CHOICE') {
+    if (!item.choices.includes(answer)) return translate(locale, 'exercise.unknownAnswer');
+    if (answer.startsWith('listening:option:'))
+      return translate(locale, 'exercise.listeningOption', { count: Number(answer.split(':')[2]) });
+    if (answer.startsWith('listening:pulse:'))
+      return translate(locale, 'exercise.listeningPulseCount', {
+        count: Number(answer.split(':')[2]),
+      });
+    const keys: Readonly<Record<string, TextKey>> = {
+      'listening:same': 'exercise.listeningSame',
+      'listening:different': 'exercise.listeningDifferent',
+      'listening:up': 'exercise.listeningUp',
+      'listening:down': 'exercise.listeningDown',
+      'listening:repeat': 'exercise.listeningRepeat',
+      'listening:one-at-a-time': 'exercise.listeningSingle',
+      'listening:together': 'exercise.listeningTogether',
+      'listening:date': 'exercise.listeningDate',
+      'listening:place': 'exercise.listeningPlace',
+    };
+    return translate(locale, keys[answer] ?? 'exercise.unknownAnswer');
+  }
   if (!item.choices.includes(answer)) return translate(locale, 'exercise.unknownAnswer');
+  if (isIntervalReadingItem(item)) {
+    if (item.question === 'semitones')
+      return translate(locale, 'exercise.halfSteps', {
+        count: Number(answer.slice('interval-semitones:'.length)),
+      });
+    if (item.question === 'quality')
+      return intervalName(parseInterval(answer), {
+        ...engineLanguage(locale),
+        showDirection: false,
+      });
+    const numberKeys = [
+      'intervalNumber1',
+      'intervalNumber2',
+      'intervalNumber3',
+      'intervalNumber4',
+      'intervalNumber5',
+      'intervalNumber6',
+      'intervalNumber7',
+      'intervalNumber8',
+    ] as const;
+    if (item.question === 'number') {
+      const number = Number(answer.slice('interval-number:'.length));
+      const key = numberKeys[number - 1];
+      return key
+        ? translate(locale, 'exercise.intervalNumberOption', {
+            number,
+            name: translate(locale, `exercise.${key}`),
+          })
+        : translate(locale, 'exercise.unknownAnswer');
+    }
+    const keys: Readonly<Record<string, TextKey>> = {
+      'interval-direction:up': 'exercise.intervalDirectionUp',
+      'interval-direction:down': 'exercise.intervalDirectionDown',
+      'interval-direction:same': 'exercise.intervalDirectionSame',
+      'interval-motion:repeat': 'exercise.intervalMotionRepeat',
+      'interval-motion:step': 'exercise.intervalMotionStep',
+      'interval-motion:leap': 'exercise.intervalMotionLeap',
+      'interval-perfect:yes': 'exercise.intervalPerfectYes',
+      'interval-perfect:no': 'exercise.intervalPerfectNo',
+    };
+    const key = keys[answer];
+    return key ? translate(locale, key) : translate(locale, 'exercise.unknownAnswer');
+  }
+  if (isKnowledgeItem(item)) {
+    if (item.type === 'ORDER') {
+      const value = item.values.find((value) => orderValueId(value) === answer);
+      return value ? orderValueLabel(value, locale) : translate(locale, 'exercise.unknownAnswer');
+    }
+    const fact = knowledgeChoiceFact(item, answer);
+    return fact
+      ? item.type === 'MATCH'
+        ? knowledgeDefinition(fact, locale)
+        : knowledgeFactLabel(fact, locale)
+      : translate(locale, 'exercise.unknownAnswer');
+  }
+  if (isRhythmItem(item)) {
+    if (item.type === 'METER_IDENTIFY' && item.presentation === 'pickup')
+      return translate(
+        locale,
+        answer === 'pickup:yes' ? 'exercise.pickupYes' : 'exercise.pickupNo',
+      );
+    const meter = meterFromId(answer),
+      value = {
+        ...item,
+        score: {
+          ...item.score,
+          staves: item.score.staves.map((staff) => ({ ...staff, timeSignature: meter })),
+        },
+      };
+    return translate(locale, 'exercise.meterOption', rhythmValues(value, locale));
+  }
+  if (isChordItem(item)) return chordName(chordFromId(answer), engineLanguage(locale));
   if (isScaleItem(item)) {
     const type = MVP_SCALE_TYPES.find((type) => scaleChoiceId(type) === answer);
     return type
@@ -76,11 +231,50 @@ export function choiceLabel(item: ExerciseItem, answer: string, locale: AppLocal
   if (isKeySignatureItem(item)) return keyName(tonalityFromId(answer), engineLanguage(locale));
   if (item.type !== 'NOTE_NAME')
     return intervalName(parseInterval(answer), { ...engineLanguage(locale), showDirection: false });
+  if (item.includeOctave) return noteName(parsePitch(answer), locale);
   const [letter, alter] = answer.split(':');
   const pitch = { ...item.pitch, letter: letter as Pitch['letter'], alter: Number(alter) };
   return noteName(pitch, locale, false);
 }
 export function exercisePrompt(item: ExerciseItem, locale: AppLocale): string {
+  if (item.type === 'LISTENING_CHOICE')
+    return translate(locale, `exercise.question_listening_${item.question}`);
+  if (isIntervalReadingItem(item))
+    return translate(locale, `exercise.question_interval_${item.question}`);
+  if (item.type === 'KNOWLEDGE_MC' && item.presentation)
+    return translate(
+      locale,
+      item.presentation === 'symbol'
+        ? 'exercise.question_durationSymbol'
+        : 'exercise.question_measureGap',
+      knowledgeValues(item, locale),
+    );
+  if (isKnowledgeItem(item))
+    return translate(locale, `exercise.question_${item.type}`, knowledgeValues(item, locale));
+  if (isRhythmItem(item))
+    return translate(
+      locale,
+      item.presentation === 'pulse'
+        ? 'exercise.question_PULSE_TAP'
+        : item.presentation === 'pickup'
+          ? 'exercise.question_PICKUP_IDENTIFY'
+          : `exercise.question_${item.type}`,
+      rhythmValues(item, locale),
+    );
+  if (isChordItem(item))
+    return translate(
+      locale,
+      item.type === 'CHORD_BUILD'
+        ? 'exercise.question_CHORD_BUILD'
+        : item.presentation === 'aural'
+          ? 'exercise.question_CHORD_AURAL'
+          : 'exercise.question_CHORD_IDENTIFY',
+      {
+        name: chordName(item.chord, engineLanguage(locale)),
+        bass: noteName(item.bass, locale),
+        root: noteName({ ...item.chord.root, octave: 4 }, locale, false),
+      },
+    );
   if (isScaleItem(item))
     return translate(locale, `exercise.question_${item.type}`, {
       tonic: noteName(item.tonic, locale),
@@ -97,9 +291,21 @@ export function exercisePrompt(item: ExerciseItem, locale: AppLocale): string {
     });
   return translate(
     locale,
-    `exercise.question_${item.type}`,
+    item.type === 'NOTE_NAME' && item.includeOctave
+      ? 'exercise.question_NOTE_NAME_octave'
+      : item.type === 'KEY_FIND' && item.presentation === 'score'
+        ? 'exercise.question_KEY_FIND_score'
+        : item.type === 'KEY_FIND' && item.presentation === 'name'
+          ? 'exercise.question_KEY_FIND_name'
+          : `exercise.question_${item.type}`,
     'pitch' in item
-      ? { note: noteName(item.pitch, locale) }
+      ? {
+          note: noteName(
+            item.pitch,
+            locale,
+            !(item.type === 'KEY_FIND' && item.presentation === 'name'),
+          ),
+        }
       : item.type === 'INTERVAL_BUILD'
         ? {
             interval: intervalName(intervalBetween(item.from, item.to), engineLanguage(locale)),
@@ -108,7 +314,7 @@ export function exercisePrompt(item: ExerciseItem, locale: AppLocale): string {
         : {},
   );
 }
-function reference(item: ExerciseItem) {
+function reference(item: Exclude<ExerciseItem, KnowledgeExerciseItem | ListeningItem>) {
   return item.clef === 'treble'
     ? { pitch: { letter: 'G', alter: 0, octave: 4 } as const, line: 2 }
     : { pitch: { letter: 'F', alter: 0, octave: 3 } as const, line: 4 };
@@ -132,7 +338,7 @@ function noteExplanation(
     line: anchor.line,
     steps,
     alteration: alterationText(item.pitch, locale),
-    answer: noteName(item.pitch, locale, false),
+    answer: noteName(item.pitch, locale, item.type === 'NOTE_NAME' && item.includeOctave === true),
   });
 }
 export function exerciseFeedback(
@@ -141,7 +347,73 @@ export function exerciseFeedback(
   locale: AppLocale,
 ): ExerciseFeedback {
   let message: string;
-  if (isScaleItem(item)) {
+  if (item.type === 'LISTENING_CHOICE') {
+    message = translate(locale, `exercise.listeningExplanation_${item.question}`, {
+      answer: choiceLabel(item, listeningAnswer(item), locale),
+    });
+  } else if (isIntervalReadingItem(item)) {
+    const [from, to] = intervalReadingPitches(item);
+    message = translate(locale, `exercise.intervalReadingExplanation_${item.question}`, {
+      from: noteName(from, locale),
+      to: noteName(to, locale),
+      count: intervalReadingNumber(item),
+      path: intervalReadingPath(item)
+        .map((pitch) => noteName(pitch, locale))
+        .join(' → '),
+      answer: choiceLabel(item, intervalReadingAnswer(item), locale),
+      distance: translate(locale, 'exercise.halfSteps', { count: intervalReadingSemitones(item) }),
+    });
+  } else if (isKnowledgeItem(item)) {
+    message =
+      item.type === 'KNOWLEDGE_MC' && item.gap
+        ? translate(locale, 'exercise.measureGapExplanation', knowledgeValues(item, locale))
+        : item.type === 'ORDER'
+          ? translate(locale, 'exercise.orderExplanation', knowledgeValues(item, locale))
+          : (item.type === 'MATCH' ? item.facts : [item.fact])
+              .map((fact) =>
+                translate(locale, 'exercise.knowledgeExplanation', {
+                  term: knowledgeFactLabel(fact, locale),
+                  definition: knowledgeDefinition(fact, locale),
+                }),
+              )
+              .join('\n');
+  } else if (isRhythmItem(item)) {
+    if (item.type === 'METER_IDENTIFY')
+      message =
+        item.presentation === 'pickup'
+          ? translate(locale, 'exercise.pickupExplanation', {
+              meter: formatTimeSignature(rhythmMeter(item)),
+              first: new Intl.NumberFormat(locale).format(
+                (pickupFirstDuration(item).num * 4) / pickupFirstDuration(item).den,
+              ),
+              capacity: rhythmBeatCount(item),
+              answer: choiceLabel(item, pickupAnswer(item), locale),
+            })
+          : translate(locale, 'exercise.meterExplanation', rhythmValues(item, locale));
+    else {
+      const assessment = assessRhythm(item, rhythmAnswerTaps(item, result.answer) ?? []);
+      message = translate(
+        locale,
+        item.presentation === 'pulse' ? 'exercise.pulseExplanation' : 'exercise.rhythmExplanation',
+        {
+          matched: assessment.matched,
+          total: assessment.targets.length,
+          missing: assessment.missing,
+          extra: assessment.extras.length,
+          tolerance: assessment.toleranceMs,
+          pattern: translate(
+            locale,
+            item.presentation === 'pulse' ? 'exercise.pulsePattern' : 'exercise.rhythmPattern',
+            {
+              times: rhythmOnsets(item).join(', '),
+            },
+          ),
+        },
+      );
+    }
+  } else if (isChordItem(item))
+    message = translate(locale, 'exercise.chordExplanation', chordExplanationValues(item, locale));
+  else if (isScaleItem(item)) {
     message = translate(locale, 'exercise.scaleExplanation', {
       tonic: noteName(item.tonic, locale),
       type: scaleTypeName(item.scaleType, engineLanguage(locale).language),
@@ -166,11 +438,15 @@ export function exerciseFeedback(
           .join(' → ') || translate(locale, 'exercise.signatureEmpty'),
     });
   else if (item.type === 'KEY_FIND')
-    message = translate(locale, 'exercise.keyExplanation', {
-      note: noteName(item.pitch, locale),
-      natural: noteName({ ...item.pitch, alter: 0 }, locale),
-      alteration: alterationText(item.pitch, locale),
-    });
+    message = translate(
+      locale,
+      item.presentation === 'name' ? 'exercise.keyNameExplanation' : 'exercise.keyExplanation',
+      {
+        note: noteName(item.pitch, locale, item.presentation !== 'name'),
+        natural: noteName({ ...item.pitch, alter: 0 }, locale, item.presentation !== 'name'),
+        alteration: alterationText(item.pitch, locale),
+      },
+    );
   else if ('pitch' in item) {
     message = noteExplanation(item, locale);
     if (item.type === 'NOTE_PLACE')
@@ -195,6 +471,74 @@ export function exerciseFeedback(
 /** Sprachneutraler Hinweis; erst die Oberfläche wählt die Sprache. Level 3 ist die erklärte Lösung. */
 export function exerciseHints(item: ExerciseItem, level: 1 | 2 | 3): ExerciseHint {
   if (level === 3) return { level, key: 'solution', values: {} };
+  if (item.type === 'LISTENING_CHOICE')
+    return {
+      level,
+      key: level === 1 ? 'exercise.listeningHint1' : 'exercise.listeningHint2',
+      values: {},
+    };
+  if (isIntervalReadingItem(item))
+    return {
+      level,
+      key: `exercise.intervalReadingHint_${item.question}_${level === 1 ? '1' : '2'}`,
+      values: {},
+    };
+  if (item.type === 'KNOWLEDGE_MC' && item.presentation)
+    return {
+      level,
+      key:
+        item.presentation === 'symbol'
+          ? level === 1
+            ? 'exercise.durationSymbolHint1'
+            : 'exercise.durationSymbolHint2'
+          : level === 1
+            ? 'exercise.measureGapHint1'
+            : 'exercise.measureGapHint2',
+      values: {},
+    };
+  if (isKnowledgeItem(item))
+    return {
+      level,
+      key:
+        level === 2
+          ? `exercise.knowledgeHint2_${item.type}`
+          : item.type === 'ORDER'
+            ? `exercise.knowledgeHint_${item.topic}`
+            : `exercise.knowledgeHint_${item.type === 'MATCH' ? (item.facts[0]?.topic ?? 'accidentals') : item.fact.topic}`,
+      values: {},
+    };
+  if (isRhythmItem(item))
+    return {
+      level,
+      key:
+        item.type === 'RHYTHM_TAP'
+          ? item.presentation === 'pulse'
+            ? level === 1
+              ? 'exercise.pulseHint1'
+              : 'exercise.pulseHint2'
+            : level === 1
+              ? 'exercise.rhythmHint1'
+              : 'exercise.rhythmHint2'
+          : item.presentation === 'pickup'
+            ? level === 1
+              ? 'exercise.pickupHint1'
+              : 'exercise.pickupHint2'
+            : level === 1
+              ? 'exercise.meterHint1'
+              : 'exercise.meterHint2',
+      values: {},
+    };
+  if (isChordItem(item))
+    return {
+      level,
+      key:
+        level === 2
+          ? 'exercise.chordHint2'
+          : item.type === 'CHORD_IDENTIFY' && item.presentation === 'aural'
+            ? 'exercise.chordAuralHint1'
+            : 'exercise.chordHint1',
+      values: {},
+    };
   if (isScaleItem(item))
     return {
       level,
@@ -210,7 +554,14 @@ export function exerciseHints(item: ExerciseItem, level: 1 | 2 | 3): ExerciseHin
   if (item.type === 'KEY_FIND')
     return {
       level,
-      key: level === 1 ? 'exercise.keyHint1' : 'exercise.keyHint2',
+      key:
+        level === 1
+          ? item.presentation === 'name'
+            ? 'exercise.keyNameHint1'
+            : item.presentation === 'score'
+              ? 'exercise.keyScoreHint1'
+              : 'exercise.keyHint1'
+          : 'exercise.keyHint2',
       values: {},
     };
   if ('pitch' in item)
@@ -246,6 +597,15 @@ export function hintText(item: ExerciseItem, hint: ExerciseHint, locale: AppLoca
       locale,
     ).message;
   if (hint.key === 'solution') return '';
+  if (isIntervalReadingItem(item)) return translate(locale, hint.key, hint.values);
+  if (isKnowledgeItem(item)) return translate(locale, hint.key, knowledgeValues(item, locale));
+  if (isRhythmItem(item)) return translate(locale, hint.key, rhythmValues(item, locale));
+  if (isChordItem(item))
+    return translate(
+      locale,
+      hint.key,
+      hint.level === 2 ? chordExplanationValues(item, locale) : {},
+    );
   if (isScaleItem(item)) return translate(locale, hint.key, hint.values);
   if (isKeySignatureItem(item))
     return translate(
@@ -264,7 +624,7 @@ export function hintText(item: ExerciseItem, hint: ExerciseHint, locale: AppLoca
     );
   if (item.type === 'KEY_FIND' && hint.level === 2)
     return translate(locale, 'exercise.keyHint2', {
-      natural: noteName({ ...item.pitch, alter: 0 }, locale),
+      natural: noteName({ ...item.pitch, alter: 0 }, locale, item.presentation !== 'name'),
       alteration: alterationText(item.pitch, locale),
     });
   if ('pitch' in item && hint.level === 2)
@@ -304,6 +664,49 @@ function alterationText(pitch: Pitch, locale: AppLocale): string {
 
 /** Positionen statt Tonnamen: Vor dem Prüfen darf der Screenreader die Lösung nicht vorwegnehmen. */
 export function exerciseDescription(item: ExerciseItem, locale: AppLocale): string {
+  if (item.type === 'LISTENING_CHOICE') return exercisePrompt(item, locale);
+  if (item.type === 'KNOWLEDGE_MC' && item.presentation === 'symbol' && 'duration' in item.fact)
+    return durationSymbolDescription(
+      { kind: item.fact.topic === 'rests' ? 'rest' : 'note', duration: item.fact.duration },
+      locale,
+    );
+  if (item.type === 'KNOWLEDGE_MC' && item.gap)
+    return translate(locale, 'exercise.measureGapDescription', knowledgeValues(item, locale));
+  if (isKnowledgeItem(item)) return exercisePrompt(item, locale);
+  if (isRhythmItem(item) && item.presentation === 'pulse')
+    return translate(locale, 'exercise.pulseDescription', rhythmValues(item, locale));
+  if (isRhythmItem(item) && item.presentation === 'pickup')
+    return translate(locale, 'exercise.pickupDescription', {
+      meter: formatTimeSignature(rhythmMeter(item)),
+      events: (item.score.staves[0]?.measures[0]?.voices[0]?.events ?? [])
+        .map((event, index) =>
+          translate(locale, 'exercise.rhythmEvent', {
+            index: index + 1,
+            kind: translate(locale, 'exercise.rhythmNote'),
+            duration: durationName(event.duration, engineLanguage(locale)),
+          }),
+        )
+        .join(' '),
+    });
+  if (isRhythmItem(item))
+    return translate(locale, 'exercise.rhythmDescription', {
+      meter: formatTimeSignature(rhythmMeter(item)),
+      events: (item.score.staves[0]?.measures[0]?.voices[0]?.events ?? [])
+        .map((event, index) =>
+          translate(locale, 'exercise.rhythmEvent', {
+            index: index + 1,
+            kind: translate(
+              locale,
+              event.kind === 'rest' ? 'exercise.rhythmRest' : 'exercise.rhythmNote',
+            ),
+            duration: durationName(event.duration, {
+              ...engineLanguage(locale),
+              kind: event.kind === 'rest' ? 'rest' : 'note',
+            }),
+          }),
+        )
+        .join(' '),
+    });
   if (isKeySignatureItem(item))
     return translate(locale, 'exercise.signatureDescription', {
       signature: signatureText(item, locale),
@@ -312,21 +715,26 @@ export function exerciseDescription(item: ExerciseItem, locale: AppLocale): stri
           .map((note) => noteName({ ...note, octave: 4 }, locale, false))
           .join(' → ') || translate(locale, 'exercise.signatureEmpty'),
     });
+  const clef = isIntervalReadingItem(item) ? (item.score.staves[0]?.clef ?? item.clef) : item.clef;
   const bottom: Pitch =
-    item.clef === 'treble'
-      ? { letter: 'E', alter: 0, octave: 4 }
-      : { letter: 'G', alter: 0, octave: 2 };
-  const pitches = isScaleItem(item)
-    ? item.type === 'SCALE_BUILD'
-      ? [item.tonic]
-      : item.pitches
-    : item.type === 'NOTE_PLACE'
-      ? []
-      : 'pitch' in item
-        ? [item.pitch]
-        : item.type === 'INTERVAL_BUILD'
-          ? [item.from]
-          : [item.from, item.to];
+    clef === 'treble' ? { letter: 'E', alter: 0, octave: 4 } : { letter: 'G', alter: 0, octave: 2 };
+  const pitches = isIntervalReadingItem(item)
+    ? intervalReadingPitches(item)
+    : isChordItem(item)
+      ? item.type === 'CHORD_BUILD'
+        ? [item.bass]
+        : item.pitches
+      : isScaleItem(item)
+        ? item.type === 'SCALE_BUILD'
+          ? [item.tonic]
+          : item.pitches
+        : item.type === 'NOTE_PLACE'
+          ? []
+          : 'pitch' in item
+            ? [item.pitch]
+            : item.type === 'INTERVAL_BUILD'
+              ? [item.from]
+              : [item.from, item.to];
   const notes = pitches
     .map((pitch, index) => {
       const steps = diatonicIndex(pitch) - diatonicIndex(bottom);
@@ -344,10 +752,230 @@ export function exerciseDescription(item: ExerciseItem, locale: AppLocale): stri
   return translate(locale, 'exercise.notationDescription', {
     clef: translate(
       locale,
-      item.clef === 'treble' ? 'glossary:trebleClef_one' : 'glossary:bassClef_one',
+      clef === 'treble' ? 'glossary:trebleClef_one' : 'glossary:bassClef_one',
     ),
     notes,
   });
+}
+export function knowledgeFactLabel(fact: KnowledgeFact, locale: AppLocale): string {
+  if (isHistoryTopic(fact.topic) && 'kind' in fact)
+    return translate(locale, `exercise.knowledgeHistory_${fact.topic}_${fact.kind}` as TextKey);
+  switch (fact.topic) {
+    case 'barlines':
+      return translate(locale, `exercise.knowledge_barlines_${fact.kind}`);
+    case 'pulse':
+      return translate(locale, `exercise.knowledge_pulse_${fact.kind}`);
+    case 'tempo':
+      return translate(locale, `exercise.knowledge_tempo_${fact.kind}`);
+    case 'beatGroup':
+      return translate(locale, `exercise.knowledge_beatGroup_${fact.kind}`);
+    case 'keyboard':
+      return translate(locale, `exercise.knowledgeKeyboard_${fact.kind}`);
+    case 'accidentals': {
+      const keys = [
+        'glossary:doubleFlat_one',
+        'glossary:flat_one',
+        'glossary:natural_one',
+        'glossary:sharp_one',
+        'glossary:doubleSharp_one',
+      ] as const;
+      return translate(locale, keys[fact.alter + 2] ?? 'glossary:natural_one');
+    }
+    case 'noteValues':
+    case 'rests':
+      return durationName(fact.duration, {
+        ...engineLanguage(locale),
+        kind: fact.topic === 'rests' ? 'rest' : 'note',
+      });
+    case 'intervals':
+      return intervalName(fact.interval, { ...engineLanguage(locale), showDirection: false });
+    case 'triads':
+      return translate(locale, `exercise.knowledgeTriad_${fact.triad}`);
+    case 'scales':
+      return scaleTypeName(fact.scale, engineLanguage(locale).language);
+    case 'meters':
+      return fact.meter;
+  }
+  throw new RangeError('Unbekannter Wissensbegriff');
+}
+export function knowledgeDefinition(fact: KnowledgeFact, locale: AppLocale): string {
+  if (isHistoryTopic(fact.topic) && 'kind' in fact)
+    return translate(
+      locale,
+      `exercise.knowledgeHistoryDefinition_${fact.topic}_${fact.kind}` as TextKey,
+    );
+  switch (fact.topic) {
+    case 'barlines':
+      return translate(locale, `exercise.knowledgeDefinition_barlines_${fact.kind}`);
+    case 'pulse':
+      return translate(locale, `exercise.knowledgeDefinition_pulse_${fact.kind}`);
+    case 'tempo':
+      return translate(locale, `exercise.knowledgeDefinition_tempo_${fact.kind}`);
+    case 'beatGroup':
+      return translate(locale, `exercise.knowledgeDefinition_beatGroup_${fact.kind}`);
+    case 'keyboard':
+      return translate(locale, `exercise.knowledgeKeyboardDefinition_${fact.kind}`);
+    case 'accidentals':
+      return translate(
+        locale,
+        fact.alter === 0
+          ? 'exercise.knowledgeNatural'
+          : fact.alter > 0
+            ? 'exercise.knowledgeRaises'
+            : 'exercise.knowledgeLowers',
+        { distance: translate(locale, 'exercise.halfSteps', { count: Math.abs(fact.alter) }) },
+      );
+    case 'rests':
+    case 'noteValues': {
+      const value = durationValue(fact.duration);
+      return translate(
+        locale,
+        fact.topic === 'rests' ? 'exercise.knowledgeRestDuration' : 'exercise.knowledgeDuration',
+        {
+          value: `${String(value.num)}/${String(value.den)}`,
+        },
+      );
+    }
+    case 'intervals':
+      return translate(locale, 'exercise.knowledgeInterval', {
+        positions: translate(locale, 'exercise.knowledgePositions', {
+          count: fact.interval.number,
+        }),
+        distance: translate(locale, 'exercise.halfSteps', { count: semitones(fact.interval) }),
+      });
+    case 'triads':
+      return translate(locale, 'exercise.knowledgeTriad', {
+        pattern: chordIntervals(fact.triad).map(semitones).join(' – '),
+      });
+    case 'scales': {
+      const offsets = [...scaleIntervals(fact.scale).map(semitones), 12];
+      return translate(locale, 'exercise.knowledgeScale', {
+        pattern: offsets
+          .slice(1)
+          .map((value, i) => value - (offsets[i] ?? 0))
+          .join(' – '),
+      });
+    }
+    case 'meters': {
+      const meter = parseTimeSignature(fact.meter),
+        values = ['whole', 'half', 'quarter', 'eighth', 'sixteenth'] as const;
+      const beatValue = beats(meter)[0];
+      const beat = values
+        .flatMap((value) => [duration(value), duration(value, 1)])
+        .find((value) => beatValue && fractionEquals(durationValue(value), beatValue));
+      if (!beat) throw new RangeError('Unbekannter Grundschlag');
+      return translate(locale, 'exercise.knowledgeMeter', {
+        count: beats(meter).length,
+        beat: durationName(beat, engineLanguage(locale)),
+        groups: meter.grouping.join(' + '),
+      });
+    }
+  }
+  throw new RangeError('Unbekannter Wissensbegriff');
+}
+export function orderValueLabel(value: OrderValue, locale: AppLocale): string {
+  if (value.kind === 'period')
+    return knowledgeFactLabel({ topic: 'periods', kind: value.period }, locale);
+  return value.kind === 'pitch'
+    ? noteName(value.pitch, locale)
+    : durationName(value.duration, engineLanguage(locale));
+}
+function knowledgeValues(item: KnowledgeExerciseItem, locale: AppLocale) {
+  if (item.type === 'ORDER') {
+    const sorted = orderedValues(item).map((value) => orderValueLabel(value, locale));
+    return {
+      first: sorted[0] ?? '',
+      sequence: sorted.join(' → '),
+      rule: translate(locale, `exercise.orderRule_${item.topic}`),
+      direction: translate(locale, `exercise.order_${item.topic}_${item.direction}`),
+    };
+  }
+  if (item.type === 'MATCH') {
+    const fact = item.facts[0];
+    return {
+      term: fact ? knowledgeFactLabel(fact, locale) : '',
+      definition: fact ? knowledgeDefinition(fact, locale) : '',
+    };
+  }
+  if (item.gap) {
+    const fact = measureGapFact(item.gap);
+    if (!('duration' in fact)) throw new RangeError('Dauer fehlt');
+    const missing = durationValue(fact.duration);
+    // Viertel-Einheiten für den ausdrücklich eingeführten Vier-Viertel-Takt.
+    const n = missing.num * 4,
+      d = missing.den;
+    const value = (num: number) => {
+      const f = fraction(num, d);
+      return f.den === 1 ? String(f.num) : `${String(f.num)}/${String(f.den)}`;
+    };
+    return {
+      kind: translate(
+        locale,
+        item.gap.missingKind === 'rest' ? 'exercise.rhythmRest' : 'exercise.rhythmNote',
+      ),
+      used: value(4 * d - n),
+      missing: value(n),
+      answer: knowledgeFactLabel(fact, locale),
+      events: item.gap.events
+        .map(
+          (event, index) =>
+            `${String(index + 1)}: ${durationName(event.duration, { ...engineLanguage(locale), kind: event.kind })}`,
+        )
+        .join('; '),
+    };
+  }
+  const candidates = item.choices
+    .filter(
+      (id) =>
+        id === knowledgeFactId(item.fact) ||
+        id === item.choices.find((id) => id !== knowledgeFactId(item.fact)),
+    )
+    .map((id) => knowledgeChoiceFact(item, id))
+    .filter((fact): fact is KnowledgeFact => !!fact);
+  return {
+    kind: translate(
+      locale,
+      item.fact.topic === 'rests' ? 'exercise.rhythmRest' : 'exercise.rhythmNote',
+    ),
+    definition: knowledgeDefinition(item.fact, locale),
+    candidates: candidates.map((fact) => knowledgeFactLabel(fact, locale)).join(' / '),
+  };
+}
+function rhythmValues(item: RhythmItem, locale: AppLocale) {
+  const meter = rhythmMeter(item);
+  return {
+    meter: formatTimeSignature(meter),
+    count: rhythmBeatCount(item),
+    beat: durationName(rhythmBeat(item), engineLanguage(locale)),
+    bpm: item.bpm,
+    groups: meter.grouping.join(' + '),
+    division: meter.grouping[0] === 3 ? 3 : 2,
+    total: rhythmOnsets(item).length,
+    tolerance: rhythmTolerance(item),
+  };
+}
+function chordExplanationValues(item: ChordItem, locale: AppLocale) {
+  const value = resolvedChord(item),
+    intervals = chordIntervals(value.type),
+    third = intervals[1],
+    fifth = intervals[2];
+  if (!third || !fifth) throw new RangeError('Dreiklangintervalle fehlen');
+  return {
+    name: chordName(value, engineLanguage(locale)),
+    root: noteName({ ...value.root, octave: 4 }, locale, false),
+    bass: noteName(
+      item.type === 'CHORD_BUILD'
+        ? item.bass
+        : ([...item.pitches].sort((a, b) => midi(a) - midi(b))[0] ?? item.bass),
+      locale,
+    ),
+    notes: chordTargets(item)
+      .map((pitch) => noteName(pitch, locale))
+      .join(' · '),
+    third: intervalName(third, engineLanguage(locale)),
+    fifth: intervalName(fifth, engineLanguage(locale)),
+    inversion: inversionName(value.inversion, engineLanguage(locale).language),
+  };
 }
 function scalePattern(item: ScaleItem): string {
   const pitches = scalePitches(item);
@@ -373,4 +1001,19 @@ function signatureText(item: KeySignatureItem, locale: AppLocale): string {
           : 'glossary:flat_other',
     ),
   });
+}
+
+/** Beschreibt die Form, ohne den zu erkennenden Wert zu verraten. */
+export function durationSymbolDescription(value: RhythmValue, locale: AppLocale): string {
+  const name = value.duration.value;
+  if (
+    !['whole', 'half', 'quarter', 'eighth', 'sixteenth'].includes(name) ||
+    value.duration.dots ||
+    value.duration.tuplet
+  )
+    throw new RangeError('Nicht unterstütztes Dauerzeichen');
+  return translate(
+    locale,
+    `exercise.durationShape_${value.kind}_${name as 'whole' | 'half' | 'quarter' | 'eighth' | 'sixteenth'}`,
+  );
 }

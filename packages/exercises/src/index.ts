@@ -1,5 +1,6 @@
 // Reines TypeScript: Aufgabe, Bewertung und Ablauf funktionieren auch ohne App und Klang.
 export * from './types.ts';
+export * from './listening.ts';
 export * from './generate.ts';
 export * from './evaluate.ts';
 export * from './feedback.ts';
@@ -7,6 +8,10 @@ export * from './session.ts';
 export * from './lesson.ts';
 export * from './pitch-input.ts';
 export * from './tonality.ts';
+export * from './chords.ts';
+export * from './rhythm.ts';
+export * from './knowledge.ts';
+export * from './interval-reading.ts';
 export { createRng } from '@harmonia/theory';
 
 import {
@@ -28,15 +33,89 @@ import type {
   NoteItem,
   NotePlaceItem,
   NoteParams,
+  NoteNameParams,
+  KeyFindParams,
   VisualIntervalParams,
   ScaleParams,
   ScaleItem,
   KeySignatureParams,
   KeySignatureItem,
+  ChordParams,
+  ChordIdentifyParams,
+  ChordItem,
+  RhythmParams,
+  MeterIdentifyParams,
+  RhythmItem,
+  KnowledgeParams,
+  MatchParams,
+  OrderParams,
+  KnowledgeItem,
+  MatchItem,
+  OrderItem,
 } from './types.ts';
 import { generateScale, generateKeySignature } from './tonality.ts';
+import { generateChord } from './chords.ts';
+import { generatePickup, generateRhythm } from './rhythm.ts';
+import { generateKnowledge, generateMatch, generateOrder } from './knowledge.ts';
+import { generateListening } from './listening.ts';
+import type { ListeningParams, ListeningItem } from './types.ts';
 
-export const noteNameExercise: ExerciseDefinition<NoteParams, NoteItem> = {
+export const listeningChoiceExercise: ExerciseDefinition<ListeningParams, ListeningItem> = {
+  generate: generateListening,
+  evaluate: evaluateExercise,
+  feedback: exerciseFeedback,
+  hints: exerciseHints,
+};
+
+export const knowledgeExercise: ExerciseDefinition<KnowledgeParams, KnowledgeItem> = {
+  generate: generateKnowledge,
+  evaluate: evaluateExercise,
+  feedback: exerciseFeedback,
+  hints: exerciseHints,
+};
+export const matchExercise: ExerciseDefinition<MatchParams, MatchItem> = {
+  generate: generateMatch,
+  evaluate: evaluateExercise,
+  feedback: exerciseFeedback,
+  hints: exerciseHints,
+};
+export const orderExercise: ExerciseDefinition<OrderParams, OrderItem> = {
+  generate: generateOrder,
+  evaluate: evaluateExercise,
+  feedback: exerciseFeedback,
+  hints: exerciseHints,
+};
+
+export const rhythmTapExercise: ExerciseDefinition<RhythmParams, RhythmItem> = {
+  generate: (params, rng) => generateRhythm(params, rng, 'RHYTHM_TAP'),
+  evaluate: evaluateExercise,
+  feedback: exerciseFeedback,
+  hints: exerciseHints,
+};
+export const meterIdentifyExercise: ExerciseDefinition<MeterIdentifyParams, RhythmItem> = {
+  generate: (params, rng) =>
+    params.presentation === 'pickup'
+      ? generatePickup(params, rng)
+      : generateRhythm(params, rng, 'METER_IDENTIFY'),
+  evaluate: evaluateExercise,
+  feedback: exerciseFeedback,
+  hints: exerciseHints,
+};
+
+export const chordBuildExercise: ExerciseDefinition<ChordParams, ChordItem> = {
+  generate: (params, rng) => generateChord(params, rng, 'CHORD_BUILD'),
+  evaluate: evaluateExercise,
+  feedback: exerciseFeedback,
+  hints: exerciseHints,
+};
+export const chordIdentifyExercise: ExerciseDefinition<ChordIdentifyParams, ChordItem> = {
+  generate: (params, rng) => generateChord(params, rng, 'CHORD_IDENTIFY'),
+  evaluate: evaluateExercise,
+  feedback: exerciseFeedback,
+  hints: exerciseHints,
+};
+
+export const noteNameExercise: ExerciseDefinition<NoteNameParams, NoteItem> = {
   generate: generateNote,
   evaluate: evaluateExercise,
   feedback: exerciseFeedback,
@@ -60,7 +139,7 @@ export const notePlaceExercise: ExerciseDefinition<NoteParams, NotePlaceItem> = 
   feedback: exerciseFeedback,
   hints: exerciseHints,
 };
-export const keyFindExercise: ExerciseDefinition<NoteParams, KeyFindItem> = {
+export const keyFindExercise: ExerciseDefinition<KeyFindParams, KeyFindItem> = {
   generate: generateKeyFind,
   evaluate: evaluateExercise,
   feedback: exerciseFeedback,

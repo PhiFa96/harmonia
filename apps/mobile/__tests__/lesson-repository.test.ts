@@ -2,7 +2,8 @@ import { DatabaseSync } from 'node:sqlite';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
-import { firstLesson } from '@harmonia/content/authoring';
+import { firstLesson, catalogue } from '@harmonia/content/authoring';
+import { resolveLesson } from '@harmonia/content';
 import {
   activeLessonSession,
   answerLesson,
@@ -54,6 +55,349 @@ afterEach(() => {
 });
 
 describe('Lokale Ergebnisse mit echter SQLite', () => {
+  it('bewahrt Dauerzeichen und Taktlücken in Version 7 neben dem Pulskurs', async () => {
+    await initializeLessonDatabase(adapter(db));
+    const repository = createLessonRepository(adapter(db));
+    for (const id of [
+      'rhythm.l1.pulse.steady',
+      'rhythm.l1.values.notes',
+      'rhythm.l1.values.rests',
+      'rhythm.l1.values.fill',
+    ]) {
+      const content = required(resolveLesson(catalogue, id));
+      let session = createLessonSession(content, 'sqlite-values');
+      while (session.phase === 'initial') {
+        const item = required(currentItem(required(activeLessonSession(session))));
+        session = nextLessonExercise(answerLesson(session, expectedAnswer(item)));
+      }
+      const attempt = createLessonAttempt(id + '-run', session, START, END);
+      await repository.save(attempt);
+      expect(
+        JSON.parse(
+          String(
+            db.prepare('SELECT payload FROM lesson_attempts WHERE id = ?').get(attempt.id)?.[
+              'payload'
+            ],
+          ),
+        ),
+      ).toEqual(attempt);
+      expect(await repository.latest(id)).toMatchObject({
+        lesson_id: id,
+        content_version: id.startsWith('rhythm.l1.values.') ? 7 : 6,
+        correct: content.exercises.length,
+      });
+    }
+    expect(db.prepare('SELECT COUNT(*) AS n FROM lesson_attempts').get()?.['n']).toBe(4);
+    expect(db.prepare('PRAGMA user_version').get()?.['user_version']).toBe(1);
+  });
+  it('bewahrt Pulsdarstellung und rohe Anschlagzeiten in Version 6 neben dem Registerkurs', async () => {
+    await initializeLessonDatabase(adapter(db));
+    const repository = createLessonRepository(adapter(db));
+    for (const id of [
+      'notation.l1.register.octaves',
+      'rhythm.l1.pulse.steady',
+      'rhythm.l1.pulse.tempo',
+      'rhythm.l1.pulse.groups',
+    ]) {
+      const content = required(resolveLesson(catalogue, id));
+      let session = createLessonSession(content, 'sqlite-pulse');
+      while (session.phase === 'initial') {
+        const item = required(currentItem(required(activeLessonSession(session))));
+        session = nextLessonExercise(answerLesson(session, expectedAnswer(item)));
+      }
+      const attempt = createLessonAttempt(id + '-run', session, START, END);
+      await repository.save(attempt);
+      expect(
+        JSON.parse(
+          String(
+            db.prepare('SELECT payload FROM lesson_attempts WHERE id = ?').get(attempt.id)?.[
+              'payload'
+            ],
+          ),
+        ),
+      ).toEqual(attempt);
+      expect(await repository.latest(id)).toMatchObject({
+        lesson_id: id,
+        content_version: id.startsWith('rhythm.') ? 6 : 5,
+        correct: content.exercises.length,
+      });
+    }
+    expect(db.prepare('SELECT COUNT(*) AS n FROM lesson_attempts').get()?.['n']).toBe(4);
+    expect(db.prepare('PRAGMA user_version').get()?.['user_version']).toBe(1);
+  });
+  it('speichert vollständige Oktavantworten und den Score-Tastenausschnitt neben Version 4', async () => {
+    await initializeLessonDatabase(adapter(db));
+    const repository = createLessonRepository(adapter(db));
+    for (const id of [
+      'notation.l1.keyboard.keys',
+      'notation.l1.register.octaves',
+      'notation.l1.register.ledger',
+      'notation.l1.register.match',
+    ]) {
+      const content = required(resolveLesson(catalogue, id));
+      let session = createLessonSession(content, 'sqlite-register');
+      while (session.phase === 'initial') {
+        const item = required(currentItem(required(activeLessonSession(session))));
+        session = nextLessonExercise(answerLesson(session, expectedAnswer(item)));
+      }
+      const attempt = createLessonAttempt(id + '-run', session, START, END);
+      await repository.save(attempt);
+      expect(
+        JSON.parse(
+          String(
+            db.prepare('SELECT payload FROM lesson_attempts WHERE id = ?').get(attempt.id)?.[
+              'payload'
+            ],
+          ),
+        ),
+      ).toEqual(attempt);
+      expect(await repository.latest(id)).toMatchObject({
+        lesson_id: id,
+        content_version: id.includes('.register.') ? 5 : 4,
+        correct: content.exercises.length,
+      });
+    }
+    expect(db.prepare('SELECT COUNT(*) AS n FROM lesson_attempts').get()?.['n']).toBe(4);
+    expect(db.prepare('PRAGMA user_version').get()?.['user_version']).toBe(1);
+  });
+  it('bewahrt die Klaviaturparameter und begrenzten Vorzeichen unverändert neben der vorherigen Notationseinheit', async () => {
+    await initializeLessonDatabase(adapter(db));
+    const repository = createLessonRepository(adapter(db));
+    for (const id of [
+      'notation.l1.staff.anchor',
+      'notation.l1.keyboard.keys',
+      'notation.l1.keyboard.steps',
+      'notation.l1.keyboard.accidentals',
+    ]) {
+      const content = required(resolveLesson(catalogue, id));
+      let session = createLessonSession(content, 'sqlite-keyboard');
+      while (session.phase === 'initial') {
+        const item = required(currentItem(required(activeLessonSession(session))));
+        session = nextLessonExercise(answerLesson(session, expectedAnswer(item)));
+      }
+      const attempt = createLessonAttempt(id + '-run', session, START, END);
+      await repository.save(attempt);
+      expect(
+        JSON.parse(
+          String(
+            db.prepare('SELECT payload FROM lesson_attempts WHERE id = ?').get(attempt.id)?.[
+              'payload'
+            ],
+          ),
+        ),
+      ).toEqual(attempt);
+      expect(await repository.latest(id)).toMatchObject({
+        lesson_id: id,
+        content_version: id.includes('.keyboard.') ? 4 : 3,
+        correct: content.exercises.length,
+        answered: content.exercises.length,
+      });
+    }
+    expect(db.prepare('SELECT COUNT(*) AS n FROM lesson_attempts').get()?.['n']).toBe(4);
+    expect(db.prepare('PRAGMA user_version').get()?.['user_version']).toBe(1);
+  });
+  it('trennt drei neue Lektionen mit Version 3 von der bisherigen Lektion und ihren neuesten Ergebnissen', async () => {
+    await initializeLessonDatabase(adapter(db));
+    const repository = createLessonRepository(adapter(db));
+    await repository.save(createLessonAttempt('previous-lesson', completed(), START, END));
+    for (const [name, count] of [
+      ['anchor', 8],
+      ['positions', 10],
+      ['reading', 12],
+    ] as const) {
+      const content = required(resolveLesson(catalogue, `notation.l1.staff.${name}`));
+      let state = createLessonSession(content, 'sqlite-notation');
+      while (state.phase === 'initial') {
+        const item = required(currentItem(required(activeLessonSession(state))));
+        state = nextLessonExercise(answerLesson(state, expectedAnswer(item)));
+      }
+      const attempt = createLessonAttempt(
+        `notation-${name}`,
+        state,
+        START,
+        '2026-10-09T10:05:00.000Z',
+      );
+      await repository.save(attempt);
+      expect(await repository.latest(content.id)).toMatchObject({
+        id: `notation-${name}`,
+        lesson_id: content.id,
+        content_version: 3,
+        answered: count,
+        correct: count,
+      });
+      expect(
+        JSON.parse(
+          String(
+            db.prepare('SELECT payload FROM lesson_attempts WHERE id = ?').get(attempt.id)?.[
+              'payload'
+            ],
+          ),
+        ),
+      ).toEqual(attempt);
+    }
+    expect(await repository.latest(firstLesson.id)).toMatchObject({
+      id: 'previous-lesson',
+      content_version: 1,
+      answered: 10,
+    });
+    expect(await repository.latest('unknown.lesson')).toBeNull();
+    expect(db.prepare('SELECT COUNT(*) AS total FROM lesson_attempts').get()?.['total']).toBe(4);
+    expect(db.prepare('PRAGMA user_version').get()?.['user_version']).toBe(1);
+  });
+  it('speichert Wissensfrage, vertauschte Zuordnung und Reihenfolge mit Hilfe und neuer Wiederholung ohne Migration', async () => {
+    let session = createLessonSession(
+      {
+        id: 'test.knowledge',
+        contentVersion: 1,
+        exercises: [
+          { type: 'KNOWLEDGE_MC', params: { topics: ['intervals'] } },
+          { type: 'MATCH', params: { topics: ['scales'], count: 3 } },
+          { type: 'ORDER', params: { topics: ['pitches'], count: 4 } },
+        ],
+      },
+      'sqlite-knowledge',
+    );
+    const first = required(currentItem(session.initial));
+    session = nextLessonExercise(
+      answerLesson(
+        revealLessonHint(session),
+        required(first.choices.find((id) => id !== expectedAnswer(first))),
+      ),
+    );
+    while (
+      session.phase === 'initial' ||
+      session.phase === 'review' ||
+      session.phase === 'review-intro'
+    ) {
+      if (session.phase === 'review-intro') session = startLessonReview(session);
+      const item = required(currentItem(required(activeLessonSession(session)))),
+        correct = expectedAnswer(item);
+      const answer =
+        session.phase === 'initial'
+          ? correct.slice(0, 6) + correct.slice(6).split(',').reverse().join(',')
+          : correct;
+      session = nextLessonExercise(answerLesson(session, answer));
+    }
+    await initializeLessonDatabase(adapter(db));
+    const attempt = createLessonAttempt('knowledge-id', session, START, END),
+      repository = createLessonRepository(adapter(db));
+    await repository.save(attempt);
+    expect(
+      JSON.parse(
+        String(
+          db.prepare('SELECT payload FROM lesson_attempts WHERE id = ?').get('knowledge-id')?.[
+            'payload'
+          ],
+        ),
+      ),
+    ).toEqual(attempt);
+    expect(await repository.latest(session.lesson.id)).toMatchObject({
+      answered: 3,
+      correct: 0,
+      review_correct: 3,
+      review_total: 3,
+    });
+    expect(attempt.session.initial.records[0]).toMatchObject({
+      hintLevel: 1,
+      result: { correct: false },
+    });
+    expect(db.prepare('PRAGMA user_version').get()?.['user_version']).toBe(1);
+  });
+  it('speichert Rhythmus-Zeitwerte, Erstfehler, Hilfe und Wiederholung ohne Migration', async () => {
+    let session = createLessonSession(
+      {
+        id: 'test.rhythm',
+        contentVersion: 1,
+        exercises: [
+          { type: 'RHYTHM_TAP', params: { meters: ['4/4'], tempos: [96] } },
+          { type: 'METER_IDENTIFY', params: { meters: ['3/4', '6/8'] } },
+        ],
+      },
+      'sqlite-rhythm',
+    );
+    const source = required(currentItem(session.initial));
+    const correct = expectedAnswer(source),
+      duplicate = correct.replace('taps:', 'taps:0,');
+    session = nextLessonExercise(answerLesson(revealLessonHint(session), duplicate));
+    while (
+      session.phase === 'initial' ||
+      session.phase === 'review' ||
+      session.phase === 'review-intro'
+    ) {
+      if (session.phase === 'review-intro') session = startLessonReview(session);
+      const item = required(currentItem(required(activeLessonSession(session))));
+      session = nextLessonExercise(answerLesson(session, expectedAnswer(item)));
+    }
+    await initializeLessonDatabase(adapter(db));
+    const attempt = createLessonAttempt('rhythm-id', session, START, END),
+      repository = createLessonRepository(adapter(db));
+    await repository.save(attempt);
+    expect(
+      JSON.parse(
+        String(
+          db.prepare('SELECT payload FROM lesson_attempts WHERE id = ?').get('rhythm-id')?.[
+            'payload'
+          ],
+        ),
+      ),
+    ).toEqual(attempt);
+    expect(await repository.latest(session.lesson.id)).toMatchObject({
+      correct: 1,
+      answered: 2,
+      review_correct: 1,
+      review_total: 1,
+    });
+    expect(attempt.session.initial.records[0]).toMatchObject({
+      hintLevel: 1,
+      result: { answer: duplicate, correct: false },
+    });
+    expect(db.prepare('PRAGMA user_version').get()?.['user_version']).toBe(1);
+  });
+  it('speichert Akkorde samt falscher Erstwertung, Hinweis und neuer Wiederholung ohne Migration', async () => {
+    let session = createLessonSession(
+      {
+        id: 'test.chords',
+        contentVersion: 1,
+        exercises: [
+          { type: 'CHORD_BUILD', params: { types: ['major', 'minor'], roots: ['C', 'D', 'F'] } },
+          { type: 'CHORD_IDENTIFY', params: { types: ['major', 'minor'] } },
+          { type: 'CHORD_IDENTIFY', params: { types: ['major', 'minor'], presentation: 'aural' } },
+        ],
+      },
+      'sqlite-chords',
+    );
+    const answer = expectedAnswer(required(currentItem(session.initial))).split(',');
+    answer[2] = answer[1] ?? 'C4';
+    session = nextLessonExercise(answerLesson(revealLessonHint(session), answer.join(',')));
+    while (
+      session.phase === 'initial' ||
+      session.phase === 'review' ||
+      session.phase === 'review-intro'
+    ) {
+      if (session.phase === 'review-intro') session = startLessonReview(session);
+      const item = required(currentItem(required(activeLessonSession(session))));
+      session = nextLessonExercise(answerLesson(session, expectedAnswer(item)));
+    }
+    await initializeLessonDatabase(adapter(db));
+    const repository = createLessonRepository(adapter(db));
+    const attempt = createLessonAttempt('chord-id', session, START, END);
+    await repository.save(attempt);
+    const payload = db
+      .prepare('SELECT payload FROM lesson_attempts WHERE id = ?')
+      .get('chord-id')?.['payload'];
+    expect(JSON.parse(String(payload))).toEqual(attempt);
+    expect(await repository.latest(session.lesson.id)).toMatchObject({
+      correct: 2,
+      answered: 3,
+      review_correct: 1,
+      review_total: 1,
+    });
+    expect(attempt.session.initial.records[0]).toMatchObject({
+      result: { answer: answer.join(','), correct: false },
+      hintLevel: 1,
+    });
+    expect(db.prepare('PRAGMA user_version').get()?.['user_version']).toBe(1);
+  });
   it('speichert Tonleitern und Vorzeichnungen mit Hilfen und Wiederholung verlustfrei im bestehenden Schema', async () => {
     let session = createLessonSession(
       {

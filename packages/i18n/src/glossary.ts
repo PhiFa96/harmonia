@@ -10,7 +10,7 @@ import { NOTE_VALUES, duration, durationName } from '@harmonia/theory';
 
 import type { AppLocale } from './locale.ts';
 
-export type GlossaryCategory = 'notation' | 'pitch' | 'scales' | 'chords' | 'rhythm';
+export type GlossaryCategory = 'notation' | 'pitch' | 'scales' | 'chords' | 'rhythm' | 'history';
 
 /** Grammatisches Geschlecht (für Artikel in deutschen Texten). */
 export type GermanGender = 'm' | 'f' | 'n';
@@ -34,11 +34,173 @@ export interface GlossaryEntry {
 
 /** Kernbegriffe, Version 1 (P1.05). Ausbau auf etwa 150 Begriffe in P0.05. */
 export const GLOSSARY = {
+  voice: {
+    category: 'history',
+    de: { term: 'Stimme', gender: 'f', plural: 'Stimmen' },
+    en: { term: 'voice', plural: 'voices' },
+  },
+  instrument: {
+    category: 'history',
+    de: { term: 'Instrument', gender: 'n', plural: 'Instrumente' },
+    en: { term: 'instrument', plural: 'instruments' },
+  },
+  recording: {
+    category: 'history',
+    de: { term: 'Aufnahme', gender: 'f', plural: 'Aufnahmen' },
+    en: { term: 'recording', plural: 'recordings' },
+  },
+  electronicSound: {
+    category: 'history',
+    de: { term: 'Elektronische Klangerzeugung', gender: 'f' },
+    en: { term: 'electronic sound generation' },
+  },
+  scoreSource: {
+    category: 'history',
+    de: { term: 'Notentext', gender: 'm', plural: 'Notentexte' },
+    en: { term: 'score', plural: 'scores' },
+  },
+  report: {
+    category: 'history',
+    de: { term: 'Bericht', gender: 'm', plural: 'Berichte' },
+    en: { term: 'report', plural: 'reports' },
+  },
+  programmeSource: {
+    category: 'history',
+    de: { term: 'Programmzettel', gender: 'm', plural: 'Programmzettel' },
+    en: { term: 'program', plural: 'programs' },
+    enGB: { term: 'programme', plural: 'programmes' },
+  },
+  place: {
+    category: 'history',
+    de: { term: 'Ort', gender: 'm', plural: 'Orte' },
+    en: { term: 'place', plural: 'places' },
+  },
+  time: {
+    category: 'history',
+    de: { term: 'Zeit', gender: 'f', plural: 'Zeiten' },
+    en: { term: 'time', plural: 'times' },
+  },
+  occasion: {
+    category: 'history',
+    de: { term: 'Anlass', gender: 'm', plural: 'Anlässe' },
+    en: { term: 'occasion', plural: 'occasions' },
+  },
+  author: {
+    category: 'history',
+    de: { term: 'Urheberschaft', gender: 'f' },
+    en: { term: 'authorship' },
+  },
+  medieval: {
+    category: 'history',
+    de: { term: 'Mittelalter', gender: 'n' },
+    en: { term: 'Middle Ages' },
+  },
+  renaissance: {
+    category: 'history',
+    de: { term: 'Renaissance', gender: 'f' },
+    en: { term: 'Renaissance' },
+  },
+  baroque: { category: 'history', de: { term: 'Barock', gender: 'm' }, en: { term: 'Baroque' } },
+  classicalPeriod: {
+    category: 'history',
+    de: { term: 'Klassik', gender: 'f' },
+    en: { term: 'Classical period' },
+  },
+  romanticPeriod: {
+    category: 'history',
+    de: { term: 'Romantik', gender: 'f' },
+    en: { term: 'Romantic period' },
+  },
+  musicSince1900: {
+    category: 'history',
+    de: { term: 'Musik seit 1900', gender: 'f' },
+    en: { term: 'music since 1900' },
+  },
+  genre: {
+    category: 'history',
+    de: { term: 'Gattung', gender: 'f', plural: 'Gattungen' },
+    en: { term: 'genre', plural: 'genres' },
+  },
+  performingForces: {
+    category: 'history',
+    de: { term: 'Besetzung', gender: 'f', plural: 'Besetzungen' },
+    en: { term: 'performing forces', plural: 'sets of performing forces' },
+  },
+  function: {
+    category: 'history',
+    de: { term: 'Funktion', gender: 'f', plural: 'Funktionen' },
+    en: { term: 'function', plural: 'functions' },
+  },
+  observation: {
+    category: 'history',
+    de: { term: 'Hörbeobachtung', gender: 'f', plural: 'Hörbeobachtungen' },
+    en: { term: 'listening observation', plural: 'listening observations' },
+  },
+  sourceInformation: {
+    category: 'history',
+    de: { term: 'Quellenangabe', gender: 'f', plural: 'Quellenangaben' },
+    en: { term: 'source reference', plural: 'source references' },
+  },
+  inference: {
+    category: 'history',
+    de: { term: 'Schlussfolgerung', gender: 'f', plural: 'Schlussfolgerungen' },
+    en: { term: 'inference', plural: 'inferences' },
+  },
+  uncertainty: {
+    category: 'history',
+    de: { term: 'Ungewissheit', gender: 'f' },
+    en: { term: 'uncertainty' },
+  },
+  soundSource: {
+    category: 'history',
+    de: { term: 'Klangquelle', gender: 'f', plural: 'Klangquellen' },
+    en: { term: 'sound source', plural: 'sound sources' },
+  },
   // Notenschrift
   note: {
     category: 'notation',
     de: { term: 'Note', gender: 'f', plural: 'Noten' },
     en: { term: 'note', plural: 'notes' },
+  },
+  naturalNote: {
+    category: 'pitch',
+    de: { term: 'Stammton', gender: 'm', plural: 'Stammtöne' },
+    en: { term: 'natural note', plural: 'natural notes' },
+    note: 'Unalterierter Ton C, D, E, F, G, A, H/englisch B; nicht das Auflösungszeichen natural.',
+  },
+  keyboard: {
+    category: 'notation',
+    de: { term: 'Klaviatur', gender: 'f', plural: 'Klaviaturen' },
+    en: { term: 'piano keyboard', plural: 'piano keyboards' },
+  },
+  enharmonic: {
+    category: 'pitch',
+    de: { term: 'Enharmonik', gender: 'f' },
+    en: { term: 'enharmonic equivalence' },
+    note: 'Hier: verschiedene Notenschreibweisen für dieselbe Taste auf dem gleichstufig gestimmten Klavier.',
+  },
+  pianoKey: {
+    category: 'notation',
+    de: { term: 'Klaviertaste', gender: 'f', plural: 'Klaviertasten' },
+    en: { term: 'piano key', plural: 'piano keys' },
+  },
+  twoBlackKeys: {
+    category: 'notation',
+    de: {
+      term: 'Zweiergruppe schwarzer Tasten',
+      gender: 'f',
+      plural: 'Zweiergruppen schwarzer Tasten',
+    },
+    en: { term: 'group of two black keys', plural: 'groups of two black keys' },
+  },
+  threeBlackKeys: {
+    category: 'notation',
+    de: {
+      term: 'Dreiergruppe schwarzer Tasten',
+      gender: 'f',
+      plural: 'Dreiergruppen schwarzer Tasten',
+    },
+    en: { term: 'group of three black keys', plural: 'groups of three black keys' },
   },
   rest: {
     category: 'notation',
@@ -129,6 +291,18 @@ export const GLOSSARY = {
     en: { term: 'bar line', plural: 'bar lines' },
     note: 'Auch zusammengeschrieben „barline“.',
   },
+  pickup: {
+    category: 'rhythm',
+    de: { term: 'Auftakt', gender: 'm', plural: 'Auftakte' },
+    en: { term: 'pickup', plural: 'pickups' },
+    enGB: { term: 'upbeat', plural: 'upbeats' },
+    note: 'Ein unvollständiger erster Takt vor dem ersten Taktstrich.',
+  },
+  finalBarline: {
+    category: 'notation',
+    de: { term: 'Schlussstrich', gender: 'm', plural: 'Schlussstriche' },
+    en: { term: 'final bar line', plural: 'final bar lines' },
+  },
   notehead: {
     category: 'notation',
     de: { term: 'Notenkopf', gender: 'm', plural: 'Notenköpfe' },
@@ -173,10 +347,76 @@ export const GLOSSARY = {
     de: { term: 'Oktave', gender: 'f', plural: 'Oktaven' },
     en: { term: 'octave', plural: 'octaves' },
   },
+  octaveRegister: {
+    category: 'pitch',
+    de: { term: 'Oktavlage', gender: 'f', plural: 'Oktavlagen' },
+    en: { term: 'octave register', plural: 'octave registers' },
+    note: 'Registerangabe im vollständigen Tonnamen; die nächste Lage beginnt jeweils bei C.',
+  },
   interval: {
     category: 'pitch',
     de: { term: 'Intervall', gender: 'n', plural: 'Intervalle' },
     en: { term: 'interval', plural: 'intervals' },
+  },
+  intervalQuality: {
+    category: 'pitch',
+    de: { term: 'Intervallqualität', gender: 'f', plural: 'Intervallqualitäten' },
+    en: { term: 'interval quality', plural: 'interval qualities' },
+  },
+  tritone: {
+    category: 'pitch',
+    de: { term: 'Tritonus', gender: 'm', plural: 'Tritoni' },
+    en: { term: 'tritone', plural: 'tritones' },
+  },
+  unison: {
+    category: 'pitch',
+    de: { term: 'Prime', gender: 'f', plural: 'Primen' },
+    en: { term: 'unison', plural: 'unisons' },
+  },
+  second: {
+    category: 'pitch',
+    de: { term: 'Sekunde', gender: 'f', plural: 'Sekunden' },
+    en: { term: 'second', plural: 'seconds' },
+  },
+  third: {
+    category: 'pitch',
+    de: { term: 'Terz', gender: 'f', plural: 'Terzen' },
+    en: { term: 'third', plural: 'thirds' },
+  },
+  fourth: {
+    category: 'pitch',
+    de: { term: 'Quarte', gender: 'f', plural: 'Quarten' },
+    en: { term: 'fourth', plural: 'fourths' },
+  },
+  fifth: {
+    category: 'pitch',
+    de: { term: 'Quinte', gender: 'f', plural: 'Quinten' },
+    en: { term: 'fifth', plural: 'fifths' },
+  },
+  sixth: {
+    category: 'pitch',
+    de: { term: 'Sexte', gender: 'f', plural: 'Sexten' },
+    en: { term: 'sixth', plural: 'sixths' },
+  },
+  seventh: {
+    category: 'pitch',
+    de: { term: 'Septime', gender: 'f', plural: 'Septimen' },
+    en: { term: 'seventh', plural: 'sevenths' },
+  },
+  noteRepetition: {
+    category: 'pitch',
+    de: { term: 'Tonwiederholung', gender: 'f', plural: 'Tonwiederholungen' },
+    en: { term: 'repeated note', plural: 'repeated notes' },
+  },
+  melodicStep: {
+    category: 'pitch',
+    de: { term: 'Tonschritt', gender: 'm', plural: 'Tonschritte' },
+    en: { term: 'step', plural: 'steps' },
+  },
+  melodicLeap: {
+    category: 'pitch',
+    de: { term: 'Tonsprung', gender: 'm', plural: 'Tonsprünge' },
+    en: { term: 'leap', plural: 'leaps' },
   },
   semitone: {
     category: 'pitch',
@@ -324,6 +564,32 @@ export const GLOSSARY = {
     category: 'rhythm',
     de: { term: 'Triole', gender: 'f', plural: 'Triolen' },
     en: { term: 'triplet', plural: 'triplets' },
+  },
+  pulse: {
+    category: 'rhythm',
+    de: { term: 'Puls', gender: 'm' },
+    en: { term: 'pulse' },
+    note: 'Gleichmäßiger Grundschlag als zeitliches Bezugsmuster.',
+  },
+  metronome: {
+    category: 'rhythm',
+    de: { term: 'Metronom', gender: 'n', plural: 'Metronome' },
+    en: { term: 'metronome', plural: 'metronomes' },
+  },
+  countIn: {
+    category: 'rhythm',
+    de: { term: 'Einzählen', gender: 'n' },
+    en: { term: 'count-in' },
+  },
+  beatsPerMinute: {
+    category: 'rhythm',
+    de: { term: 'BPM-Angabe (Schläge pro Minute)', gender: 'f' },
+    en: { term: 'BPM (beats per minute)' },
+  },
+  beatGroup: {
+    category: 'rhythm',
+    de: { term: 'Zählgruppe', gender: 'f', plural: 'Zählgruppen' },
+    en: { term: 'beat group', plural: 'beat groups' },
   },
 } as const satisfies Readonly<Record<string, GlossaryEntry>>;
 

@@ -8,14 +8,33 @@ import {
   expectedAnswer,
   exerciseFeedback,
   createLessonSession,
+  LISTENING_QUESTIONS,
+  generateListening,
+  listeningAnswer,
+  listeningTimeline,
+  answerLesson,
+  nextLessonExercise,
+  lessonSummary,
   generateNotePlace,
+  generateNote,
   generateKeyFind,
   generateIntervalBuild,
+  generateVisualInterval,
   generateScale,
   generateKeySignature,
+  generateChord,
+  generateRhythm,
+  generateKnowledge,
+  generateMatch,
+  generateOrder,
+  pulseExample,
+  measureGapFact,
+  knowledgeFactId,
+  rhythmOnsets,
 } from '../packages/exercises/src/index.ts';
 import { firstLesson, catalogue, curriculumPlan } from '../packages/content/src/authoring.ts';
 import { publicCatalogue, resolveLesson, curriculumSkills } from '../packages/content/src/index.ts';
+import { parseScore, scoreTimeline } from '../packages/notation/src/index.ts';
 
 import {
   buildScale,
@@ -60,6 +79,226 @@ const exercise = generateExercise(
   exerciseRng('deno-exercises'),
 );
 const plannedSkills = curriculumSkills(catalogue, curriculumPlan);
+check('Stufe 1 mit 37 internen Lektionen', catalogue.lessons.length, 37);
+let firstLevelTasks = 0;
+for (const record of catalogue.lessons) {
+  const lesson = resolveLesson(catalogue, record.id);
+  if (!lesson) throw new Error('Lektion fehlt');
+  let state = createLessonSession(lesson, 'deno-level-one-complete');
+  for (const item of state.initial.items)
+    state = nextLessonExercise(answerLesson(state, expectedAnswer(item)));
+  if (state.phase !== 'complete' || lessonSummary(state).correct !== lesson.exercises.length)
+    throw new Error('Stufe-1-Durchgang fehlerhaft');
+  firstLevelTasks += lesson.exercises.length;
+}
+check('Alle 370 Stufe-1-Aufgaben unter Deno durchspielbar', firstLevelTasks, 370);
+check(
+  'Alle sechs Hörfrageformen unter Deno bewertbar',
+  LISTENING_QUESTIONS.every((question) => {
+    const item = generateListening({ question }, exerciseRng(question));
+    return (
+      evaluateExercise(item, listeningAnswer(item)).correct &&
+      listeningTimeline(item).tones.length > 0
+    );
+  }),
+  true,
+);
+check(
+  'Sechs Epochen unter Deno aufsteigend ordnen',
+  expectedAnswer(
+    generateOrder(
+      { topics: ['periods'], count: 6, direction: 'ascending' },
+      exerciseRng('deno-history-order'),
+    ),
+  ),
+  'order:period:medieval,period:renaissance,period:baroque,period:classical,period:romantic,period:since1900',
+);
+check(
+  'Erste Intervallqualitäten mit acht, zehn und zwölf Aufgaben',
+  ['distance', 'thirds', 'perfect']
+    .map(
+      (name) => resolveLesson(catalogue, `intervals.l1.first-qualities.${name}`)?.exercises.length,
+    )
+    .join(','),
+  '8,10,12',
+);
+const firstQuality = generateVisualInterval(
+  { intervals: ['m3', 'M3'], question: 'quality', maxAccidentals: 0 },
+  exerciseRng('deno-first-quality'),
+);
+check(
+  'Kleine und große Terz aus sichtbaren Noten unter Deno',
+  ['treble | 4/4 | E4/2 G4/2', 'treble | 4/4 | G4/2 B4/2']
+    .map((score) => expectedAnswer({ ...firstQuality, score: parseScore(score) }))
+    .join(','),
+  'm3,M3',
+);
+check(
+  'Abwärts bleibt der Halbtonabstand positiv unter Deno',
+  expectedAnswer({
+    ...firstQuality,
+    question: 'semitones',
+    score: parseScore('treble | 4/4 | G4/2 F4/2'),
+  }),
+  'interval-semitones:2',
+);
+check(
+  'Beide Tritonus-Schreibweisen sind keine reinen Intervalle unter Deno',
+  ['treble | 4/4 | F4/2 B4/2', 'treble | 4/4 | B4/2 F5/2']
+    .map((score) =>
+      expectedAnswer({ ...firstQuality, question: 'perfect', score: parseScore(score) }),
+    )
+    .join(','),
+  'interval-perfect:no,interval-perfect:no',
+);
+check(
+  'Intervallgrundlagen mit acht, zehn und zwölf Aufgaben',
+  ['numbers', 'direction', 'motion']
+    .map((name) => resolveLesson(catalogue, `intervals.l1.size.${name}`)?.exercises.length)
+    .join(','),
+  '8,10,12',
+);
+const intervalNumber = generateVisualInterval(
+  { intervals: ['P1', 'M3', 'P8'], question: 'number', maxAccidentals: 0 },
+  exerciseRng('deno-interval-number'),
+);
+check(
+  'Oktavnummer aus zwei sichtbaren Halben unter Deno',
+  expectedAnswer({ ...intervalNumber, score: parseScore('treble | 4/4 | E4/2 E5/2') }),
+  'interval-number:8',
+);
+const intervalMotion = generateVisualInterval(
+  { intervals: ['P1', 'm2', 'M2', 'M3'], question: 'motion', maxAccidentals: 0 },
+  exerciseRng('deno-interval-motion'),
+);
+check(
+  'Halbton und Ganzton sind beide Tonschritte unter Deno',
+  ['treble | 4/4 | E4/2 F4/2', 'treble | 4/4 | F4/2 G4/2']
+    .map((score) => expectedAnswer({ ...intervalMotion, score: parseScore(score) }))
+    .join(','),
+  'interval-motion:step,interval-motion:step',
+);
+check(
+  'Pulseinheit mit acht, zehn und zwölf Aufgaben',
+  ['steady', 'tempo', 'groups']
+    .map((name) => resolveLesson(catalogue, `rhythm.l1.pulse.${name}`)?.exercises.length)
+    .join(','),
+  '8,10,12',
+);
+const pulse = pulseExample(parseScore('treble | 3/4 | G4/4 G4/4 G4/4'), 90);
+check(
+  'Pulsbeispiel mit unabhängigen Millisekunden unter Deno',
+  rhythmOnsets(pulse).join(','),
+  '0,667,1333',
+);
+check(
+  'Pulsmodus erzeugt gleichmäßige Zählgruppen unter Deno',
+  generateRhythm(
+    { meters: ['3/4'], level: 'pulse', tempos: [90] },
+    exerciseRng('deno-pulse'),
+    'RHYTHM_TAP',
+  ).presentation,
+  'pulse',
+);
+check(
+  'Einfache Taktarten mit acht, zehn und zwölf Aufgaben',
+  ['meter', 'count-in', 'read']
+    .map((name) => resolveLesson(catalogue, `rhythm.l1.simple-meter.${name}`)?.exercises.length)
+    .join(','),
+  '8,10,12',
+);
+check(
+  'Viertelmodus erzeugt drei notierte Einsätze in 3/4 unter Deno',
+  rhythmOnsets(
+    generateRhythm(
+      { meters: ['3/4'], level: 'quarters', rests: false, tempos: [90] },
+      exerciseRng('deno-quarters'),
+      'RHYTHM_TAP',
+    ),
+  ).length,
+  3,
+);
+const pickup = generateExercise(
+  { type: 'METER_IDENTIFY', params: { meters: ['2/4', '3/4', '4/4'], presentation: 'pickup' } },
+  exerciseRng('deno-pickup'),
+);
+check(
+  'Auftaktfrage bewertet den notierten Takt unter Deno',
+  pickup.type === 'METER_IDENTIFY' && evaluateExercise(pickup, expectedAnswer(pickup)).correct,
+  true,
+);
+check(
+  'Registereinheit mit acht, zehn und zwölf Aufgaben',
+  ['octaves', 'ledger', 'match']
+    .map((name) => resolveLesson(catalogue, `notation.l1.register.${name}`)?.exercises.length)
+    .join(','),
+  '8,10,12',
+);
+const registerNote = generateNote(
+  { includeOctave: true, range: { minMidi: 64, maxMidi: 77 } },
+  exerciseRng('deno-register-note'),
+);
+check(
+  'Oktavgenaue Namensantwort unter Deno',
+  registerNote.includeOctave === true &&
+    evaluateExercise(registerNote, expectedAnswer(registerNote)).correct,
+  true,
+);
+const registerKey = generateKeyFind(
+  { presentation: 'score', range: { minMidi: 57, maxMidi: 84 } },
+  exerciseRng('deno-register-key'),
+);
+check(
+  'Score-Tastenfrage mit A3–C6 unter Deno',
+  `${String(registerKey.presentation)}:${String(registerKey.keyboardRange?.first)}-${String(registerKey.keyboardRange?.last)}:${String(evaluateExercise(registerKey, expectedAnswer(registerKey)).correct)}`,
+  'score:57-84:true',
+);
+check(
+  'Erste Notationseinheit mit acht, zehn und zwölf Aufgaben',
+  ['anchor', 'positions', 'reading']
+    .map((name) => resolveLesson(catalogue, `notation.l1.staff.${name}`)?.exercises.length)
+    .join(','),
+  '8,10,12',
+);
+check(
+  'Vollständiges Notenbeispiel mit acht Tönen',
+  scoreTimeline(parseScore('treble | 4/4 | C4/4 D4/4 E4/4 F4/4 | G4/4 A4/4 B4/4 C5/4'), {
+    bpm: 120,
+  }).tones.length,
+  8,
+);
+check(
+  'Klaviatureinheit mit acht, zehn und zwölf Aufgaben',
+  ['keys', 'steps', 'accidentals']
+    .map((name) => resolveLesson(catalogue, `notation.l1.keyboard.${name}`)?.exercises.length)
+    .join(','),
+  '8,10,12',
+);
+const namedKey = generateKeyFind(
+  { presentation: 'name', range: { minMidi: 60, maxMidi: 71 }, maxAccidentals: 1 },
+  exerciseRng('deno-named-key'),
+);
+check(
+  'Tastenfrage mit Tonnamen und festem Ausschnitt',
+  `${String(namedKey.presentation)}:${String(namedKey.keyboardRange?.first)}-${String(namedKey.keyboardRange?.last)}:${String(evaluateExercise(namedKey, expectedAnswer(namedKey)).correct)}`,
+  'name:60-71:true',
+);
+check(
+  'Klaviaturwissen und einfache Vorzeichen unter Deno',
+  [
+    generateKnowledge({ topics: ['keyboard'] }, exerciseRng('deno-keyboard-knowledge')),
+    generateKnowledge(
+      { topics: ['accidentals'], maxAccidentals: 1 },
+      exerciseRng('deno-basic-accidentals'),
+    ),
+  ]
+    .map(
+      (item) =>
+        `${item.fact.topic}:${String(item.choices.length)}:${String(evaluateExercise(item, expectedAnswer(item)).correct)}`,
+    )
+    .join(','),
+  'keyboard:4:true,accidentals:3:true',
+);
 check('Vollständiger Fähigkeitsplan', plannedSkills.length, catalogue.skills.length);
 check(
   'Fähigkeiten den Stufen 1–2 zugeordnet',
@@ -85,6 +324,19 @@ check(
 );
 const evaluation = evaluateExercise(exercise, expectedAnswer(exercise));
 for (const item of [
+  generateKnowledge({ topics: ['intervals', 'noteValues'] }, exerciseRng('deno-knowledge')),
+  generateMatch({ topics: ['triads', 'accidentals'], count: 3 }, exerciseRng('deno-match')),
+  generateOrder({ topics: ['noteValues', 'pitches'], count: 4 }, exerciseRng('deno-order')),
+  generateRhythm(
+    { meters: ['2/4', '3/4', '4/4', '6/8'], level: 'dotted' },
+    exerciseRng('deno-rhythm'),
+    'RHYTHM_TAP',
+  ),
+  generateRhythm(
+    { meters: ['2/4', '3/4', '4/4', '6/8'] },
+    exerciseRng('deno-meter'),
+    'METER_IDENTIFY',
+  ),
   generateNotePlace({ clefs: ['treble', 'bass'], maxAccidentals: 2 }, exerciseRng('deno-place')),
   generateKeyFind({ maxAccidentals: 1 }, exerciseRng('deno-key')),
   generateIntervalBuild(
@@ -111,6 +363,21 @@ for (const item of [
     exerciseRng('deno-signature-identify'),
     'KEYSIG_IDENTIFY',
   ),
+  generateChord(
+    { types: ['major', 'minor', 'diminished', 'augmented'], inversions: [0, 1, 2] },
+    exerciseRng('deno-chord-build'),
+    'CHORD_BUILD',
+  ),
+  generateChord(
+    { types: ['major', 'minor', 'diminished', 'augmented'] },
+    exerciseRng('deno-chord-visual'),
+    'CHORD_IDENTIFY',
+  ),
+  generateChord(
+    { types: ['major', 'minor', 'diminished', 'augmented'], presentation: 'aural' },
+    exerciseRng('deno-chord-aural'),
+    'CHORD_IDENTIFY',
+  ),
 ])
   check(
     `${item.type}: freie Eingabe unter Deno`,
@@ -128,6 +395,20 @@ check(
   exerciseFeedback(exercise, evaluation, 'en-GB').message.includes('semitones'),
   true,
 );
+
+for (const topic of ['noteValues', 'rests'] as const) {
+  for (const presentation of ['symbol', 'measure-gap'] as const) {
+    const item = generateKnowledge(
+      { topics: [topic], maxDots: 0, presentation },
+      exerciseRng('deno-values'),
+    );
+    check(
+      `${topic}/${presentation}: quellbasierte Bewertung unter Deno`,
+      item.choices.filter((id) => evaluateExercise(item, id).correct).join(','),
+      item.gap ? knowledgeFactId(measureGapFact(item.gap)) : knowledgeFactId(item.fact),
+    );
+  }
+}
 
 check('midi(C4)', midi(parsePitch('C4')), 60);
 check('frequency(A4)', frequency(parsePitch('A4')), 440);

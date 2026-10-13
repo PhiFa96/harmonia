@@ -1,5 +1,9 @@
+import { listeningVariantKey, listeningAnswer } from './listening.ts';
 import { createRng, keyFifths, midi } from '@harmonia/theory';
 import { isKeySignatureItem, isScaleItem } from './tonality.ts';
+import { chordReferencePitch, chordTargets, isChordItem } from './chords.ts';
+import { isRhythmItem, pickupAnswer, rhythmMeter } from './rhythm.ts';
+import { knowledgeFactId, orderValueId } from './knowledge.ts';
 import { generateExercise } from './generate.ts';
 import {
   answerSession,
@@ -12,6 +16,7 @@ import {
 } from './session.ts';
 import type { ExerciseSession } from './session.ts';
 import type { ExerciseItem, ExerciseSpec } from './types.ts';
+import { isIntervalReadingItem, intervalReadingAnswer } from './interval-reading.ts';
 
 export interface LessonDefinition {
   readonly id: string;
@@ -58,8 +63,49 @@ export function revealLessonHint(lesson: LessonSession): LessonSession {
   const session = activeLessonSession(lesson);
   return session ? updateActive(lesson, revealHint(session)) : lesson;
 }
-/** Die Tonhöhen müssen sich ändern; bloßes Mischen der Antworten ist keine neue Variante. */
+/** Das Musikbeispiel muss sich ändern; bloßes Mischen der Antworten ist keine neue Variante. */
 export function itemVariantKey(item: ExerciseItem): string {
+  if (item.type === 'LISTENING_CHOICE') return listeningVariantKey(item);
+  if (isIntervalReadingItem(item))
+    return JSON.stringify([item.type, item.question, intervalReadingAnswer(item)]);
+  if (item.type === 'KNOWLEDGE_MC')
+    return JSON.stringify([item.type, knowledgeFactId(item.fact), ...(item.gap ? [item.gap] : [])]);
+  if (item.type === 'MATCH')
+    return JSON.stringify([item.type, item.facts.map(knowledgeFactId).sort()]);
+  if (item.type === 'ORDER')
+    return JSON.stringify([
+      item.type,
+      item.topic,
+      item.direction,
+      item.values.map(orderValueId).sort(),
+    ]);
+  if (item.type === 'METER_IDENTIFY')
+    return JSON.stringify([
+      item.type,
+      item.presentation === 'pickup' ? pickupAnswer(item) : rhythmMeter(item),
+    ]);
+  if (isRhythmItem(item))
+    return JSON.stringify([
+      item.type,
+      rhythmMeter(item),
+      item.score.staves[0]?.measures[0]?.voices[0]?.events.map((event) => [
+        event.kind,
+        event.duration,
+      ]),
+    ]);
+  if (isChordItem(item))
+    return JSON.stringify(
+      item.presentation === 'aural'
+        ? [
+            item.type,
+            item.presentation,
+            midi(chordReferencePitch(item)),
+            chordTargets(item)
+              .map(midi)
+              .sort((a, b) => a - b),
+          ]
+        : [item.type, item.presentation, chordTargets(item)],
+    );
   if (isScaleItem(item))
     return JSON.stringify([item.type, item.tonic, item.scaleType, item.direction]);
   if (isKeySignatureItem(item))
@@ -78,9 +124,15 @@ function newVariant(lesson: LessonSession, index: number): ExerciseItem {
   const rng = createRng(`${String(lesson.seed)}:review:${String(index)}`);
   for (let attempt = 0; attempt < 256; attempt++) {
     const item = generateExercise(spec, rng);
-    if (itemVariantKey(item) !== itemVariantKey(original)) return item;
+    if (
+      itemVariantKey(item) !== itemVariantKey(original) &&
+      (item.type !== 'LISTENING_CHOICE' ||
+        original.type !== 'LISTENING_CHOICE' ||
+        listeningAnswer(item) !== listeningAnswer(original))
+    )
+      return item;
   }
-  throw new RangeError('Die Parameter müssen mindestens zwei Notenbeispiele erlauben');
+  throw new RangeError('Die Parameter müssen mindestens zwei Aufgabenvarianten erlauben');
 }
 function finishInitial(lesson: LessonSession): LessonSession {
   const reviewOrigins = lesson.initial.records

@@ -20,6 +20,9 @@ import {
   createPitchInputSession,
   createPracticeSession,
   createTonalitySession,
+  createChordSession,
+  createRhythmSession,
+  createKnowledgeSession,
 } from '@/exercises/practice';
 import { useLocale } from '@/i18n';
 
@@ -28,7 +31,9 @@ export default function PracticeScreen() {
   const locale = useLocale();
   const [session, setSession] = useState<ExerciseSession | null>(null);
   const [answer, setAnswer] = useState<string | null>(null);
-  const [mode, setMode] = useState<'reading' | 'pitch' | 'tonality'>('reading');
+  const [mode, setMode] = useState<
+    'reading' | 'pitch' | 'tonality' | 'chords' | 'rhythm' | 'knowledge'
+  >('reading');
   const run = useRef(0);
   const scroll = useRef<ScrollView>(null);
   const question = useRef<View>(null);
@@ -45,6 +50,9 @@ export default function PracticeScreen() {
         reading: createPracticeSession,
         pitch: createPitchInputSession,
         tonality: createTonalitySession,
+        chords: createChordSession,
+        rhythm: createRhythmSession,
+        knowledge: createKnowledgeSession,
       }[selected](Date.now() + run.current++),
     );
     scroll.current?.scrollTo({ y: 0, animated: false });
@@ -106,6 +114,39 @@ export default function PracticeScreen() {
                 start('tonality');
               }}
             />
+            <Card>
+              <AppText variant="title3">{t('exercise.chordStart')}</AppText>
+              <AppText tone="muted">{t('exercise.chordIntro')}</AppText>
+            </Card>
+            <Button
+              variant="secondary"
+              label={t('exercise.chordStart')}
+              onPress={() => {
+                start('chords');
+              }}
+            />
+            <Card>
+              <AppText variant="title3">{t('exercise.rhythmStart')}</AppText>
+              <AppText tone="muted">{t('exercise.rhythmIntro')}</AppText>
+            </Card>
+            <Button
+              variant="secondary"
+              label={t('exercise.rhythmStart')}
+              onPress={() => {
+                start('rhythm');
+              }}
+            />
+            <Card>
+              <AppText variant="title3">{t('exercise.knowledgeStart')}</AppText>
+              <AppText tone="muted">{t('exercise.knowledgeIntro')}</AppText>
+            </Card>
+            <Button
+              variant="secondary"
+              label={t('exercise.knowledgeStart')}
+              onPress={() => {
+                start('knowledge');
+              }}
+            />
           </>
         ) : item ? (
           <>
@@ -122,7 +163,7 @@ export default function PracticeScreen() {
               progressLabel={t('exercise.progressLabel')}
               hearingPausedText={t('exercise.hearingPaused')}
               continueLabel={t(
-                session.index === session.items.length - 1 ? 'exercise.finish' : 'exercise.next',
+                currentItem(nextExercise(session)) ? 'exercise.next' : 'exercise.finish',
               )}
               onSelect={setAnswer}
               onCheck={(value) => {

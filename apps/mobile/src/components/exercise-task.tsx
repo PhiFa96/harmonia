@@ -7,10 +7,15 @@ import {
   evaluateExercise,
   hintText,
   isKeySignatureItem,
+  isAuralExercise,
   isPitchInput,
   itemVariantKey,
+  isKnowledgeItem,
+  isIntervalReadingItem,
+  intervalReadingKeyboardRange,
 } from '@harmonia/exercises';
 import { engineLanguage } from '@harmonia/i18n';
+import { layoutScore, describeScore } from '@harmonia/notation';
 import { ScoreView } from '@harmonia/notation/native';
 import { RADIUS, SPACE } from '@harmonia/ui';
 import {
@@ -23,15 +28,21 @@ import {
   useUiTheme,
 } from '@harmonia/ui/native';
 import { useFocusEffect } from 'expo-router';
-import { useCallback, useRef } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import type { RefObject } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { useLocale } from '@/i18n';
 import { ExerciseChoices } from './exercise-choices';
+import { ChordAnswerInput } from './chord-answer-input';
 import { PitchAnswerInput } from './pitch-answer-input';
 import { ScaleAnswerInput } from './scale-answer-input';
 import { SignatureAnswerInput } from './signature-answer-input';
+import { RhythmAnswerInput } from './rhythm-answer-input';
+import { PulseExample } from './pulse-example';
+import { DurationQuestion } from './duration-question';
+import { KeyboardExample } from './keyboard-example';
+import { MatchAnswerInput, OrderAnswerInput } from './knowledge-answer-input';
 import { useExercisePlayback } from './use-exercise-playback';
 
 interface Props {
@@ -74,6 +85,29 @@ export function ExerciseTask({
   const feedback = result ? exerciseFeedback(item, result, locale) : undefined;
   const prompt = exercisePrompt(item, locale);
   const feedbackRegion = useRef<View>(null);
+  const [scoreWidth, setScoreWidth] = useState(0);
+  const semitoneRange = useMemo(
+    () =>
+      isIntervalReadingItem(item) && item.question === 'semitones'
+        ? intervalReadingKeyboardRange(item)
+        : undefined,
+    [item],
+  );
+  const pickup = item.type === 'METER_IDENTIFY' && item.presentation === 'pickup';
+  const rhythmWidth = useMemo(
+    () =>
+      item.type === 'RHYTHM_TAP' ? layoutScore(item.score, { endBarline: 'final' }).width + 2 : 0,
+    [item],
+  );
+  const pickupWidth = useMemo(
+    () => (pickup ? (layoutScore(item.score, { endBarline: 'final' }).width + 2) * 14 : 0),
+    [item, pickup],
+  );
+  // Ein vollständiger Rhythmustakt muss beim Mittippen ohne seitliches Scrollen lesbar sein.
+  const staffSpace =
+    rhythmWidth && scoreWidth
+      ? Math.min(14, Math.max(1, scoreWidth - 2 * SPACE.s - 2) / rhythmWidth)
+      : 14;
   useFocusEffect(
     useCallback(() => {
       if (result && Platform.OS === 'web')
@@ -104,20 +138,50 @@ export function ExerciseTask({
         {...(Platform.OS === 'web' ? { tabIndex: -1 } : {})}
       >
         <AppText variant="overline" tone="muted">
-          {t(`exercise.type_${item.type}`)}
+          {t(
+            item.type === 'RHYTHM_TAP' && item.presentation === 'pulse'
+              ? 'exercise.type_PULSE_TAP'
+              : item.type === 'METER_IDENTIFY' && item.presentation === 'pickup'
+                ? 'exercise.type_PICKUP_IDENTIFY'
+                : isIntervalReadingItem(item)
+                  ? `exercise.type_interval_${item.question}`
+                  : `exercise.type_${item.type}`,
+          )}
         </AppText>
         <MusicText variant="title2">{prompt}</MusicText>
       </View>
-      {['NOTE_PLACE', 'INTERVAL_BUILD', 'SCALE_BUILD', 'KEYSIG_BUILD'].includes(
-        item.type,
-      ) ? null : item.type !== 'INTERVAL_IDENTIFY_AURAL' || result || session.hintLevel === 3 ? (
-        <Card padding={SPACE.s}>
+      {item.type === 'KNOWLEDGE_MC' && item.presentation ? (
+        <Card>
+          <DurationQuestion item={item} />
+        </Card>
+      ) : item.type === 'RHYTHM_TAP' && item.presentation === 'pulse' ? (
+        <Card>
+          <PulseExample item={item} />
+        </Card>
+      ) : isKnowledgeItem(item) ||
+        (item.type === 'KEY_FIND' && item.presentation === 'name') ? null : [
+          'NOTE_PLACE',
+          'INTERVAL_BUILD',
+          'SCALE_BUILD',
+          'KEYSIG_BUILD',
+          'CHORD_BUILD',
+        ].includes(item.type) ? null : item.type !== 'LISTENING_CHOICE' &&
+        (item.type === 'RHYTHM_TAP' ||
+          !isAuralExercise(item) ||
+          result ||
+          session.hintLevel === 3) ? (
+        <Card
+          padding={SPACE.s}
+          onLayout={(event) => {
+            setScoreWidth(event.nativeEvent.layout.width);
+          }}
+        >
           <ScrollView horizontal contentContainerStyle={styles.score}>
             <View accessible role="img" aria-label={exerciseDescription(item, locale)}>
               <View aria-hidden importantForAccessibility="no-hide-descendants">
                 <ScoreView
                   score={item.score}
-                  staffSpace={14}
+                  staffSpace={staffSpace}
                   color={colors.text}
                   describeOptions={engineLanguage(locale)}
                   layoutOptions={{ endBarline: 'final' }}
@@ -125,6 +189,11 @@ export function ExerciseTask({
               </View>
             </View>
           </ScrollView>
+          {semitoneRange ? (
+            <View testID="interval-semitone-keyboard" style={{ marginTop: SPACE.m }}>
+              <KeyboardExample score={item.score} range={semitoneRange} />
+            </View>
+          ) : null}
         </Card>
       ) : (
         <Card>
@@ -149,7 +218,59 @@ export function ExerciseTask({
           />
         </Card>
       )}
-      {item.type === 'INTERVAL_IDENTIFY_AURAL' && !result ? (
+      {item.type === 'LISTENING_CHOICE' &&
+      (item.candidates || result || session.hintLevel === 3) ? (
+        <View style={{ gap: SPACE.s }} testID="listening-scores">
+          {(item.candidates ?? item.clips).map((score, index) => (
+            <Card
+              key={index}
+              padding={SPACE.s}
+              onLayout={(event) => {
+                setScoreWidth(event.nativeEvent.layout.width);
+              }}
+            >
+              <AppText variant="small">
+                {t(item.candidates ? 'exercise.listeningOption' : 'exercise.listeningClip', {
+                  count: index + 1,
+                })}
+              </AppText>
+              <ScrollView horizontal>
+                <View
+                  accessible
+                  role="img"
+                  aria-label={describeScore(score, engineLanguage(locale))
+                    .map((e) => e.text)
+                    .join('; ')}
+                >
+                  <View aria-hidden importantForAccessibility="no-hide-descendants">
+                    <ScoreView
+                      score={score}
+                      staffSpace={
+                        scoreWidth
+                          ? Math.min(
+                              14,
+                              Math.max(1, scoreWidth - 2 * SPACE.s - 2) /
+                                (layoutScore(score, { endBarline: 'final' }).width + 2),
+                            )
+                          : 14
+                      }
+                      color={colors.text}
+                      describeOptions={engineLanguage(locale)}
+                      layoutOptions={{ endBarline: 'final' }}
+                    />
+                  </View>
+                </View>
+              </ScrollView>
+            </Card>
+          ))}
+        </View>
+      ) : null}
+      {pickup && scoreWidth > 0 && pickupWidth > scoreWidth - 2 * SPACE.s - 2 ? (
+        <AppText variant="footnote" tone="muted">
+          {t('exercise.pickupScroll')}
+        </AppText>
+      ) : null}
+      {isAuralExercise(item) && !result ? (
         <Button
           size="medium"
           variant="ghost"
@@ -165,7 +286,45 @@ export function ExerciseTask({
           {t('exercise.audioError')}
         </AppText>
       ) : null}
-      {item.type === 'SCALE_BUILD' ? (
+      {item.type === 'MATCH' ? (
+        <MatchAnswerInput
+          key={`${String(session.index)}:${itemVariantKey(item)}`}
+          item={item}
+          answer={answer}
+          {...(result ? { result } : {})}
+          onSelect={onSelect}
+        />
+      ) : item.type === 'ORDER' ? (
+        <OrderAnswerInput
+          key={`${String(session.index)}:${itemVariantKey(item)}`}
+          item={item}
+          answer={answer}
+          {...(result ? { result } : {})}
+          onSelect={onSelect}
+        />
+      ) : item.type === 'RHYTHM_TAP' ? (
+        <RhythmAnswerInput
+          key={`${String(session.index)}:${itemVariantKey(item)}`}
+          item={item}
+          answer={answer}
+          {...(result ? { result } : {})}
+          showSolution={!!result || session.hintLevel === 3}
+          onSelect={onSelect}
+          beforeStart={audio.stop}
+          onPreview={() => {
+            void audio.play();
+          }}
+        />
+      ) : item.type === 'CHORD_BUILD' ? (
+        <ChordAnswerInput
+          key={`${String(session.index)}:${itemVariantKey(item)}`}
+          item={item}
+          answer={answer}
+          {...(result ? { result } : {})}
+          showSolution={!!result || session.hintLevel === 3}
+          onSelect={onSelect}
+        />
+      ) : item.type === 'SCALE_BUILD' ? (
         <ScaleAnswerInput
           key={`${String(session.index)}:${itemVariantKey(item)}`}
           item={item}
@@ -228,10 +387,21 @@ export function ExerciseTask({
             disabled={
               answer === null ||
               !evaluateExercise(item, answer).validAnswer ||
-              (item.type === 'INTERVAL_IDENTIFY_AURAL' && !audio.heard && session.hintLevel < 3)
+              (item.type !== 'RHYTHM_TAP' &&
+                isAuralExercise(item) &&
+                !audio.heard &&
+                session.hintLevel < 3)
             }
             onPress={() => {
-              if (answer === null || !evaluateExercise(item, answer).validAnswer) return;
+              if (
+                answer === null ||
+                !evaluateExercise(item, answer).validAnswer ||
+                (item.type !== 'RHYTHM_TAP' &&
+                  isAuralExercise(item) &&
+                  !audio.heard &&
+                  session.hintLevel < 3)
+              )
+                return;
               audio.stop();
               onCheck(answer);
               requestAnimationFrame(() => {
@@ -246,7 +416,7 @@ export function ExerciseTask({
             kind={result.correct ? 'correct' : 'wrong'}
             title={feedback.title}
             message={feedback.message}
-            {...(!isKeySignatureItem(item)
+            {...(!isKnowledgeItem(item) && !isKeySignatureItem(item)
               ? {
                   onReplay: () => {
                     void audio.play();

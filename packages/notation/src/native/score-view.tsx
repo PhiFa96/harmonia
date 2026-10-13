@@ -314,7 +314,7 @@ function draggableAt(
   return inMeasure.length === 1 && only ? { ...only, note: only.note ?? 0 } : undefined;
 }
 
-function draw(element: SvgElement, index: number, color: ColorValue, fontFamily: string) {
+export function draw(element: SvgElement, index: number, color: ColorValue, fontFamily: string) {
   switch (element.kind) {
     case 'text':
       return (

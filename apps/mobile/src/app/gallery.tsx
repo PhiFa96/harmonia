@@ -1,7 +1,14 @@
 import { LOCALE_NAMES } from '@harmonia/i18n';
 import type { Evaluation } from '@harmonia/exercises';
-import { createRng, evaluateExercise, generateNote } from '@harmonia/exercises';
+import {
+  createRng,
+  evaluateExercise,
+  generateNote,
+  generateKnowledge,
+  pulseExample,
+} from '@harmonia/exercises';
 import type { Pitch } from '@harmonia/notation';
+import { parseScore } from '@harmonia/notation';
 import type { ColorScheme, TextVariant } from '@harmonia/ui';
 import { COLORS, LAYOUT, RADIUS, SPACE } from '@harmonia/ui';
 import {
@@ -26,6 +33,9 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { useSettings } from '@/state/settings';
 import { PianoKeyboard } from '@/components/piano-keyboard';
+import { KeyboardExample } from '@/components/keyboard-example';
+import { DurationQuestion } from '@/components/duration-question';
+import { PulseExample } from '@/components/pulse-example';
 import { ExerciseChoices } from '@/components/exercise-choices';
 
 // Galerie aller Bausteine (P1.06), nur in Entwicklungsbuilds. Vorschau wahlweise hell oder dunkel,
@@ -41,6 +51,8 @@ const VARIANTS: readonly TextVariant[] = [
   'footnote',
   'overline',
 ];
+const KEYBOARD_EXAMPLE = parseScore('treble | 4/4 | C4/2 E4/2');
+const REGISTER_EXAMPLE = parseScore('treble | 4/4 | C4/2 C5/2');
 
 export default function GalleryScreen() {
   const { t } = useTranslation();
@@ -91,6 +103,46 @@ export default function GalleryScreen() {
             <Lists />
             <Sheet />
             <Piano />
+            <Section title={t('gallery.keyboardExample')}>
+              <Card>
+                <KeyboardExample score={KEYBOARD_EXAMPLE} range={{ first: 60, last: 72 }} />
+              </Card>
+              <Card>
+                <KeyboardExample
+                  score={REGISTER_EXAMPLE}
+                  range={{ first: 60, last: 84 }}
+                  showOctaves
+                />
+              </Card>
+            </Section>
+            <Section title={t('gallery.pulseExample')}>
+              {[2, 3, 4].map((count) => (
+                <Card key={count}>
+                  <PulseExample
+                    item={pulseExample(
+                      parseScore(
+                        `treble | ${String(count)}/4 | ${Array.from({ length: count }, () => 'G4/4').join(' ')}`,
+                      ),
+                      84,
+                    )}
+                  />
+                </Card>
+              ))}
+            </Section>
+            <Section title={t('gallery.durationSymbols')}>
+              {(['noteValues', 'rests'] as const).flatMap((topic) =>
+                (['symbol', 'measure-gap'] as const).map((presentation) => (
+                  <Card key={`${topic}:${presentation}`}>
+                    <DurationQuestion
+                      item={generateKnowledge(
+                        { topics: [topic], maxDots: 0, presentation },
+                        createRng(20708),
+                      )}
+                    />
+                  </Card>
+                )),
+              )}
+            </Section>
             <Answers />
           </View>
         </ScrollView>

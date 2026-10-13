@@ -49,3 +49,65 @@ it('ein direkter Lektionslink umgeht die Freigabe nicht; Rückweg und Englisch f
   expect(router.getPathname()).toBe('/');
   expect(mockRepository).not.toHaveBeenCalled();
 });
+
+it.each(['anchor', 'positions', 'reading'])(
+  'ein Direktlink zur neuen %s-Lektion lädt im öffentlichen Build keinen Entwurf oder Verlauf',
+  (name) => {
+    renderRouter('./src/app', { initialUrl: `/lesson?id=notation.l1.staff.${name}` });
+    expect(
+      screen.getByText('Neue Lektionen werden vorbereitet. Du kannst schon frei üben.'),
+    ).toBeTruthy();
+    expect(screen.queryByText(/Einführung 1/)).toBeNull();
+    expect(mockRepository).not.toHaveBeenCalled();
+  },
+);
+
+it.each(['keys', 'steps', 'accidentals'])(
+  'die interne Klaviaturlektion %s samt Beispiel ist im öffentlichen Katalog nicht erreichbar',
+  (name) => {
+    renderRouter('./src/app', { initialUrl: `/lesson?id=notation.l1.keyboard.${name}` });
+    expect(
+      screen.getByText('Neue Lektionen werden vorbereitet. Du kannst schon frei üben.'),
+    ).toBeTruthy();
+    expect(screen.queryByTestId('keyboard-example')).toBeNull();
+    expect(screen.queryByTestId('piano-canvas')).toBeNull();
+    expect(mockRepository).not.toHaveBeenCalled();
+  },
+);
+
+it.each(['octaves', 'ledger', 'match'])(
+  'die interne Registerlektion %s ist im öffentlichen Katalog nicht erreichbar',
+  (name) => {
+    renderRouter('./src/app', { initialUrl: `/lesson?id=notation.l1.register.${name}` });
+    expect(
+      screen.getByText('Neue Lektionen werden vorbereitet. Du kannst schon frei üben.'),
+    ).toBeTruthy();
+    expect(screen.queryByTestId('keyboard-example')).toBeNull();
+    expect(screen.queryByTestId('piano-canvas')).toBeNull();
+    expect(mockRepository).not.toHaveBeenCalled();
+  },
+);
+
+it.each(['steady', 'tempo', 'groups'])(
+  'die interne Pulslektion %s samt Klangbeispiel ist öffentlich nicht erreichbar',
+  (name) => {
+    renderRouter('./src/app', { initialUrl: `/lesson?id=rhythm.l1.pulse.${name}` });
+    expect(
+      screen.getByText('Neue Lektionen werden vorbereitet. Du kannst schon frei üben.'),
+    ).toBeTruthy();
+    expect(screen.queryByTestId('pulse-example')).toBeNull();
+    expect(mockRepository).not.toHaveBeenCalled();
+  },
+);
+
+it.each(['notes', 'rests', 'fill'])(
+  'die interne Notenwertlektion %s samt Klangbeispiel ist öffentlich nicht erreichbar',
+  (name) => {
+    renderRouter('./src/app', { initialUrl: `/lesson?id=rhythm.l1.values.${name}` });
+    expect(
+      screen.getByText('Neue Lektionen werden vorbereitet. Du kannst schon frei üben.'),
+    ).toBeTruthy();
+    expect(screen.queryByTestId('duration-symbol')).toBeNull();
+    expect(mockRepository).not.toHaveBeenCalled();
+  },
+);

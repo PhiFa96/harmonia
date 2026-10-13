@@ -2,6 +2,8 @@
 
 Stand: 07.10.2026. `SCALE_BUILD`, `SCALE_IDENTIFY`, `KEYSIG_IDENTIFY` und `KEYSIG_BUILD` sind technisch umgesetzt. Zusammen mit den [Tonhöheneingaben](tonhoeheneingabe.md) sind sieben der 14 zusätzlich geplanten P2.06-Typen vorhanden. P2.06 bleibt offen: Akkorde, Rhythmus/Takt und Wissens-/Zuordnungs-/Reihenfolgeaufgaben sowie Claudes getrennte fachliche Abnahme und echte Gerätetests fehlen.
 
+Fortsetzung am selben Tag: [Akkordübungen](akkorduebungen.md) ergänzen zwei weitere Typen und einen vierten freien Übungssatz. Der nachfolgende Prüfstand dokumentiert weiterhin diesen zweiten Teil; den aktuellen Gesamtstand führt [P2.06](phase-2-mvp.md#p206--übungstypen-für-das-mvp).
+
 ## Bedienbarer Stand
 
 Im Tab „Üben“ startet „Tonleitern und Tonarten üben“ zwölf Aufgaben, je drei pro Typ. Die beiden vorhandenen Neun-Aufgaben-Sätze bleiben erreichbar. Neustart behält den gewählten Satz; „Übungssatz auswählen“ führt zurück zur Auswahl.
@@ -75,4 +77,4 @@ Deutsch, US-Englisch und UK-Englisch sind vollständig vorhanden. Begriffe wie �
 
 Claudes separate fachliche Abnahme nach [ADR 0005](../decisions/0005-fachliche-pruefung-durch-claude.md), GitHub-CI vor dem Merge sowie VoiceOver/TalkBack und Bedien-/Hörproben auf echten iOS-/Android-Geräten bleiben offen. Diese technische Erweiterung gibt keine Kursinhalte frei.
 
-Als Nächstes in P2.06 folgen `CHORD_IDENTIFY` und `CHORD_BUILD`, danach `RHYTHM_TAP`, `METER_IDENTIFY`, `KNOWLEDGE_MC`, `MATCH` und `ORDER`. Vollständige Stufen-1–2-Lektionen und Bestehens-/Freischaltlogik folgen in den dafür geplanten Schritten.
+Anschließend wurden [Akkordübungen](akkorduebungen.md), [Rhythmus und Takt](rhythmus-und-takt.md) sowie [Wissensfragen, Zuordnen und Ordnen](wissensaufgaben.md) ergänzt. Stand 08.10.2026 sind alle 14 zusätzlichen P2.06-Typen technisch vorhanden; fachliche Abnahme und echte Plattformtests bleiben offen. Der obige Prüfstand dokumentiert die Tonleiter-/Vorzeichnungsumsetzung. Vollständige Stufen-1–2-Lektionen und Bestehens-/Freischaltlogik folgen in den dafür geplanten Schritten.

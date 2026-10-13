@@ -84,3 +84,87 @@ export function createTonalitySession(seed: number | string) {
     ).flat(),
   );
 }
+
+const CHORD_TYPES: readonly ExerciseSpec[] = [
+  {
+    type: 'CHORD_BUILD',
+    params: {
+      types: ['major', 'minor', 'diminished', 'augmented'],
+      roots: ['C', 'D', 'F', 'G', 'A'],
+      clefs: ['treble', 'bass'],
+      inversions: [0, 1, 2],
+      maxAccidentals: 1,
+    },
+  },
+  {
+    type: 'CHORD_IDENTIFY',
+    params: {
+      types: ['major', 'minor', 'diminished', 'augmented'],
+      roots: ['C', 'D', 'F', 'G', 'A'],
+      clefs: ['treble', 'bass'],
+      inversions: [0, 1, 2],
+      maxAccidentals: 1,
+    },
+  },
+  {
+    type: 'CHORD_IDENTIFY',
+    params: {
+      types: ['major', 'minor', 'diminished', 'augmented'],
+      roots: ['C', 'D', 'F', 'G', 'A'],
+      clefs: ['treble', 'bass'],
+      inversions: [0, 1, 2],
+      presentation: 'aural',
+      maxAccidentals: 1,
+    },
+  },
+];
+export function createChordSession(seed: number | string) {
+  const rng = createRng(seed);
+  return createSession(
+    Array.from({ length: 3 }, () => CHORD_TYPES.map((spec) => generateExercise(spec, rng))).flat(),
+  );
+}
+const RHYTHM_TYPES: readonly ExerciseSpec[] = [
+  {
+    type: 'RHYTHM_TAP',
+    params: {
+      meters: ['2/4', '3/4', '4/4', '6/8'],
+      tempos: [72, 96],
+      level: 'dotted',
+      rests: true,
+      toleranceMs: 120,
+    },
+  },
+  {
+    type: 'METER_IDENTIFY',
+    params: { meters: ['2/4', '3/4', '4/4', '6/8'], clefs: ['treble', 'bass'] },
+  },
+];
+export function createRhythmSession(seed: number | string) {
+  const rng = createRng(seed);
+  return createSession(
+    Array.from({ length: 3 }, () => RHYTHM_TYPES.map((spec) => generateExercise(spec, rng))).flat(),
+  );
+}
+const KNOWLEDGE_TYPES: readonly ExerciseSpec[] = [
+  {
+    type: 'KNOWLEDGE_MC',
+    params: { topics: ['accidentals', 'noteValues', 'intervals', 'triads', 'scales', 'meters'] },
+  },
+  {
+    type: 'MATCH',
+    params: {
+      topics: ['accidentals', 'noteValues', 'intervals', 'triads', 'scales', 'meters'],
+      count: 3,
+    },
+  },
+  { type: 'ORDER', params: { topics: ['noteValues', 'pitches'], count: 4, direction: 'both' } },
+];
+export function createKnowledgeSession(seed: number | string) {
+  const rng = createRng(seed);
+  return createSession(
+    Array.from({ length: 3 }, () =>
+      KNOWLEDGE_TYPES.map((spec) => generateExercise(spec, rng)),
+    ).flat(),
+  );
+}

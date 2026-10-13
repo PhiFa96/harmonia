@@ -1,8 +1,19 @@
 import type { AppLocale, Messages } from '@harmonia/i18n';
-import type { Score } from '@harmonia/notation';
-import type { Key, Mode, Pitch, Rng } from '@harmonia/theory';
+import type { KeyboardRange, Score } from '@harmonia/notation';
+import type {
+  Chord,
+  Key,
+  Mode,
+  Pitch,
+  Rng,
+  TriadType,
+  TimeSignature,
+  Duration,
+  Interval,
+} from '@harmonia/theory';
 
 export type ExerciseType =
+  | 'LISTENING_CHOICE'
   | 'NOTE_NAME'
   | 'INTERVAL_IDENTIFY_VISUAL'
   | 'INTERVAL_IDENTIFY_AURAL'
@@ -12,7 +23,14 @@ export type ExerciseType =
   | 'SCALE_BUILD'
   | 'SCALE_IDENTIFY'
   | 'KEYSIG_IDENTIFY'
-  | 'KEYSIG_BUILD';
+  | 'KEYSIG_BUILD'
+  | 'CHORD_IDENTIFY'
+  | 'CHORD_BUILD'
+  | 'RHYTHM_TAP'
+  | 'METER_IDENTIFY'
+  | 'KNOWLEDGE_MC'
+  | 'MATCH'
+  | 'ORDER';
 export type ExerciseClef = 'treble' | 'bass';
 export type IntervalPlayback = 'melodic-up' | 'melodic-down' | 'harmonic';
 
@@ -25,11 +43,23 @@ export interface NoteParams {
   readonly range?: PitchRange;
   readonly maxAccidentals?: 0 | 1 | 2;
 }
+export interface NoteNameParams extends NoteParams {
+  /** Vollständige Tonhöhen statt allein Stammton und Vorzeichen. Standard: false. */
+  readonly includeOctave?: boolean;
+}
+export interface KeyFindParams extends NoteParams {
+  /** Namen innerhalb eines festen Ausschnitts; Notenbild bleibt der bisherige Standard. */
+  readonly presentation?: 'notation' | 'name' | 'score';
+}
 export interface VisualIntervalParams extends NoteParams {
   /** Positive Kurzschreibweise, z. B. m3/M3/P5; Richtung separat. */
   readonly intervals: readonly string[];
   readonly direction?: 'up' | 'down' | 'both';
+  /** Gestufte Lesefragen mit natürlichen Tönen, Prime bis Oktave. */
+  readonly question?: IntervalReadingQuestion;
 }
+export type IntervalReadingQuestion =
+  'number' | 'direction' | 'motion' | 'semitones' | 'quality' | 'perfect';
 export interface AuralIntervalParams extends NoteParams {
   readonly intervals: readonly string[];
   readonly playback?: IntervalPlayback;
@@ -47,15 +77,158 @@ export interface KeySignatureParams {
   readonly modes?: readonly Mode[];
   readonly fifths?: readonly number[];
 }
+export interface ChordParams extends NoteParams {
+  readonly types: readonly TriadType[];
+  /** Kanonische ASCII-Stammtöne, z. B. C, F#, Bb; ohne Angabe alle darstellbaren Grundtöne. */
+  readonly roots?: readonly string[];
+  readonly inversions?: readonly (0 | 1 | 2)[];
+}
+export interface ChordIdentifyParams extends ChordParams {
+  readonly presentation?: 'visual' | 'aural';
+}
+export type MvpMeter = '2/2' | '2/4' | '3/4' | '4/4' | '3/8' | '6/8' | '9/8' | '12/8';
+export interface MeterParams {
+  readonly meters: readonly MvpMeter[];
+  readonly clefs?: readonly ExerciseClef[];
+}
+export interface MeterIdentifyParams extends MeterParams {
+  /** Auftakt aus zwei sichtbaren Takten anhand der Dauer vor dem ersten Taktstrich erkennen. */
+  readonly presentation?: 'pickup';
+}
+export interface RhythmParams extends MeterParams {
+  /** Tempo des tatsächlichen Grundschlags, auch der punktierten Viertel in 6/8. */
+  readonly tempos?: readonly number[];
+  /** pulse: nur gleichmäßige Schläge in 2/4, 3/4 oder 4/4, ohne Notenlesen. */
+  readonly level?: 'basic' | 'dotted' | 'pulse' | 'quarters';
+  readonly rests?: boolean;
+  /** Maximale Abweichung in ms; zusätzlich auf 40 % des kürzesten Einsatzabstands begrenzt. */
+  readonly toleranceMs?: number;
+}
+export type ListeningQuestion =
+  | 'pulse'
+  | 'rhythm-compare'
+  | 'rhythm-choice'
+  | 'pitch-direction'
+  | 'melody-compare'
+  | 'observation';
+export interface ListeningParams {
+  readonly question: ListeningQuestion;
+  readonly tempos?: readonly number[];
+}
+export interface ListeningItem {
+  readonly type: 'LISTENING_CHOICE';
+  readonly question: ListeningQuestion;
+  readonly bpm: number;
+  /** Bewertungs- und Audioquelle; keine gespeicherte Zielantwort. */
+  readonly clips: readonly Score[];
+  /** Nur bei Rhythmusauswahl vor der Wertung sichtbar. */
+  readonly candidates?: readonly Score[];
+  readonly choices: readonly string[];
+}
+export type KnowledgeTopic =
+  | 'soundSources'
+  | 'sourceTypes'
+  | 'context'
+  | 'periods'
+  | 'genreContext'
+  | 'evidence'
+  | 'accidentals'
+  | 'noteValues'
+  | 'rests'
+  | 'barlines'
+  | 'intervals'
+  | 'triads'
+  | 'scales'
+  | 'meters'
+  | 'keyboard'
+  | 'pulse'
+  | 'tempo'
+  | 'beatGroup';
+export interface DurationLimits {
+  /** 0: nur unpunktierte Werte; Standard 1 bewahrt bestehende Aufgaben. */
+  readonly maxDots?: 0 | 1;
+}
+export interface KnowledgeParams extends DurationLimits {
+  readonly topics: readonly KnowledgeTopic[];
+  /** Einfache Zeichen oder zusätzlich doppelte Vorzeichen. Standard: 2. */
+  readonly maxAccidentals?: 1 | 2;
+}
+export interface KnowledgeMcParams extends KnowledgeParams {
+  readonly presentation?: 'symbol' | 'measure-gap';
+}
+export interface MatchParams extends KnowledgeParams {
+  readonly count?: number;
+}
+export type OrderTopic = 'noteValues' | 'pitches' | 'periods';
+export interface OrderParams extends DurationLimits {
+  readonly topics: readonly OrderTopic[];
+  readonly count?: number;
+  readonly direction?: ScaleDirection | 'both';
+}
+export type HistoryTopic =
+  'soundSources' | 'sourceTypes' | 'context' | 'periods' | 'genreContext' | 'evidence';
+export type HistoryKind =
+  | 'voice'
+  | 'instrument'
+  | 'recording'
+  | 'electronic'
+  | 'score'
+  | 'report'
+  | 'programme'
+  | 'place'
+  | 'time'
+  | 'occasion'
+  | 'author'
+  | 'medieval'
+  | 'renaissance'
+  | 'baroque'
+  | 'classical'
+  | 'romantic'
+  | 'since1900'
+  | 'genre'
+  | 'forces'
+  | 'function'
+  | 'observation'
+  | 'metadata'
+  | 'inference'
+  | 'uncertainty';
+export type KnowledgeFact =
+  | { readonly topic: HistoryTopic; readonly kind: HistoryKind }
+  | { readonly topic: 'pulse'; readonly kind: 'pulse' | 'rhythm' | 'metronome' | 'countIn' }
+  | { readonly topic: 'tempo'; readonly kind: 'tempo' | 'bpm' | 'faster' | 'slower' }
+  | { readonly topic: 'beatGroup'; readonly kind: 'first' | 'duple' | 'triple' | 'quadruple' }
+  | {
+      readonly topic: 'keyboard';
+      readonly kind: 'semitone' | 'wholeTone' | 'twoBlackKeys' | 'threeBlackKeys';
+    }
+  | { readonly topic: 'accidentals'; readonly alter: -2 | -1 | 0 | 1 | 2 }
+  | { readonly topic: 'noteValues' | 'rests'; readonly duration: Duration }
+  | { readonly topic: 'barlines'; readonly kind: 'single' | 'final' }
+  | { readonly topic: 'intervals'; readonly interval: Interval }
+  | { readonly topic: 'triads'; readonly triad: TriadType }
+  | { readonly topic: 'scales'; readonly scale: MvpScaleType }
+  | { readonly topic: 'meters'; readonly meter: MvpMeter };
+export type OrderValue =
+  | { readonly kind: 'period'; readonly period: HistoryKind }
+  | { readonly kind: 'duration'; readonly duration: Duration }
+  | { readonly kind: 'pitch'; readonly pitch: Pitch };
 export type ExerciseSpec =
-  | { readonly type: 'NOTE_NAME'; readonly params: NoteParams }
+  | { readonly type: 'LISTENING_CHOICE'; readonly params: ListeningParams }
+  | { readonly type: 'KNOWLEDGE_MC'; readonly params: KnowledgeMcParams }
+  | { readonly type: 'MATCH'; readonly params: MatchParams }
+  | { readonly type: 'ORDER'; readonly params: OrderParams }
+  | { readonly type: 'NOTE_NAME'; readonly params: NoteNameParams }
   | { readonly type: 'NOTE_PLACE'; readonly params: NoteParams }
-  | { readonly type: 'KEY_FIND'; readonly params: NoteParams }
+  | { readonly type: 'KEY_FIND'; readonly params: KeyFindParams }
   | { readonly type: 'INTERVAL_BUILD'; readonly params: VisualIntervalParams }
   | { readonly type: 'SCALE_BUILD'; readonly params: ScaleParams }
   | { readonly type: 'SCALE_IDENTIFY'; readonly params: ScaleParams }
   | { readonly type: 'KEYSIG_IDENTIFY'; readonly params: KeySignatureParams }
   | { readonly type: 'KEYSIG_BUILD'; readonly params: KeySignatureParams }
+  | { readonly type: 'CHORD_BUILD'; readonly params: ChordParams }
+  | { readonly type: 'CHORD_IDENTIFY'; readonly params: ChordIdentifyParams }
+  | { readonly type: 'RHYTHM_TAP'; readonly params: RhythmParams }
+  | { readonly type: 'METER_IDENTIFY'; readonly params: MeterIdentifyParams }
   | { readonly type: 'INTERVAL_IDENTIFY_VISUAL'; readonly params: VisualIntervalParams }
   | { readonly type: 'INTERVAL_IDENTIFY_AURAL'; readonly params: AuralIntervalParams };
 
@@ -68,6 +241,7 @@ interface ItemBase {
 export interface NoteItem extends ItemBase {
   readonly type: 'NOTE_NAME';
   readonly pitch: Pitch;
+  readonly includeOctave?: true;
 }
 export interface IntervalItem extends ItemBase {
   readonly type: 'INTERVAL_IDENTIFY_VISUAL' | 'INTERVAL_IDENTIFY_AURAL';
@@ -75,6 +249,7 @@ export interface IntervalItem extends ItemBase {
   readonly from: Pitch;
   readonly to: Pitch;
   readonly playback: IntervalPlayback;
+  readonly question?: IntervalReadingQuestion;
 }
 export interface NotePlaceItem extends ItemBase {
   readonly type: 'NOTE_PLACE';
@@ -83,6 +258,8 @@ export interface NotePlaceItem extends ItemBase {
 export interface KeyFindItem extends ItemBase {
   readonly type: 'KEY_FIND';
   readonly pitch: Pitch;
+  readonly presentation?: 'name' | 'score';
+  readonly keyboardRange?: KeyboardRange;
 }
 export interface IntervalBuildItem extends ItemBase {
   readonly type: 'INTERVAL_BUILD';
@@ -102,7 +279,63 @@ export interface KeySignatureItem extends ItemBase {
   readonly type: 'KEYSIG_IDENTIFY' | 'KEYSIG_BUILD';
   readonly key: Key;
 }
-export type ExerciseItem = NoteItem | IntervalItem | PitchInputItem | ScaleItem | KeySignatureItem;
+export interface ChordItem extends ItemBase {
+  readonly type: 'CHORD_BUILD' | 'CHORD_IDENTIFY';
+  readonly chord: Chord;
+  /** Vorgegebener Basston einschließlich Oktave; enge Lage aufwärts. */
+  readonly bass: Pitch;
+  readonly pitches: readonly Pitch[];
+  readonly presentation: 'visual' | 'aural';
+}
+export interface RhythmItem extends ItemBase {
+  readonly type: 'RHYTHM_TAP' | 'METER_IDENTIFY';
+  readonly meter: TimeSignature;
+  readonly bpm: number;
+  readonly toleranceMs: number;
+  /** Zahlen und gleichmäßige Klicks statt eines sichtbaren Notenbilds. */
+  readonly presentation?: 'pulse' | 'pickup';
+}
+/** Wissensaufgaben benötigen kein künstliches Notenbild und keinen Notenschlüssel. */
+export interface RhythmValue {
+  readonly kind: 'note' | 'rest';
+  readonly duration: Duration;
+}
+/** Ein Vier-Viertel-Takt mit genau einer fehlenden Dauer am Ende. */
+export interface MeasureGap {
+  readonly events: readonly RhythmValue[];
+  readonly missingKind: 'note' | 'rest';
+}
+export interface KnowledgeItem {
+  readonly type: 'KNOWLEDGE_MC';
+  readonly fact: KnowledgeFact;
+  readonly presentation?: 'symbol' | 'measure-gap';
+  readonly gap?: MeasureGap;
+  readonly choices: readonly string[];
+}
+export interface MatchItem {
+  readonly type: 'MATCH';
+  /** Reihenfolge der linken Begriffe; rechte Definitionen stehen in choices. */
+  readonly facts: readonly KnowledgeFact[];
+  readonly choices: readonly string[];
+}
+export interface OrderItem {
+  readonly type: 'ORDER';
+  readonly topic: OrderTopic;
+  readonly direction: ScaleDirection;
+  readonly values: readonly OrderValue[];
+  readonly choices: readonly string[];
+}
+export type KnowledgeExerciseItem = KnowledgeItem | MatchItem | OrderItem;
+export type ExerciseItem =
+  | ListeningItem
+  | NoteItem
+  | IntervalItem
+  | PitchInputItem
+  | ScaleItem
+  | KeySignatureItem
+  | ChordItem
+  | RhythmItem
+  | KnowledgeExerciseItem;
 
 export interface Evaluation {
   readonly answer: string;

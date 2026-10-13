@@ -2,7 +2,7 @@
 
 Musiktheorie lernen – hörbar, spielerisch und so tief, wie du willst. Vom ersten Notenschlüssel bis zum Hochschulniveau, mit KI-Tutor und echten Coaches. Im Browser und als App für iOS und Android.
 
-> **Status: Technisches Fundament und erster MVP-Ausbau.** Theorie-Engine, Notenbild, Klavierklang, Klaviatur und zehn Übungstypen sind implementiert. Die interne erste Lektion hat zehn Aufgaben, neue Varianten für Fehler und ein lokales SQLite-Ergebnis. Im Tab „Üben“ gibt es drei freie Sätze zum Lesen/Hören, zu Tonhöheneingaben und zu Tonleitern/Vorzeichnungen. Geräteprüfungen, Testpersonen und fachliche Inhaltsabnahme sind offen; öffentliche Builds enthalten nur freigegebene Kursinhalte. Details: [Erste Lektion P1.20](docs/plan/erste-lektion.md), [Tonleitern und Vorzeichnungen P2.06](docs/plan/tonleitern-und-vorzeichnungen.md) und [Phase 2](docs/plan/phase-2-mvp.md).
+> **Status: Vollständige interne Stufe 1; fachliche Freigabe offen.** 18 Übungstypen und sechs freie Sätze sind implementiert. Alle 13 geplanten Stufe-1-Einheiten einschließlich Prototyp sind mit 37 Lektionen, 370 Aufgaben, 106 Wissenskarten und 13 Artikeln abgedeckt. Die letzten Einheiten ergänzen Gehörbildung sowie Klangquellen und Musikgeschichte in DE/US/UK. Alle Inhalte bleiben Entwurf bis zu Claude Codes getrennter fachlicher Prüfung. Bestehens-/Freischaltregeln und echte Geräteabnahme bleiben offen. Aktueller Stand: [Stufe 1 vollständig intern](docs/plan/stufe-1-vollstaendig.md) und [Phase 2](docs/plan/phase-2-mvp.md).
 
 ## Konzept
 
@@ -54,11 +54,13 @@ Aufbau des Monorepos: [docs/plan/architektur.md](docs/plan/architektur.md).
 
 Lokales Backend, Profilmigration und offene staging/production-Einrichtung: [Supabase-Grundlage P1.04](docs/plan/supabase-grundlage.md).
 
-Inhaltsproduktion, interne Vorschau, öffentliche Freigaben und EAS-Übergabe: [Inhalts-Pipeline P2.04](docs/plan/inhalts-pipeline.md). `APP_VARIANT=production` baut nur freigegebene Inhalte; ohne separate fachliche Abnahme bleibt die erste Lektion intern.
+Inhaltsproduktion, interne Vorschau, öffentliche Freigaben und EAS-Übergabe: [Inhalts-Pipeline P2.04](docs/plan/inhalts-pipeline.md). `APP_VARIANT=production` baut nur freigegebene Inhalte; ohne separate fachliche Abnahme bleiben die zehn Lektionen intern.
 
-Entwurf für Stufen 1–2 mit 90 Fähigkeiten, Voraussetzungen und Einheitenreihenfolge: [Fähigkeitsgraph P2.05](docs/plan/faehigkeitsgraph.md). Fachliche Abnahme, zusätzliche Übungstypen und die vollständigen Lektionen folgen.
+Entwurf für Stufen 1–2 mit 90 Fähigkeiten, Voraussetzungen und Einheitenreihenfolge: [Fähigkeitsgraph P2.05](docs/plan/faehigkeitsgraph.md). Fachliche Abnahme und die vollständigen Lektionen folgen.
 
-Neue Schreib- und Erkennungsaufgaben: [Tonhöheneingaben](docs/plan/tonhoeheneingabe.md) sowie [Tonleitern und Vorzeichnungen](docs/plan/tonleitern-und-vorzeichnungen.md). Sieben der 14 zusätzlich geplanten MVP-Typen sind technisch umgesetzt.
+Neue Aufgaben: [Tonhöheneingaben](docs/plan/tonhoeheneingabe.md), [Tonleitern und Vorzeichnungen](docs/plan/tonleitern-und-vorzeichnungen.md), [Akkorde](docs/plan/akkorduebungen.md), [Rhythmus und Taktgliederung](docs/plan/rhythmus-und-takt.md) sowie [Wissensfragen, Zuordnen und Ordnen](docs/plan/wissensaufgaben.md). Alle 14 zusätzlich geplanten MVP-Typen sind technisch umgesetzt. P2.06 bleibt bis zur fachlichen Abnahme und den echten Plattformtests offen; vollständige Kurse und Bestehens-/Freischaltlogik sind die Folgearbeit.
+
+Der [erste Teil von P2.07](docs/plan/notationseinstieg.md) beginnt beim Notensystem. Danach folgen [Klaviatur und Vorzeichen](docs/plan/klaviatur-und-vorzeichen.md), [Oktavlagen und Hilfslinien](docs/plan/oktavlagen-und-hilfslinien.md), [Puls und Zählgruppen](docs/plan/puls-tempo-und-zaehlgruppen.md), [Notenwerte und Pausen](docs/plan/notenwerte-und-pausen.md) sowie [einfache Takte und Auftakt](docs/plan/einfache-taktarten-und-auftakt.md). [Intervallgröße und Richtung](docs/plan/intervallgroesse-und-richtung.md) ergänzt den Einstieg in Prime bis Oktave. [Erste Intervallqualitäten](docs/plan/erste-intervallqualitaeten.md) ergänzen Halbtonabstände, Terzen und reine Intervalle. [Die gesamte interne Stufe 1](docs/plan/stufe-1-vollstaendig.md) ergänzt Rhythmus-/Melodiehörvergleiche, erste Hörintervalle, Klangquellen und Geschichte. 13 Artikel decken einschließlich des Prototyps alle geplanten Stufe-1-Themen ab. Die getrennte fachliche Freigabe steht aus.
 
 ## Lizenz
 

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": 2,
+  "contentVersion": 11,
   "areas": [
     {
       "id": "fundament",
@@ -1257,6 +1257,1155 @@
           "count": 1
         }
       ]
+    },
+    {
+      "contentVersion": 3,
+      "status": "entwurf",
+      "id": "notation.l1.staff.anchor.exercises",
+      "titleKey": "content.notationStart.anchorLesson",
+      "skillIds": ["notation.staff", "notation.treble-clef", "notation.treble-natural"],
+      "exercises": [
+        {
+          "count": 8,
+          "spec": {
+            "type": "NOTE_NAME",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 65,
+                "maxMidi": 71
+              },
+              "maxAccidentals": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 3,
+      "status": "entwurf",
+      "id": "notation.l1.staff.positions.exercises",
+      "titleKey": "content.notationStart.positionsLesson",
+      "skillIds": ["notation.staff", "notation.treble-clef", "notation.treble-natural"],
+      "exercises": [
+        {
+          "count": 10,
+          "spec": {
+            "type": "NOTE_NAME",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 64,
+                "maxMidi": 77
+              },
+              "maxAccidentals": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 3,
+      "status": "entwurf",
+      "id": "notation.l1.staff.reading.exercises",
+      "titleKey": "content.notationStart.readingLesson",
+      "skillIds": ["notation.staff", "notation.treble-clef", "notation.treble-natural"],
+      "exercises": [
+        {
+          "count": 12,
+          "spec": {
+            "type": "NOTE_NAME",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 64,
+                "maxMidi": 77
+              },
+              "maxAccidentals": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 4,
+      "status": "entwurf",
+      "id": "notation.l1.keyboard.keys.exercises",
+      "titleKey": "content.keyboardStart.keysLesson",
+      "skillIds": ["notation.keyboard-layout"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KEY_FIND",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 71
+              },
+              "maxAccidentals": 0,
+              "presentation": "name"
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "contentVersion": 4,
+      "status": "entwurf",
+      "id": "notation.l1.keyboard.steps.exercises",
+      "titleKey": "content.keyboardStart.stepsLesson",
+      "skillIds": ["notation.keyboard-layout", "notation.semitone"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["keyboard"]
+            }
+          },
+          "count": 6
+        },
+        {
+          "spec": {
+            "type": "KEY_FIND",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 71
+              },
+              "maxAccidentals": 0,
+              "presentation": "name"
+            }
+          },
+          "count": 4
+        }
+      ]
+    },
+    {
+      "contentVersion": 4,
+      "status": "entwurf",
+      "id": "notation.l1.keyboard.accidentals.exercises",
+      "titleKey": "content.keyboardStart.accidentalsLesson",
+      "skillIds": ["notation.keyboard-layout", "notation.semitone", "notation.accidentals"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["accidentals"],
+              "maxAccidentals": 1
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "NOTE_NAME",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 64,
+                "maxMidi": 77
+              },
+              "maxAccidentals": 1
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "KEY_FIND",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 71
+              },
+              "maxAccidentals": 1,
+              "presentation": "name"
+            }
+          },
+          "count": 4
+        }
+      ]
+    },
+    {
+      "contentVersion": 5,
+      "status": "entwurf",
+      "id": "notation.l1.register.octaves.exercises",
+      "titleKey": "content.registerStart.octavesLesson",
+      "skillIds": ["notation.octave-register"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "NOTE_NAME",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 64,
+                "maxMidi": 77
+              },
+              "maxAccidentals": 0,
+              "includeOctave": true
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "contentVersion": 5,
+      "status": "entwurf",
+      "id": "notation.l1.register.ledger.exercises",
+      "titleKey": "content.registerStart.ledgerLesson",
+      "skillIds": ["notation.octave-register", "notation.ledger-lines"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "NOTE_NAME",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 57,
+                "maxMidi": 84
+              },
+              "maxAccidentals": 0,
+              "includeOctave": true
+            }
+          },
+          "count": 10
+        }
+      ]
+    },
+    {
+      "contentVersion": 5,
+      "status": "entwurf",
+      "id": "notation.l1.register.match.exercises",
+      "titleKey": "content.registerStart.matchLesson",
+      "skillIds": ["notation.octave-register", "notation.ledger-lines", "notation.pitch-match"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KEY_FIND",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 57,
+                "maxMidi": 84
+              },
+              "maxAccidentals": 0,
+              "presentation": "score"
+            }
+          },
+          "count": 12
+        }
+      ]
+    },
+    {
+      "contentVersion": 6,
+      "status": "entwurf",
+      "id": "rhythm.l1.pulse.steady.exercises",
+      "titleKey": "content.pulseStart.steadyLesson",
+      "skillIds": ["rhythm.pulse"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["pulse"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "RHYTHM_TAP",
+            "params": {
+              "meters": ["3/4", "4/4"],
+              "level": "pulse",
+              "tempos": [72],
+              "rests": false,
+              "toleranceMs": 160
+            }
+          },
+          "count": 4
+        }
+      ]
+    },
+    {
+      "contentVersion": 6,
+      "status": "entwurf",
+      "id": "rhythm.l1.pulse.tempo.exercises",
+      "titleKey": "content.pulseStart.tempoLesson",
+      "skillIds": ["rhythm.pulse", "rhythm.tempo"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["tempo"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "RHYTHM_TAP",
+            "params": {
+              "meters": ["2/4", "3/4", "4/4"],
+              "level": "pulse",
+              "tempos": [60, 90, 120],
+              "rests": false,
+              "toleranceMs": 160
+            }
+          },
+          "count": 6
+        }
+      ]
+    },
+    {
+      "contentVersion": 6,
+      "status": "entwurf",
+      "id": "rhythm.l1.pulse.groups.exercises",
+      "titleKey": "content.pulseStart.groupsLesson",
+      "skillIds": ["rhythm.pulse", "rhythm.tempo", "rhythm.beat-group"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["beatGroup"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "RHYTHM_TAP",
+            "params": {
+              "meters": ["2/4", "3/4", "4/4"],
+              "level": "pulse",
+              "tempos": [72, 96, 108],
+              "rests": false,
+              "toleranceMs": 160
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "contentVersion": 7,
+      "status": "entwurf",
+      "id": "rhythm.l1.values.notes.exercises",
+      "titleKey": "content.valuesStart.notesLesson",
+      "skillIds": ["rhythm.note-values"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["noteValues"],
+              "maxDots": 0,
+              "presentation": "symbol"
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["noteValues"],
+              "maxDots": 0
+            }
+          },
+          "count": 2
+        },
+        {
+          "spec": {
+            "type": "ORDER",
+            "params": {
+              "topics": ["noteValues"],
+              "maxDots": 0,
+              "count": 4,
+              "direction": "both"
+            }
+          },
+          "count": 2
+        }
+      ]
+    },
+    {
+      "contentVersion": 7,
+      "status": "entwurf",
+      "id": "rhythm.l1.values.rests.exercises",
+      "titleKey": "content.valuesStart.restsLesson",
+      "skillIds": ["rhythm.note-values", "rhythm.rests"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["rests"],
+              "maxDots": 0,
+              "presentation": "symbol"
+            }
+          },
+          "count": 6
+        },
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["rests"],
+              "maxDots": 0,
+              "count": 3
+            }
+          },
+          "count": 4
+        }
+      ]
+    },
+    {
+      "contentVersion": 7,
+      "status": "entwurf",
+      "id": "rhythm.l1.values.fill.exercises",
+      "titleKey": "content.valuesStart.fillLesson",
+      "skillIds": ["rhythm.note-values", "rhythm.rests", "rhythm.measure-fill", "rhythm.barlines"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["barlines"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["noteValues"],
+              "maxDots": 0,
+              "presentation": "measure-gap"
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["rests"],
+              "maxDots": 0,
+              "presentation": "measure-gap"
+            }
+          },
+          "count": 4
+        }
+      ]
+    },
+    {
+      "contentVersion": 8,
+      "status": "entwurf",
+      "id": "rhythm.l1.simple-meter.meter.exercises",
+      "titleKey": "content.simpleMeterStart.meterLesson",
+      "skillIds": ["rhythm.meter-simple"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "METER_IDENTIFY",
+            "params": {
+              "meters": ["2/4", "3/4", "4/4"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "RHYTHM_TAP",
+            "params": {
+              "meters": ["2/4", "3/4", "4/4"],
+              "level": "quarters",
+              "rests": false,
+              "tempos": [72]
+            }
+          },
+          "count": 4
+        }
+      ]
+    },
+    {
+      "contentVersion": 8,
+      "status": "entwurf",
+      "id": "rhythm.l1.simple-meter.count-in.exercises",
+      "titleKey": "content.simpleMeterStart.countInLesson",
+      "skillIds": ["rhythm.meter-simple", "rhythm.count-in"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "METER_IDENTIFY",
+            "params": {
+              "meters": ["2/4", "3/4", "4/4"]
+            }
+          },
+          "count": 2
+        },
+        {
+          "spec": {
+            "type": "METER_IDENTIFY",
+            "params": {
+              "meters": ["2/4", "3/4", "4/4"],
+              "presentation": "pickup"
+            }
+          },
+          "count": 2
+        },
+        {
+          "spec": {
+            "type": "RHYTHM_TAP",
+            "params": {
+              "meters": ["2/4", "3/4", "4/4"],
+              "level": "basic",
+              "rests": false,
+              "tempos": [72, 96]
+            }
+          },
+          "count": 6
+        }
+      ]
+    },
+    {
+      "contentVersion": 8,
+      "status": "entwurf",
+      "id": "rhythm.l1.simple-meter.read.exercises",
+      "titleKey": "content.simpleMeterStart.readLesson",
+      "skillIds": ["rhythm.meter-simple", "rhythm.count-in", "rhythm.read-basic"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "METER_IDENTIFY",
+            "params": {
+              "meters": ["2/4", "3/4", "4/4"],
+              "presentation": "pickup"
+            }
+          },
+          "count": 2
+        },
+        {
+          "spec": {
+            "type": "RHYTHM_TAP",
+            "params": {
+              "meters": ["2/4", "3/4", "4/4"],
+              "level": "basic",
+              "rests": true,
+              "tempos": [72, 96]
+            }
+          },
+          "count": 10
+        }
+      ]
+    },
+    {
+      "contentVersion": 9,
+      "status": "entwurf",
+      "id": "intervals.l1.size.numbers.exercises",
+      "titleKey": "content.intervalSizeStart.numbersLesson",
+      "skillIds": ["interval.generic-size"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_VISUAL",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 64,
+                "maxMidi": 77
+              },
+              "maxAccidentals": 0,
+              "intervals": ["P1", "m2", "M2", "m3", "M3", "P4"],
+              "direction": "up",
+              "question": "number"
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_VISUAL",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 64,
+                "maxMidi": 77
+              },
+              "maxAccidentals": 0,
+              "intervals": ["P5", "m6", "M6", "m7", "M7", "P8"],
+              "direction": "up",
+              "question": "number"
+            }
+          },
+          "count": 4
+        }
+      ]
+    },
+    {
+      "contentVersion": 9,
+      "status": "entwurf",
+      "id": "intervals.l1.size.direction.exercises",
+      "titleKey": "content.intervalSizeStart.directionLesson",
+      "skillIds": ["interval.generic-size", "interval.direction"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_VISUAL",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 64,
+                "maxMidi": 77
+              },
+              "maxAccidentals": 0,
+              "intervals": ["P1", "m2", "M2", "m3", "M3", "P4", "P5", "m6", "M6", "m7", "M7", "P8"],
+              "direction": "both",
+              "question": "number"
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_VISUAL",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 64,
+                "maxMidi": 77
+              },
+              "maxAccidentals": 0,
+              "intervals": ["P1", "m2", "M2", "m3", "M3", "P4", "P5", "m6", "M6", "m7", "M7", "P8"],
+              "direction": "both",
+              "question": "direction"
+            }
+          },
+          "count": 6
+        }
+      ]
+    },
+    {
+      "contentVersion": 9,
+      "status": "entwurf",
+      "id": "intervals.l1.size.motion.exercises",
+      "titleKey": "content.intervalSizeStart.motionLesson",
+      "skillIds": ["interval.generic-size", "interval.direction", "interval.steps-leaps"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_VISUAL",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 64,
+                "maxMidi": 77
+              },
+              "maxAccidentals": 0,
+              "intervals": ["P1", "m2", "M2", "m3", "M3", "P4", "P5", "m6", "M6", "m7", "M7", "P8"],
+              "direction": "both",
+              "question": "direction"
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_VISUAL",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 64,
+                "maxMidi": 77
+              },
+              "maxAccidentals": 0,
+              "intervals": ["P1", "m2", "M2", "m3", "M3", "P4", "P5", "m6", "M6", "m7", "M7", "P8"],
+              "direction": "both",
+              "question": "motion"
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "contentVersion": 10,
+      "status": "entwurf",
+      "id": "intervals.l1.first-qualities.distance.exercises",
+      "titleKey": "content.firstQualityStart.distanceLesson",
+      "skillIds": ["interval.semitone-distance"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_VISUAL",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 64,
+                "maxMidi": 77
+              },
+              "maxAccidentals": 0,
+              "intervals": ["P1", "m2", "M2", "m3", "M3"],
+              "direction": "up",
+              "question": "semitones"
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_VISUAL",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 64,
+                "maxMidi": 77
+              },
+              "maxAccidentals": 0,
+              "intervals": ["P4", "A4", "P5", "m6", "M6", "m7", "M7", "P8"],
+              "direction": "both",
+              "question": "semitones"
+            }
+          },
+          "count": 4
+        }
+      ]
+    },
+    {
+      "contentVersion": 10,
+      "status": "entwurf",
+      "id": "intervals.l1.first-qualities.thirds.exercises",
+      "titleKey": "content.firstQualityStart.thirdsLesson",
+      "skillIds": ["interval.semitone-distance", "interval.thirds"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_VISUAL",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 64,
+                "maxMidi": 77
+              },
+              "maxAccidentals": 0,
+              "intervals": ["m3", "M3"],
+              "direction": "both",
+              "question": "semitones"
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_VISUAL",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 64,
+                "maxMidi": 77
+              },
+              "maxAccidentals": 0,
+              "intervals": ["m3", "M3"],
+              "direction": "both",
+              "question": "quality"
+            }
+          },
+          "count": 6
+        }
+      ]
+    },
+    {
+      "contentVersion": 10,
+      "status": "entwurf",
+      "id": "intervals.l1.first-qualities.perfect.exercises",
+      "titleKey": "content.firstQualityStart.perfectLesson",
+      "skillIds": ["interval.semitone-distance", "interval.perfect-fourth-fifth-octave"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_VISUAL",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 64,
+                "maxMidi": 77
+              },
+              "maxAccidentals": 0,
+              "intervals": ["P4", "P5", "P8"],
+              "direction": "both",
+              "question": "quality"
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_VISUAL",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 64,
+                "maxMidi": 77
+              },
+              "maxAccidentals": 0,
+              "intervals": ["P4", "P5", "P8", "A4", "d5"],
+              "direction": "both",
+              "question": "semitones"
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_VISUAL",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 64,
+                "maxMidi": 77
+              },
+              "maxAccidentals": 0,
+              "intervals": ["P4", "P5", "P8", "A4", "d5"],
+              "direction": "both",
+              "question": "perfect"
+            }
+          },
+          "count": 4
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pulse-rhythm.pulse.exercises",
+      "titleKey": "content.auralRhythmStart.lesson1",
+      "skillIds": ["aural.pulse"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "LISTENING_CHOICE",
+            "params": {
+              "question": "pulse",
+              "tempos": [72, 90, 108]
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pulse-rhythm.compare.exercises",
+      "titleKey": "content.auralRhythmStart.lesson2",
+      "skillIds": ["aural.same-different-rhythm"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "LISTENING_CHOICE",
+            "params": {
+              "question": "rhythm-compare",
+              "tempos": [72, 90, 108]
+            }
+          },
+          "count": 10
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pulse-rhythm.choice.exercises",
+      "titleKey": "content.auralRhythmStart.lesson3",
+      "skillIds": ["aural.rhythm-choice-basic"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "LISTENING_CHOICE",
+            "params": {
+              "question": "rhythm-choice",
+              "tempos": [72, 90, 108]
+            }
+          },
+          "count": 12
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pitch-intervals.direction.exercises",
+      "titleKey": "content.auralPitchStart.lesson1",
+      "skillIds": ["aural.pitch-direction"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "LISTENING_CHOICE",
+            "params": {
+              "question": "pitch-direction",
+              "tempos": [72, 90, 108]
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pitch-intervals.melodies.exercises",
+      "titleKey": "content.auralPitchStart.lesson2",
+      "skillIds": ["aural.same-different-melody"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "LISTENING_CHOICE",
+            "params": {
+              "question": "melody-compare",
+              "tempos": [72, 90, 108]
+            }
+          },
+          "count": 10
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pitch-intervals.intervals.exercises",
+      "titleKey": "content.auralPitchStart.lesson3",
+      "skillIds": ["aural.third-fourth-fifth"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_AURAL",
+            "params": {
+              "intervals": ["m3", "M3"],
+              "playback": "melodic-up",
+              "clefs": ["treble"],
+              "maxAccidentals": 0,
+              "range": {
+                "minMidi": 64,
+                "maxMidi": 77
+              }
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_AURAL",
+            "params": {
+              "intervals": ["P4", "P5"],
+              "playback": "melodic-up",
+              "clefs": ["treble"],
+              "maxAccidentals": 0,
+              "range": {
+                "minMidi": 64,
+                "maxMidi": 77
+              }
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_AURAL",
+            "params": {
+              "intervals": ["m3", "M3", "P4", "P5"],
+              "playback": "melodic-up",
+              "clefs": ["treble"],
+              "maxAccidentals": 0,
+              "range": {
+                "minMidi": 64,
+                "maxMidi": 77
+              }
+            }
+          },
+          "count": 4
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.sources.sound.exercises",
+      "titleKey": "content.historySourcesStart.lesson1",
+      "skillIds": ["history.sound-source"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["soundSources"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["soundSources"],
+              "count": 3
+            }
+          },
+          "count": 4
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.sources.documents.exercises",
+      "titleKey": "content.historySourcesStart.lesson2",
+      "skillIds": ["history.source-types"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["sourceTypes"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["sourceTypes"],
+              "count": 3
+            }
+          },
+          "count": 6
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.sources.context.exercises",
+      "titleKey": "content.historySourcesStart.lesson3",
+      "skillIds": ["history.context"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["context"]
+            }
+          },
+          "count": 6
+        },
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["context"],
+              "count": 3
+            }
+          },
+          "count": 6
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.overview.periods.exercises",
+      "titleKey": "content.historyOverviewStart.lesson1",
+      "skillIds": ["history.european-timeline"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["periods"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "ORDER",
+            "params": {
+              "topics": ["periods"],
+              "count": 3,
+              "direction": "ascending"
+            }
+          },
+          "count": 4
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.overview.genre.exercises",
+      "titleKey": "content.historyOverviewStart.lesson2",
+      "skillIds": ["history.genre-function"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["genreContext"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["genreContext"],
+              "count": 3
+            }
+          },
+          "count": 6
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.overview.observation.exercises",
+      "titleKey": "content.historyOverviewStart.lesson3",
+      "skillIds": ["history.listening-observation"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["evidence"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "LISTENING_CHOICE",
+            "params": {
+              "question": "observation",
+              "tempos": [72, 90, 108]
+            }
+          },
+          "count": 8
+        }
+      ]
     }
   ],
   "knowledgeCards": [
@@ -1309,9 +2458,3311 @@
           "captionKey": "content.firstLesson.fifth"
         }
       ]
+    },
+    {
+      "contentVersion": 3,
+      "status": "entwurf",
+      "id": "notation.l1.staff.card-staff",
+      "titleKey": "content.notationStart.staffTitle",
+      "skillIds": ["notation.staff"],
+      "bodyKey": "content.notationStart.staffBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/1",
+          "captionKey": "content.notationStart.anchorCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 3,
+      "status": "entwurf",
+      "id": "notation.l1.staff.card-anchor",
+      "titleKey": "content.notationStart.anchorTitle",
+      "skillIds": ["notation.treble-clef"],
+      "bodyKey": "content.notationStart.anchorBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/1",
+          "captionKey": "content.notationStart.anchorCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 3,
+      "status": "entwurf",
+      "id": "notation.l1.staff.card-neighbors",
+      "titleKey": "content.notationStart.neighborsTitle",
+      "skillIds": ["notation.treble-natural"],
+      "bodyKey": "content.notationStart.neighborsBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | F4/4 G4/4 A4/4 B4/4",
+          "captionKey": "content.notationStart.neighborsCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 3,
+      "status": "entwurf",
+      "id": "notation.l1.staff.card-lines",
+      "titleKey": "content.notationStart.linesTitle",
+      "skillIds": ["notation.treble-natural"],
+      "bodyKey": "content.notationStart.linesBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/4 G4/4 B4/4 D5/4 | F5/1",
+          "captionKey": "content.notationStart.linesCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 3,
+      "status": "entwurf",
+      "id": "notation.l1.staff.card-spaces",
+      "titleKey": "content.notationStart.spacesTitle",
+      "skillIds": ["notation.treble-natural"],
+      "bodyKey": "content.notationStart.spacesBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | F4/4 A4/4 C5/4 E5/4",
+          "captionKey": "content.notationStart.spacesCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 3,
+      "status": "entwurf",
+      "id": "notation.l1.staff.card-names",
+      "titleKey": "content.notationStart.namesTitle",
+      "skillIds": ["notation.treble-natural"],
+      "bodyKey": "content.notationStart.namesBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/4 F4/4 G4/4 A4/4 | B4/4 C5/4 D5/4 E5/4 | F5/1",
+          "captionKey": "content.notationStart.namesCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 3,
+      "status": "entwurf",
+      "id": "notation.l1.staff.card-reading",
+      "titleKey": "content.notationStart.readingTitle",
+      "skillIds": ["notation.staff", "notation.treble-clef", "notation.treble-natural"],
+      "bodyKey": "content.notationStart.readingBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 A4/4 B4/4 C5/4 | D5/4 C5/4 B4/4 A4/4",
+          "captionKey": "content.notationStart.readingCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 4,
+      "status": "entwurf",
+      "id": "notation.l1.keyboard.card-groups",
+      "titleKey": "content.keyboardStart.groupsTitle",
+      "skillIds": ["notation.keyboard-layout"],
+      "bodyKey": "content.keyboardStart.groupsBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/2 F4/2",
+          "captionKey": "content.keyboardStart.groupsCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 72
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 4,
+      "status": "entwurf",
+      "id": "notation.l1.keyboard.card-white",
+      "titleKey": "content.keyboardStart.whiteTitle",
+      "skillIds": ["notation.keyboard-layout"],
+      "bodyKey": "content.keyboardStart.whiteBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 D4/4 E4/4 F4/4 | G4/4 A4/4 B4/4 C5/4",
+          "captionKey": "content.keyboardStart.whiteCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 72
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 4,
+      "status": "entwurf",
+      "id": "notation.l1.keyboard.card-find",
+      "titleKey": "content.keyboardStart.findTitle",
+      "skillIds": ["notation.keyboard-layout"],
+      "bodyKey": "content.keyboardStart.findBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | D4/2 A4/2",
+          "captionKey": "content.keyboardStart.findCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 72
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 4,
+      "status": "entwurf",
+      "id": "notation.l1.keyboard.card-steps",
+      "titleKey": "content.keyboardStart.stepsTitle",
+      "skillIds": ["notation.keyboard-layout", "notation.semitone"],
+      "bodyKey": "content.keyboardStart.stepsBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 C#4/4 D4/2",
+          "captionKey": "content.keyboardStart.stepsCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 72
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 4,
+      "status": "entwurf",
+      "id": "notation.l1.keyboard.card-neighbors",
+      "titleKey": "content.keyboardStart.neighborsTitle",
+      "skillIds": ["notation.keyboard-layout", "notation.semitone"],
+      "bodyKey": "content.keyboardStart.neighborsBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/2 F4/2",
+          "captionKey": "content.keyboardStart.efCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 72
+          }
+        },
+        {
+          "score": "treble | 4/4 | B4/2 C5/2",
+          "captionKey": "content.keyboardStart.bcCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 72
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 4,
+      "status": "entwurf",
+      "id": "notation.l1.keyboard.card-signs",
+      "titleKey": "content.keyboardStart.signsTitle",
+      "skillIds": ["notation.keyboard-layout", "notation.semitone", "notation.accidentals"],
+      "bodyKey": "content.keyboardStart.signsBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/2 G#4/2",
+          "captionKey": "content.keyboardStart.sharpCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 72
+          }
+        },
+        {
+          "score": "treble | 4/4 | A4/2 Ab4/2",
+          "captionKey": "content.keyboardStart.flatCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 72
+          }
+        },
+        {
+          "score": "treble | 4/4 | G#4/2 G4/2",
+          "captionKey": "content.keyboardStart.naturalCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 72
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 4,
+      "status": "entwurf",
+      "id": "notation.l1.keyboard.card-names",
+      "titleKey": "content.keyboardStart.namesTitle",
+      "skillIds": ["notation.keyboard-layout", "notation.semitone", "notation.accidentals"],
+      "bodyKey": "content.keyboardStart.namesBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | B4/2 Bb4/2",
+          "captionKey": "content.keyboardStart.namesCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 72
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 4,
+      "status": "entwurf",
+      "id": "notation.l1.keyboard.card-same",
+      "titleKey": "content.keyboardStart.sameTitle",
+      "skillIds": ["notation.keyboard-layout", "notation.semitone", "notation.accidentals"],
+      "bodyKey": "content.keyboardStart.sameBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C#4/2 Db4/2",
+          "captionKey": "content.keyboardStart.sameCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 72
+          }
+        },
+        {
+          "score": "treble | 4/4 | E#4/2 F4/2",
+          "captionKey": "content.keyboardStart.whiteSharpCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 72
+          }
+        },
+        {
+          "score": "treble | 4/4 | Fb4/2 E4/2",
+          "captionKey": "content.keyboardStart.whiteFlatCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 72
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 5,
+      "status": "entwurf",
+      "id": "notation.l1.register.card-repetition",
+      "titleKey": "content.registerStart.repetitionTitle",
+      "bodyKey": "content.registerStart.repetitionBody",
+      "skillIds": ["notation.octave-register"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/2 E5/2",
+          "captionKey": "content.registerStart.eCaption",
+          "keyboard": {
+            "first": 64,
+            "last": 76,
+            "showOctaves": true
+          }
+        },
+        {
+          "score": "treble | 4/4 | G4/2 G5/2",
+          "captionKey": "content.registerStart.gCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 79,
+            "showOctaves": true
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 5,
+      "status": "entwurf",
+      "id": "notation.l1.register.card-boundary",
+      "titleKey": "content.registerStart.boundaryTitle",
+      "bodyKey": "content.registerStart.boundaryBody",
+      "skillIds": ["notation.octave-register"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | B4/2 C5/2",
+          "captionKey": "content.registerStart.boundaryCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 72,
+            "showOctaves": true
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 5,
+      "status": "entwurf",
+      "id": "notation.l1.register.card-names",
+      "titleKey": "content.registerStart.namesTitle",
+      "bodyKey": "content.registerStart.namesBody",
+      "skillIds": ["notation.octave-register"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/2 C5/2",
+          "captionKey": "content.registerStart.cCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 72,
+            "showOctaves": true
+          }
+        },
+        {
+          "score": "treble | 4/4 | F4/2 F5/2",
+          "captionKey": "content.registerStart.fCaption",
+          "keyboard": {
+            "first": 65,
+            "last": 77,
+            "showOctaves": true
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 5,
+      "status": "entwurf",
+      "id": "notation.l1.register.card-extend",
+      "titleKey": "content.registerStart.extendTitle",
+      "bodyKey": "content.registerStart.extendBody",
+      "skillIds": ["notation.octave-register", "notation.ledger-lines"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | D4/2 G5/2",
+          "captionKey": "content.registerStart.extendCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 79,
+            "showOctaves": true
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 5,
+      "status": "entwurf",
+      "id": "notation.l1.register.card-lower",
+      "titleKey": "content.registerStart.lowerTitle",
+      "bodyKey": "content.registerStart.lowerBody",
+      "skillIds": ["notation.octave-register", "notation.ledger-lines"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/2 A3/2",
+          "captionKey": "content.registerStart.lowerLinesCaption",
+          "keyboard": {
+            "first": 57,
+            "last": 72,
+            "showOctaves": true
+          }
+        },
+        {
+          "score": "treble | 4/4 | D4/4 C4/4 B3/4 A3/4",
+          "captionKey": "content.registerStart.lowerStepsCaption",
+          "keyboard": {
+            "first": 57,
+            "last": 72,
+            "showOctaves": true
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 5,
+      "status": "entwurf",
+      "id": "notation.l1.register.card-upper",
+      "titleKey": "content.registerStart.upperTitle",
+      "bodyKey": "content.registerStart.upperBody",
+      "skillIds": ["notation.octave-register", "notation.ledger-lines"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | A5/2 C6/2",
+          "captionKey": "content.registerStart.upperLinesCaption",
+          "keyboard": {
+            "first": 72,
+            "last": 84,
+            "showOctaves": true
+          }
+        },
+        {
+          "score": "treble | 4/4 | F5/4 G5/4 A5/4 B5/4 | C6/1",
+          "captionKey": "content.registerStart.upperStepsCaption",
+          "keyboard": {
+            "first": 65,
+            "last": 84,
+            "showOctaves": true
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 5,
+      "status": "entwurf",
+      "id": "notation.l1.register.card-match",
+      "titleKey": "content.registerStart.matchTitle",
+      "bodyKey": "content.registerStart.matchBody",
+      "skillIds": ["notation.octave-register", "notation.ledger-lines", "notation.pitch-match"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/2 C5/2",
+          "captionKey": "content.registerStart.matchCCaption",
+          "keyboard": {
+            "first": 57,
+            "last": 84,
+            "showOctaves": true
+          }
+        },
+        {
+          "score": "treble | 4/4 | A3/2 C6/2",
+          "captionKey": "content.registerStart.matchEdgesCaption",
+          "keyboard": {
+            "first": 57,
+            "last": 84,
+            "showOctaves": true
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 5,
+      "status": "entwurf",
+      "id": "notation.l1.register.card-strategy",
+      "titleKey": "content.registerStart.strategyTitle",
+      "bodyKey": "content.registerStart.strategyBody",
+      "skillIds": ["notation.octave-register", "notation.ledger-lines", "notation.pitch-match"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 G5/4 C5/2",
+          "captionKey": "content.registerStart.strategyCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 84,
+            "showOctaves": true
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 6,
+      "status": "entwurf",
+      "id": "rhythm.l1.pulse.card-pulse",
+      "titleKey": "content.pulseStart.pulseTitle",
+      "bodyKey": "content.pulseStart.pulseBody",
+      "skillIds": ["rhythm.pulse"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+          "captionKey": "content.pulseStart.steadyCaption",
+          "pulse": {
+            "bpm": 72
+          }
+        },
+        {
+          "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+          "captionKey": "content.pulseStart.steadyFasterCaption",
+          "pulse": {
+            "bpm": 96
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 6,
+      "status": "entwurf",
+      "id": "rhythm.l1.pulse.card-rhythm",
+      "titleKey": "content.pulseStart.rhythmTitle",
+      "bodyKey": "content.pulseStart.rhythmBody",
+      "skillIds": ["rhythm.pulse"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+          "captionKey": "content.pulseStart.referenceCaption",
+          "pulse": {
+            "bpm": 72
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 6,
+      "status": "entwurf",
+      "id": "rhythm.l1.pulse.card-count-in",
+      "titleKey": "content.pulseStart.countInTitle",
+      "bodyKey": "content.pulseStart.countInBody",
+      "skillIds": ["rhythm.pulse"],
+      "examples": [
+        {
+          "score": "treble | 3/4 | G4/4 G4/4 G4/4",
+          "captionKey": "content.pulseStart.countInCaption",
+          "pulse": {
+            "bpm": 72
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 6,
+      "status": "entwurf",
+      "id": "rhythm.l1.pulse.card-tempo",
+      "titleKey": "content.pulseStart.tempoTitle",
+      "bodyKey": "content.pulseStart.tempoBody",
+      "skillIds": ["rhythm.pulse", "rhythm.tempo"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+          "captionKey": "content.pulseStart.sixtyCaption",
+          "pulse": {
+            "bpm": 60
+          }
+        },
+        {
+          "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+          "captionKey": "content.pulseStart.hundredTwentyCaption",
+          "pulse": {
+            "bpm": 120
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 6,
+      "status": "entwurf",
+      "id": "rhythm.l1.pulse.card-bpm",
+      "titleKey": "content.pulseStart.bpmTitle",
+      "bodyKey": "content.pulseStart.bpmBody",
+      "skillIds": ["rhythm.pulse", "rhythm.tempo"],
+      "examples": [
+        {
+          "score": "treble | 3/4 | G4/4 G4/4 G4/4",
+          "captionKey": "content.pulseStart.ninetyCaption",
+          "pulse": {
+            "bpm": 90
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 6,
+      "status": "entwurf",
+      "id": "rhythm.l1.pulse.card-compare",
+      "titleKey": "content.pulseStart.compareTitle",
+      "bodyKey": "content.pulseStart.compareBody",
+      "skillIds": ["rhythm.pulse", "rhythm.tempo"],
+      "examples": [
+        {
+          "score": "treble | 3/4 | G4/4 G4/4 G4/4",
+          "captionKey": "content.pulseStart.slowerCaption",
+          "pulse": {
+            "bpm": 72
+          }
+        },
+        {
+          "score": "treble | 3/4 | G4/4 G4/4 G4/4",
+          "captionKey": "content.pulseStart.fasterCaption",
+          "pulse": {
+            "bpm": 108
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 6,
+      "status": "entwurf",
+      "id": "rhythm.l1.pulse.card-groups",
+      "titleKey": "content.pulseStart.groupsTitle",
+      "bodyKey": "content.pulseStart.groupsBody",
+      "skillIds": ["rhythm.pulse", "rhythm.beat-group"],
+      "examples": [
+        {
+          "score": "treble | 2/4 | G4/4 G4/4",
+          "captionKey": "content.pulseStart.twoCaption",
+          "pulse": {
+            "bpm": 84
+          }
+        },
+        {
+          "score": "treble | 3/4 | G4/4 G4/4 G4/4",
+          "captionKey": "content.pulseStart.threeCaption",
+          "pulse": {
+            "bpm": 84
+          }
+        },
+        {
+          "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+          "captionKey": "content.pulseStart.fourCaption",
+          "pulse": {
+            "bpm": 84
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 6,
+      "status": "entwurf",
+      "id": "rhythm.l1.pulse.card-strategy",
+      "titleKey": "content.pulseStart.strategyTitle",
+      "bodyKey": "content.pulseStart.strategyBody",
+      "skillIds": ["rhythm.pulse", "rhythm.tempo", "rhythm.beat-group"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+          "captionKey": "content.pulseStart.strategyCaption",
+          "pulse": {
+            "bpm": 96
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 7,
+      "status": "entwurf",
+      "id": "rhythm.l1.values.card-long",
+      "titleKey": "content.valuesStart.longTitle",
+      "bodyKey": "content.valuesStart.longBody",
+      "skillIds": ["rhythm.note-values"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/1",
+          "captionKey": "content.valuesStart.wholeCaption"
+        },
+        {
+          "score": "treble | 4/4 | G4/2 G4/2",
+          "captionKey": "content.valuesStart.halfCaption"
+        },
+        {
+          "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+          "captionKey": "content.valuesStart.quarterCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 7,
+      "status": "entwurf",
+      "id": "rhythm.l1.values.card-shapes",
+      "titleKey": "content.valuesStart.shapesTitle",
+      "bodyKey": "content.valuesStart.shapesBody",
+      "skillIds": ["rhythm.note-values"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/2 G4/4 G4/8 G4/16 G4/16",
+          "captionKey": "content.valuesStart.shapesCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 7,
+      "status": "entwurf",
+      "id": "rhythm.l1.values.card-short",
+      "titleKey": "content.valuesStart.shortTitle",
+      "bodyKey": "content.valuesStart.shortBody",
+      "skillIds": ["rhythm.note-values"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/8 G4/8 G4/8 G4/8 G4/8 G4/8 G4/8 G4/8",
+          "captionKey": "content.valuesStart.eighthCaption"
+        },
+        {
+          "score": "treble | 4/4 | G4/16 G4/16 G4/16 G4/16 G4/16 G4/16 G4/16 G4/16 G4/16 G4/16 G4/16 G4/16 G4/16 G4/16 G4/16 G4/16",
+          "captionKey": "content.valuesStart.sixteenthCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 7,
+      "status": "entwurf",
+      "id": "rhythm.l1.values.card-long-rests",
+      "titleKey": "content.valuesStart.longRestsTitle",
+      "bodyKey": "content.valuesStart.longRestsBody",
+      "skillIds": ["rhythm.note-values", "rhythm.rests"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | r/1",
+          "captionKey": "content.valuesStart.wholeRestCaption"
+        },
+        {
+          "score": "treble | 4/4 | r/2 G4/2",
+          "captionKey": "content.valuesStart.halfRestCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 7,
+      "status": "entwurf",
+      "id": "rhythm.l1.values.card-short-rests",
+      "titleKey": "content.valuesStart.shortRestsTitle",
+      "bodyKey": "content.valuesStart.shortRestsBody",
+      "skillIds": ["rhythm.note-values", "rhythm.rests"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | r/4 G4/4 r/8 G4/8 r/16 G4/16 G4/8",
+          "captionKey": "content.valuesStart.shortRestsCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 7,
+      "status": "entwurf",
+      "id": "rhythm.l1.values.card-silence",
+      "titleKey": "content.valuesStart.silenceTitle",
+      "bodyKey": "content.valuesStart.silenceBody",
+      "skillIds": ["rhythm.note-values", "rhythm.rests"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 r/4 G4/4 r/4",
+          "captionKey": "content.valuesStart.silenceCaption"
+        },
+        {
+          "score": "treble | 4/4 | G4/2 r/2",
+          "captionKey": "content.valuesStart.silentHalfCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 7,
+      "status": "entwurf",
+      "id": "rhythm.l1.values.card-capacity",
+      "titleKey": "content.valuesStart.capacityTitle",
+      "bodyKey": "content.valuesStart.capacityBody",
+      "skillIds": ["rhythm.note-values", "rhythm.rests", "rhythm.measure-fill"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/2 r/4 G4/4",
+          "captionKey": "content.valuesStart.capacityCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 7,
+      "status": "entwurf",
+      "id": "rhythm.l1.values.card-barlines",
+      "titleKey": "content.valuesStart.barlinesTitle",
+      "bodyKey": "content.valuesStart.barlinesBody",
+      "skillIds": ["rhythm.note-values", "rhythm.rests", "rhythm.measure-fill", "rhythm.barlines"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/2 G4/2 | G4/4 r/4 G4/2",
+          "captionKey": "content.valuesStart.barlinesCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 7,
+      "status": "entwurf",
+      "id": "rhythm.l1.values.card-complete",
+      "titleKey": "content.valuesStart.completeTitle",
+      "bodyKey": "content.valuesStart.completeBody",
+      "skillIds": ["rhythm.note-values", "rhythm.rests", "rhythm.measure-fill"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/2 r/4 G4/8 G4/8",
+          "captionKey": "content.valuesStart.completeNoteCaption"
+        },
+        {
+          "score": "treble | 4/4 | G4/2 G4/4 G4/8 G4/16 r/16",
+          "captionKey": "content.valuesStart.completeRestCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 8,
+      "status": "entwurf",
+      "id": "rhythm.l1.simple-meter.card-two",
+      "titleKey": "content.simpleMeterStart.twoTitle",
+      "bodyKey": "content.simpleMeterStart.twoBody",
+      "skillIds": ["rhythm.meter-simple"],
+      "examples": [
+        {
+          "score": "treble | 2/4 | G4/4 G4/4",
+          "captionKey": "content.simpleMeterStart.twoCaption"
+        },
+        {
+          "score": "treble | 2/4 | G4/8 G4/8 G4/4",
+          "captionKey": "content.simpleMeterStart.twoEighthCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 8,
+      "status": "entwurf",
+      "id": "rhythm.l1.simple-meter.card-three",
+      "titleKey": "content.simpleMeterStart.threeTitle",
+      "bodyKey": "content.simpleMeterStart.threeBody",
+      "skillIds": ["rhythm.meter-simple"],
+      "examples": [
+        {
+          "score": "treble | 3/4 | G4/4 G4/4 G4/4",
+          "captionKey": "content.simpleMeterStart.threeCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 8,
+      "status": "entwurf",
+      "id": "rhythm.l1.simple-meter.card-four",
+      "titleKey": "content.simpleMeterStart.fourTitle",
+      "bodyKey": "content.simpleMeterStart.fourBody",
+      "skillIds": ["rhythm.meter-simple"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+          "captionKey": "content.simpleMeterStart.fourCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 8,
+      "status": "entwurf",
+      "id": "rhythm.l1.simple-meter.card-count",
+      "titleKey": "content.simpleMeterStart.countTitle",
+      "bodyKey": "content.simpleMeterStart.countBody",
+      "skillIds": ["rhythm.count-in"],
+      "examples": [
+        {
+          "score": "treble | 3/4 | G4/4 G4/4 G4/4",
+          "captionKey": "content.simpleMeterStart.countCaption"
+        },
+        {
+          "score": "treble | 2/4 | G4/4 G4/4",
+          "captionKey": "content.simpleMeterStart.countTwoCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 8,
+      "status": "entwurf",
+      "id": "rhythm.l1.simple-meter.card-pickup",
+      "titleKey": "content.simpleMeterStart.pickupTitle",
+      "bodyKey": "content.simpleMeterStart.pickupBody",
+      "skillIds": ["rhythm.count-in"],
+      "examples": [
+        {
+          "score": "treble | 3/4 | G4/4 | G4/4 G4/4 G4/4",
+          "captionKey": "content.simpleMeterStart.pickupCaption"
+        },
+        {
+          "score": "treble | 4/4 | G4/8 G4/8 | G4/4 G4/4 G4/4 G4/4",
+          "captionKey": "content.simpleMeterStart.pickupEighthCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 8,
+      "status": "entwurf",
+      "id": "rhythm.l1.simple-meter.card-complete",
+      "titleKey": "content.simpleMeterStart.completeTitle",
+      "bodyKey": "content.simpleMeterStart.completeBody",
+      "skillIds": ["rhythm.count-in"],
+      "examples": [
+        {
+          "score": "treble | 3/4 | G4/4 G4/4 G4/4 | G4/4 G4/4 G4/4",
+          "captionKey": "content.simpleMeterStart.completeCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 8,
+      "status": "entwurf",
+      "id": "rhythm.l1.simple-meter.card-eighth",
+      "titleKey": "content.simpleMeterStart.eighthTitle",
+      "bodyKey": "content.simpleMeterStart.eighthBody",
+      "skillIds": ["rhythm.read-basic"],
+      "examples": [
+        {
+          "score": "treble | 2/4 | G4/8 G4/8 G4/4",
+          "captionKey": "content.simpleMeterStart.eighthCaption"
+        },
+        {
+          "score": "treble | 4/4 | G4/4 G4/8 G4/8 G4/4 G4/4",
+          "captionKey": "content.simpleMeterStart.eighthFourCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 8,
+      "status": "entwurf",
+      "id": "rhythm.l1.simple-meter.card-rests",
+      "titleKey": "content.simpleMeterStart.restsTitle",
+      "bodyKey": "content.simpleMeterStart.restsBody",
+      "skillIds": ["rhythm.read-basic"],
+      "examples": [
+        {
+          "score": "treble | 3/4 | G4/4 r/4 G4/4",
+          "captionKey": "content.simpleMeterStart.restsCaption"
+        },
+        {
+          "score": "treble | 2/4 | r/8 G4/8 G4/4",
+          "captionKey": "content.simpleMeterStart.restsEighthCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 8,
+      "status": "entwurf",
+      "id": "rhythm.l1.simple-meter.card-read",
+      "titleKey": "content.simpleMeterStart.readTitle",
+      "bodyKey": "content.simpleMeterStart.readBody",
+      "skillIds": ["rhythm.read-basic"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/8 G4/8 r/4 G4/4 G4/4",
+          "captionKey": "content.simpleMeterStart.readCaption"
+        },
+        {
+          "score": "treble | 3/4 | r/4 G4/8 G4/8 G4/4",
+          "captionKey": "content.simpleMeterStart.readThreeCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 9,
+      "status": "entwurf",
+      "id": "intervals.l1.size.card-count",
+      "titleKey": "content.intervalSizeStart.countTitle",
+      "bodyKey": "content.intervalSizeStart.countBody",
+      "skillIds": ["interval.generic-size"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/2 G4/2",
+          "captionKey": "content.intervalSizeStart.countCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 9,
+      "status": "entwurf",
+      "id": "intervals.l1.size.card-small",
+      "titleKey": "content.intervalSizeStart.smallTitle",
+      "bodyKey": "content.intervalSizeStart.smallBody",
+      "skillIds": ["interval.generic-size"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/2 G4/2",
+          "captionKey": "content.intervalSizeStart.primeCaption"
+        },
+        {
+          "score": "treble | 4/4 | E4/2 F4/2",
+          "captionKey": "content.intervalSizeStart.secondCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 9,
+      "status": "entwurf",
+      "id": "intervals.l1.size.card-large",
+      "titleKey": "content.intervalSizeStart.largeTitle",
+      "bodyKey": "content.intervalSizeStart.largeBody",
+      "skillIds": ["interval.generic-size"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/2 A4/2",
+          "captionKey": "content.intervalSizeStart.fourthCaption"
+        },
+        {
+          "score": "treble | 4/4 | E4/2 D5/2",
+          "captionKey": "content.intervalSizeStart.seventhCaption"
+        },
+        {
+          "score": "treble | 4/4 | E4/2 E5/2",
+          "captionKey": "content.intervalSizeStart.octaveCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 9,
+      "status": "entwurf",
+      "id": "intervals.l1.size.card-up",
+      "titleKey": "content.intervalSizeStart.upTitle",
+      "bodyKey": "content.intervalSizeStart.upBody",
+      "skillIds": ["interval.direction"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/2 B4/2",
+          "captionKey": "content.intervalSizeStart.upCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 9,
+      "status": "entwurf",
+      "id": "intervals.l1.size.card-down",
+      "titleKey": "content.intervalSizeStart.downTitle",
+      "bodyKey": "content.intervalSizeStart.downBody",
+      "skillIds": ["interval.direction"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | B4/2 G4/2",
+          "captionKey": "content.intervalSizeStart.downCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 9,
+      "status": "entwurf",
+      "id": "intervals.l1.size.card-same",
+      "titleKey": "content.intervalSizeStart.sameTitle",
+      "bodyKey": "content.intervalSizeStart.sameBody",
+      "skillIds": ["interval.direction"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | A4/2 A4/2",
+          "captionKey": "content.intervalSizeStart.sameCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 9,
+      "status": "entwurf",
+      "id": "intervals.l1.size.card-repeat",
+      "titleKey": "content.intervalSizeStart.repeatTitle",
+      "bodyKey": "content.intervalSizeStart.repeatBody",
+      "skillIds": ["interval.steps-leaps"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | F4/2 F4/2",
+          "captionKey": "content.intervalSizeStart.repeatCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 9,
+      "status": "entwurf",
+      "id": "intervals.l1.size.card-step",
+      "titleKey": "content.intervalSizeStart.stepTitle",
+      "bodyKey": "content.intervalSizeStart.stepBody",
+      "skillIds": ["interval.steps-leaps"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/2 F4/2",
+          "captionKey": "content.intervalSizeStart.halfStepCaption"
+        },
+        {
+          "score": "treble | 4/4 | F4/2 G4/2",
+          "captionKey": "content.intervalSizeStart.wholeStepCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 9,
+      "status": "entwurf",
+      "id": "intervals.l1.size.card-leap",
+      "titleKey": "content.intervalSizeStart.leapTitle",
+      "bodyKey": "content.intervalSizeStart.leapBody",
+      "skillIds": ["interval.steps-leaps"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/2 B4/2",
+          "captionKey": "content.intervalSizeStart.thirdLeapCaption"
+        },
+        {
+          "score": "treble | 4/4 | E4/2 B4/2",
+          "captionKey": "content.intervalSizeStart.fifthCaption"
+        },
+        {
+          "score": "treble | 4/4 | F4/2 D5/2",
+          "captionKey": "content.intervalSizeStart.sixthCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 10,
+      "status": "entwurf",
+      "id": "intervals.l1.first-qualities.card-transitions",
+      "titleKey": "content.firstQualityStart.transitionsTitle",
+      "bodyKey": "content.firstQualityStart.transitionsBody",
+      "skillIds": ["interval.semitone-distance"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/2 F4/2",
+          "captionKey": "content.firstQualityStart.halfCaption",
+          "keyboard": {
+            "first": 64,
+            "last": 65
+          }
+        },
+        {
+          "score": "treble | 4/4 | G4/2 G4/2",
+          "captionKey": "content.firstQualityStart.zeroCaption",
+          "keyboard": {
+            "first": 67,
+            "last": 67
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 10,
+      "status": "entwurf",
+      "id": "intervals.l1.first-qualities.card-black-keys",
+      "titleKey": "content.firstQualityStart.blackKeysTitle",
+      "bodyKey": "content.firstQualityStart.blackKeysBody",
+      "skillIds": ["interval.semitone-distance"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | F4/2 G4/2",
+          "captionKey": "content.firstQualityStart.wholeCaption",
+          "keyboard": {
+            "first": 65,
+            "last": 67
+          }
+        },
+        {
+          "score": "treble | 4/4 | G4/2 B4/2",
+          "captionKey": "content.firstQualityStart.fourCaption",
+          "keyboard": {
+            "first": 67,
+            "last": 71
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 10,
+      "status": "entwurf",
+      "id": "intervals.l1.first-qualities.card-larger",
+      "titleKey": "content.firstQualityStart.largerTitle",
+      "bodyKey": "content.firstQualityStart.largerBody",
+      "skillIds": ["interval.semitone-distance"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/2 A4/2",
+          "captionKey": "content.firstQualityStart.fiveCaption",
+          "keyboard": {
+            "first": 64,
+            "last": 69
+          }
+        },
+        {
+          "score": "treble | 4/4 | E4/2 E5/2",
+          "captionKey": "content.firstQualityStart.twelveCaption",
+          "keyboard": {
+            "first": 64,
+            "last": 76
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 10,
+      "status": "entwurf",
+      "id": "intervals.l1.first-qualities.card-third-number",
+      "titleKey": "content.firstQualityStart.thirdNumberTitle",
+      "bodyKey": "content.firstQualityStart.thirdNumberBody",
+      "skillIds": ["interval.thirds"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | A4/2 C5/2",
+          "captionKey": "content.firstQualityStart.thirdNumberCaption",
+          "keyboard": {
+            "first": 69,
+            "last": 72
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 10,
+      "status": "entwurf",
+      "id": "intervals.l1.first-qualities.card-minor",
+      "titleKey": "content.firstQualityStart.minorTitle",
+      "bodyKey": "content.firstQualityStart.minorBody",
+      "skillIds": ["interval.thirds"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/2 G4/2",
+          "captionKey": "content.firstQualityStart.minorCaption",
+          "keyboard": {
+            "first": 64,
+            "last": 67
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 10,
+      "status": "entwurf",
+      "id": "intervals.l1.first-qualities.card-major",
+      "titleKey": "content.firstQualityStart.majorTitle",
+      "bodyKey": "content.firstQualityStart.majorBody",
+      "skillIds": ["interval.thirds"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | F4/2 A4/2",
+          "captionKey": "content.firstQualityStart.majorCaption",
+          "keyboard": {
+            "first": 65,
+            "last": 69
+          }
+        },
+        {
+          "score": "treble | 4/4 | G4/2 B4/2",
+          "captionKey": "content.firstQualityStart.majorOtherCaption",
+          "keyboard": {
+            "first": 67,
+            "last": 71
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 10,
+      "status": "entwurf",
+      "id": "intervals.l1.first-qualities.card-perfect",
+      "titleKey": "content.firstQualityStart.perfectTitle",
+      "bodyKey": "content.firstQualityStart.perfectBody",
+      "skillIds": ["interval.perfect-fourth-fifth-octave"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/2 A4/2",
+          "captionKey": "content.firstQualityStart.fourthCaption",
+          "keyboard": {
+            "first": 64,
+            "last": 69
+          }
+        },
+        {
+          "score": "treble | 4/4 | E4/2 B4/2",
+          "captionKey": "content.firstQualityStart.fifthCaption",
+          "keyboard": {
+            "first": 64,
+            "last": 71
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 10,
+      "status": "entwurf",
+      "id": "intervals.l1.first-qualities.card-octave",
+      "titleKey": "content.firstQualityStart.octaveTitle",
+      "bodyKey": "content.firstQualityStart.octaveBody",
+      "skillIds": ["interval.perfect-fourth-fifth-octave"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/2 E5/2",
+          "captionKey": "content.firstQualityStart.octaveCaption",
+          "keyboard": {
+            "first": 64,
+            "last": 76
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 10,
+      "status": "entwurf",
+      "id": "intervals.l1.first-qualities.card-tritone",
+      "titleKey": "content.firstQualityStart.tritoneTitle",
+      "bodyKey": "content.firstQualityStart.tritoneBody",
+      "skillIds": ["interval.perfect-fourth-fifth-octave"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | F4/2 B4/2",
+          "captionKey": "content.firstQualityStart.tritoneFourthCaption",
+          "keyboard": {
+            "first": 65,
+            "last": 71
+          }
+        },
+        {
+          "score": "treble | 4/4 | B4/2 F5/2",
+          "captionKey": "content.firstQualityStart.tritoneFifthCaption",
+          "keyboard": {
+            "first": 71,
+            "last": 77
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pulse-rhythm.card-steady",
+      "titleKey": "content.auralRhythmStart.card1Title",
+      "bodyKey": "content.auralRhythmStart.card1Body",
+      "skillIds": ["aural.pulse"],
+      "examples": [
+        {
+          "score": "treble | 2/4 | G4/4 G4/4",
+          "pulse": {
+            "bpm": 90
+          },
+          "captionKey": "content.auralRhythmStart.card1Example1"
+        },
+        {
+          "score": "treble | 3/4 | G4/4 G4/4 G4/4",
+          "pulse": {
+            "bpm": 90
+          },
+          "captionKey": "content.auralRhythmStart.card1Example2"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pulse-rhythm.card-pulse-rhythm",
+      "titleKey": "content.auralRhythmStart.card2Title",
+      "bodyKey": "content.auralRhythmStart.card2Body",
+      "skillIds": ["aural.pulse"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+          "captionKey": "content.auralRhythmStart.card2Example1"
+        },
+        {
+          "score": "treble | 4/4 | G4/8 G4/8 G4/4 G4/4 G4/4",
+          "captionKey": "content.auralRhythmStart.card2Example2"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pulse-rhythm.card-group-start",
+      "titleKey": "content.auralRhythmStart.card3Title",
+      "bodyKey": "content.auralRhythmStart.card3Body",
+      "skillIds": ["aural.pulse"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+          "pulse": {
+            "bpm": 90
+          },
+          "captionKey": "content.auralRhythmStart.card3Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pulse-rhythm.card-compare",
+      "titleKey": "content.auralRhythmStart.card4Title",
+      "bodyKey": "content.auralRhythmStart.card4Body",
+      "skillIds": ["aural.same-different-rhythm"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 G4/8 G4/8 G4/4 G4/4",
+          "captionKey": "content.auralRhythmStart.card4Example1"
+        },
+        {
+          "score": "treble | 4/4 | G4/4 G4/8 G4/8 G4/4 G4/4",
+          "captionKey": "content.auralRhythmStart.card4Example2"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pulse-rhythm.card-changed",
+      "titleKey": "content.auralRhythmStart.card5Title",
+      "bodyKey": "content.auralRhythmStart.card5Body",
+      "skillIds": ["aural.same-different-rhythm"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/8 G4/8 G4/4 G4/4 G4/4",
+          "captionKey": "content.auralRhythmStart.card5Example1"
+        },
+        {
+          "score": "treble | 4/4 | G4/4 G4/8 G4/8 G4/4 G4/4",
+          "captionKey": "content.auralRhythmStart.card5Example2"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pulse-rhythm.card-silence",
+      "titleKey": "content.auralRhythmStart.card6Title",
+      "bodyKey": "content.auralRhythmStart.card6Body",
+      "skillIds": ["aural.same-different-rhythm"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/8 G4/8 G4/4 r/4 G4/4",
+          "captionKey": "content.auralRhythmStart.card6Example1"
+        },
+        {
+          "score": "treble | 4/4 | G4/8 G4/8 G4/4 G4/4 G4/4",
+          "captionKey": "content.auralRhythmStart.card6Example2"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pulse-rhythm.card-match",
+      "titleKey": "content.auralRhythmStart.card7Title",
+      "bodyKey": "content.auralRhythmStart.card7Body",
+      "skillIds": ["aural.rhythm-choice-basic"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 G4/4 G4/8 G4/8 G4/4",
+          "captionKey": "content.auralRhythmStart.card7Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pulse-rhythm.card-values",
+      "titleKey": "content.auralRhythmStart.card8Title",
+      "bodyKey": "content.auralRhythmStart.card8Body",
+      "skillIds": ["aural.rhythm-choice-basic"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 G4/8 G4/8 G4/4 G4/4",
+          "captionKey": "content.auralRhythmStart.card8Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pulse-rhythm.card-rest-choice",
+      "titleKey": "content.auralRhythmStart.card9Title",
+      "bodyKey": "content.auralRhythmStart.card9Body",
+      "skillIds": ["aural.rhythm-choice-basic"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 r/8 G4/8 G4/4 G4/4",
+          "captionKey": "content.auralRhythmStart.card9Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pitch-intervals.card-higher",
+      "titleKey": "content.auralPitchStart.card1Title",
+      "bodyKey": "content.auralPitchStart.card1Body",
+      "skillIds": ["aural.pitch-direction"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | F4/2 A4/2",
+          "captionKey": "content.auralPitchStart.card1Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pitch-intervals.card-lower",
+      "titleKey": "content.auralPitchStart.card2Title",
+      "bodyKey": "content.auralPitchStart.card2Body",
+      "skillIds": ["aural.pitch-direction"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | A4/2 F4/2",
+          "captionKey": "content.auralPitchStart.card2Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pitch-intervals.card-repeat",
+      "titleKey": "content.auralPitchStart.card3Title",
+      "bodyKey": "content.auralPitchStart.card3Body",
+      "skillIds": ["aural.pitch-direction"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | F4/2 F4/2",
+          "captionKey": "content.auralPitchStart.card3Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pitch-intervals.card-same",
+      "titleKey": "content.auralPitchStart.card4Title",
+      "bodyKey": "content.auralPitchStart.card4Body",
+      "skillIds": ["aural.same-different-melody"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | F4/4 G4/4 A4/4 G4/4",
+          "captionKey": "content.auralPitchStart.card4Example1"
+        },
+        {
+          "score": "treble | 4/4 | F4/4 G4/4 A4/4 G4/4",
+          "captionKey": "content.auralPitchStart.card4Example2"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pitch-intervals.card-changed-note",
+      "titleKey": "content.auralPitchStart.card5Title",
+      "bodyKey": "content.auralPitchStart.card5Body",
+      "skillIds": ["aural.same-different-melody"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | F4/4 G4/4 A4/4 G4/4",
+          "captionKey": "content.auralPitchStart.card5Example1"
+        },
+        {
+          "score": "treble | 4/4 | F4/4 A4/4 A4/4 G4/4",
+          "captionKey": "content.auralPitchStart.card5Example2"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pitch-intervals.card-memory",
+      "titleKey": "content.auralPitchStart.card6Title",
+      "bodyKey": "content.auralPitchStart.card6Body",
+      "skillIds": ["aural.same-different-melody"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 E4/4 F4/4 G4/4",
+          "captionKey": "content.auralPitchStart.card6Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pitch-intervals.card-thirds",
+      "titleKey": "content.auralPitchStart.card7Title",
+      "bodyKey": "content.auralPitchStart.card7Body",
+      "skillIds": ["aural.third-fourth-fifth"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/2 G4/2",
+          "captionKey": "content.auralPitchStart.card7Example1"
+        },
+        {
+          "score": "treble | 4/4 | F4/2 A4/2",
+          "captionKey": "content.auralPitchStart.card7Example2"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pitch-intervals.card-fourth-fifth",
+      "titleKey": "content.auralPitchStart.card8Title",
+      "bodyKey": "content.auralPitchStart.card8Body",
+      "skillIds": ["aural.third-fourth-fifth"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/2 A4/2",
+          "captionKey": "content.auralPitchStart.card8Example1"
+        },
+        {
+          "score": "treble | 4/4 | E4/2 B4/2",
+          "captionKey": "content.auralPitchStart.card8Example2"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pitch-intervals.card-interval-choice",
+      "titleKey": "content.auralPitchStart.card9Title",
+      "bodyKey": "content.auralPitchStart.card9Body",
+      "skillIds": ["aural.third-fourth-fifth"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/2 B4/2",
+          "captionKey": "content.auralPitchStart.card9Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.sources.card-producer",
+      "titleKey": "content.historySourcesStart.card1Title",
+      "bodyKey": "content.historySourcesStart.card1Body",
+      "skillIds": ["history.sound-source"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 A4/4 B4/4 A4/4",
+          "captionKey": "content.historySourcesStart.card1Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.sources.card-medium",
+      "titleKey": "content.historySourcesStart.card2Title",
+      "bodyKey": "content.historySourcesStart.card2Body",
+      "skillIds": ["history.sound-source"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/2 G4/2",
+          "captionKey": "content.historySourcesStart.card2Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.sources.card-mixture",
+      "titleKey": "content.historySourcesStart.card3Title",
+      "bodyKey": "content.historySourcesStart.card3Body",
+      "skillIds": ["history.sound-source"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | F4/4 A4/4 G4/4 F4/4",
+          "captionKey": "content.historySourcesStart.card3Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.sources.card-notation-source",
+      "titleKey": "content.historySourcesStart.card4Title",
+      "bodyKey": "content.historySourcesStart.card4Body",
+      "skillIds": ["history.source-types"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 G4/8 G4/8 A4/4 G4/4",
+          "captionKey": "content.historySourcesStart.card4Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.sources.card-recorded-source",
+      "titleKey": "content.historySourcesStart.card5Title",
+      "bodyKey": "content.historySourcesStart.card5Body",
+      "skillIds": ["history.source-types"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | F4/2 r/4 A4/4",
+          "captionKey": "content.historySourcesStart.card5Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.sources.card-word-source",
+      "titleKey": "content.historySourcesStart.card6Title",
+      "bodyKey": "content.historySourcesStart.card6Body",
+      "skillIds": ["history.source-types"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/4 F4/4 G4/4 E4/4",
+          "captionKey": "content.historySourcesStart.card6Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.sources.card-place",
+      "titleKey": "content.historySourcesStart.card7Title",
+      "bodyKey": "content.historySourcesStart.card7Body",
+      "skillIds": ["history.context"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/2 A4/2",
+          "captionKey": "content.historySourcesStart.card7Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.sources.card-dates",
+      "titleKey": "content.historySourcesStart.card8Title",
+      "bodyKey": "content.historySourcesStart.card8Body",
+      "skillIds": ["history.context"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/2 A4/2",
+          "captionKey": "content.historySourcesStart.card8Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.sources.card-occasion-author",
+      "titleKey": "content.historySourcesStart.card9Title",
+      "bodyKey": "content.historySourcesStart.card9Body",
+      "skillIds": ["history.context"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | F4/4 G4/4 A4/4 F4/4",
+          "captionKey": "content.historySourcesStart.card9Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.overview.card-sequence",
+      "titleKey": "content.historyOverviewStart.card1Title",
+      "bodyKey": "content.historyOverviewStart.card1Body",
+      "skillIds": ["history.european-timeline"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 A4/4 B4/4 G4/4",
+          "captionKey": "content.historyOverviewStart.card1Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.overview.card-boundaries",
+      "titleKey": "content.historyOverviewStart.card2Title",
+      "bodyKey": "content.historyOverviewStart.card2Body",
+      "skillIds": ["history.european-timeline"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | F4/4 A4/4 G4/4 F4/4",
+          "captionKey": "content.historyOverviewStart.card2Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.overview.card-coexistence",
+      "titleKey": "content.historyOverviewStart.card3Title",
+      "bodyKey": "content.historyOverviewStart.card3Body",
+      "skillIds": ["history.european-timeline"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/4 G4/4 F4/4 E4/4",
+          "captionKey": "content.historyOverviewStart.card3Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.overview.card-genre",
+      "titleKey": "content.historyOverviewStart.card4Title",
+      "bodyKey": "content.historyOverviewStart.card4Body",
+      "skillIds": ["history.genre-function"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 B4/4 A4/4 G4/4",
+          "captionKey": "content.historyOverviewStart.card4Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.overview.card-forces",
+      "titleKey": "content.historyOverviewStart.card5Title",
+      "bodyKey": "content.historyOverviewStart.card5Body",
+      "skillIds": ["history.genre-function"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | F4/2 A4/2",
+          "captionKey": "content.historyOverviewStart.card5Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.overview.card-purpose",
+      "titleKey": "content.historyOverviewStart.card6Title",
+      "bodyKey": "content.historyOverviewStart.card6Body",
+      "skillIds": ["history.genre-function"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/4 F4/4 G4/4 E4/4",
+          "captionKey": "content.historyOverviewStart.card6Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.overview.card-hear",
+      "titleKey": "content.historyOverviewStart.card7Title",
+      "bodyKey": "content.historyOverviewStart.card7Body",
+      "skillIds": ["history.listening-observation"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/2 r/4 A4/4",
+          "captionKey": "content.historyOverviewStart.card7Example1"
+        },
+        {
+          "score": "treble | 4/4 | (E4 B4)/2 r/4 A4/4",
+          "captionKey": "content.historyOverviewStart.card7Example2"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.overview.card-evidence",
+      "titleKey": "content.historyOverviewStart.card8Title",
+      "bodyKey": "content.historyOverviewStart.card8Body",
+      "skillIds": ["history.listening-observation"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/2 r/4 A4/4",
+          "captionKey": "content.historyOverviewStart.card8Example1"
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.overview.card-uncertain",
+      "titleKey": "content.historyOverviewStart.card9Title",
+      "bodyKey": "content.historyOverviewStart.card9Body",
+      "skillIds": ["history.listening-observation"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | (F4 B4)/2 r/4 A4/4",
+          "captionKey": "content.historyOverviewStart.card9Example1"
+        }
+      ]
     }
   ],
-  "knowledgeArticles": [],
+  "knowledgeArticles": [
+    {
+      "contentVersion": 3,
+      "status": "entwurf",
+      "id": "notation.l1.staff.article",
+      "titleKey": "content.notationStart.articleTitle",
+      "skillIds": ["notation.staff", "notation.treble-clef", "notation.treble-natural"],
+      "sections": [
+        {
+          "headingKey": "content.notationStart.staffTitle",
+          "bodyKey": "content.notationStart.staffArticle",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/1",
+              "captionKey": "content.notationStart.anchorCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.notationStart.anchorTitle",
+          "bodyKey": "content.notationStart.anchorArticle",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/1",
+              "captionKey": "content.notationStart.anchorCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.notationStart.namesTitle",
+          "bodyKey": "content.notationStart.namesArticle",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/4 F4/4 G4/4 A4/4 | B4/4 C5/4 D5/4 E5/4 | F5/1",
+              "captionKey": "content.notationStart.namesCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.notationStart.readingTitle",
+          "bodyKey": "content.notationStart.readingArticle",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 A4/4 B4/4 C5/4 | D5/4 C5/4 B4/4 A4/4",
+              "captionKey": "content.notationStart.readingCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "contentVersion": 4,
+      "status": "entwurf",
+      "id": "notation.l1.keyboard.article",
+      "titleKey": "content.keyboardStart.articleTitle",
+      "skillIds": ["notation.keyboard-layout", "notation.semitone", "notation.accidentals"],
+      "sections": [
+        {
+          "headingKey": "content.keyboardStart.groupsTitle",
+          "bodyKey": "content.keyboardStart.layoutArticle",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/2 F4/2",
+              "captionKey": "content.keyboardStart.groupsCaption",
+              "keyboard": {
+                "first": 60,
+                "last": 72
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.keyboardStart.stepsTitle",
+          "bodyKey": "content.keyboardStart.stepsArticle",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 C#4/4 D4/2",
+              "captionKey": "content.keyboardStart.stepsCaption",
+              "keyboard": {
+                "first": 60,
+                "last": 72
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.keyboardStart.signsTitle",
+          "bodyKey": "content.keyboardStart.signsArticle",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/2 G#4/2",
+              "captionKey": "content.keyboardStart.sharpCaption",
+              "keyboard": {
+                "first": 60,
+                "last": 72
+              }
+            },
+            {
+              "score": "treble | 4/4 | A4/2 Ab4/2",
+              "captionKey": "content.keyboardStart.flatCaption",
+              "keyboard": {
+                "first": 60,
+                "last": 72
+              }
+            },
+            {
+              "score": "treble | 4/4 | G#4/2 G4/2",
+              "captionKey": "content.keyboardStart.naturalCaption",
+              "keyboard": {
+                "first": 60,
+                "last": 72
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.keyboardStart.namesTitle",
+          "bodyKey": "content.keyboardStart.namesArticle",
+          "examples": [
+            {
+              "score": "treble | 4/4 | B4/2 Bb4/2",
+              "captionKey": "content.keyboardStart.namesCaption",
+              "keyboard": {
+                "first": 60,
+                "last": 72
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.keyboardStart.sameTitle",
+          "bodyKey": "content.keyboardStart.sameArticle",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C#4/2 Db4/2",
+              "captionKey": "content.keyboardStart.sameCaption",
+              "keyboard": {
+                "first": 60,
+                "last": 72
+              }
+            },
+            {
+              "score": "treble | 4/4 | E#4/2 F4/2",
+              "captionKey": "content.keyboardStart.whiteSharpCaption",
+              "keyboard": {
+                "first": 60,
+                "last": 72
+              }
+            },
+            {
+              "score": "treble | 4/4 | Fb4/2 E4/2",
+              "captionKey": "content.keyboardStart.whiteFlatCaption",
+              "keyboard": {
+                "first": 60,
+                "last": 72
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "contentVersion": 5,
+      "status": "entwurf",
+      "id": "notation.l1.register.article",
+      "titleKey": "content.registerStart.articleTitle",
+      "skillIds": ["notation.octave-register", "notation.ledger-lines", "notation.pitch-match"],
+      "sections": [
+        {
+          "headingKey": "content.registerStart.repetitionTitle",
+          "bodyKey": "content.registerStart.octavesArticle",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/2 E5/2",
+              "captionKey": "content.registerStart.eCaption",
+              "keyboard": {
+                "first": 64,
+                "last": 76,
+                "showOctaves": true
+              }
+            },
+            {
+              "score": "treble | 4/4 | G4/2 G5/2",
+              "captionKey": "content.registerStart.gCaption",
+              "keyboard": {
+                "first": 60,
+                "last": 79,
+                "showOctaves": true
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.registerStart.namesTitle",
+          "bodyKey": "content.registerStart.namesArticle",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/2 C5/2",
+              "captionKey": "content.registerStart.cCaption",
+              "keyboard": {
+                "first": 60,
+                "last": 72,
+                "showOctaves": true
+              }
+            },
+            {
+              "score": "treble | 4/4 | F4/2 F5/2",
+              "captionKey": "content.registerStart.fCaption",
+              "keyboard": {
+                "first": 65,
+                "last": 77,
+                "showOctaves": true
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.registerStart.lowerTitle",
+          "bodyKey": "content.registerStart.lowerArticle",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/2 A3/2",
+              "captionKey": "content.registerStart.lowerLinesCaption",
+              "keyboard": {
+                "first": 57,
+                "last": 72,
+                "showOctaves": true
+              }
+            },
+            {
+              "score": "treble | 4/4 | D4/4 C4/4 B3/4 A3/4",
+              "captionKey": "content.registerStart.lowerStepsCaption",
+              "keyboard": {
+                "first": 57,
+                "last": 72,
+                "showOctaves": true
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.registerStart.upperTitle",
+          "bodyKey": "content.registerStart.upperArticle",
+          "examples": [
+            {
+              "score": "treble | 4/4 | A5/2 C6/2",
+              "captionKey": "content.registerStart.upperLinesCaption",
+              "keyboard": {
+                "first": 72,
+                "last": 84,
+                "showOctaves": true
+              }
+            },
+            {
+              "score": "treble | 4/4 | F5/4 G5/4 A5/4 B5/4 | C6/1",
+              "captionKey": "content.registerStart.upperStepsCaption",
+              "keyboard": {
+                "first": 65,
+                "last": 84,
+                "showOctaves": true
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.registerStart.strategyTitle",
+          "bodyKey": "content.registerStart.matchArticle",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 G5/4 C5/2",
+              "captionKey": "content.registerStart.strategyCaption",
+              "keyboard": {
+                "first": 60,
+                "last": 84,
+                "showOctaves": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "contentVersion": 6,
+      "status": "entwurf",
+      "id": "rhythm.l1.pulse.article",
+      "titleKey": "content.pulseStart.articleTitle",
+      "skillIds": ["rhythm.pulse", "rhythm.tempo", "rhythm.beat-group"],
+      "sections": [
+        {
+          "headingKey": "content.pulseStart.pulseTitle",
+          "bodyKey": "content.pulseStart.pulseArticle",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+              "captionKey": "content.pulseStart.steadyCaption",
+              "pulse": {
+                "bpm": 72
+              }
+            },
+            {
+              "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+              "captionKey": "content.pulseStart.steadyFasterCaption",
+              "pulse": {
+                "bpm": 96
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.pulseStart.rhythmTitle",
+          "bodyKey": "content.pulseStart.rhythmArticle",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+              "captionKey": "content.pulseStart.referenceCaption",
+              "pulse": {
+                "bpm": 72
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.pulseStart.tempoTitle",
+          "bodyKey": "content.pulseStart.tempoArticle",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+              "captionKey": "content.pulseStart.sixtyCaption",
+              "pulse": {
+                "bpm": 60
+              }
+            },
+            {
+              "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+              "captionKey": "content.pulseStart.hundredTwentyCaption",
+              "pulse": {
+                "bpm": 120
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.pulseStart.countInTitle",
+          "bodyKey": "content.pulseStart.countInArticle",
+          "examples": [
+            {
+              "score": "treble | 3/4 | G4/4 G4/4 G4/4",
+              "captionKey": "content.pulseStart.countInCaption",
+              "pulse": {
+                "bpm": 72
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.pulseStart.groupsTitle",
+          "bodyKey": "content.pulseStart.groupsArticle",
+          "examples": [
+            {
+              "score": "treble | 2/4 | G4/4 G4/4",
+              "captionKey": "content.pulseStart.twoCaption",
+              "pulse": {
+                "bpm": 84
+              }
+            },
+            {
+              "score": "treble | 3/4 | G4/4 G4/4 G4/4",
+              "captionKey": "content.pulseStart.threeCaption",
+              "pulse": {
+                "bpm": 84
+              }
+            },
+            {
+              "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+              "captionKey": "content.pulseStart.fourCaption",
+              "pulse": {
+                "bpm": 84
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "contentVersion": 7,
+      "status": "entwurf",
+      "id": "rhythm.l1.values.article",
+      "titleKey": "content.valuesStart.articleTitle",
+      "skillIds": ["rhythm.note-values", "rhythm.rests", "rhythm.measure-fill", "rhythm.barlines"],
+      "sections": [
+        {
+          "headingKey": "content.valuesStart.longTitle",
+          "bodyKey": "content.valuesStart.longBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/1",
+              "captionKey": "content.valuesStart.wholeCaption"
+            },
+            {
+              "score": "treble | 4/4 | G4/2 G4/2",
+              "captionKey": "content.valuesStart.halfCaption"
+            },
+            {
+              "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+              "captionKey": "content.valuesStart.quarterCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.valuesStart.shapesTitle",
+          "bodyKey": "content.valuesStart.shapesBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/2 G4/4 G4/8 G4/16 G4/16",
+              "captionKey": "content.valuesStart.shapesCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.valuesStart.shortTitle",
+          "bodyKey": "content.valuesStart.shortBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/8 G4/8 G4/8 G4/8 G4/8 G4/8 G4/8 G4/8",
+              "captionKey": "content.valuesStart.eighthCaption"
+            },
+            {
+              "score": "treble | 4/4 | G4/16 G4/16 G4/16 G4/16 G4/16 G4/16 G4/16 G4/16 G4/16 G4/16 G4/16 G4/16 G4/16 G4/16 G4/16 G4/16",
+              "captionKey": "content.valuesStart.sixteenthCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.valuesStart.longRestsTitle",
+          "bodyKey": "content.valuesStart.longRestsBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | r/1",
+              "captionKey": "content.valuesStart.wholeRestCaption"
+            },
+            {
+              "score": "treble | 4/4 | r/2 G4/2",
+              "captionKey": "content.valuesStart.halfRestCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.valuesStart.shortRestsTitle",
+          "bodyKey": "content.valuesStart.shortRestsBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | r/4 G4/4 r/8 G4/8 r/16 G4/16 G4/8",
+              "captionKey": "content.valuesStart.shortRestsCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.valuesStart.silenceTitle",
+          "bodyKey": "content.valuesStart.silenceBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 r/4 G4/4 r/4",
+              "captionKey": "content.valuesStart.silenceCaption"
+            },
+            {
+              "score": "treble | 4/4 | G4/2 r/2",
+              "captionKey": "content.valuesStart.silentHalfCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.valuesStart.capacityTitle",
+          "bodyKey": "content.valuesStart.capacityBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/2 r/4 G4/4",
+              "captionKey": "content.valuesStart.capacityCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.valuesStart.barlinesTitle",
+          "bodyKey": "content.valuesStart.barlinesBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/2 G4/2 | G4/4 r/4 G4/2",
+              "captionKey": "content.valuesStart.barlinesCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.valuesStart.completeTitle",
+          "bodyKey": "content.valuesStart.completeBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/2 r/4 G4/8 G4/8",
+              "captionKey": "content.valuesStart.completeNoteCaption"
+            },
+            {
+              "score": "treble | 4/4 | G4/2 G4/4 G4/8 G4/16 r/16",
+              "captionKey": "content.valuesStart.completeRestCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "contentVersion": 8,
+      "status": "entwurf",
+      "id": "rhythm.l1.simple-meter.article",
+      "titleKey": "content.simpleMeterStart.articleTitle",
+      "skillIds": ["rhythm.meter-simple", "rhythm.count-in", "rhythm.read-basic"],
+      "sections": [
+        {
+          "headingKey": "content.simpleMeterStart.twoTitle",
+          "bodyKey": "content.simpleMeterStart.twoBody",
+          "examples": [
+            {
+              "score": "treble | 2/4 | G4/4 G4/4",
+              "captionKey": "content.simpleMeterStart.twoCaption"
+            },
+            {
+              "score": "treble | 2/4 | G4/8 G4/8 G4/4",
+              "captionKey": "content.simpleMeterStart.twoEighthCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.simpleMeterStart.threeTitle",
+          "bodyKey": "content.simpleMeterStart.threeBody",
+          "examples": [
+            {
+              "score": "treble | 3/4 | G4/4 G4/4 G4/4",
+              "captionKey": "content.simpleMeterStart.threeCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.simpleMeterStart.fourTitle",
+          "bodyKey": "content.simpleMeterStart.fourBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+              "captionKey": "content.simpleMeterStart.fourCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.simpleMeterStart.countTitle",
+          "bodyKey": "content.simpleMeterStart.countBody",
+          "examples": [
+            {
+              "score": "treble | 3/4 | G4/4 G4/4 G4/4",
+              "captionKey": "content.simpleMeterStart.countCaption"
+            },
+            {
+              "score": "treble | 2/4 | G4/4 G4/4",
+              "captionKey": "content.simpleMeterStart.countTwoCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.simpleMeterStart.pickupTitle",
+          "bodyKey": "content.simpleMeterStart.pickupBody",
+          "examples": [
+            {
+              "score": "treble | 3/4 | G4/4 | G4/4 G4/4 G4/4",
+              "captionKey": "content.simpleMeterStart.pickupCaption"
+            },
+            {
+              "score": "treble | 4/4 | G4/8 G4/8 | G4/4 G4/4 G4/4 G4/4",
+              "captionKey": "content.simpleMeterStart.pickupEighthCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.simpleMeterStart.completeTitle",
+          "bodyKey": "content.simpleMeterStart.completeBody",
+          "examples": [
+            {
+              "score": "treble | 3/4 | G4/4 G4/4 G4/4 | G4/4 G4/4 G4/4",
+              "captionKey": "content.simpleMeterStart.completeCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.simpleMeterStart.eighthTitle",
+          "bodyKey": "content.simpleMeterStart.eighthBody",
+          "examples": [
+            {
+              "score": "treble | 2/4 | G4/8 G4/8 G4/4",
+              "captionKey": "content.simpleMeterStart.eighthCaption"
+            },
+            {
+              "score": "treble | 4/4 | G4/4 G4/8 G4/8 G4/4 G4/4",
+              "captionKey": "content.simpleMeterStart.eighthFourCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.simpleMeterStart.restsTitle",
+          "bodyKey": "content.simpleMeterStart.restsBody",
+          "examples": [
+            {
+              "score": "treble | 3/4 | G4/4 r/4 G4/4",
+              "captionKey": "content.simpleMeterStart.restsCaption"
+            },
+            {
+              "score": "treble | 2/4 | r/8 G4/8 G4/4",
+              "captionKey": "content.simpleMeterStart.restsEighthCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.simpleMeterStart.readTitle",
+          "bodyKey": "content.simpleMeterStart.readBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/8 G4/8 r/4 G4/4 G4/4",
+              "captionKey": "content.simpleMeterStart.readCaption"
+            },
+            {
+              "score": "treble | 3/4 | r/4 G4/8 G4/8 G4/4",
+              "captionKey": "content.simpleMeterStart.readThreeCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "contentVersion": 9,
+      "status": "entwurf",
+      "id": "intervals.l1.size.article",
+      "titleKey": "content.intervalSizeStart.articleTitle",
+      "skillIds": ["interval.generic-size", "interval.direction", "interval.steps-leaps"],
+      "sections": [
+        {
+          "headingKey": "content.intervalSizeStart.countTitle",
+          "bodyKey": "content.intervalSizeStart.countBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/2 G4/2",
+              "captionKey": "content.intervalSizeStart.countCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.intervalSizeStart.smallTitle",
+          "bodyKey": "content.intervalSizeStart.smallBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/2 G4/2",
+              "captionKey": "content.intervalSizeStart.primeCaption"
+            },
+            {
+              "score": "treble | 4/4 | E4/2 F4/2",
+              "captionKey": "content.intervalSizeStart.secondCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.intervalSizeStart.largeTitle",
+          "bodyKey": "content.intervalSizeStart.largeBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/2 A4/2",
+              "captionKey": "content.intervalSizeStart.fourthCaption"
+            },
+            {
+              "score": "treble | 4/4 | E4/2 D5/2",
+              "captionKey": "content.intervalSizeStart.seventhCaption"
+            },
+            {
+              "score": "treble | 4/4 | E4/2 E5/2",
+              "captionKey": "content.intervalSizeStart.octaveCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.intervalSizeStart.upTitle",
+          "bodyKey": "content.intervalSizeStart.upBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/2 B4/2",
+              "captionKey": "content.intervalSizeStart.upCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.intervalSizeStart.downTitle",
+          "bodyKey": "content.intervalSizeStart.downBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | B4/2 G4/2",
+              "captionKey": "content.intervalSizeStart.downCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.intervalSizeStart.sameTitle",
+          "bodyKey": "content.intervalSizeStart.sameBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | A4/2 A4/2",
+              "captionKey": "content.intervalSizeStart.sameCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.intervalSizeStart.repeatTitle",
+          "bodyKey": "content.intervalSizeStart.repeatBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | F4/2 F4/2",
+              "captionKey": "content.intervalSizeStart.repeatCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.intervalSizeStart.stepTitle",
+          "bodyKey": "content.intervalSizeStart.stepBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/2 F4/2",
+              "captionKey": "content.intervalSizeStart.halfStepCaption"
+            },
+            {
+              "score": "treble | 4/4 | F4/2 G4/2",
+              "captionKey": "content.intervalSizeStart.wholeStepCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.intervalSizeStart.leapTitle",
+          "bodyKey": "content.intervalSizeStart.leapBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/2 B4/2",
+              "captionKey": "content.intervalSizeStart.thirdLeapCaption"
+            },
+            {
+              "score": "treble | 4/4 | E4/2 B4/2",
+              "captionKey": "content.intervalSizeStart.fifthCaption"
+            },
+            {
+              "score": "treble | 4/4 | F4/2 D5/2",
+              "captionKey": "content.intervalSizeStart.sixthCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "contentVersion": 10,
+      "status": "entwurf",
+      "id": "intervals.l1.first-qualities.article",
+      "titleKey": "content.firstQualityStart.articleTitle",
+      "skillIds": [
+        "interval.semitone-distance",
+        "interval.thirds",
+        "interval.perfect-fourth-fifth-octave"
+      ],
+      "sections": [
+        {
+          "headingKey": "content.firstQualityStart.transitionsTitle",
+          "bodyKey": "content.firstQualityStart.transitionsBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/2 F4/2",
+              "captionKey": "content.firstQualityStart.halfCaption",
+              "keyboard": {
+                "first": 64,
+                "last": 65
+              }
+            },
+            {
+              "score": "treble | 4/4 | G4/2 G4/2",
+              "captionKey": "content.firstQualityStart.zeroCaption",
+              "keyboard": {
+                "first": 67,
+                "last": 67
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.firstQualityStart.blackKeysTitle",
+          "bodyKey": "content.firstQualityStart.blackKeysBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | F4/2 G4/2",
+              "captionKey": "content.firstQualityStart.wholeCaption",
+              "keyboard": {
+                "first": 65,
+                "last": 67
+              }
+            },
+            {
+              "score": "treble | 4/4 | G4/2 B4/2",
+              "captionKey": "content.firstQualityStart.fourCaption",
+              "keyboard": {
+                "first": 67,
+                "last": 71
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.firstQualityStart.largerTitle",
+          "bodyKey": "content.firstQualityStart.largerBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/2 A4/2",
+              "captionKey": "content.firstQualityStart.fiveCaption",
+              "keyboard": {
+                "first": 64,
+                "last": 69
+              }
+            },
+            {
+              "score": "treble | 4/4 | E4/2 E5/2",
+              "captionKey": "content.firstQualityStart.twelveCaption",
+              "keyboard": {
+                "first": 64,
+                "last": 76
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.firstQualityStart.thirdNumberTitle",
+          "bodyKey": "content.firstQualityStart.thirdNumberBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | A4/2 C5/2",
+              "captionKey": "content.firstQualityStart.thirdNumberCaption",
+              "keyboard": {
+                "first": 69,
+                "last": 72
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.firstQualityStart.minorTitle",
+          "bodyKey": "content.firstQualityStart.minorBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/2 G4/2",
+              "captionKey": "content.firstQualityStart.minorCaption",
+              "keyboard": {
+                "first": 64,
+                "last": 67
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.firstQualityStart.majorTitle",
+          "bodyKey": "content.firstQualityStart.majorBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | F4/2 A4/2",
+              "captionKey": "content.firstQualityStart.majorCaption",
+              "keyboard": {
+                "first": 65,
+                "last": 69
+              }
+            },
+            {
+              "score": "treble | 4/4 | G4/2 B4/2",
+              "captionKey": "content.firstQualityStart.majorOtherCaption",
+              "keyboard": {
+                "first": 67,
+                "last": 71
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.firstQualityStart.perfectTitle",
+          "bodyKey": "content.firstQualityStart.perfectBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/2 A4/2",
+              "captionKey": "content.firstQualityStart.fourthCaption",
+              "keyboard": {
+                "first": 64,
+                "last": 69
+              }
+            },
+            {
+              "score": "treble | 4/4 | E4/2 B4/2",
+              "captionKey": "content.firstQualityStart.fifthCaption",
+              "keyboard": {
+                "first": 64,
+                "last": 71
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.firstQualityStart.octaveTitle",
+          "bodyKey": "content.firstQualityStart.octaveBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/2 E5/2",
+              "captionKey": "content.firstQualityStart.octaveCaption",
+              "keyboard": {
+                "first": 64,
+                "last": 76
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.firstQualityStart.tritoneTitle",
+          "bodyKey": "content.firstQualityStart.tritoneBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | F4/2 B4/2",
+              "captionKey": "content.firstQualityStart.tritoneFourthCaption",
+              "keyboard": {
+                "first": 65,
+                "last": 71
+              }
+            },
+            {
+              "score": "treble | 4/4 | B4/2 F5/2",
+              "captionKey": "content.firstQualityStart.tritoneFifthCaption",
+              "keyboard": {
+                "first": 71,
+                "last": 77
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pulse-rhythm.article",
+      "titleKey": "content.auralRhythmStart.articleTitle",
+      "skillIds": ["aural.pulse", "aural.same-different-rhythm", "aural.rhythm-choice-basic"],
+      "sections": [
+        {
+          "headingKey": "content.auralRhythmStart.card1Title",
+          "bodyKey": "content.auralRhythmStart.card1Body",
+          "examples": [
+            {
+              "score": "treble | 2/4 | G4/4 G4/4",
+              "pulse": {
+                "bpm": 90
+              },
+              "captionKey": "content.auralRhythmStart.card1Example1"
+            },
+            {
+              "score": "treble | 3/4 | G4/4 G4/4 G4/4",
+              "pulse": {
+                "bpm": 90
+              },
+              "captionKey": "content.auralRhythmStart.card1Example2"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.auralRhythmStart.card2Title",
+          "bodyKey": "content.auralRhythmStart.card2Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+              "captionKey": "content.auralRhythmStart.card2Example1"
+            },
+            {
+              "score": "treble | 4/4 | G4/8 G4/8 G4/4 G4/4 G4/4",
+              "captionKey": "content.auralRhythmStart.card2Example2"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.auralRhythmStart.card3Title",
+          "bodyKey": "content.auralRhythmStart.card3Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 G4/4 G4/4 G4/4",
+              "pulse": {
+                "bpm": 90
+              },
+              "captionKey": "content.auralRhythmStart.card3Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.auralRhythmStart.card4Title",
+          "bodyKey": "content.auralRhythmStart.card4Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 G4/8 G4/8 G4/4 G4/4",
+              "captionKey": "content.auralRhythmStart.card4Example1"
+            },
+            {
+              "score": "treble | 4/4 | G4/4 G4/8 G4/8 G4/4 G4/4",
+              "captionKey": "content.auralRhythmStart.card4Example2"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.auralRhythmStart.card5Title",
+          "bodyKey": "content.auralRhythmStart.card5Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/8 G4/8 G4/4 G4/4 G4/4",
+              "captionKey": "content.auralRhythmStart.card5Example1"
+            },
+            {
+              "score": "treble | 4/4 | G4/4 G4/8 G4/8 G4/4 G4/4",
+              "captionKey": "content.auralRhythmStart.card5Example2"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.auralRhythmStart.card6Title",
+          "bodyKey": "content.auralRhythmStart.card6Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/8 G4/8 G4/4 r/4 G4/4",
+              "captionKey": "content.auralRhythmStart.card6Example1"
+            },
+            {
+              "score": "treble | 4/4 | G4/8 G4/8 G4/4 G4/4 G4/4",
+              "captionKey": "content.auralRhythmStart.card6Example2"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.auralRhythmStart.card7Title",
+          "bodyKey": "content.auralRhythmStart.card7Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 G4/4 G4/8 G4/8 G4/4",
+              "captionKey": "content.auralRhythmStart.card7Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.auralRhythmStart.card8Title",
+          "bodyKey": "content.auralRhythmStart.card8Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 G4/8 G4/8 G4/4 G4/4",
+              "captionKey": "content.auralRhythmStart.card8Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.auralRhythmStart.card9Title",
+          "bodyKey": "content.auralRhythmStart.card9Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 r/8 G4/8 G4/4 G4/4",
+              "captionKey": "content.auralRhythmStart.card9Example1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pitch-intervals.article",
+      "titleKey": "content.auralPitchStart.articleTitle",
+      "skillIds": [
+        "aural.pitch-direction",
+        "aural.same-different-melody",
+        "aural.third-fourth-fifth"
+      ],
+      "sections": [
+        {
+          "headingKey": "content.auralPitchStart.card1Title",
+          "bodyKey": "content.auralPitchStart.card1Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | F4/2 A4/2",
+              "captionKey": "content.auralPitchStart.card1Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.auralPitchStart.card2Title",
+          "bodyKey": "content.auralPitchStart.card2Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | A4/2 F4/2",
+              "captionKey": "content.auralPitchStart.card2Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.auralPitchStart.card3Title",
+          "bodyKey": "content.auralPitchStart.card3Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | F4/2 F4/2",
+              "captionKey": "content.auralPitchStart.card3Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.auralPitchStart.card4Title",
+          "bodyKey": "content.auralPitchStart.card4Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | F4/4 G4/4 A4/4 G4/4",
+              "captionKey": "content.auralPitchStart.card4Example1"
+            },
+            {
+              "score": "treble | 4/4 | F4/4 G4/4 A4/4 G4/4",
+              "captionKey": "content.auralPitchStart.card4Example2"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.auralPitchStart.card5Title",
+          "bodyKey": "content.auralPitchStart.card5Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | F4/4 G4/4 A4/4 G4/4",
+              "captionKey": "content.auralPitchStart.card5Example1"
+            },
+            {
+              "score": "treble | 4/4 | F4/4 A4/4 A4/4 G4/4",
+              "captionKey": "content.auralPitchStart.card5Example2"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.auralPitchStart.card6Title",
+          "bodyKey": "content.auralPitchStart.card6Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 E4/4 F4/4 G4/4",
+              "captionKey": "content.auralPitchStart.card6Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.auralPitchStart.card7Title",
+          "bodyKey": "content.auralPitchStart.card7Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/2 G4/2",
+              "captionKey": "content.auralPitchStart.card7Example1"
+            },
+            {
+              "score": "treble | 4/4 | F4/2 A4/2",
+              "captionKey": "content.auralPitchStart.card7Example2"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.auralPitchStart.card8Title",
+          "bodyKey": "content.auralPitchStart.card8Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/2 A4/2",
+              "captionKey": "content.auralPitchStart.card8Example1"
+            },
+            {
+              "score": "treble | 4/4 | E4/2 B4/2",
+              "captionKey": "content.auralPitchStart.card8Example2"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.auralPitchStart.card9Title",
+          "bodyKey": "content.auralPitchStart.card9Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/2 B4/2",
+              "captionKey": "content.auralPitchStart.card9Example1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.sources.article",
+      "titleKey": "content.historySourcesStart.articleTitle",
+      "skillIds": ["history.sound-source", "history.source-types", "history.context"],
+      "sections": [
+        {
+          "headingKey": "content.historySourcesStart.card1Title",
+          "bodyKey": "content.historySourcesStart.card1Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 A4/4 B4/4 A4/4",
+              "captionKey": "content.historySourcesStart.card1Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.historySourcesStart.card2Title",
+          "bodyKey": "content.historySourcesStart.card2Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/2 G4/2",
+              "captionKey": "content.historySourcesStart.card2Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.historySourcesStart.card3Title",
+          "bodyKey": "content.historySourcesStart.card3Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | F4/4 A4/4 G4/4 F4/4",
+              "captionKey": "content.historySourcesStart.card3Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.historySourcesStart.card4Title",
+          "bodyKey": "content.historySourcesStart.card4Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 G4/8 G4/8 A4/4 G4/4",
+              "captionKey": "content.historySourcesStart.card4Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.historySourcesStart.card5Title",
+          "bodyKey": "content.historySourcesStart.card5Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | F4/2 r/4 A4/4",
+              "captionKey": "content.historySourcesStart.card5Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.historySourcesStart.card6Title",
+          "bodyKey": "content.historySourcesStart.card6Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/4 F4/4 G4/4 E4/4",
+              "captionKey": "content.historySourcesStart.card6Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.historySourcesStart.card7Title",
+          "bodyKey": "content.historySourcesStart.card7Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/2 A4/2",
+              "captionKey": "content.historySourcesStart.card7Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.historySourcesStart.card8Title",
+          "bodyKey": "content.historySourcesStart.card8Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/2 A4/2",
+              "captionKey": "content.historySourcesStart.card8Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.historySourcesStart.card9Title",
+          "bodyKey": "content.historySourcesStart.card9Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | F4/4 G4/4 A4/4 F4/4",
+              "captionKey": "content.historySourcesStart.card9Example1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.overview.article",
+      "titleKey": "content.historyOverviewStart.articleTitle",
+      "skillIds": [
+        "history.european-timeline",
+        "history.genre-function",
+        "history.listening-observation"
+      ],
+      "sections": [
+        {
+          "headingKey": "content.historyOverviewStart.card1Title",
+          "bodyKey": "content.historyOverviewStart.card1Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 A4/4 B4/4 G4/4",
+              "captionKey": "content.historyOverviewStart.card1Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.historyOverviewStart.card2Title",
+          "bodyKey": "content.historyOverviewStart.card2Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | F4/4 A4/4 G4/4 F4/4",
+              "captionKey": "content.historyOverviewStart.card2Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.historyOverviewStart.card3Title",
+          "bodyKey": "content.historyOverviewStart.card3Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/4 G4/4 F4/4 E4/4",
+              "captionKey": "content.historyOverviewStart.card3Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.historyOverviewStart.card4Title",
+          "bodyKey": "content.historyOverviewStart.card4Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 B4/4 A4/4 G4/4",
+              "captionKey": "content.historyOverviewStart.card4Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.historyOverviewStart.card5Title",
+          "bodyKey": "content.historyOverviewStart.card5Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | F4/2 A4/2",
+              "captionKey": "content.historyOverviewStart.card5Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.historyOverviewStart.card6Title",
+          "bodyKey": "content.historyOverviewStart.card6Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/4 F4/4 G4/4 E4/4",
+              "captionKey": "content.historyOverviewStart.card6Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.historyOverviewStart.card7Title",
+          "bodyKey": "content.historyOverviewStart.card7Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/2 r/4 A4/4",
+              "captionKey": "content.historyOverviewStart.card7Example1"
+            },
+            {
+              "score": "treble | 4/4 | (E4 B4)/2 r/4 A4/4",
+              "captionKey": "content.historyOverviewStart.card7Example2"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.historyOverviewStart.card8Title",
+          "bodyKey": "content.historyOverviewStart.card8Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/2 r/4 A4/4",
+              "captionKey": "content.historyOverviewStart.card8Example1"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.historyOverviewStart.card9Title",
+          "bodyKey": "content.historyOverviewStart.card9Body",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (F4 B4)/2 r/4 A4/4",
+              "captionKey": "content.historyOverviewStart.card9Example1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "fundament.reading-and-listening.article",
+      "titleKey": "content.firstLesson.title",
+      "skillIds": ["notation.note-name", "interval.identify.visual", "interval.identify.aural"],
+      "sections": [
+        {
+          "headingKey": "content.firstLesson.notesTitle",
+          "bodyKey": "content.firstLesson.notesBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/1",
+              "captionKey": "content.firstLesson.referenceG"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.firstLesson.intervalsTitle",
+          "bodyKey": "content.firstLesson.intervalsBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/2 Eb4/2",
+              "captionKey": "content.firstLesson.minorThird"
+            },
+            {
+              "score": "treble | 4/4 | C4/2 E4/2",
+              "captionKey": "content.firstLesson.majorThird"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.firstLesson.hearingTitle",
+          "bodyKey": "content.firstLesson.hearingBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/2 F4/2",
+              "captionKey": "content.firstLesson.fourth"
+            },
+            {
+              "score": "treble | 4/4 | C4/2 G4/2",
+              "captionKey": "content.firstLesson.fifth"
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "lessons": [
     {
       "id": "fundament.reading-and-listening.1",
@@ -1326,6 +5777,496 @@
         "fundament.reading-and-listening.card-3"
       ],
       "exerciseSetIds": ["fundament.reading-and-listening.exercises"]
+    },
+    {
+      "contentVersion": 3,
+      "status": "entwurf",
+      "id": "notation.l1.staff.anchor",
+      "titleKey": "content.notationStart.anchorLesson",
+      "unitId": "notation.l1.staff",
+      "skillIds": ["notation.staff", "notation.treble-clef", "notation.treble-natural"],
+      "introductionCardIds": [
+        "notation.l1.staff.card-staff",
+        "notation.l1.staff.card-anchor",
+        "notation.l1.staff.card-neighbors"
+      ],
+      "exerciseSetIds": ["notation.l1.staff.anchor.exercises"]
+    },
+    {
+      "contentVersion": 3,
+      "status": "entwurf",
+      "id": "notation.l1.staff.positions",
+      "titleKey": "content.notationStart.positionsLesson",
+      "unitId": "notation.l1.staff",
+      "skillIds": ["notation.staff", "notation.treble-clef", "notation.treble-natural"],
+      "introductionCardIds": ["notation.l1.staff.card-lines", "notation.l1.staff.card-spaces"],
+      "exerciseSetIds": ["notation.l1.staff.positions.exercises"]
+    },
+    {
+      "contentVersion": 3,
+      "status": "entwurf",
+      "id": "notation.l1.staff.reading",
+      "titleKey": "content.notationStart.readingLesson",
+      "unitId": "notation.l1.staff",
+      "skillIds": ["notation.staff", "notation.treble-clef", "notation.treble-natural"],
+      "introductionCardIds": ["notation.l1.staff.card-names", "notation.l1.staff.card-reading"],
+      "exerciseSetIds": ["notation.l1.staff.reading.exercises"]
+    },
+    {
+      "contentVersion": 4,
+      "status": "entwurf",
+      "id": "notation.l1.keyboard.keys",
+      "titleKey": "content.keyboardStart.keysLesson",
+      "unitId": "notation.l1.keyboard",
+      "skillIds": ["notation.keyboard-layout"],
+      "introductionCardIds": [
+        "notation.l1.keyboard.card-groups",
+        "notation.l1.keyboard.card-white",
+        "notation.l1.keyboard.card-find"
+      ],
+      "exerciseSetIds": ["notation.l1.keyboard.keys.exercises"]
+    },
+    {
+      "contentVersion": 4,
+      "status": "entwurf",
+      "id": "notation.l1.keyboard.steps",
+      "titleKey": "content.keyboardStart.stepsLesson",
+      "unitId": "notation.l1.keyboard",
+      "skillIds": ["notation.keyboard-layout", "notation.semitone"],
+      "introductionCardIds": [
+        "notation.l1.keyboard.card-steps",
+        "notation.l1.keyboard.card-neighbors"
+      ],
+      "exerciseSetIds": ["notation.l1.keyboard.steps.exercises"]
+    },
+    {
+      "contentVersion": 4,
+      "status": "entwurf",
+      "id": "notation.l1.keyboard.accidentals",
+      "titleKey": "content.keyboardStart.accidentalsLesson",
+      "unitId": "notation.l1.keyboard",
+      "skillIds": ["notation.keyboard-layout", "notation.semitone", "notation.accidentals"],
+      "introductionCardIds": [
+        "notation.l1.keyboard.card-signs",
+        "notation.l1.keyboard.card-names",
+        "notation.l1.keyboard.card-same"
+      ],
+      "exerciseSetIds": ["notation.l1.keyboard.accidentals.exercises"]
+    },
+    {
+      "contentVersion": 5,
+      "status": "entwurf",
+      "id": "notation.l1.register.octaves",
+      "titleKey": "content.registerStart.octavesLesson",
+      "unitId": "notation.l1.register",
+      "skillIds": ["notation.octave-register"],
+      "introductionCardIds": [
+        "notation.l1.register.card-repetition",
+        "notation.l1.register.card-boundary",
+        "notation.l1.register.card-names"
+      ],
+      "exerciseSetIds": ["notation.l1.register.octaves.exercises"]
+    },
+    {
+      "contentVersion": 5,
+      "status": "entwurf",
+      "id": "notation.l1.register.ledger",
+      "titleKey": "content.registerStart.ledgerLesson",
+      "unitId": "notation.l1.register",
+      "skillIds": ["notation.octave-register", "notation.ledger-lines"],
+      "introductionCardIds": [
+        "notation.l1.register.card-extend",
+        "notation.l1.register.card-lower",
+        "notation.l1.register.card-upper"
+      ],
+      "exerciseSetIds": ["notation.l1.register.ledger.exercises"]
+    },
+    {
+      "contentVersion": 5,
+      "status": "entwurf",
+      "id": "notation.l1.register.match",
+      "titleKey": "content.registerStart.matchLesson",
+      "unitId": "notation.l1.register",
+      "skillIds": ["notation.octave-register", "notation.ledger-lines", "notation.pitch-match"],
+      "introductionCardIds": [
+        "notation.l1.register.card-match",
+        "notation.l1.register.card-strategy"
+      ],
+      "exerciseSetIds": ["notation.l1.register.match.exercises"]
+    },
+    {
+      "contentVersion": 6,
+      "status": "entwurf",
+      "id": "rhythm.l1.pulse.steady",
+      "titleKey": "content.pulseStart.steadyLesson",
+      "unitId": "rhythm.l1.pulse",
+      "skillIds": ["rhythm.pulse"],
+      "introductionCardIds": [
+        "rhythm.l1.pulse.card-pulse",
+        "rhythm.l1.pulse.card-rhythm",
+        "rhythm.l1.pulse.card-count-in"
+      ],
+      "exerciseSetIds": ["rhythm.l1.pulse.steady.exercises"]
+    },
+    {
+      "contentVersion": 6,
+      "status": "entwurf",
+      "id": "rhythm.l1.pulse.tempo",
+      "titleKey": "content.pulseStart.tempoLesson",
+      "unitId": "rhythm.l1.pulse",
+      "skillIds": ["rhythm.pulse", "rhythm.tempo"],
+      "introductionCardIds": [
+        "rhythm.l1.pulse.card-tempo",
+        "rhythm.l1.pulse.card-bpm",
+        "rhythm.l1.pulse.card-compare"
+      ],
+      "exerciseSetIds": ["rhythm.l1.pulse.tempo.exercises"]
+    },
+    {
+      "contentVersion": 6,
+      "status": "entwurf",
+      "id": "rhythm.l1.pulse.groups",
+      "titleKey": "content.pulseStart.groupsLesson",
+      "unitId": "rhythm.l1.pulse",
+      "skillIds": ["rhythm.pulse", "rhythm.tempo", "rhythm.beat-group"],
+      "introductionCardIds": ["rhythm.l1.pulse.card-groups", "rhythm.l1.pulse.card-strategy"],
+      "exerciseSetIds": ["rhythm.l1.pulse.groups.exercises"]
+    },
+    {
+      "contentVersion": 7,
+      "status": "entwurf",
+      "id": "rhythm.l1.values.notes",
+      "titleKey": "content.valuesStart.notesLesson",
+      "unitId": "rhythm.l1.values",
+      "skillIds": ["rhythm.note-values"],
+      "introductionCardIds": [
+        "rhythm.l1.values.card-long",
+        "rhythm.l1.values.card-shapes",
+        "rhythm.l1.values.card-short"
+      ],
+      "exerciseSetIds": ["rhythm.l1.values.notes.exercises"]
+    },
+    {
+      "contentVersion": 7,
+      "status": "entwurf",
+      "id": "rhythm.l1.values.rests",
+      "titleKey": "content.valuesStart.restsLesson",
+      "unitId": "rhythm.l1.values",
+      "skillIds": ["rhythm.note-values", "rhythm.rests"],
+      "introductionCardIds": [
+        "rhythm.l1.values.card-long-rests",
+        "rhythm.l1.values.card-short-rests",
+        "rhythm.l1.values.card-silence"
+      ],
+      "exerciseSetIds": ["rhythm.l1.values.rests.exercises"]
+    },
+    {
+      "contentVersion": 7,
+      "status": "entwurf",
+      "id": "rhythm.l1.values.fill",
+      "titleKey": "content.valuesStart.fillLesson",
+      "unitId": "rhythm.l1.values",
+      "skillIds": ["rhythm.note-values", "rhythm.rests", "rhythm.measure-fill", "rhythm.barlines"],
+      "introductionCardIds": [
+        "rhythm.l1.values.card-capacity",
+        "rhythm.l1.values.card-barlines",
+        "rhythm.l1.values.card-complete"
+      ],
+      "exerciseSetIds": ["rhythm.l1.values.fill.exercises"]
+    },
+    {
+      "contentVersion": 8,
+      "status": "entwurf",
+      "id": "rhythm.l1.simple-meter.meter",
+      "titleKey": "content.simpleMeterStart.meterLesson",
+      "unitId": "rhythm.l1.simple-meter",
+      "skillIds": ["rhythm.meter-simple"],
+      "introductionCardIds": [
+        "rhythm.l1.simple-meter.card-two",
+        "rhythm.l1.simple-meter.card-three",
+        "rhythm.l1.simple-meter.card-four"
+      ],
+      "exerciseSetIds": ["rhythm.l1.simple-meter.meter.exercises"]
+    },
+    {
+      "contentVersion": 8,
+      "status": "entwurf",
+      "id": "rhythm.l1.simple-meter.count-in",
+      "titleKey": "content.simpleMeterStart.countInLesson",
+      "unitId": "rhythm.l1.simple-meter",
+      "skillIds": ["rhythm.meter-simple", "rhythm.count-in"],
+      "introductionCardIds": [
+        "rhythm.l1.simple-meter.card-count",
+        "rhythm.l1.simple-meter.card-pickup",
+        "rhythm.l1.simple-meter.card-complete"
+      ],
+      "exerciseSetIds": ["rhythm.l1.simple-meter.count-in.exercises"]
+    },
+    {
+      "contentVersion": 8,
+      "status": "entwurf",
+      "id": "rhythm.l1.simple-meter.read",
+      "titleKey": "content.simpleMeterStart.readLesson",
+      "unitId": "rhythm.l1.simple-meter",
+      "skillIds": ["rhythm.meter-simple", "rhythm.count-in", "rhythm.read-basic"],
+      "introductionCardIds": [
+        "rhythm.l1.simple-meter.card-eighth",
+        "rhythm.l1.simple-meter.card-rests",
+        "rhythm.l1.simple-meter.card-read"
+      ],
+      "exerciseSetIds": ["rhythm.l1.simple-meter.read.exercises"]
+    },
+    {
+      "contentVersion": 9,
+      "status": "entwurf",
+      "id": "intervals.l1.size.numbers",
+      "titleKey": "content.intervalSizeStart.numbersLesson",
+      "unitId": "intervals.l1.size",
+      "skillIds": ["interval.generic-size"],
+      "introductionCardIds": [
+        "intervals.l1.size.card-count",
+        "intervals.l1.size.card-small",
+        "intervals.l1.size.card-large"
+      ],
+      "exerciseSetIds": ["intervals.l1.size.numbers.exercises"]
+    },
+    {
+      "contentVersion": 9,
+      "status": "entwurf",
+      "id": "intervals.l1.size.direction",
+      "titleKey": "content.intervalSizeStart.directionLesson",
+      "unitId": "intervals.l1.size",
+      "skillIds": ["interval.generic-size", "interval.direction"],
+      "introductionCardIds": [
+        "intervals.l1.size.card-up",
+        "intervals.l1.size.card-down",
+        "intervals.l1.size.card-same"
+      ],
+      "exerciseSetIds": ["intervals.l1.size.direction.exercises"]
+    },
+    {
+      "contentVersion": 9,
+      "status": "entwurf",
+      "id": "intervals.l1.size.motion",
+      "titleKey": "content.intervalSizeStart.motionLesson",
+      "unitId": "intervals.l1.size",
+      "skillIds": ["interval.generic-size", "interval.direction", "interval.steps-leaps"],
+      "introductionCardIds": [
+        "intervals.l1.size.card-repeat",
+        "intervals.l1.size.card-step",
+        "intervals.l1.size.card-leap"
+      ],
+      "exerciseSetIds": ["intervals.l1.size.motion.exercises"]
+    },
+    {
+      "contentVersion": 10,
+      "status": "entwurf",
+      "id": "intervals.l1.first-qualities.distance",
+      "titleKey": "content.firstQualityStart.distanceLesson",
+      "unitId": "intervals.l1.first-qualities",
+      "skillIds": ["interval.semitone-distance"],
+      "introductionCardIds": [
+        "intervals.l1.first-qualities.card-transitions",
+        "intervals.l1.first-qualities.card-black-keys",
+        "intervals.l1.first-qualities.card-larger"
+      ],
+      "exerciseSetIds": ["intervals.l1.first-qualities.distance.exercises"]
+    },
+    {
+      "contentVersion": 10,
+      "status": "entwurf",
+      "id": "intervals.l1.first-qualities.thirds",
+      "titleKey": "content.firstQualityStart.thirdsLesson",
+      "unitId": "intervals.l1.first-qualities",
+      "skillIds": ["interval.semitone-distance", "interval.thirds"],
+      "introductionCardIds": [
+        "intervals.l1.first-qualities.card-third-number",
+        "intervals.l1.first-qualities.card-minor",
+        "intervals.l1.first-qualities.card-major"
+      ],
+      "exerciseSetIds": ["intervals.l1.first-qualities.thirds.exercises"]
+    },
+    {
+      "contentVersion": 10,
+      "status": "entwurf",
+      "id": "intervals.l1.first-qualities.perfect",
+      "titleKey": "content.firstQualityStart.perfectLesson",
+      "unitId": "intervals.l1.first-qualities",
+      "skillIds": ["interval.semitone-distance", "interval.perfect-fourth-fifth-octave"],
+      "introductionCardIds": [
+        "intervals.l1.first-qualities.card-perfect",
+        "intervals.l1.first-qualities.card-octave",
+        "intervals.l1.first-qualities.card-tritone"
+      ],
+      "exerciseSetIds": ["intervals.l1.first-qualities.perfect.exercises"]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pulse-rhythm.pulse",
+      "titleKey": "content.auralRhythmStart.lesson1",
+      "unitId": "aural.l1.pulse-rhythm",
+      "skillIds": ["aural.pulse"],
+      "introductionCardIds": [
+        "aural.l1.pulse-rhythm.card-steady",
+        "aural.l1.pulse-rhythm.card-pulse-rhythm",
+        "aural.l1.pulse-rhythm.card-group-start"
+      ],
+      "exerciseSetIds": ["aural.l1.pulse-rhythm.pulse.exercises"]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pulse-rhythm.compare",
+      "titleKey": "content.auralRhythmStart.lesson2",
+      "unitId": "aural.l1.pulse-rhythm",
+      "skillIds": ["aural.same-different-rhythm"],
+      "introductionCardIds": [
+        "aural.l1.pulse-rhythm.card-compare",
+        "aural.l1.pulse-rhythm.card-changed",
+        "aural.l1.pulse-rhythm.card-silence"
+      ],
+      "exerciseSetIds": ["aural.l1.pulse-rhythm.compare.exercises"]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pulse-rhythm.choice",
+      "titleKey": "content.auralRhythmStart.lesson3",
+      "unitId": "aural.l1.pulse-rhythm",
+      "skillIds": ["aural.rhythm-choice-basic"],
+      "introductionCardIds": [
+        "aural.l1.pulse-rhythm.card-match",
+        "aural.l1.pulse-rhythm.card-values",
+        "aural.l1.pulse-rhythm.card-rest-choice"
+      ],
+      "exerciseSetIds": ["aural.l1.pulse-rhythm.choice.exercises"]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pitch-intervals.direction",
+      "titleKey": "content.auralPitchStart.lesson1",
+      "unitId": "aural.l1.pitch-intervals",
+      "skillIds": ["aural.pitch-direction"],
+      "introductionCardIds": [
+        "aural.l1.pitch-intervals.card-higher",
+        "aural.l1.pitch-intervals.card-lower",
+        "aural.l1.pitch-intervals.card-repeat"
+      ],
+      "exerciseSetIds": ["aural.l1.pitch-intervals.direction.exercises"]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pitch-intervals.melodies",
+      "titleKey": "content.auralPitchStart.lesson2",
+      "unitId": "aural.l1.pitch-intervals",
+      "skillIds": ["aural.same-different-melody"],
+      "introductionCardIds": [
+        "aural.l1.pitch-intervals.card-same",
+        "aural.l1.pitch-intervals.card-changed-note",
+        "aural.l1.pitch-intervals.card-memory"
+      ],
+      "exerciseSetIds": ["aural.l1.pitch-intervals.melodies.exercises"]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "aural.l1.pitch-intervals.intervals",
+      "titleKey": "content.auralPitchStart.lesson3",
+      "unitId": "aural.l1.pitch-intervals",
+      "skillIds": ["aural.third-fourth-fifth"],
+      "introductionCardIds": [
+        "aural.l1.pitch-intervals.card-thirds",
+        "aural.l1.pitch-intervals.card-fourth-fifth",
+        "aural.l1.pitch-intervals.card-interval-choice"
+      ],
+      "exerciseSetIds": ["aural.l1.pitch-intervals.intervals.exercises"]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.sources.sound",
+      "titleKey": "content.historySourcesStart.lesson1",
+      "unitId": "history.l1.sources",
+      "skillIds": ["history.sound-source"],
+      "introductionCardIds": [
+        "history.l1.sources.card-producer",
+        "history.l1.sources.card-medium",
+        "history.l1.sources.card-mixture"
+      ],
+      "exerciseSetIds": ["history.l1.sources.sound.exercises"]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.sources.documents",
+      "titleKey": "content.historySourcesStart.lesson2",
+      "unitId": "history.l1.sources",
+      "skillIds": ["history.source-types"],
+      "introductionCardIds": [
+        "history.l1.sources.card-notation-source",
+        "history.l1.sources.card-recorded-source",
+        "history.l1.sources.card-word-source"
+      ],
+      "exerciseSetIds": ["history.l1.sources.documents.exercises"]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.sources.context",
+      "titleKey": "content.historySourcesStart.lesson3",
+      "unitId": "history.l1.sources",
+      "skillIds": ["history.context"],
+      "introductionCardIds": [
+        "history.l1.sources.card-place",
+        "history.l1.sources.card-dates",
+        "history.l1.sources.card-occasion-author"
+      ],
+      "exerciseSetIds": ["history.l1.sources.context.exercises"]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.overview.periods",
+      "titleKey": "content.historyOverviewStart.lesson1",
+      "unitId": "history.l1.overview",
+      "skillIds": ["history.european-timeline"],
+      "introductionCardIds": [
+        "history.l1.overview.card-sequence",
+        "history.l1.overview.card-boundaries",
+        "history.l1.overview.card-coexistence"
+      ],
+      "exerciseSetIds": ["history.l1.overview.periods.exercises"]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.overview.genre",
+      "titleKey": "content.historyOverviewStart.lesson2",
+      "unitId": "history.l1.overview",
+      "skillIds": ["history.genre-function"],
+      "introductionCardIds": [
+        "history.l1.overview.card-genre",
+        "history.l1.overview.card-forces",
+        "history.l1.overview.card-purpose"
+      ],
+      "exerciseSetIds": ["history.l1.overview.genre.exercises"]
+    },
+    {
+      "contentVersion": 11,
+      "status": "entwurf",
+      "id": "history.l1.overview.observation",
+      "titleKey": "content.historyOverviewStart.lesson3",
+      "unitId": "history.l1.overview",
+      "skillIds": ["history.listening-observation"],
+      "introductionCardIds": [
+        "history.l1.overview.card-hear",
+        "history.l1.overview.card-evidence",
+        "history.l1.overview.card-uncertain"
+      ],
+      "exerciseSetIds": ["history.l1.overview.observation.exercises"]
     }
   ]
 }

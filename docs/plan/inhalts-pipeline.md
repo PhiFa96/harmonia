@@ -2,6 +2,8 @@
 
 Stand: 05.10.2026. Lokale Inhaltsprüfung, Freigabefilter und App-Anbindung sind implementiert. Die echte EAS-Projektbindung und eine nachgewiesene OTA-Auslieferung bleiben offen.
 
+Fortsetzung 12.10.2026: Alle 13 geplanten Stufe-1-Einheiten einschließlich Prototyp und alle 40 Fähigkeiten sind intern durchspielbar: 37 Lektionen, 370 Aufgaben, 106 Karten mit 157 Beispielen und 13 Artikel in DE/US/UK. Katalog und Plan haben Version 11. Alle Inhalte bleiben Entwurf bis zu Claudes getrenntem fachlichen Durchgang. Vollständiger Prüfstand und offene Abnahme: [stufe-1-vollstaendig.md](stufe-1-vollstaendig.md). 90 Fähigkeiten und 29 Einheiten bleiben erhalten; die folgenden Abschnitte dokumentieren die bisherige Grundlage.
+
 ## Daten und Einstiegspunkte
 
 `packages/content/src/catalogue.json` ist der vollständige interne Katalog. Strenge Zod-Schemas beschreiben Bereiche, Stufen, Einheiten, Fähigkeiten, Übungssätze, Wissenskarten, Wissensartikel und Lektionen. Jeder Datensatz hat eine stabile `id`, eine positive `contentVersion`, einen Freigabestatus und einen `titleKey`. Die Katalogversion ist mindestens so groß wie die Version jedes enthaltenen Datensatzes; `schemaVersion: 1` bezeichnet das Dateiformat.

@@ -2,6 +2,8 @@
 
 Stand: 05.10.2026. Der Entwurf für Stufen 1–2 liegt als geprüfte Daten mit Planungsdiagrammen vor. Claudes separate fachliche Abnahme bleibt offen; alle neuen Datensätze sind `entwurf`.
 
+Fortsetzung 12.10.2026: Alle 13 geplanten Stufe-1-Einheiten einschließlich Prototyp und alle 40 Fähigkeiten sind intern durchspielbar: 37 Lektionen, 370 Aufgaben, 106 Karten mit 157 Beispielen und 13 Artikel in DE/US/UK. Katalog und Plan haben Version 11. Alle Inhalte bleiben Entwurf bis zu Claudes getrenntem fachlichen Durchgang. Vollständiger Prüfstand und offene Abnahme: [stufe-1-vollstaendig.md](stufe-1-vollstaendig.md). 90 Fähigkeiten und 29 Einheiten bleiben erhalten; die folgenden Abschnitte dokumentieren die bisherige Grundlage.
+
 ## Umfang
 
 Der Katalog enthält 90 Fähigkeiten in 29 Einheiten und acht Bereichen. 40 Fähigkeiten gehören zu Stufe 1, 50 zu Stufe 2. Der Bereich `fundament` enthält die drei bestehenden Einführungsfähigkeiten aus P1.20; dazu kommen die sieben MVP-Fachbereiche aus [Phase 2](phase-2-mvp.md). Die vollständige Reihenfolge, alle Lernziele in Deutsch und Englisch (US/UK), stabile IDs und direkte Voraussetzungen stehen in den [erzeugten Diagrammen und Tabellen](faehigkeitsgraph-diagramme.md).

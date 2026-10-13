@@ -34,7 +34,19 @@ describe('Glossar: Form der Einträge', () => {
       if (id !== 'flat') {
         expect(entry.de.term[0], id).toMatch(/\p{Lu}/u);
       }
-      expect(entry.en.term, id).toBe(entry.en.term.toLowerCase());
+      if (id === 'beatsPerMinute') expect(entry.en.term).toBe('BPM (beats per minute)');
+      else if (
+        ['medieval', 'renaissance', 'baroque', 'classicalPeriod', 'romanticPeriod'].includes(id)
+      ) {
+        const proper: Readonly<Record<string, string>> = {
+          medieval: 'Middle Ages',
+          renaissance: 'Renaissance',
+          baroque: 'Baroque',
+          classicalPeriod: 'Classical period',
+          romanticPeriod: 'Romantic period',
+        };
+        expect(entry.en.term, id).toBe(proper[id]);
+      } else expect(entry.en.term, id).toBe(entry.en.term.toLowerCase());
       expect(entry.enGB?.term ?? '', id).toBe((entry.enGB?.term ?? '').toLowerCase());
     }
   });
@@ -128,7 +140,16 @@ describe('Glossar als i18next-Namensraum', () => {
   it('en-GB enthält nur die britischen Abweichungen', () => {
     const { notes, rests, ...terms } = glossaryResource('en-GB');
     const ids = new Set(Object.keys(terms).map((k) => k.replace(/_(one|other)$/, '')));
-    expect([...ids].sort()).toEqual(['measure', 'meter', 'semitone', 'staff', 'wholeTone']);
+    expect([...ids].sort()).toEqual([
+      'measure',
+      'meter',
+      'pickup',
+      'programmeSource',
+      'semitone',
+      'staff',
+      'wholeTone',
+    ]);
+    expect(terms['pickup_one']).toBe('upbeat');
     expect(notes).toMatchObject({ quarter: 'crotchet', quarter_other: 'crotchets' });
     expect(rests).toMatchObject({ half: 'minim rest' });
   });

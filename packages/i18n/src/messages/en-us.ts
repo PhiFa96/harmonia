@@ -35,6 +35,327 @@ export const enUS = {
     wrongTitle: 'Not quite',
   },
   exercise: {
+    type_LISTENING_CHOICE: 'Listen and compare',
+    question_listening_pulse:
+      'Listen to the two steady pulse groups. How many beats belong to each group? Count the higher starting sound as 1; the next start belongs to the next group.',
+    'question_listening_rhythm-compare':
+      'Listen to example A and, after the gap, example B. Do they have the same rhythm? Compare starts, sound durations and rests.',
+    'question_listening_rhythm-choice':
+      'Which of the three scores matches the heard rhythm? All examples use the same pitch.',
+    'question_listening_pitch-direction':
+      'Listen to the two pitches in sequence. Is the second higher, lower or the same pitch?',
+    'question_listening_melody-compare':
+      'Listen to melody A and, after the gap, melody B. Do all pitches in the same order and all durations match?',
+    question_listening_observation:
+      'Which statement describes something you can directly hear in this teaching example?',
+    listeningOption: 'Score {{count}}',
+    listeningClip: 'Listening example {{count}}',
+    listeningPulseCount: 'Pulse group with {{count}} beats',
+    listeningSame: 'Same',
+    listeningDifferent: 'Different',
+    listeningUp: 'Second pitch higher',
+    listeningDown: 'Second pitch lower',
+    listeningRepeat: 'Same pitch',
+    listeningSingle: 'Only one pitch sounds at a time',
+    listeningTogether: 'At least two pitches sound together',
+    listeningDate: 'The work was certainly composed in 1750',
+    listeningPlace: 'The music was certainly performed in a church',
+    listeningHint1:
+      'Listen to the whole example first. You can stop and replay it. Focus on the property asked about.',
+    listeningHint2:
+      'Compare beats and rests for rhythm, and pitches for melody. A score describes the sounds; historical claims require additional sources.',
+    listeningExplanation_pulse:
+      'The higher sound marks the beginning of each group. The evenly spaced beats between two beginnings form one group. Answer: {{answer}}. The next starting sound belongs to the next group.',
+    'listeningExplanation_rhythm-compare':
+      'The assessment compares actual starts, sound durations and rests in both sound sources. Answer: {{answer}}. Pitch stays the same in these questions.',
+    'listeningExplanation_rhythm-choice':
+      '{{answer}} has the same starts, sound durations and rests as the played example. The three complete $t(glossary:measure_other) differ audibly.',
+    'listeningExplanation_pitch-direction':
+      'The second sounding pitch is compared with the first. Answer: {{answer}}. Loudness and duration do not determine higher or lower.',
+    'listeningExplanation_melody-compare':
+      'The sounding pitches, their order, starts and durations are compared. Answer: {{answer}}. Here, “same” means the same pitches, not just a similar direction.',
+    listeningExplanation_observation:
+      '{{answer}} can be checked in the sound example. Date and performance venue cannot be established from it alone. This is an original piano teaching model, not a historical recording.',
+    orderRule_periods:
+      'Order by the conventional broad sequence of European periods; their boundaries can overlap.',
+    order_periods_ascending: 'Order the periods from earlier to later.',
+    order_periods_descending: 'Order the periods from later to earlier.',
+    knowledgeHint_soundSources:
+      'Read the described property carefully. Distinguish the term from related categories and consider the limits of the source.',
+    knowledgeHistory_soundSources_voice: '$t(glossary:voice_one)',
+    knowledgeHistoryDefinition_soundSources_voice:
+      'Sound is produced by the vibrating vocal folds of a singing person.',
+    knowledgeHistory_soundSources_instrument: '$t(glossary:instrument_one)',
+    knowledgeHistoryDefinition_soundSources_instrument:
+      'A performer sets a string or a column of air, for example, into vibration.',
+    knowledgeHistory_soundSources_recording: '$t(glossary:recording_one)',
+    knowledgeHistoryDefinition_soundSources_recording:
+      'Stored sound is played back; it can contain voices, instruments or electronic sounds.',
+    knowledgeHistory_soundSources_electronic: '$t(glossary:electronicSound)',
+    knowledgeHistoryDefinition_soundSources_electronic:
+      'An electronic device or program generates the audio signal.',
+    knowledgeHint_sourceTypes:
+      'Read the described property carefully. Distinguish the term from related categories and consider the limits of the source.',
+    knowledgeHistory_sourceTypes_score: '$t(glossary:scoreSource_one)',
+    knowledgeHistoryDefinition_sourceTypes_score:
+      'A written source specifies pitches, durations and other performance instructions; it is not itself a sounding performance.',
+    knowledgeHistory_sourceTypes_recording: '$t(glossary:recording_one)',
+    knowledgeHistoryDefinition_sourceTypes_recording:
+      'This source documents a particular sounding performance, including its interpretation.',
+    knowledgeHistory_sourceTypes_report: '$t(glossary:report_one)',
+    knowledgeHistoryDefinition_sourceTypes_report:
+      'A person describes a musical event in words; their perspective and memory need to be examined.',
+    knowledgeHistory_sourceTypes_programme: '$t(glossary:programmeSource_one)',
+    knowledgeHistoryDefinition_sourceTypes_programme:
+      'An announcement lists works, performers, venue and date, for example; it alone does not prove that everything happened as announced.',
+    knowledgeHint_context:
+      'Read the described property carefully. Distinguish the term from related categories and consider the limits of the source.',
+    knowledgeHistory_context_place: '$t(glossary:place_one)',
+    knowledgeHistoryDefinition_context_place:
+      'The question is: where did the performance take place, for example in a concert hall?',
+    knowledgeHistory_context_time: '$t(glossary:time_one)',
+    knowledgeHistoryDefinition_context_time:
+      'The question is: when did the event take place? Composition and recording dates can differ.',
+    knowledgeHistory_context_occasion: '$t(glossary:occasion_one)',
+    knowledgeHistoryDefinition_context_occasion:
+      'The question is: what event was the music part of, for example a wedding?',
+    knowledgeHistory_context_author: '$t(glossary:author)',
+    knowledgeHistoryDefinition_context_author:
+      'The question is: who wrote the music or the report? This is not automatically the same person as the performer.',
+    knowledgeHint_periods:
+      'Read the described property carefully. Distinguish the term from related categories and consider the limits of the source.',
+    knowledgeHistory_periods_medieval: '$t(glossary:medieval)',
+    knowledgeHistoryDefinition_periods_medieval:
+      'In this broad overview of European art music, roughly 500–1400; boundaries vary by region and topic.',
+    knowledgeHistory_periods_renaissance: '$t(glossary:renaissance)',
+    knowledgeHistoryDefinition_periods_renaissance:
+      'In this broad overview of European art music, roughly 1400–1600, after the Middle Ages and before the Baroque.',
+    knowledgeHistory_periods_baroque: '$t(glossary:baroque)',
+    knowledgeHistoryDefinition_periods_baroque:
+      'In this broad overview of European art music, roughly 1600–1750, after the Renaissance and before the Classical period.',
+    knowledgeHistory_periods_classical: '$t(glossary:classicalPeriod)',
+    knowledgeHistoryDefinition_periods_classical:
+      'In this broad overview of European art music, roughly 1750–1820; overlap with Romanticism is possible.',
+    knowledgeHistory_periods_romantic: '$t(glossary:romanticPeriod)',
+    knowledgeHistoryDefinition_periods_romantic:
+      'In this broad overview of European art music, mainly the nineteenth century, approximately 1800–1900.',
+    knowledgeHistory_periods_since1900: '$t(glossary:musicSince1900)',
+    knowledgeHistoryDefinition_periods_since1900:
+      'In this overview, the twentieth and twenty-first centuries with many coexisting styles; not a single sound style.',
+    knowledgeHint_genreContext:
+      'Read the described property carefully. Distinguish the term from related categories and consider the limits of the source.',
+    knowledgeHistory_genreContext_genre: '$t(glossary:genre_one)',
+    knowledgeHistoryDefinition_genreContext_genre:
+      'The question is: what kind of work is it, for example an opera or a symphony?',
+    knowledgeHistory_genreContext_forces: '$t(glossary:performingForces_one)',
+    knowledgeHistoryDefinition_genreContext_forces:
+      'The question is: which voices or instruments take part, for example a choir or a string quartet?',
+    knowledgeHistory_genreContext_occasion: '$t(glossary:occasion_one)',
+    knowledgeHistoryDefinition_genreContext_occasion:
+      'The question is: at which specific event was music performed, for example a wedding ceremony?',
+    knowledgeHistory_genreContext_function: '$t(glossary:function_one)',
+    knowledgeHistoryDefinition_genreContext_function:
+      'The question is: what purpose did the music serve, for example dancing, worship or focused listening?',
+    knowledgeHint_evidence:
+      'Read the described property carefully. Distinguish the term from related categories and consider the limits of the source.',
+    knowledgeHistory_evidence_observation: '$t(glossary:observation_one)',
+    knowledgeHistoryDefinition_evidence_observation:
+      'A statement describes something directly heard, for example two pitches sounding at the same time.',
+    knowledgeHistory_evidence_metadata: '$t(glossary:sourceInformation_one)',
+    knowledgeHistoryDefinition_evidence_metadata:
+      'A labeled source gives authorship, place or date, for example; its reliability must be checked separately.',
+    knowledgeHistory_evidence_inference: '$t(glossary:inference_one)',
+    knowledgeHistoryDefinition_evidence_inference:
+      'An informed conclusion is drawn from observations and sources; it is not identical to direct perception.',
+    knowledgeHistory_evidence_uncertainty: '$t(glossary:uncertainty)',
+    knowledgeHistoryDefinition_evidence_uncertainty:
+      'Missing or conflicting evidence is explicitly identified; sound alone does not establish a certain place or date of origin.',
+    question_durationSymbol: 'What value does this {{kind}} symbol have?',
+    question_measureGap:
+      'Which {{kind}} completes this $t(glossary:measure_one) to exactly four $t(glossary:notes.quarter_other)?',
+    measureGapDescription:
+      'Four-four $t(glossary:measure_one). Present, in order: {{events}}. One {{kind}} is missing at the end.',
+    measureGapExplanation:
+      'The given values total {{used}} $t(glossary:notes.quarter_other). 4 − {{used}} = {{missing}}. Missing: {{answer}}. Rests count too; bar lines have no duration.',
+    durationSymbolHint1:
+      'Look at the shape, fill, stem and flags. For rectangular rests, their position relative to the line matters.',
+    durationSymbolHint2:
+      'Each step from $t(glossary:notes.whole_one) to $t(glossary:notes.half_one), $t(glossary:notes.quarter_one), $t(glossary:notes.eighth_one) and $t(glossary:notes.sixteenth_one) halves the duration. Rest symbols have matching values.',
+    measureGapHint1:
+      'Express notes and rests in $t(glossary:notes.quarter_other). Add them, then subtract the total from four.',
+    measureGapHint2:
+      'One $t(glossary:notes.half_one) equals two $t(glossary:notes.quarter_other); two $t(glossary:notes.eighth_other) or four $t(glossary:notes.sixteenth_other) equal one $t(glossary:notes.quarter_one). The missing value must fit exactly.',
+    knowledgeRestDuration:
+      'Silence for {{value}} × the duration of a $t(glossary:notes.whole_one).',
+    knowledge_barlines_single: '$t(glossary:barline_one)',
+    knowledge_barlines_final: '$t(glossary:finalBarline_one)',
+    knowledgeDefinition_barlines_single:
+      'A thin vertical line separates adjacent $t(glossary:measure_other); it has no duration of its own.',
+    knowledgeDefinition_barlines_final:
+      'A thin and a thick vertical line mark the end of a piece or complete section.',
+    knowledgeHint_rests:
+      'Rests have definite durations. The steady pulse continues during silence.',
+    knowledgeHint_barlines:
+      'One thin line separates $t(glossary:measure_other); thin plus thick marks an ending.',
+    durationShape_note_whole: 'Unfilled oval notehead without a stem.',
+    durationShape_note_half: 'Unfilled oval notehead with a stem and no flag.',
+    durationShape_note_quarter: 'Filled notehead with a stem and no flag.',
+    durationShape_note_eighth: 'Filled notehead with a stem and one flag.',
+    durationShape_note_sixteenth: 'Filled notehead with a stem and two flags.',
+    durationShape_rest_whole: 'Filled rectangle hanging below a short reference line.',
+    durationShape_rest_half: 'Filled rectangle sitting on a short reference line.',
+    durationShape_rest_quarter: 'Vertical jagged rest symbol with a curved lower end.',
+    durationShape_rest_eighth: 'Slanted rest symbol with one hook.',
+    durationShape_rest_sixteenth: 'Slanted rest symbol with two hooks.',
+    measureGapSlot: 'Missing value',
+    measureGapCapacity: 'Target: four $t(glossary:notes.quarter_other) in total',
+
+    knowledgeStart: 'Practice knowledge, matching and ordering',
+    knowledgeIntro:
+      'Nine questions: identify basic concepts, match their explanations and order note values or pitches.',
+    type_KNOWLEDGE_MC: 'Knowledge question',
+    type_MATCH: 'Match concepts',
+    type_ORDER: 'Build a sequence',
+    orderMoveUp: 'Move up',
+    orderMoveDown: 'Move down',
+    orderRemoveItem: 'Remove',
+    question_KNOWLEDGE_MC: 'Which concept matches this explanation? {{definition}}',
+    question_MATCH:
+      'Match each concept with its explanation. Each explanation belongs to exactly one concept.',
+    question_ORDER: 'Put all the items in order {{direction}}. {{rule}}',
+    knowledgeExplanation: '{{term}}: {{definition}}',
+    knowledgeKeyboard_semitone: '$t(glossary:semitone_one)',
+    knowledgeKeyboard_wholeTone: '$t(glossary:wholeTone_one)',
+    knowledgeKeyboard_twoBlackKeys: '$t(glossary:twoBlackKeys_one)',
+    knowledgeKeyboard_threeBlackKeys: '$t(glossary:threeBlackKeys_one)',
+    knowledgeKeyboardDefinition_semitone:
+      'Distance between immediately adjacent $t(glossary:pianoKey_other), including black keys. There is no key in between.',
+    knowledgeKeyboardDefinition_wholeTone:
+      'Distance of two $t(glossary:semitone_other). Exactly one key lies between the start and end on the $t(glossary:keyboard_one).',
+    knowledgeKeyboardDefinition_twoBlackKeys:
+      'Repeating group of two black keys. The white key immediately to its left is C.',
+    knowledgeKeyboardDefinition_threeBlackKeys:
+      'Repeating group of three black keys. The white key immediately to its left is F.',
+    knowledgeHint_keyboard:
+      'Use the black-key groups to find your place and count every key step, including black keys.',
+    knowledge_pulse_pulse: '$t(glossary:pulse)',
+    knowledge_pulse_rhythm: '$t(glossary:rhythm_one)',
+    knowledge_pulse_metronome: '$t(glossary:metronome_one)',
+    knowledge_pulse_countIn: '$t(glossary:countIn)',
+    knowledge_tempo_tempo: '$t(glossary:tempo)',
+    knowledge_tempo_bpm: '$t(glossary:beatsPerMinute)',
+    knowledge_tempo_faster: 'Higher $t(glossary:tempo)',
+    knowledge_tempo_slower: 'Lower $t(glossary:tempo)',
+    knowledge_beatGroup_first: 'First $t(glossary:beat_one)',
+    knowledge_beatGroup_duple: '$t(glossary:beatGroup_one) of two $t(glossary:beat_other)',
+    knowledge_beatGroup_triple: '$t(glossary:beatGroup_one) of three $t(glossary:beat_other)',
+    knowledge_beatGroup_quadruple: '$t(glossary:beatGroup_one) of four $t(glossary:beat_other)',
+    knowledgeDefinition_pulse_pulse:
+      'Steady underlying beats that provide a timing reference when making music. Their spacing stays equal here.',
+    knowledgeDefinition_pulse_rhythm:
+      'The sequence of sounding events and rests in time. It can include long and short durations while the underlying beats stay steady.',
+    knowledgeDefinition_pulse_metronome:
+      'A device or app that produces evenly spaced clicks at a chosen speed.',
+    knowledgeDefinition_pulse_countIn:
+      'Steady clicks before your entrance. They establish the speed and starting point together.',
+    knowledgeDefinition_tempo_tempo:
+      'The speed of the underlying beat. It determines how quickly evenly spaced clicks follow one another.',
+    knowledgeDefinition_tempo_bpm:
+      'The unit for the number of underlying beats in one minute. At 60, consecutive clicks are one second apart.',
+    knowledgeDefinition_tempo_faster:
+      'More beats per minute than before: the gaps between clicks become shorter.',
+    knowledgeDefinition_tempo_slower:
+      'Fewer beats per minute than before: the gaps between clicks become longer.',
+    knowledgeDefinition_beatGroup_first:
+      'Here, the accented counting position that starts a new group. Counting returns to 1; the time interval stays equal.',
+    knowledgeDefinition_beatGroup_duple:
+      'Repeating count 1–2, 1–2. After the second position, the next group begins.',
+    knowledgeDefinition_beatGroup_triple:
+      'Repeating count 1–2–3, 1–2–3. After the third position, the next group begins.',
+    knowledgeDefinition_beatGroup_quadruple:
+      'Repeating count 1–2–3–4, 1–2–3–4. After the fourth position, the next group begins.',
+    knowledgeHint_pulse:
+      'Distinguish the steady timing reference, the sequence of sounds and rests, the click device and the lead-in before your entrance.',
+    knowledgeHint_tempo:
+      'Compare speed, its unit and changing click intervals: more beats per minute means shorter intervals.',
+    knowledgeHint_beatGroup:
+      'Count each position once. After the last position, return to 1; accenting a beat does not change the time interval.',
+    type_PULSE_TAP: 'Tap the $t(glossary:pulse)',
+    question_PULSE_TAP:
+      'After the $t(glossary:countIn), tap every click: {{count}} steady beats at {{bpm}} beats per minute. Listen to one whole group first; recording starts on the next 1.',
+    pulseDescription:
+      '{{count}} evenly spaced counting positions at {{bpm}} beats per minute. The first is accented; all time intervals are equal.',
+    pulseGroup: '{{count}} beats · {{bpm}} BPM · 1 starts the group',
+    pulseHint1:
+      'Listen to the whole count-in group first. Start tapping on the next accented 1 and tap every click, including unaccented ones.',
+    pulseHint2:
+      'Tap exactly {{count}} times at evenly spaced intervals at {{bpm}} beats per minute. Holding the button counts as one tap.',
+    pulseExplanation:
+      '{{matched}} of {{total}} beats within ±{{tolerance}} ms; {{missing}} are missing or outside the window, {{extra}} are extra. {{pattern}} Tap every click once. The accented 1 is no longer than other beats.',
+    pulsePattern: 'Beats after recording starts: {{times}} ms.',
+    pulseTapHint:
+      'Tap every click. With a keyboard, press Space or Enter on this button. Holding a key counts once.',
+    pulseWindow:
+      'Timing window: ±{{tolerance}} ms. Tap onsets are measured, not how long you hold the button.',
+    pulseTarget: 'Beat {{index}}: {{time}} ms',
+    knowledgeRaises: 'Raises a natural note by {{distance}}.',
+    knowledgeLowers: 'Lowers a natural note by {{distance}}.',
+    knowledgeNatural: 'Cancels an existing alteration and restores the natural pitch of the note.',
+    knowledgeDuration: 'Value: {{value}} × $t(glossary:notes.whole_one).',
+    knowledgeInterval: 'Spans {{positions}}, counting both endpoints, and {{distance}}.',
+    knowledgePositions_one: '{{count}} diatonic note position',
+    knowledgePositions_other: '{{count}} diatonic note positions',
+    knowledgeTriad:
+      '$t(glossary:triad_one) in thirds: its notes are {{pattern}} $t(glossary:semitone_other) above the $t(glossary:root_one).',
+    knowledgeTriad_major: 'Major $t(glossary:triad_one)',
+    knowledgeTriad_minor: 'Minor $t(glossary:triad_one)',
+    knowledgeTriad_diminished: 'Diminished $t(glossary:triad_one)',
+    knowledgeTriad_augmented: 'Augmented $t(glossary:triad_one)',
+    knowledgeScale:
+      'Ascending $t(glossary:scale_one): consecutive steps over an octave contain {{pattern}} $t(glossary:semitone_other).',
+    knowledgeMeter:
+      '{{count}} beats per $t(glossary:measure_one), each with the value {{beat}}. Grouping in denominator units: {{groups}}.',
+    knowledgeHint_accidentals:
+      'Compare raising, lowering and cancelling an alteration. $t(glossary:sharp_other) and $t(glossary:flat_other) change the natural pitch by one $t(glossary:semitone_one), double signs by two.',
+    knowledgeHint_noteValues:
+      'Reference for the fractions: $t(glossary:notes.whole_one). A dot adds half of the undotted value.',
+    knowledgeHint_intervals:
+      'Count the note letters including both endpoints and also the semitone distance. Semitones alone do not determine the spelling.',
+    knowledgeHint_triads:
+      'Consider the root, third and fifth in thirds. Compare their semitone distances from the root.',
+    knowledgeHint_scales:
+      'Compare consecutive semitone steps upwards. Classical melodic minor is explicitly considered in its ascending form here.',
+    knowledgeHint_meters:
+      'Distinguish the number of denominator units from the number of beats. In compound meters, three units form one beat.',
+    knowledgeHint_pitches:
+      'Compare the octave first, then the pitch within it. German H corresponds to English B.',
+    knowledgeHint2_KNOWLEDGE_MC: 'Narrow your choice to these two concepts: {{candidates}}.',
+    knowledgeHint2_MATCH: 'Begin with this pair: {{term}} – {{definition}}',
+    knowledgeHint2_ORDER: 'The first item is {{first}}.',
+    order_noteValues_ascending: 'from shortest to longest duration',
+    order_noteValues_descending: 'from longest to shortest duration',
+    order_pitches_ascending: 'from lowest to highest',
+    order_pitches_descending: 'from highest to lowest',
+    orderRule_noteValues: 'The complete note value, including its dot, is compared.',
+    orderRule_pitches: 'The octave is part of the pitch.',
+    orderExplanation: 'The correct order {{direction}} is: {{sequence}}. {{rule}}',
+    matchSelectTerm: 'Select a concept to edit',
+    matchDefinitions: 'Choose an explanation for {{term}}',
+    matchUnset: 'not matched yet',
+    matchFilled: '{{count}} of {{total}} concepts matched.',
+    matchClear: 'Clear match',
+    matchInstruction:
+      'Choose a concept, then an explanation. Choosing an explanation that is already used clears its previous match.',
+    orderChoices: 'Available items',
+    orderAnswer: 'Your sequence',
+    orderEmpty: 'Choose the first item from the options.',
+    orderFilled: '{{count}} of {{total}} items ordered.',
+    orderPosition: 'Position {{index}}: {{value}}',
+    orderUp: 'Move {{value}} up',
+    orderDown: 'Move {{value}} down',
+    orderRemove: 'Remove {{value}}',
+    orderInputHint:
+      'Choose the items in your preferred order. Use the buttons to move or remove them.',
     title: 'Read and hear music',
     intro:
       'Practice note names and intervals. Choose an answer and check it. Hints guide you step by step.',
@@ -43,6 +364,93 @@ export const enUS = {
     noteInput: 'Try notation and piano input',
     constructionStart: 'Enter notes and build intervals',
     chooseSet: 'Choose practice set',
+    rhythmStart: 'Practice rhythm and meter',
+    rhythmIntro:
+      'Six questions: tap note onsets after a count-in $t(glossary:measure_one) and identify how $t(glossary:timeSignature_other) are grouped. Stay silent during rests.',
+    type_RHYTHM_TAP: 'Tap $t(glossary:rhythm_one)',
+    type_METER_IDENTIFY: 'Group the $t(glossary:meter_one)',
+    type_PICKUP_IDENTIFY: 'Recognize a $t(glossary:pickup_one)',
+    question_RHYTHM_TAP:
+      'Tap each note onset in this $t(glossary:measure_one). Each $t(glossary:beat_one) has the value {{beat}}; the $t(glossary:tempo) is {{bpm}} beats per minute. Your recording starts after one count-in $t(glossary:measure_one).',
+    question_METER_IDENTIFY:
+      'How is this $t(glossary:meter_one) grouped? Choose the number of beats and their note value.',
+    question_PICKUP_IDENTIFY:
+      'Is the first notated measure before the first bar line a pickup? Compare its duration with the following complete measure.',
+    pickupYes: 'Yes, a pickup',
+    pickupNo: 'No, a complete measure',
+    pickupExplanation:
+      '{{meter}} holds {{capacity}} × one quarter-note value. Before the first bar line: {{first}} × one quarter-note value. {{answer}}. The second measure shows the full length.',
+    pickupDescription:
+      'Time signature {{meter}}. First measure before the bar line: {{events}} A complete measure follows.',
+    pickupHint1: 'Add only the note values before the first bar line.',
+    pickupHint2:
+      'Compare that sum with the numerator of the time signature: 2/4, 3/4 or 4/4. Two eighth notes equal one quarter note.',
+    pickupScroll: 'Scroll the notation sideways to see the full following measure.',
+    meterOption: '{{count}} beats with the value {{beat}}',
+    meterExplanation:
+      '{{meter}}: {{count}} beats per $t(glossary:measure_one), each with the value {{beat}}. Each beat divides into {{division}} equal parts. The grouping in denominator units is {{groups}}. The numerator counts denominator units, which are not always the beats.',
+    rhythmExplanation:
+      '{{matched}} of {{total}} note onsets within ±{{tolerance}} ms; {{missing}} are missing or outside the window, {{extra}} are extra. {{pattern}} Tap note onsets only; stay silent during rests. Any missing or extra tap counts as an error.',
+    rhythmPattern: 'Note onsets after the start of the $t(glossary:measure_one): {{times}} ms.',
+    rhythmDescription: 'Time signature {{meter}}. {{events}}',
+    rhythmEvent: '{{index}}: {{kind}}, {{duration}}.',
+    rhythmNote: 'note',
+    rhythmRest: 'rest',
+    rhythmHint1:
+      'Keep counting the beat. Tap only when a note begins, not throughout its duration. Rests have duration but no tap.',
+    rhythmHint2:
+      'This $t(glossary:measure_one) has {{total}} note onsets. Keep {{count}} steady beats with the value {{beat}} at {{bpm}} beats per minute.',
+    meterHint1:
+      'The numerator gives the number of units; the denominator gives their note value. In 6/8, 9/8 and 12/8, three eighth notes form one beat.',
+    meterHint2: 'Group the units as follows: {{groups}}. Each group forms one beat.',
+    rhythmReady: 'Ready for the count-in.',
+    rhythmPreparing: 'Preparing sound …',
+    rhythmCountIn: 'Count-in: {{current}} of {{count}}',
+    rhythmRecording: 'Recording: {{current}} of {{count}} beats',
+    rhythmFinished: 'Recording complete. Check it or record again.',
+    rhythmBegin: 'Count in and record',
+    rhythmRetry: 'Record again',
+    rhythmCancel: 'Cancel recording',
+    rhythmTap: 'Tap now',
+    rhythmTapHint:
+      'Tap at each note onset. With a keyboard, press Space or Enter on this button. Holding a key counts once.',
+    rhythmTapCount_one: '{{count}} tap recorded.',
+    rhythmTapCount_other: '{{count}} taps recorded.',
+    rhythmWindow:
+      'Timing window: ±{{tolerance}} ms. Note onsets are measured, not how long you hold the button.',
+    rhythmPreview: 'Listen to the rhythm example',
+    rhythmTarget: 'Note onset {{index}}: {{time}} ms',
+    rhythmHit: 'matched, offset {{offset}} ms',
+    rhythmMiss: 'missing or outside the timing window',
+    rhythmExtras: 'Extra taps: {{times}} ms.',
+    rhythmLatency:
+      'Reported audio delay: {{latency}} ms; taken into account when measuring your taps.',
+    chordStart: 'Recognize and write chords',
+    chordIntro:
+      'Nine questions: write major, minor, diminished and augmented triads with inversions, recognize them in notation and identify them by ear.',
+    type_CHORD_BUILD: 'Write $t(glossary:chord_other)',
+    type_CHORD_IDENTIFY: 'Recognize $t(glossary:chord_other)',
+    question_CHORD_BUILD:
+      'Write {{name}} in close position above {{bass}}. The $t(glossary:bassNote_one) is given; add the two remaining notes.',
+    question_CHORD_IDENTIFY:
+      'Which $t(glossary:chord_one) do you see? Identify its $t(glossary:root_one), quality and $t(glossary:inversion_one).',
+    question_CHORD_AURAL:
+      'You hear $t(glossary:root_one) {{root}} first, then the $t(glossary:triad_one). Which quality and $t(glossary:inversion_one) do you hear?',
+    chordExplanation:
+      '{{name}}: {{notes}}. From $t(glossary:root_one) {{root}}, the intervals are {{third}} and {{fifth}}. The $t(glossary:bassNote_one) is {{bass}}, giving {{inversion}}. Written answers require complete notes, including accidentals and octave. Close position places the remaining chord tones in their next higher registers above the bass note.',
+    chordHint1:
+      'Arrange the three letter names mentally in thirds. The bottom note of that arrangement is the $t(glossary:root_one). Compare it with the actual lowest note: root, third or fifth in the bass determines $t(glossary:rootPosition) or $t(glossary:inversion_one).',
+    chordHint2:
+      'The $t(glossary:root_one) is {{root}}. From there you need {{third}} and {{fifth}}. The given or heard $t(glossary:bassNote_one) {{bass}} shows the position; place the other chord tones as close above it as possible.',
+    chordAuralHint1:
+      'Remember the first single note as the $t(glossary:root_one). Then listen for the lowest note of the $t(glossary:chord_one): compare it with the reference note, including across octaves. Root, third or fifth in the bass determines the position. The intervals between the notes determine the triad quality.',
+    chordPreview: 'Your $t(glossary:chord_one)',
+    chordSelectTone: 'Choose a chord tone to edit',
+    chordTone: 'Note {{index}}',
+    chordToneEmpty: 'not placed yet',
+    chordFilled: '{{count}} of 2 answer notes placed.',
+    chordInputHint:
+      'Choose note 2 or 3 and place it in the right $t(glossary:measure_one). The $t(glossary:bassNote_one) stays fixed on the left. The combined notation shows your $t(glossary:chord_one). You may enter the upper notes in either order.',
     tonalityStart: 'Practise scales and key signatures',
     tonalityIntro:
       'Twelve questions: identify and write major and minor scales, recognise key signatures and build them yourself.',
@@ -98,14 +506,23 @@ export const enUS = {
     type_INTERVAL_BUILD: 'Build intervals',
     question_NOTE_PLACE: 'Write {{note}} on the empty staff. Check its accidental and octave.',
     question_KEY_FIND: 'Find the key for {{note}}. Check the octave.',
+    question_KEY_FIND_name: 'Find the key for {{note}}.',
+    question_KEY_FIND_score:
+      'Play the written note on the $t(glossary:keyboard_one). Check its $t(glossary:noteName_one) and $t(glossary:octave_one).',
     question_INTERVAL_BUILD:
       'Write the second note: {{interval}} from {{from}}. Place it in the empty second measure.',
     writtenPitch:
       'The complete answer is {{note}}. The letter, accidental and octave must match; an equally sounding note with a different spelling does not count here.',
     keyExplanation:
       'The required key sounds as {{note}}. Start from the natural note {{natural}} in the same octave. {{alteration}} Equally sounding spellings belong to the same key; a different octave does not count.',
+    keyNameExplanation:
+      'The required key sounds as {{note}}. The $t(glossary:naturalNote_one) {{natural}} occurs only once in the shown range. Start there. {{alteration}} Equally sounding spellings belong to the same key.',
     keyHint1:
       'Find the groups of two black keys: C is immediately to their left, and D is between the two black keys. Count from there to the required natural note in the stated octave.',
+    keyNameHint1:
+      'Find the $t(glossary:twoBlackKeys_other): C is immediately to their left, and D is between their keys. Count along the white keys to the requested $t(glossary:naturalNote_one) in the shown range.',
+    keyScoreHint1:
+      'First read the $t(glossary:clef_one) and the note position, including its $t(glossary:ledgerLine_other). Work out the complete $t(glossary:noteName_one). Find C in the same $t(glossary:octave_one) on the $t(glossary:keyboard_one), then move to the matching key.',
     keyHint2:
       'First find {{natural}}. {{alteration}} Moving to the immediately adjacent key is one semitone, including between E and F and between B and C.',
     buildHint2:
@@ -115,12 +532,83 @@ export const enUS = {
       'Tap the empty measure or adjust the rest with your screen reader. Drag to move your note. Choose its accidental with the controls below.',
     back: 'Back to exercises',
     question_NOTE_NAME: 'What is this note called? Choose the name without its octave.',
+    question_NOTE_NAME_octave:
+      'What is the written note called, including its $t(glossary:octave_one)?',
     question_INTERVAL_IDENTIFY_VISUAL:
       'Which $t(glossary:interval_one) do you see between these two notes?',
     question_INTERVAL_IDENTIFY_AURAL:
       'Which $t(glossary:interval_one) do you hear between these two notes?',
     type_NOTE_NAME: 'Note names',
     type_INTERVAL_IDENTIFY_VISUAL: 'Read intervals',
+    type_interval_number: 'Count the interval number',
+    type_interval_direction: 'Read the direction',
+    type_interval_motion: 'Repeated note, step or leap',
+    type_interval_semitones: 'Count half steps',
+    type_interval_quality: 'Identify interval quality',
+    type_interval_perfect: 'Check perfect intervals',
+    question_interval_semitones:
+      'How many half steps separate the two written pitches? Count the moves between adjacent piano keys. The starting key counts as 0.',
+    question_interval_quality:
+      'What is the full name of the written interval? Check its number and distance in half steps.',
+    question_interval_perfect:
+      'Is the written interval a perfect fourth, perfect fifth or perfect octave? Check both its number and half-step distance.',
+    intervalPerfectYes: 'Yes, a perfect interval',
+    intervalPerfectNo: 'No, not a perfect interval here',
+    intervalReadingExplanation_semitones:
+      '{{from}} → {{to}}: distance {{distance}}. Count moves between immediately adjacent keys, including black keys. The starting key counts as 0; identical pitches have distance 0.',
+    intervalReadingExplanation_quality:
+      '{{from}} → {{to}}: letter-name sequence {{path}}, interval number {{count}}, sounding distance {{distance}}. Number and distance together give {{answer}}.',
+    intervalReadingExplanation_perfect:
+      '{{from}} → {{to}}: interval number {{count}}, sounding distance {{distance}}. A perfect fourth has 5 half steps, a perfect fifth 7 and a perfect octave 12. Number and distance must both fit. Answer: {{answer}}.',
+    intervalReadingHint_semitones_1:
+      'Begin at the first marked key with 0. Each move to the next key counts 1, regardless of key color.',
+    intervalReadingHint_semitones_2:
+      'E to F and B to C have no intervening black key: one half step. Other adjacent white keys have a black key between them: two half steps.',
+    intervalReadingHint_quality_1:
+      'Count the letter-name positions first, including the start and destination. Then find the half-step distance between the pitches.',
+    intervalReadingHint_quality_2:
+      'A minor third has 3 half steps; a major third has 4. Perfect fourth, fifth and octave combine the numbers 4, 5 and 8 with 5, 7 and 12 half steps.',
+    intervalReadingHint_perfect_1:
+      'A fourth or fifth letter-name position alone is not enough. Also check the number of half steps.',
+    intervalReadingHint_perfect_2:
+      'Compare number and distance: fourth 4 with 5 half steps, fifth 5 with 7, octave 8 with 12. A distance of 6 half steps meets none of these conditions.',
+    question_interval_number:
+      'What interval number do the two written notes form? Count the letter-name positions, including both end notes.',
+    question_interval_direction: 'How does pitch move from the first written note to the second?',
+    question_interval_motion: 'Is the pattern a repeated note, a step or a leap?',
+    intervalNumberOption: '{{number}} · {{name}}',
+    intervalNumber1: '$t(glossary:unison_one)',
+    intervalNumber2: '$t(glossary:second_one)',
+    intervalNumber3: '$t(glossary:third_one)',
+    intervalNumber4: '$t(glossary:fourth_one)',
+    intervalNumber5: '$t(glossary:fifth_one)',
+    intervalNumber6: '$t(glossary:sixth_one)',
+    intervalNumber7: '$t(glossary:seventh_one)',
+    intervalNumber8: '$t(glossary:octave_one)',
+    intervalDirectionUp: 'Ascending',
+    intervalDirectionDown: 'Descending',
+    intervalDirectionSame: 'Same pitch',
+    intervalMotionRepeat: '$t(glossary:noteRepetition_one)',
+    intervalMotionStep: '$t(glossary:melodicStep_one)',
+    intervalMotionLeap: '$t(glossary:melodicLeap_one)',
+    intervalReadingExplanation_number:
+      '{{from}} → {{to}}: {{path}}. Include both end positions. Number of letter-name positions: {{count}}. Answer: {{answer}}.',
+    intervalReadingExplanation_direction:
+      '{{from}} → {{to}}: Compare the vertical positions of the two noteheads from left to right. Answer: {{answer}}.',
+    intervalReadingExplanation_motion:
+      '{{from}} → {{to}}: {{path}}. Interval number {{count}}. A unison is a repeated note, a second is a step; a third or larger is a leap. Answer: {{answer}}.',
+    intervalReadingHint_number_1:
+      'Begin at the first note with 1. Each next line or space takes you to the next number.',
+    intervalReadingHint_number_2:
+      'Count the destination note too. Two identical natural pitches form a unison with the number 1.',
+    intervalReadingHint_direction_1:
+      'Read the left notehead first, then the right. Compare their height on the staff.',
+    intervalReadingHint_direction_2:
+      'A higher second notehead means ascending; a lower one means descending. The same position here means the same pitch.',
+    intervalReadingHint_motion_1:
+      'First check whether the two noteheads occupy the same position. Otherwise, count the intervening letter-name positions too.',
+    intervalReadingHint_motion_2:
+      'The same pitch is a repetition; the immediately adjacent letter-name position is a step. Skipping positions makes a leap.',
     type_INTERVAL_IDENTIFY_AURAL: 'Hear intervals',
     progress: 'Question {{current}} of {{total}}',
     progressLabel: 'Practice set progress',
@@ -186,6 +674,17 @@ export const enUS = {
     overview:
       'Your first lesson: ten reading and listening questions. Learn the basics, practice with hints and revisit mistakes with new notation examples.',
     open: 'View lesson',
+    openNamed: 'Open {{title}}',
+    openAnother: 'Open lesson',
+    taskCount_one: '{{count}} question',
+    taskCount_other: '{{count}} questions',
+    exampleTempo: 'Sound example: {{bpm}} $t(glossary:notes.quarter_other) per minute.',
+    scrollExample: 'Scroll the notation sideways to see all the notes.',
+    keyboardExample: 'Piano keyboard example; marked keys: {{notes}}.',
+    pulseExampleTempo: 'Sound example: {{bpm}} beats per minute, two beat groups.',
+    keyboardMarkers: 'Dots mark the keys used in the notation example.',
+    scrollKeyboardExample:
+      'Scroll the piano keyboard sideways to see all labeled octave registers.',
     start_one: 'Start {{count}} question',
     start_other: 'Start {{count}} questions',
     restart: 'Practice lesson again',
@@ -244,6 +743,7 @@ export const enUS = {
     range_practice: 'C4–E5',
     range_middle: 'C3–C6',
     range_full: 'Full piano (A0–C8)',
+    range_fixed: 'Range: {{from}}–{{to}}',
     eitherName: '{{sharp}} or {{flat}}',
     smaller: '−',
     larger: '+',
@@ -257,6 +757,8 @@ export const enUS = {
     moveHint: 'Swipe left or right. Choose Play to turn the sound back on.',
     shortcutHint:
       'With the piano keyboard focused: the physical keys starting at A play C4–E5 (QWERTY: A W S E D F T G Y H U J K O L P ;). Tab and Space or Enter play individual keys.',
+    shortcutFixedHint:
+      'With the piano keyboard focused, letter keys only play notes in the shown range. Tab and Space or Enter play individual keys.',
   },
   audioTest: {
     title: 'Audio test',
@@ -308,6 +810,9 @@ export const enUS = {
       'Piano sound: Salamander Grand Piano by Alexander Holm, CC BY 3.0 (creativecommons.org/licenses/by/3.0). Modified: selection, shortened, mono, tuning corrected.',
   },
   gallery: {
+    durationSymbols: 'Note values and rests',
+    keyboardExample: '$t(glossary:keyboard_one): learning example',
+    pulseExample: '$t(glossary:pulse): counting groups',
     title: 'Components',
     intro: 'All basic components of the design system. Development builds only.',
     preview: 'Preview',
