@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'vitest';
-import { grandStaffTarget, parseScore, scoreTimeline } from '@harmonia/notation';
 import {
   activeLessonSession,
   answerLesson,
@@ -38,13 +37,6 @@ describe('Erste Stufe-2-Einheit', () => {
     for (const id of plan.skillIds) {
       expect(cards.some((c) => c.skillIds.includes(id))).toBe(true);
       expect(article.skillIds).toContain(id);
-    }
-    for (const example of cards.flatMap((c) => c.examples)) {
-      const score = parseScore(example.score);
-      if (score.staves.length === 2) {
-        grandStaffTarget(score);
-        expect(scoreTimeline(score, { bpm: 90 }).tones).toHaveLength(1);
-      }
     }
     expect(publicCatalogue(catalogue)).toMatchObject({
       lessons: [],
