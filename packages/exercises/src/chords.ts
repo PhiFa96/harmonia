@@ -11,6 +11,8 @@ import {
 import type { Chord, NoteName, Pitch, Rng, TriadType } from '@harmonia/theory';
 import {
   LETTERS,
+  diatonicTriads,
+  keyFromFifths,
   chord,
   chordBass,
   chordPitches,
@@ -59,6 +61,12 @@ export function chordFromId(id: string): Chord {
 }
 /** Visuell zählt die Schreibweise; auditiv ist der Grundton vorgegeben und die MIDI-Töne entscheiden. */
 export function resolvedChord(item: ChordItem): Chord {
+  if (item.diatonic) {
+    const value = diatonicTriads(item.diatonic.key)[item.diatonic.degree - 1];
+    if (!value || !Number.isInteger(item.diatonic.degree))
+      throw new RangeError('Diatonische Stufe muss 1–7 sein');
+    return value.chord;
+  }
   if (item.type === 'CHORD_BUILD') return item.chord;
   const matches = (
     item.presentation === 'aural'
@@ -74,7 +82,7 @@ export function resolvedChord(item: ChordItem): Chord {
 }
 export function chordTargets(item: ChordItem): readonly Pitch[] {
   return item.type === 'CHORD_BUILD'
-    ? chordPitches(item.chord, { octave: item.bass.octave })
+    ? chordPitches(resolvedChord(item), { octave: item.bass.octave })
     : item.pitches;
 }
 /** Klingender Grundtonbezug aus demselben Register: auch symmetrische Dreiklänge bleiben hörbar eindeutig. */
@@ -159,6 +167,35 @@ export function generateChord(
   rng: Rng,
   type: ChordItem['type'],
 ): ChordItem {
+  if (params.diatonic) {
+    if (type !== 'CHORD_BUILD' || params.inversions?.some((i) => i !== 0) || params.roots)
+      throw new RangeError(
+        'Leitereigene Schreibaufgaben verwenden Grundstellung und Tonleitergrundtöne',
+      );
+    const available = [-3, -2, -1, 0, 1, 2, 3].flatMap((fifths) =>
+      (['major', 'minor'] as const).flatMap((mode) => {
+        const key = keyFromFifths(fifths, mode);
+        return diatonicTriads(key)
+          .filter((v) => params.types.includes(v.quality))
+          .map((v) => ({ key, degree: v.degree, chord: v.chord }));
+      }),
+    );
+    if (!available.length) throw new RangeError('Keine leitereigenen Dreiklänge für diese Arten');
+    const context = rng.pick(available);
+    const item = generateChord(
+      {
+        ...params,
+        diatonic: false,
+        types: [context.chord.type],
+        roots: [formatNoteName(context.chord.root)],
+        inversions: [0],
+      },
+      rng,
+      type,
+    );
+    return { ...item, diatonic: { key: context.key, degree: context.degree } };
+  }
+
   if (!params.types.length || params.types.some((value) => !MVP_TRIAD_TYPES.includes(value)))
     throw new RangeError('Ungültige Dreiklangart');
   const types = [...new Set(params.types)],

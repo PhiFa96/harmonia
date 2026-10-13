@@ -132,7 +132,7 @@ Die Blöcke B, C und D können teilweise parallel laufen.
 - **Abhängig von:** P2.07
 - **Umfang:** XL
 - **Aufgaben und Abnahme:** wie P2.07.
-- **Stand 13.10.2026:** Erste von 16 geplanten Stufe-2-Einheiten intern umgesetzt: `notation.l2.clefs-registers` mit Bassschlüssel, großem Notensystem und Helmholtz-/wissenschaftlichen Oktavnamen. Drei Lektionen mit 30 Aufgaben, neun Karten mit 15 eigenen Klang-/Klaviaturbeispielen, ein neungeteilter Artikel und DE/US/UK-Texte; Inhaltsversion 12. Insgesamt 40 Lektionen und 400 Aufgaben. Alle neuen Datensätze bleiben `entwurf`; P2.08 und die getrennte fachliche Freigabe sind offen. Prüfstand und Fortsetzung zu `notation.l2.spelling`: [Bassschlüssel und großes System](bassschluessel-und-grosses-system.md).
+- **Stand 13.10.2026:** Alle 16 geplanten Stufe-2-Einheiten und alle 50 Fähigkeiten sind intern umgesetzt: 48 Lektionen mit 480 Aufgaben, 144 Wissenskarten mit 150 eigenen Beispielen und 16 Artikel in DE/US/UK. Version 13 ergänzt die 15 restlichen Einheiten, die erste Einheit bleibt Version 12. Insgesamt 85 Lektionen und 850 Aufgaben; 19 Übungstypen. Lektionen, Karten, Artikel und technische Prüfungen sind vollständig; alle Datensätze bleiben `entwurf`. **P2.08 bleibt bis zu Claudes getrenntem fachlichem Durchgang und Literaturabgleich fachlich offen.** Vollständiger Prüfstand, Quellen und Übergabe: [stufe-2-vollstaendig.md](stufe-2-vollstaendig.md).
 
 ## Block C – Lernerlebnis
 

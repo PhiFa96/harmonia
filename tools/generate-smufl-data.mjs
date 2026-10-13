@@ -57,6 +57,7 @@ const GLYPHS = [
   'flag64thUp',
   'flag64thDown',
   'augmentationDot',
+  'tuplet3',
   'timeSig0',
   'timeSig1',
   'timeSig2',

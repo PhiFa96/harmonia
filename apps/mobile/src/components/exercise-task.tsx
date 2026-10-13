@@ -1,3 +1,4 @@
+import { ContextQuestion } from './context-question';
 import type { ExerciseItem, ExerciseSession } from '@harmonia/exercises';
 import {
   exerciseDescription,
@@ -150,7 +151,11 @@ export function ExerciseTask({
         </AppText>
         <MusicText variant="title2">{prompt}</MusicText>
       </View>
-      {item.type === 'KNOWLEDGE_MC' && item.presentation ? (
+      {item.type === 'CONTEXT_CHOICE' ? (
+        <Card>
+          <ContextQuestion item={item} />
+        </Card>
+      ) : item.type === 'KNOWLEDGE_MC' && item.presentation ? (
         <Card>
           <DurationQuestion item={item} />
         </Card>
@@ -223,6 +228,20 @@ export function ExerciseTask({
           />
         </Card>
       )}
+      {item.type === 'LISTENING_CHOICE' && item.promptScore ? (
+        <Card>
+          <AppText>{t('exercise.listeningOutline')}</AppText>
+          <ScrollView horizontal>
+            <ScoreView
+              score={item.promptScore}
+              staffSpace={14}
+              color={colors.text}
+              describeOptions={engineLanguage(locale)}
+              layoutOptions={{ endBarline: 'none' }}
+            />
+          </ScrollView>
+        </Card>
+      ) : null}
       {item.type === 'LISTENING_CHOICE' &&
       (item.candidates || result || session.hintLevel === 3) ? (
         <View style={{ gap: SPACE.s }} testID="listening-scores">
@@ -235,9 +254,16 @@ export function ExerciseTask({
               }}
             >
               <AppText variant="small">
-                {t(item.candidates ? 'exercise.listeningOption' : 'exercise.listeningClip', {
-                  count: index + 1,
-                })}
+                {t(
+                  item.candidates
+                    ? item.question === 'rhythm-completion'
+                      ? 'exercise.listeningCell'
+                      : 'exercise.listeningOption'
+                    : 'exercise.listeningClip',
+                  {
+                    count: index + 1,
+                  },
+                )}
               </AppText>
               <ScrollView horizontal>
                 <View
@@ -261,7 +287,11 @@ export function ExerciseTask({
                       }
                       color={colors.text}
                       describeOptions={engineLanguage(locale)}
-                      layoutOptions={{ endBarline: 'final' }}
+                      layoutOptions={
+                        item.question === 'rhythm-completion'
+                          ? { endBarline: 'none', showTimeSignature: false }
+                          : { endBarline: 'final' }
+                      }
                     />
                   </View>
                 </View>
@@ -421,7 +451,9 @@ export function ExerciseTask({
             kind={result.correct ? 'correct' : 'wrong'}
             title={feedback.title}
             message={feedback.message}
-            {...(!isKnowledgeItem(item) && !isKeySignatureItem(item)
+            {...(!isKnowledgeItem(item) &&
+            !isKeySignatureItem(item) &&
+            item.type !== 'CONTEXT_CHOICE'
               ? {
                   onReplay: () => {
                     void audio.play();

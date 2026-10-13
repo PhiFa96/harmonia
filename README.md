@@ -2,7 +2,7 @@
 
 Musiktheorie lernen – hörbar, spielerisch und so tief, wie du willst. Vom ersten Notenschlüssel bis zum Hochschulniveau, mit KI-Tutor und echten Coaches. Im Browser und als App für iOS und Android.
 
-> **Status: Stufe 1 intern vollständig; erste Stufe-2-Einheit umgesetzt.** 18 Übungstypen und sechs freie Sätze sind implementiert. Zu den 37 Stufe-1-Lektionen mit 370 Aufgaben kommen drei Lektionen zu Bassschlüssel, großem Notensystem und Oktavnamen. Insgesamt: 40 Lektionen, 400 Aufgaben, 115 Wissenskarten mit 172 Beispielen und 14 Artikel in DE/US/UK, Inhaltsversion 12. Alle Inhalte bleiben Entwurf bis zu Claude Codes getrennter fachlicher Prüfung. Bestehens-/Freischaltregeln und echte Geräteabnahme bleiben offen. Aktueller Stand: [Bassschlüssel und großes System](docs/plan/bassschluessel-und-grosses-system.md), [Stufe 1 vollständig intern](docs/plan/stufe-1-vollstaendig.md) und [Phase 2](docs/plan/phase-2-mvp.md).
+> **Status: Stufen 1 und 2 intern vollständig; fachliche Freigabe offen.** Alle 29 geplanten Einheiten und 90 Fähigkeiten sind mit 85 Lektionen, 850 Aufgaben, 250 Wissenskarten mit 307 eigenen Beispielen und 29 Artikeln in DE/US/UK umgesetzt. Stufe 2 umfasst 48 Lektionen mit 480 Aufgaben. 19 Übungstypen, Inhaltsversion 13 und weiterhin sechs freie Sätze. Alle Inhalte bleiben Entwurf bis zu Claude Codes getrenntem fachlichen Durchgang. Bestehens-/Freischaltregeln und echte Geräteabnahme bleiben offen. Aktueller Prüfstand: [Stufe 2 vollständig intern](docs/plan/stufe-2-vollstaendig.md), [Stufe 1 vollständig intern](docs/plan/stufe-1-vollstaendig.md) und [Phase 2](docs/plan/phase-2-mvp.md).
 
 ## Konzept
 
@@ -54,7 +54,7 @@ Aufbau des Monorepos: [docs/plan/architektur.md](docs/plan/architektur.md).
 
 Lokales Backend, Profilmigration und offene staging/production-Einrichtung: [Supabase-Grundlage P1.04](docs/plan/supabase-grundlage.md).
 
-Inhaltsproduktion, interne Vorschau, öffentliche Freigaben und EAS-Übergabe: [Inhalts-Pipeline P2.04](docs/plan/inhalts-pipeline.md). `APP_VARIANT=production` baut nur freigegebene Inhalte; ohne separate fachliche Abnahme bleiben die zehn Lektionen intern.
+Inhaltsproduktion, interne Vorschau, öffentliche Freigaben und EAS-Übergabe: [Inhalts-Pipeline P2.04](docs/plan/inhalts-pipeline.md). `APP_VARIANT=production` baut nur freigegebene Inhalte; ohne separate fachliche Abnahme bleiben alle 85 Lektionen intern.
 
 Entwurf für Stufen 1–2 mit 90 Fähigkeiten, Voraussetzungen und Einheitenreihenfolge: [Fähigkeitsgraph P2.05](docs/plan/faehigkeitsgraph.md). Fachliche Abnahme und die vollständigen Lektionen folgen.
 

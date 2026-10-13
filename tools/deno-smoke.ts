@@ -31,6 +31,9 @@ import {
   measureGapFact,
   knowledgeFactId,
   rhythmOnsets,
+  CONTEXT_TOPICS,
+  generateContext,
+  contextAnswer,
   octaveName,
 } from '../packages/exercises/src/index.ts';
 import { firstLesson, catalogue, curriculumPlan } from '../packages/content/src/authoring.ts';
@@ -80,7 +83,7 @@ const exercise = generateExercise(
   exerciseRng('deno-exercises'),
 );
 const plannedSkills = curriculumSkills(catalogue, curriculumPlan);
-check('40 interne Lektionen in Stufe 1 und 2', catalogue.lessons.length, 40);
+check('85 interne Lektionen in Stufe 1 und 2', catalogue.lessons.length, 85);
 let internalTasks = 0;
 for (const record of catalogue.lessons) {
   const lesson = resolveLesson(catalogue, record.id);
@@ -92,9 +95,9 @@ for (const record of catalogue.lessons) {
     throw new Error('Interner Lektionsdurchgang fehlerhaft');
   internalTasks += lesson.exercises.length;
 }
-check('Alle 400 internen Aufgaben unter Deno durchspielbar', internalTasks, 400);
+check('Alle 850 internen Aufgaben unter Deno durchspielbar', internalTasks, 850);
 check(
-  'Alle sechs Hörfrageformen unter Deno bewertbar',
+  'Alle elf Hörfrageformen unter Deno bewertbar',
   LISTENING_QUESTIONS.every((question) => {
     const item = generateListening({ question }, exerciseRng(question));
     return (
@@ -185,6 +188,35 @@ check(
     .map((name) => resolveLesson(catalogue, `rhythm.l1.pulse.${name}`)?.exercises.length)
     .join(','),
   '8,10,12',
+);
+check(
+  '21 Kontextfragen mit quellenbezogenen Lösungen unter Deno',
+  CONTEXT_TOPICS.every((topic) => {
+    const item = generateContext({ topics: [topic] }, exerciseRng(topic));
+    return evaluateExercise(item, contextAnswer(item)).correct;
+  }),
+  true,
+);
+check(
+  'Achteltriole mit echten 333-ms-Abständen unter Deno',
+  rhythmOnsets(
+    generateRhythm(
+      { meters: ['2/4'], level: 'triplets', rests: false, tempos: [60] },
+      exerciseRng('deno-triplets'),
+      'RHYTHM_TAP',
+    ),
+  ).join(','),
+  '0,333,667,1000,1333,1667',
+);
+check(
+  'Neue Periodenquellen unter Deno',
+  expectedAnswer(
+    generateContext(
+      { topics: ['period-context'], years: [1250, 1550] },
+      exerciseRng('deno-history'),
+    ),
+  ).startsWith('period:'),
+  true,
 );
 const grand = generateKeyFind({ presentation: 'grand-staff' }, exerciseRng('deno-grand'));
 check(

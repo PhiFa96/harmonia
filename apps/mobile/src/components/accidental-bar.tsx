@@ -3,7 +3,9 @@ import { glyphMetrics } from '@harmonia/notation';
 import { RADIUS, SPACE, TOUCH } from '@harmonia/ui';
 import { useHaptics, useUiTheme } from '@harmonia/ui/native';
 import { useTranslation } from 'react-i18next';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { useRef } from 'react';
+import { useWebChoiceInput } from './use-web-choice-input';
+import { Platform, Pressable, StyleSheet, View } from 'react-native';
 import Svg, { Text as SvgText } from 'react-native-svg';
 
 const SIZE = TOUCH.buttonLarge;
@@ -48,8 +50,20 @@ export function AccidentalBar({ value, onChange, disabled: locked = false }: Acc
   const { colors } = useUiTheme();
   const haptics = useHaptics();
   const disabled = value === undefined || locked;
+  const group = useRef<View>(null);
+  const choose = (alter: number) => {
+    haptics.tap();
+    onChange(alter);
+  };
+  useWebChoiceInput(group, {
+    choices: ACCIDENTALS.map((a) => String(a.alter)),
+    enabled: !disabled,
+    select: (next) => {
+      choose(Number(next));
+    },
+  });
   return (
-    <View role="radiogroup" aria-label={t('practice.accidentals')} style={styles.bar}>
+    <View ref={group} role="radiogroup" aria-label={t('practice.accidentals')} style={styles.bar}>
       {ACCIDENTALS.map(({ alter, text, baseline, term }) => {
         const selected = value === alter;
         return (
@@ -60,9 +74,9 @@ export function AccidentalBar({ value, onChange, disabled: locked = false }: Acc
             aria-disabled={disabled}
             aria-label={t(term)}
             disabled={disabled}
+            {...(Platform.OS === 'web' ? { tabIndex: !disabled && selected ? 0 : -1 } : {})}
             onPress={() => {
-              haptics.tap();
-              onChange(alter);
+              choose(alter);
             }}
             style={[
               styles.button,

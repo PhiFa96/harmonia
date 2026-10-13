@@ -238,6 +238,11 @@ export const GLYPHS = {
     bBoxNE: [0.4, 0.2],
     bBoxSW: [0, -0.2],
   },
+  tuplet3: {
+    codepoint: 59523,
+    bBoxNE: [1.224, 1.5],
+    bBoxSW: [0.04, -0.032],
+  },
   timeSig0: {
     codepoint: 57472,
     bBoxNE: [1.8, 1.004],

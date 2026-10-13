@@ -1,3 +1,4 @@
+import type { ContextItem, ContextParams } from './context.ts';
 import type { AppLocale, Messages } from '@harmonia/i18n';
 import type { KeyboardRange, Score } from '@harmonia/notation';
 import type {
@@ -13,6 +14,7 @@ import type {
 } from '@harmonia/theory';
 
 export type ExerciseType =
+  | 'CONTEXT_CHOICE'
   | 'LISTENING_CHOICE'
   | 'NOTE_NAME'
   | 'INTERVAL_IDENTIFY_VISUAL'
@@ -84,6 +86,7 @@ export interface ChordParams extends NoteParams {
   /** Kanonische ASCII-Stammtöne, z. B. C, F#, Bb; ohne Angabe alle darstellbaren Grundtöne. */
   readonly roots?: readonly string[];
   readonly inversions?: readonly (0 | 1 | 2)[];
+  readonly diatonic?: boolean;
 }
 export interface ChordIdentifyParams extends ChordParams {
   readonly presentation?: 'visual' | 'aural';
@@ -101,7 +104,7 @@ export interface RhythmParams extends MeterParams {
   /** Tempo des tatsächlichen Grundschlags, auch der punktierten Viertel in 6/8. */
   readonly tempos?: readonly number[];
   /** pulse: nur gleichmäßige Schläge in 2/4, 3/4 oder 4/4, ohne Notenlesen. */
-  readonly level?: 'basic' | 'dotted' | 'pulse' | 'quarters';
+  readonly level?: 'basic' | 'dotted' | 'pulse' | 'quarters' | 'triplets';
   readonly rests?: boolean;
   /** Maximale Abweichung in ms; zusätzlich auf 40 % des kürzesten Einsatzabstands begrenzt. */
   readonly toleranceMs?: number;
@@ -112,7 +115,12 @@ export type ListeningQuestion =
   | 'rhythm-choice'
   | 'pitch-direction'
   | 'melody-compare'
-  | 'observation';
+  | 'observation'
+  | 'rhythm-choice-dotted'
+  | 'pulse-subdivision'
+  | 'rhythm-completion'
+  | 'scale-mode'
+  | 'melodic-memory';
 export interface ListeningParams {
   readonly question: ListeningQuestion;
   readonly tempos?: readonly number[];
@@ -125,6 +133,7 @@ export interface ListeningItem {
   readonly clips: readonly Score[];
   /** Nur bei Rhythmusauswahl vor der Wertung sichtbar. */
   readonly candidates?: readonly Score[];
+  readonly promptScore?: Score;
   readonly choices: readonly string[];
 }
 export type KnowledgeTopic =
@@ -215,6 +224,7 @@ export type OrderValue =
   | { readonly kind: 'duration'; readonly duration: Duration }
   | { readonly kind: 'pitch'; readonly pitch: Pitch };
 export type ExerciseSpec =
+  | { readonly type: 'CONTEXT_CHOICE'; readonly params: ContextParams }
   | { readonly type: 'LISTENING_CHOICE'; readonly params: ListeningParams }
   | { readonly type: 'KNOWLEDGE_MC'; readonly params: KnowledgeMcParams }
   | { readonly type: 'MATCH'; readonly params: MatchParams }
@@ -290,6 +300,7 @@ export interface ChordItem extends ItemBase {
   readonly bass: Pitch;
   readonly pitches: readonly Pitch[];
   readonly presentation: 'visual' | 'aural';
+  readonly diatonic?: { readonly key: Key; readonly degree: number };
 }
 export interface RhythmItem extends ItemBase {
   readonly type: 'RHYTHM_TAP' | 'METER_IDENTIFY';
@@ -331,6 +342,7 @@ export interface OrderItem {
 }
 export type KnowledgeExerciseItem = KnowledgeItem | MatchItem | OrderItem;
 export type ExerciseItem =
+  | ContextItem
   | ListeningItem
   | NoteItem
   | IntervalItem

@@ -8,7 +8,14 @@ import {
   validateScore,
 } from '@harmonia/notation';
 import type { Score } from '@harmonia/notation';
-import { duration, midi, parsePitch, parseTimeSignature } from '@harmonia/theory';
+import {
+  duration,
+  midi,
+  parsePitch,
+  parseTimeSignature,
+  buildScale,
+  keyFromFifths,
+} from '@harmonia/theory';
 import type { Rng } from '@harmonia/theory';
 import type { ListeningItem, ListeningParams } from './types.ts';
 
@@ -19,6 +26,11 @@ export const LISTENING_QUESTIONS = [
   'pitch-direction',
   'melody-compare',
   'observation',
+  'rhythm-choice-dotted',
+  'pulse-subdivision',
+  'rhythm-completion',
+  'scale-mode',
+  'melodic-memory',
 ] as const;
 // Eigene vollständige Viertel-/Achtel-Beispiele; gleiche Tonhöhe isoliert den Rhythmus.
 export const LISTENING_RHYTHMS = [
@@ -46,7 +58,11 @@ function checked(item: ListeningItem) {
     item.bpm > 120
   )
     throw new RangeError('Ungültige Hörfrage');
-  const count = ['pulse', 'rhythm-compare', 'melody-compare'].includes(item.question) ? 2 : 1;
+  const count = ['pulse', 'rhythm-compare', 'melody-compare', 'melodic-memory'].includes(
+    item.question,
+  )
+    ? 2
+    : 1;
   if (
     item.clips.length !== count ||
     item.clips.some(
@@ -110,7 +126,7 @@ export function listeningAnswer(item: ListeningItem): string {
     const distance = midi(b.pitch) - midi(a.pitch);
     return distance === 0 ? 'listening:repeat' : distance > 0 ? 'listening:up' : 'listening:down';
   }
-  if (item.question === 'rhythm-choice') {
+  if (item.question === 'rhythm-choice' || item.question === 'rhythm-choice-dotted') {
     if (
       item.candidates?.length !== 3 ||
       new Set(item.candidates.map((s) => soundKey(s, false))).size !== 3
@@ -121,6 +137,80 @@ export function listeningAnswer(item: ListeningItem): string {
     );
     if (index < 0) throw new RangeError('Passendes Notenbild fehlt');
     return `listening:option:${String(index + 1)}`;
+  }
+  if (item.question === 'pulse-subdivision') {
+    const notes = first.tones,
+      n = notes.length / 2;
+    if (
+      ![2, 3].includes(n) ||
+      notes.some((t, i) => midi(t.pitch) !== (i % n === 0 ? 84 : 79)) ||
+      notes.some(
+        (t, i) =>
+          Math.abs(t.onsetSeconds - (i * first.durationSeconds) / notes.length) > 1e-9 ||
+          Math.abs(t.durationSeconds - first.durationSeconds / notes.length) > 1e-9,
+      )
+    )
+      throw new RangeError('Zwei regelmäßige Gruppen mit hörbarem Start erwartet');
+    return `listening:subdivision:${String(n)}`;
+  }
+  if (item.question === 'melodic-memory') {
+    if (
+      !second ||
+      first.tones.length !== 4 ||
+      second.tones.length !== 4 ||
+      first.tones.some((t, i) => t.onsetSeconds !== i || t.durationSeconds !== 1) ||
+      second.tones.some((t, i) => t.onsetSeconds !== i || t.durationSeconds !== 1)
+    )
+      throw new RangeError('Vier gleichmäßige Töne in beiden Melodiequellen erwartet');
+    const changes = first.tones.flatMap((t, i) =>
+      midi(t.pitch) !== midi(required(second.tones[i]).pitch) ? [i + 1] : [],
+    );
+    if (changes.length !== 1) throw new RangeError('Genau eine geänderte Melodieposition erwartet');
+    return `listening:position:${String(required(changes[0]))}`;
+  }
+  if (item.question === 'scale-mode') {
+    if (first.tones.length !== 8) throw new RangeError('Acht Tonleitertöne erwartet');
+    const root = required(first.tones[0]).pitch;
+    const matches = (['major', 'naturalMinor'] as const).filter((type) =>
+      buildScale(root, type, { includeOctave: true }).every(
+        (p, i) => midi(p) === midi(required(first.tones[i]).pitch),
+      ),
+    );
+    if (matches.length !== 1) throw new RangeError('Dur oder natürliches Moll nicht eindeutig');
+    return `listening:scale:${required(matches[0])}`;
+  }
+  if (item.question === 'rhythm-completion') {
+    if (item.candidates?.length !== 3 || !item.promptScore)
+      throw new RangeError('Rhythmusgerüst und drei Ergänzungen erwartet');
+    const prompt = scoreTimeline(item.promptScore, { bpm: 60 });
+    if (
+      prompt.durationSeconds !== 3 ||
+      first.durationSeconds !== 4 ||
+      prompt.tones.some(
+        (t, i) =>
+          soundKey(singleStaffScore([[note(t.pitch, duration('quarter'))]]), true) !==
+            soundKey(
+              singleStaffScore([[note(required(first.tones[i]).pitch, duration('quarter'))]]),
+              true,
+            ) ||
+          t.onsetSeconds !== i ||
+          t.durationSeconds !== 1,
+      )
+    )
+      throw new RangeError('Rhythmusgerüst muss die ersten drei Viertel wiedergeben');
+    const tail = first.tones
+      .filter((t) => t.onsetSeconds >= 3)
+      .map((t) => [t.onsetSeconds - 3, t.durationSeconds]);
+    const matches = item.candidates.flatMap((s, i) => {
+      const t = scoreTimeline(s, { bpm: 60 });
+      return t.durationSeconds === 1 &&
+        JSON.stringify(t.tones.map((n) => [n.onsetSeconds, n.durationSeconds])) ===
+          JSON.stringify(tail)
+        ? [i + 1]
+        : [];
+    });
+    if (matches.length !== 1) throw new RangeError('Rhythmusbaustein nicht eindeutig');
+    return `listening:option:${String(required(matches[0]))}`;
   }
   const together = first.tones.some((tone, i) =>
     first.tones
@@ -150,7 +240,17 @@ export function listeningTimeline(item: ListeningItem) {
   const tones: ReturnType<typeof scoreTimeline>['tones'][number][] = [];
   for (const [index, score] of item.clips.entries()) {
     if (index && item.question !== 'pulse') offset += 0.75;
-    const timeline = scoreTimeline(score, { bpm: item.bpm });
+    const timeline = scoreTimeline(score, {
+      bpm: item.bpm,
+      ...(item.question === 'pulse-subdivision'
+        ? {
+            beat:
+              score.staves[0]?.timeSignature.numerator === 6
+                ? duration('quarter', 1)
+                : duration('quarter'),
+          }
+        : {}),
+    });
     tones.push(
       ...timeline.tones.map((tone) => ({ ...tone, onsetSeconds: tone.onsetSeconds + offset })),
     );
@@ -167,8 +267,64 @@ export function generateListening(params: ListeningParams, rng: Rng): ListeningI
     throw new RangeError('Ungültige Hörparameter');
   const bpm = rng.pick(params.tempos ?? [72, 90, 108]),
     question = params.question;
-  let clips: readonly Score[], candidates: readonly Score[] | undefined, choices: readonly string[];
-  if (question === 'pulse') {
+  let clips: readonly Score[],
+    candidates: readonly Score[] | undefined,
+    choices: readonly string[],
+    promptScore: Score | undefined;
+  if (question === 'rhythm-choice-dotted') {
+    const rhythms = [
+      'G4/4. G4/8 G4/4 G4/4',
+      'G4/8 G4/4. G4/4 G4/4',
+      'G4/4 G4/8. G4/16 G4/2',
+      'G4/8. G4/16 G4/4 r/4 G4/4',
+      'G4/4 G4/4. G4/8 G4/4',
+    ];
+    candidates = rng
+      .shuffle(rhythms)
+      .slice(0, 3)
+      .map((s) => parseScore(`treble | 4/4 | ${s}`));
+    clips = [rng.pick(candidates)];
+    choices = [1, 2, 3].map((n) => `listening:option:${String(n)}`);
+  } else if (question === 'pulse-subdivision') {
+    const n = rng.pick([2, 3]),
+      events = Array.from({ length: n * 2 }, (_, i) =>
+        note(parsePitch(i % n === 0 ? 'C6' : 'G5'), duration('eighth')),
+      );
+    clips = [
+      singleStaffScore([events], { timeSignature: parseTimeSignature(n === 2 ? '2/4' : '6/8') }),
+    ];
+    choices = [2, 3].map((n) => `listening:subdivision:${String(n)}`);
+  } else if (question === 'rhythm-completion') {
+    const cells = ['G4/4', 'G4/8 G4/8', 'G4/8. G4/16', 'G4/8 r/8'];
+    const selected = rng.shuffle(cells).slice(0, 3),
+      answer = rng.pick(selected);
+    candidates = selected.map((s) => parseScore(`treble | 4/4 | ${s}`));
+    clips = [parseScore(`treble | 4/4 | G4/4 G4/4 G4/4 ${answer}`)];
+    promptScore = parseScore('treble | 4/4 | G4/4 G4/4 G4/4');
+    choices = [1, 2, 3].map((n) => `listening:option:${String(n)}`);
+  } else if (question === 'scale-mode') {
+    const type = rng.pick(['major', 'naturalMinor'] as const),
+      root = {
+        ...keyFromFifths(rng.int(-3, 3), type === 'major' ? 'major' : 'minor').tonic,
+        octave: 4,
+      };
+    clips = [
+      singleStaffScore([
+        buildScale(root, type, { includeOctave: true }).map((p) => note(p, duration('eighth'))),
+      ]),
+    ];
+    choices = ['listening:scale:major', 'listening:scale:naturalMinor'];
+  } else if (question === 'melodic-memory') {
+    const names = ['E4', 'F4', 'G4', 'A4', 'B4', 'C5'],
+      sequence = Array.from({ length: 4 }, () => rng.pick(names)),
+      other = [...sequence],
+      index = rng.int(0, 3);
+    other[index] = rng.pick(names.filter((p) => p !== sequence[index]));
+    const score = (s: readonly string[]) =>
+      singleStaffScore([s.map((p) => note(parsePitch(p), duration('quarter')))]);
+    clips = [score(sequence), score(other)];
+    choices = [1, 2, 3, 4].map((n) => `listening:position:${String(n)}`);
+  } else if (question === 'pulse') {
     const n = rng.pick([2, 3, 4]),
       score = singleStaffScore(
         [
@@ -241,6 +397,7 @@ export function generateListening(params: ListeningParams, rng: Rng): ListeningI
     bpm,
     clips,
     ...(candidates ? { candidates } : {}),
+    ...(promptScore ? { promptScore } : {}),
     choices: rng.shuffle(choices),
   };
   listeningAnswer(item);

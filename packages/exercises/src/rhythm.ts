@@ -191,6 +191,12 @@ interface CellNote {
 function cells(meter: TimeSignature, params: RhythmParams): readonly (readonly VoiceEvent[])[] {
   const beat = beats(meter)[0];
   if (!beat) throw new RangeError('Grundschlag fehlt');
+  if (params.level === 'triplets')
+    return [
+      Array.from({ length: 3 }, () =>
+        note({ letter: 'G', alter: 0, octave: 4 }, duration('eighth', 0, { actual: 3, normal: 2 })),
+      ),
+    ];
   if (params.level === 'pulse' || params.level === 'quarters')
     return [[note({ letter: 'G', alter: 0, octave: 4 }, duration('quarter'))]];
   const ratios: (readonly CellNote[])[] = [
@@ -251,7 +257,11 @@ export function generateRhythm(
   if (
     !tempos.length ||
     tempos.some((bpm) => !Number.isInteger(bpm) || bpm < 60 || bpm > 120) ||
-    !['basic', 'dotted', 'pulse', 'quarters'].includes(params.level ?? 'basic') ||
+    !['basic', 'dotted', 'pulse', 'quarters', 'triplets'].includes(params.level ?? 'basic') ||
+    (params.level === 'triplets' &&
+      (type !== 'RHYTHM_TAP' ||
+        meters.some((m) => !['2/4', '3/4', '4/4'].includes(m)) ||
+        params.rests === true)) ||
     (params.level === 'quarters' &&
       (type !== 'RHYTHM_TAP' ||
         meters.some((meter) => !['2/4', '3/4', '4/4'].includes(meter)) ||

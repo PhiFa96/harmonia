@@ -37,14 +37,18 @@ const firstDivided = 'treble | 4/4 | G4/8 G4/8 G4/4 G4/4 G4/4';
 const secondDivided = 'treble | 4/4 | G4/4 G4/8 G4/8 G4/4 G4/4';
 describe('Hörquellen und Bewertung', () => {
   it.each(LISTENING_QUESTIONS)(
-    '%s: 200 reproduzierbare Seeds mit vollständigen Quellen und genau einer richtigen Antwort',
+    '%s: 200 reproduzierbare Seeds mit vollständigen Klangquellen, gültigen Bildquellen und genau einer richtigen Antwort',
     (question) => {
       const answers = new Set<string>();
       for (let seed = 0; seed < 200; seed++) {
         const generated = generateListening({ question }, createRng(seed));
         expect(generated).toEqual(generateListening({ question }, createRng(seed)));
         for (const score of [...generated.clips, ...(generated.candidates ?? [])])
-          expect(validateScore(score, { allowPickup: false })).toEqual([]);
+          expect(
+            validateScore(score, {
+              allowPickup: question === 'rhythm-completion' && !generated.clips.includes(score),
+            }),
+          ).toEqual([]);
         expect(
           generated.choices.filter((answer) => evaluateExercise(generated, answer).correct),
         ).toEqual([listeningAnswer(generated)]);
@@ -66,9 +70,17 @@ describe('Hörquellen und Bewertung', () => {
         }
       }
       expect(answers.size).toBe(
-        question === 'pulse' || question === 'pitch-direction' || question === 'rhythm-choice'
-          ? 3
-          : 2,
+        question === 'melodic-memory'
+          ? 4
+          : [
+                'pulse',
+                'pitch-direction',
+                'rhythm-choice',
+                'rhythm-choice-dotted',
+                'rhythm-completion',
+              ].includes(question)
+            ? 3
+            : 2,
       );
     },
   );
@@ -158,7 +170,11 @@ describe('Hörquellen und Bewertung', () => {
         LISTENING_QUESTIONS.map((question) => generateListening({ question }, createRng(2))),
       ),
     );
-    expect(sessionSummary(state)).toMatchObject({ answered: 0, correct: 0, skipped: 6 });
+    expect(sessionSummary(state)).toMatchObject({
+      answered: 0,
+      correct: 0,
+      skipped: LISTENING_QUESTIONS.length,
+    });
   });
   it('Leere Quellen, unvollständige Takte, falsche Pulsgruppen und Parameter werden zurückgewiesen', () => {
     for (const params of [

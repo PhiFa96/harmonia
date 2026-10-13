@@ -1,3 +1,4 @@
+import { generateContext } from './context.ts';
 import {
   MAX_STEP,
   MIN_STEP,
@@ -384,6 +385,8 @@ export function generateIntervalBuild(params: VisualIntervalParams, rng: Rng): I
 }
 export function generateExercise(spec: ExerciseSpec, rng: Rng) {
   switch (spec.type) {
+    case 'CONTEXT_CHOICE':
+      return generateContext(spec.params, rng);
     case 'LISTENING_CHOICE':
       return generateListening(spec.params, rng);
     case 'KNOWLEDGE_MC':
