@@ -1,5 +1,5 @@
 import type { LessonContent } from '@harmonia/content';
-import type { ExerciseItem } from '@harmonia/exercises';
+import type { NoteItem, IntervalItem } from '@harmonia/exercises';
 import { engineLanguage } from '@harmonia/i18n';
 import { parseScore } from '@harmonia/notation';
 import { ScoreView } from '@harmonia/notation/native';
@@ -13,7 +13,7 @@ import { useContentText } from '@/content/use-content-text';
 import { useExercisePlayback } from './use-exercise-playback';
 
 /** Die maschinenlesbaren Referenznoten sind zugleich die Quelle für Notenbild und Klang. */
-export function referenceItem(source: string): ExerciseItem {
+export function referenceItem(source: string): NoteItem | IntervalItem {
   const score = parseScore(source);
   const notes = score.staves[0]?.measures[0]?.voices[0]?.events;
   const first = notes?.[0];

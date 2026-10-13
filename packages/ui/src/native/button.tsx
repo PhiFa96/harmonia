@@ -18,6 +18,8 @@ export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'success' | 'dan
 
 export interface ButtonProps {
   readonly label: string;
+  /** Vollständige Beschriftung für assistive Eingaben; Standard: sichtbares label. */
+  readonly accessibilityLabel?: string;
   readonly onPress?: () => void;
   /** Standard: primary */
   readonly variant?: ButtonVariant;
@@ -57,6 +59,7 @@ function look(variant: ButtonVariant, c: ColorTokens, disabled: boolean): Look {
 
 export function Button({
   label,
+  accessibilityLabel = label,
   onPress,
   variant = 'primary',
   size = 'large',
@@ -93,7 +96,7 @@ export function Button({
   return (
     <AnimatedPressable
       role="button"
-      aria-label={label}
+      aria-label={accessibilityLabel}
       aria-disabled={disabled}
       {...(accessibilityHint === undefined ? {} : { accessibilityHint })}
       {...(testID === undefined ? {} : { testID })}

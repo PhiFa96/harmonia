@@ -2,7 +2,7 @@
 
 Stand: 06.10.2026. `NOTE_PLACE`, `KEY_FIND` und `INTERVAL_BUILD` sind technisch umgesetzt. Sie verwenden Generatoren und Bewertung der Theorie-Engine, denselben Aufgabenablauf wie die erste Lektion und die vorhandenen Eingabebausteine. P2.06 bleibt offen: elf weitere Typen sowie fachliche Abnahme und echte Gerätetests fehlen noch.
 
-Fortsetzung vom 07.10.2026: Vier weitere Typen sind in [Tonleitern und Vorzeichnungen](tonleitern-und-vorzeichnungen.md) dokumentiert. Der aktuelle P2.06-Stand umfasst damit sieben technisch umgesetzte und sieben noch fehlende Typen. Die folgenden Prüfzahlen beschreiben den ersten Teil vom 06.10.
+Fortsetzung vom 07.10.2026: Vier weitere Typen sind in [Tonleitern und Vorzeichnungen](tonleitern-und-vorzeichnungen.md) dokumentiert. Mit den danach ergänzten [Akkorden](akkorduebungen.md), [Rhythmus und Takt](rhythmus-und-takt.md) sowie [Wissensaufgaben](wissensaufgaben.md) sind am 08.10.2026 alle 14 zusätzlichen Typen technisch vorhanden. Fachliche Abnahme und echte Plattformtests bleiben offen. Die folgenden Prüfzahlen beschreiben den ersten Teil vom 06.10.
 
 ## Bedienbarer Stand
 

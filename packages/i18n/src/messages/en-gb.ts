@@ -10,6 +10,9 @@ export const enGB = {
     licenses: 'Licences',
   },
   exercise: {
+    knowledgeStart: 'Practise knowledge, matching and ordering',
+    knowledgeHint_meters:
+      'Distinguish the number of denominator units from the number of beats. In compound metres, three units form one beat.',
     rhythmStart: 'Practise rhythm and metre',
     meterHint1:
       'The numerator gives the number of units; the denominator gives their note value. In 6/8, 9/8 and 12/8, three quavers form one beat.',

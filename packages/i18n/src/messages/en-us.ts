@@ -35,6 +35,78 @@ export const enUS = {
     wrongTitle: 'Not quite',
   },
   exercise: {
+    knowledgeStart: 'Practice knowledge, matching and ordering',
+    knowledgeIntro:
+      'Nine questions: identify basic concepts, match their explanations and order note values or pitches.',
+    type_KNOWLEDGE_MC: 'Knowledge question',
+    type_MATCH: 'Match concepts',
+    type_ORDER: 'Build a sequence',
+    orderMoveUp: 'Move up',
+    orderMoveDown: 'Move down',
+    orderRemoveItem: 'Remove',
+    question_KNOWLEDGE_MC: 'Which concept matches this explanation? {{definition}}',
+    question_MATCH:
+      'Match each concept with its explanation. Each explanation belongs to exactly one concept.',
+    question_ORDER: 'Put all the items in order {{direction}}. {{rule}}',
+    knowledgeExplanation: '{{term}}: {{definition}}',
+    knowledgeRaises: 'Raises a natural note by {{distance}}.',
+    knowledgeLowers: 'Lowers a natural note by {{distance}}.',
+    knowledgeNatural: 'Cancels an existing alteration and restores the natural pitch of the note.',
+    knowledgeDuration: 'Value: {{value}} × $t(glossary:notes.whole_one).',
+    knowledgeInterval: 'Spans {{positions}}, counting both endpoints, and {{distance}}.',
+    knowledgePositions_one: '{{count}} diatonic note position',
+    knowledgePositions_other: '{{count}} diatonic note positions',
+    knowledgeTriad:
+      '$t(glossary:triad_one) in thirds: its notes are {{pattern}} $t(glossary:semitone_other) above the $t(glossary:root_one).',
+    knowledgeTriad_major: 'Major $t(glossary:triad_one)',
+    knowledgeTriad_minor: 'Minor $t(glossary:triad_one)',
+    knowledgeTriad_diminished: 'Diminished $t(glossary:triad_one)',
+    knowledgeTriad_augmented: 'Augmented $t(glossary:triad_one)',
+    knowledgeScale:
+      'Ascending $t(glossary:scale_one): consecutive steps over an octave contain {{pattern}} $t(glossary:semitone_other).',
+    knowledgeMeter:
+      '{{count}} beats per $t(glossary:measure_one), each with the value {{beat}}. Grouping in denominator units: {{groups}}.',
+    knowledgeHint_accidentals:
+      'Compare raising, lowering and cancelling an alteration. $t(glossary:sharp_other) and $t(glossary:flat_other) change the natural pitch by one $t(glossary:semitone_one), double signs by two.',
+    knowledgeHint_noteValues:
+      'Reference for the fractions: $t(glossary:notes.whole_one). A dot adds half of the undotted value.',
+    knowledgeHint_intervals:
+      'Count the note letters including both endpoints and also the semitone distance. Semitones alone do not determine the spelling.',
+    knowledgeHint_triads:
+      'Consider the root, third and fifth in thirds. Compare their semitone distances from the root.',
+    knowledgeHint_scales:
+      'Compare consecutive semitone steps upwards. Classical melodic minor is explicitly considered in its ascending form here.',
+    knowledgeHint_meters:
+      'Distinguish the number of denominator units from the number of beats. In compound meters, three units form one beat.',
+    knowledgeHint_pitches:
+      'Compare the octave first, then the pitch within it. German H corresponds to English B.',
+    knowledgeHint2_KNOWLEDGE_MC: 'Narrow your choice to these two concepts: {{candidates}}.',
+    knowledgeHint2_MATCH: 'Begin with this pair: {{term}} – {{definition}}',
+    knowledgeHint2_ORDER: 'The first item is {{first}}.',
+    order_noteValues_ascending: 'from shortest to longest duration',
+    order_noteValues_descending: 'from longest to shortest duration',
+    order_pitches_ascending: 'from lowest to highest',
+    order_pitches_descending: 'from highest to lowest',
+    orderRule_noteValues: 'The complete note value, including its dot, is compared.',
+    orderRule_pitches: 'The octave is part of the pitch.',
+    orderExplanation: 'The correct order {{direction}} is: {{sequence}}. {{rule}}',
+    matchSelectTerm: 'Select a concept to edit',
+    matchDefinitions: 'Choose an explanation for {{term}}',
+    matchUnset: 'not matched yet',
+    matchFilled: '{{count}} of {{total}} concepts matched.',
+    matchClear: 'Clear match',
+    matchInstruction:
+      'Choose a concept, then an explanation. Choosing an explanation that is already used clears its previous match.',
+    orderChoices: 'Available items',
+    orderAnswer: 'Your sequence',
+    orderEmpty: 'Choose the first item from the options.',
+    orderFilled: '{{count}} of {{total}} items ordered.',
+    orderPosition: 'Position {{index}}: {{value}}',
+    orderUp: 'Move {{value}} up',
+    orderDown: 'Move {{value}} down',
+    orderRemove: 'Remove {{value}}',
+    orderInputHint:
+      'Choose the items in your preferred order. Use the buttons to move or remove them.',
     title: 'Read and hear music',
     intro:
       'Practice note names and intervals. Choose an answer and check it. Hints guide you step by step.',

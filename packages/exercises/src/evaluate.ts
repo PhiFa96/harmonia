@@ -1,5 +1,14 @@
 import { equals, intervalBetween, keySignature } from '@harmonia/theory';
 import {
+  knowledgeFactId,
+  matchAnswerId,
+  matchAnswerValues,
+  orderedValues,
+  orderAnswerId,
+  orderAnswerValues,
+  orderValueId,
+} from './knowledge.ts';
+import {
   assessRhythm,
   isRhythmItem,
   meterAnswerId,
@@ -39,8 +48,11 @@ import {
 } from './pitch-input.ts';
 import type { Evaluation, ExerciseItem } from './types.ts';
 
-/** Die Engine berechnet die Lösung aus den Tönen, nie aus dem sichtbaren Antworttext. */
+/** Die Engine berechnet die Lösung aus den Fachdaten, nie aus dem sichtbaren Antworttext. */
 export function expectedAnswer(item: ExerciseItem): string {
+  if (item.type === 'KNOWLEDGE_MC') return knowledgeFactId(item.fact);
+  if (item.type === 'MATCH') return matchAnswerId(item.facts.map(knowledgeFactId));
+  if (item.type === 'ORDER') return orderAnswerId(orderedValues(item).map(orderValueId));
   if (isRhythmItem(item))
     return item.type === 'RHYTHM_TAP'
       ? rhythmAnswerId(rhythmOnsets(item))
@@ -65,6 +77,13 @@ export function expectedAnswer(item: ExerciseItem): string {
 }
 export function evaluateExercise(item: ExerciseItem, answer: string): Evaluation {
   const expected = expectedAnswer(item);
+  if (item.type === 'MATCH' || item.type === 'ORDER') {
+    const values =
+      item.type === 'MATCH' ? matchAnswerValues(item, answer) : orderAnswerValues(item, answer);
+    const validAnswer =
+      values?.length === item.choices.length && values.every((value) => value !== null);
+    return { answer, expected, validAnswer, correct: validAnswer && answer === expected };
+  }
   if (item.type === 'RHYTHM_TAP') {
     const taps = rhythmAnswerTaps(item, answer);
     return {

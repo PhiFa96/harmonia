@@ -146,3 +146,25 @@ export function createRhythmSession(seed: number | string) {
     Array.from({ length: 3 }, () => RHYTHM_TYPES.map((spec) => generateExercise(spec, rng))).flat(),
   );
 }
+const KNOWLEDGE_TYPES: readonly ExerciseSpec[] = [
+  {
+    type: 'KNOWLEDGE_MC',
+    params: { topics: ['accidentals', 'noteValues', 'intervals', 'triads', 'scales', 'meters'] },
+  },
+  {
+    type: 'MATCH',
+    params: {
+      topics: ['accidentals', 'noteValues', 'intervals', 'triads', 'scales', 'meters'],
+      count: 3,
+    },
+  },
+  { type: 'ORDER', params: { topics: ['noteValues', 'pitches'], count: 4, direction: 'both' } },
+];
+export function createKnowledgeSession(seed: number | string) {
+  const rng = createRng(seed);
+  return createSession(
+    Array.from({ length: 3 }, () =>
+      KNOWLEDGE_TYPES.map((spec) => generateExercise(spec, rng)),
+    ).flat(),
+  );
+}

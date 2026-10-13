@@ -77,4 +77,4 @@ Deutsch, US-Englisch und UK-Englisch sind vollständig vorhanden. Begriffe wie �
 
 Claudes separate fachliche Abnahme nach [ADR 0005](../decisions/0005-fachliche-pruefung-durch-claude.md), GitHub-CI vor dem Merge sowie VoiceOver/TalkBack und Bedien-/Hörproben auf echten iOS-/Android-Geräten bleiben offen. Diese technische Erweiterung gibt keine Kursinhalte frei.
 
-`CHORD_IDENTIFY` und `CHORD_BUILD` wurden anschließend ergänzt; siehe [Akkordübungen](akkorduebungen.md). Als Nächstes in P2.06 folgen `RHYTHM_TAP`, `METER_IDENTIFY`, `KNOWLEDGE_MC`, `MATCH` und `ORDER`. Vollständige Stufen-1–2-Lektionen und Bestehens-/Freischaltlogik folgen in den dafür geplanten Schritten.
+Anschließend wurden [Akkordübungen](akkorduebungen.md), [Rhythmus und Takt](rhythmus-und-takt.md) sowie [Wissensfragen, Zuordnen und Ordnen](wissensaufgaben.md) ergänzt. Stand 08.10.2026 sind alle 14 zusätzlichen P2.06-Typen technisch vorhanden; fachliche Abnahme und echte Plattformtests bleiben offen. Der obige Prüfstand dokumentiert die Tonleiter-/Vorzeichnungsumsetzung. Vollständige Stufen-1–2-Lektionen und Bestehens-/Freischaltlogik folgen in den dafür geplanten Schritten.

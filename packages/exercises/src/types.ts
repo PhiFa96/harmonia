@@ -1,6 +1,16 @@
 import type { AppLocale, Messages } from '@harmonia/i18n';
 import type { Score } from '@harmonia/notation';
-import type { Chord, Key, Mode, Pitch, Rng, TriadType, TimeSignature } from '@harmonia/theory';
+import type {
+  Chord,
+  Key,
+  Mode,
+  Pitch,
+  Rng,
+  TriadType,
+  TimeSignature,
+  Duration,
+  Interval,
+} from '@harmonia/theory';
 
 export type ExerciseType =
   | 'NOTE_NAME'
@@ -16,7 +26,10 @@ export type ExerciseType =
   | 'CHORD_IDENTIFY'
   | 'CHORD_BUILD'
   | 'RHYTHM_TAP'
-  | 'METER_IDENTIFY';
+  | 'METER_IDENTIFY'
+  | 'KNOWLEDGE_MC'
+  | 'MATCH'
+  | 'ORDER';
 export type ExerciseClef = 'treble' | 'bass';
 export type IntervalPlayback = 'melodic-up' | 'melodic-down' | 'harmonic';
 
@@ -73,7 +86,34 @@ export interface RhythmParams extends MeterParams {
   /** Maximale Abweichung in ms; zusätzlich auf 40 % des kürzesten Einsatzabstands begrenzt. */
   readonly toleranceMs?: number;
 }
+export type KnowledgeTopic =
+  'accidentals' | 'noteValues' | 'intervals' | 'triads' | 'scales' | 'meters';
+export interface KnowledgeParams {
+  readonly topics: readonly KnowledgeTopic[];
+}
+export interface MatchParams extends KnowledgeParams {
+  readonly count?: number;
+}
+export type OrderTopic = 'noteValues' | 'pitches';
+export interface OrderParams {
+  readonly topics: readonly OrderTopic[];
+  readonly count?: number;
+  readonly direction?: ScaleDirection | 'both';
+}
+export type KnowledgeFact =
+  | { readonly topic: 'accidentals'; readonly alter: -2 | -1 | 0 | 1 | 2 }
+  | { readonly topic: 'noteValues'; readonly duration: Duration }
+  | { readonly topic: 'intervals'; readonly interval: Interval }
+  | { readonly topic: 'triads'; readonly triad: TriadType }
+  | { readonly topic: 'scales'; readonly scale: MvpScaleType }
+  | { readonly topic: 'meters'; readonly meter: MvpMeter };
+export type OrderValue =
+  | { readonly kind: 'duration'; readonly duration: Duration }
+  | { readonly kind: 'pitch'; readonly pitch: Pitch };
 export type ExerciseSpec =
+  | { readonly type: 'KNOWLEDGE_MC'; readonly params: KnowledgeParams }
+  | { readonly type: 'MATCH'; readonly params: MatchParams }
+  | { readonly type: 'ORDER'; readonly params: OrderParams }
   | { readonly type: 'NOTE_NAME'; readonly params: NoteParams }
   | { readonly type: 'NOTE_PLACE'; readonly params: NoteParams }
   | { readonly type: 'KEY_FIND'; readonly params: NoteParams }
@@ -146,8 +186,35 @@ export interface RhythmItem extends ItemBase {
   readonly bpm: number;
   readonly toleranceMs: number;
 }
+/** Wissensaufgaben benötigen kein künstliches Notenbild und keinen Notenschlüssel. */
+export interface KnowledgeItem {
+  readonly type: 'KNOWLEDGE_MC';
+  readonly fact: KnowledgeFact;
+  readonly choices: readonly string[];
+}
+export interface MatchItem {
+  readonly type: 'MATCH';
+  /** Reihenfolge der linken Begriffe; rechte Definitionen stehen in choices. */
+  readonly facts: readonly KnowledgeFact[];
+  readonly choices: readonly string[];
+}
+export interface OrderItem {
+  readonly type: 'ORDER';
+  readonly topic: OrderTopic;
+  readonly direction: ScaleDirection;
+  readonly values: readonly OrderValue[];
+  readonly choices: readonly string[];
+}
+export type KnowledgeExerciseItem = KnowledgeItem | MatchItem | OrderItem;
 export type ExerciseItem =
-  NoteItem | IntervalItem | PitchInputItem | ScaleItem | KeySignatureItem | ChordItem | RhythmItem;
+  | NoteItem
+  | IntervalItem
+  | PitchInputItem
+  | ScaleItem
+  | KeySignatureItem
+  | ChordItem
+  | RhythmItem
+  | KnowledgeExerciseItem;
 
 export interface Evaluation {
   readonly answer: string;
