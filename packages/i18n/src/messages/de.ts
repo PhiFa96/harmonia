@@ -325,7 +325,7 @@ export const de = {
     knowledgeHint_scales:
       'Vergleiche die Folge der Halbtonschritte aufwärts. Klassisch melodisches Moll wird hier ausdrücklich in seiner Aufwärtsform betrachtet.',
     knowledgeHint_meters:
-      'Unterscheide die Anzahl der Nenner-Einheiten von der Anzahl der Grundschläge. In zusammengesetzten Taktarten bilden drei Einheiten einen Grundschlag.',
+      'Unterscheide die Anzahl der Nenner-Einheiten von der Anzahl der Grundschläge. In Taktarten mit dreigeteilter Zählzeit (6/8, 9/8, 12/8) bilden drei Nenner-Einheiten einen Grundschlag.',
     knowledgeHint_pitches:
       'Vergleiche zuerst die Oktavlage und danach die Tonhöhe innerhalb der Oktave. Der deutsche Ton H entspricht dem englischen B.',
     knowledgeHint2_KNOWLEDGE_MC:
