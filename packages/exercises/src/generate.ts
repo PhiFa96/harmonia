@@ -209,7 +209,8 @@ function generateInterval(
   const question = 'question' in params ? params.question : undefined;
   if (
     question !== undefined &&
-    (type !== 'INTERVAL_IDENTIFY_VISUAL' || !['number', 'direction', 'motion'].includes(question))
+    (type !== 'INTERVAL_IDENTIFY_VISUAL' ||
+      !['number', 'direction', 'motion', 'semitones', 'quality', 'perfect'].includes(question))
   )
     throw new RangeError('Unbekannte Intervall-Grundlagenfrage');
   const allowedClefs = clefs(params);
@@ -228,6 +229,8 @@ function generateInterval(
   const intervals = allowedIntervals(params.intervals, aural);
   if (question && intervals.some((interval) => interval.number > 8))
     throw new RangeError('Grundlagenfragen unterstützen Prime bis Oktave');
+  if (question === 'perfect' && intervals.some((interval) => ![4, 5, 8].includes(interval.number)))
+    throw new RangeError('Reinheitsfrage unterstützt Quarte, Quinte und Oktave');
   const readingChoices =
     question === 'number'
       ? intervals.map((interval) => `interval-number:${String(interval.number)}`)
@@ -239,7 +242,17 @@ function generateInterval(
           )
         : question === 'motion'
           ? intervals.map((interval) => `interval-motion:${intervalMotion(interval.number)}`)
-          : [];
+          : question === 'semitones'
+            ? intervals.map(
+                (interval) => `interval-semitones:${String(Math.abs(semitones(interval)))}`,
+              )
+            : question === 'quality'
+              ? intervals.map(intervalAnswerId)
+              : question === 'perfect'
+                ? intervals.map((interval) =>
+                    interval.quality === 'P' ? 'interval-perfect:yes' : 'interval-perfect:no',
+                  )
+                : [];
   if (question && new Set(readingChoices).size < 2)
     throw new RangeError('Grundlagenfrage braucht mindestens zwei verschiedene Antworten');
   const pools = allowedClefs.map((clef) => ({

@@ -236,6 +236,16 @@ export const GLOSSARY = {
     de: { term: 'Intervall', gender: 'n', plural: 'Intervalle' },
     en: { term: 'interval', plural: 'intervals' },
   },
+  intervalQuality: {
+    category: 'pitch',
+    de: { term: 'Intervallqualität', gender: 'f', plural: 'Intervallqualitäten' },
+    en: { term: 'interval quality', plural: 'interval qualities' },
+  },
+  tritone: {
+    category: 'pitch',
+    de: { term: 'Tritonus', gender: 'm', plural: 'Tritoni' },
+    en: { term: 'tritone', plural: 'tritones' },
+  },
   unison: {
     category: 'pitch',
     de: { term: 'Prime', gender: 'f', plural: 'Primen' },

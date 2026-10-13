@@ -69,6 +69,7 @@ import {
   intervalReadingNumber,
   intervalReadingPitches,
   intervalReadingPath,
+  intervalReadingSemitones,
 } from './interval-reading.ts';
 
 const translations = new Map<AppLocale, ReturnType<typeof createI18n>>();
@@ -121,6 +122,15 @@ export function pitchInputLabel(pitch: Pitch, locale: AppLocale): string {
 export function choiceLabel(item: ExerciseItem, answer: string, locale: AppLocale): string {
   if (!item.choices.includes(answer)) return translate(locale, 'exercise.unknownAnswer');
   if (isIntervalReadingItem(item)) {
+    if (item.question === 'semitones')
+      return translate(locale, 'exercise.halfSteps', {
+        count: Number(answer.slice('interval-semitones:'.length)),
+      });
+    if (item.question === 'quality')
+      return intervalName(parseInterval(answer), {
+        ...engineLanguage(locale),
+        showDirection: false,
+      });
     const numberKeys = [
       'intervalNumber1',
       'intervalNumber2',
@@ -148,6 +158,8 @@ export function choiceLabel(item: ExerciseItem, answer: string, locale: AppLocal
       'interval-motion:repeat': 'exercise.intervalMotionRepeat',
       'interval-motion:step': 'exercise.intervalMotionStep',
       'interval-motion:leap': 'exercise.intervalMotionLeap',
+      'interval-perfect:yes': 'exercise.intervalPerfectYes',
+      'interval-perfect:no': 'exercise.intervalPerfectNo',
     };
     const key = keys[answer];
     return key ? translate(locale, key) : translate(locale, 'exercise.unknownAnswer');
@@ -314,6 +326,7 @@ export function exerciseFeedback(
         .map((pitch) => noteName(pitch, locale))
         .join(' → '),
       answer: choiceLabel(item, intervalReadingAnswer(item), locale),
+      distance: translate(locale, 'exercise.halfSteps', { count: intervalReadingSemitones(item) }),
     });
   } else if (isKnowledgeItem(item)) {
     message =

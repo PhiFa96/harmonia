@@ -409,6 +409,35 @@ export const de = {
     type_interval_number: 'Intervallnummer zählen',
     type_interval_direction: 'Richtung lesen',
     type_interval_motion: 'Wiederholung, Schritt oder Sprung',
+    type_interval_semitones: 'Halbtöne zählen',
+    type_interval_quality: 'Intervallqualität bestimmen',
+    type_interval_perfect: 'Reine Intervalle prüfen',
+    question_interval_semitones:
+      'Wie viele Halbtöne liegen zwischen den beiden notierten Tonhöhen? Zähle auf der Klaviatur die Übergänge zwischen benachbarten Tasten. Die Starttaste zählt als 0.',
+    question_interval_quality:
+      'Wie heißt das notierte Intervall vollständig? Prüfe die Intervallnummer und den Abstand in Halbtönen.',
+    question_interval_perfect:
+      'Ist das notierte Intervall eine reine Quarte, reine Quinte oder reine Oktave? Prüfe Nummer und Halbtonabstand.',
+    intervalPerfectYes: 'Ja, ein reines Intervall',
+    intervalPerfectNo: 'Nein, hier kein reines Intervall',
+    intervalReadingExplanation_semitones:
+      '{{from}} → {{to}}: Abstand {{distance}}. Gezählt werden Übergänge zwischen unmittelbar benachbarten Tasten, auch über schwarze Tasten. Die Starttaste zählt als 0; zwei gleiche Tonhöhen haben Abstand 0.',
+    intervalReadingExplanation_quality:
+      '{{from}} → {{to}}: Stammtonfolge {{path}}, Intervallnummer {{count}}, Klangabstand {{distance}}. Nummer und Abstand zusammen ergeben {{answer}}.',
+    intervalReadingExplanation_perfect:
+      '{{from}} → {{to}}: Intervallnummer {{count}}, Klangabstand {{distance}}. Eine reine Quarte hat 5, eine reine Quinte 7 und eine reine Oktave 12 Halbtöne. Nummer und Abstand müssen zusammen passen. Antwort: {{answer}}.',
+    intervalReadingHint_semitones_1:
+      'Beginne bei der ersten markierten Taste mit 0. Jeder Übergang zur nächsten Taste zählt 1, unabhängig von der Tastenfarbe.',
+    intervalReadingHint_semitones_2:
+      'Zwischen E und F sowie H und C liegt keine schwarze Taste: ein Halbton. Bei den anderen benachbarten weißen Tasten liegt eine schwarze dazwischen: zwei Halbtöne.',
+    intervalReadingHint_quality_1:
+      'Zähle zuerst die Stammtonpositionen einschließlich Start und Ziel. Ermittle dann den Halbtonabstand beider Tonhöhen.',
+    intervalReadingHint_quality_2:
+      'Eine kleine Terz hat 3 Halbtöne, eine große Terz 4. Reine Quarte, Quinte und Oktave verbinden die Nummern 4, 5 und 8 mit 5, 7 und 12 Halbtönen.',
+    intervalReadingHint_perfect_1:
+      'Eine vierte oder fünfte Stammtonposition allein reicht nicht. Prüfe zusätzlich die Anzahl der Halbtöne.',
+    intervalReadingHint_perfect_2:
+      'Vergleiche Nummer und Abstand: Quarte 4 mit 5 Halbtönen, Quinte 5 mit 7, Oktave 8 mit 12. Ein Abstand von 6 Halbtönen erfüllt keine dieser Bedingungen.',
     question_interval_number:
       'Welche Intervallnummer haben die beiden notierten Töne? Zähle die Stammtöne einschließlich beider Endtöne.',
     question_interval_direction:

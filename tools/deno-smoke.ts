@@ -73,6 +73,44 @@ const exercise = generateExercise(
 );
 const plannedSkills = curriculumSkills(catalogue, curriculumPlan);
 check(
+  'Erste Intervallqualitäten mit acht, zehn und zwölf Aufgaben',
+  ['distance', 'thirds', 'perfect']
+    .map(
+      (name) => resolveLesson(catalogue, `intervals.l1.first-qualities.${name}`)?.exercises.length,
+    )
+    .join(','),
+  '8,10,12',
+);
+const firstQuality = generateVisualInterval(
+  { intervals: ['m3', 'M3'], question: 'quality', maxAccidentals: 0 },
+  exerciseRng('deno-first-quality'),
+);
+check(
+  'Kleine und große Terz aus sichtbaren Noten unter Deno',
+  ['treble | 4/4 | E4/2 G4/2', 'treble | 4/4 | G4/2 B4/2']
+    .map((score) => expectedAnswer({ ...firstQuality, score: parseScore(score) }))
+    .join(','),
+  'm3,M3',
+);
+check(
+  'Abwärts bleibt der Halbtonabstand positiv unter Deno',
+  expectedAnswer({
+    ...firstQuality,
+    question: 'semitones',
+    score: parseScore('treble | 4/4 | G4/2 F4/2'),
+  }),
+  'interval-semitones:2',
+);
+check(
+  'Beide Tritonus-Schreibweisen sind keine reinen Intervalle unter Deno',
+  ['treble | 4/4 | F4/2 B4/2', 'treble | 4/4 | B4/2 F5/2']
+    .map((score) =>
+      expectedAnswer({ ...firstQuality, question: 'perfect', score: parseScore(score) }),
+    )
+    .join(','),
+  'interval-perfect:no,interval-perfect:no',
+);
+check(
   'Intervallgrundlagen mit acht, zehn und zwölf Aufgaben',
   ['numbers', 'direction', 'motion']
     .map((name) => resolveLesson(catalogue, `intervals.l1.size.${name}`)?.exercises.length)

@@ -12,6 +12,7 @@ import {
   itemVariantKey,
   isKnowledgeItem,
   isIntervalReadingItem,
+  intervalReadingKeyboardRange,
 } from '@harmonia/exercises';
 import { engineLanguage } from '@harmonia/i18n';
 import { layoutScore } from '@harmonia/notation';
@@ -40,6 +41,7 @@ import { SignatureAnswerInput } from './signature-answer-input';
 import { RhythmAnswerInput } from './rhythm-answer-input';
 import { PulseExample } from './pulse-example';
 import { DurationQuestion } from './duration-question';
+import { KeyboardExample } from './keyboard-example';
 import { MatchAnswerInput, OrderAnswerInput } from './knowledge-answer-input';
 import { useExercisePlayback } from './use-exercise-playback';
 
@@ -84,6 +86,13 @@ export function ExerciseTask({
   const prompt = exercisePrompt(item, locale);
   const feedbackRegion = useRef<View>(null);
   const [scoreWidth, setScoreWidth] = useState(0);
+  const semitoneRange = useMemo(
+    () =>
+      isIntervalReadingItem(item) && item.question === 'semitones'
+        ? intervalReadingKeyboardRange(item)
+        : undefined,
+    [item],
+  );
   const pickup = item.type === 'METER_IDENTIFY' && item.presentation === 'pickup';
   const rhythmWidth = useMemo(
     () =>
@@ -179,6 +188,11 @@ export function ExerciseTask({
               </View>
             </View>
           </ScrollView>
+          {semitoneRange ? (
+            <View testID="interval-semitone-keyboard" style={{ marginTop: SPACE.m }}>
+              <KeyboardExample score={item.score} range={semitoneRange} />
+            </View>
+          ) : null}
         </Card>
       ) : (
         <Card>
