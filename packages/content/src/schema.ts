@@ -329,7 +329,7 @@ export const exerciseSpecSchema = z
       generateExercise(spec, createRng('content-validation'));
     } catch {
       context.addIssue({
-        code: z.ZodIssueCode.custom,
+        code: 'custom',
         message: 'Ungültige Übungsparameter oder keine gültige Aufgabenvariante',
       });
     }
