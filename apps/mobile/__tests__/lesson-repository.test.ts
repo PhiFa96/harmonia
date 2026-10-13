@@ -54,6 +54,51 @@ afterEach(() => {
 });
 
 describe('Lokale Ergebnisse mit echter SQLite', () => {
+  it('speichert Akkorde samt falscher Erstwertung, Hinweis und neuer Wiederholung ohne Migration', async () => {
+    let session = createLessonSession(
+      {
+        id: 'test.chords',
+        contentVersion: 1,
+        exercises: [
+          { type: 'CHORD_BUILD', params: { types: ['major', 'minor'], roots: ['C', 'D', 'F'] } },
+          { type: 'CHORD_IDENTIFY', params: { types: ['major', 'minor'] } },
+          { type: 'CHORD_IDENTIFY', params: { types: ['major', 'minor'], presentation: 'aural' } },
+        ],
+      },
+      'sqlite-chords',
+    );
+    const answer = expectedAnswer(required(currentItem(session.initial))).split(',');
+    answer[2] = answer[1] ?? 'C4';
+    session = nextLessonExercise(answerLesson(revealLessonHint(session), answer.join(',')));
+    while (
+      session.phase === 'initial' ||
+      session.phase === 'review' ||
+      session.phase === 'review-intro'
+    ) {
+      if (session.phase === 'review-intro') session = startLessonReview(session);
+      const item = required(currentItem(required(activeLessonSession(session))));
+      session = nextLessonExercise(answerLesson(session, expectedAnswer(item)));
+    }
+    await initializeLessonDatabase(adapter(db));
+    const repository = createLessonRepository(adapter(db));
+    const attempt = createLessonAttempt('chord-id', session, START, END);
+    await repository.save(attempt);
+    const payload = db
+      .prepare('SELECT payload FROM lesson_attempts WHERE id = ?')
+      .get('chord-id')?.['payload'];
+    expect(JSON.parse(String(payload))).toEqual(attempt);
+    expect(await repository.latest(session.lesson.id)).toMatchObject({
+      correct: 2,
+      answered: 3,
+      review_correct: 1,
+      review_total: 1,
+    });
+    expect(attempt.session.initial.records[0]).toMatchObject({
+      result: { answer: answer.join(','), correct: false },
+      hintLevel: 1,
+    });
+    expect(db.prepare('PRAGMA user_version').get()?.['user_version']).toBe(1);
+  });
   it('speichert Tonleitern und Vorzeichnungen mit Hilfen und Wiederholung verlustfrei im bestehenden Schema', async () => {
     let session = createLessonSession(
       {

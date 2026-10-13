@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import type { ExerciseSpec } from '@harmonia/exercises';
-import { createRng, generateExercise, MVP_SCALE_TYPES } from '@harmonia/exercises';
+import { createRng, generateExercise, MVP_SCALE_TYPES, MVP_TRIAD_TYPES } from '@harmonia/exercises';
 const range = z
   .object({
     minMidi: z.number().int().min(21).max(108),
@@ -19,6 +19,19 @@ const noteParams = z
   })
   .strict();
 const intervals = z.array(z.string().regex(/^(?:P|m|M|A|d)(?:[1-9]|1[0-5])$/)).nonempty();
+const chordParams = noteParams
+  .extend({
+    types: z.array(z.enum(MVP_TRIAD_TYPES)).nonempty(),
+    roots: z
+      .array(z.string().regex(/^[A-G](?:bb|b|##|#)?$/))
+      .nonempty()
+      .optional(),
+    inversions: z
+      .array(z.union([z.literal(0), z.literal(1), z.literal(2)]))
+      .nonempty()
+      .optional(),
+  })
+  .strict();
 const fifths = z.array(z.number().int().min(-7).max(7)).nonempty();
 const scaleParams = noteParams
   .extend({
@@ -42,6 +55,15 @@ const signatureParams = z
   .strict();
 export const exerciseSpecSchema = z
   .discriminatedUnion('type', [
+    z.object({ type: z.literal('CHORD_BUILD'), params: chordParams }).strict(),
+    z
+      .object({
+        type: z.literal('CHORD_IDENTIFY'),
+        params: chordParams
+          .extend({ presentation: z.enum(['visual', 'aural']).optional() })
+          .strict(),
+      })
+      .strict(),
     z.object({ type: z.literal('SCALE_BUILD'), params: scaleParams }).strict(),
     z.object({ type: z.literal('SCALE_IDENTIFY'), params: scaleParams }).strict(),
     z.object({ type: z.literal('KEYSIG_BUILD'), params: signatureParams }).strict(),
@@ -100,6 +122,19 @@ export const exerciseSpecSchema = z
         ? { maxAccidentals: value.params.maxAccidentals }
         : {}),
     };
+    if (value.type === 'CHORD_BUILD' || value.type === 'CHORD_IDENTIFY')
+      return {
+        type: value.type,
+        params: {
+          ...base,
+          types: value.params.types,
+          ...(value.params.roots ? { roots: value.params.roots } : {}),
+          ...(value.params.inversions ? { inversions: value.params.inversions } : {}),
+          ...(value.type === 'CHORD_IDENTIFY' && value.params.presentation
+            ? { presentation: value.params.presentation }
+            : {}),
+        },
+      };
     if (value.type === 'SCALE_BUILD' || value.type === 'SCALE_IDENTIFY')
       return {
         type: value.type,

@@ -10,6 +10,10 @@ export const enGB = {
     licenses: 'Licences',
   },
   exercise: {
+    chordStart: 'Recognise and write chords',
+    chordIntro:
+      'Nine questions: write major, minor, diminished and augmented triads with inversions, recognise them in notation and identify them by ear.',
+    type_CHORD_IDENTIFY: 'Recognise $t(glossary:chord_other)',
     question_INTERVAL_BUILD:
       'Write the second note: {{interval}} from {{from}}. Place it in the empty second bar.',
     staffInputHint:

@@ -79,12 +79,13 @@ function check(session: ExerciseSession, answer = expectedAnswer(itemAt(session)
   return answerSession(session, answer);
 }
 function next(session: ExerciseSession) {
+  const advanced = nextExercise(session);
   fireEvent.press(
     screen.getByRole('button', {
-      name: session.index === session.items.length - 1 ? 'Ergebnis ansehen' : 'Weiter',
+      name: currentItem(advanced) ? 'Weiter' : 'Ergebnis ansehen',
     }),
   );
-  return nextExercise(session);
+  return advanced;
 }
 function reachHearing() {
   let state = createPracticeSession(SEED);

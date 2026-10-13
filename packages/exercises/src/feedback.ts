@@ -14,6 +14,9 @@ import {
   scaleTypeName,
   SHARP_ORDER,
   FLAT_ORDER,
+  chordName,
+  chordIntervals,
+  inversionName,
 } from '@harmonia/theory';
 import { expectedAnswer } from './evaluate.ts';
 import type { Evaluation, ExerciseFeedback, ExerciseHint, ExerciseItem } from './types.ts';
@@ -26,7 +29,8 @@ import {
   MVP_SCALE_TYPES,
   scaleChoiceId,
 } from './tonality.ts';
-import type { KeySignatureItem, ScaleItem } from './types.ts';
+import type { ChordItem, KeySignatureItem, ScaleItem } from './types.ts';
+import { chordFromId, chordTargets, isChordItem, resolvedChord } from './chords.ts';
 
 const translations = new Map<AppLocale, ReturnType<typeof createI18n>>();
 type TextKey =
@@ -65,8 +69,12 @@ function noteName(pitch: Pitch, locale: AppLocale, octave = true): string {
 export function signatureNoteLabel(note: NoteName, locale: AppLocale): string {
   return noteName({ ...note, octave: 4 }, locale, false);
 }
+export function pitchInputLabel(pitch: Pitch, locale: AppLocale): string {
+  return noteName(pitch, locale);
+}
 export function choiceLabel(item: ExerciseItem, answer: string, locale: AppLocale): string {
   if (!item.choices.includes(answer)) return translate(locale, 'exercise.unknownAnswer');
+  if (isChordItem(item)) return chordName(chordFromId(answer), engineLanguage(locale));
   if (isScaleItem(item)) {
     const type = MVP_SCALE_TYPES.find((type) => scaleChoiceId(type) === answer);
     return type
@@ -81,6 +89,20 @@ export function choiceLabel(item: ExerciseItem, answer: string, locale: AppLocal
   return noteName(pitch, locale, false);
 }
 export function exercisePrompt(item: ExerciseItem, locale: AppLocale): string {
+  if (isChordItem(item))
+    return translate(
+      locale,
+      item.type === 'CHORD_BUILD'
+        ? 'exercise.question_CHORD_BUILD'
+        : item.presentation === 'aural'
+          ? 'exercise.question_CHORD_AURAL'
+          : 'exercise.question_CHORD_IDENTIFY',
+      {
+        name: chordName(item.chord, engineLanguage(locale)),
+        bass: noteName(item.bass, locale),
+        root: noteName({ ...item.chord.root, octave: 4 }, locale, false),
+      },
+    );
   if (isScaleItem(item))
     return translate(locale, `exercise.question_${item.type}`, {
       tonic: noteName(item.tonic, locale),
@@ -141,7 +163,9 @@ export function exerciseFeedback(
   locale: AppLocale,
 ): ExerciseFeedback {
   let message: string;
-  if (isScaleItem(item)) {
+  if (isChordItem(item))
+    message = translate(locale, 'exercise.chordExplanation', chordExplanationValues(item, locale));
+  else if (isScaleItem(item)) {
     message = translate(locale, 'exercise.scaleExplanation', {
       tonic: noteName(item.tonic, locale),
       type: scaleTypeName(item.scaleType, engineLanguage(locale).language),
@@ -195,6 +219,17 @@ export function exerciseFeedback(
 /** Sprachneutraler Hinweis; erst die Oberfläche wählt die Sprache. Level 3 ist die erklärte Lösung. */
 export function exerciseHints(item: ExerciseItem, level: 1 | 2 | 3): ExerciseHint {
   if (level === 3) return { level, key: 'solution', values: {} };
+  if (isChordItem(item))
+    return {
+      level,
+      key:
+        level === 2
+          ? 'exercise.chordHint2'
+          : item.type === 'CHORD_IDENTIFY' && item.presentation === 'aural'
+            ? 'exercise.chordAuralHint1'
+            : 'exercise.chordHint1',
+      values: {},
+    };
   if (isScaleItem(item))
     return {
       level,
@@ -246,6 +281,12 @@ export function hintText(item: ExerciseItem, hint: ExerciseHint, locale: AppLoca
       locale,
     ).message;
   if (hint.key === 'solution') return '';
+  if (isChordItem(item))
+    return translate(
+      locale,
+      hint.key,
+      hint.level === 2 ? chordExplanationValues(item, locale) : {},
+    );
   if (isScaleItem(item)) return translate(locale, hint.key, hint.values);
   if (isKeySignatureItem(item))
     return translate(
@@ -316,17 +357,21 @@ export function exerciseDescription(item: ExerciseItem, locale: AppLocale): stri
     item.clef === 'treble'
       ? { letter: 'E', alter: 0, octave: 4 }
       : { letter: 'G', alter: 0, octave: 2 };
-  const pitches = isScaleItem(item)
-    ? item.type === 'SCALE_BUILD'
-      ? [item.tonic]
+  const pitches = isChordItem(item)
+    ? item.type === 'CHORD_BUILD'
+      ? [item.bass]
       : item.pitches
-    : item.type === 'NOTE_PLACE'
-      ? []
-      : 'pitch' in item
-        ? [item.pitch]
-        : item.type === 'INTERVAL_BUILD'
-          ? [item.from]
-          : [item.from, item.to];
+    : isScaleItem(item)
+      ? item.type === 'SCALE_BUILD'
+        ? [item.tonic]
+        : item.pitches
+      : item.type === 'NOTE_PLACE'
+        ? []
+        : 'pitch' in item
+          ? [item.pitch]
+          : item.type === 'INTERVAL_BUILD'
+            ? [item.from]
+            : [item.from, item.to];
   const notes = pitches
     .map((pitch, index) => {
       const steps = diatonicIndex(pitch) - diatonicIndex(bottom);
@@ -348,6 +393,29 @@ export function exerciseDescription(item: ExerciseItem, locale: AppLocale): stri
     ),
     notes,
   });
+}
+function chordExplanationValues(item: ChordItem, locale: AppLocale) {
+  const value = resolvedChord(item),
+    intervals = chordIntervals(value.type),
+    third = intervals[1],
+    fifth = intervals[2];
+  if (!third || !fifth) throw new RangeError('Dreiklangintervalle fehlen');
+  return {
+    name: chordName(value, engineLanguage(locale)),
+    root: noteName({ ...value.root, octave: 4 }, locale, false),
+    bass: noteName(
+      item.type === 'CHORD_BUILD'
+        ? item.bass
+        : ([...item.pitches].sort((a, b) => midi(a) - midi(b))[0] ?? item.bass),
+      locale,
+    ),
+    notes: chordTargets(item)
+      .map((pitch) => noteName(pitch, locale))
+      .join(' · '),
+    third: intervalName(third, engineLanguage(locale)),
+    fifth: intervalName(fifth, engineLanguage(locale)),
+    inversion: inversionName(value.inversion, engineLanguage(locale).language),
+  };
 }
 function scalePattern(item: ScaleItem): string {
   const pitches = scalePitches(item);

@@ -1,6 +1,6 @@
 import type { AppLocale, Messages } from '@harmonia/i18n';
 import type { Score } from '@harmonia/notation';
-import type { Key, Mode, Pitch, Rng } from '@harmonia/theory';
+import type { Chord, Key, Mode, Pitch, Rng, TriadType } from '@harmonia/theory';
 
 export type ExerciseType =
   | 'NOTE_NAME'
@@ -12,7 +12,9 @@ export type ExerciseType =
   | 'SCALE_BUILD'
   | 'SCALE_IDENTIFY'
   | 'KEYSIG_IDENTIFY'
-  | 'KEYSIG_BUILD';
+  | 'KEYSIG_BUILD'
+  | 'CHORD_IDENTIFY'
+  | 'CHORD_BUILD';
 export type ExerciseClef = 'treble' | 'bass';
 export type IntervalPlayback = 'melodic-up' | 'melodic-down' | 'harmonic';
 
@@ -47,6 +49,15 @@ export interface KeySignatureParams {
   readonly modes?: readonly Mode[];
   readonly fifths?: readonly number[];
 }
+export interface ChordParams extends NoteParams {
+  readonly types: readonly TriadType[];
+  /** Kanonische ASCII-Stammtöne, z. B. C, F#, Bb; ohne Angabe alle darstellbaren Grundtöne. */
+  readonly roots?: readonly string[];
+  readonly inversions?: readonly (0 | 1 | 2)[];
+}
+export interface ChordIdentifyParams extends ChordParams {
+  readonly presentation?: 'visual' | 'aural';
+}
 export type ExerciseSpec =
   | { readonly type: 'NOTE_NAME'; readonly params: NoteParams }
   | { readonly type: 'NOTE_PLACE'; readonly params: NoteParams }
@@ -56,6 +67,8 @@ export type ExerciseSpec =
   | { readonly type: 'SCALE_IDENTIFY'; readonly params: ScaleParams }
   | { readonly type: 'KEYSIG_IDENTIFY'; readonly params: KeySignatureParams }
   | { readonly type: 'KEYSIG_BUILD'; readonly params: KeySignatureParams }
+  | { readonly type: 'CHORD_BUILD'; readonly params: ChordParams }
+  | { readonly type: 'CHORD_IDENTIFY'; readonly params: ChordIdentifyParams }
   | { readonly type: 'INTERVAL_IDENTIFY_VISUAL'; readonly params: VisualIntervalParams }
   | { readonly type: 'INTERVAL_IDENTIFY_AURAL'; readonly params: AuralIntervalParams };
 
@@ -102,7 +115,16 @@ export interface KeySignatureItem extends ItemBase {
   readonly type: 'KEYSIG_IDENTIFY' | 'KEYSIG_BUILD';
   readonly key: Key;
 }
-export type ExerciseItem = NoteItem | IntervalItem | PitchInputItem | ScaleItem | KeySignatureItem;
+export interface ChordItem extends ItemBase {
+  readonly type: 'CHORD_BUILD' | 'CHORD_IDENTIFY';
+  readonly chord: Chord;
+  /** Vorgegebener Basston einschließlich Oktave; enge Lage aufwärts. */
+  readonly bass: Pitch;
+  readonly pitches: readonly Pitch[];
+  readonly presentation: 'visual' | 'aural';
+}
+export type ExerciseItem =
+  NoteItem | IntervalItem | PitchInputItem | ScaleItem | KeySignatureItem | ChordItem;
 
 export interface Evaluation {
   readonly answer: string;

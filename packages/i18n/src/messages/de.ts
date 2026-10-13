@@ -42,6 +42,32 @@ export const de = {
     noteInput: 'Noten und Klaviatur ausprobieren',
     constructionStart: 'Noten und Intervalle selbst eingeben',
     chooseSet: 'Übungssatz auswählen',
+    chordStart: 'Akkorde erkennen und schreiben',
+    chordIntro:
+      'Neun Aufgaben: Dur-, Moll-, verminderte und übermäßige Dreiklänge mit Umkehrungen schreiben, im Notenbild erkennen und nach Gehör bestimmen.',
+    type_CHORD_BUILD: '$t(glossary:chord_other) schreiben',
+    type_CHORD_IDENTIFY: '$t(glossary:chord_other) erkennen',
+    question_CHORD_BUILD:
+      'Schreibe diesen $t(glossary:chord_one) in enger Lage: {{name}}. Der $t(glossary:bassNote_one) {{bass}} ist vorgegeben; ergänze die zwei weiteren Töne.',
+    question_CHORD_IDENTIFY:
+      'Welchen $t(glossary:chord_one) siehst du? Bestimme den $t(glossary:root_one), die Art und die $t(glossary:inversion_one).',
+    question_CHORD_AURAL:
+      'Du hörst zuerst den $t(glossary:root_one) {{root}}, dann den $t(glossary:triad_one). Welche Art und $t(glossary:inversion_one) hörst du?',
+    chordExplanation:
+      '{{name}}: {{notes}}. Vom $t(glossary:root_one) {{root}} aus liegen {{third}} und {{fifth}}. Der $t(glossary:bassNote_one) ist {{bass}}; daraus folgt {{inversion}}. Beim Schreiben zählen die vollständigen Töne einschließlich Vorzeichen und Oktave. Enge Lage bedeutet: Über dem Basston stehen die übrigen Akkordtöne in ihren nächsthöheren Lagen.',
+    chordHint1:
+      'Ordne die drei Stammtöne gedanklich in Terzschichtung. Der unterste Ton dieser Schichtung ist der $t(glossary:root_one). Vergleiche ihn mit dem tatsächlich tiefsten Ton: Grundton, Terz oder Quinte im Bass bestimmen die $t(glossary:rootPosition) oder $t(glossary:inversion_one).',
+    chordHint2:
+      'Der $t(glossary:root_one) ist {{root}}. Von dort brauchst du {{third}} und {{fifth}}. Der vorgegebene oder gehörte $t(glossary:bassNote_one) {{bass}} zeigt dir die Lage; die übrigen Akkordtöne stehen möglichst nah darüber.',
+    chordAuralHint1:
+      'Merke dir den ersten einzelnen Ton als $t(glossary:root_one). Höre danach auf den tiefsten Ton des $t(glossary:chord_one): Vergleiche ihn mit dem Bezugston, auch über Oktaven hinweg. Grundton, Terz oder Quinte im Bass bestimmen die Lage. Die Abstände zwischen den Tönen bestimmen die Dreiklangart.',
+    chordPreview: 'Dein $t(glossary:chord_one)',
+    chordSelectTone: 'Akkordton zur Bearbeitung wählen',
+    chordTone: 'Ton {{index}}',
+    chordToneEmpty: 'noch nicht gesetzt',
+    chordFilled: '{{count}} von 2 Antworttönen gesetzt.',
+    chordInputHint:
+      'Wähle Ton 2 oder 3 und setze ihn im rechten $t(glossary:measure_one). Links bleibt der $t(glossary:bassNote_one) fest. Das gemeinsame Notenbild zeigt deinen $t(glossary:chord_one). Die oberen Töne kannst du in beliebiger Reihenfolge eingeben.',
     tonalityStart: 'Tonleitern und Tonarten üben',
     tonalityIntro:
       'Zwölf Aufgaben: Dur- und Molltonleitern erkennen und schreiben, Tonartvorzeichnungen bestimmen und selbst aufbauen.',

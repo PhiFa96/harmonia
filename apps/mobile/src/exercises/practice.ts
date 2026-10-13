@@ -84,3 +84,43 @@ export function createTonalitySession(seed: number | string) {
     ).flat(),
   );
 }
+
+const CHORD_TYPES: readonly ExerciseSpec[] = [
+  {
+    type: 'CHORD_BUILD',
+    params: {
+      types: ['major', 'minor', 'diminished', 'augmented'],
+      roots: ['C', 'D', 'F', 'G', 'A'],
+      clefs: ['treble', 'bass'],
+      inversions: [0, 1, 2],
+      maxAccidentals: 1,
+    },
+  },
+  {
+    type: 'CHORD_IDENTIFY',
+    params: {
+      types: ['major', 'minor', 'diminished', 'augmented'],
+      roots: ['C', 'D', 'F', 'G', 'A'],
+      clefs: ['treble', 'bass'],
+      inversions: [0, 1, 2],
+      maxAccidentals: 1,
+    },
+  },
+  {
+    type: 'CHORD_IDENTIFY',
+    params: {
+      types: ['major', 'minor', 'diminished', 'augmented'],
+      roots: ['C', 'D', 'F', 'G', 'A'],
+      clefs: ['treble', 'bass'],
+      inversions: [0, 1, 2],
+      presentation: 'aural',
+      maxAccidentals: 1,
+    },
+  },
+];
+export function createChordSession(seed: number | string) {
+  const rng = createRng(seed);
+  return createSession(
+    Array.from({ length: 3 }, () => CHORD_TYPES.map((spec) => generateExercise(spec, rng))).flat(),
+  );
+}

@@ -7,6 +7,7 @@ import {
   evaluateExercise,
   hintText,
   isKeySignatureItem,
+  isAuralExercise,
   isPitchInput,
   itemVariantKey,
 } from '@harmonia/exercises';
@@ -29,6 +30,7 @@ import { useTranslation } from 'react-i18next';
 import { Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { useLocale } from '@/i18n';
 import { ExerciseChoices } from './exercise-choices';
+import { ChordAnswerInput } from './chord-answer-input';
 import { PitchAnswerInput } from './pitch-answer-input';
 import { ScaleAnswerInput } from './scale-answer-input';
 import { SignatureAnswerInput } from './signature-answer-input';
@@ -108,9 +110,9 @@ export function ExerciseTask({
         </AppText>
         <MusicText variant="title2">{prompt}</MusicText>
       </View>
-      {['NOTE_PLACE', 'INTERVAL_BUILD', 'SCALE_BUILD', 'KEYSIG_BUILD'].includes(
+      {['NOTE_PLACE', 'INTERVAL_BUILD', 'SCALE_BUILD', 'KEYSIG_BUILD', 'CHORD_BUILD'].includes(
         item.type,
-      ) ? null : item.type !== 'INTERVAL_IDENTIFY_AURAL' || result || session.hintLevel === 3 ? (
+      ) ? null : !isAuralExercise(item) || result || session.hintLevel === 3 ? (
         <Card padding={SPACE.s}>
           <ScrollView horizontal contentContainerStyle={styles.score}>
             <View accessible role="img" aria-label={exerciseDescription(item, locale)}>
@@ -149,7 +151,7 @@ export function ExerciseTask({
           />
         </Card>
       )}
-      {item.type === 'INTERVAL_IDENTIFY_AURAL' && !result ? (
+      {isAuralExercise(item) && !result ? (
         <Button
           size="medium"
           variant="ghost"
@@ -165,7 +167,16 @@ export function ExerciseTask({
           {t('exercise.audioError')}
         </AppText>
       ) : null}
-      {item.type === 'SCALE_BUILD' ? (
+      {item.type === 'CHORD_BUILD' ? (
+        <ChordAnswerInput
+          key={`${String(session.index)}:${itemVariantKey(item)}`}
+          item={item}
+          answer={answer}
+          {...(result ? { result } : {})}
+          showSolution={!!result || session.hintLevel === 3}
+          onSelect={onSelect}
+        />
+      ) : item.type === 'SCALE_BUILD' ? (
         <ScaleAnswerInput
           key={`${String(session.index)}:${itemVariantKey(item)}`}
           item={item}
@@ -228,10 +239,15 @@ export function ExerciseTask({
             disabled={
               answer === null ||
               !evaluateExercise(item, answer).validAnswer ||
-              (item.type === 'INTERVAL_IDENTIFY_AURAL' && !audio.heard && session.hintLevel < 3)
+              (isAuralExercise(item) && !audio.heard && session.hintLevel < 3)
             }
             onPress={() => {
-              if (answer === null || !evaluateExercise(item, answer).validAnswer) return;
+              if (
+                answer === null ||
+                !evaluateExercise(item, answer).validAnswer ||
+                (isAuralExercise(item) && !audio.heard && session.hintLevel < 3)
+              )
+                return;
               audio.stop();
               onCheck(answer);
               requestAnimationFrame(() => {

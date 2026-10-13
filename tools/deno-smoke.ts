@@ -13,6 +13,7 @@ import {
   generateIntervalBuild,
   generateScale,
   generateKeySignature,
+  generateChord,
 } from '../packages/exercises/src/index.ts';
 import { firstLesson, catalogue, curriculumPlan } from '../packages/content/src/authoring.ts';
 import { publicCatalogue, resolveLesson, curriculumSkills } from '../packages/content/src/index.ts';
@@ -110,6 +111,21 @@ for (const item of [
     { modes: ['major', 'minor'] },
     exerciseRng('deno-signature-identify'),
     'KEYSIG_IDENTIFY',
+  ),
+  generateChord(
+    { types: ['major', 'minor', 'diminished', 'augmented'], inversions: [0, 1, 2] },
+    exerciseRng('deno-chord-build'),
+    'CHORD_BUILD',
+  ),
+  generateChord(
+    { types: ['major', 'minor', 'diminished', 'augmented'] },
+    exerciseRng('deno-chord-visual'),
+    'CHORD_IDENTIFY',
+  ),
+  generateChord(
+    { types: ['major', 'minor', 'diminished', 'augmented'], presentation: 'aural' },
+    exerciseRng('deno-chord-aural'),
+    'CHORD_IDENTIFY',
   ),
 ])
   check(
