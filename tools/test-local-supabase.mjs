@@ -42,19 +42,28 @@ async function request(path, { token, admin = false, method = 'GET', body } = {}
 const accounts = [];
 try {
   for (const name of ['A', 'B']) {
-    const signup = await request('/auth/v1/signup', {
+    const email = `harmonia-local-${randomUUID()}@example.invalid`,
+      password = randomUUID() + randomUUID();
+    const created = await request('/auth/v1/admin/users', {
+      admin: true,
       method: 'POST',
       body: {
-        email: `harmonia-local-${randomUUID()}@example.com`,
-        password: randomUUID() + randomUUID(),
+        email,
+        password,
+        email_confirm: true,
         // Nutzermetadaten dürfen weder Rolle noch fremde Profil-ID bestimmen.
-        data: { role: 'service_role', id: accounts[0]?.id, display_name: 'Forged' },
+        user_metadata: { role: 'service_role', id: accounts[0]?.id, display_name: 'Forged' },
       },
     });
-    assert.equal(signup.status, 200, `Signup ${name}`);
-    if (signup.data.user?.id)
-      accounts.push({ id: signup.data.user.id, token: signup.data.access_token });
-    assert.ok(signup.data.access_token, `Lokale Session ${name}`);
+    assert.equal(created.status, 200, `Bestätigtes lokales Testkonto ${name}`);
+    accounts.push({ id: created.data.id });
+    const signin = await request('/auth/v1/token?grant_type=password', {
+      method: 'POST',
+      body: { email, password },
+    });
+    assert.equal(signin.status, 200, `Anmeldung ${name}`);
+    accounts.at(-1).token = signin.data.access_token;
+    assert.ok(signin.data.access_token, `Lokale Session ${name}`);
   }
 
   const [a, b] = accounts;
@@ -112,7 +121,9 @@ try {
   assert.equal(afterDelete.status, 200, 'Kaskade über Backend prüfen');
   assert.deepEqual(afterDelete.data, [], 'Kontolöschung entfernt auch das Profil');
   accounts.shift();
-  console.log('Auth/REST: Signup, eigene Profile, Zugriffsschutz und Löschkaskade erfolgreich.');
+  console.log(
+    'Auth/REST: bestätigte Anmeldung, eigene Profile, Zugriffsschutz und Löschkaskade erfolgreich.',
+  );
 } finally {
   const cleanup = await Promise.allSettled(
     accounts.map(async ({ id }) => {

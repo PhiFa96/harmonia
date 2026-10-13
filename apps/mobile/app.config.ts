@@ -2,6 +2,7 @@
 // Die Bundle-IDs sind Platzhalter, bis Name und Domain feststehen (F16); vor dem ersten Store-Build festlegen.
 
 import type { ConfigContext, ExpoConfig } from 'expo/config';
+import { configuredAuth } from './src/auth/config.ts';
 
 type Variant = 'development' | 'preview' | 'production';
 
@@ -22,6 +23,8 @@ function currentVariant(): Variant {
 }
 
 export default ({ config }: ConfigContext): ExpoConfig => {
+  // Vor Metro abbrechen, damit ein versehentlich eingetragener Service-Schlüssel nie in ein Bundle gelangt.
+  configuredAuth();
   const variant = currentVariant();
   const { name, id } = VARIANTS[variant];
   // Öffentliche Projekt-ID, keine Zugangsdaten. Ohne Bindung bleiben OTA-Updates deaktiviert.
@@ -54,6 +57,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       'expo-router',
       'expo-localization',
       'expo-sqlite',
+      'expo-secure-store',
       [
         'react-native-audio-api',
         {

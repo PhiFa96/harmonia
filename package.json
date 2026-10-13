@@ -11,7 +11,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "pnpm -r --if-present typecheck && tsc -p tools --noEmit",
-    "test": "pnpm -r --if-present test && node --test tools/content-pipeline.test.mjs tools/curriculum-view.test.mjs",
+    "test": "pnpm -r --if-present test && node --test tools/content-pipeline.test.mjs tools/curriculum-view.test.mjs tools/local-backend-setup.test.mjs",
     "check:i18n": "node tools/check-translations.ts",
     "check:content": "node tools/check-content.mjs --check",
     "check:curriculum": "node tools/check-curriculum.mjs --check",
@@ -20,12 +20,13 @@
     "content:publish": "node tools/check-content.mjs --write",
     "preview:web": "node tools/serve-web.mjs",
     "check:deno": "npx -y deno@2.9.6 check --config tools/deno.json tools/deno-smoke.ts && npx -y deno@2.9.6 run --config tools/deno.json tools/deno-smoke.ts",
-    "db:start": "supabase start",
+    "db:start": "node tools/start-local-supabase.mjs",
     "db:stop": "supabase stop",
     "db:reset": "supabase db reset --local --yes",
     "db:lint": "supabase db lint --local --level warning --fail-on warning",
     "db:test": "supabase test db --local",
-    "db:test:api": "node tools/test-local-supabase.mjs"
+    "db:test:api": "node tools/test-local-supabase.mjs",
+    "db:test:email": "node tools/test-email-auth.mjs"
   },
   "devDependencies": {
     "@eslint/js": "catalog:",

@@ -12,6 +12,8 @@ import { LessonHistory } from '@/components/lesson-history';
 import { useLocale } from '@/i18n';
 import { firstLesson, lessonGroups } from '@/content';
 import { useContentText } from '@/content/use-content-text';
+import { useDeviceState } from '@/state/device';
+import { DeviceStatus } from '@/components/device-status';
 
 /** Beispiel bis zu den echten Lektionen: zeigt, dass das Notenbild auf allen Plattformen läuft. */
 const EXAMPLE = 'treble | 4/4 | C4/4 D4/4 E4/4 F4/4 | G4/4 A4/4 B4/4 C5/4';
@@ -24,10 +26,28 @@ export default function LearnScreen() {
   const { colors } = useUiTheme();
   const score = useMemo(() => parseScore(EXAMPLE), []);
   const describeOptions = useMemo(() => engineLanguage(locale), [locale]);
+  const profile = useDeviceState((state) => state.data);
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.content}>
         <AppText variant="title1">{t('tabs.learn')}</AppText>
+        <DeviceStatus />
+        {profile?.goal ? (
+          <Card>
+            <AppText variant="title3">{t('onboarding.learnWelcome')}</AppText>
+            <AppText>
+              {t('onboarding.learnPreference', {
+                goal: t(`onboarding.goal_${profile.goal}`),
+                count: profile.dailyGoal,
+              })}
+            </AppText>
+            {profile.placement === 'requested' ? (
+              <AppText variant="footnote" tone="muted">
+                {t('onboarding.learnPlacement')}
+              </AppText>
+            ) : null}
+          </Card>
+        ) : null}
         {lessonGroups.length ? (
           lessonGroups.map(({ unit, level, lessons }) => (
             <View key={unit.id} testID={`lesson-group-${unit.id}`} style={styles.lesson}>

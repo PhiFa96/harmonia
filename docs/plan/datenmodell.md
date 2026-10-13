@@ -31,6 +31,8 @@ Postgres in Supabase, Region EU. Alle Tabellen mit Row Level Security (RLS). Än
 
 **Profil-Grundlage P1.04:** Die Locale übernimmt die vorhandenen App-Werte einschließlich US/UK; ein zusätzliches `en_terminology`-Feld wäre redundant. Weitere Einstellungen sind noch nicht implementiert. Nur der Auth-Trigger erzeugt Profile; Nutzer dürfen ihre eigene Zeile lesen und ausschließlich Anzeigename/Sprache ändern. Details und lokale Tests: [supabase-grundlage.md](supabase-grundlage.md).
 
+
+**Lokaler Einstieg P2.09:** `harmonia-device.db` ergänzt ein getrenntes Geräteschema 1 mit `device_preferences` (eine validierte JSON-Zeile). Sprache/Darstellung/Haptik, Lernziel/Selbsteinschätzung, Einstufungswunsch, Tagesziel, Erinnerungs-Einwilligung/-Uhrzeit, Ablauf-/Mini-Zustand und Zeitpunkte werden lokal bewahrt. E-Mail/Codes/Token liegen dort nicht; Supabase-Sitzungen verwenden Web-SDK-Speicherung bzw. natives SecureStore. Die bisherige Lektionsdatenbank bleibt Schema 1. Keine neue Supabase-Profilmigration; Sync und die Übernahme lokaler Versuche in ein Konto bleiben P2.03. Details: [Onboarding](onboarding.md).
 ## Phase 3 (V1)
 
 | Tabelle | Zweck | Wichtige Spalten |

@@ -1,6 +1,6 @@
 # Supabase-Grundlage P1.04
 
-Stand: 04.10.2026. Lokale Backend-Grundlage für P2.01; Anmeldung in der App und entfernte EU-Projekte sind noch offen.
+Grundlage 04.10.2026, ergänzt 13.10.2026: Die E-Mail-Code-Anmeldung aus P2.01 ist mit P2.09 lokal implementiert. Entfernte EU-Projekte sowie weitere Auth-Provider und Kontofunktionen bleiben offen. [Aktuelle Übergabe](onboarding.md).
 
 ## Lokal arbeiten
 
@@ -12,6 +12,7 @@ pnpm db:start
 pnpm db:lint
 pnpm db:test
 pnpm db:test:api
+pnpm db:test:email
 ```
 
 `db:start` startet PostgreSQL 17, Auth, PostgREST, Kong und Mailpit. API: `http://127.0.0.1:54321`, Datenbank-Port: `54322`, lokale E-Mails: `http://127.0.0.1:54324`. Studio, Storage, Realtime, Edge Runtime und Analytics bleiben bis zum jeweiligen Arbeitsschritt deaktiviert.
@@ -39,7 +40,7 @@ Ein Auth-Trigger erzeugt genau ein Profil mit der echten Konto-ID. Vom Nutzer fr
 
 Ohne Session gibt es keinen Profilzugriff. Angemeldete Nutzer lesen nur ihre eigene Zeile und ändern nur `display_name` und `locale`. RLS prüft Konto-ID und Zielzeile; Spaltenrechte verhindern Änderungen von ID und Zeitstempeln. Direkte Profil-Erstellung/-Löschung durch die App ist gesperrt. Der vertrauenswürdige Backend-Service darf kontenübergreifend zugreifen. Das Löschen des Auth-Kontos entfernt das Profil; die vollständige Kontolöschung mit späteren Tabellen und externen Diensten gehört zu P2.01.
 
-Weitere Einstellungen, Altersbestätigung und Onboarding-Felder folgen in P2.01/P2.02. Der anonyme Auth-Modus bleibt deaktiviert, solange F10 (Gastmodus) nicht entschieden ist. Die lokale E-Mail-Bestätigung ist für Tests ausgeschaltet; das ist keine Produktionskonfiguration.
+Weitere Einstellungen, Altersbestätigung und Onboarding-Felder folgen in P2.01/P2.02. Der anonyme Auth-Modus bleibt deaktiviert, solange F10 (Gastmodus) nicht entschieden ist. Seit P2.09 ist die lokale E-Mail-Bestätigung eingeschaltet. Eigene bilinguale Code-Vorlagen und echtes lokales Mailpit prüfen Signup und Sign-in; der bestehende RLS/API-Test erstellt bestätigte lokale Testkonten ohne externe E-Mail-Zustellung.
 
 ## Prüfungen und CI
 
@@ -54,6 +55,10 @@ Lokal geprüft: vollständiger Start mit gesunden Diensten, Stop/Neustart, Neuau
 - Staging und Produktion in einer EU-Region anlegen bzw. bestehende Projekte identifizieren; PostgreSQL-Hauptversion mit der lokalen Version abgleichen.
 - Projekte verbinden, Zugangsdaten in den dafür vorgesehenen Secret-Einstellungen hinterlegen und einen getrennten staging-Migrationsworkflow einrichten. Produktive Migrationen erst nach geprüftem staging-Lauf.
 - Für die App nur öffentliche URL und Publishable-/Anon-Schlüssel konfigurieren. Auth-Rückleitungen, E-Mail-Bestätigung, SMTP und Apple/Google separat je Umgebung einrichten und testen.
-- F10 klären und anschließend die Konten-/Gastverknüpfung implementieren. Keine ungetestete Anmeldung oder vermeintliche Synchronisation in der UI anzeigen.
+- Lokaler Gaststart und E-Mail-Anmeldung sind mit P2.09 umgesetzt. Die verlustfreie Übernahme lokaler Versuche in einen synchronisierten Kontostand bleibt P2.03. Keine vermeintliche Synchronisation in der UI anzeigen.
 
 Diese externen Projekte sind in der aktuellen Sitzung nicht konfiguriert. Die lokale Umsetzung schließt P1.04 deshalb noch nicht vollständig ab.
+
+## Ergänzung P2.09: lokale Code-Vorlagen
+
+`pnpm db:start` startet jetzt über einen temporären Docker-Aufrufhelfer und bereitet genau die zwei eigenen öffentlichen Template-Mounts für Kong vor. Das behebt die CLI-Dateirechte und in Proxyumgebungen den eigenen internen Template-Abruf, ohne Docker-Konfiguration, Registry-/CA-Verifikation oder externe Ziele zu ändern. Die bestehende Datenbank wird beim Stop/Start bewahrt. `pnpm db:test:email` prüft echte neue/bestehende Konten, falsche und verbrauchte Codes, bestätigte Sitzungen, Neustart, Refresh und Abmeldung; nur lokale reservierte Testadressen, mit Bereinigung. Die eigene Vorlage muss für entfernte Projekte separat eingerichtet werden. Details: [Onboarding](onboarding.md).

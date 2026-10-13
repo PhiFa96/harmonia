@@ -22,6 +22,7 @@
     "@harmonia/i18n": "workspace:*",
     "@harmonia/notation": "workspace:*",
     "@harmonia/ui": "workspace:*",
+    "@supabase/supabase-js": "^2.117.3",
     "@tanstack/react-query": "^5.104.1",
     "@vexflow-fonts/bravura": "catalog:",
     "expo": "catalog:",
@@ -34,6 +35,7 @@
     "expo-linking": "~57.0.12",
     "expo-localization": "~57.0.2",
     "expo-router": "~57.0.25",
+    "expo-secure-store": "~57.0.4",
     "expo-sqlite": "~57.0.4",
     "expo-status-bar": "~57.0.1",
     "expo-system-ui": "~57.0.4",
@@ -50,6 +52,7 @@
     "react-native-safe-area-context": "catalog:",
     "react-native-screens": "~4.26.0",
     "react-native-svg": "catalog:",
+    "react-native-url-polyfill": "^4.0.0",
     "react-native-web": "catalog:",
     "react-native-worklets": "0.10.1",
     "zustand": "^5.0.15"
@@ -71,6 +74,9 @@
     "testTimeout": 20000,
     "setupFiles": [
       "<rootDir>/jest/setup.ts"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest/after-env.ts"
     ],
     "moduleNameMapper": {
       "^@harmonia/i18n/content-messages$": "<rootDir>/../../packages/i18n/src/authoring-content-messages.ts",

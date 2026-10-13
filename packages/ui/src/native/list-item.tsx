@@ -2,6 +2,7 @@
 // Mit Schalter ist die ganze Zeile der Schalter (ein Ziel für Finger und Screenreader).
 
 import type { ReactNode } from 'react';
+import { useRef } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 
 import { RADIUS, SPACE } from '../tokens.ts';
@@ -11,7 +12,7 @@ import type { IconName } from './icons.tsx';
 import { Icon } from './icons.tsx';
 import { AppText } from './text.tsx';
 import { useUiTheme } from './theme.tsx';
-import { SwitchTrack } from './toggle.tsx';
+import { SwitchTrack, useWebSwitchInput } from './toggle.tsx';
 
 export interface ListItemProps {
   readonly label: string;
@@ -38,6 +39,16 @@ export function ListItem({
 }: ListItemProps) {
   const { colors } = useUiTheme();
   const haptics = useHaptics();
+  const switchControl = useRef<View>(null);
+  useWebSwitchInput(switchControl, {
+    enabled: toggle !== undefined,
+    activate: () => {
+      if (toggle) {
+        haptics.tap();
+        toggle.onValueChange(!toggle.value);
+      }
+    },
+  });
   const content = (
     <>
       {icon ? (
@@ -66,6 +77,7 @@ export function ListItem({
   if (toggle) {
     return (
       <Pressable
+        ref={switchControl}
         role="switch"
         aria-label={label}
         aria-checked={toggle.value}

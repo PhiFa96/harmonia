@@ -34,6 +34,8 @@ Die Blöcke B, C und D können teilweise parallel laufen.
   - Die Apple-Richtlinien 4.8 und 5.1.1(v) sind erfüllt.
 - **Tests:** E2E Anmeldung (Web), pgTAP für Löschkaskade.
 
+- **Vorarbeit 13.10.2026:** P2.09 zieht die E-Mail-Code-Anmeldung vor; lokaler Gaststart, Bestätigung, Sitzung und Abmeldung sind implementiert. Apple/Google, Kontolöschung, Export und geräteübergreifende Daten bleiben offen. [Onboarding](onboarding.md).
+
 ### P2.02 – Profil und Einstellungen
 
 - **Ziel:** Nutzer steuern Sprache, Benennung und Lernziele.
@@ -142,7 +144,7 @@ Die Blöcke B, C und D können teilweise parallel laufen.
 - **Abhängig von:** P2.02
 - **Umfang:** M
 - **Aufgaben:**
-  - [ ] Ablauf:
+  - [x] Ablauf:
     1. Sprache
     2. Ziel (z. B. Hobby, Schule, Aufnahmeprüfung)
     3. Selbsteinschätzung
@@ -150,9 +152,11 @@ Die Blöcke B, C und D können teilweise parallel laufen.
     5. Tagesziel
     6. Erinnerungen (Einwilligung)
     7. Konto oder Gast
-  - [ ] Audio-Start (Web: Tippen zum Starten)
-  - [ ] Erste Mini-Aufgabe vor der Kontoerstellung
+  - [x] Audio-Start (Web: Tippen zum Starten)
+  - [x] Erste Mini-Aufgabe vor der Kontoerstellung
 - **Fertig, wenn:** Testpersonen erreichen die erste Aufgabe ohne Hilfe; Dauer gemessen.
+
+- **Stand 13.10.2026:** Ablauf vollständig technisch implementiert, als acht Ansichten mit eingeschobener Mini-Aufgabe. Lokale wiederaufnehmbare Speicherung, DE/US/UK, Gaststart und ausdrücklich vorgezogene E-Mail-Code-Anmeldung einschließlich Bestätigung/Sitzung/Abmeldung. Einstufung und Erinnerungszustellung bleiben P2.10/P2.14; gespeichert werden Wunsch und Einwilligung. App-/Browser-/echte lokale Auth-Prüfungen sind bestanden. Der Durchgang mit echten Testpersonen ohne Hilfe, native Geräte und produktive Projekt-/SMTP-Bindung bleiben offen; **P2.09 hat noch keine vollständige Usability-/Launch-Abnahme.** Übergabe und Zeiten: [onboarding.md](onboarding.md).
 
 ### P2.10 – Einstufungstest
 

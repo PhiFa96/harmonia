@@ -31,15 +31,25 @@ jwt_expiry = 3600
 enable_refresh_token_rotation = true
 refresh_token_reuse_interval = 10
 enable_signup = true
-# Gastmodus (F10) bleibt eine offene Produktentscheidung.
+# Der lokale Gaststart aus P2.09 erzeugt keinen anonymen Auth-Nutzer.
 enable_anonymous_sign_ins = false
 minimum_password_length = 12
 
 [auth.email]
 enable_signup = true
 double_confirm_changes = true
-# Nur lokal: Testkonten brauchen keine echte E-Mail-Zustellung.
-enable_confirmations = false
+# Auch lokal echte Bestätigung prüfen; E-Mails bleiben im lokalen Mailpit.
+enable_confirmations = true
+otp_length = 6
+otp_expiry = 3600
+
+[auth.email.template.confirmation]
+subject = "Harmonia – dein Code / your code"
+content_path = "./supabase/templates/email-code.html"
+
+[auth.email.template.magic_link]
+subject = "Harmonia – dein Code / your code"
+content_path = "./supabase/templates/email-code.html"
 
 [local_smtp]
 enabled = true

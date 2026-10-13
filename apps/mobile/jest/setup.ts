@@ -35,3 +35,10 @@ jest.mock('expo-sqlite', () => ({
   ),
 }));
 jest.mock('expo-crypto', () => ({ randomUUID: () => '00000000-0000-4000-8000-000000000001' }));
+
+// Bestehende Routen prüfen ein bereits eingerichtetes Gerät. Der echte neue Ablauf,
+// Loader, SQLite-Neustart und Fehlerfälle werden in den Onboarding-Prüfungen abgedeckt.
+jest.mock('@/state/device', () => ({
+  ...jest.requireActual<object>('@/state/device'),
+  initializeDeviceState: () => Promise.resolve(),
+}));

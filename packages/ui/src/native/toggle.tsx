@@ -1,7 +1,8 @@
 // Schalter: Rolle „switch“, Knopf gleitet federnd (reduziert: sofort), leichte Haptik.
 
-import { useEffect } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { useEffect, useRef } from 'react';
+import type { RefObject } from 'react';
+import { Platform, Pressable, StyleSheet, View } from 'react-native';
 import Animated, {
   interpolateColor,
   useAnimatedStyle,
@@ -43,11 +44,72 @@ export interface ToggleProps {
   readonly disabled?: boolean;
 }
 
+interface ToggleWebEvent {
+  readonly key: string;
+  readonly altKey: boolean;
+  readonly ctrlKey: boolean;
+  readonly metaKey: boolean;
+  readonly repeat: boolean;
+  preventDefault(): void;
+  stopPropagation(): void;
+}
+interface ToggleWebControl {
+  addEventListener(
+    type: 'keydown',
+    listener: (event: ToggleWebEvent) => void,
+    capture: boolean,
+  ): void;
+  removeEventListener(
+    type: 'keydown',
+    listener: (event: ToggleWebEvent) => void,
+    capture: boolean,
+  ): void;
+}
+
+export function useWebSwitchInput(
+  control: RefObject<View | null>,
+  options: { readonly enabled: boolean; readonly activate: () => void },
+) {
+  const current = useRef(options);
+  current.current = options;
+  useEffect(() => {
+    if (Platform.OS !== 'web' || !options.enabled) return;
+    const element = control.current as unknown as ToggleWebControl;
+    const keydown = (event: ToggleWebEvent) => {
+      if (
+        !current.current.enabled ||
+        event.altKey ||
+        event.ctrlKey ||
+        event.metaKey ||
+        ![' ', 'Enter'].includes(event.key)
+      )
+        return;
+      event.preventDefault();
+      event.stopPropagation();
+      if (event.repeat) return;
+      current.current.activate();
+    };
+    element.addEventListener('keydown', keydown, true);
+    return () => {
+      element.removeEventListener('keydown', keydown, true);
+    };
+  }, [control, options.enabled]);
+}
+
 export function Toggle({ value, onValueChange, label, disabled = false }: ToggleProps) {
   const haptics = useHaptics();
+  const control = useRef<View>(null);
+  useWebSwitchInput(control, {
+    enabled: !disabled,
+    activate: () => {
+      haptics.tap();
+      onValueChange(!value);
+    },
+  });
   const slop = (TOUCH.min - TRACK.height) / 2;
   return (
     <Pressable
+      ref={control}
       role="switch"
       aria-label={label}
       aria-checked={value}

@@ -136,6 +136,9 @@ jobs:
       - name: Auth- und REST-API mit zwei Konten prüfen
         run: pnpm db:test:api
 
+      - name: E-Mail-Codes, Bestätigung, Sitzung und Abmeldung prüfen
+        run: pnpm db:test:email
+
       - name: Lokale Container stoppen
         if: always()
         run: pnpm db:stop
