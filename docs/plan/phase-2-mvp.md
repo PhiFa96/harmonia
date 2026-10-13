@@ -206,10 +206,12 @@ Die Blöcke B, C und D können teilweise parallel laufen.
 - **Abhängig von:** P2.12
 - **Umfang:** M
 - **Aufgaben:**
-  - [ ] Feedback mit Erklärtext aus der Engine, Notenbild der Lösung, Hörbeispiel
-  - [ ] Hinweisleiter (feste Hinweise; KI-Hinweise kommen in P2.18)
-  - [ ] „Fehler melden“ → `content_reports`
+  - [x] Feedback mit Erklärtext aus der Engine, Notenbild der Lösung, Hörbeispiel
+  - [x] Hinweisleiter (feste Hinweise; KI-Hinweise kommen in P2.18)
+  - [x] „Fehler melden“ → `content_reports`
 - **Fertig, wenn:** Jeder Übungstyp liefert verständliches Feedback in beiden Sprachen.
+
+- **Stand 13.10.2026:** Technisch umgesetzt: Engine-Feedback und feste Hinweisleiter für alle 19 Typen in DE/US/UK, passende ergänzende Lösungsnotation/Quellenklänge und Inhaltsmeldungen mit Kontext. Gastmeldungen bleiben gemäß Nutzerentscheidung lokal und werden bei Anmeldung gesendet; Kontoübertragung, Wiederholung und RLS sind getrennt vom Lernstand. Übergabe: [Feedback und Inhaltsmeldungen](feedback-und-inhaltsmeldungen.md), [ADR 0013](../decisions/0013-inhaltsmeldungen-mit-gastwarteschlange.md). Nächster Schritt P2.14.
 
 ### P2.14 – Streaks, XP, Tagesziel, Erinnerungen
 

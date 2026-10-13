@@ -1,3 +1,4 @@
+import type { useReports as ReportsHook } from '../src/state/reports.ts';
 import type { useDeviceState as DeviceStateHook } from '../src/state/device.ts';
 import type { completedDeviceFixture as Fixture } from './device-fixture.ts';
 import type { usePlacementState as PlacementStateHook } from '../src/state/placement.ts';
@@ -5,6 +6,15 @@ import { catalogue } from '@harmonia/content/authoring';
 import { learningPath } from '@harmonia/content';
 import type { useLearningState as LearningStateHook } from '../src/state/learning.ts';
 beforeEach(() => {
+  const { useReports } = jest.requireActual<{ useReports: typeof ReportsHook }>('@/state/reports');
+  useReports.setState({
+    phase: 'ready',
+    scope: 'guest',
+    rows: [],
+    memory: false,
+    sync: 'idle',
+    draft: null,
+  });
   const { useDeviceState } = jest.requireActual<{ useDeviceState: typeof DeviceStateHook }>(
     '@/state/device',
   );

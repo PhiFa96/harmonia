@@ -11,6 +11,7 @@ import type { Option } from '@/components/option-sheet';
 import { OptionSheet } from '@/components/option-sheet';
 import type { Appearance } from '@/state/settings';
 import { useSettings } from '@/state/settings';
+import { ReportStatus } from '@/components/report-status';
 import { LearningProfile } from '@/components/learning-profile';
 
 type LanguageChoice = AppLocale | 'device';
@@ -41,6 +42,7 @@ export default function ProfileScreen() {
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.content}>
         <LearningProfile />
+        <ReportStatus />
         <AppText variant="overline" tone="muted">
           {t('profile.settings')}
         </AppText>

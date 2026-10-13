@@ -30,6 +30,7 @@ export default function PracticeScreen() {
   const { t } = useTranslation();
   const locale = useLocale();
   const [session, setSession] = useState<ExerciseSession | null>(null);
+  const [seed, setSeed] = useState(0);
   const [answer, setAnswer] = useState<string | null>(null);
   const [mode, setMode] = useState<
     'reading' | 'pitch' | 'tonality' | 'chords' | 'rhythm' | 'knowledge'
@@ -45,6 +46,8 @@ export default function PracticeScreen() {
   const start = (selected = mode) => {
     setMode(selected);
     setAnswer(null);
+    const nextSeed = Date.now() + run.current++;
+    setSeed(nextSeed);
     setSession(
       {
         reading: createPracticeSession,
@@ -53,7 +56,7 @@ export default function PracticeScreen() {
         chords: createChordSession,
         rhythm: createRhythmSession,
         knowledge: createKnowledgeSession,
-      }[selected](Date.now() + run.current++),
+      }[selected](nextSeed),
     );
     scroll.current?.scrollTo({ y: 0, animated: false });
   };
@@ -152,6 +155,13 @@ export default function PracticeScreen() {
           <>
             <ExerciseTask
               session={session}
+              reportSource={{
+                kind: 'practice',
+                set: mode,
+                contentVersion: 1,
+                seed,
+                index: session.index,
+              }}
               item={item}
               answer={answer}
               question={question}

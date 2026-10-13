@@ -3,6 +3,47 @@ import { contentMessages } from '@harmonia/i18n/content-messages';
 // Fachbegriffe kommen aus dem Glossar: $t(glossary:…).
 
 export const de = {
+  report: {
+    title: 'Fehler melden',
+    queueTitle: 'Inhaltsmeldungen',
+    intro:
+      'Was stimmt an dieser Aufgabe nicht? Wähle einen Bereich und beschreibe den Fehler, wenn du möchtest.',
+    category: 'Bereich',
+    'category-question': 'Frage',
+    'category-answer': 'Antwort oder Bewertung',
+    'category-feedback': 'Erklärung oder Hinweis',
+    'category-notation': 'Notenbild',
+    'category-audio': 'Hörbeispiel',
+    'category-translation': 'Sprache oder Übersetzung',
+    'category-other': 'Etwas anderes',
+    message: 'Beschreibung (optional, bis zu 2000 Zeichen)',
+    placeholder: 'Was hast du beobachtet? Was sollte stattdessen passieren?',
+    privacy:
+      'Die Meldung enthält die Aufgabe, ihre Variante, deine Eingabe und Hinweise. Bei Einstufungsfragen gehört der bisherige Testverlauf dazu. Bitte keine persönlichen Daten eingeben. Sie verändert deinen Lernfortschritt nicht.',
+    guest:
+      'Als Gast speicherst du die Meldung auf diesem Gerät. Bei deiner nächsten Anmeldung wird sie dem angemeldeten Konto zugeordnet und gesendet.',
+    account:
+      'Die Meldung bleibt auf diesem Gerät, bis sie gesendet wurde. Bei Netzproblemen versuchen wir es erneut.',
+    memory:
+      'Diese Sitzung speichert nur vorübergehend. Die Meldung geht beim Schließen verloren und wird nicht gesendet.',
+    submit: 'Meldung speichern',
+    saving: 'Meldung wird gespeichert …',
+    saved: 'Meldung gespeichert',
+    saveError:
+      'Die Meldung konnte nicht gespeichert werden. Dein Text bleibt hier. Bitte versuche es erneut.',
+    loadError:
+      'Der Meldungsspeicher konnte nicht geladen werden. Gespeicherte Meldungen werden nicht überschrieben.',
+    retry: 'Erneut versuchen',
+    sending: 'Meldungen werden gesendet …',
+    networkError:
+      'Noch nicht gesendet. Deine Meldungen bleiben gespeichert. Bitte versuche es später erneut.',
+    unavailableSource:
+      'Eine Aufgabenquelle ist nicht mehr verfügbar. Die betroffene Meldung bleibt auf diesem Gerät und kann erneut gesendet werden.',
+    queue: '{{pending}} ausstehend · {{sent}} gesendet',
+    noDraft: 'Öffne „Fehler melden“ direkt bei einer Aufgabe, damit wir ihren Kontext kennen.',
+    cancel: 'Zurück ohne Speichern',
+    back: 'Zur Aufgabe zurück',
+  },
   content: contentMessages.de,
   flow: {
     mix: '{{newCount}} Aufgaben zum aktuellen Stoff und {{repeatCount}} Wiederholungsaufgaben.',
@@ -262,6 +303,10 @@ export const de = {
     wrongTitle: 'Noch nicht ganz',
   },
   exercise: {
+    solutionImage: 'L\u00f6sungsbild',
+    sourceReplay: 'Quellenbeispiel anh\u00f6ren',
+    keyReplay:
+      'Beispiel: $t(glossary:scale_one) in $t(glossary:major) oder natürlichem $t(glossary:minor)',
     listeningCell: 'Baustein {{count}}',
     'contextQuestion_crossbar-duration':
       'Wie viele Viertelnotenwerte dauert der erste Ton über den Taktstrich hinweg?',

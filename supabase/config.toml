@@ -72,5 +72,9 @@ enabled = true
 verify_jwt = false
 import_map = "./functions/deno.json"
 
+[functions.content-reports]
+verify_jwt = false
+import_map = "./functions/deno.json"
+
 [analytics]
 enabled = false

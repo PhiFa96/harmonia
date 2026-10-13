@@ -194,3 +194,12 @@ export function lessonSummary(lesson: LessonSession) {
     unresolved: initial.answered - initial.correct - (review?.correct ?? 0),
   };
 }
+
+/** Kanonische Fehlerwiederholung, unabhängig von clientseitigen Item-Snapshots. */
+export function lessonReviewItem(
+  lesson: LessonDefinition,
+  seed: number | string,
+  originalIndex: number,
+): ExerciseItem {
+  return newVariant(createLessonSession(lesson, seed), originalIndex);
+}

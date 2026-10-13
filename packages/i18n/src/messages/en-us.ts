@@ -4,6 +4,43 @@ import { contentMessages } from '@harmonia/i18n/content-messages';
 import type { Messages } from './types.ts';
 
 export const enUS = {
+  report: {
+    title: 'Report an error',
+    queueTitle: 'Content reports',
+    intro: 'What is wrong with this task? Choose an area and describe the error if you wish.',
+    category: 'Area',
+    'category-question': 'Question',
+    'category-answer': 'Answer or grading',
+    'category-feedback': 'Explanation or hint',
+    'category-notation': 'Score',
+    'category-audio': 'Audio example',
+    'category-translation': 'Language or translation',
+    'category-other': 'Something else',
+    message: 'Description (optional, up to 2000 characters)',
+    placeholder: 'What did you notice? What should happen instead?',
+    privacy:
+      'The report includes the task, its variant, your input and hints. For placement questions, it also includes the test so far. Please leave out personal information. It does not change your learning progress.',
+    guest:
+      'As a guest, you save the report on this device. The next time you sign in, it is assigned to that account and sent.',
+    account:
+      'The report stays on this device until it has been sent. We retry if there is a network problem.',
+    memory:
+      'This session uses temporary storage. The report is lost when you close it and will not be sent.',
+    submit: 'Save report',
+    saving: 'Saving report …',
+    saved: 'Report saved',
+    saveError: 'The report could not be saved. Your text is still here. Please try again.',
+    loadError: 'The report storage could not be loaded. Saved reports will not be overwritten.',
+    retry: 'Try again',
+    sending: 'Sending reports …',
+    networkError: 'Not sent yet. Your reports remain saved. Please try again later.',
+    unavailableSource:
+      'A task source is no longer available. Its report remains on this device and can be retried.',
+    queue: '{{pending}} pending · {{sent}} sent',
+    noDraft: 'Open “Report an error” from a task so we can include its context.',
+    cancel: 'Back without saving',
+    back: 'Back to the task',
+  },
   content: contentMessages['en-US'],
   flow: {
     mix: '{{newCount}} questions on the current material and {{repeatCount}} review questions.',
@@ -253,6 +290,9 @@ export const enUS = {
     wrongTitle: 'Not quite',
   },
   exercise: {
+    solutionImage: 'Solution score',
+    sourceReplay: 'Play the source example',
+    keyReplay: 'Example: $t(glossary:major) or natural $t(glossary:minor) $t(glossary:scale_one)',
     listeningCell: 'Cell {{count}}',
     'contextQuestion_crossbar-duration':
       'How many quarter-note values does the first pitch last across the barline?',

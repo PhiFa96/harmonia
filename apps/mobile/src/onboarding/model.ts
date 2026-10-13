@@ -1,12 +1,6 @@
 import type { AppLocale } from '@harmonia/i18n';
 import type { ExerciseSession } from '@harmonia/exercises';
-import {
-  answerSession,
-  createSession,
-  generateExercise,
-  revealHint,
-  createRng,
-} from '@harmonia/exercises';
+import { answerSession, createMiniSession, revealHint } from '@harmonia/exercises';
 
 export const ONBOARDING_STEPS = [
   'language',
@@ -82,21 +76,9 @@ export function newOnboarding(now: number): OnboardingData {
   };
 }
 export function miniSession(data: OnboardingData): ExerciseSession {
-  const item = generateExercise(
-    {
-      type: 'INTERVAL_IDENTIFY_VISUAL',
-      params: {
-        intervals: ['P1', 'M2', 'm2', 'M3', 'm3'],
-        question: 'direction',
-        direction: 'both',
-        clefs: ['treble'],
-        range: { minMidi: 64, maxMidi: 77 },
-        maxAccidentals: 0,
-      },
-    },
-    createRng(data.mini.seed),
-  );
-  let session = createSession([item]);
+  let session = createMiniSession(data.mini.seed);
+  const item = session.items[0];
+  if (!item) throw new Error('Mini-Aufgabe fehlt');
   for (let i = 0; i < data.mini.hintLevel; i++) session = revealHint(session);
   if (data.mini.checked) {
     if (!data.mini.answer || !item.choices.includes(data.mini.answer))

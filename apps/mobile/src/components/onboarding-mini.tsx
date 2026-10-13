@@ -103,6 +103,14 @@ export function OnboardingMini({
       </Card>
       <ExerciseTask
         session={session}
+        reportSource={{
+          kind: 'practice',
+          set: 'mini',
+          contentVersion: 1,
+          seed: data.mini.seed,
+          index: 0,
+        }}
+        onReportOpen={stop}
         item={item}
         answer={data.mini.answer}
         question={question}

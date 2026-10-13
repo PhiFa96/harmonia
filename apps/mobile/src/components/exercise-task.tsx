@@ -1,6 +1,9 @@
+import type { ReportSource } from '@harmonia/content';
+import { openReport } from '@/state/reports';
 import { ContextQuestion } from './context-question';
 import type { ExerciseItem, ExerciseSession } from '@harmonia/exercises';
 import {
+  feedbackMedia,
   exerciseDescription,
   exerciseFeedback,
   exerciseHints,
@@ -28,7 +31,7 @@ import {
   ProgressBar,
   useUiTheme,
 } from '@harmonia/ui/native';
-import { useFocusEffect } from 'expo-router';
+import { router, useFocusEffect } from 'expo-router';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import type { RefObject } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -48,6 +51,8 @@ import { useExercisePlayback } from './use-exercise-playback';
 
 interface Props {
   readonly session: ExerciseSession;
+  readonly reportSource?: ReportSource;
+  readonly onReportOpen?: () => void;
   readonly item: ExerciseItem;
   readonly answer: string | null;
   readonly question: RefObject<View | null>;
@@ -65,6 +70,8 @@ interface Props {
 }
 export function ExerciseTask({
   session,
+  reportSource,
+  onReportOpen,
   item,
   answer,
   question,
@@ -83,7 +90,8 @@ export function ExerciseTask({
   const { t } = useTranslation();
   const locale = useLocale();
   const { colors, reduceMotion } = useUiTheme();
-  const audio = useExercisePlayback(item);
+  const media = useMemo(() => feedbackMedia(item), [item]);
+  const audio = useExercisePlayback(media.audio ?? item);
   const result = session.result;
   const feedback = result ? exerciseFeedback(item, result, locale) : undefined;
   const prompt = exercisePrompt(item, locale);
@@ -398,6 +406,20 @@ export function ExerciseTask({
           onSelect={onSelect}
         />
       )}
+      {(result || session.hintLevel === 3) && media.score ? (
+        <Card>
+          <AppText variant="title3">{t('exercise.solutionImage')}</AppText>
+          <ScrollView horizontal>
+            <ScoreView
+              score={media.score}
+              staffSpace={14}
+              color={colors.text}
+              describeOptions={engineLanguage(locale)}
+              layoutOptions={{ endBarline: 'final' }}
+            />
+          </ScrollView>
+        </Card>
+      ) : null}
       {!result ? (
         <>
           {session.hintLevel !== 0 ? (
@@ -456,13 +478,19 @@ export function ExerciseTask({
             title={feedback.title}
             message={feedback.message}
             {...(!isKnowledgeItem(item) &&
-            !isKeySignatureItem(item) &&
-            item.type !== 'CONTEXT_CHOICE'
+            (!isKeySignatureItem(item) || !!media.audio) &&
+            (item.type !== 'CONTEXT_CHOICE' || !!media.audio)
               ? {
                   onReplay: () => {
                     void audio.play();
                   },
-                  replayLabel: t('exercise.replay'),
+                  replayLabel: t(
+                    media.label === 'source'
+                      ? 'exercise.sourceReplay'
+                      : media.label === 'key'
+                        ? 'exercise.keyReplay'
+                        : 'exercise.replay',
+                  ),
                 }
               : {})}
             style={styles.feedback}
@@ -480,6 +508,26 @@ export function ExerciseTask({
             }}
           />
         </View>
+      ) : null}
+      {reportSource ? (
+        <Button
+          size="medium"
+          variant="ghost"
+          label={t('report.title')}
+          onPress={() => {
+            audio.stop();
+            onReportOpen?.();
+            openReport(
+              reportSource,
+              locale,
+              prompt,
+              result?.answer ?? answer,
+              session.hintLevel,
+              !!result,
+            );
+            router.push('/report');
+          }}
+        />
       ) : null}
     </>
   );

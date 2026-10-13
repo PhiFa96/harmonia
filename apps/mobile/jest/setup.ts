@@ -54,3 +54,10 @@ jest.mock('@/state/learning', () => ({
   syncLearning: () => Promise.resolve(),
   recordLessonLearning: () => Promise.resolve(),
 }));
+
+// Eigene Meldungsdatenbank und Sync werden separat geprüft.
+jest.mock('@/state/reports', () => ({
+  ...jest.requireActual<object>('@/state/reports'),
+  initializeReports: () => Promise.resolve(),
+  syncReports: () => Promise.resolve(),
+}));

@@ -1,7 +1,7 @@
 // Knopf: fünf Varianten, zwei Größen. Antippen federt auf 96 % (reduziert: kurz abdunkeln) mit leichter Haptik.
 
 import type { StyleProp, ViewStyle } from 'react-native';
-import { Pressable, StyleSheet, Text } from 'react-native';
+import { Platform, Pressable, StyleSheet, Text } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
 
 import type { ColorTokens } from '../tokens.ts';
@@ -26,6 +26,8 @@ export interface ButtonProps {
   /** large: 56 pt (Hauptaktion), medium: 48 pt. Standard: large */
   readonly size?: 'large' | 'medium';
   readonly disabled?: boolean;
+  /** Auswahlzustand bei Knöpfen für eine feste Auswahl. */
+  readonly selected?: boolean;
   /** Symbol vor der Beschriftung */
   readonly icon?: IconName;
   readonly accessibilityHint?: string;
@@ -64,6 +66,7 @@ export function Button({
   variant = 'primary',
   size = 'large',
   disabled = false,
+  selected,
   icon,
   accessibilityHint,
   style,
@@ -98,6 +101,11 @@ export function Button({
       role="button"
       aria-label={accessibilityLabel}
       aria-disabled={disabled}
+      {...(selected === undefined
+        ? {}
+        : Platform.OS === 'web'
+          ? { 'aria-pressed': selected }
+          : { accessibilityState: { selected, disabled } })}
       {...(accessibilityHint === undefined ? {} : { accessibilityHint })}
       {...(testID === undefined ? {} : { testID })}
       disabled={disabled}

@@ -22,6 +22,7 @@ import { useSettings } from '@/state/settings';
 import { navigationTheme, useAppColorScheme } from '@/theme';
 import { initializeDeviceState, startTemporarySession, useDeviceState } from '@/state/device';
 import { initializeAuth } from '@/auth';
+import { ReportLifecycle } from '@/components/report-lifecycle';
 import { LearningLifecycle } from '@/components/learning-lifecycle';
 
 export default function RootLayout() {
@@ -54,6 +55,7 @@ export default function RootLayout() {
       <ThemeProvider value={theme}>
         <QueryClientProvider client={queryClient}>
           <LearningLifecycle />
+          <ReportLifecycle />
           {device.phase !== 'ready' ? (
             <View style={bootStyles.container}>
               <Card>
@@ -92,6 +94,7 @@ export default function RootLayout() {
                 <Stack.Screen name="account" />
                 <Stack.Screen name="placement" />
               </Stack.Protected>
+              <Stack.Screen name="report" />
             </Stack>
           )}
           <StatusBar style={scheme === 'dark' ? 'light' : 'dark'} />

@@ -19,7 +19,7 @@
     "check:content:bundle": "node tools/check-public-bundle.mjs",
     "content:publish": "node tools/check-content.mjs --write",
     "preview:web": "node tools/serve-web.mjs",
-    "check:deno": "npx -y deno@2.9.6 check --config tools/deno.json tools/deno-smoke.ts && npx -y deno@2.9.6 run --config tools/deno.json tools/deno-smoke.ts && npx -y deno@2.9.6 check --config supabase/functions/deno.json supabase/functions/learning-sync/index.ts",
+    "check:deno": "npx -y deno@2.9.6 check --config tools/deno.json tools/deno-smoke.ts && npx -y deno@2.9.6 run --config tools/deno.json tools/deno-smoke.ts && npx -y deno@2.9.6 check --config supabase/functions/deno.json supabase/functions/learning-sync/index.ts supabase/functions/content-reports/index.ts",
     "db:start": "node tools/start-local-supabase.mjs",
     "db:stop": "supabase stop",
     "db:reset": "supabase db reset --local --yes",
@@ -28,7 +28,8 @@
     "db:test:api": "node tools/test-local-supabase.mjs",
     "db:test:email": "node tools/test-email-auth.mjs",
     "db:serve:learning": "node tools/serve-local-learning.mjs",
-    "db:test:learning": "node tools/test-learning-sync.mjs"
+    "db:test:learning": "node tools/test-learning-sync.mjs",
+    "db:test:reports": "node tools/test-content-reports.mjs"
   },
   "devDependencies": {
     "@eslint/js": "catalog:",

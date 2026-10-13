@@ -18,19 +18,15 @@ writeFileSync(
   process.argv.includes('--published') ? '' : 'HARMONIA_LOCAL_PREVIEW=true\n',
   { mode: 0o600 },
 );
-const child = spawn(
-  'pnpm',
-  ['exec', 'supabase', 'functions', 'serve', 'learning-sync', '--env-file', envFile],
-  {
-    detached: process.platform !== 'win32',
-    env: {
-      ...process.env,
-      HARMONIA_DOCKER_BINARY: docker,
-      PATH: dir + delimiter + process.env.PATH,
-    },
-    stdio: 'inherit',
+const child = spawn('pnpm', ['exec', 'supabase', 'functions', 'serve', '--env-file', envFile], {
+  detached: process.platform !== 'win32',
+  env: {
+    ...process.env,
+    HARMONIA_DOCKER_BINARY: docker,
+    PATH: dir + delimiter + process.env.PATH,
   },
-);
+  stdio: 'inherit',
+});
 for (const signal of ['SIGINT', 'SIGTERM'])
   process.on(signal, () => {
     if (process.platform !== 'win32' && child.pid) process.kill(-child.pid, signal);

@@ -10,7 +10,9 @@ Musiktheorie lernen – hörbar, spielerisch und so tief, wie du willst. Vom ers
 
 **P2.11 ist technisch implementiert:** Lernpfad mit Graphvoraussetzungen, vier Status, Bereichs-/Stufenwechsel und freiwilliger Wiederholung. Die gewählte 80-%-Regel und Kontosynchronisation für Lernnachweise sind vorgezogen; Offline-Ergebnisse und Konten bleiben getrennt. Funktionen, Einrichtung und Prüfstand: [Lernpfad](docs/plan/lernpfad.md).
 
-**P2.12 ist technisch implementiert:** versionierte Aufgabenmischung, neue Fehlerwiederholungen, Pause/Wiederaufnahme und Verwerfen sowie das Ergebnis mit XP und lokaler Lernserie. XP werden im Konto von der Engine geprüft und atomar gebucht; Offline-Ergebnisse bleiben erhalten. Übergabe: [Lektionsablauf](docs/plan/lektionsablauf.md). Als Nächstes folgt P2.13.
+**P2.13 ist technisch implementiert:** Engine-Erklärungen und feste Hinweise für alle 19 Übungstypen in DE/US/UK, passende Lösungsbilder/Quellenklänge und „Fehler melden“. Gastmeldungen bleiben lokal und senden nach Anmeldung; Kontoübertragung und Review-Kontext sind vom Lernstand getrennt. Übergabe: [Feedback und Inhaltsmeldungen](docs/plan/feedback-und-inhaltsmeldungen.md). Als Nächstes folgt P2.14.
+
+**P2.12 ist technisch implementiert:** versionierte Aufgabenmischung, neue Fehlerwiederholungen, Pause/Wiederaufnahme und Verwerfen sowie das Ergebnis mit XP und lokaler Lernserie. XP werden im Konto von der Engine geprüft und atomar gebucht; Offline-Ergebnisse bleiben erhalten. Übergabe: [Lektionsablauf](docs/plan/lektionsablauf.md). P2.13 ergänzt das Feedback und Inhaltsmeldungen.
 
 ## Konzept
 

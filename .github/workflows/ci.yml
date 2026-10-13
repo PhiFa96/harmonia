@@ -96,7 +96,7 @@ jobs:
         run: deno check --config tools/deno.json tools/deno-smoke.ts
 
       - name: Engine-geprüfte Sync-Funktion unter Deno prüfen
-        run: deno check --config supabase/functions/deno.json supabase/functions/learning-sync/index.ts
+        run: deno check --config supabase/functions/deno.json supabase/functions/learning-sync/index.ts supabase/functions/content-reports/index.ts
 
       - name: Theorie, Übungen, Lektion und Fähigkeitsplan unter Deno ausführen
         run: deno run --config tools/deno.json tools/deno-smoke.ts
@@ -148,6 +148,7 @@ jobs:
           harmonia_learning_pid=$!
           trap 'kill "$harmonia_learning_pid" 2>/dev/null || true' EXIT
           node tools/test-learning-sync.mjs --published
+          node tools/test-content-reports.mjs --published
           kill "$harmonia_learning_pid"
           wait "$harmonia_learning_pid" || true
           trap - EXIT
@@ -157,6 +158,9 @@ jobs:
 
       - name: Offline-Versuche und Synchronisation zwischen zwei Geräten prüfen
         run: pnpm db:test:learning
+
+      - name: Inhaltsmeldungen, Wiederholungen und Konto-Isolation prüfen
+        run: pnpm db:test:reports
 
       - name: Lokale Container stoppen
         if: always()

@@ -35,6 +35,7 @@ Dieser Plan beschreibt, wie wir Harmonia Schritt für Schritt bauen: vom leeren 
 | [Onboarding P2.09](onboarding.md) | Gespeicherter Erststart, Mini-Aufgabe, Gast-/E-Mail-Anmeldung und offene Testpersonen-/Geräteabnahme |
 | [Einstufungstest P2.10](einstufungstest.md) | Adaptive Aufgaben, getrennte Bereichsniveaus, Startpunkte, Wiederholung und SQLite-Wiederaufnahme |
 | [Lernpfad P2.11](lernpfad.md) | Graphbasierte Freischaltung, 80-%-Regel, freiwillige Wiederholung, Offline-Nachweise und Kontosynchronisation |
+| [Feedback und Inhaltsmeldungen P2.13](feedback-und-inhaltsmeldungen.md) | Lösungen, Quellenklang, feste Hinweise und lokale Gast-/Konto-Meldungswarteschlange |
 | [Lektionsablauf P2.12](lektionsablauf.md) | Aufgabenmischung, Pause/Wiederaufnahme, Verwerfen, geprüftes XP-Ergebnis und lokale Lernserie |
 | [Erste Intervallqualitäten P2.07](erste-intervallqualitaeten.md) | Achte Einheit: Halbtonabstände, kleine/große Terzen, reine Quarte/Quinte/Oktave und Tritonus-Kontrast |
 | [Übungs-Framework P1.19](uebungs-framework.md) | Generatoren, Engine-Bewertung, Hinweise, Aufgabenablauf und Hör-Pause |

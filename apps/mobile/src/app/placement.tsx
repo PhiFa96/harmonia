@@ -162,6 +162,16 @@ function OwnedPlacementScreen() {
               <ExerciseTask
                 key={`${state?.seed ?? ''}:${String(state?.index)}`}
                 session={task.session}
+                {...(snapshot
+                  ? {
+                      reportSource: {
+                        kind: 'placement' as const,
+                        bankKey: snapshot.bankKey,
+                        seed: snapshot.seed,
+                        actions: [...snapshot.actions],
+                      },
+                    }
+                  : {})}
                 item={item}
                 answer={snapshot?.answer ?? null}
                 question={question}

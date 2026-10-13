@@ -185,3 +185,6 @@ export { octaveName, octaveNamePitch } from './octave-names.ts';
 export * from './context.ts';
 
 export { contextSourceText, contextNotationDescription } from './context-text.ts';
+
+export * from './practice.ts';
+export * from './feedback-media.ts';

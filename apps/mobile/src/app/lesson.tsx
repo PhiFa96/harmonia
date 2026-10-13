@@ -340,6 +340,18 @@ function LessonPlayer({
               </AppText>
               <ExerciseTask
                 session={session}
+                reportSource={{
+                  kind: 'lesson',
+                  lessonId: lesson.lesson.id,
+                  contentVersion: lesson.lesson.contentVersion,
+                  ...(lesson.lesson.planKey ? { planKey: lesson.lesson.planKey } : {}),
+                  seed: lesson.seed,
+                  round: lesson.phase === 'review' ? 'review' : 'initial',
+                  index:
+                    lesson.phase === 'review'
+                      ? (lesson.reviewOrigins[session.index] ?? -1)
+                      : session.index,
+                }}
                 item={item}
                 answer={answer}
                 question={question}
