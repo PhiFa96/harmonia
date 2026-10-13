@@ -1,5 +1,5 @@
 import { catalogue } from '@harmonia/content/authoring';
-import { resolveLesson } from '@harmonia/content';
+import { lessonPlan } from '@harmonia/content';
 import {
   answerLesson,
   createLessonSession,
@@ -74,7 +74,7 @@ function required<T>(value: T | undefined): T {
   return value;
 }
 function intro(name: string) {
-  const lesson = required(resolveLesson(catalogue, `rhythm.l1.pulse.${name}`));
+  const lesson = required(lessonPlan(catalogue, `rhythm.l1.pulse.${name}`));
   for (let index = 1; index < lesson.introduction.length; index++)
     fireEvent.press(screen.getByRole('button', { name: 'Nächste Einführungskarte' }));
   fireEvent.press(
@@ -137,9 +137,11 @@ describe('Pulslektionen mit Audio-Uhr im Spieler', () => {
     ['groups', 12],
   ] as const)(
     '%s speichert %s echte Antworten und Rohzeiten mit Version 6',
-    async (name, count) => {
+    async (name, newCount) => {
       renderRouter('./src/app', { initialUrl: `/lesson?id=rhythm.l1.pulse.${name}` });
       const session = intro(name);
+      const count = session.initial.items.length;
+      expect(lessonPlan(catalogue, session.lesson.id)?.newCount).toBe(newCount);
       for (const item of session.initial.items) {
         await answer(item);
         expect(screen.getByText('Richtig!')).toBeTruthy();
@@ -197,18 +199,23 @@ describe('Pulslektionen mit Audio-Uhr im Spieler', () => {
   it('überspringt alle Tippaufgaben ohne Hörmöglichkeit und wertet nur die Begriffsfragen', async () => {
     renderRouter('./src/app', { initialUrl: '/lesson?id=rhythm.l1.pulse.tempo' });
     const session = intro('tempo');
-    for (const item of session.initial.items.filter((item) => item.type === 'KNOWLEDGE_MC')) {
-      await answer(item);
-      fireEvent.press(screen.getByTestId('exercise-next'));
+    const skipped = session.initial.items.filter((item) => item.type === 'RHYTHM_TAP').length;
+    for (const item of session.initial.items) {
+      if (item.type === 'RHYTHM_TAP') {
+        if (screen.queryByRole('button', { name: 'Gerade nicht hören' }))
+          fireEvent.press(screen.getByRole('button', { name: 'Gerade nicht hören' }));
+      } else {
+        await answer(item);
+        fireEvent.press(screen.getByTestId('exercise-next'));
+      }
     }
-    fireEvent.press(screen.getByRole('button', { name: 'Gerade nicht hören' }));
     await waitFor(() => {
       expect(mockSave).toHaveBeenCalledTimes(1);
     });
     expect(mockSave.mock.calls[0]?.[0].summary).toMatchObject({
-      answered: 4,
-      correct: 4,
-      skipped: 6,
+      answered: session.initial.items.length - skipped,
+      correct: session.initial.items.length - skipped,
+      skipped,
     });
     expect(mockPlay).not.toHaveBeenCalled();
   });

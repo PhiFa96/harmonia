@@ -1,5 +1,5 @@
 import { catalogue } from '@harmonia/content/authoring';
-import { resolveLesson } from '@harmonia/content';
+import { lessonPlan } from '@harmonia/content';
 import {
   answerLesson,
   createLessonSession,
@@ -78,7 +78,7 @@ function required<T>(value: T | undefined): T {
 
 const unit = 'notation.l2.clefs-registers';
 function intro(id: string) {
-  const lesson = required(resolveLesson(catalogue, id));
+  const lesson = required(lessonPlan(catalogue, id));
   for (let i = 1; i < lesson.introduction.length; i++)
     fireEvent.press(screen.getByRole('button', { name: 'Nächste Einführungskarte' }));
   fireEvent.press(
@@ -174,8 +174,8 @@ describe('Bassschlüssel und Oktavnamen im App-Spieler', () => {
       expect(mockSave).toHaveBeenCalledTimes(1);
     });
     expect(required(mockSave.mock.calls[0]?.[0]).summary).toMatchObject({
-      correct: 11,
-      answered: 12,
+      correct: session.initial.items.length - 1,
+      answered: session.initial.items.length,
       reviewCorrect: 1,
       reviewTotal: 1,
       unresolved: 0,

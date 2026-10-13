@@ -8,7 +8,7 @@ import {
   lessonEvent,
   validateLearningEvent,
 } from '@harmonia/content';
-import type { LearningEvent, LessonProgress, PathUnit } from '@harmonia/content';
+import type { LearningEvent, LessonProgress, PathUnit, LessonDraft } from '@harmonia/content';
 import type { LessonAttempt } from '../storage/lesson-repository.ts';
 import type { StoredLearningEvent } from '../storage/learning-repository.ts';
 import { GUEST_SCOPE } from '../storage/learning-repository.ts';
@@ -25,6 +25,7 @@ import {
 import { EMPTY_PLACEMENT } from '../placement/model.ts';
 
 interface LearningState {
+  readonly drafts: Readonly<Record<string, LessonDraft>>;
   readonly phase: 'loading' | 'ready' | 'error';
   readonly scope: string;
   readonly path: readonly PathUnit[];
@@ -37,6 +38,7 @@ interface LearningState {
   readonly expanded: readonly string[];
 }
 export const useLearningState = create<LearningState>()(() => ({
+  drafts: {},
   phase: 'loading',
   scope: GUEST_SCOPE,
   path: [],
@@ -90,7 +92,14 @@ function serialize<T>(fn: () => Promise<T>): Promise<T> {
 export async function initializeLearning(): Promise<void> {
   const current = ++generation,
     owner = scope();
-  useLearningState.setState({ phase: 'loading', scope: owner, rows: [], path: [], sync: 'guest' });
+  useLearningState.setState({
+    phase: 'loading',
+    scope: owner,
+    rows: [],
+    path: [],
+    drafts: {},
+    sync: 'guest',
+  });
   try {
     await serialize(async () => {
       const memory = useDeviceState.getState().storage === 'memory';
@@ -126,8 +135,9 @@ export async function initializeLearning(): Promise<void> {
           }
         }
         const view = await repo.view(owner);
+        const drafts = await repo.drafts(owner);
         if (current === generation && owner === scope()) {
-          useLearningState.setState(view);
+          useLearningState.setState({ ...view, drafts });
           configurePlacementStorage(data, (value) => repo.savePlacement(owner, value));
         }
       } else {
@@ -204,6 +214,7 @@ export async function recordLessonLearning(
   attempt: LessonAttempt,
   owner = scope(),
   temporary = false,
+  timeZone?: string,
 ) {
   await recordLearningEvent(
     lessonEvent(
@@ -211,6 +222,7 @@ export async function recordLessonLearning(
       attempt.session,
       Date.parse(attempt.startedAt),
       Date.parse(attempt.finishedAt),
+      timeZone ?? attempt.timeZone,
     ),
     temporary,
     owner,
@@ -224,6 +236,7 @@ export function startTemporaryLearning() {
     memory: true,
     scope: scope(),
     rows: [],
+    drafts: {},
     ...derive([]),
     sync: 'guest',
   });

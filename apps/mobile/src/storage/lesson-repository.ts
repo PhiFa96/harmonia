@@ -2,6 +2,7 @@ import type { LessonSession } from '@harmonia/exercises';
 import { lessonSummary } from '@harmonia/exercises';
 
 export interface LessonAttempt {
+  readonly timeZone?: string;
   readonly id: string;
   readonly schemaVersion: 1;
   readonly startedAt: string;
@@ -58,6 +59,7 @@ export function createLessonAttempt(
   session: LessonSession,
   startedAt: string,
   finishedAt: string,
+  timeZone?: string,
 ): LessonAttempt {
   if (session.phase !== 'complete') throw new Error('Nur abgeschlossene Lektionen speichern');
   const durationMs = Date.parse(finishedAt) - Date.parse(startedAt);
@@ -69,6 +71,7 @@ export function createLessonAttempt(
     summary: lessonSummary(session),
     startedAt,
     finishedAt,
+    ...(timeZone ? { timeZone } : {}),
     durationMs: Math.max(0, durationMs),
   };
 }

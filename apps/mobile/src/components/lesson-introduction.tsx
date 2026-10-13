@@ -18,16 +18,20 @@ export function LessonIntroduction({
   lesson,
   onStart,
   onCardChange,
+  initialCard = 0,
+  onCardSave,
 }: {
   readonly lesson: LessonContent;
   readonly onStart: () => void;
   readonly onCardChange: () => void;
+  readonly initialCard?: number;
+  readonly onCardSave?: (index: number) => void;
 }) {
   const { t } = useTranslation();
   const contentText = useContentText();
   const locale = useLocale();
   const { colors } = useUiTheme();
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(initialCard);
   const [exampleIndex, setExampleIndex] = useState(0);
   const [scoreWidth, setScoreWidth] = useState(0);
   const [viewportWidth, setViewportWidth] = useState(0);
@@ -151,6 +155,7 @@ export function LessonIntroduction({
           if (index === lesson.introduction.length - 1) onStart();
           else {
             setIndex(index + 1);
+            onCardSave?.(index + 1);
             setExampleIndex(0);
             onCardChange();
           }

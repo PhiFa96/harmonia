@@ -2,8 +2,8 @@ import { DatabaseSync } from 'node:sqlite';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
-import { firstLesson } from '@harmonia/content/authoring';
-import { lessonEvent } from '@harmonia/content';
+import { firstLesson, catalogue } from '@harmonia/content/authoring';
+import { lessonEvent, lessonPlan } from '@harmonia/content';
 import type { LearningEvent } from '@harmonia/content';
 import {
   activeLessonSession,
@@ -202,5 +202,90 @@ describe('Lernpfad mit echter SQLite', () => {
     db.exec('PRAGMA user_version = 9');
     await expect(initializeLearningDatabase(adapter(db))).rejects.toThrow('version');
     expect(db.prepare('SELECT count(*) AS count FROM learning_events').get()?.['count']).toBe(1);
+  });
+});
+
+describe('Kontogebundene laufende Lektionen und XP-Belege', () => {
+  function running(id = 'active') {
+    const plan = lessonPlan(catalogue, 'notation.l1.staff.positions');
+    if (!plan) throw new Error('Plan fehlt');
+    return {
+      schemaVersion: 1 as const,
+      id,
+      lessonId: plan.id,
+      contentVersion: plan.contentVersion,
+      planKey: plan.planKey,
+      seed: 456,
+      startedAt: 1,
+      finishedAt: null,
+      timeZone: 'Europe/Berlin',
+      introCard: 1,
+      started: false,
+      actions: [],
+      answer: 'C',
+    };
+  }
+  it('bewahrt Einführung und Auswahl nach Wiederöffnung, getrennt von anderen Konten', async () => {
+    const repo = await repository(),
+      draft = running();
+    await repo.saveDraft('a', draft);
+    const loaded = createLearningRepository(adapter(db));
+    expect(await loaded.draft('a', draft.lessonId)).toEqual(draft);
+    expect(await loaded.drafts('a')).toEqual({ [draft.lessonId]: draft });
+    expect(await loaded.drafts('b')).toEqual({});
+    expect(await loaded.drafts('guest')).toEqual({});
+  });
+  it('ein späteres Löschen des alten Ergebnisses entfernt niemals einen neuen Durchgang', async () => {
+    const repo = await repository(),
+      old = running(),
+      next = { ...old, id: 'next', answer: 'D' };
+    await repo.saveDraft('a', old);
+    await Promise.all([repo.saveDraft('a', next), repo.clearDraft('a', old.lessonId, old.id)]);
+    expect(await repo.draft('a', old.lessonId)).toEqual(next);
+    await repo.clearDraft('a', next.lessonId, next.id);
+    expect(await repo.drafts('a')).toEqual({});
+    expect(await repo.list('a')).toEqual([]);
+  });
+  it('ein Fehler beim Speichern erhält den vorherigen Stand für erneutes Laden', async () => {
+    const repo = await repository(),
+      draft = running();
+    await repo.saveDraft('a', draft);
+    db.exec(
+      "CREATE TRIGGER deny_draft BEFORE UPDATE ON learning_meta BEGIN SELECT RAISE(ABORT,'full'); END",
+    );
+    await expect(repo.saveDraft('a', { ...draft, answer: 'D' })).rejects.toThrow('full');
+    expect(await repo.draft('a', draft.lessonId)).toEqual(draft);
+  });
+  it('XP und ACK werden gemeinsam übernommen und bleiben nach Wiederöffnung erhalten', async () => {
+    const repo = await repository(),
+      proof = event();
+    await repo.save('a', proof);
+    await repo.merge('a', {
+      accepted: [proof.id],
+      rows: [{ sequence: 1, event: proof, reward: { amount: 18, date: '2026-10-13' } }],
+      cursor: 1,
+      more: false,
+    });
+    expect(await repo.list('a')).toEqual([
+      expect.objectContaining({ reward: { amount: 18, date: '2026-10-13' }, pending: false }),
+    ]);
+    const loaded = createLearningRepository(adapter(db));
+    expect((await loaded.list('a'))[0]?.reward?.amount).toBe(18);
+    expect(await loaded.list('b')).toEqual([]);
+  });
+  it('ein falscher Cursor rollt auch die XP-Buchung zurück', async () => {
+    const repo = await repository(),
+      proof = event();
+    await repo.save('a', proof);
+    await expect(
+      repo.merge('a', {
+        accepted: [proof.id],
+        rows: [{ sequence: 1, event: proof, reward: { amount: 18, date: '2026-10-13' } }],
+        cursor: 2,
+        more: false,
+      }),
+    ).rejects.toThrow('Cursor');
+    expect((await repo.list('a'))[0]?.reward).toBeUndefined();
+    expect((await repo.list('a'))[0]?.pending).toBe(true);
   });
 });

@@ -1,5 +1,5 @@
 import { catalogue } from '@harmonia/content/authoring';
-import { resolveLesson } from '@harmonia/content';
+import { lessonPlan } from '@harmonia/content';
 import type { ExerciseItem } from '@harmonia/exercises';
 import { createLessonSession, expectedAnswer } from '@harmonia/exercises';
 import { act, fireEvent, renderRouter, screen, waitFor } from 'expo-router/testing-library';
@@ -50,7 +50,7 @@ function required<T>(value: T | undefined): T {
   return value;
 }
 function intro(name: string) {
-  const content = required(resolveLesson(catalogue, `notation.l1.keyboard.${name}`));
+  const content = required(lessonPlan(catalogue, `notation.l1.keyboard.${name}`));
   for (let index = 1; index < content.introduction.length; index++)
     fireEvent.press(screen.getByRole('button', { name: 'Nächste Einführungskarte' }));
   fireEvent.press(
@@ -88,9 +88,11 @@ describe('Klaviaturlektionen im vorhandenen Spieler', () => {
     ['accidentals', 12],
   ] as const)(
     '%s speichert alle %s Aufgaben unter ihrer eigenen ID und Version 4',
-    async (name, count) => {
+    async (name, newCount) => {
       renderRouter('./src/app', { initialUrl: `/lesson?id=notation.l1.keyboard.${name}` });
       const state = intro(name);
+      const count = state.initial.items.length;
+      expect(lessonPlan(catalogue, state.lesson.id)?.newCount).toBe(newCount);
       for (const item of state.initial.items) answer(item);
       await waitFor(() => {
         expect(mockSave).toHaveBeenCalledTimes(1);

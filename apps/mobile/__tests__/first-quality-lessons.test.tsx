@@ -1,5 +1,5 @@
 import { catalogue } from '@harmonia/content/authoring';
-import { resolveLesson } from '@harmonia/content';
+import { lessonPlan } from '@harmonia/content';
 import {
   answerLesson,
   createLessonSession,
@@ -72,7 +72,7 @@ function required<T>(value: T | undefined): T {
 }
 
 function intro(name: string) {
-  const lesson = required(resolveLesson(catalogue, `intervals.l1.first-qualities.${name}`));
+  const lesson = required(lessonPlan(catalogue, `intervals.l1.first-qualities.${name}`));
   for (let i = 1; i < lesson.introduction.length; i++)
     fireEvent.press(screen.getByRole('button', { name: 'Nächste Einführungskarte' }));
   fireEvent.press(
@@ -82,11 +82,15 @@ function intro(name: string) {
 }
 function answer(item: ExerciseItem, wrong = false) {
   expect(screen.getByRole('button', { name: 'Prüfen' })).toBeDisabled();
-  fireEvent.press(
-    screen.getByTestId(
-      `answer-${wrong ? required(item.choices.find((id) => id !== expectedAnswer(item))) : expectedAnswer(item)}`,
-    ),
-  );
+  if (item.type === 'KEY_FIND') {
+    fireEvent.press(screen.getByTestId(`piano-key-${expectedAnswer(item).slice(4)}`));
+  } else {
+    fireEvent.press(
+      screen.getByTestId(
+        `answer-${wrong ? required(item.choices.find((id) => id !== expectedAnswer(item))) : expectedAnswer(item)}`,
+      ),
+    );
+  }
   fireEvent.press(screen.getByRole('button', { name: 'Prüfen' }));
 }
 describe('Erste Intervallqualitäten im Lektionsspieler', () => {
@@ -94,9 +98,11 @@ describe('Erste Intervallqualitäten im Lektionsspieler', () => {
     ['distance', 8],
     ['thirds', 10],
     ['perfect', 12],
-  ] as const)('%s speichert %s echte visuelle Antworten in Version 10', async (name, count) => {
+  ] as const)('%s speichert %s echte visuelle Antworten in Version 10', async (name, newCount) => {
     renderRouter('./src/app', { initialUrl: `/lesson?id=intervals.l1.first-qualities.${name}` });
     const session = intro(name);
+    const count = session.initial.items.length;
+    expect(lessonPlan(catalogue, session.lesson.id)?.newCount).toBe(newCount);
     for (const item of session.initial.items) {
       expect(screen.queryByRole('button', { name: 'Gerade nicht hören' })).toBeNull();
       if (isIntervalReadingItem(item) && item.question === 'semitones')
@@ -118,14 +124,21 @@ describe('Erste Intervallqualitäten im Lektionsspieler', () => {
     expect(saved.session.initial.records.map((r) => r.result.answer)).toEqual(
       session.initial.items.map(expectedAnswer),
     );
-    expect(mockPlay).not.toHaveBeenCalled();
+    expect(mockPlay).toHaveBeenCalledTimes(
+      session.initial.items.filter((item) => item.type === 'KEY_FIND').length,
+    );
   });
   it('wiederholt eine falsche Terzqualität mit einer anderen fachlichen Antwort', async () => {
     renderRouter('./src/app', { initialUrl: '/lesson?id=intervals.l1.first-qualities.thirds' });
     let session = intro('thirds');
+    const plan = required(lessonPlan(catalogue, session.lesson.id));
+    const wrongIndex = required(
+      session.initial.items.map((_, i) => i).filter((i) => !plan.repetitionIndices.includes(i))[4],
+    );
     for (const [index, item] of session.initial.items.entries()) {
-      const wrong = index === 4;
-      if (index === 4) expect(screen.getByText('Intervallqualität bestimmen')).toBeTruthy();
+      const wrong = index === wrongIndex;
+      if (index === wrongIndex)
+        expect(screen.getByText('Intervallqualität bestimmen')).toBeTruthy();
       answer(item, wrong);
       const chosen = wrong
         ? required(item.choices.find((id) => id !== expectedAnswer(item)))
@@ -135,15 +148,19 @@ describe('Erste Intervallqualitäten im Lektionsspieler', () => {
     }
     fireEvent.press(screen.getByRole('button', { name: 'Wiederholung starten' }));
     const review = required(session.review?.items[0]);
-    expect(itemVariantKey(review)).not.toBe(itemVariantKey(required(session.initial.items[4])));
-    expect(expectedAnswer(review)).not.toBe(expectedAnswer(required(session.initial.items[4])));
+    expect(itemVariantKey(review)).not.toBe(
+      itemVariantKey(required(session.initial.items[wrongIndex])),
+    );
+    expect(expectedAnswer(review)).not.toBe(
+      expectedAnswer(required(session.initial.items[wrongIndex])),
+    );
     answer(review);
     fireEvent.press(screen.getByTestId('exercise-next'));
     await waitFor(() => {
       expect(mockSave).toHaveBeenCalledTimes(1);
     });
     expect(mockSave.mock.calls[0]?.[0].summary).toMatchObject({
-      correct: 9,
+      correct: session.initial.items.length - 1,
       reviewCorrect: 1,
       unresolved: 0,
     });

@@ -3,7 +3,12 @@ import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
 import { catalogue, firstLesson } from '../packages/content/src/authoring.ts';
-import { lessonEvent, learningPath, validateLearningEvent } from '../packages/content/src/index.ts';
+import {
+  lessonEvent,
+  learningPath,
+  validateLearningEvent,
+  lessonPlan,
+} from '../packages/content/src/index.ts';
 import {
   activeLessonSession,
   answerLesson,
@@ -11,6 +16,7 @@ import {
   currentItem,
   expectedAnswer,
   nextLessonExercise,
+  revealLessonHint,
 } from '../packages/exercises/src/index.ts';
 const status = JSON.parse(
   execFileSync('pnpm', ['exec', 'supabase', 'status', '-o', 'json'], {
@@ -180,8 +186,116 @@ try {
       'Gleiche Client-ID in anderem Konto zulässig',
     );
     assert.equal((await sync(b.token)).data.rows.length, 1, 'Konto B bleibt isoliert');
+    const plan = lessonPlan(catalogue, 'notation.l1.staff.positions');
+    assert.ok(plan);
+    function mixed(id, hint = 0) {
+      let session = createLessonSession(plan, 'mixed-api');
+      while (session.phase === 'initial') {
+        const active = activeLessonSession(session),
+          item = active && currentItem(active);
+        assert.ok(item);
+        for (let n = 0; n < hint; n++) session = revealLessonHint(session);
+        session = nextLessonExercise(answerLesson(session, expectedAnswer(item)));
+      }
+      return lessonEvent(
+        id,
+        session,
+        Date.parse('2026-03-29T22:00:00Z'),
+        Date.parse('2026-03-29T22:30:00Z'),
+        'Europe/Berlin',
+      );
+    }
+    const [newA, newB] = await Promise.all([
+      sync(a.token, [mixed('xp-a')]),
+      sync(a.token, [mixed('xp-b')]),
+    ]);
+    assert.equal(newA.status, 200);
+    assert.equal(newB.status, 200);
+    const after = await sync(a.token, [], page2.data.cursor);
+    const paid = after.data.rows.filter((row) => row.reward);
+    assert.deepEqual(
+      paid.map((row) => row.reward.amount).sort((x, y) => x - y),
+      [13, 18],
+      'Parallele Geräte bekommen nur eine Erstabschlussbasis',
+    );
+    assert.ok(
+      paid.every((row) => row.reward.date === '2026-03-30'),
+      'Lokale Tagesgrenze',
+    );
+    const retries = await Promise.all([
+      sync(a.token, [mixed('xp-a')]),
+      sync(a.token, [mixed('xp-a')]),
+    ]);
+    assert.ok(retries.every((result) => result.status === 200));
+    assert.equal(
+      (await sync(a.token, [], page2.data.cursor)).data.rows.filter((row) => row.reward).length,
+      2,
+      'Retry dupliziert keine XP',
+    );
+    assert.equal((await sync(a.token, [mixed('xp-failed', 3)])).status, 200);
+    const failed = (await sync(a.token, [], after.data.cursor)).data.rows.find(
+      (row) => row.event.id === 'xp-failed',
+    );
+    assert.equal(failed.reward.amount, 0, 'Lösungen reichen weder für Bestehen noch für XP');
+    assert.equal(
+      (await sync(a.token, [{ ...mixed('xp-future'), finishedAt: Date.now() + 86400000 }])).status,
+      422,
+    );
+    assert.equal((await sync(a.token, [{ ...mixed('xp-zone'), timeZone: 'invalid' }])).status, 400);
+    assert.equal((await sync(a.token, [{ ...mixed('xp-plan'), planKey: 'forged' }])).status, 422);
+    const ledger = await request('/rest/v1/xp_ledger?select=client_id,amount,local_date', {
+      token: a.token,
+      method: 'GET',
+    });
+    assert.equal(ledger.status, 200);
+    assert.equal(ledger.data.length, 3);
+    assert.equal(
+      (await request('/rest/v1/xp_ledger?select=client_id', { token: b.token, method: 'GET' })).data
+        .length,
+      0,
+      'XP bleibt kontogebunden',
+    );
+    assert.equal(
+      (
+        await request('/rest/v1/xp_ledger', {
+          token: a.token,
+          body: { user_id: a.id, client_id: 'xp-a', amount: 999 },
+        })
+      ).status,
+      403,
+    );
+    assert.equal(
+      (
+        await request('/rest/v1/rpc/append_learning_results', {
+          token: a.token,
+          body: { actor: a.id, events: [], rewards: [] },
+        })
+      ).status,
+      403,
+    );
+    const longIds = Array.from({ length: 6 }, (_, i) => `long${i}${'🎵'.repeat(124)}`);
+    const longPage = await sync(
+      a.token,
+      longIds.map((id) => mixed(id)),
+      after.data.cursor,
+    );
+    assert.equal(
+      longPage.status,
+      200,
+      'Lange Unicode-IDs bleiben auch mit XP-Seiten synchronisierbar',
+    );
+    assert.equal(longPage.data.rows.filter((row) => longIds.includes(row.event.id)).length, 6);
+    assert.equal(
+      (
+        await request('/rest/v1/rpc/learning_reward_page', {
+          token: a.token,
+          body: { actor: a.id, after_sequence: 0 },
+        })
+      ).status,
+      403,
+    );
     console.log(
-      'Learning sync: Auth, Engine, RLS, parallele Duplikate, 226 Offline-Versuche, Paging und zwei Geräte bestanden.',
+      'Learning sync: Auth, Engine, RLS, 226 Offline-Versuche, Paging, zwei Geräte und atomare XP-Gutschriften bestanden.',
     );
   }
 } finally {

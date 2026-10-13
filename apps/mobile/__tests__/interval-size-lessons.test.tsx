@@ -1,5 +1,5 @@
 import { catalogue } from '@harmonia/content/authoring';
-import { resolveLesson } from '@harmonia/content';
+import { lessonPlan } from '@harmonia/content';
 import {
   answerLesson,
   createLessonSession,
@@ -71,7 +71,7 @@ function required<T>(value: T | undefined): T {
 }
 
 function intro(name: string) {
-  const lesson = required(resolveLesson(catalogue, `intervals.l1.size.${name}`));
+  const lesson = required(lessonPlan(catalogue, `intervals.l1.size.${name}`));
   for (let i = 1; i < lesson.introduction.length; i++)
     fireEvent.press(screen.getByRole('button', { name: 'Nächste Einführungskarte' }));
   fireEvent.press(
@@ -93,9 +93,11 @@ describe('Intervallgrundlagen im Lektionsspieler', () => {
     ['numbers', 8],
     ['direction', 10],
     ['motion', 12],
-  ] as const)('%s speichert %s echte visuelle Antworten in Version 9', async (name, count) => {
+  ] as const)('%s speichert %s echte visuelle Antworten in Version 9', async (name, newCount) => {
     renderRouter('./src/app', { initialUrl: `/lesson?id=intervals.l1.size.${name}` });
     const session = intro(name);
+    const count = session.initial.items.length;
+    expect(lessonPlan(catalogue, session.lesson.id)?.newCount).toBe(newCount);
     for (const item of session.initial.items) {
       expect(screen.queryByRole('button', { name: 'Gerade nicht hören' })).toBeNull();
       answer(item);
@@ -119,9 +121,13 @@ describe('Intervallgrundlagen im Lektionsspieler', () => {
   it('wiederholt eine falsche Richtung mit einer anderen fachlichen Antwort', async () => {
     renderRouter('./src/app', { initialUrl: '/lesson?id=intervals.l1.size.direction' });
     let session = intro('direction');
+    const plan = required(lessonPlan(catalogue, session.lesson.id));
+    const wrongIndex = required(
+      session.initial.items.map((_, i) => i).filter((i) => !plan.repetitionIndices.includes(i))[4],
+    );
     for (const [index, item] of session.initial.items.entries()) {
-      const wrong = index === 4;
-      if (index === 4) expect(screen.getByText('Richtung lesen')).toBeTruthy();
+      const wrong = index === wrongIndex;
+      if (index === wrongIndex) expect(screen.getByText('Richtung lesen')).toBeTruthy();
       answer(item, wrong);
       const chosen = wrong
         ? required(item.choices.find((id) => id !== expectedAnswer(item)))
@@ -131,15 +137,19 @@ describe('Intervallgrundlagen im Lektionsspieler', () => {
     }
     fireEvent.press(screen.getByRole('button', { name: 'Wiederholung starten' }));
     const review = required(session.review?.items[0]);
-    expect(itemVariantKey(review)).not.toBe(itemVariantKey(required(session.initial.items[4])));
-    expect(expectedAnswer(review)).not.toBe(expectedAnswer(required(session.initial.items[4])));
+    expect(itemVariantKey(review)).not.toBe(
+      itemVariantKey(required(session.initial.items[wrongIndex])),
+    );
+    expect(expectedAnswer(review)).not.toBe(
+      expectedAnswer(required(session.initial.items[wrongIndex])),
+    );
     answer(review);
     fireEvent.press(screen.getByTestId('exercise-next'));
     await waitFor(() => {
       expect(mockSave).toHaveBeenCalledTimes(1);
     });
     expect(mockSave.mock.calls[0]?.[0].summary).toMatchObject({
-      correct: 9,
+      correct: session.initial.items.length - 1,
       reviewCorrect: 1,
       unresolved: 0,
     });

@@ -5,15 +5,27 @@ import { getLessonRepository } from './lessons';
 import { useAuthState } from '../auth/index.ts';
 import { recordLessonLearning, useLearningState } from '../state/learning.ts';
 
-export function useLessonResult(session: LessonSession | null, id: string, startedAt: string) {
+export function useLessonResult(
+  session: LessonSession | null,
+  id: string,
+  startedAt: string,
+  finishedAt?: number | null,
+  timeZone?: string,
+) {
   const owner = useRef(useAuthState.getState().session?.user.id ?? 'guest');
   const temporary = useRef(useLearningState.getState().memory);
   const attempt = useMemo(
     () =>
       session?.phase === 'complete'
-        ? createLessonAttempt(id, session, startedAt, new Date(Date.now()).toISOString())
+        ? createLessonAttempt(
+            id,
+            session,
+            startedAt,
+            new Date(finishedAt ?? Date.now()).toISOString(),
+            timeZone,
+          )
         : null,
-    [session, id, startedAt],
+    [session, id, startedAt, finishedAt, timeZone],
   );
   const [status, setStatus] = useState<'idle' | 'saving' | 'saved' | 'memory' | 'error'>('idle');
   const [retry, setRetry] = useState(0);
@@ -26,7 +38,7 @@ export function useLessonResult(session: LessonSession | null, id: string, start
     }
     setStatus('saving');
     // Der Schreibvorgang läuft auch beim Verlassen zu Ende; nur UI-Aktualisierungen entfallen.
-    void recordLessonLearning(attempt, owner.current, temporary.current)
+    void recordLessonLearning(attempt, owner.current, temporary.current, timeZone)
       .then(async () => {
         if (!temporary.current) await (await getLessonRepository()).save(attempt);
       })
@@ -41,7 +53,7 @@ export function useLessonResult(session: LessonSession | null, id: string, start
     return () => {
       generation.current++;
     };
-  }, [attempt, retry]);
+  }, [attempt, retry, timeZone]);
   const retrySave = useCallback(() => {
     setRetry((value) => value + 1);
   }, []);

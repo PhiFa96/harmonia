@@ -1,29 +1,31 @@
-import type { LessonContent } from '@harmonia/content';
-import { lessonProgress, PASS_PERCENT } from '@harmonia/content';
-import type { LessonSession } from '@harmonia/exercises';
+import { catalogue } from '@harmonia/content/catalogue';
+import {
+  lessonProgress,
+  lessonPlan,
+  lessonReward,
+  lessonDay,
+  lessonStreak,
+  validateLearningEvent,
+  PASS_PERCENT,
+} from '@harmonia/content';
 import {
   activeLessonSession,
-  answerLesson,
-  createLessonSession,
   currentItem,
   exercisePrompt,
   lessonSummary,
   nextExercise,
-  nextLessonExercise,
-  revealLessonHint,
-  skipLessonAural,
-  startLessonReview,
 } from '@harmonia/exercises';
 import { LAYOUT, SPACE } from '@harmonia/ui';
 import { AppText, Button, Card, Icon, useUiTheme } from '@harmonia/ui/native';
-import { randomUUID } from 'expo-crypto';
-import { router, Stack, useFocusEffect, useLocalSearchParams } from 'expo-router';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { router, Stack, useFocusEffect, useLocalSearchParams, useNavigation } from 'expo-router';
+import { usePreventRemove } from 'expo-router/react-navigation';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AccessibilityInfo, Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { ExerciseTask } from '@/components/exercise-task';
 import { LessonIntroduction } from '@/components/lesson-introduction';
 import { useLocale } from '@/i18n';
+import { useLessonFlow } from '@/storage/use-lesson-flow';
 import { useLessonResult } from '@/storage/use-lesson-result';
 import { selectedLesson } from '@/content';
 import { useContentText } from '@/content/use-content-text';
@@ -33,7 +35,10 @@ import { useAuthState } from '@/auth';
 export default function LessonScreen() {
   const { t } = useTranslation();
   const { id } = useLocalSearchParams();
-  const content = useMemo(() => selectedLesson(id), [id]);
+  const content = useMemo(() => {
+    const selected = selectedLesson(id);
+    return selected ? lessonPlan(catalogue, selected.id) : undefined;
+  }, [id]);
   const learning = useLearningState();
   const owner = useAuthState((s) => s.session?.user.id ?? 'guest');
   const status = learning.path
@@ -84,21 +89,136 @@ export default function LessonScreen() {
   );
 }
 
-function LessonPlayer({ content }: { readonly content: LessonContent }) {
+function LessonPlayer({
+  content,
+}: {
+  readonly content: NonNullable<ReturnType<typeof lessonPlan>>;
+}) {
   const { t } = useTranslation();
   const contentText = useContentText();
   const locale = useLocale();
   const { colors } = useUiTheme();
-  const [lesson, setLesson] = useState<LessonSession | null>(null);
-  const [answer, setAnswer] = useState<string | null>(null);
-  const [identity, setIdentity] = useState({ id: '', startedAt: '' });
-  const run = useRef(0);
+  const flow = useLessonFlow(content);
+  const lesson = flow.session;
+  const answer = flow.draft.answer;
+  const navigation = useNavigation();
+  const [paused, setPaused] = useState(false);
+  const [exitError, setExitError] = useState(false);
+  const [leaving, setLeaving] = useState(false);
+  const exitAction = useRef<Parameters<typeof navigation.dispatch>[0] | null>(null);
+  const learning = useLearningState();
   const scroll = useRef<ScrollView>(null);
   const question = useRef<View>(null);
   const session = lesson ? activeLessonSession(lesson) : undefined;
   const item = session ? currentItem(session) : undefined;
   const summary = lesson ? lessonSummary(lesson) : undefined;
-  const storage = useLessonResult(lesson, identity.id, identity.startedAt);
+  const storage = useLessonResult(
+    flow.resume ? null : lesson,
+    flow.draft.id,
+    new Date(flow.draft.startedAt).toISOString(),
+    flow.draft.finishedAt,
+    flow.draft.timeZone,
+  );
+  usePreventRemove(
+    !leaving &&
+      !(
+        lesson?.phase === 'complete' &&
+        (storage.status === 'saved' || storage.status === 'memory')
+      ),
+    ({ data }) => {
+      exitAction.current = data.action;
+      setPaused(true);
+    },
+  );
+  useEffect(() => {
+    if (Platform.OS !== 'web' || typeof window === 'undefined') return;
+    const href = window.location.href;
+    const historyState: unknown = window.history.state;
+    // Expo verarbeitet Browser-Popstate außerhalb von beforeRemove. Vor dessen Listener
+    // die aktuelle Route erhalten; der bestätigte Rückweg läuft über den Router.
+    const onPop = (event: PopStateEvent) => {
+      if (
+        leaving ||
+        (lesson?.phase === 'complete' &&
+          (storage.status === 'saved' || storage.status === 'memory')) ||
+        window.location.href === href
+      )
+        return;
+      event.stopImmediatePropagation();
+      window.history.pushState(historyState, '', href);
+      exitAction.current = null;
+      setPaused(true);
+    };
+    window.addEventListener('popstate', onPop, true);
+    return () => {
+      window.removeEventListener('popstate', onPop, true);
+    };
+  }, [leaving, lesson?.phase, storage.status]);
+  useEffect(() => {
+    if (!leaving) return;
+    if (exitAction.current) navigation.dispatch(exitAction.current);
+    else router.dismissTo('/');
+  }, [leaving, navigation]);
+  useEffect(() => {
+    if (storage.status === 'saved' || storage.status === 'memory')
+      void flow.clear().catch(() => {
+        setExitError(true);
+      });
+  }, [storage.status, flow.clear]);
+  const leave = async (discard = false) => {
+    setExitError(false);
+    try {
+      if (discard) await flow.clear();
+      else await flow.flush();
+      setLeaving(true);
+    } catch {
+      setExitError(true);
+    }
+  };
+  const repeated = useMemo(() => {
+    const previous = learning.rows.filter(
+      (row) =>
+        row.event.id !== flow.draft.id &&
+        row.event.kind === 'lesson' &&
+        row.event.lessonId === content.id &&
+        row.event.contentVersion === content.contentVersion &&
+        row.event.timeZone,
+    );
+    return previous.some((row) => {
+      try {
+        return validateLearningEvent(catalogue, row.event).lesson?.passed;
+      } catch {
+        return false;
+      }
+    });
+  }, [learning.rows, flow.draft.id, content.id, content.contentVersion]);
+  const own = learning.rows.find((row) => row.event.id === flow.draft.id);
+  const xp = own?.reward?.amount ?? (lesson ? lessonReward(lesson, repeated) : 0);
+  const days = useMemo(
+    () =>
+      learning.rows.flatMap((row) => {
+        if (row.reward) return row.reward.amount > 0 ? [row.reward.date] : [];
+        if (row.event.kind !== 'lesson' || !row.event.timeZone) return [];
+        try {
+          return validateLearningEvent(catalogue, row.event).lesson?.passed
+            ? [lessonDay(row.event.finishedAt, row.event.timeZone)]
+            : [];
+        } catch {
+          return [];
+        }
+      }),
+    [learning.rows],
+  );
+  const today = lessonDay(Date.now(), flow.draft.timeZone);
+  const streak = lessonStreak(
+    [
+      ...days,
+      ...(lesson && lessonProgress(lesson).passed
+        ? [lessonDay(flow.draft.finishedAt ?? Date.now(), flow.draft.timeZone)]
+        : []),
+    ],
+    today,
+  );
   const heading = item
     ? exercisePrompt(item, locale)
     : lesson?.phase === 'review-intro'
@@ -117,18 +237,67 @@ function LessonPlayer({ content }: { readonly content: LessonContent }) {
       focusQuestion();
     }, [focusQuestion, item, lesson?.phase]),
   );
-  const start = () => {
-    setIdentity({ id: randomUUID(), startedAt: new Date(Date.now()).toISOString() });
-    setAnswer(null);
-    const session = createLessonSession(content, Date.now() + run.current++);
-    setLesson(session);
-  };
+  const start = flow.start;
   return (
     <>
       <Stack.Screen options={{ headerShown: true, title: contentText(content.titleKey) }} />
       <ScrollView ref={scroll} contentContainerStyle={styles.container}>
         <View style={styles.content}>
-          {!lesson ? (
+          {flow.resume && !paused ? (
+            <Card>
+              <View style={styles.result}>
+                <AppText variant="title2">
+                  {t(flow.changed ? 'flow.changed' : 'flow.resumeTitle')}
+                </AppText>
+                <AppText>{t(flow.changed ? 'flow.changedHint' : 'flow.resumeHint')}</AppText>
+                {!flow.changed ? <Button label={t('flow.resume')} onPress={flow.continue} /> : null}
+                <Button
+                  variant="secondary"
+                  label={t('flow.newAttempt')}
+                  onPress={() => {
+                    flow.restart();
+                  }}
+                />
+              </View>
+            </Card>
+          ) : paused ? (
+            <Card>
+              <View style={styles.result}>
+                <AppText variant="title2">{t('flow.pauseTitle')}</AppText>
+                <AppText>{t('flow.pauseHint')}</AppText>
+                <Button
+                  label={t('flow.continueHere')}
+                  onPress={() => {
+                    setPaused(false);
+                    exitAction.current = null;
+                  }}
+                />
+                <Button
+                  variant="secondary"
+                  label={t('flow.pauseLeave')}
+                  disabled={flow.status === 'saving' || flow.status === 'error'}
+                  onPress={() => {
+                    void leave();
+                  }}
+                />
+                <Button
+                  variant="ghost"
+                  label={t('flow.discard')}
+                  onPress={() => {
+                    void leave(true);
+                  }}
+                />
+                {flow.status === 'error' || exitError ? (
+                  <AppText role="alert" tone="danger">
+                    {t('flow.saveError')}
+                  </AppText>
+                ) : null}
+                {flow.status === 'error' ? (
+                  <Button label={t('lesson.retrySave')} onPress={flow.retry} />
+                ) : null}
+              </View>
+            </Card>
+          ) : !lesson ? (
             <>
               <View
                 ref={question}
@@ -137,8 +306,20 @@ function LessonPlayer({ content }: { readonly content: LessonContent }) {
               >
                 <AppText variant="title1">{contentText(content.titleKey)}</AppText>
               </View>
+              <AppText variant="footnote" tone="muted">
+                {t('flow.mix', {
+                  newCount: content.newCount,
+                  repeatCount: content.repetitionCount,
+                })}
+              </AppText>
               {content.introduction.length > 0 ? (
-                <LessonIntroduction lesson={content} onStart={start} onCardChange={focusQuestion} />
+                <LessonIntroduction
+                  lesson={content}
+                  initialCard={flow.draft.introCard}
+                  onCardSave={flow.card}
+                  onStart={start}
+                  onCardChange={focusQuestion}
+                />
               ) : (
                 <Button
                   label={t('lesson.start', { count: content.exercises.length })}
@@ -147,39 +328,48 @@ function LessonPlayer({ content }: { readonly content: LessonContent }) {
               )}
             </>
           ) : item && session ? (
-            <ExerciseTask
-              session={session}
-              item={item}
-              answer={answer}
-              question={question}
-              scroll={scroll}
-              progressText={t(
-                lesson.phase === 'review' ? 'lesson.reviewProgress' : 'exercise.progress',
-                { current: session.index + 1, total: session.items.length },
-              )}
-              progressLabel={t(
-                lesson.phase === 'review' ? 'lesson.reviewProgressLabel' : 'lesson.progressLabel',
-              )}
-              hearingPausedText={t('lesson.hearingPaused')}
-              continueLabel={t(
-                currentItem(nextExercise(session)) ? 'exercise.next' : 'lesson.roundEnd',
-              )}
-              onSelect={setAnswer}
-              onCheck={(value) => {
-                setLesson(answerLesson(lesson, value));
-              }}
-              onHint={() => {
-                setLesson(revealLessonHint(lesson));
-              }}
-              onSkip={() => {
-                setAnswer(null);
-                setLesson(skipLessonAural(lesson));
-              }}
-              onNext={() => {
-                setAnswer(null);
-                setLesson(nextLessonExercise(lesson));
-              }}
-            />
+            <>
+              <AppText variant="footnote" tone="muted">
+                {t(
+                  lesson.phase === 'review'
+                    ? 'flow.errorPractice'
+                    : content.repetitionIndices.includes(session.index)
+                      ? 'flow.repetition'
+                      : 'flow.newMaterial',
+                )}
+              </AppText>
+              <ExerciseTask
+                session={session}
+                item={item}
+                answer={answer}
+                question={question}
+                scroll={scroll}
+                progressText={t(
+                  lesson.phase === 'review' ? 'lesson.reviewProgress' : 'exercise.progress',
+                  { current: session.index + 1, total: session.items.length },
+                )}
+                progressLabel={t(
+                  lesson.phase === 'review' ? 'lesson.reviewProgressLabel' : 'lesson.progressLabel',
+                )}
+                hearingPausedText={t('lesson.hearingPaused')}
+                continueLabel={t(
+                  currentItem(nextExercise(session)) ? 'exercise.next' : 'lesson.roundEnd',
+                )}
+                onSelect={flow.select}
+                onCheck={(value) => {
+                  flow.act({ type: 'answer', answer: value });
+                }}
+                onHint={() => {
+                  flow.act({ type: 'hint' });
+                }}
+                onSkip={() => {
+                  flow.act({ type: 'skip' });
+                }}
+                onNext={() => {
+                  flow.act({ type: 'next' });
+                }}
+              />
+            </>
           ) : lesson.phase === 'review-intro' && summary ? (
             <>
               <View
@@ -202,7 +392,7 @@ function LessonPlayer({ content }: { readonly content: LessonContent }) {
               <Button
                 label={t('lesson.reviewStart')}
                 onPress={() => {
-                  setLesson(startLessonReview(lesson));
+                  flow.act({ type: 'review' });
                 }}
               />
             </>
@@ -217,8 +407,19 @@ function LessonPlayer({ content }: { readonly content: LessonContent }) {
               </View>
               <Card>
                 <View style={styles.result}>
-                  <Icon name="check" color={colors.primaryText} size={SPACE.xxl} />
+                  <Icon
+                    name={lessonProgress(lesson).passed ? 'check' : 'target'}
+                    color={colors.primaryText}
+                    size={SPACE.xxl}
+                  />
                   <AppText variant="title2">{t('lesson.initialResult', summary)}</AppText>
+                  <AppText variant="title2">{t('flow.xp', { count: xp })}</AppText>
+                  <AppText>{t('flow.streak', { count: streak })}</AppText>
+                  {!own?.reward ? (
+                    <AppText variant="footnote" tone="muted">
+                      {t('flow.localReward')}
+                    </AppText>
+                  ) : null}
                   <AppText tone={lessonProgress(lesson).passed ? 'success' : 'default'}>
                     {t(lessonProgress(lesson).passed ? 'path.passed' : 'path.failed', {
                       correct: lessonProgress(lesson).eligibleCorrect,
@@ -289,7 +490,9 @@ function LessonPlayer({ content }: { readonly content: LessonContent }) {
               <Button
                 label={t('lesson.restart')}
                 disabled={storage.status !== 'saved' && storage.status !== 'memory'}
-                onPress={start}
+                onPress={() => {
+                  flow.restart(true);
+                }}
               />
               <Button
                 variant="ghost"
@@ -297,6 +500,35 @@ function LessonPlayer({ content }: { readonly content: LessonContent }) {
                 disabled={storage.status !== 'saved' && storage.status !== 'memory'}
                 onPress={() => {
                   router.dismissTo('/');
+                }}
+              />
+            </>
+          ) : null}
+          {!flow.resume && !paused && lesson?.phase !== 'complete' ? (
+            <>
+              <AppText
+                variant="footnote"
+                tone={flow.status === 'error' ? 'danger' : 'muted'}
+                aria-live="polite"
+              >
+                {t(
+                  flow.status === 'error'
+                    ? 'flow.saveError'
+                    : flow.status === 'saving'
+                      ? 'lesson.saving'
+                      : flow.status === 'memory'
+                        ? 'onboarding.temporaryHint'
+                        : 'flow.saved',
+                )}
+              </AppText>
+              {flow.status === 'error' ? (
+                <Button label={t('lesson.retrySave')} onPress={flow.retry} />
+              ) : null}
+              <Button
+                variant="ghost"
+                label={t('flow.pause')}
+                onPress={() => {
+                  setPaused(true);
                 }}
               />
             </>

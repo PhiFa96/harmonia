@@ -25,6 +25,8 @@ export interface LessonDefinition {
   readonly id: string;
   readonly contentVersion: number;
   readonly exercises: readonly ExerciseSpec[];
+  /** Versionierter Mischplan; alte Durchgänge behalten ihren ursprünglichen Aufgabensatz. */
+  readonly planKey?: string;
 }
 export interface LessonSession {
   readonly lesson: LessonDefinition;
@@ -54,6 +56,7 @@ export function activeLessonSession(lesson: LessonSession): ExerciseSession | un
   return undefined;
 }
 function updateActive(lesson: LessonSession, session: ExerciseSession): LessonSession {
+  if (activeLessonSession(lesson) === session) return lesson;
   if (lesson.phase === 'initial') return { ...lesson, initial: session };
   if (lesson.phase === 'review') return { ...lesson, review: session };
   return lesson;

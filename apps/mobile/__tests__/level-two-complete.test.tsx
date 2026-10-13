@@ -1,5 +1,5 @@
 import { catalogue } from '@harmonia/content/authoring';
-import { resolveLesson } from '@harmonia/content';
+import { lessonPlan } from '@harmonia/content';
 import {
   createLessonSession,
   expectedAnswer,
@@ -95,7 +95,7 @@ function required<T>(value: T | undefined): T {
 }
 const lessons = catalogue.lessons.filter((l) => l.contentVersion === 13);
 function intro(id: string) {
-  const lesson = required(resolveLesson(catalogue, id));
+  const lesson = required(lessonPlan(catalogue, id));
   for (let i = 1; i < lesson.introduction.length; i++)
     fireEvent.press(screen.getByRole('button', { name: 'Nächste Einführungskarte' }));
   fireEvent.press(
@@ -126,7 +126,9 @@ function alter(pitch: Pitch) {
 }
 async function answer(item: ExerciseItem) {
   expect(screen.getByRole('button', { name: 'Prüfen' })).toBeDisabled();
-  if (item.type === 'SCALE_BUILD') {
+  if (item.type === 'KEY_FIND') {
+    fireEvent.press(screen.getByTestId(`piano-key-${expectedAnswer(item).slice(4)}`));
+  } else if (item.type === 'SCALE_BUILD') {
     const pitches: (Pitch | null)[] = [item.tonic, ...Array<null>(7).fill(null)];
     for (const [offset, pitch] of scalePitches(item).slice(1).entries()) {
       const index = offset + 1,

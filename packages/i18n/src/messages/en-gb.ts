@@ -6,6 +6,10 @@ import { contentMessages } from '@harmonia/i18n/content-messages';
 
 export const enGB = {
   content: contentMessages['en-GB'],
+  flow: {
+    mix: '{{newCount}} questions on the current material and {{repeatCount}} revision questions.',
+    errorPractice: 'Practise mistakes with a new variation',
+  },
   placement: {
     unavailable:
       'The placement test needs reviewed course exercises. None are available in this app version yet. You can practise freely meanwhile.',

@@ -35,6 +35,7 @@ beforeEach(() => {
     memory: false,
     sync: 'guest',
     rows: [],
+    drafts: {},
     outdated: 0,
     areaId: null,
     level: null,

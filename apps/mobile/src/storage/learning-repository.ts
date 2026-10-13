@@ -2,8 +2,15 @@ import {
   learningEventSchema,
   learningSyncResponseSchema,
   learningViewSchema,
+  lessonDraftSchema,
+  learningRowSchema,
 } from '@harmonia/content';
-import type { LearningEvent, LearningSyncResponse } from '@harmonia/content';
+import type {
+  LearningEvent,
+  LearningSyncResponse,
+  LessonDraft,
+  LessonRewardReceipt,
+} from '@harmonia/content';
 import type { LessonDatabase } from './lesson-repository.ts';
 import { parsePlacementData, EMPTY_PLACEMENT } from '../placement/model.ts';
 import type { PlacementData } from '../placement/model.ts';
@@ -13,6 +20,7 @@ export interface StoredLearningEvent {
   readonly sequence: number | null;
   readonly position: number;
   readonly pending: boolean;
+  readonly reward?: LessonRewardReceipt;
 }
 export type LearningScope = string;
 export const GUEST_SCOPE = 'guest';
@@ -73,7 +81,7 @@ export function createLearningRepository(db: LessonDatabase) {
   };
   const list = async (scope: LearningScope): Promise<StoredLearningEvent[]> => {
     const row = await db.getFirstAsync<{ value: string }>(
-      `SELECT json_group_array(json_object('payload',payload,'sequence',sequence,'position',position,'acked',acked)) AS value FROM (SELECT payload,sequence,position,acked FROM learning_events WHERE scope = ? ORDER BY position)`,
+      `SELECT json_group_array(json_object('payload',payload,'sequence',sequence,'position',position,'acked',acked,'reward',(SELECT value FROM learning_meta WHERE id = 'reward:' || learning_events.scope || ':' || learning_events.id))) AS value FROM (SELECT * FROM learning_events WHERE scope = ? ORDER BY position) AS learning_events`,
       scope,
     );
     const values: unknown = JSON.parse(row?.value ?? '[]');
@@ -101,6 +109,13 @@ export function createLearningRepository(db: LessonDatabase) {
         position: input.position,
         sequence: input.sequence < 0 ? null : input.sequence,
         pending: input.acked === 0,
+        ...('reward' in input && typeof input.reward === 'string'
+          ? {
+              reward: learningRowSchema.shape.reward
+                .unwrap()
+                .parse(JSON.parse(input.reward) as unknown),
+            }
+          : {}),
       };
     });
   };
@@ -121,6 +136,49 @@ export function createLearningRepository(db: LessonDatabase) {
   };
   return {
     list,
+    async drafts(scope: LearningScope): Promise<Record<string, LessonDraft>> {
+      const row = await db.getFirstAsync<{ value: string }>(
+        'SELECT json_group_array(value) AS value FROM learning_meta WHERE substr(id,1,length(?)) = ?',
+        `lesson:${scope}:`,
+        `lesson:${scope}:`,
+      );
+      const values: unknown = JSON.parse(row?.value ?? '[]');
+      if (!Array.isArray(values)) throw new Error('Lektionsspeicher beschädigt');
+      return Object.fromEntries(
+        values.map((value: unknown) => {
+          if (typeof value !== 'string') throw new Error('Lektionsspeicher beschädigt');
+          const draft = lessonDraftSchema.parse(JSON.parse(value) as unknown);
+          return [draft.lessonId, draft];
+        }),
+      );
+    },
+    async draft(scope: LearningScope, lessonId: string) {
+      const row = await db.getFirstAsync<{ value: string }>(
+        'SELECT value FROM learning_meta WHERE id = ?',
+        `lesson:${scope}:${lessonId}`,
+      );
+      return row ? lessonDraftSchema.parse(JSON.parse(row.value) as unknown) : null;
+    },
+    saveDraft(scope: LearningScope, draft: LessonDraft) {
+      const payload = JSON.stringify(lessonDraftSchema.parse(draft));
+      return transaction(async () => {
+        await db.runAsync(
+          'INSERT INTO learning_meta VALUES (?,?) ON CONFLICT(id) DO UPDATE SET value = excluded.value',
+          `lesson:${scope}:${draft.lessonId}`,
+          payload,
+        );
+      });
+    },
+    clearDraft(scope: LearningScope, lessonId: string, id?: string) {
+      return transaction(async () => {
+        await db.runAsync(
+          "DELETE FROM learning_meta WHERE id = ? AND (? = '' OR json_extract(value,'$.id') = ?)",
+          `lesson:${scope}:${lessonId}`,
+          id ?? '',
+          id ?? '',
+        );
+      });
+    },
     placement,
     savePlacement: (scope: LearningScope, data: PlacementData) =>
       transaction(() => putPlacement(scope, data)),
@@ -210,7 +268,15 @@ export function createLearningRepository(db: LessonDatabase) {
     async merge(scope: LearningScope, input: LearningSyncResponse) {
       const response = learningSyncResponseSchema.parse(input);
       await transaction(async () => {
-        for (const row of response.rows) await insert(scope, row.event, row.sequence);
+        for (const row of response.rows) {
+          await insert(scope, row.event, row.sequence);
+          if (row.reward)
+            await db.runAsync(
+              'INSERT INTO learning_meta VALUES (?,?) ON CONFLICT(id) DO UPDATE SET value = excluded.value',
+              `reward:${scope}:${row.event.id}`,
+              JSON.stringify(row.reward),
+            );
+        }
         const previous =
           (
             await db.getFirstAsync<{ cursor: number }>(

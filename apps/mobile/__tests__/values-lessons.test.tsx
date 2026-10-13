@@ -1,5 +1,5 @@
 import { catalogue } from '@harmonia/content/authoring';
-import { resolveLesson } from '@harmonia/content';
+import { lessonPlan } from '@harmonia/content';
 import {
   answerLesson,
   createLessonSession,
@@ -75,7 +75,7 @@ function required<T>(value: T | undefined): T {
 }
 
 function intro(name: string) {
-  const lesson = required(resolveLesson(catalogue, `rhythm.l1.values.${name}`));
+  const lesson = required(lessonPlan(catalogue, `rhythm.l1.values.${name}`));
   for (let i = 1; i < lesson.introduction.length; i++)
     fireEvent.press(screen.getByRole('button', { name: 'Nächste Einführungskarte' }));
   fireEvent.press(
@@ -107,9 +107,11 @@ describe('Notenwerte und Pausen im Lektionsspieler', () => {
     ['notes', 8],
     ['rests', 10],
     ['fill', 12],
-  ] as const)('%s speichert %s echte Antworten in Version 7', async (name, count) => {
+  ] as const)('%s speichert %s echte Antworten in Version 7', async (name, newCount) => {
     renderRouter('./src/app', { initialUrl: `/lesson?id=rhythm.l1.values.${name}` });
     const session = intro(name);
+    const count = session.initial.items.length;
+    expect(lessonPlan(catalogue, session.lesson.id)?.newCount).toBe(newCount);
     for (const item of session.initial.items) {
       if (item.type === 'KNOWLEDGE_MC' && item.presentation)
         expect(screen.getByTestId(item.gap ? 'measure-gap' : 'duration-symbol')).toBeTruthy();
@@ -154,7 +156,7 @@ describe('Notenwerte und Pausen im Lektionsspieler', () => {
       expect(mockSave).toHaveBeenCalledTimes(1);
     });
     expect(mockSave.mock.calls[0]?.[0].summary).toMatchObject({
-      correct: 11,
+      correct: session.initial.items.length - 1,
       reviewCorrect: 1,
       unresolved: 0,
     });

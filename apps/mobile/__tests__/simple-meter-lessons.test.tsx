@@ -1,5 +1,5 @@
 import { catalogue } from '@harmonia/content/authoring';
-import { resolveLesson } from '@harmonia/content';
+import { lessonPlan } from '@harmonia/content';
 import {
   answerLesson,
   createLessonSession,
@@ -71,7 +71,7 @@ function required<T>(value: T | undefined): T {
   return value;
 }
 function intro(name: string) {
-  const lesson = required(resolveLesson(catalogue, `rhythm.l1.simple-meter.${name}`));
+  const lesson = required(lessonPlan(catalogue, `rhythm.l1.simple-meter.${name}`));
   for (let index = 1; index < lesson.introduction.length; index++)
     fireEvent.press(screen.getByRole('button', { name: 'Nächste Einführungskarte' }));
   fireEvent.press(
@@ -118,9 +118,11 @@ describe('Einfache Takte im Lektionsspieler', () => {
     ['read', 12],
   ] as const)(
     '%s speichert %s Antworten mit einem vollständigen Einzähltakt',
-    async (name, count) => {
+    async (name, newCount) => {
       renderRouter('./src/app', { initialUrl: `/lesson?id=rhythm.l1.simple-meter.${name}` });
       const session = intro(name);
+      const count = session.initial.items.length;
+      expect(lessonPlan(catalogue, session.lesson.id)?.newCount).toBe(newCount);
       for (const item of session.initial.items) {
         await answer(item);
         expect(screen.getByText('Richtig!')).toBeTruthy();
@@ -175,8 +177,8 @@ describe('Einfache Takte im Lektionsspieler', () => {
       expect(mockSave).toHaveBeenCalledTimes(1);
     });
     expect(mockSave.mock.calls[0]?.[0].summary).toMatchObject({
-      answered: 10,
-      correct: 9,
+      answered: session.initial.items.length,
+      correct: session.initial.items.length - 1,
       reviewCorrect: 1,
       unresolved: 0,
     });

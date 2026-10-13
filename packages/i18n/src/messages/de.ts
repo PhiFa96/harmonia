@@ -4,6 +4,35 @@ import { contentMessages } from '@harmonia/i18n/content-messages';
 
 export const de = {
   content: contentMessages.de,
+  flow: {
+    mix: '{{newCount}} Aufgaben zum aktuellen Stoff und {{repeatCount}} Wiederholungsaufgaben.',
+    newMaterial: 'Aktueller Stoff',
+    repetition: 'Bekanntes festigen',
+    errorPractice: 'Fehler in neuer Variante üben',
+    resumeTitle: 'Deine Lektion wartet',
+    resumeHint:
+      'Einführung, Antworten und Hinweise sind gespeichert. Du machst an derselben Stelle weiter.',
+    resume: 'Lektion fortsetzen',
+    newAttempt: 'Neuen Durchgang beginnen',
+    changed: 'Die Aufgaben wurden aktualisiert',
+    changedHint:
+      'Der gespeicherte Durchgang passt nicht mehr zu den aktuellen Aufgaben. Beginne mit der neuen Fassung.',
+    pauseTitle: 'Lektion pausieren?',
+    pauseHint:
+      'Du kannst diesen Durchgang später fortsetzen. Verwirfst du ihn, werden keine XP und kein Fortschritt vergeben.',
+    continueHere: 'Hier weiterlernen',
+    pauseLeave: 'Speichern und zurück zum Lernpfad',
+    discard: 'Durchgang verwerfen',
+    pause: 'Pausieren oder abbrechen',
+    saveError:
+      'Dein aktueller Stand konnte nicht gespeichert werden. Versuche es erneut, bevor du gehst.',
+    saved: 'Dein aktueller Stand ist auf diesem Gerät gespeichert.',
+    xp_one: '+{{count}} XP',
+    xp_other: '+{{count}} XP',
+    streak_one: '{{count}} Tag Lernserie',
+    streak_other: '{{count}} Tage Lernserie',
+    localReward: 'Lokal berechnet. Im Konto bestätigt der Server die XP nach der Synchronisierung.',
+  },
   placement: {
     title: 'Einstufungstest',
     open: 'Einstufung ansehen',

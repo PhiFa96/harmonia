@@ -1,0 +1,36 @@
+begin;
+create extension if not exists pgtap with schema extensions;
+set local search_path = public,extensions;
+select plan(20);
+insert into auth.users(id,email) values
+ ('55555555-5555-4555-8555-555555555555','xp-a@example.invalid'),
+ ('66666666-6666-4666-8666-666666666666','xp-b@example.invalid');
+select ok((select relrowsecurity from pg_class where oid='public.xp_ledger'::regclass),'XP uses RLS');
+set local role service_role;
+select lives_ok($$select append_learning_results('55555555-5555-4555-8555-555555555555','[{"id":"one","kind":"lesson","lessonId":"lesson","contentVersion":1,"timeZone":"UTC"}]','[{"id":"one","newAmount":18,"repeatAmount":13,"date":"2026-10-13"}]')$$,'Engine reward is booked atomically');
+select lives_ok($$select append_learning_results('55555555-5555-4555-8555-555555555555','[{"id":"one","kind":"lesson","lessonId":"lesson","contentVersion":1,"timeZone":"UTC"}]','[{"id":"one","newAmount":18,"repeatAmount":13,"date":"2026-10-13"}]')$$,'Retry is idempotent');
+select is((select sum(amount)::integer from xp_ledger),18,'Retry awards XP once');
+select lives_ok($$select append_learning_results('55555555-5555-4555-8555-555555555555','[{"id":"two","kind":"lesson","lessonId":"lesson","contentVersion":1,"timeZone":"UTC"}]','[{"id":"two","newAmount":18,"repeatAmount":13,"date":"2026-10-13"}]')$$,'Later completion uses repetition basis');
+select is((select amount from xp_ledger where client_id='two'),13,'Repetition XP is selected inside account lock');
+select is((select count(*)::integer from learning_reward_page('55555555-5555-4555-8555-555555555555',0)),2,'Evidence and rewards share a page snapshot');
+select is((select count(*)::integer from learning_reward_page('66666666-6666-4666-8666-666666666666',0)),0,'Reward page is scoped to its owner');
+select throws_ok($$select append_learning_results('55555555-5555-4555-8555-555555555555','[{"id":"bad","kind":"lesson","lessonId":"other","contentVersion":1,"timeZone":"UTC"}]','[{"id":"bad","newAmount":999,"repeatAmount":999,"date":"2026-10-13"}]')$$,'P0001',null,'Invalid reward aborts transaction');
+select is((select count(*)::integer from learning_events where client_id='bad'),0,'Reward failure rolls back evidence too');
+select throws_ok($$select append_learning_results('55555555-5555-4555-8555-555555555555','[]','[{"id":"missing","newAmount":18,"repeatAmount":13,"date":"2026-10-13"}]')$$,'P0001',null,'Every reward needs supplied evidence');
+set local role anon;
+select throws_ok('select * from xp_ledger','42501',null,'Guests cannot read ledger');
+set local role authenticated;
+set local request.jwt.claims='{"sub":"55555555-5555-4555-8555-555555555555","role":"authenticated"}';
+select is((select count(*)::integer from xp_ledger),2,'Owner reads own receipts');
+select throws_ok('insert into xp_ledger(user_id,client_id,lesson_id,content_version,amount,local_date) values (''55555555-5555-4555-8555-555555555555'',''one'',''lesson'',1,18,current_date)','42501',null,'Client cannot write XP');
+select throws_ok('update xp_ledger set amount=18','42501',null,'Client cannot alter XP');
+select throws_ok('delete from xp_ledger','42501',null,'Client cannot delete XP');
+select throws_ok($$select append_learning_results('55555555-5555-4555-8555-555555555555','[]','[]')$$,'42501',null,'Client cannot call trusted reward RPC');
+select throws_ok($$select * from learning_reward_page('55555555-5555-4555-8555-555555555555',0)$$,'42501',null,'Client cannot bypass Engine download handler');
+set local request.jwt.claims='{"sub":"66666666-6666-4666-8666-666666666666","role":"authenticated"}';
+select is((select count(*)::integer from xp_ledger),0,'Other account sees no XP');
+reset role;
+delete from auth.users where id='55555555-5555-4555-8555-555555555555';
+select is((select count(*)::integer from xp_ledger),0,'Account deletion removes receipts');
+select * from finish();
+rollback;

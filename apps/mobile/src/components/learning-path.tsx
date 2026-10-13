@@ -9,7 +9,7 @@ import { PASS_PERCENT } from '@harmonia/content';
 import type { PathStatus } from '@harmonia/content';
 import { catalogue } from '@harmonia/content/catalogue';
 import { firstLesson } from '@/content';
-import { resolveLesson } from '@harmonia/content';
+import { lessonPlan } from '@harmonia/content';
 import { useContentText } from '@/content/use-content-text';
 import {
   initializeLearning,
@@ -251,7 +251,7 @@ export function LearningPath() {
                             <AppText variant="title3">{text(lesson.titleKey)}</AppText>
                             <AppText variant="footnote" tone="muted">
                               {t('lesson.taskCount', {
-                                count: resolveLesson(catalogue, lesson.id)?.exercises.length ?? 0,
+                                count: lessonPlan(catalogue, lesson.id)?.exercises.length ?? 0,
                               })}
                             </AppText>
                             <AppText variant="small" tone="muted">

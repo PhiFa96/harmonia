@@ -190,13 +190,15 @@ Die Blöcke B, C und D können teilweise parallel laufen.
 - **Abhängig von:** P2.11, P1.20
 - **Umfang:** M
 - **Aufgaben:**
-  - [ ] Mischung aus neuem Stoff und Wiederholung
-  - [ ] Falsche Aufgaben am Ende in neuer Variante
+  - [x] Mischung aus neuem Stoff und Wiederholung
+  - [x] Falsche Aufgaben am Ende in neuer Variante
   - [x] Bestehensschwelle (F11, in P2.11 umgesetzt)
-  - [ ] Ergebnis-Screen mit XP, Genauigkeit, Streak
-  - [ ] Abbrechen und Fortsetzen
+  - [x] Ergebnis-Screen mit XP, Genauigkeit, Streak
+  - [x] Abbrechen und Fortsetzen
 - **Fertig, wenn:** Alle Fälle (bestanden, nicht bestanden, abgebrochen, offline) funktionieren.
-- **Vorarbeit P1.20:** Einführung, Aufgaben, neue Varianten für Fehler, getrennte Rundenergebnisse und lokale Speicherung wiederverwenden. Die Bestehensregel wurde in P2.11 umgesetzt; XP/Streak und Abbrechen/Fortsetzen bleiben hier offen. Erstversuch, Hinweise und ausgelassene Hörfragen in Statistik und Bewertung getrennt halten.
+- **Vorarbeit P1.20:** Einführung, Aufgaben, neue Varianten für Fehler, getrennte Rundenergebnisse und lokale Speicherung wiederverwenden. Die Bestehensregel wurde in P2.11 umgesetzt; P2.12 ergänzt XP-/Serienergebnis und Abbrechen/Fortsetzen. Erstversuch, Hinweise und ausgelassene Hörfragen in Statistik und Bewertung getrennt halten.
+
+- **Stand 13.10.2026:** Technisch umgesetzt: versionierte Voraussetzungsmischung, Fehlerwiederholung, 80-%-Erstversuchsregel, XP-/Genauigkeits-/Serienergebnis, lokale Wiederaufnahme und ausdrückliches Verwerfen. Engine-geprüfte XP-Buchungen und lokale Tageszählung ziehen die notwendige Grundlage aus P2.14 vor; Konfiguration, Schutz/Reisen, Tagesziel und Erinnerungen bleiben dort. Details und Prüfvertrag: [Lektionsablauf](lektionsablauf.md), [ADR 0012](../decisions/0012-lektionsablauf-mit-wiederaufnahme-und-xp.md). Nächster Schritt P2.13.
 
 ### P2.13 – Feedback, Erklärungen, „Fehler melden“
 

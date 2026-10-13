@@ -1,5 +1,5 @@
 import { catalogue } from '@harmonia/content/authoring';
-import { resolveLesson } from '@harmonia/content';
+import { lessonPlan } from '@harmonia/content';
 import type { ExerciseItem } from '@harmonia/exercises';
 import {
   answerLesson,
@@ -55,7 +55,7 @@ function required<T>(value: T | undefined): T {
   return value;
 }
 function intro(name: string) {
-  const content = required(resolveLesson(catalogue, `notation.l1.register.${name}`));
+  const content = required(lessonPlan(catalogue, `notation.l1.register.${name}`));
   for (let index = 1; index < content.introduction.length; index++)
     fireEvent.press(screen.getByRole('button', { name: 'Nächste Einführungskarte' }));
   fireEvent.press(
@@ -97,9 +97,11 @@ describe('Oktavlagen und Hilfslinien im Spieler', () => {
     ['match', 12],
   ] as const)(
     '%s speichert alle %s Antworten mit eigener ID und Version 5',
-    async (name, count) => {
+    async (name, newCount) => {
       renderRouter('./src/app', { initialUrl: `/lesson?id=notation.l1.register.${name}` });
       const state = intro(name);
+      const count = state.initial.items.length;
+      expect(lessonPlan(catalogue, state.lesson.id)?.newCount).toBe(newCount);
       for (const item of state.initial.items) {
         answer(item);
         fireEvent.press(screen.getByTestId('exercise-next'));
@@ -142,8 +144,8 @@ describe('Oktavlagen und Hilfslinien im Spieler', () => {
       expect(mockSave).toHaveBeenCalledTimes(1);
     });
     expect(required(mockSave.mock.calls[0])[0].summary).toMatchObject({
-      correct: 7,
-      answered: 8,
+      correct: simulated.initial.items.length - 1,
+      answered: simulated.initial.items.length,
       reviewCorrect: 1,
       unresolved: 0,
     });

@@ -1,7 +1,7 @@
 import { learningPath } from '@harmonia/content';
 import { useLearningState } from '@/state/learning';
 import { catalogue } from '@harmonia/content/authoring';
-import { resolveLesson } from '@harmonia/content';
+import { lessonPlan } from '@harmonia/content';
 import { createLessonSession, expectedAnswer } from '@harmonia/exercises';
 import { act, fireEvent, renderRouter, screen, waitFor } from 'expo-router/testing-library';
 import { router as navigation } from 'expo-router';
@@ -56,7 +56,7 @@ function required<T>(value: T | undefined): T {
   return value;
 }
 function content(name: string) {
-  return required(resolveLesson(catalogue, `notation.l1.staff.${name}`));
+  return required(lessonPlan(catalogue, `notation.l1.staff.${name}`));
 }
 function intro(name: string) {
   const lesson = content(name);
@@ -79,7 +79,7 @@ describe('Auswahl und Wiedergabe der Notationslektionen', () => {
   it('zeigt drei aufsteigende Umfänge und öffnet ausdrücklich die ausgewählte Lektion', async () => {
     renderRouter('./src/app', { initialUrl: '/' });
     const unit = within(screen.getByTestId('lesson-group-notation.l1.staff'));
-    for (const count of [8, 10, 12])
+    for (const count of [8, 12, 14])
       expect(unit.getByText(`${String(count)} Aufgaben`)).toBeTruthy();
     fireEvent.press(screen.getByRole('button', { name: 'Linien und Zwischenräume öffnen' }));
     expect(screen.getByText('Einführung 1 von 2')).toBeTruthy();
@@ -96,7 +96,9 @@ describe('Auswahl und Wiedergabe der Notationslektionen', () => {
     ['reading', 12],
   ] as const)(
     '%s: alle %s Aufgaben speichern ausschließlich die ausgewählte ID und Version',
-    async (name, count) => {
+    async (name, newCount) => {
+      const count = content(name).exercises.length;
+      expect(content(name).newCount).toBe(newCount);
       renderRouter('./src/app', { initialUrl: `/lesson?id=notation.l1.staff.${name}` });
       finish(name);
       await waitFor(() => {

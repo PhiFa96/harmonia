@@ -5,6 +5,32 @@ import type { Messages } from './types.ts';
 
 export const enUS = {
   content: contentMessages['en-US'],
+  flow: {
+    mix: '{{newCount}} questions on the current material and {{repeatCount}} review questions.',
+    newMaterial: 'Current material',
+    repetition: 'Reinforce what you know',
+    errorPractice: 'Practice mistakes with a new variation',
+    resumeTitle: 'Your lesson is waiting',
+    resumeHint: 'Your introduction, answers and hints are saved. Continue where you left off.',
+    resume: 'Resume lesson',
+    newAttempt: 'Start a new attempt',
+    changed: 'The questions have been updated',
+    changedHint:
+      'Your saved attempt no longer matches the current questions. Start with the new version.',
+    pauseTitle: 'Pause this lesson?',
+    pauseHint: 'You can resume this attempt later. Discarding it awards no XP or progress.',
+    continueHere: 'Keep learning here',
+    pauseLeave: 'Save and return to the learning path',
+    discard: 'Discard attempt',
+    pause: 'Pause or stop',
+    saveError: 'Your current progress could not be saved. Try again before leaving.',
+    saved: 'Your current progress is saved on this device.',
+    xp_one: '+{{count}} XP',
+    xp_other: '+{{count}} XP',
+    streak_one: '{{count}} day learning streak',
+    streak_other: '{{count}} day learning streak',
+    localReward: 'Calculated locally. Your account confirms XP on the server after syncing.',
+  },
   placement: {
     title: 'Placement test',
     open: 'View placement',

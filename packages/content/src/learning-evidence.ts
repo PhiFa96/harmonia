@@ -16,6 +16,7 @@ import type { LessonSession } from '@harmonia/exercises';
 import type { ContentCatalogue } from './catalogue-schema.ts';
 import { resolveLesson } from './catalogue.ts';
 import { placementBank, placementRecommendations } from './placement.ts';
+import { lessonPlan, timeZoneSchema } from './lesson-flow.ts';
 
 export const PASS_PERCENT = 80;
 const time = z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER);
@@ -47,6 +48,8 @@ export const learningEventSchema = z.discriminatedUnion('kind', [
       lessonId: z.string().min(1).max(128),
       contentVersion: z.number().int().positive(),
       seed: z.union([z.string().min(1).max(128), time]),
+      planKey: z.string().min(1).max(4096).optional(),
+      timeZone: timeZoneSchema.optional(),
       initial: round,
       review: round.nullable(),
     })
@@ -70,7 +73,17 @@ export const learningViewSchema = z
   })
   .strict();
 export const learningRowSchema = z
-  .object({ sequence: z.number().int().positive(), event: learningEventSchema })
+  .object({
+    sequence: z.number().int().positive(),
+    event: learningEventSchema,
+    reward: z
+      .object({
+        amount: z.number().int().min(0).max(18),
+        date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+      })
+      .strict()
+      .optional(),
+  })
   .strict();
 export const learningSyncRequestSchema = z
   .object({ since: time, events: z.array(learningEventSchema).max(50) })
@@ -162,8 +175,13 @@ export function validateLearningEvent(catalogue: ContentCatalogue, input: unknow
     ).flatMap((r) => r.testedUnitIds);
     return { event, lesson: null, testedUnitIds };
   }
-  const lesson = resolveLesson(catalogue, event.lessonId);
+  const lesson =
+    event.planKey === undefined
+      ? resolveLesson(catalogue, event.lessonId)
+      : lessonPlan(catalogue, event.lessonId);
   if (lesson?.contentVersion !== event.contentVersion) throw new EvidenceError('changed');
+  if (event.planKey !== undefined && (!('planKey' in lesson) || lesson.planKey !== event.planKey))
+    throw new EvidenceError('changed');
   let session = restoreRound(createLessonSession(lesson, event.seed), event.initial, 'initial');
   if (session.phase === 'review-intro') session = startLessonReview(session);
   if (session.review) {
@@ -171,13 +189,14 @@ export function validateLearningEvent(catalogue: ContentCatalogue, input: unknow
     session = restoreRound(session, event.review, 'review');
   } else if (event.review) throw new EvidenceError('invalid');
   if (session.phase !== 'complete') throw new EvidenceError('invalid');
-  return { event, lesson: lessonProgress(session), testedUnitIds: [] as string[] };
+  return { event, lesson: lessonProgress(session), session, testedUnitIds: [] as string[] };
 }
 export function lessonEvent(
   id: string,
   session: LessonSession,
   startedAt: number,
   finishedAt: number,
+  timeZone?: string,
 ): LearningEvent {
   if (session.phase !== 'complete') throw new EvidenceError('invalid');
   const evidence = (s: LessonSession['initial']) => ({
@@ -194,6 +213,8 @@ export function lessonEvent(
     lessonId: session.lesson.id,
     contentVersion: session.lesson.contentVersion,
     seed: session.seed,
+    ...(session.lesson.planKey ? { planKey: session.lesson.planKey } : {}),
+    ...(timeZone ? { timeZone } : {}),
     startedAt,
     finishedAt: Math.max(startedAt, finishedAt),
     initial: evidence(session.initial),
@@ -215,9 +236,14 @@ const legacy = z.object({
   schemaVersion: z.literal(1),
   startedAt: z.string(),
   finishedAt: z.string(),
+  timeZone: timeZoneSchema.optional(),
   session: z.object({
     phase: z.literal('complete'),
-    lesson: z.object({ id: z.string(), contentVersion: z.number() }),
+    lesson: z.object({
+      id: z.string(),
+      contentVersion: z.number(),
+      planKey: z.string().optional(),
+    }),
     seed: z.union([z.string(), z.number()]),
     initial: legacyRound,
     review: legacyRound.optional(),
@@ -241,6 +267,8 @@ export function legacyLessonEvent(input: unknown): LearningEvent {
     lessonId: s.lesson.id,
     contentVersion: s.lesson.contentVersion,
     seed: s.seed,
+    ...(s.lesson.planKey ? { planKey: s.lesson.planKey } : {}),
+    ...(old.timeZone ? { timeZone: old.timeZone } : {}),
     startedAt: Date.parse(old.startedAt),
     finishedAt: Math.max(Date.parse(old.startedAt), Date.parse(old.finishedAt)),
     initial: evidence(s.initial),

@@ -49,6 +49,9 @@ import {
   learningPath,
   lessonEvent,
   validateLearningEvent,
+  lessonPlan,
+  lessonReward,
+  lessonDay,
 } from '../packages/content/src/index.ts';
 import { parseScore, scoreTimeline, layoutGrandStaff } from '../packages/notation/src/index.ts';
 
@@ -110,6 +113,27 @@ for (const record of catalogue.lessons) {
   internalTasks += lesson.exercises.length;
 }
 check('Alle 850 internen Aufgaben unter Deno durchspielbar', internalTasks, 850);
+let mixedTasks = 0;
+for (const record of catalogue.lessons) {
+  const plan = lessonPlan(catalogue, record.id);
+  if (!plan) throw new Error('Mischplan fehlt');
+  let state = createLessonSession(plan, 'deno-mixed');
+  for (const item of state.initial.items)
+    state = nextLessonExercise(answerLesson(state, expectedAnswer(item)));
+  if (
+    !validateLearningEvent(catalogue, lessonEvent(record.id, state, 1, 2, 'Europe/Berlin')).lesson
+      ?.passed
+  )
+    throw new Error('Mischplan nicht reproduzierbar');
+  check('Mischplan-XP ' + record.id, lessonReward(state, false), 18);
+  mixedTasks += plan.exercises.length;
+}
+check('Wiederholungsaufgaben unter Deno', mixedTasks > internalTasks, true);
+check(
+  'Lokaler Abschlusstag unter Deno',
+  lessonDay(Date.parse('2026-03-29T22:30:00Z'), 'Europe/Berlin'),
+  '2026-03-30',
+);
 check('29 graphbasierte Einheiten unter Deno', learningPath(catalogue, []).length, 29);
 const placement = placementBank(catalogue);
 for (const profile of ['assisted', 'advanced']) {

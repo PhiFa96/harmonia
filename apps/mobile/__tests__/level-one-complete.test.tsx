@@ -1,5 +1,5 @@
 import { catalogue } from '@harmonia/content/authoring';
-import { resolveLesson } from '@harmonia/content';
+import { lessonPlan } from '@harmonia/content';
 import {
   answerLesson,
   createLessonSession,
@@ -89,7 +89,7 @@ const units = [
 ];
 const lessons = catalogue.lessons.filter((l) => units.includes(l.unitId));
 function intro(id: string) {
-  const lesson = required(resolveLesson(catalogue, id));
+  const lesson = required(lessonPlan(catalogue, id));
   for (let i = 1; i < lesson.introduction.length; i++)
     fireEvent.press(screen.getByRole('button', { name: 'Nächste Einführungskarte' }));
   fireEvent.press(
