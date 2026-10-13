@@ -4,7 +4,7 @@ Grundlage 04.10.2026, ergänzt 13.10.2026: Die E-Mail-Code-Anmeldung aus P2.01 i
 
 ## Lokal arbeiten
 
-Voraussetzungen: Node 22, pnpm 10 und ein laufender Docker-Daemon (Docker Desktop auf macOS/Windows). Die Supabase CLI ist mit Version 2.119.0 im Lockfile gepinnt. Kein globales Supabase und kein Supabase-Cloudkonto erforderlich.
+Voraussetzungen: Node 22, pnpm 10 und ein laufender Docker-Daemon (Docker Desktop auf macOS/Windows). Die Supabase CLI ist mit Version 2.120.0 im Lockfile gepinnt. Kein globales Supabase und kein Supabase-Cloudkonto erforderlich.
 
 ```sh
 pnpm install --frozen-lockfile
