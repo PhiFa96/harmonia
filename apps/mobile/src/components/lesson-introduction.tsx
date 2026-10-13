@@ -11,6 +11,7 @@ import { useLocale } from '@/i18n';
 import { useContentText } from '@/content/use-content-text';
 import { useExercisePlayback } from './use-exercise-playback';
 import { EXAMPLE_BPM } from '@/exercises/play-example';
+import { KeyboardExample } from './keyboard-example';
 export function LessonIntroduction({
   lesson,
   onStart,
@@ -65,8 +66,15 @@ export function LessonIntroduction({
           ) : (
             <MusicText variant="title3">{contentText(example.captionKey)}</MusicText>
           )}
+          {example.keyboard ? (
+            <KeyboardExample
+              key={`keyboard:${example.score}`}
+              score={score}
+              range={example.keyboard}
+            />
+          ) : null}
           <ScrollView
-            key={example.score}
+            key={`score:${example.score}`}
             testID="lesson-example-scroll"
             horizontal
             contentContainerStyle={styles.score}

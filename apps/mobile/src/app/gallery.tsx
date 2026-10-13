@@ -2,6 +2,7 @@ import { LOCALE_NAMES } from '@harmonia/i18n';
 import type { Evaluation } from '@harmonia/exercises';
 import { createRng, evaluateExercise, generateNote } from '@harmonia/exercises';
 import type { Pitch } from '@harmonia/notation';
+import { parseScore } from '@harmonia/notation';
 import type { ColorScheme, TextVariant } from '@harmonia/ui';
 import { COLORS, LAYOUT, RADIUS, SPACE } from '@harmonia/ui';
 import {
@@ -26,6 +27,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { useSettings } from '@/state/settings';
 import { PianoKeyboard } from '@/components/piano-keyboard';
+import { KeyboardExample } from '@/components/keyboard-example';
 import { ExerciseChoices } from '@/components/exercise-choices';
 
 // Galerie aller Bausteine (P1.06), nur in Entwicklungsbuilds. Vorschau wahlweise hell oder dunkel,
@@ -41,6 +43,7 @@ const VARIANTS: readonly TextVariant[] = [
   'footnote',
   'overline',
 ];
+const KEYBOARD_EXAMPLE = parseScore('treble | 4/4 | C4/2 E4/2');
 
 export default function GalleryScreen() {
   const { t } = useTranslation();
@@ -91,6 +94,11 @@ export default function GalleryScreen() {
             <Lists />
             <Sheet />
             <Piano />
+            <Section title={t('gallery.keyboardExample')}>
+              <Card>
+                <KeyboardExample score={KEYBOARD_EXAMPLE} range={{ first: 60, last: 72 }} />
+              </Card>
+            </Section>
             <Answers />
           </View>
         </ScrollView>

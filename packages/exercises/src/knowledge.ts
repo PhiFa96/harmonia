@@ -34,6 +34,7 @@ export const KNOWLEDGE_TOPICS = [
   'triads',
   'scales',
   'meters',
+  'keyboard',
 ] as const;
 export const ORDER_TOPICS = ['noteValues', 'pitches'] as const;
 const VALUES = ['whole', 'half', 'quarter', 'eighth', 'sixteenth'] as const;
@@ -41,10 +42,21 @@ export function isKnowledgeItem(item: ExerciseItem): item is KnowledgeExerciseIt
   return item.type === 'KNOWLEDGE_MC' || item.type === 'MATCH' || item.type === 'ORDER';
 }
 /** Fachdaten statt übersetzter Antworttexte; punktierte Werte bleiben eigenständige Begriffe. */
-export function knowledgeFacts(topic: KnowledgeTopic): readonly KnowledgeFact[] {
+export function knowledgeFacts(
+  topic: KnowledgeTopic,
+  maxAccidentals: 1 | 2 = 2,
+): readonly KnowledgeFact[] {
+  if (![1, 2].includes(maxAccidentals)) throw new RangeError('Ungültiger Wissens-Vorzeichenumfang');
   switch (topic) {
+    case 'keyboard':
+      return (['semitone', 'wholeTone', 'twoBlackKeys', 'threeBlackKeys'] as const).map((kind) => ({
+        topic,
+        kind,
+      }));
     case 'accidentals':
-      return ([-2, -1, 0, 1, 2] as const).map((alter) => ({ topic, alter }));
+      return ([-2, -1, 0, 1, 2] as const)
+        .filter((alter) => Math.abs(alter) <= maxAccidentals)
+        .map((alter) => ({ topic, alter }));
     case 'noteValues':
       return VALUES.flatMap((value) =>
         [0, 1].map((dots) => ({ topic, duration: duration(value, dots) })),
@@ -76,6 +88,8 @@ export function knowledgeFacts(topic: KnowledgeTopic): readonly KnowledgeFact[] 
 }
 export function knowledgeFactId(fact: KnowledgeFact): string {
   switch (fact.topic) {
+    case 'keyboard':
+      return `keyboard:${fact.kind}`;
     case 'accidentals':
       return `accidental:${String(fact.alter)}`;
     case 'noteValues':
@@ -96,7 +110,7 @@ function topics(params: KnowledgeParams): readonly KnowledgeTopic[] {
   return [...new Set(params.topics)];
 }
 export function generateKnowledge(params: KnowledgeParams, rng: Rng): KnowledgeItem {
-  const facts = knowledgeFacts(rng.pick(topics(params))),
+  const facts = knowledgeFacts(rng.pick(topics(params)), params.maxAccidentals),
     fact = rng.pick(facts);
   return {
     type: 'KNOWLEDGE_MC',
@@ -112,10 +126,12 @@ export function generateMatch(params: MatchParams, rng: Rng): MatchItem {
     !Number.isInteger(count) ||
     count < 2 ||
     count > 4 ||
-    allowed.some((topic) => count >= knowledgeFacts(topic).length)
+    allowed.some((topic) => count >= knowledgeFacts(topic, params.maxAccidentals).length)
   )
     throw new RangeError('Zuordnung braucht 2–4 Begriffe und mindestens eine weitere Variante');
-  const facts = rng.shuffle(knowledgeFacts(rng.pick(allowed))).slice(0, count);
+  const facts = rng
+    .shuffle(knowledgeFacts(rng.pick(allowed), params.maxAccidentals))
+    .slice(0, count);
   return { type: 'MATCH', facts, choices: rng.shuffle(facts.map(knowledgeFactId)) };
 }
 export function orderValueId(value: OrderValue): string {

@@ -85,7 +85,7 @@ describe('Auswahl und Wiedergabe der Notationslektionen', () => {
     expect(screen.queryByText('Fünf Linien, vier Zwischenräume')).toBeNull();
     expect(mockPlay).not.toHaveBeenCalled();
     await waitFor(() => {
-      expect(mockLatest).toHaveBeenCalledTimes(4);
+      expect(mockLatest).toHaveBeenCalledTimes(catalogue.lessons.length);
     });
   });
   it.each([

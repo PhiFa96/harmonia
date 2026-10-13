@@ -6,7 +6,7 @@ import { parseCatalogue, publicCatalogue, publicMessages } from '../packages/con
 import { catalogue as authored, curriculumPlan } from '../packages/content/src/authoring.ts';
 import { RESOURCES, checkTranslations } from '../packages/i18n/src/index.ts';
 import { contentMessages } from '../packages/i18n/src/authoring-content-messages.ts';
-import { parseScore, validateScore } from '../packages/notation/src/index.ts';
+import { validateContentExample } from './validate-content-example.mjs';
 
 const mode = process.argv[2] ?? '--check';
 if (!['--check', '--write'].includes(mode))
@@ -16,11 +16,7 @@ const messages = Object.fromEntries(
 );
 const catalogue = parseCatalogue(authored, {
   messages,
-  validateScore(source) {
-    const issues = validateScore(parseScore(source));
-    if (issues.length > 0)
-      throw new Error('Notenbeispiel ist rhythmisch oder strukturell ungültig');
-  },
+  validateScore: validateContentExample,
 });
 const authoredResources = Object.fromEntries(
   Object.entries(RESOURCES).map(([locale, resources]) => [

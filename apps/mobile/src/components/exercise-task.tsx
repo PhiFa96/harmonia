@@ -125,7 +125,8 @@ export function ExerciseTask({
         </AppText>
         <MusicText variant="title2">{prompt}</MusicText>
       </View>
-      {isKnowledgeItem(item) ? null : [
+      {isKnowledgeItem(item) ||
+      (item.type === 'KEY_FIND' && item.presentation === 'name') ? null : [
           'NOTE_PLACE',
           'INTERVAL_BUILD',
           'SCALE_BUILD',

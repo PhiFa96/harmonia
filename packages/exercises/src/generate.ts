@@ -16,6 +16,7 @@ import type {
   IntervalItem,
   IntervalBuildItem,
   KeyFindItem,
+  KeyFindParams,
   NoteItem,
   NotePlaceItem,
   NoteParams,
@@ -34,15 +35,22 @@ export function intervalAnswerId(interval: Interval): string {
   return formatInterval({ ...interval, direction: 1 });
 }
 
-function choosePitch(params: NoteParams, rng: Rng, editable = false) {
+function choosePitch(params: NoteParams, rng: Rng, editable = false, naturalInRange = false) {
   const allowedClefs = clefs(params);
   const limit = accidentalLimit(params, 0);
-  const pools = allowedClefs.map((clef) => ({
-    clef,
-    pitches: pitchPool(rangeFor(params, clef), limit).filter(
-      (pitch) => !editable || (stepOf(pitch, clef) >= MIN_STEP && stepOf(pitch, clef) <= MAX_STEP),
-    ),
-  }));
+  const pools = allowedClefs.map((clef) => {
+    const range = rangeFor(params, clef);
+    return {
+      clef,
+      pitches: pitchPool(range, limit).filter(
+        (pitch) =>
+          (!editable || (stepOf(pitch, clef) >= MIN_STEP && stepOf(pitch, clef) <= MAX_STEP)) &&
+          (!naturalInRange ||
+            (midi({ ...pitch, alter: 0 }) >= range.minMidi &&
+              midi({ ...pitch, alter: 0 }) <= range.maxMidi)),
+      ),
+    };
+  });
   if (pools.some((pool) => pool.pitches.length === 0))
     throw new RangeError('Tonbereich enthält keine erlaubte Note');
   const pool = rng.pick(pools);
@@ -74,17 +82,26 @@ export function generateNotePlace(params: NoteParams, rng: Rng): NotePlaceItem {
     score: singleStaffScore([[rest(duration('whole'))]], { clef }),
   };
 }
-export function generateKeyFind(params: NoteParams, rng: Rng): KeyFindItem {
-  const { clef, pitch } = choosePitch(
-    { ...params, range: params.range ?? { minMidi: 60, maxMidi: 76 } },
-    rng,
-  );
+export function generateKeyFind(params: KeyFindParams, rng: Rng): KeyFindItem {
+  if (!['notation', 'name'].includes(params.presentation ?? 'notation'))
+    throw new RangeError('Unbekannte Tasten-Vorgabe');
+  const named = params.presentation === 'name',
+    range = params.range ?? { minMidi: 60, maxMidi: named ? 71 : 76 };
+  if (named && range.maxMidi - range.minMidi > 11)
+    throw new RangeError('Tonnamen brauchen einen eindeutigen Klaviatur-Ausschnitt');
+  const { clef, pitch } = choosePitch({ ...params, range }, rng, false, named);
   return {
     type: 'KEY_FIND',
     clef,
     pitch,
     choices: [],
     score: singleStaffScore([[note(pitch, duration('whole'))]], { clef }),
+    ...(named
+      ? {
+          presentation: 'name' as const,
+          keyboardRange: { first: range.minMidi, last: range.maxMidi },
+        }
+      : {}),
   };
 }
 

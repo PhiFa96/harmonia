@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": 3,
+  "contentVersion": 4,
   "areas": [
     {
       "id": "fundament",
@@ -1326,6 +1326,111 @@
           }
         }
       ]
+    },
+    {
+      "contentVersion": 4,
+      "status": "entwurf",
+      "id": "notation.l1.keyboard.keys.exercises",
+      "titleKey": "content.keyboardStart.keysLesson",
+      "skillIds": ["notation.keyboard-layout"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KEY_FIND",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 71
+              },
+              "maxAccidentals": 0,
+              "presentation": "name"
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "contentVersion": 4,
+      "status": "entwurf",
+      "id": "notation.l1.keyboard.steps.exercises",
+      "titleKey": "content.keyboardStart.stepsLesson",
+      "skillIds": ["notation.keyboard-layout", "notation.semitone"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["keyboard"]
+            }
+          },
+          "count": 6
+        },
+        {
+          "spec": {
+            "type": "KEY_FIND",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 71
+              },
+              "maxAccidentals": 0,
+              "presentation": "name"
+            }
+          },
+          "count": 4
+        }
+      ]
+    },
+    {
+      "contentVersion": 4,
+      "status": "entwurf",
+      "id": "notation.l1.keyboard.accidentals.exercises",
+      "titleKey": "content.keyboardStart.accidentalsLesson",
+      "skillIds": ["notation.keyboard-layout", "notation.semitone", "notation.accidentals"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["accidentals"],
+              "maxAccidentals": 1
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "NOTE_NAME",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 64,
+                "maxMidi": 77
+              },
+              "maxAccidentals": 1
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "KEY_FIND",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 71
+              },
+              "maxAccidentals": 1,
+              "presentation": "name"
+            }
+          },
+          "count": 4
+        }
+      ]
     }
   ],
   "knowledgeCards": [
@@ -1476,6 +1581,190 @@
           "captionKey": "content.notationStart.readingCaption"
         }
       ]
+    },
+    {
+      "contentVersion": 4,
+      "status": "entwurf",
+      "id": "notation.l1.keyboard.card-groups",
+      "titleKey": "content.keyboardStart.groupsTitle",
+      "skillIds": ["notation.keyboard-layout"],
+      "bodyKey": "content.keyboardStart.groupsBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/2 F4/2",
+          "captionKey": "content.keyboardStart.groupsCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 72
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 4,
+      "status": "entwurf",
+      "id": "notation.l1.keyboard.card-white",
+      "titleKey": "content.keyboardStart.whiteTitle",
+      "skillIds": ["notation.keyboard-layout"],
+      "bodyKey": "content.keyboardStart.whiteBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 D4/4 E4/4 F4/4 | G4/4 A4/4 B4/4 C5/4",
+          "captionKey": "content.keyboardStart.whiteCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 72
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 4,
+      "status": "entwurf",
+      "id": "notation.l1.keyboard.card-find",
+      "titleKey": "content.keyboardStart.findTitle",
+      "skillIds": ["notation.keyboard-layout"],
+      "bodyKey": "content.keyboardStart.findBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | D4/2 A4/2",
+          "captionKey": "content.keyboardStart.findCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 72
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 4,
+      "status": "entwurf",
+      "id": "notation.l1.keyboard.card-steps",
+      "titleKey": "content.keyboardStart.stepsTitle",
+      "skillIds": ["notation.keyboard-layout", "notation.semitone"],
+      "bodyKey": "content.keyboardStart.stepsBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 C#4/4 D4/2",
+          "captionKey": "content.keyboardStart.stepsCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 72
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 4,
+      "status": "entwurf",
+      "id": "notation.l1.keyboard.card-neighbors",
+      "titleKey": "content.keyboardStart.neighborsTitle",
+      "skillIds": ["notation.keyboard-layout", "notation.semitone"],
+      "bodyKey": "content.keyboardStart.neighborsBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/2 F4/2",
+          "captionKey": "content.keyboardStart.efCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 72
+          }
+        },
+        {
+          "score": "treble | 4/4 | B4/2 C5/2",
+          "captionKey": "content.keyboardStart.bcCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 72
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 4,
+      "status": "entwurf",
+      "id": "notation.l1.keyboard.card-signs",
+      "titleKey": "content.keyboardStart.signsTitle",
+      "skillIds": ["notation.keyboard-layout", "notation.semitone", "notation.accidentals"],
+      "bodyKey": "content.keyboardStart.signsBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/2 G#4/2",
+          "captionKey": "content.keyboardStart.sharpCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 72
+          }
+        },
+        {
+          "score": "treble | 4/4 | A4/2 Ab4/2",
+          "captionKey": "content.keyboardStart.flatCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 72
+          }
+        },
+        {
+          "score": "treble | 4/4 | G#4/2 G4/2",
+          "captionKey": "content.keyboardStart.naturalCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 72
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 4,
+      "status": "entwurf",
+      "id": "notation.l1.keyboard.card-names",
+      "titleKey": "content.keyboardStart.namesTitle",
+      "skillIds": ["notation.keyboard-layout", "notation.semitone", "notation.accidentals"],
+      "bodyKey": "content.keyboardStart.namesBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | B4/2 Bb4/2",
+          "captionKey": "content.keyboardStart.namesCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 72
+          }
+        }
+      ]
+    },
+    {
+      "contentVersion": 4,
+      "status": "entwurf",
+      "id": "notation.l1.keyboard.card-same",
+      "titleKey": "content.keyboardStart.sameTitle",
+      "skillIds": ["notation.keyboard-layout", "notation.semitone", "notation.accidentals"],
+      "bodyKey": "content.keyboardStart.sameBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C#4/2 Db4/2",
+          "captionKey": "content.keyboardStart.sameCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 72
+          }
+        },
+        {
+          "score": "treble | 4/4 | E#4/2 F4/2",
+          "captionKey": "content.keyboardStart.whiteSharpCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 72
+          }
+        },
+        {
+          "score": "treble | 4/4 | Fb4/2 E4/2",
+          "captionKey": "content.keyboardStart.whiteFlatCaption",
+          "keyboard": {
+            "first": 60,
+            "last": 72
+          }
+        }
+      ]
     }
   ],
   "knowledgeArticles": [
@@ -1523,6 +1812,117 @@
             {
               "score": "treble | 4/4 | G4/4 A4/4 B4/4 C5/4 | D5/4 C5/4 B4/4 A4/4",
               "captionKey": "content.notationStart.readingCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "contentVersion": 4,
+      "status": "entwurf",
+      "id": "notation.l1.keyboard.article",
+      "titleKey": "content.keyboardStart.articleTitle",
+      "skillIds": ["notation.keyboard-layout", "notation.semitone", "notation.accidentals"],
+      "sections": [
+        {
+          "headingKey": "content.keyboardStart.groupsTitle",
+          "bodyKey": "content.keyboardStart.layoutArticle",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/2 F4/2",
+              "captionKey": "content.keyboardStart.groupsCaption",
+              "keyboard": {
+                "first": 60,
+                "last": 72
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.keyboardStart.stepsTitle",
+          "bodyKey": "content.keyboardStart.stepsArticle",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 C#4/4 D4/2",
+              "captionKey": "content.keyboardStart.stepsCaption",
+              "keyboard": {
+                "first": 60,
+                "last": 72
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.keyboardStart.signsTitle",
+          "bodyKey": "content.keyboardStart.signsArticle",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/2 G#4/2",
+              "captionKey": "content.keyboardStart.sharpCaption",
+              "keyboard": {
+                "first": 60,
+                "last": 72
+              }
+            },
+            {
+              "score": "treble | 4/4 | A4/2 Ab4/2",
+              "captionKey": "content.keyboardStart.flatCaption",
+              "keyboard": {
+                "first": 60,
+                "last": 72
+              }
+            },
+            {
+              "score": "treble | 4/4 | G#4/2 G4/2",
+              "captionKey": "content.keyboardStart.naturalCaption",
+              "keyboard": {
+                "first": 60,
+                "last": 72
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.keyboardStart.namesTitle",
+          "bodyKey": "content.keyboardStart.namesArticle",
+          "examples": [
+            {
+              "score": "treble | 4/4 | B4/2 Bb4/2",
+              "captionKey": "content.keyboardStart.namesCaption",
+              "keyboard": {
+                "first": 60,
+                "last": 72
+              }
+            }
+          ]
+        },
+        {
+          "headingKey": "content.keyboardStart.sameTitle",
+          "bodyKey": "content.keyboardStart.sameArticle",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C#4/2 Db4/2",
+              "captionKey": "content.keyboardStart.sameCaption",
+              "keyboard": {
+                "first": 60,
+                "last": 72
+              }
+            },
+            {
+              "score": "treble | 4/4 | E#4/2 F4/2",
+              "captionKey": "content.keyboardStart.whiteSharpCaption",
+              "keyboard": {
+                "first": 60,
+                "last": 72
+              }
+            },
+            {
+              "score": "treble | 4/4 | Fb4/2 E4/2",
+              "captionKey": "content.keyboardStart.whiteFlatCaption",
+              "keyboard": {
+                "first": 60,
+                "last": 72
+              }
             }
           ]
         }
@@ -1577,6 +1977,47 @@
       "skillIds": ["notation.staff", "notation.treble-clef", "notation.treble-natural"],
       "introductionCardIds": ["notation.l1.staff.card-names", "notation.l1.staff.card-reading"],
       "exerciseSetIds": ["notation.l1.staff.reading.exercises"]
+    },
+    {
+      "contentVersion": 4,
+      "status": "entwurf",
+      "id": "notation.l1.keyboard.keys",
+      "titleKey": "content.keyboardStart.keysLesson",
+      "unitId": "notation.l1.keyboard",
+      "skillIds": ["notation.keyboard-layout"],
+      "introductionCardIds": [
+        "notation.l1.keyboard.card-groups",
+        "notation.l1.keyboard.card-white",
+        "notation.l1.keyboard.card-find"
+      ],
+      "exerciseSetIds": ["notation.l1.keyboard.keys.exercises"]
+    },
+    {
+      "contentVersion": 4,
+      "status": "entwurf",
+      "id": "notation.l1.keyboard.steps",
+      "titleKey": "content.keyboardStart.stepsLesson",
+      "unitId": "notation.l1.keyboard",
+      "skillIds": ["notation.keyboard-layout", "notation.semitone"],
+      "introductionCardIds": [
+        "notation.l1.keyboard.card-steps",
+        "notation.l1.keyboard.card-neighbors"
+      ],
+      "exerciseSetIds": ["notation.l1.keyboard.steps.exercises"]
+    },
+    {
+      "contentVersion": 4,
+      "status": "entwurf",
+      "id": "notation.l1.keyboard.accidentals",
+      "titleKey": "content.keyboardStart.accidentalsLesson",
+      "unitId": "notation.l1.keyboard",
+      "skillIds": ["notation.keyboard-layout", "notation.semitone", "notation.accidentals"],
+      "introductionCardIds": [
+        "notation.l1.keyboard.card-signs",
+        "notation.l1.keyboard.card-names",
+        "notation.l1.keyboard.card-same"
+      ],
+      "exerciseSetIds": ["notation.l1.keyboard.accidentals.exercises"]
     }
   ]
 }

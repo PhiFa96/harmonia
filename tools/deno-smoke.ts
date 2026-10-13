@@ -80,6 +80,38 @@ check(
   }).tones.length,
   8,
 );
+check(
+  'Klaviatureinheit mit acht, zehn und zwölf Aufgaben',
+  ['keys', 'steps', 'accidentals']
+    .map((name) => resolveLesson(catalogue, `notation.l1.keyboard.${name}`)?.exercises.length)
+    .join(','),
+  '8,10,12',
+);
+const namedKey = generateKeyFind(
+  { presentation: 'name', range: { minMidi: 60, maxMidi: 71 }, maxAccidentals: 1 },
+  exerciseRng('deno-named-key'),
+);
+check(
+  'Tastenfrage mit Tonnamen und festem Ausschnitt',
+  `${String(namedKey.presentation)}:${String(namedKey.keyboardRange?.first)}-${String(namedKey.keyboardRange?.last)}:${String(evaluateExercise(namedKey, expectedAnswer(namedKey)).correct)}`,
+  'name:60-71:true',
+);
+check(
+  'Klaviaturwissen und einfache Vorzeichen unter Deno',
+  [
+    generateKnowledge({ topics: ['keyboard'] }, exerciseRng('deno-keyboard-knowledge')),
+    generateKnowledge(
+      { topics: ['accidentals'], maxAccidentals: 1 },
+      exerciseRng('deno-basic-accidentals'),
+    ),
+  ]
+    .map(
+      (item) =>
+        `${item.fact.topic}:${String(item.choices.length)}:${String(evaluateExercise(item, expectedAnswer(item)).correct)}`,
+    )
+    .join(','),
+  'keyboard:4:true,accidentals:3:true',
+);
 check('Vollständiger Fähigkeitsplan', plannedSkills.length, catalogue.skills.length);
 check(
   'Fähigkeiten den Stufen 1–2 zugeordnet',

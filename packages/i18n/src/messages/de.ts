@@ -48,6 +48,20 @@ export const de = {
       'Ordne jedem Begriff die passende Erklärung zu. Jede Erklärung gehört genau zu einem Begriff.',
     question_ORDER: 'Bringe alle Angaben in die Reihenfolge {{direction}}. {{rule}}',
     knowledgeExplanation: '{{term}}: {{definition}}',
+    knowledgeKeyboard_semitone: '$t(glossary:semitone_one)',
+    knowledgeKeyboard_wholeTone: '$t(glossary:wholeTone_one)',
+    knowledgeKeyboard_twoBlackKeys: '$t(glossary:twoBlackKeys_one)',
+    knowledgeKeyboard_threeBlackKeys: '$t(glossary:threeBlackKeys_one)',
+    knowledgeKeyboardDefinition_semitone:
+      'Abstand zwischen unmittelbar benachbarten $t(glossary:pianoKey_other), einschließlich schwarzer Tasten. Keine Taste liegt dazwischen.',
+    knowledgeKeyboardDefinition_wholeTone:
+      'Abstand von zwei $t(glossary:semitone_other). Auf der $t(glossary:keyboard_one) liegt genau eine Taste zwischen Start und Ziel.',
+    knowledgeKeyboardDefinition_twoBlackKeys:
+      'Wiederkehrende Gruppe aus zwei schwarzen Tasten. Die weiße Taste unmittelbar links davon heißt C.',
+    knowledgeKeyboardDefinition_threeBlackKeys:
+      'Wiederkehrende Gruppe aus drei schwarzen Tasten. Die weiße Taste unmittelbar links davon heißt F.',
+    knowledgeHint_keyboard:
+      'Nutze die Gruppen schwarzer Tasten als Orientierung und zähle alle Tastenschritte, auch über schwarze Tasten.',
     knowledgeRaises: 'Erhöht einen Stammton um {{distance}}.',
     knowledgeLowers: 'Erniedrigt einen Stammton um {{distance}}.',
     knowledgeNatural:
@@ -246,14 +260,19 @@ export const de = {
     question_NOTE_PLACE:
       'Schreibe {{note}} in das leere Notensystem. Achte auf Vorzeichen und Oktavlage.',
     question_KEY_FIND: 'Finde die Taste für {{note}}. Achte auf die Oktavlage.',
+    question_KEY_FIND_name: 'Finde die Taste für {{note}}.',
     question_INTERVAL_BUILD:
       'Schreibe den zweiten Ton: {{interval}} von {{from}} aus. Setze ihn in den leeren zweiten Takt.',
     writtenPitch:
       'Die vollständige Antwort ist {{note}}. Stammton, Vorzeichen und Oktavlage müssen stimmen; ein gleich klingender Ton mit anderer Schreibweise zählt hier nicht.',
     keyExplanation:
       'Die gesuchte Taste klingt als {{note}}. Gehe vom Stammton {{natural}} in derselben Oktave aus. {{alteration}} Gleich klingende Schreibweisen gehören zur selben Taste; eine andere Oktave zählt nicht.',
+    keyNameExplanation:
+      'Die gesuchte Taste klingt als {{note}}. Im gezeigten Ausschnitt gibt es den $t(glossary:naturalNote_one) {{natural}} nur einmal. Gehe von dort aus. {{alteration}} Gleich klingende Schreibweisen gehören zur selben Taste.',
     keyHint1:
       'Suche die Zweiergruppen der schwarzen Tasten: C liegt direkt links davon, D zwischen den beiden schwarzen Tasten. Zähle von dort bis zum gesuchten Stammton in der angegebenen Oktave.',
+    keyNameHint1:
+      'Suche die $t(glossary:twoBlackKeys_other): C liegt direkt links davon, D zwischen den beiden schwarzen Tasten. Zähle von dort bis zum gesuchten $t(glossary:naturalNote_one) im gezeigten Ausschnitt.',
     keyHint2:
       'Suche zuerst {{natural}}. {{alteration}} Jeder Schritt zur unmittelbar benachbarten Taste ist ein Halbtonschritt, auch zwischen E und F sowie H und C.',
     buildHint2:
@@ -339,10 +358,13 @@ export const de = {
       'Deine erste Lektion: zehn Aufgaben zum Lesen und Hören. Lerne die Grundlagen, übe mit Hinweisen und wiederhole deine Fehler mit neuen Notenbeispielen.',
     open: 'Lektion ansehen',
     openNamed: '{{title}} öffnen',
+    openAnother: 'Lektion öffnen',
     taskCount_one: '{{count}} Aufgabe',
     taskCount_other: '{{count}} Aufgaben',
-    exampleTempo: 'Klangbeispiel bei ♩ = {{bpm}}',
+    exampleTempo: 'Klangbeispiel: {{bpm}} $t(glossary:notes.quarter_other) pro Minute.',
     scrollExample: 'Verschiebe das Notenbild seitlich, um alle Töne zu sehen.',
+    keyboardExample: 'Klaviaturbeispiel; markierte Tasten: {{notes}}.',
+    keyboardMarkers: 'Punkte markieren die Tasten des Notenbeispiels.',
     start_one: 'Mit {{count}} Aufgabe starten',
     start_other: 'Mit {{count}} Aufgaben starten',
     restart: 'Lektion erneut üben',
@@ -402,6 +424,7 @@ export const de = {
     range_practice: 'c¹–e²',
     range_middle: 'c–c³',
     range_full: 'Ganzes Klavier (A₂–c⁵)',
+    range_fixed: 'Ausschnitt: {{from}}–{{to}}',
     eitherName: '{{sharp}} oder {{flat}}',
     smaller: '−',
     larger: '+',
@@ -416,6 +439,8 @@ export const de = {
     moveHint: 'Wische nach links oder rechts. Mit Spielen schaltest du den Klang wieder ein.',
     shortcutHint:
       'Bei Fokus auf der Klaviatur: Die physischen Tasten ab A spielen c¹–e² (QWERTZ: A W S E D F T G Z H U J K O L P Ö). Tab und Leertaste oder Enter spielen einzelne Tasten.',
+    shortcutFixedHint:
+      'Mit fokussierter Klaviatur spielen die Buchstabentasten nur Töne im gezeigten Ausschnitt. Tab und Leertaste oder Enter spielen einzelne Tasten.',
   },
   audioTest: {
     title: 'Audio-Test',
@@ -466,6 +491,7 @@ export const de = {
       'Klavierklang: Salamander Grand Piano von Alexander Holm, CC BY 3.0 (creativecommons.org/licenses/by/3.0). Bearbeitet: Auswahl, gekürzt, Mono, Stimmung ausgeglichen.',
   },
   gallery: {
+    keyboardExample: '$t(glossary:keyboard_one): Lernbeispiel',
     title: 'Bausteine',
     intro: 'Alle Grundbausteine des Design-Systems. Nur in Entwicklungsbuilds.',
     preview: 'Vorschau',

@@ -8,7 +8,13 @@ import {
   resolveLesson,
 } from '../packages/content/src/index.ts';
 import { contentMessages } from '../packages/i18n/src/authoring-content-messages.ts';
-import { parseScore, validateScore } from '../packages/notation/src/index.ts';
+import {
+  keyboardMidi,
+  parseScore,
+  scoreTimeline,
+  validateScore,
+} from '../packages/notation/src/index.ts';
+import { validateContentExample } from './validate-content-example.mjs';
 
 function checks() {
   return {
@@ -17,9 +23,7 @@ function checks() {
         Object.entries(contentMessages).map(([locale, content]) => [locale, { content }]),
       ),
     ),
-    validateScore(source) {
-      assert.deepEqual(validateScore(parseScore(source)), []);
-    },
+    validateScore: validateContentExample,
   };
 }
 const fresh = () => structuredClone(catalogue);
@@ -72,6 +76,94 @@ test('Aktuelle Entwürfe werden weder als Daten noch als Texte veröffentlicht',
   assert.equal(data.knowledgeCards.length, 0);
   assert.deepEqual(publicMessages(data, checks().messages.de), {});
   assert.equal(resolveLesson(data, catalogue.lessons[0].id), undefined);
+});
+
+test('Alle dreizehn Klaviaturbeispiele stimmen mit unabhängigen Schreibweisen und MIDI-Tabellen überein', () => {
+  const expected = {
+    groups: [['C4', 'F4']],
+    white: [['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5']],
+    find: [['D4', 'A4']],
+    steps: [['C4', 'C#4', 'D4']],
+    neighbors: [
+      ['E4', 'F4'],
+      ['B4', 'C5'],
+    ],
+    signs: [
+      ['G4', 'G#4'],
+      ['A4', 'Ab4'],
+      ['G#4', 'G4'],
+    ],
+    names: [['B4', 'Bb4']],
+    same: [
+      ['C#4', 'Db4'],
+      ['E#4', 'F4'],
+      ['Fb4', 'E4'],
+    ],
+  };
+  const midi = {
+    C4: 60,
+    'C#4': 61,
+    Db4: 61,
+    D4: 62,
+    E4: 64,
+    'E#4': 65,
+    Fb4: 64,
+    F4: 65,
+    G4: 67,
+    'G#4': 68,
+    A4: 69,
+    Ab4: 68,
+    B4: 71,
+    Bb4: 70,
+    C5: 72,
+  };
+  for (const [name, examples] of Object.entries(expected)) {
+    const card = catalogue.knowledgeCards.find(
+      (value) => value.id === `notation.l1.keyboard.card-${name}`,
+    );
+    assert.equal(card.examples.length, examples.length);
+    for (const [index, pitches] of examples.entries()) {
+      const example = card.examples[index];
+      validateContentExample(example.score, example.keyboard);
+      const actual = scoreTimeline(parseScore(example.score), { bpm: 90 }).tones.map(
+        ({ pitch }) => {
+          const spelling = `${pitch.letter}${pitch.alter === 1 ? '#' : pitch.alter === -1 ? 'b' : ''}${pitch.octave}`;
+          return [spelling, keyboardMidi(pitch)];
+        },
+      );
+      assert.deepEqual(
+        actual,
+        pitches.map((pitch) => [pitch, midi[pitch]]),
+      );
+      assert.deepEqual(example.keyboard, { first: 60, last: 72 });
+    }
+  }
+});
+
+test('Die Pipeline lehnt ausgeschnittene klingende Tasten in Karten und Artikeln ab', () => {
+  for (const location of ['card', 'article']) {
+    for (const keyboard of [
+      { first: 62, last: 72 },
+      { first: 60, last: 64 },
+    ]) {
+      const data = fresh();
+      const example =
+        location === 'card'
+          ? data.knowledgeCards.find((card) => card.id === 'notation.l1.keyboard.card-groups')
+              .examples[0]
+          : data.knowledgeArticles.find((article) => article.id === 'notation.l1.keyboard.article')
+              .sections[0].examples[0];
+      example.keyboard = keyboard;
+      rejects(data, /ungültiges Notenbeispiel/);
+    }
+  }
+  assert.doesNotThrow(() =>
+    validateContentExample('treble | 4/4 | B#3/1', { first: 60, last: 60 }),
+  );
+  assert.throws(
+    () => validateContentExample('treble | 4/4 | Cb4/1', { first: 60, last: 72 }),
+    /außerhalb/,
+  );
 });
 test('Freigegebene Kette wird vollständig aufgelöst; Entwurfsartikel und dessen Text bleiben intern', () => {
   const data = released();
