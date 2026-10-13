@@ -28,6 +28,7 @@ Dieser Plan beschreibt, wie wir Harmonia Schritt für Schritt bauen: vom leeren 
 | [Puls, Tempo und Zählgruppen P2.07](puls-tempo-und-zaehlgruppen.md) | Erste Rhythmuseinheit mit drei Lektionen, gleichmäßigem Mittippen, acht Karten und dreizehn Klickbeispielen ohne Notenlese-Voraussetzung |
 | [Notenwerte und Pausen P2.07](notenwerte-und-pausen.md) | Fünfte Einheit: Noten-/Pausenzeichen, exakte Taktlücken, neun Karten, 15 Hörbeispiele und drei Lektionen |
 | [Einfache Taktarten und Auftakt P2.07](einfache-taktarten-und-auftakt.md) | Sechste Einheit: 2/4, 3/4 und 4/4, Einzählen, Auftaktfragen und kurze Rhythmen mit Pausen |
+| [Intervallgröße und Richtung P2.07](intervallgroesse-und-richtung.md) | Siebte Einheit: Prime bis Oktave zählen, Richtung und Wiederholung/Schritt/Sprung erkennen |
 | [Übungs-Framework P1.19](uebungs-framework.md) | Generatoren, Engine-Bewertung, Hinweise, Aufgabenablauf und Hör-Pause |
 | [Erste Lektion P1.20](erste-lektion.md) | Einführung, zehn Aufgaben, Fehlerwiederholung, SQLite und Personen-Test |
 | [Rückblick Phase 1](phase-1-rueckblick.md) | Technischer Zwischenstand, offene Abnahmen und Konsequenzen für Phase 2 |

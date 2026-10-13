@@ -63,6 +63,13 @@ import {
   pickupAnswer,
   pickupFirstDuration,
 } from './rhythm.ts';
+import {
+  isIntervalReadingItem,
+  intervalReadingAnswer,
+  intervalReadingNumber,
+  intervalReadingPitches,
+  intervalReadingPath,
+} from './interval-reading.ts';
 
 const translations = new Map<AppLocale, ReturnType<typeof createI18n>>();
 type TextKey =
@@ -113,6 +120,38 @@ export function pitchInputLabel(pitch: Pitch, locale: AppLocale): string {
 }
 export function choiceLabel(item: ExerciseItem, answer: string, locale: AppLocale): string {
   if (!item.choices.includes(answer)) return translate(locale, 'exercise.unknownAnswer');
+  if (isIntervalReadingItem(item)) {
+    const numberKeys = [
+      'intervalNumber1',
+      'intervalNumber2',
+      'intervalNumber3',
+      'intervalNumber4',
+      'intervalNumber5',
+      'intervalNumber6',
+      'intervalNumber7',
+      'intervalNumber8',
+    ] as const;
+    if (item.question === 'number') {
+      const number = Number(answer.slice('interval-number:'.length));
+      const key = numberKeys[number - 1];
+      return key
+        ? translate(locale, 'exercise.intervalNumberOption', {
+            number,
+            name: translate(locale, `exercise.${key}`),
+          })
+        : translate(locale, 'exercise.unknownAnswer');
+    }
+    const keys: Readonly<Record<string, TextKey>> = {
+      'interval-direction:up': 'exercise.intervalDirectionUp',
+      'interval-direction:down': 'exercise.intervalDirectionDown',
+      'interval-direction:same': 'exercise.intervalDirectionSame',
+      'interval-motion:repeat': 'exercise.intervalMotionRepeat',
+      'interval-motion:step': 'exercise.intervalMotionStep',
+      'interval-motion:leap': 'exercise.intervalMotionLeap',
+    };
+    const key = keys[answer];
+    return key ? translate(locale, key) : translate(locale, 'exercise.unknownAnswer');
+  }
   if (isKnowledgeItem(item)) {
     if (item.type === 'ORDER') {
       const value = item.values.find((value) => orderValueId(value) === answer);
@@ -157,6 +196,8 @@ export function choiceLabel(item: ExerciseItem, answer: string, locale: AppLocal
   return noteName(pitch, locale, false);
 }
 export function exercisePrompt(item: ExerciseItem, locale: AppLocale): string {
+  if (isIntervalReadingItem(item))
+    return translate(locale, `exercise.question_interval_${item.question}`);
   if (item.type === 'KNOWLEDGE_MC' && item.presentation)
     return translate(
       locale,
@@ -263,7 +304,18 @@ export function exerciseFeedback(
   locale: AppLocale,
 ): ExerciseFeedback {
   let message: string;
-  if (isKnowledgeItem(item)) {
+  if (isIntervalReadingItem(item)) {
+    const [from, to] = intervalReadingPitches(item);
+    message = translate(locale, `exercise.intervalReadingExplanation_${item.question}`, {
+      from: noteName(from, locale),
+      to: noteName(to, locale),
+      count: intervalReadingNumber(item),
+      path: intervalReadingPath(item)
+        .map((pitch) => noteName(pitch, locale))
+        .join(' → '),
+      answer: choiceLabel(item, intervalReadingAnswer(item), locale),
+    });
+  } else if (isKnowledgeItem(item)) {
     message =
       item.type === 'KNOWLEDGE_MC' && item.gap
         ? translate(locale, 'exercise.measureGapExplanation', knowledgeValues(item, locale))
@@ -371,6 +423,12 @@ export function exerciseFeedback(
 /** Sprachneutraler Hinweis; erst die Oberfläche wählt die Sprache. Level 3 ist die erklärte Lösung. */
 export function exerciseHints(item: ExerciseItem, level: 1 | 2 | 3): ExerciseHint {
   if (level === 3) return { level, key: 'solution', values: {} };
+  if (isIntervalReadingItem(item))
+    return {
+      level,
+      key: `exercise.intervalReadingHint_${item.question}_${level === 1 ? '1' : '2'}`,
+      values: {},
+    };
   if (item.type === 'KNOWLEDGE_MC' && item.presentation)
     return {
       level,
@@ -485,6 +543,7 @@ export function hintText(item: ExerciseItem, hint: ExerciseHint, locale: AppLoca
       locale,
     ).message;
   if (hint.key === 'solution') return '';
+  if (isIntervalReadingItem(item)) return translate(locale, hint.key, hint.values);
   if (isKnowledgeItem(item)) return translate(locale, hint.key, knowledgeValues(item, locale));
   if (isRhythmItem(item)) return translate(locale, hint.key, rhythmValues(item, locale));
   if (isChordItem(item))
@@ -601,25 +660,26 @@ export function exerciseDescription(item: ExerciseItem, locale: AppLocale): stri
           .map((note) => noteName({ ...note, octave: 4 }, locale, false))
           .join(' → ') || translate(locale, 'exercise.signatureEmpty'),
     });
+  const clef = isIntervalReadingItem(item) ? (item.score.staves[0]?.clef ?? item.clef) : item.clef;
   const bottom: Pitch =
-    item.clef === 'treble'
-      ? { letter: 'E', alter: 0, octave: 4 }
-      : { letter: 'G', alter: 0, octave: 2 };
-  const pitches = isChordItem(item)
-    ? item.type === 'CHORD_BUILD'
-      ? [item.bass]
-      : item.pitches
-    : isScaleItem(item)
-      ? item.type === 'SCALE_BUILD'
-        ? [item.tonic]
+    clef === 'treble' ? { letter: 'E', alter: 0, octave: 4 } : { letter: 'G', alter: 0, octave: 2 };
+  const pitches = isIntervalReadingItem(item)
+    ? intervalReadingPitches(item)
+    : isChordItem(item)
+      ? item.type === 'CHORD_BUILD'
+        ? [item.bass]
         : item.pitches
-      : item.type === 'NOTE_PLACE'
-        ? []
-        : 'pitch' in item
-          ? [item.pitch]
-          : item.type === 'INTERVAL_BUILD'
-            ? [item.from]
-            : [item.from, item.to];
+      : isScaleItem(item)
+        ? item.type === 'SCALE_BUILD'
+          ? [item.tonic]
+          : item.pitches
+        : item.type === 'NOTE_PLACE'
+          ? []
+          : 'pitch' in item
+            ? [item.pitch]
+            : item.type === 'INTERVAL_BUILD'
+              ? [item.from]
+              : [item.from, item.to];
   const notes = pitches
     .map((pitch, index) => {
       const steps = diatonicIndex(pitch) - diatonicIndex(bottom);
@@ -637,7 +697,7 @@ export function exerciseDescription(item: ExerciseItem, locale: AppLocale): stri
   return translate(locale, 'exercise.notationDescription', {
     clef: translate(
       locale,
-      item.clef === 'treble' ? 'glossary:trebleClef_one' : 'glossary:bassClef_one',
+      clef === 'treble' ? 'glossary:trebleClef_one' : 'glossary:bassClef_one',
     ),
     notes,
   });

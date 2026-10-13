@@ -150,6 +150,7 @@ export const exerciseSpecSchema = z
           .extend({
             intervals,
             direction: z.enum(['up', 'down', 'both']).optional(),
+            question: z.enum(['number', 'direction', 'motion']).optional(),
           })
           .strict(),
       })
@@ -287,6 +288,9 @@ export const exerciseSpecSchema = z
           ...base,
           intervals: value.params.intervals,
           ...(value.params.direction ? { direction: value.params.direction } : {}),
+          ...(value.type === 'INTERVAL_IDENTIFY_VISUAL' && value.params.question
+            ? { question: value.params.question }
+            : {}),
         },
       };
     return {

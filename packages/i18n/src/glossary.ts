@@ -236,6 +236,56 @@ export const GLOSSARY = {
     de: { term: 'Intervall', gender: 'n', plural: 'Intervalle' },
     en: { term: 'interval', plural: 'intervals' },
   },
+  unison: {
+    category: 'pitch',
+    de: { term: 'Prime', gender: 'f', plural: 'Primen' },
+    en: { term: 'unison', plural: 'unisons' },
+  },
+  second: {
+    category: 'pitch',
+    de: { term: 'Sekunde', gender: 'f', plural: 'Sekunden' },
+    en: { term: 'second', plural: 'seconds' },
+  },
+  third: {
+    category: 'pitch',
+    de: { term: 'Terz', gender: 'f', plural: 'Terzen' },
+    en: { term: 'third', plural: 'thirds' },
+  },
+  fourth: {
+    category: 'pitch',
+    de: { term: 'Quarte', gender: 'f', plural: 'Quarten' },
+    en: { term: 'fourth', plural: 'fourths' },
+  },
+  fifth: {
+    category: 'pitch',
+    de: { term: 'Quinte', gender: 'f', plural: 'Quinten' },
+    en: { term: 'fifth', plural: 'fifths' },
+  },
+  sixth: {
+    category: 'pitch',
+    de: { term: 'Sexte', gender: 'f', plural: 'Sexten' },
+    en: { term: 'sixth', plural: 'sixths' },
+  },
+  seventh: {
+    category: 'pitch',
+    de: { term: 'Septime', gender: 'f', plural: 'Septimen' },
+    en: { term: 'seventh', plural: 'sevenths' },
+  },
+  noteRepetition: {
+    category: 'pitch',
+    de: { term: 'Tonwiederholung', gender: 'f', plural: 'Tonwiederholungen' },
+    en: { term: 'repeated note', plural: 'repeated notes' },
+  },
+  melodicStep: {
+    category: 'pitch',
+    de: { term: 'Tonschritt', gender: 'm', plural: 'Tonschritte' },
+    en: { term: 'step', plural: 'steps' },
+  },
+  melodicLeap: {
+    category: 'pitch',
+    de: { term: 'Tonsprung', gender: 'm', plural: 'Tonsprünge' },
+    en: { term: 'leap', plural: 'leaps' },
+  },
   semitone: {
     category: 'pitch',
     de: { term: 'Halbton', gender: 'm', plural: 'Halbtöne' },

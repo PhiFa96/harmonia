@@ -406,6 +406,48 @@ export const de = {
       'Welches $t(glossary:interval_one) hörst du zwischen den beiden Tönen?',
     type_NOTE_NAME: 'Notennamen',
     type_INTERVAL_IDENTIFY_VISUAL: 'Intervalle lesen',
+    type_interval_number: 'Intervallnummer zählen',
+    type_interval_direction: 'Richtung lesen',
+    type_interval_motion: 'Wiederholung, Schritt oder Sprung',
+    question_interval_number:
+      'Welche Intervallnummer haben die beiden notierten Töne? Zähle die Stammtöne einschließlich beider Endtöne.',
+    question_interval_direction:
+      'Wie bewegt sich die Tonhöhe vom ersten zum zweiten notierten Ton?',
+    question_interval_motion:
+      'Ist die Folge eine Tonwiederholung, ein Tonschritt oder ein Tonsprung?',
+    intervalNumberOption: '{{number}} · {{name}}',
+    intervalNumber1: '$t(glossary:unison_one)',
+    intervalNumber2: '$t(glossary:second_one)',
+    intervalNumber3: '$t(glossary:third_one)',
+    intervalNumber4: '$t(glossary:fourth_one)',
+    intervalNumber5: '$t(glossary:fifth_one)',
+    intervalNumber6: '$t(glossary:sixth_one)',
+    intervalNumber7: '$t(glossary:seventh_one)',
+    intervalNumber8: '$t(glossary:octave_one)',
+    intervalDirectionUp: 'Aufwärts',
+    intervalDirectionDown: 'Abwärts',
+    intervalDirectionSame: 'Gleiche Tonhöhe',
+    intervalMotionRepeat: '$t(glossary:noteRepetition_one)',
+    intervalMotionStep: '$t(glossary:melodicStep_one)',
+    intervalMotionLeap: '$t(glossary:melodicLeap_one)',
+    intervalReadingExplanation_number:
+      '{{from}} → {{to}}: {{path}}. Beide Endpositionen gehören zur Zählung. Anzahl der Stammtonpositionen: {{count}}. Antwort: {{answer}}.',
+    intervalReadingExplanation_direction:
+      '{{from}} → {{to}}: Vergleiche die senkrechten Positionen der beiden Notenköpfe von links nach rechts. Antwort: {{answer}}.',
+    intervalReadingExplanation_motion:
+      '{{from}} → {{to}}: {{path}}. Intervallnummer {{count}}. Eine Prime ist eine Tonwiederholung, eine Sekunde ein Tonschritt; ab der Terz ist es ein Tonsprung. Antwort: {{answer}}.',
+    intervalReadingHint_number_1:
+      'Beginne beim ersten Ton mit 1. Jede nächste Linie oder jeder nächste Zwischenraum führt zur nächsten Zahl.',
+    intervalReadingHint_number_2:
+      'Zähle auch den Zielton mit. Zwei gleiche natürliche Tonhöhen bilden eine Prime mit der Nummer 1.',
+    intervalReadingHint_direction_1:
+      'Lies zuerst den linken, dann den rechten Notenkopf. Vergleiche ihre Höhe im System.',
+    intervalReadingHint_direction_2:
+      'Ein höherer zweiter Notenkopf bedeutet aufwärts, ein tieferer abwärts. Dieselbe Position bedeutet hier dieselbe Tonhöhe.',
+    intervalReadingHint_motion_1:
+      'Prüfe zuerst, ob beide Notenköpfe auf derselben Position liegen. Sonst zähle die Stammtonpositionen dazwischen mit.',
+    intervalReadingHint_motion_2:
+      'Dieselbe Tonhöhe ist eine Wiederholung; die unmittelbar nächste Stammtonposition ist ein Schritt. Werden Positionen übersprungen, ist es ein Sprung.',
     type_INTERVAL_IDENTIFY_AURAL: 'Intervalle hören',
     progress: 'Aufgabe {{current}} von {{total}}',
     progressLabel: 'Fortschritt des Übungssatzes',

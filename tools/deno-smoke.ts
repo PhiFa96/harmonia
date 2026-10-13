@@ -12,6 +12,7 @@ import {
   generateNote,
   generateKeyFind,
   generateIntervalBuild,
+  generateVisualInterval,
   generateScale,
   generateKeySignature,
   generateChord,
@@ -71,6 +72,33 @@ const exercise = generateExercise(
   exerciseRng('deno-exercises'),
 );
 const plannedSkills = curriculumSkills(catalogue, curriculumPlan);
+check(
+  'Intervallgrundlagen mit acht, zehn und zwölf Aufgaben',
+  ['numbers', 'direction', 'motion']
+    .map((name) => resolveLesson(catalogue, `intervals.l1.size.${name}`)?.exercises.length)
+    .join(','),
+  '8,10,12',
+);
+const intervalNumber = generateVisualInterval(
+  { intervals: ['P1', 'M3', 'P8'], question: 'number', maxAccidentals: 0 },
+  exerciseRng('deno-interval-number'),
+);
+check(
+  'Oktavnummer aus zwei sichtbaren Halben unter Deno',
+  expectedAnswer({ ...intervalNumber, score: parseScore('treble | 4/4 | E4/2 E5/2') }),
+  'interval-number:8',
+);
+const intervalMotion = generateVisualInterval(
+  { intervals: ['P1', 'm2', 'M2', 'M3'], question: 'motion', maxAccidentals: 0 },
+  exerciseRng('deno-interval-motion'),
+);
+check(
+  'Halbton und Ganzton sind beide Tonschritte unter Deno',
+  ['treble | 4/4 | E4/2 F4/2', 'treble | 4/4 | F4/2 G4/2']
+    .map((score) => expectedAnswer({ ...intervalMotion, score: parseScore(score) }))
+    .join(','),
+  'interval-motion:step,interval-motion:step',
+);
 check(
   'Pulseinheit mit acht, zehn und zwölf Aufgaben',
   ['steady', 'tempo', 'groups']

@@ -124,7 +124,7 @@ Die Blöcke B, C und D können teilweise parallel laufen.
   - [ ] Entwürfe durch Claude, getrennter Prüfdurchgang durch Claude, Status `freigegeben`
   - [ ] Wissensartikel für die Tutor-Wissensbasis zu allen Themen der Stufe
 - **Fertig, wenn:** Stufe 1 ist durchspielbar, fachlich freigegeben und in beiden Sprachen vollständig.
-- **Stand 12.10.2026:** Drei Notationseinheiten und drei Rhythmuseinheiten besitzen je drei Lektionen mit 8/10/12 Aufgaben, zusammen 49 neue Karten und sechs vorbereitete Artikel. Intern sind 19 Lektionen mit insgesamt 190 Aufgaben pro vollständigem Erstversuch auswählbar; alle Inhalte bleiben Entwurf. Die neue Einheit ergänzt 2/4, 3/4 und 4/4, einen vollständigen Einzähltakt, Auftaktfragen aus dem Notenbild und Mittippen von Vierteln, Achteln und Pausen. Katalog und Plan haben Version 8. Prüfstand und nächste Einheit `intervals.l1.size`: [einfache-taktarten-und-auftakt.md](einfache-taktarten-und-auftakt.md). Weitere Stufe-1-Einheiten, Claudes separater fachlicher Prüfdurchgang und echte Plattformtests bleiben offen; P2.07 ist nicht abgeschlossen.
+- **Stand 12.10.2026:** Sieben Stufe-1-Einheiten besitzen je drei Lektionen mit 8/10/12 Aufgaben, zusammen 58 neue Karten und sieben vorbereitete Artikel. Intern sind 22 Lektionen mit 220 Aufgaben auswählbar. Katalog und Plan haben Version 9. Die neue Intervalleinheit fragt Nummern, Richtung und Wiederholung/Schritt/Sprung aus dem Notenbild ab. Alle Inhalte bleiben Entwurf für Claudes separate fachliche Abnahme. Prüfstand und nächste Einheit `intervals.l1.first-qualities`: [intervallgroesse-und-richtung.md](intervallgroesse-und-richtung.md). P2.07 ist nicht abgeschlossen.
 
 ### P2.08 – Inhalte Stufe 2 (DE + EN)
 

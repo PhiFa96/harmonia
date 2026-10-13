@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": 8,
+  "contentVersion": 9,
   "areas": [
     {
       "id": "fundament",
@@ -1810,6 +1810,135 @@
           "count": 10
         }
       ]
+    },
+    {
+      "contentVersion": 9,
+      "status": "entwurf",
+      "id": "intervals.l1.size.numbers.exercises",
+      "titleKey": "content.intervalSizeStart.numbersLesson",
+      "skillIds": ["interval.generic-size"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_VISUAL",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 64,
+                "maxMidi": 77
+              },
+              "maxAccidentals": 0,
+              "intervals": ["P1", "m2", "M2", "m3", "M3", "P4"],
+              "direction": "up",
+              "question": "number"
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_VISUAL",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 64,
+                "maxMidi": 77
+              },
+              "maxAccidentals": 0,
+              "intervals": ["P5", "m6", "M6", "m7", "M7", "P8"],
+              "direction": "up",
+              "question": "number"
+            }
+          },
+          "count": 4
+        }
+      ]
+    },
+    {
+      "contentVersion": 9,
+      "status": "entwurf",
+      "id": "intervals.l1.size.direction.exercises",
+      "titleKey": "content.intervalSizeStart.directionLesson",
+      "skillIds": ["interval.generic-size", "interval.direction"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_VISUAL",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 64,
+                "maxMidi": 77
+              },
+              "maxAccidentals": 0,
+              "intervals": ["P1", "m2", "M2", "m3", "M3", "P4", "P5", "m6", "M6", "m7", "M7", "P8"],
+              "direction": "both",
+              "question": "number"
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_VISUAL",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 64,
+                "maxMidi": 77
+              },
+              "maxAccidentals": 0,
+              "intervals": ["P1", "m2", "M2", "m3", "M3", "P4", "P5", "m6", "M6", "m7", "M7", "P8"],
+              "direction": "both",
+              "question": "direction"
+            }
+          },
+          "count": 6
+        }
+      ]
+    },
+    {
+      "contentVersion": 9,
+      "status": "entwurf",
+      "id": "intervals.l1.size.motion.exercises",
+      "titleKey": "content.intervalSizeStart.motionLesson",
+      "skillIds": ["interval.generic-size", "interval.direction", "interval.steps-leaps"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_VISUAL",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 64,
+                "maxMidi": 77
+              },
+              "maxAccidentals": 0,
+              "intervals": ["P1", "m2", "M2", "m3", "M3", "P4", "P5", "m6", "M6", "m7", "M7", "P8"],
+              "direction": "both",
+              "question": "direction"
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "INTERVAL_IDENTIFY_VISUAL",
+            "params": {
+              "clefs": ["treble"],
+              "range": {
+                "minMidi": 64,
+                "maxMidi": 77
+              },
+              "maxAccidentals": 0,
+              "intervals": ["P1", "m2", "M2", "m3", "M3", "P4", "P5", "m6", "M6", "m7", "M7", "P8"],
+              "direction": "both",
+              "question": "motion"
+            }
+          },
+          "count": 8
+        }
+      ]
     }
   ],
   "knowledgeCards": [
@@ -2812,6 +2941,156 @@
           "captionKey": "content.simpleMeterStart.readThreeCaption"
         }
       ]
+    },
+    {
+      "contentVersion": 9,
+      "status": "entwurf",
+      "id": "intervals.l1.size.card-count",
+      "titleKey": "content.intervalSizeStart.countTitle",
+      "bodyKey": "content.intervalSizeStart.countBody",
+      "skillIds": ["interval.generic-size"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/2 G4/2",
+          "captionKey": "content.intervalSizeStart.countCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 9,
+      "status": "entwurf",
+      "id": "intervals.l1.size.card-small",
+      "titleKey": "content.intervalSizeStart.smallTitle",
+      "bodyKey": "content.intervalSizeStart.smallBody",
+      "skillIds": ["interval.generic-size"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/2 G4/2",
+          "captionKey": "content.intervalSizeStart.primeCaption"
+        },
+        {
+          "score": "treble | 4/4 | E4/2 F4/2",
+          "captionKey": "content.intervalSizeStart.secondCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 9,
+      "status": "entwurf",
+      "id": "intervals.l1.size.card-large",
+      "titleKey": "content.intervalSizeStart.largeTitle",
+      "bodyKey": "content.intervalSizeStart.largeBody",
+      "skillIds": ["interval.generic-size"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/2 A4/2",
+          "captionKey": "content.intervalSizeStart.fourthCaption"
+        },
+        {
+          "score": "treble | 4/4 | E4/2 D5/2",
+          "captionKey": "content.intervalSizeStart.seventhCaption"
+        },
+        {
+          "score": "treble | 4/4 | E4/2 E5/2",
+          "captionKey": "content.intervalSizeStart.octaveCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 9,
+      "status": "entwurf",
+      "id": "intervals.l1.size.card-up",
+      "titleKey": "content.intervalSizeStart.upTitle",
+      "bodyKey": "content.intervalSizeStart.upBody",
+      "skillIds": ["interval.direction"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/2 B4/2",
+          "captionKey": "content.intervalSizeStart.upCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 9,
+      "status": "entwurf",
+      "id": "intervals.l1.size.card-down",
+      "titleKey": "content.intervalSizeStart.downTitle",
+      "bodyKey": "content.intervalSizeStart.downBody",
+      "skillIds": ["interval.direction"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | B4/2 G4/2",
+          "captionKey": "content.intervalSizeStart.downCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 9,
+      "status": "entwurf",
+      "id": "intervals.l1.size.card-same",
+      "titleKey": "content.intervalSizeStart.sameTitle",
+      "bodyKey": "content.intervalSizeStart.sameBody",
+      "skillIds": ["interval.direction"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | A4/2 A4/2",
+          "captionKey": "content.intervalSizeStart.sameCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 9,
+      "status": "entwurf",
+      "id": "intervals.l1.size.card-repeat",
+      "titleKey": "content.intervalSizeStart.repeatTitle",
+      "bodyKey": "content.intervalSizeStart.repeatBody",
+      "skillIds": ["interval.steps-leaps"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | F4/2 F4/2",
+          "captionKey": "content.intervalSizeStart.repeatCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 9,
+      "status": "entwurf",
+      "id": "intervals.l1.size.card-step",
+      "titleKey": "content.intervalSizeStart.stepTitle",
+      "bodyKey": "content.intervalSizeStart.stepBody",
+      "skillIds": ["interval.steps-leaps"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/2 F4/2",
+          "captionKey": "content.intervalSizeStart.halfStepCaption"
+        },
+        {
+          "score": "treble | 4/4 | F4/2 G4/2",
+          "captionKey": "content.intervalSizeStart.wholeStepCaption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 9,
+      "status": "entwurf",
+      "id": "intervals.l1.size.card-leap",
+      "titleKey": "content.intervalSizeStart.leapTitle",
+      "bodyKey": "content.intervalSizeStart.leapBody",
+      "skillIds": ["interval.steps-leaps"],
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/2 B4/2",
+          "captionKey": "content.intervalSizeStart.thirdLeapCaption"
+        },
+        {
+          "score": "treble | 4/4 | E4/2 B4/2",
+          "captionKey": "content.intervalSizeStart.fifthCaption"
+        },
+        {
+          "score": "treble | 4/4 | F4/2 D5/2",
+          "captionKey": "content.intervalSizeStart.sixthCaption"
+        }
+      ]
     }
   ],
   "knowledgeArticles": [
@@ -3442,6 +3721,129 @@
           ]
         }
       ]
+    },
+    {
+      "contentVersion": 9,
+      "status": "entwurf",
+      "id": "intervals.l1.size.article",
+      "titleKey": "content.intervalSizeStart.articleTitle",
+      "skillIds": ["interval.generic-size", "interval.direction", "interval.steps-leaps"],
+      "sections": [
+        {
+          "headingKey": "content.intervalSizeStart.countTitle",
+          "bodyKey": "content.intervalSizeStart.countBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/2 G4/2",
+              "captionKey": "content.intervalSizeStart.countCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.intervalSizeStart.smallTitle",
+          "bodyKey": "content.intervalSizeStart.smallBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/2 G4/2",
+              "captionKey": "content.intervalSizeStart.primeCaption"
+            },
+            {
+              "score": "treble | 4/4 | E4/2 F4/2",
+              "captionKey": "content.intervalSizeStart.secondCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.intervalSizeStart.largeTitle",
+          "bodyKey": "content.intervalSizeStart.largeBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/2 A4/2",
+              "captionKey": "content.intervalSizeStart.fourthCaption"
+            },
+            {
+              "score": "treble | 4/4 | E4/2 D5/2",
+              "captionKey": "content.intervalSizeStart.seventhCaption"
+            },
+            {
+              "score": "treble | 4/4 | E4/2 E5/2",
+              "captionKey": "content.intervalSizeStart.octaveCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.intervalSizeStart.upTitle",
+          "bodyKey": "content.intervalSizeStart.upBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/2 B4/2",
+              "captionKey": "content.intervalSizeStart.upCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.intervalSizeStart.downTitle",
+          "bodyKey": "content.intervalSizeStart.downBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | B4/2 G4/2",
+              "captionKey": "content.intervalSizeStart.downCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.intervalSizeStart.sameTitle",
+          "bodyKey": "content.intervalSizeStart.sameBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | A4/2 A4/2",
+              "captionKey": "content.intervalSizeStart.sameCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.intervalSizeStart.repeatTitle",
+          "bodyKey": "content.intervalSizeStart.repeatBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | F4/2 F4/2",
+              "captionKey": "content.intervalSizeStart.repeatCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.intervalSizeStart.stepTitle",
+          "bodyKey": "content.intervalSizeStart.stepBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | E4/2 F4/2",
+              "captionKey": "content.intervalSizeStart.halfStepCaption"
+            },
+            {
+              "score": "treble | 4/4 | F4/2 G4/2",
+              "captionKey": "content.intervalSizeStart.wholeStepCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.intervalSizeStart.leapTitle",
+          "bodyKey": "content.intervalSizeStart.leapBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/2 B4/2",
+              "captionKey": "content.intervalSizeStart.thirdLeapCaption"
+            },
+            {
+              "score": "treble | 4/4 | E4/2 B4/2",
+              "captionKey": "content.intervalSizeStart.fifthCaption"
+            },
+            {
+              "score": "treble | 4/4 | F4/2 D5/2",
+              "captionKey": "content.intervalSizeStart.sixthCaption"
+            }
+          ]
+        }
+      ]
     }
   ],
   "lessons": [
@@ -3696,6 +4098,48 @@
         "rhythm.l1.simple-meter.card-read"
       ],
       "exerciseSetIds": ["rhythm.l1.simple-meter.read.exercises"]
+    },
+    {
+      "contentVersion": 9,
+      "status": "entwurf",
+      "id": "intervals.l1.size.numbers",
+      "titleKey": "content.intervalSizeStart.numbersLesson",
+      "unitId": "intervals.l1.size",
+      "skillIds": ["interval.generic-size"],
+      "introductionCardIds": [
+        "intervals.l1.size.card-count",
+        "intervals.l1.size.card-small",
+        "intervals.l1.size.card-large"
+      ],
+      "exerciseSetIds": ["intervals.l1.size.numbers.exercises"]
+    },
+    {
+      "contentVersion": 9,
+      "status": "entwurf",
+      "id": "intervals.l1.size.direction",
+      "titleKey": "content.intervalSizeStart.directionLesson",
+      "unitId": "intervals.l1.size",
+      "skillIds": ["interval.generic-size", "interval.direction"],
+      "introductionCardIds": [
+        "intervals.l1.size.card-up",
+        "intervals.l1.size.card-down",
+        "intervals.l1.size.card-same"
+      ],
+      "exerciseSetIds": ["intervals.l1.size.direction.exercises"]
+    },
+    {
+      "contentVersion": 9,
+      "status": "entwurf",
+      "id": "intervals.l1.size.motion",
+      "titleKey": "content.intervalSizeStart.motionLesson",
+      "unitId": "intervals.l1.size",
+      "skillIds": ["interval.generic-size", "interval.direction", "interval.steps-leaps"],
+      "introductionCardIds": [
+        "intervals.l1.size.card-repeat",
+        "intervals.l1.size.card-step",
+        "intervals.l1.size.card-leap"
+      ],
+      "exerciseSetIds": ["intervals.l1.size.motion.exercises"]
     }
   ]
 }
