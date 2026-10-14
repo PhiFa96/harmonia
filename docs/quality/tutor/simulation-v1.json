@@ -1,0 +1,263 @@
+{
+  "schemaVersion": 1,
+  "simulation": true,
+  "catalogueHash": "31686b6ce58a3476490d9291eb990f26cdc8702b8a173cd92be4a6848108c2e9",
+  "configHash": "065a13ddf212013ca52acab336399b3cbcd7d26e063f312c93e08a8b0f003704",
+  "runtimeHash": "9706a1687a4310799035bc8c4d9109cea4b7d873d89b28800d615be9e64abe91",
+  "runHash": "746897ec0a6e89defeeaa463f99da828a495756e829316b2d4161ecfc31fd02d",
+  "receiptsHash": "1a4c2c206ddded1ed75c3f2adbc9b89d7ba4cf7e7d16906e77bf217198f327cb",
+  "configuration": {
+    "schemaVersion": 1,
+    "lane": "preview",
+    "sourceMode": "postgres",
+    "variants": [
+      {
+        "id": "baseline",
+        "model": "synthetic-benchmark-test",
+        "roleEffort": {
+          "chat": "high",
+          "explain": "high",
+          "hint": "high",
+          "solution": "high"
+        },
+        "instructions": {
+          "de": "",
+          "en-US": "",
+          "en-GB": ""
+        }
+      },
+      {
+        "id": "hints-medium",
+        "model": "synthetic-benchmark-test",
+        "roleEffort": {
+          "chat": "high",
+          "explain": "high",
+          "hint": "medium",
+          "solution": "high"
+        },
+        "instructions": {
+          "de": "",
+          "en-US": "",
+          "en-GB": ""
+        }
+      }
+    ],
+    "limits": {
+      "maxInputTokens": 32000,
+      "maxOutputTokens": 1024,
+      "maxRounds": 4,
+      "maxToolsPerRound": 4
+    },
+    "streamTariff": {
+      "version": "synthetic-stream-only",
+      "source": "https://example.invalid/synthetic-stream",
+      "verifiedAt": "2026-10-14T00:00:00Z",
+      "input": 5000,
+      "output": 25000,
+      "cacheRead": 500,
+      "cacheWrite5m": 6250,
+      "cacheWrite1h": 10000
+    },
+    "batchTariff": {
+      "version": "synthetic-batch-only",
+      "source": "https://example.invalid/synthetic-batch",
+      "verifiedAt": "2026-10-14T00:00:00Z",
+      "input": 4000,
+      "output": 18000,
+      "cacheRead": 400,
+      "cacheWrite5m": 5000,
+      "cacheWrite1h": 8000
+    },
+    "modelEvidence": {
+      "source": "https://example.invalid/synthetic-model",
+      "verifiedAt": "2026-10-14T00:00:00Z"
+    }
+  },
+  "lane": "preview",
+  "sourceMode": "postgres",
+  "total": 1470,
+  "completed": 1470,
+  "reviewed": 0,
+  "catalogueApproved": 0,
+  "factualCorrect": 0,
+  "factualPercent": 0,
+  "accepted": 0,
+  "acceptancePercent": 0,
+  "releaseEligible": false,
+  "blockedReasons": [
+    "simulation",
+    "binding-evidence-expired-or-unverified",
+    "preview-content",
+    "catalogue-review-incomplete",
+    "answer-review-incomplete",
+    "no-qualifying-role-variant",
+    "factual-below-98-percent"
+  ],
+  "regressions": [],
+  "groups": {
+    "locale:de": {
+      "total": 490,
+      "reviewed": 0,
+      "factualPercent": 0,
+      "acceptancePercent": 0
+    },
+    "locale:en-US": {
+      "total": 490,
+      "reviewed": 0,
+      "factualPercent": 0,
+      "acceptancePercent": 0
+    },
+    "locale:en-GB": {
+      "total": 490,
+      "reviewed": 0,
+      "factualPercent": 0,
+      "acceptancePercent": 0
+    },
+    "role:chat": {
+      "total": 1014,
+      "reviewed": 0,
+      "factualPercent": 0,
+      "acceptancePercent": 0
+    },
+    "role:explain": {
+      "total": 114,
+      "reviewed": 0,
+      "factualPercent": 0,
+      "acceptancePercent": 0
+    },
+    "role:hint": {
+      "total": 228,
+      "reviewed": 0,
+      "factualPercent": 0,
+      "acceptancePercent": 0
+    },
+    "role:solution": {
+      "total": 114,
+      "reviewed": 0,
+      "factualPercent": 0,
+      "acceptancePercent": 0
+    },
+    "category:facts": {
+      "total": 720,
+      "reviewed": 0,
+      "factualPercent": 0,
+      "acceptancePercent": 0
+    },
+    "category:task": {
+      "total": 456,
+      "reviewed": 0,
+      "factualPercent": 0,
+      "acceptancePercent": 0
+    },
+    "category:library": {
+      "total": 174,
+      "reviewed": 0,
+      "factualPercent": 0,
+      "acceptancePercent": 0
+    },
+    "category:trap": {
+      "total": 72,
+      "reviewed": 0,
+      "factualPercent": 0,
+      "acceptancePercent": 0
+    },
+    "category:off-topic": {
+      "total": 48,
+      "reviewed": 0,
+      "factualPercent": 0,
+      "acceptancePercent": 0
+    }
+  },
+  "metrics": {
+    "batchCostNanoUsd": 6360120000,
+    "projectedStreamCostNanoUsd": 8086050000,
+    "estimated": false,
+    "costPerAcceptedAnswerNanoUsd": null,
+    "batchCostPerAcceptedAnswerNanoUsd": null,
+    "p50ProjectedCostNanoUsd": 5950000,
+    "p95ProjectedCostNanoUsd": 5950000,
+    "rounds": 2718,
+    "cacheReadTokens": 543600,
+    "cacheWriteTokens": 815400,
+    "inputTokens": 271800,
+    "outputTokens": 54360
+  },
+  "candidates": [
+    {
+      "role": "chat",
+      "variant": "baseline",
+      "qualityEligible": false,
+      "total": 507,
+      "acceptancePercent": 0,
+      "p95ProjectedCostNanoUsd": 5950000
+    },
+    {
+      "role": "chat",
+      "variant": "hints-medium",
+      "qualityEligible": false,
+      "total": 507,
+      "acceptancePercent": 0,
+      "p95ProjectedCostNanoUsd": 5950000
+    },
+    {
+      "role": "explain",
+      "variant": "baseline",
+      "qualityEligible": false,
+      "total": 57,
+      "acceptancePercent": 0,
+      "p95ProjectedCostNanoUsd": 5950000
+    },
+    {
+      "role": "explain",
+      "variant": "hints-medium",
+      "qualityEligible": false,
+      "total": 57,
+      "acceptancePercent": 0,
+      "p95ProjectedCostNanoUsd": 5950000
+    },
+    {
+      "role": "hint",
+      "variant": "baseline",
+      "qualityEligible": false,
+      "total": 114,
+      "acceptancePercent": 0,
+      "p95ProjectedCostNanoUsd": 5950000
+    },
+    {
+      "role": "hint",
+      "variant": "hints-medium",
+      "qualityEligible": false,
+      "total": 114,
+      "acceptancePercent": 0,
+      "p95ProjectedCostNanoUsd": 5950000
+    },
+    {
+      "role": "solution",
+      "variant": "baseline",
+      "qualityEligible": false,
+      "total": 57,
+      "acceptancePercent": 0,
+      "p95ProjectedCostNanoUsd": 5950000
+    },
+    {
+      "role": "solution",
+      "variant": "hints-medium",
+      "qualityEligible": false,
+      "total": 57,
+      "acceptancePercent": 0,
+      "p95ProjectedCostNanoUsd": 5950000
+    }
+  ],
+  "selection": null,
+  "recommendation": null,
+  "evidence": {
+    "caseCount": 245,
+    "locales": ["de", "en-US", "en-GB"],
+    "variantCount": 2,
+    "source": "postgres-local",
+    "technicalChecksPassed": 1470,
+    "qualityMeasured": false,
+    "claudeReviewCompleted": false,
+    "note": "Nur synthetische Quittungen/Tarife, keine echte Modellqualität oder Kosten. Kein akzeptierter Baseline-Bericht."
+  }
+}

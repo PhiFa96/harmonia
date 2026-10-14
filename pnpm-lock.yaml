@@ -123,6 +123,9 @@ importers:
       typescript-eslint:
         specifier: 'catalog:'
         version: 8.71.2(eslint@10.12.0)(typescript@6.0.3)
+      zod:
+        specifier: 'catalog:'
+        version: 4.6.5
 
   apps/mobile:
     dependencies:
@@ -7360,7 +7363,9 @@ snapshots:
       metro-runtime: 0.84.6
     transitivePeerDependencies:
       - '@babel/core'
+      - bufferutil
       - supports-color
+      - utf-8-validate
 
   '@react-native/normalize-colors@0.74.89': {}
 

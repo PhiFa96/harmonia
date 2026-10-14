@@ -11,5 +11,5 @@
       ]
     }
   },
-  "include": ["*.ts", "../supabase/functions/runtime.d.ts"]
+  "include": ["**/*.ts", "../supabase/functions/runtime.d.ts"]
 }

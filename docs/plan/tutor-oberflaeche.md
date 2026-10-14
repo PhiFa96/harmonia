@@ -57,4 +57,4 @@ Keine produktive Bereitstellung, keine echte Anthropic-Antwort und keine Live-Ko
 
 Review-Zweig: `codex/p2-17-tutor-ui`, aufbauend auf P2.16 (`c553667`). [Vergleich P2.16 → P2.17](https://github.com/PhiFa96/harmonia/compare/codex/p2-16-knowledge-base...codex/p2-17-tutor-ui?expand=1). Claude Code übernimmt Review und Merge; `main` wird hier nicht verändert.
 
-Nächster technischer Planpunkt: **P2.18 – Tutor-Testkatalog und Kalibrierung**, mindestens 200 Fragen und Messung gegen das getrennt fachlich geprüfte Orakel.
+P2.18 ist anschließend technisch umgesetzt: [Tutor-Testkatalog und Kalibrierung](tutor-testkatalog.md) mit 245 Fällen und ausdrücklich getrennten fachlichen/echten Abnahmen. Als nächster technischer Planpunkt folgt P2.19.

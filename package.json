@@ -11,7 +11,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "pnpm -r --if-present typecheck && tsc -p tools --noEmit && tsc -p supabase/functions --noEmit",
-    "test": "pnpm -r --if-present test && node --test tools/content-pipeline.test.mjs tools/curriculum-view.test.mjs tools/local-backend-setup.test.mjs tools/tutor-interface.test.mjs",
+    "test": "pnpm -r --if-present test && node --test tools/content-pipeline.test.mjs tools/curriculum-view.test.mjs tools/local-backend-setup.test.mjs tools/tutor-interface.test.mjs tools/tutor-benchmark.test.mjs",
     "check:i18n": "node tools/check-translations.ts",
     "check:content": "node tools/check-content.mjs --check",
     "check:curriculum": "node tools/check-curriculum.mjs --check",
@@ -19,7 +19,7 @@
     "check:content:bundle": "node tools/check-public-bundle.mjs",
     "content:publish": "node tools/check-content.mjs --write",
     "preview:web": "node tools/serve-web.mjs",
-    "check:deno": "npx -y deno@2.9.6 check --config tools/deno.json tools/deno-smoke.ts && npx -y deno@2.9.6 run --config tools/deno.json tools/deno-smoke.ts && npx -y deno@2.9.6 check --config supabase/functions/deno.json supabase/functions/learning-sync/index.ts supabase/functions/content-reports/index.ts && npx -y deno@2.9.6 check --config supabase/functions/deno.json supabase/functions/motivation/index.ts supabase/functions/reminder-dispatch/index.ts && npx -y deno@2.9.6 run --config supabase/functions/deno.json --allow-env=EXPO_ACCESS_TOKEN tools/push-smoke.ts && pnpm check:tutor && pnpm check:knowledge",
+    "check:deno": "npx -y deno@2.9.6 check --config tools/deno.json tools/deno-smoke.ts && npx -y deno@2.9.6 run --config tools/deno.json tools/deno-smoke.ts && npx -y deno@2.9.6 check --config supabase/functions/deno.json supabase/functions/learning-sync/index.ts supabase/functions/content-reports/index.ts && npx -y deno@2.9.6 check --config supabase/functions/deno.json supabase/functions/motivation/index.ts supabase/functions/reminder-dispatch/index.ts && npx -y deno@2.9.6 run --config supabase/functions/deno.json --allow-env=EXPO_ACCESS_TOKEN tools/push-smoke.ts && pnpm check:tutor && pnpm check:knowledge && pnpm check:tutor:benchmark",
     "db:start": "node tools/start-local-supabase.mjs",
     "db:stop": "supabase stop",
     "db:reset": "supabase db reset --local --yes",
@@ -37,7 +37,11 @@
     "knowledge:sync": "node tools/sync-knowledge.mjs",
     "check:knowledge": "npx -y deno@2.9.6 check --config tools/deno.json tools/knowledge-smoke.ts && npx -y deno@2.9.6 run --config tools/deno.json --allow-env=ANTHROPIC_CUSTOM_HEADERS tools/knowledge-smoke.ts",
     "db:test:knowledge": "node tools/test-knowledge.mjs",
-    "check:knowledge:live": "npx -y deno@2.9.6 run --config tools/deno.json --allow-env=ANTHROPIC_API_KEY,HARMONIA_TUTOR_MODEL,HARMONIA_TUTOR_TARIFF,ANTHROPIC_CUSTOM_HEADERS --allow-net=api.anthropic.com tools/tutor-live.ts --knowledge"
+    "check:knowledge:live": "npx -y deno@2.9.6 run --config tools/deno.json --allow-env=ANTHROPIC_API_KEY,HARMONIA_TUTOR_MODEL,HARMONIA_TUTOR_TARIFF,ANTHROPIC_CUSTOM_HEADERS --allow-net=api.anthropic.com tools/tutor-live.ts --knowledge",
+    "check:tutor:catalogue": "node tools/check-tutor-catalogue.mjs",
+    "tutor:catalogue:write": "node tools/check-tutor-catalogue.mjs --write",
+    "tutor:benchmark": "node tools/tutor-benchmark.mjs",
+    "check:tutor:benchmark": "npx -y deno@2.9.6 check --config tools/deno.json tools/tutor-benchmark-worker.ts tools/tutor-benchmark-smoke.ts && npx -y deno@2.9.6 run --config tools/deno.json --allow-env=ANTHROPIC_CUSTOM_HEADERS tools/tutor-benchmark-smoke.ts"
   },
   "devDependencies": {
     "@anthropic-ai/sdk": "0.133.0",
@@ -48,6 +52,7 @@
     "prettier": "catalog:",
     "supabase": "2.120.0",
     "typescript": "catalog:",
-    "typescript-eslint": "catalog:"
+    "typescript-eslint": "catalog:",
+    "zod": "catalog:"
   }
 }

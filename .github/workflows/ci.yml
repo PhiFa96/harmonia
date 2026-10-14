@@ -53,6 +53,44 @@ jobs:
       - name: Fähigkeitszuordnung, Lernreihenfolge und Planungsdiagramme
         run: pnpm check:curriculum
 
+      - name: Tutor-Testkatalog, Sprachfassungen und Abdeckung
+        run: pnpm check:tutor:catalogue
+
+  tutor_benchmark:
+    name: Tutor-Batchmechanik ohne Modellkosten
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - name: Abhängigkeiten installieren
+        run: pnpm install --frozen-lockfile
+      - name: Explizite Simulation mit mitgelieferten Quellen vorbereiten
+        run: |
+          node --input-type=module - <<'JS'
+          import { readFileSync, writeFileSync } from 'node:fs';
+          const config = JSON.parse(readFileSync('tools/tutor-benchmark/config.example.json', 'utf8'));
+          config.sourceMode = 'supplied';
+          writeFileSync(process.env.RUNNER_TEMP + '/tutor-benchmark-config.json', JSON.stringify(config), { mode: 0o600 });
+          JS
+          pnpm tutor:benchmark prepare --simulate --config "$RUNNER_TEMP/tutor-benchmark-config.json" --run "$RUNNER_TEMP/tutor-benchmark-run.json"
+      - name: Alle simulierten Werkzeugdialoge abschließen
+        run: pnpm tutor:benchmark simulate --run "$RUNNER_TEMP/tutor-benchmark-run.json"
+      - name: Technische Belege und geschlossenes Release-Gate prüfen
+        run: |
+          pnpm tutor:benchmark evaluate --run "$RUNNER_TEMP/tutor-benchmark-run.json" --output "$RUNNER_TEMP/tutor-benchmark-summary.json"
+          node tools/assert-tutor-benchmark.mjs "$RUNNER_TEMP/tutor-benchmark-summary.json"
+      - name: Simulations-Zusammenfassung aufbewahren
+        uses: actions/upload-artifact@v7
+        with:
+          name: tutor-benchmark-simulation
+          path: ${{ runner.temp }}/tutor-benchmark-summary.json
+          retention-days: 14
+
   web:
     name: Web-Build der App
     runs-on: ubuntu-latest

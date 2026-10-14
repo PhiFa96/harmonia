@@ -97,6 +97,8 @@ Der Tutor rechnet nicht selbst, sondern ruft die Engine auf. Werkzeuge mit stren
 - **Ablauf:** automatischer Lauf vor jedem Release und bei jeder Änderung an Prompt, Werkzeugen oder Modell. Die Ergebnisse werden versioniert gespeichert.
 - **Freigabe:** Ein Release ist nur möglich, wenn kein Rückschritt bei der fachlichen Korrektheit auftritt.
 
+**Umsetzung P2.18:** 245 Fälle/735 Sprachfassungen und versionierte Soll-Aufrufe; 19 Aufgabentypen in Erklärung, Hinweis 1/2 und Lösung. Ein wiederaufnehmbarer SDK-Batchlauf verwendet dieselbe Werkzeug-/Zitat-/Filter-Laufzeit wie Streaming und plant die nächste Welle erst nach quittierten Ergebnissen. Automatische Belege ersetzen keine Claude-Urteile über Prosa, Entailment oder Hinweislecks. Rollenwahl braucht vollständige Reviews, 98 % je Rolle/Sprache und keine fachliche Regression gegen die akzeptierte Basis. Simulierte oder mitgelieferte Quellenläufe können keine Launchfreigabe erhalten. Batchpreise sind explizit; Streamingkosten aus denselben Token sind zunächst eine Projektion. Kontingentvorschläge benötigen zusätzlich ein Geschäftsbudget und ändern keine Policy. Ablauf und offene echte Abnahme: [Testkatalog und Kalibrierung](tutor-testkatalog.md).
+
 ## Recht und Datenschutz
 
 - **Transparenz:** Nutzer sehen klar, dass sie mit einer KI sprechen (Pflicht nach Art. 50 KI-Verordnung, seit 02.08.2026).

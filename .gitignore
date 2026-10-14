@@ -29,3 +29,6 @@ Thumbs.db
 coverage/
 .expo/
 *.tsbuildinfo
+
+# Private Tutor-Batchjournale, Modellantworten und separate Review-Arbeitsdateien
+/artifacts/tutor-benchmark/

@@ -280,11 +280,16 @@ Die Blöcke B, C und D können teilweise parallel laufen.
 - **Abhängig von:** P2.16, P2.17
 - **Umfang:** L
 - **Aufgaben:**
-  - [ ] Katalog mit mindestens 200 Fragen (DE/EN), fachlich geprüft
-  - [ ] Bewertungsskript (Kriterien aus [ki-tutor.md](ki-tutor.md)), Lauf über die Batch-Schnittstelle
-  - [ ] Kalibrierung: Prompt, Effort-Stufe, ggf. Modellwahl je Rolle; Kosten pro Antwort
-  - [ ] Kontingente je Abo-Stufe aus den Kosten ableiten
+  - [x] Katalog mit mindestens 200 Fragen (DE/EN): 245 Fälle in DE/US/UK als Entwurf, 735 Sprachfassungen
+  - [ ] Getrennter fachlicher Durchgang und Freigabe des Katalogs durch Claude nach ADR 0005
+  - [x] Bewertungsskript (Kriterien aus [ki-tutor.md](ki-tutor.md)), wiederaufnehmbarer Lauf über die SDK-Batch-Schnittstelle
+  - [x] Kalibrierungsverfahren für Prompt, Effort-Stufe, Modellwahl je Rolle und Kosten mit geprüftem Variantenvergleich
+  - [ ] Echte Modellkalibrierung und Kostenmessung mit sicherer Schlüssel-/Modell-/Stream-/Batchtarifbindung
+  - [x] Vorschlagsrechner für Kontingente je Abo-Stufe aus akzeptierten Kosten und separatem Geschäftsbudget
+  - [ ] Produktive Kontingente nach tatsächlicher Streaming-/Cache- und Geschäftsabnahme festlegen
 - **Fertig, wenn:** Die fachliche Korrektheit liegt im Testkatalog bei mindestens 98 % (Zielwert, von Phillip bestätigt); die Kontingente sind festgelegt.
+
+- **Stand 14.10.2026:** Technisches Prüfsystem umgesetzt: versionierter Katalog, tatsächlicher Tutor-Werkzeugdialog über asynchrone SDK-Batchwellen, explizite Wiederaufnahme/Kostenobergrenze, feste vollständige Nenner, getrennte fachliche Urteile, Rollen-/Sprachschwellen, Regression und konditionale Kosten-/Kontingentvorschläge. **Definition-of-Done offen:** Alle Fälle/Quellen bleiben Entwurf; 1470 Dialoge sind ausschließlich simuliert, kein echtes Modell oder Tarif ist kalibriert. Ohne Claudes getrennte Freigabe und sichere Live-Bindung gibt es keine gemessene 98-%-Quote oder Launch-Kontingente. Übergabe: [P2.18](tutor-testkatalog.md), [ADR 0018](../decisions/0018-tutor-testkatalog-und-batch-kalibrierung.md). Nächster technischer Schritt P2.19.
 
 ## Block E – Monetarisierung
 

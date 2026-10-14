@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "lane": "preview",
+  "sourceMode": "postgres",
+  "variants": [
+    {
+      "id": "baseline",
+      "model": "synthetic-benchmark-test",
+      "roleEffort": { "chat": "high", "explain": "high", "hint": "high", "solution": "high" },
+      "instructions": { "de": "", "en-US": "", "en-GB": "" }
+    },
+    {
+      "id": "hints-medium",
+      "model": "synthetic-benchmark-test",
+      "roleEffort": { "chat": "high", "explain": "high", "hint": "medium", "solution": "high" },
+      "instructions": { "de": "", "en-US": "", "en-GB": "" }
+    }
+  ],
+  "limits": {
+    "maxInputTokens": 32000,
+    "maxOutputTokens": 1024,
+    "maxRounds": 4,
+    "maxToolsPerRound": 4
+  },
+  "streamTariff": {
+    "version": "synthetic-stream-only",
+    "source": "https://example.invalid/synthetic-stream",
+    "verifiedAt": "2026-10-14T00:00:00Z",
+    "input": 5000,
+    "output": 25000,
+    "cacheRead": 500,
+    "cacheWrite5m": 6250,
+    "cacheWrite1h": 10000
+  },
+  "batchTariff": {
+    "version": "synthetic-batch-only",
+    "source": "https://example.invalid/synthetic-batch",
+    "verifiedAt": "2026-10-14T00:00:00Z",
+    "input": 4000,
+    "output": 18000,
+    "cacheRead": 400,
+    "cacheWrite5m": 5000,
+    "cacheWrite1h": 8000
+  },
+  "modelEvidence": {
+    "source": "https://example.invalid/synthetic-model",
+    "verifiedAt": "2026-10-14T00:00:00Z"
+  }
+}
