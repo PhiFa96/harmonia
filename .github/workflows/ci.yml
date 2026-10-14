@@ -210,7 +210,7 @@ jobs:
           trap - EXIT
 
       - name: Lokale Lernpfad-Synchronisation starten
-        run: pnpm db:serve:learning --tutor-test > "$RUNNER_TEMP/harmonia-learning.log" 2>&1 &
+        run: pnpm db:serve:learning --tutor-test --billing-test > "$RUNNER_TEMP/harmonia-learning.log" 2>&1 &
 
       - name: Offline-Versuche und Synchronisation zwischen zwei Geräten prüfen
         run: pnpm db:test:learning
@@ -226,6 +226,9 @@ jobs:
 
       - name: Volltextsuche, Quellenrückzug, Zitate und Konto-Zugriff lokal prüfen
         run: pnpm db:test:knowledge
+
+      - name: Abo-Webhooks, Konto-Isolation und ersetzten RevenueCat-Kontostand prüfen
+        run: pnpm db:test:billing
 
       - name: Lokale Container stoppen
         if: always()

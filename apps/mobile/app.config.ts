@@ -3,6 +3,7 @@
 
 import type { ConfigContext, ExpoConfig } from 'expo/config';
 import { configuredAuth } from './src/auth/config.ts';
+import { billingConfig } from './src/billing/config.ts';
 
 type Variant = 'development' | 'preview' | 'production';
 
@@ -25,6 +26,7 @@ function currentVariant(): Variant {
 export default ({ config }: ConfigContext): ExpoConfig => {
   // Vor Metro abbrechen, damit ein versehentlich eingetragener Service-Schlüssel nie in ein Bundle gelangt.
   configuredAuth();
+  billingConfig();
   const variant = currentVariant();
   const { name, id } = VARIANTS[variant];
   // Öffentliche Projekt-ID, keine Zugangsdaten. Ohne Bindung bleiben OTA-Updates deaktiviert.

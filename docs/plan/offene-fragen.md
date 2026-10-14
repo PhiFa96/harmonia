@@ -21,10 +21,9 @@
 | 03.10.2026 | Englisch-Standard nach Region: UK-Begriffe in GB, IE, AU, NZ, ZA, IN; sonst US | [i18n-und-glossar.md](i18n-und-glossar.md) |
 | 03.10.2026 | Design-Richtung entscheidet Claude (Phillip: „Du machst alles. Sehr schön modern und animiert.“): Prinzipien, Farben, Schrift Figtree, Bewegung, Logo-Entwurf, Kern-Screens | [design-richtung.md](design-richtung.md) |
 | 02.10.2026 | F04 für Dreiklänge: C, Cm, C°, C+, Umkehrung als C/E; Tonbuchstaben international, deutsch (H, B) wählbar | [theorie-engine.md](theorie-engine.md) |
-
 | 13.10.2026 | F11: mindestens 80 % anrechenbare richtige Erstversuchsantworten einer Lektion; Hinweise 1–2 erlaubt, Lösungen und ausgelassene Aufgaben liefern keine Richtig-Gutschrift; frühere Erfolge bleiben gültig | [ADR 0011](../decisions/0011-lernfortschritt-aus-geprueften-versuchen.md), [Lernpfad](lernpfad.md) |
-
 | 14.10.2026 | F07: zusätzliche Spielwährung für Streak-Schutz; Startwerte 3/1 verdiente Münzen und 10 pro Schutz, weiterhin kostenlos nach sieben erfolgreichen Lerntagen, höchstens zwei insgesamt | [ADR 0014](../decisions/0014-motivation-mit-muenzen-und-erinnerungen.md), [P2.14](streaks-xp-tagesziel-erinnerungen.md) |
+| 14.10.2026 | P2.19/F08: Monats- und Jahresabos vorbereiten; Preise später festlegen. Keine Preisfreigabe durch technische Integration. | [ADR 0019](../decisions/0019-revenuecat-abos-und-berechtigungen.md), [P2.19](abos-revenuecat.md) |
 
 ## Offen
 

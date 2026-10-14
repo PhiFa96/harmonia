@@ -300,11 +300,12 @@ Die Blöcke B, C und D können teilweise parallel laufen.
 - **Umfang:** L
 - **Aufgaben:**
   - [ ] Produkte in App Store Connect, Google Play, RevenueCat (inkl. Web Billing)
-  - [ ] SDK-Einbindung, User-ID = Supabase-ID
-  - [ ] Webhook → `billing_events` → `entitlements`
-  - [ ] Käufe wiederherstellen; Abo-Verwaltung verlinken
+  - [x] SDK-Einbindung, User-ID = Supabase-ID (native und Web; echte Geräteabnahme offen)
+  - [x] Authentifizierter Webhook → `billing_events` → aktuelle serverseitige `entitlements`-Projektion; lokale Anbieterantworten simuliert
+  - [x] Käufe wiederherstellen; Abo-Verwaltung verlinken (technisch; echte Sandbox offen)
   - [ ] Apple Small Business Program beantragen
-- **Fertig, wenn:** Sandbox-Kauf auf iOS, Android und Web schaltet Premium frei; Kündigung und Ablauf werden korrekt übernommen.
+- **Stand 14.10.2026:** Technische Anbindung umgesetzt; Phillip entscheidet Monats-/Jahresabos vorzubereiten, Preise später. Kein echtes Anbieterprojekt oder Produkt wurde angelegt; keine Zahlung ausgelöst. Unternehmens-/Store-/RevenueCat-Bindung, Small-Business-Antrag und tatsächliche Sandbox-Käufe/Abnahme bleiben offen. Übergabe: [P2.19](abos-revenuecat.md), [ADR 0019](../decisions/0019-revenuecat-abos-und-berechtigungen.md). Nächster technischer Schritt P2.20.
+- **Fertig, wenn:** Sandbox-Kauf auf iOS, Android und Web schaltet Premium frei; Kündigung und Ablauf werden korrekt übernommen. **Noch nicht erfüllt.**
 
 ### P2.20 – Paywall und Gratis-Limits
 

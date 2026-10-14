@@ -23,8 +23,9 @@ Postgres in Supabase, Region EU. Alle Tabellen mit Row Level Security (RLS). Än
 | `tutor_messages` | Nachrichten | `id`, `conversation_id`, `role`, `content` (jsonb), `created_at` |
 | `tutor_reports` | Private Meldung zu einer gespeicherten KI-Antwort | `id`, `user_id`, `conversation_id`, `message_id`, `category`, `message`, `created_at`; FK-Löschkaskaden, eigene Leserechte, Schreiben nur Service |
 | `ai_usage` | Kosten und Kontingente | `user_id`, `day`, `requests`, `input_tokens`, `output_tokens`, `cache_read_tokens`, `cost_estimate` |
-| `entitlements` | Abo-Berechtigungen (Spiegel aus RevenueCat) | `user_id`, `entitlement` (premium/max), `active`, `expires_at`, `store`, `updated_at` |
-| `billing_events` | Rohdaten der Webhooks | `id`, `provider`, `event_id` (eindeutig), `payload`, `processed_at` |
+| `entitlements` | Abo-Berechtigungen (Spiegel aus RevenueCat) | `user_id`, `entitlement` (premium/max), `active`, `expires_at`, `store`, `product_id`, `will_renew`, `billing_issue`, `updated_at` |
+| `billing_events` | Begrenzter validierter Webhook-Kern, nur Server | `event_id` (eindeutig), `provider`, `payload`, `received_at`, `processed_at`, `attempts`, `outcome` |
+| `billing_accounts` | Private Fetch-/Projektionslease | `user_id`, `lease`, `lease_until`, `provider_request_ms`, `last_attempt_at`, `synced_at` |
 | `content_reports` | Gemeldete Inhaltsfehler | `id`, `user_id`, `content_id`, `content_version`, `message`, `status` |
 | `knowledge_indexes` | Aktiver Wissensstand je Auslieferung | `lane` (`published`/`preview`), `snapshot`, `content_version`, `article_count`, `chunk_count`, `updated_at` |
 | `knowledge_chunks` | Versionierte Quellenabschnitte des Tutors | Schlüssel (`lane`, `id`), `snapshot`, `article_id`, `locale`, `content_version`, `status`, `stage`, `section`, `part`, `start_char`, `end_char`, `title`, `heading`, `body`, `skill_ids`, `tsv` (gespeicherter DE-/EN-Volltextvektor mit GIN) |

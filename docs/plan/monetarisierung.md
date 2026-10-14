@@ -4,9 +4,9 @@ Geschäftliche Entscheidungen stehen in [business-model.md](../business-model.md
 
 ## Abos (Phase 2)
 
-- **RevenueCat** (`react-native-purchases`) für iOS, Android und Web (Web Billing über Stripe).
+- **RevenueCat**: `react-native-purchases` 10.13.0 für iOS/Android, `@revenuecat/purchases-js` 1.70.0 für Web Billing. Technische Übergabe: [P2.19](abos-revenuecat.md). Monats-/Jahresabos vorbereitet; Preise und echte Anbieterbindung offen.
 - **Berechtigungen (Entitlements):** `premium`, `max`. Die App prüft sie über das SDK. Serverseitige Funktionen (KI-Tutor) prüfen die Tabelle `entitlements`.
-- **Webhook:** RevenueCat → Edge Function `billing-webhook` → Signatur prüfen → `billing_events` (idempotent) → `entitlements` aktualisieren.
+- **Webhook:** RevenueCat → Edge Function `billing-webhook` → konfigurierten Authorization-Bearer/App-Whitelist/Umgebung prüfen → `billing_events` (idempotent) → aktuellen Subscriber abfragen → `entitlements` atomar projizieren. RevenueCat-Bearer statt erfundener HMAC-Signatur.
 - Konto-Verknüpfung: RevenueCat-App-User-ID = Supabase-User-ID. So gelten Käufe auf allen Geräten.
 - „Käufe wiederherstellen“ in den Einstellungen (Store-Pflicht).
 - Testkäufe: Sandbox-Umgebungen von Apple und Google, Testmodus von Stripe.

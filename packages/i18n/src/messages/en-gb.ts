@@ -5,6 +5,12 @@ import type { PartialMessages } from './types.ts';
 import { contentMessages } from '@harmonia/i18n/content-messages';
 
 export const enGB = {
+  billing: {
+    ends: 'Cancelled. Access until {{date}}.',
+    renewal:
+      'Renews automatically at the displayed price until cancelled. The purchase confirmation shows the binding terms.',
+    canceled: 'Purchase cancelled.',
+  },
   tutor: {
     practice: 'Practise freely',
     error_unavailable: 'The AI tutor is currently unavailable. You can continue practising.',

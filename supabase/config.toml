@@ -88,5 +88,13 @@ import_map = "./functions/deno.json"
 verify_jwt = false
 import_map = "./functions/deno.json"
 
+[functions.billing]
+verify_jwt = false
+import_map = "./functions/deno.json"
+
+[functions.billing-webhook]
+verify_jwt = false
+import_map = "./functions/deno.json"
+
 [analytics]
 enabled = false

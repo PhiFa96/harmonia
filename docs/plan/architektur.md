@@ -130,7 +130,7 @@ flowchart LR
 - **Zugriffsregeln:** RLS auf jeder Tabelle. Standard: Nutzer lesen und schreiben nur eigene Zeilen. Öffentliche Daten (Bestenlisten) nur über Views oder Funktionen mit minimalen Feldern.
 - **Schreibrechte für Wettbewerb und Geld** nur über Edge Functions oder `security definer`-Funktionen mit Prüfung.
 - **Schlüssel:** Der Service-Role-Key von Supabase und alle Anbieter-Keys liegen nur auf dem Server.
-- **Webhooks** (RevenueCat, Stripe) werden per Signatur geprüft und idempotent verarbeitet.
+- **Webhooks** werden anbietergerecht authentifiziert und idempotent verarbeitet: RevenueCat mittels konfiguriertem Authorization-Bearer und aktueller Subscriber-Projektion; Stripe künftig mittels dessen Webhook-Signatur.
 - **Missbrauchsschutz:** Ratenbegrenzung für KI-Tutor und Wettbewerb pro Nutzer, Plausibilitätsprüfungen (z. B. Antwortzeiten).
 - **Abhängigkeiten:** automatische Sicherheitsupdates (Dependabot oder Renovate), Lizenzprüfung neuer Pakete.
 

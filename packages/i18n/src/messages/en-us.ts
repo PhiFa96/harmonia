@@ -4,6 +4,47 @@ import { contentMessages } from '@harmonia/i18n/content-messages';
 import type { Messages } from './types.ts';
 
 export const enUS = {
+  billing: {
+    tier_free: 'Free',
+    tier_premium: 'Premium',
+    tier_max: 'Max',
+    title: 'Subscription',
+    accountBound:
+      'Your subscription belongs to your Harmonia account and works across your devices.',
+    signInBody: 'Sign in to your account before purchasing or restoring a subscription.',
+    signIn: 'Go to account',
+    status: 'Your access: {{tier}}',
+    ends: 'Canceled. Access until {{date}}.',
+    validUntil: 'Access until {{date}}.',
+    billingIssue: 'There is a payment issue. Check your payment in subscription management.',
+    simulation: 'Local subscription test. No payment is taken.',
+    loading: 'Loading subscription…',
+    unconfigured: 'Subscription purchases have not been set up here yet.',
+    error: 'Your subscription status could not be loaded. Please try again.',
+    offers: 'Available subscriptions',
+    noOffers: 'No suitable offer is currently available.',
+    monthly: '{{price}} per month',
+    annual: '{{price}} per year',
+    renewal:
+      'Renews automatically at the displayed price until canceled. The purchase confirmation shows the binding terms.',
+    buyMonthly: 'Subscribe to {{tier}} monthly',
+    buyAnnual: 'Subscribe to {{tier}} yearly',
+    manageExisting:
+      'Manage your existing subscription with its provider to avoid a second subscription.',
+    purchased: 'Your subscription is active.',
+    pending:
+      'Your purchase completed. Access is still being confirmed. Refresh the status; do not purchase again.',
+    restored: 'Your subscription has been restored.',
+    none: 'No active subscription was found for this account.',
+    canceled: 'Purchase canceled.',
+    storePending: 'Your payment is awaiting confirmation from the provider. Do not purchase again.',
+    restore: 'Restore purchases',
+    restoreBody:
+      'Use the Harmonia account that made the original purchase. On the web, your account is checked again; on iOS and Android, your store account is checked as well.',
+    refresh: 'Refresh status',
+    manage: 'Manage or cancel subscription',
+    linkError: 'Subscription management could not be opened. Please try again.',
+  },
   tutor: {
     title: 'AI tutor',
     disclosure:

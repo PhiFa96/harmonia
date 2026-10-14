@@ -25,6 +25,7 @@ import { initializeAuth } from '@/auth';
 import { MotivationLifecycle } from '@/components/motivation-lifecycle';
 import { ReportLifecycle } from '@/components/report-lifecycle';
 import { LearningLifecycle } from '@/components/learning-lifecycle';
+import { BillingLifecycle } from '@/components/billing-lifecycle';
 
 export default function RootLayout() {
   const [queryClient] = useState(() => new QueryClient());
@@ -58,6 +59,7 @@ export default function RootLayout() {
           <LearningLifecycle />
           <ReportLifecycle />
           <MotivationLifecycle />
+          <BillingLifecycle />
           {device.phase !== 'ready' ? (
             <View style={bootStyles.container}>
               <Card>
@@ -96,6 +98,7 @@ export default function RootLayout() {
                 <Stack.Screen name="gallery" />
                 <Stack.Screen name="preferences" />
                 <Stack.Screen name="account" />
+                <Stack.Screen name="subscription" />
                 <Stack.Screen name="placement" />
               </Stack.Protected>
               <Stack.Screen name="report" />

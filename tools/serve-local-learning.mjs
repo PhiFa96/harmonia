@@ -22,7 +22,8 @@ chmodSync(wrapper, 0o755);
 writeFileSync(
   envFile,
   (process.argv.includes('--published') ? '' : 'HARMONIA_LOCAL_PREVIEW=true\n') +
-    (tutorTest ? 'HARMONIA_TUTOR_LOCAL_TEST=true\n' : ''),
+    (tutorTest ? 'HARMONIA_TUTOR_LOCAL_TEST=true\n' : '') +
+    (process.argv.includes('--billing-test') ? 'HARMONIA_BILLING_LOCAL_TEST=true\n' : ''),
   { mode: 0o600 },
 );
 const child = spawn('pnpm', ['exec', 'supabase', 'functions', 'serve', '--env-file', envFile], {

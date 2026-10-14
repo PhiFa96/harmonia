@@ -45,6 +45,16 @@ export default function ProfileScreen() {
         <LearningProfile />
         <MotivationCard />
         <ReportStatus />
+        <ListGroup>
+          <ListItem
+            icon="sparkle"
+            label={t('billing.title')}
+            onPress={() => {
+              router.push('/subscription');
+            }}
+            last
+          />
+        </ListGroup>
         <AppText variant="overline" tone="muted">
           {t('profile.settings')}
         </AppText>

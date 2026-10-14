@@ -3,6 +3,46 @@ import { contentMessages } from '@harmonia/i18n/content-messages';
 // Fachbegriffe kommen aus dem Glossar: $t(glossary:…).
 
 export const de = {
+  billing: {
+    tier_free: 'Gratis',
+    tier_premium: 'Premium',
+    tier_max: 'Max',
+    title: 'Abonnement',
+    accountBound: 'Dein Abo gehört zu deinem Harmonia-Konto und gilt auf deinen Geräten.',
+    signInBody: 'Melde dich vor einem Kauf oder einer Wiederherstellung mit deinem Konto an.',
+    signIn: 'Zum Konto',
+    status: 'Dein Zugang: {{tier}}',
+    ends: 'Gekündigt. Zugang bis {{date}}.',
+    validUntil: 'Zugang bis {{date}}.',
+    billingIssue: 'Es gibt ein Zahlungsproblem. Prüfe die Zahlung in der Abo-Verwaltung.',
+    simulation: 'Lokaler Abo-Test. Es erfolgt keine Zahlung.',
+    loading: 'Abonnement wird geladen …',
+    unconfigured: 'Abonnements sind hier noch nicht für Käufe eingerichtet.',
+    error: 'Der Abo-Status konnte nicht geladen werden. Versuche es erneut.',
+    offers: 'Verfügbare Abonnements',
+    noOffers: 'Zurzeit ist kein passendes Angebot verfügbar.',
+    monthly: '{{price}} pro Monat',
+    annual: '{{price}} pro Jahr',
+    renewal:
+      'Verlängert sich automatisch zum angezeigten Preis, bis du kündigst. Die Kaufbestätigung zeigt die verbindlichen Bedingungen.',
+    buyMonthly: '{{tier}} monatlich abonnieren',
+    buyAnnual: '{{tier}} jährlich abonnieren',
+    manageExisting:
+      'Verwalte dein bestehendes Abo beim Anbieter. So vermeidest du ein zweites Abo.',
+    purchased: 'Dein Abo ist freigeschaltet.',
+    pending:
+      'Der Kauf wurde abgeschlossen. Die Freischaltung wird noch bestätigt. Aktualisiere den Status; kaufe nicht erneut.',
+    restored: 'Dein Abo wurde wiederhergestellt.',
+    none: 'Für dieses Konto wurde kein aktives Abo gefunden.',
+    canceled: 'Kauf abgebrochen.',
+    storePending: 'Die Zahlung wartet auf Bestätigung durch den Anbieter. Kaufe nicht erneut.',
+    restore: 'Käufe wiederherstellen',
+    restoreBody:
+      'Verwende das Harmonia-Konto des ursprünglichen Kaufs. Im Web wird dein Konto erneut geprüft; auf iOS und Android zusätzlich dein Store-Konto.',
+    refresh: 'Status aktualisieren',
+    manage: 'Abo verwalten oder kündigen',
+    linkError: 'Die Abo-Verwaltung konnte nicht geöffnet werden. Versuche es erneut.',
+  },
   tutor: {
     title: 'KI-Tutor',
     disclosure:
