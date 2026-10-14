@@ -78,7 +78,10 @@ export const learningRowSchema = z
     event: learningEventSchema,
     reward: z
       .object({
-        amount: z.number().int().min(0).max(18),
+        amount: z.number().int().min(0).max(3000),
+        ruleVersion: z.number().int().positive().optional(),
+        qualified: z.boolean().optional(),
+        coins: z.number().int().min(0).max(1000).optional(),
         date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
       })
       .strict()
@@ -86,7 +89,11 @@ export const learningRowSchema = z
   })
   .strict();
 export const learningSyncRequestSchema = z
-  .object({ since: time, events: z.array(learningEventSchema).max(50) })
+  .object({
+    rewardFormat: z.literal(2).optional(),
+    since: time,
+    events: z.array(learningEventSchema).max(50),
+  })
   .strict();
 export const learningSyncResponseSchema = z
   .object({

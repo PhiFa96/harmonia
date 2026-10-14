@@ -33,3 +33,12 @@ export function createI18n(locale: AppLocale, plugins: readonly Module[] = []): 
   });
   return instance;
 }
+
+export function reminderMessages(locale: AppLocale) {
+  const instance = createI18n(locale);
+  return {
+    title: instance.t('motivation.notificationTitle'),
+    body: instance.t('motivation.notificationBody'),
+    channel: instance.t('motivation.notificationChannel'),
+  };
+}

@@ -1,3 +1,4 @@
+import { recordPractice } from '@/state/motivation';
 import type { ExerciseSession } from '@harmonia/exercises';
 import {
   answerSession,
@@ -188,7 +189,9 @@ export default function PracticeScreen() {
               }}
               onNext={() => {
                 setAnswer(null);
-                setSession(nextExercise(session));
+                const next = nextExercise(session);
+                setSession(next);
+                if (!currentItem(next)) void recordPractice().catch(() => undefined);
               }}
             />
           </>

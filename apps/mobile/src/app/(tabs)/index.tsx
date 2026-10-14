@@ -7,6 +7,8 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
+import { useMotivation, currentMotivation } from '@/state/motivation';
+import { MotivationCard } from '@/components/motivation-card';
 import { LearningPath } from '@/components/learning-path';
 import { useLocale } from '@/i18n';
 import { useDeviceState } from '@/state/device';
@@ -23,6 +25,7 @@ export default function LearnScreen() {
   const { colors } = useUiTheme();
   const score = useMemo(() => parseScore(EXAMPLE), []);
   const describeOptions = useMemo(() => engineLanguage(locale), [locale]);
+  useMotivation((s) => s.data);
   const profile = useDeviceState((state) => state.data);
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -35,11 +38,12 @@ export default function LearnScreen() {
             <AppText>
               {t('onboarding.learnPreference', {
                 goal: t(`onboarding.goal_${profile.goal}`),
-                count: profile.dailyGoal,
+                count: currentMotivation().preferences.dailyGoal,
               })}
             </AppText>
           </Card>
         ) : null}
+        <MotivationCard compact />
         <PlacementEntry />
         <LearningPath />
         <AppText>{t('learn.exampleScale')}</AppText>

@@ -2,7 +2,10 @@
   "extends": "@harmonia/config/tsconfig.base.json",
   "compilerOptions": {
     // Skripte laufen in Node oder Deno; `console` kommt hier über die DOM-Typen.
-    "lib": ["ES2023", "DOM"]
+    "lib": ["ES2023", "DOM"],
+    "paths": {
+      "npm:@supabase/supabase-js@2.117.3": ["../apps/mobile/node_modules/@supabase/supabase-js"]
+    }
   },
-  "include": ["*.ts"]
+  "include": ["*.ts", "../supabase/functions/runtime.d.ts"]
 }

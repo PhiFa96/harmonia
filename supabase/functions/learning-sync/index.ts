@@ -4,6 +4,9 @@ import {
   learningSyncRequestSchema,
   validateLearningEvent,
   lessonReward,
+  lessonProgress,
+  rewardRuleSchema,
+  rewardRuleAt,
   lessonDay,
   learningRowSchema,
 } from '../../../packages/content/src/index.ts';
@@ -53,16 +56,29 @@ Deno.serve(async (request) => {
     const parsed = learningSyncRequestSchema.safeParse(JSON.parse(body) as unknown);
     if (!parsed.success) return json(400, { error: 'schema' });
     const current = await content();
-    const rewards: { id: string; newAmount: number; repeatAmount: number; date: string }[] = [];
+    const rules = await client.from('reward_rules').select('rule').order('effective_at');
+    if (rules.error) return json(503, { error: 'rules' });
+    const rewardRules = rules.data.map((r) => rewardRuleSchema.parse(r.rule));
+    const rewards: {
+      id: string;
+      newAmount: number;
+      repeatAmount: number;
+      date: string;
+      ruleVersion: number;
+      qualified: boolean;
+    }[] = [];
     try {
       for (const event of parsed.data.events) {
         const proof = validateLearningEvent(current, event);
         if (event.kind === 'lesson' && event.timeZone && 'session' in proof) {
           if (event.finishedAt > Date.now() + 300000) throw new Error('Future completion');
+          const rule = rewardRuleAt(rewardRules, event.finishedAt);
           rewards.push({
+            ruleVersion: rule.version,
+            qualified: lessonProgress(proof.session).passed,
             id: event.id,
-            newAmount: lessonReward(proof.session, false),
-            repeatAmount: lessonReward(proof.session, true),
+            newAmount: lessonReward(proof.session, false, rule),
+            repeatAmount: lessonReward(proof.session, true, rule),
             date: lessonDay(event.finishedAt, event.timeZone),
           });
         }
@@ -90,7 +106,14 @@ Deno.serve(async (request) => {
         return {
           sequence: row.sequence,
           event: row.event,
-          ...(row.reward ? { reward: row.reward } : {}),
+          ...(row.reward
+            ? {
+                reward:
+                  parsed.data.rewardFormat === 2
+                    ? row.reward
+                    : { amount: row.reward.amount, date: row.reward.date },
+              }
+            : {}),
         };
       }),
       cursor: page.at(-1)?.sequence ?? parsed.data.since,

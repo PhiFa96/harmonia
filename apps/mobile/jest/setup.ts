@@ -61,3 +61,31 @@ jest.mock('@/state/reports', () => ({
   initializeReports: () => Promise.resolve(),
   syncReports: () => Promise.resolve(),
 }));
+
+// Systemberechtigungen und Zustellung werden im Erinnerungsadapter separat geprüft.
+jest.mock('expo-notifications', () => ({
+  getPermissionsAsync: jest.fn(() => Promise.resolve({ granted: true, canAskAgain: true })),
+  requestPermissionsAsync: jest.fn(() => Promise.resolve({ granted: true, canAskAgain: true })),
+  getAllScheduledNotificationsAsync: jest.fn(() => Promise.resolve([])),
+  scheduleNotificationAsync: jest.fn(() => Promise.resolve('reminder-id')),
+  cancelScheduledNotificationAsync: jest.fn(() => Promise.resolve()),
+  setNotificationChannelAsync: jest.fn(() => Promise.resolve()),
+  setNotificationHandler: jest.fn(),
+  addPushTokenListener: jest.fn(() => ({ remove: jest.fn() })),
+  getExpoPushTokenAsync: jest.fn(() => Promise.resolve({ data: 'ExpoPushToken[test]' })),
+  SchedulableTriggerInputTypes: { DATE: 'date' },
+  AndroidImportance: { DEFAULT: 3 },
+  PermissionStatus: { GRANTED: 'granted', DENIED: 'denied', UNDETERMINED: 'undetermined' },
+}));
+jest.mock('expo-device', () => ({ isDevice: false }));
+jest.mock('@/state/motivation', () => ({
+  ...jest.requireActual<object>('@/state/motivation'),
+  initializeMotivation: () => Promise.resolve(),
+  syncMotivation: () => Promise.resolve(),
+}));
+jest.mock('@/reminders', () => ({
+  ...jest.requireActual<object>('@/reminders'),
+  reconcileReminders: () => Promise.resolve(),
+  refreshReminderPermission: () => Promise.resolve(),
+  initializeReminderHandler: () => undefined,
+}));

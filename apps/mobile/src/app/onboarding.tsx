@@ -1,3 +1,4 @@
+import { ReminderControls } from '@/components/reminder-controls';
 import { APP_LOCALES, LOCALE_NAMES } from '@harmonia/i18n';
 import { LAYOUT, RADIUS, SPACE } from '@harmonia/ui';
 import type { IconName } from '@harmonia/ui/native';
@@ -216,39 +217,7 @@ export default function OnboardingScreen() {
               </AppText>
             </>
           ) : null}
-          {step === 'reminders' ? (
-            <>
-              <ListGroup>
-                <ListItem
-                  icon="bell"
-                  label={t('onboarding.reminderConsent')}
-                  toggle={{
-                    value: data.reminderConsent,
-                    onValueChange: (reminderConsent) => {
-                      updateOnboarding((d) => ({ ...d, reminderConsent }));
-                    },
-                  }}
-                  last
-                />
-              </ListGroup>
-              <AppText variant="footnote" tone="muted">
-                {t('onboarding.reminderHint')}
-              </AppText>
-              {data.reminderConsent ? (
-                <OnboardingChoices
-                  label={t('onboarding.reminderTime')}
-                  selected={data.reminderTime}
-                  options={(['17:00', '18:00', '19:00', '20:00'] as const).map((value) => ({
-                    value,
-                    label: t('onboarding.timeOption', { time: value }),
-                  }))}
-                  onSelect={(reminderTime) => {
-                    updateOnboarding((d) => ({ ...d, reminderTime }));
-                  }}
-                />
-              ) : null}
-            </>
-          ) : null}
+          {step === 'reminders' ? <ReminderControls /> : null}
           {step === 'mini' ? <OnboardingMini data={data} scroll={scroll} /> : null}
           {step === 'account' ? (
             <>

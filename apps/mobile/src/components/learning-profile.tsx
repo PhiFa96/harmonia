@@ -1,3 +1,4 @@
+import { useMotivation } from '@/state/motivation';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'expo-router';
@@ -8,6 +9,7 @@ import { DeviceStatus } from './device-status';
 import { PlacementEntry } from './placement-entry';
 
 export function LearningProfile() {
+  const motivation = useMotivation();
   const { t } = useTranslation(),
     router = useRouter(),
     data = useDeviceState((s) => s.data),
@@ -15,6 +17,8 @@ export function LearningProfile() {
   const [busy, setBusy] = useState(false),
     [error, setError] = useState(false);
   if (!data) return null;
+  const preferences =
+    motivation.scope === (auth.session?.user.id ?? 'guest') ? motivation.data?.preferences : null;
   const logout = async () => {
     setBusy(true);
     setError(false);
@@ -44,7 +48,9 @@ export function LearningProfile() {
         <ListItem
           icon="target"
           label={t('onboarding.profileDaily')}
-          value={t('onboarding.dailyOption', { count: data.dailyGoal })}
+          value={t('onboarding.dailyOption', {
+            count: preferences?.dailyGoal ?? 20,
+          })}
           onPress={() => {
             router.push('/preferences');
           }}
@@ -53,8 +59,8 @@ export function LearningProfile() {
           icon="bell"
           label={t('onboarding.profileReminder')}
           value={
-            data.reminderConsent
-              ? t('onboarding.reminderOn', { time: data.reminderTime })
+            preferences?.reminderConsent
+              ? t('onboarding.reminderOn', { time: preferences.reminderTime })
               : t('onboarding.reminderOff')
           }
           onPress={() => {

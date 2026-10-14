@@ -4,6 +4,59 @@ import { contentMessages } from '@harmonia/i18n/content-messages';
 import type { Messages } from './types.ts';
 
 export const enUS = {
+  motivation: {
+    writeError:
+      'The change was not saved. Your previous progress remains intact; please try the change again.',
+    details: 'View streak and protection',
+    purchaseRejected:
+      'A protection purchase was declined and not charged. Check your balance and reserve after syncing.',
+    openSettings: 'Open device settings',
+    coinRules: '{{first}} coins for a first passed lesson, {{repeat}} for a passed repeat.',
+    dailyTitle: 'Your daily goal',
+    dailyProgress: '{{xp}} of {{goal}} XP',
+    goalReached: 'Daily goal reached. Well practiced!',
+    goalRemaining: '{{xp}} XP left to reach your daily goal.',
+    series_one: '{{count}} learning day in a row',
+    series_other: '{{count}} learning days in a row',
+    longest_one: 'Longest streak: {{count}} learning day',
+    longest_other: 'Longest streak: {{count}} learning days',
+    stock: 'Streak protection: {{available}} of 2 in reserve',
+    nextFreeze_one: '{{count}} successful learning day until your next free protection.',
+    nextFreeze_other: '{{count}} successful learning days until your next free protection.',
+    coins_one: '{{count}} coin',
+    coins_other: '{{count}} coins',
+    buyFreeze: 'Buy streak protection for {{cost}} coins',
+    buyError: 'The protection could not be purchased. Check your balance and available reserve.',
+    estimated: 'Calculated on this device. Your account confirms XP and coins after syncing.',
+    travel: 'Your streak accounts for time zone changes when traveling.',
+    loadError: 'Your motivation progress could not be loaded. Saved data remains intact.',
+    syncError: 'Not synced yet. Your learning evidence and purchases remain on this device.',
+    retry: 'Sync again',
+    remindersTitle: 'Learning reminders',
+    remindersBody:
+      'A friendly reminder at your chosen local time if you have not practiced today. At most one per day, with quiet hours from 9 PM to 8 AM.',
+    remindersEnabled: 'Enable learning reminders',
+    allowNotifications: 'Allow notifications',
+    webReminders: 'Web push will follow later. You can save your preferred time here.',
+    memoryReminders: 'Reminders are not set up in a temporary session.',
+    permissionDenied:
+      'Notifications are turned off in the operating system. You can allow them in device settings.',
+    localReminder:
+      'Local reminders are scheduled on this device. They also work without an account.',
+    remoteReminder: 'Push reminders are enabled for your account.',
+    notificationError:
+      'The reminders could not be set up. You can keep learning and try again later.',
+    retirePending: 'Turning off earlier push reminders is waiting for a connection.',
+    notificationTitle: 'Time for a little music',
+    notificationBody: 'A little practice fits into your day. Harmonia is here for you.',
+    notificationChannel: 'Learning reminders',
+    coinsEarned_one: '+{{count}} coin',
+    coinsEarned_other: '+{{count}} coins',
+    protectionHint:
+      'Protection preserves an existing streak on a missed day. It awards no XP and does not count as a learning day.',
+    coinHint:
+      'Passed lessons earn coins. A protection purchase is booked once; you can keep at most two protections in reserve.',
+  },
   report: {
     title: 'Report an error',
     queueTitle: 'Content reports',

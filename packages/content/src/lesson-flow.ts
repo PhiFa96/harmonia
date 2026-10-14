@@ -1,3 +1,5 @@
+import { timeZoneSchema } from './calendar.ts';
+export { timeZoneSchema } from './calendar.ts';
 import { z } from 'zod';
 import { resolveLesson } from './catalogue.ts';
 import type { ContentCatalogue } from './catalogue-schema.ts';
@@ -90,18 +92,6 @@ export const lessonActionSchema = z.discriminatedUnion('type', [
   ),
 ]);
 export type LessonAction = z.infer<typeof lessonActionSchema>;
-export const timeZoneSchema = z
-  .string()
-  .min(1)
-  .max(128)
-  .refine((zone) => {
-    try {
-      new Intl.DateTimeFormat('en', { timeZone: zone });
-      return true;
-    } catch {
-      return false;
-    }
-  });
 const time = z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER);
 export const lessonDraftSchema = z
   .object({

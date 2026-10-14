@@ -279,7 +279,7 @@ export function syncLearning(): Promise<void> {
       const since = await repo.cursor(owner);
       if (token !== generation || owner !== scope()) return;
       const result = await client.functions.invoke('learning-sync', {
-        body: { since, events },
+        body: { since, events, rewardFormat: 2 },
         headers: { Authorization: `Bearer ${session.access_token}` },
         timeout: 15000,
       });

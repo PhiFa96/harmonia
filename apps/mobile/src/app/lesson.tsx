@@ -1,10 +1,11 @@
+import { currentMotivation, useMotivation } from '@/state/motivation';
 import { catalogue } from '@harmonia/content/catalogue';
 import {
   lessonProgress,
   lessonPlan,
   lessonReward,
-  lessonDay,
-  lessonStreak,
+  DEFAULT_REWARD_RULE,
+  rewardRuleAt,
   validateLearningEvent,
   PASS_PERCENT,
 } from '@harmonia/content';
@@ -193,32 +194,27 @@ function LessonPlayer({
     });
   }, [learning.rows, flow.draft.id, content.id, content.contentVersion]);
   const own = learning.rows.find((row) => row.event.id === flow.draft.id);
-  const xp = own?.reward?.amount ?? (lesson ? lessonReward(lesson, repeated) : 0);
-  const days = useMemo(
-    () =>
-      learning.rows.flatMap((row) => {
-        if (row.reward) return row.reward.amount > 0 ? [row.reward.date] : [];
-        if (row.event.kind !== 'lesson' || !row.event.timeZone) return [];
-        try {
-          return validateLearningEvent(catalogue, row.event).lesson?.passed
-            ? [lessonDay(row.event.finishedAt, row.event.timeZone)]
-            : [];
-        } catch {
-          return [];
+  const motivation = useMotivation();
+  const finishedAt = flow.draft.finishedAt ?? Date.now();
+  const rule = rewardRuleAt(motivation.data?.rules ?? [DEFAULT_REWARD_RULE], finishedAt);
+  const xp = own?.reward?.amount ?? (lesson ? lessonReward(lesson, repeated, rule) : 0);
+  const qualified = lesson ? lessonProgress(lesson).passed : false;
+  const coins =
+    own?.reward?.coins ?? (qualified ? (repeated ? rule.repeatCoins : rule.newCoins) : 0);
+  const motivationView = currentMotivation(
+    Date.now(),
+    lesson?.phase === 'complete'
+      ? {
+          id: flow.draft.id,
+          at: finishedAt,
+          timeZone: flow.draft.timeZone,
+          amount: xp,
+          qualified,
+          coins,
         }
-      }),
-    [learning.rows],
+      : undefined,
   );
-  const today = lessonDay(Date.now(), flow.draft.timeZone);
-  const streak = lessonStreak(
-    [
-      ...days,
-      ...(lesson && lessonProgress(lesson).passed
-        ? [lessonDay(flow.draft.finishedAt ?? Date.now(), flow.draft.timeZone)]
-        : []),
-    ],
-    today,
-  );
+  const streak = motivationView.summary.streak.current;
   const heading = item
     ? exercisePrompt(item, locale)
     : lesson?.phase === 'review-intro'
@@ -427,6 +423,13 @@ function LessonPlayer({
                   <AppText variant="title2">{t('lesson.initialResult', summary)}</AppText>
                   <AppText variant="title2">{t('flow.xp', { count: xp })}</AppText>
                   <AppText>{t('flow.streak', { count: streak })}</AppText>
+                  <AppText>{t('motivation.coinsEarned', { count: coins })}</AppText>
+                  <AppText>
+                    {t('motivation.dailyProgress', {
+                      xp: motivationView.summary.todayXP,
+                      goal: motivationView.preferences.dailyGoal,
+                    })}
+                  </AppText>
                   {!own?.reward ? (
                     <AppText variant="footnote" tone="muted">
                       {t('flow.localReward')}

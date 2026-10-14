@@ -3,6 +3,63 @@ import { contentMessages } from '@harmonia/i18n/content-messages';
 // Fachbegriffe kommen aus dem Glossar: $t(glossary:…).
 
 export const de = {
+  motivation: {
+    writeError:
+      'Die Änderung wurde nicht gespeichert. Dein bisheriger Stand bleibt erhalten; bitte versuche die Änderung erneut.',
+    details: 'Serie und Streak-Schutz ansehen',
+    purchaseRejected:
+      'Ein Schutzkauf wurde abgelehnt und nicht abgebucht. Prüfe nach der Synchronisation Guthaben und Vorrat.',
+    openSettings: 'Geräteeinstellungen öffnen',
+    coinRules:
+      '{{first}} Münzen für eine erstmals bestandene Lektion, {{repeat}} für eine bestandene Wiederholung.',
+    dailyTitle: 'Dein Tagesziel',
+    dailyProgress: '{{xp}} von {{goal}} XP',
+    goalReached: 'Tagesziel erreicht. Gut geübt!',
+    goalRemaining: 'Noch {{xp}} XP bis zum Tagesziel.',
+    series_one: '{{count}} Lerntag in Folge',
+    series_other: '{{count}} Lerntage in Folge',
+    longest_one: 'Längste Serie: {{count}} Lerntag',
+    longest_other: 'Längste Serie: {{count}} Lerntage',
+    stock: 'Streak-Schutz: {{available}} von 2 auf Vorrat',
+    nextFreeze_one: 'Noch {{count}} erfolgreicher Lerntag bis zum nächsten kostenlosen Schutz.',
+    nextFreeze_other: 'Noch {{count}} erfolgreiche Lerntage bis zum nächsten kostenlosen Schutz.',
+    coins_one: '{{count}} Münze',
+    coins_other: '{{count}} Münzen',
+    buyFreeze: 'Streak-Schutz für {{cost}} Münzen kaufen',
+    buyError:
+      'Der Schutz konnte nicht gekauft werden. Prüfe dein Guthaben und den verfügbaren Vorrat.',
+    estimated:
+      'Auf diesem Gerät berechnet. Das Konto bestätigt XP und Münzen nach der Synchronisation.',
+    travel: 'Deine Serie berücksichtigt Zeitzonenwechsel auf Reisen.',
+    loadError:
+      'Dein Motivationsstand konnte nicht geladen werden. Gespeicherte Daten bleiben erhalten.',
+    syncError: 'Noch nicht synchronisiert. Deine Lernnachweise und Käufe bleiben auf diesem Gerät.',
+    retry: 'Erneut synchronisieren',
+    remindersTitle: 'Lernerinnerungen',
+    remindersBody:
+      'Eine freundliche Erinnerung zur gewählten Ortszeit, wenn du heute noch nicht geübt hast. Höchstens eine pro Tag, mit Ruhezeit von 21 bis 8 Uhr.',
+    remindersEnabled: 'Lernerinnerungen aktivieren',
+    allowNotifications: 'Benachrichtigungen erlauben',
+    webReminders: 'Web-Push folgt später. Du kannst hier deine gewünschte Uhrzeit speichern.',
+    memoryReminders: 'In einer vorübergehenden Sitzung werden keine Erinnerungen eingerichtet.',
+    permissionDenied:
+      'Benachrichtigungen sind im Betriebssystem ausgeschaltet. Du kannst sie in den Geräteeinstellungen erlauben.',
+    localReminder:
+      'Lokale Erinnerungen sind auf diesem Gerät geplant. Sie funktionieren auch ohne Konto.',
+    remoteReminder: 'Push-Erinnerungen sind für dein Konto aktiviert.',
+    notificationError:
+      'Die Erinnerungen konnten nicht eingerichtet werden. Du kannst weiterlernen und es später erneut versuchen.',
+    retirePending: 'Die Deaktivierung alter Push-Erinnerungen wartet auf eine Verbindung.',
+    notificationTitle: 'Zeit für ein bisschen Musik',
+    notificationBody: 'Eine kleine Übung passt in deinen Tag. Harmonia wartet auf dich.',
+    notificationChannel: 'Lernerinnerungen',
+    coinsEarned_one: '+{{count}} Münze',
+    coinsEarned_other: '+{{count}} Münzen',
+    protectionHint:
+      'Schutz bewahrt eine bestehende Serie an einem verpassten Tag. Er vergibt keine XP und zählt nicht als Lerntag.',
+    coinHint:
+      'Bestandene Lektionen verdienen Münzen. Ein Schutzkauf wird einmal gebucht; mehr als zwei Schutzvorräte sind nicht möglich.',
+  },
   report: {
     title: 'Fehler melden',
     queueTitle: 'Inhaltsmeldungen',

@@ -22,6 +22,7 @@ import { useSettings } from '@/state/settings';
 import { navigationTheme, useAppColorScheme } from '@/theme';
 import { initializeDeviceState, startTemporarySession, useDeviceState } from '@/state/device';
 import { initializeAuth } from '@/auth';
+import { MotivationLifecycle } from '@/components/motivation-lifecycle';
 import { ReportLifecycle } from '@/components/report-lifecycle';
 import { LearningLifecycle } from '@/components/learning-lifecycle';
 
@@ -56,6 +57,7 @@ export default function RootLayout() {
         <QueryClientProvider client={queryClient}>
           <LearningLifecycle />
           <ReportLifecycle />
+          <MotivationLifecycle />
           {device.phase !== 'ready' ? (
             <View style={bootStyles.container}>
               <Card>

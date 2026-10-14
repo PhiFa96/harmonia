@@ -59,6 +59,10 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       'expo-sqlite',
       'expo-secure-store',
       [
+        'expo-notifications',
+        { defaultChannel: 'learning', enableBackgroundRemoteNotifications: false },
+      ],
+      [
         'react-native-audio-api',
         {
           // Klang nur im Vordergrund: kein Hintergrund-Audio (iOS) und kein Vordergrunddienst (Android).

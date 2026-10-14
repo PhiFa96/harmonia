@@ -1,5 +1,7 @@
+import { ReminderControls } from '@/components/reminder-controls';
+import { changeMotivationPreferences, useMotivation } from '@/state/motivation';
 import { LAYOUT, SPACE } from '@harmonia/ui';
-import { AppText, Button, ListGroup, ListItem } from '@harmonia/ui/native';
+import { AppText, Button } from '@harmonia/ui/native';
 import { Stack, useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, View } from 'react-native';
@@ -11,7 +13,8 @@ import { PlacementEntry } from '@/components/placement-entry';
 export default function PreferencesScreen() {
   const { t } = useTranslation(),
     router = useRouter(),
-    data = useDeviceState((s) => s.data);
+    data = useDeviceState((s) => s.data),
+    motivation = useMotivation();
   if (!data) return null;
   return (
     <>
@@ -46,13 +49,14 @@ export default function PreferencesScreen() {
           <AppText variant="title2">{t('onboarding.profileDaily')}</AppText>
           <OnboardingChoices
             label={t('onboarding.profileDaily')}
-            selected={data.dailyGoal}
+            selected={motivation.data?.preferences.dailyGoal ?? data.dailyGoal}
             options={([10, 20, 30, 50] as const).map((value) => ({
               value,
               label: t('onboarding.dailyOption', { count: value }),
             }))}
             onSelect={(dailyGoal) => {
               updateOnboarding((d) => ({ ...d, dailyGoal }));
+              void changeMotivationPreferences({ dailyGoal }).catch(() => undefined);
             }}
           />
           <AppText variant="title2">{t('onboarding.profilePlacement')}</AppText>
@@ -71,35 +75,7 @@ export default function PreferencesScreen() {
             {t('onboarding.placementHint')}
           </AppText>
           <PlacementEntry />
-          <AppText variant="title2">{t('onboarding.profileReminder')}</AppText>
-          <ListGroup>
-            <ListItem
-              label={t('onboarding.reminderConsent')}
-              toggle={{
-                value: data.reminderConsent,
-                onValueChange: (reminderConsent) => {
-                  updateOnboarding((d) => ({ ...d, reminderConsent }));
-                },
-              }}
-              last
-            />
-          </ListGroup>
-          <AppText variant="footnote" tone="muted">
-            {t('onboarding.reminderHint')}
-          </AppText>
-          {data.reminderConsent ? (
-            <OnboardingChoices
-              label={t('onboarding.reminderTime')}
-              selected={data.reminderTime}
-              options={(['17:00', '18:00', '19:00', '20:00'] as const).map((value) => ({
-                value,
-                label: t('onboarding.timeOption', { time: value }),
-              }))}
-              onSelect={(reminderTime) => {
-                updateOnboarding((d) => ({ ...d, reminderTime }));
-              }}
-            />
-          ) : null}
+          <ReminderControls />
           <DeviceStatus />
           <Button
             label={t('onboarding.done')}

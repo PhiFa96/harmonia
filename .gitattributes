@@ -1,0 +1,2 @@
+# Unified-Diffs markieren auch leere Kontextzeilen mit einem Leerzeichen.
+patches/*.patch whitespace=-blank-at-eol

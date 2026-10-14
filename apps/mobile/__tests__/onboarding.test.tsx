@@ -1,3 +1,4 @@
+import type * as MotivationModule from '@/state/motivation';
 import { act, fireEvent, renderRouter, screen, waitFor } from 'expo-router/testing-library';
 import type { create } from 'zustand';
 import type { Session } from '@supabase/supabase-js';
@@ -222,11 +223,17 @@ describe('Onboarding auf echten App-Routen', () => {
       completed: true,
       data: { ...completedDeviceFixture(), reminderConsent: true },
     });
+    const { useMotivation } = jest.requireActual<typeof MotivationModule>('@/state/motivation');
+    useMotivation.setState((state) => ({
+      data: state.data
+        ? { ...state.data, preferences: { ...state.data.preferences, reminderConsent: true } }
+        : null,
+    }));
     const router = renderRouter('./src/app', { initialUrl: '/profile' });
     fireEvent.press(screen.getByRole('button', { name: 'Lernziele anpassen' }));
     expect(router.getPathname()).toBe('/preferences');
     fireEvent.press(screen.getByTestId('setup-choice-50'));
-    fireEvent.press(screen.getByRole('switch', { name: 'Lern-Erinnerungen vormerken' }));
+    fireEvent.press(screen.getByRole('switch', { name: 'Lernerinnerungen aktivieren' }));
     expect(useDeviceState.getState().data).toMatchObject({
       dailyGoal: 50,
       reminderConsent: false,

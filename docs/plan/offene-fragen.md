@@ -24,6 +24,8 @@
 
 | 13.10.2026 | F11: mindestens 80 % anrechenbare richtige Erstversuchsantworten einer Lektion; Hinweise 1–2 erlaubt, Lösungen und ausgelassene Aufgaben liefern keine Richtig-Gutschrift; frühere Erfolge bleiben gültig | [ADR 0011](../decisions/0011-lernfortschritt-aus-geprueften-versuchen.md), [Lernpfad](lernpfad.md) |
 
+| 14.10.2026 | F07: zusätzliche Spielwährung für Streak-Schutz; Startwerte 3/1 verdiente Münzen und 10 pro Schutz, weiterhin kostenlos nach sieben erfolgreichen Lerntagen, höchstens zwei insgesamt | [ADR 0014](../decisions/0014-motivation-mit-muenzen-und-erinnerungen.md), [P2.14](streaks-xp-tagesziel-erinnerungen.md) |
+
 ## Offen
 
 | # | Frage | Optionen | Entscheidet | Bis |
@@ -32,7 +34,6 @@
 | F04 | Schreibweise der Akkordsymbole für Septakkorde und erweiterte Akkorde (Dreiklänge entschieden) | z. B. Cmaj7 / CΔ7 / CM7; umschaltbar? | Claude (nach Recherche, ADR 0005) | mit den Septakkorden (Phase 2) |
 | F05 | Stimmumfänge und Regelwerk für den Tonsatz | Lehrbuchkonvention wählen | Claude (nach Recherche, ADR 0005) | vor P4.09 |
 | F06 | Gratis-Limit-Modell | Energie / feste Tageskontingente / nur Inhaltsgrenze | gemeinsam | P2.20 |
-| F07 | Spielwährung (z. B. für Streak-Schutz) | ja / nein | gemeinsam | P2.14 |
 | F08 | Preise Premium und Max | nach Marktvergleich | Phillip | P2.19 |
 | F09 | Werbung im Gratis-Bereich | ja / nein | Phillip | P2.20 |
 | F10 | Gastmodus ohne Konto | ja (Fortschritt lokal, später verknüpfen) / nein | gemeinsam | P2.01 |

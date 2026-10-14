@@ -219,11 +219,13 @@ Die Blöcke B, C und D können teilweise parallel laufen.
 - **Abhängig von:** P2.03
 - **Umfang:** M
 - **Aufgaben:**
-  - [ ] XP-Regeln serverseitig konfigurierbar
-  - [ ] Streak mit Zeitzonenlogik und Streak-Schutz (F07 beachten)
-  - [ ] Tagesziel-Anzeige
-  - [ ] Push-Erinnerungen (`expo-notifications`, Token-Verwaltung, Zeitplanung, Opt-in)
+  - [x] XP-Regeln serverseitig konfigurierbar
+  - [x] Streak mit Zeitzonenlogik und Streak-Schutz (F07 beachten)
+  - [x] Tagesziel-Anzeige
+  - [x] Push-Erinnerungen (`expo-notifications`, Token-Verwaltung, Zeitplanung, Opt-in)
 - **Fertig, wenn:** Streak-Randfälle (Mitternacht, Zeitzonenwechsel, Offline-Tage, Streak-Schutz) sind getestet.
+
+- **Stand 14.10.2026:** Technisch umgesetzt: versionierte serverseitige XP-/Münzregeln, reisegerechte Serie, kostenloser und gekaufter Schutz gemäß F07, Tagesziel und Erinnerungen mit Opt-in, lokaler Planung, Tokens, Leases, Tickets/Receipts und vorbereitetem Scheduler. Mitternacht, DST, Reisen, Offline-Tage, Käufe und Konten sind getestet. Echte iOS-/Android-Zustellung und Remote-Projekt-/Cron-Bereitstellung bleiben getrennt abzunehmen. Übergabe: [P2.14](streaks-xp-tagesziel-erinnerungen.md), [ADR 0014](../decisions/0014-motivation-mit-muenzen-und-erinnerungen.md). Nächster Schritt P2.15.
 
 ## Block D – KI-Tutor
 

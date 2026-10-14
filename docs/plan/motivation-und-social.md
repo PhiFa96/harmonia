@@ -12,7 +12,7 @@ Spielmechaniken nach dem Vorbild von Duolingo und chess.com (siehe [Marktrecherc
 
 | Aktion | XP (Start) |
 |---|---|
-| Lektion abgeschlossen | 10 |
+| Lektion bestanden (F11) | 10 |
 | Bonus ab 90 % Genauigkeit | +5 |
 | Bonus ohne Hinweise | +3 |
 | Wiederholungslektion | 5 |
@@ -27,7 +27,7 @@ Spielmechaniken nach dem Vorbild von Duolingo und chess.com (siehe [Marktrecherc
 
 - Ein Tag zählt, wenn mindestens eine Lektion in der lokalen Zeitzone des Nutzers abgeschlossen wurde.
 - **Streak-Schutz:** wird nach je 7 Streak-Tagen verdient, höchstens 2 auf Vorrat, greift automatisch an einem verpassten Tag.
-- Offene Frage: Gibt es eine Spielwährung (zum Kauf von Streak-Schutz) oder bleibt es beim Verdienen?
+- **Spielwährung (F07, entschieden 14.10.2026):** zusätzlich 3 Münzen für erstmals bestandene Lektionen/Inhaltsversionen und 1 für bestandene Wiederholungen; ein Schutz kostet als Startwert 10 Münzen. Maximal zwei Vorräte einschließlich verdientem Schutz, keine Echtgeldzahlung in P2.14. Schutz vergibt keine XP und erhöht die Zahl der Lerntage nicht. [Umsetzung und Abnahme](streaks-xp-tagesziel-erinnerungen.md).
 - Zeitzonenwechsel (Reisen) werden gutmütig behandelt: Ein Tag geht nie durch einen Zeitzonenwechsel verloren.
 
 ## Ligen (Phase 3)

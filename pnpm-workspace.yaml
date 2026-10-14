@@ -41,3 +41,7 @@ overrides:
   '@tonaljs/pitch-distance': 5.0.5
   '@tonaljs/pitch-interval': 6.1.0
   '@tonaljs/pitch-note': 6.1.0
+
+# Fünf Web-Datenbanken benötigen Platz für gleichzeitige Rollback-Journale (ADR 0014).
+patchedDependencies:
+  expo-sqlite@57.0.4: patches/expo-sqlite@57.0.4.patch

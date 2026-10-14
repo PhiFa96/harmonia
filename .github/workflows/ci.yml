@@ -96,10 +96,13 @@ jobs:
         run: deno check --config tools/deno.json tools/deno-smoke.ts
 
       - name: Engine-geprüfte Sync-Funktion unter Deno prüfen
-        run: deno check --config supabase/functions/deno.json supabase/functions/learning-sync/index.ts supabase/functions/content-reports/index.ts
+        run: deno check --config supabase/functions/deno.json supabase/functions/learning-sync/index.ts supabase/functions/content-reports/index.ts supabase/functions/motivation/index.ts supabase/functions/reminder-dispatch/index.ts
 
       - name: Theorie, Übungen, Lektion und Fähigkeitsplan unter Deno ausführen
         run: deno run --config tools/deno.json tools/deno-smoke.ts
+
+      - name: Push-Tickets, Receipts und Transportfehler ohne echten Versand prüfen
+        run: deno run --config supabase/functions/deno.json --allow-env=EXPO_ACCESS_TOKEN tools/push-smoke.ts
 
   database:
     name: Supabase und Profil-Zugriffsschutz
@@ -161,6 +164,9 @@ jobs:
 
       - name: Inhaltsmeldungen, Wiederholungen und Konto-Isolation prüfen
         run: pnpm db:test:reports
+
+      - name: Motivation, Schutzkäufe, Zeitzonen und ersetzten Push-Versand prüfen
+        run: pnpm db:test:motivation
 
       - name: Lokale Container stoppen
         if: always()

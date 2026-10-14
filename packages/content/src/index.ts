@@ -8,3 +8,5 @@ export * from './learning-path.ts';
 export * from './lesson-flow.ts';
 export * from './lesson-rewards.ts';
 export * from './content-reports.ts';
+export * from './motivation.ts';
+export * from './reminders.ts';

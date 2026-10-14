@@ -5,6 +5,12 @@ import type { PartialMessages } from './types.ts';
 import { contentMessages } from '@harmonia/i18n/content-messages';
 
 export const enGB = {
+  motivation: {
+    goalReached: 'Daily goal reached. Well practised!',
+    remindersBody:
+      'A friendly reminder at your chosen local time if you have not practised today. At most one per day, with quiet hours from 9 PM to 8 AM.',
+    travel: 'Your streak accounts for time zone changes when travelling.',
+  },
   content: contentMessages['en-GB'],
   flow: {
     mix: '{{newCount}} questions on the current material and {{repeatCount}} revision questions.',

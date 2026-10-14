@@ -1,0 +1,25 @@
+diff --git a/web/wa-sqlite/AccessHandlePoolVFS.js b/web/wa-sqlite/AccessHandlePoolVFS.js
+index 046fe6f2d119babd02e292e31a7dbdb24747e66a..36caab24f6eb932aa46bba97009cddfcf9ff2f4b 100644
+--- a/web/wa-sqlite/AccessHandlePoolVFS.js
++++ b/web/wa-sqlite/AccessHandlePoolVFS.js
+@@ -22,7 +22,8 @@ const PERSISTENT_FILE_TYPES =
+   VFS.SQLITE_OPEN_SUPER_JOURNAL |
+   VFS.SQLITE_OPEN_WAL;
+ 
+-const DEFAULT_CAPACITY = 6;
++// Harmonia opens five databases; reserve space for concurrent rollback journals.
++const DEFAULT_CAPACITY = 32;
+ 
+ /**
+  * This VFS uses the updated Access Handle API with all synchronous methods
+@@ -230,8 +231,8 @@ export class AccessHandlePoolVFS extends FacadeVFS {
+       this.#directoryHandle = handle;
+ 
+       await this.#acquireAccessHandles();
+-      if (this.getCapacity() === 0) {
+-        await this.addCapacity(DEFAULT_CAPACITY);
++      if (this.getCapacity() < DEFAULT_CAPACITY) {
++        await this.addCapacity(DEFAULT_CAPACITY - this.getCapacity());
+       }
+     }
+     return true;
