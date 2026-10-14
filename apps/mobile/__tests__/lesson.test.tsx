@@ -14,6 +14,8 @@ import {
 import { act, fireEvent, renderRouter, screen, waitFor } from 'expo-router/testing-library';
 import { AppState } from 'react-native';
 import { i18n } from '@/i18n';
+import { router as navigation } from 'expo-router';
+import { useTutor } from '@/tutor/state';
 import { useSettings } from '@/state/settings';
 import type { LessonAttempt, SavedLessonSummary } from '@/storage/lesson-repository';
 
@@ -127,6 +129,71 @@ describe('Vollständige Lektion', () => {
       { letter: 'C', alter: 0, octave: 4 },
       { letter: 'E', alter: 0, octave: 4 },
     ]);
+  });
+  it('Warum übernimmt die falsche Erstantwort und kehrt zum unveränderten Feedback zurück', async () => {
+    const router = start(),
+      state = createLessonSession(firstLesson, SEED),
+      item = itemOf(state);
+    const wrong = required(item.choices.find((choice) => choice !== expectedAnswer(item)));
+    fireEvent.press(screen.getByTestId(`answer-${wrong}`));
+    fireEvent.press(screen.getByText('Prüfen'));
+    fireEvent.press(screen.getByText('Warum? Mit KI erklären'));
+    expect(router.getPathname()).toBe('/tutor-task');
+    expect(useTutor.getState().scope).toMatchObject({
+      mode: 'explain',
+      hintLevel: null,
+      context: {
+        source: {
+          kind: 'lesson',
+          lessonId: firstLesson.id,
+          seed: SEED,
+          round: 'initial',
+          index: 0,
+        },
+        answer: wrong,
+        checked: true,
+      },
+    });
+    expect(screen.getByText(/Melde dich mit deinem Konto/)).toBeTruthy();
+    expect(screen.getByTestId('tutor-original-score')).toBeTruthy();
+    act(() => {
+      navigation.back();
+    });
+    expect(router.getPathname()).toBe('/lesson');
+    await waitFor(() => {
+      expect(screen.getByTestId('exercise-next')).toBeTruthy();
+    });
+    expect(mockSave).not.toHaveBeenCalled();
+  });
+  it('KI-Hinweise bewahren die verwendete Stufe; KI-Lösung wird erst nach festem Hinweis 3 angeboten', async () => {
+    start();
+    expect(screen.queryByText('KI-Hinweis 1 ergänzen')).toBeNull();
+    fireEvent.press(screen.getByText('Hinweis 1'));
+    fireEvent.press(screen.getByText('KI-Hinweis 1 ergänzen'));
+    expect(useTutor.getState().scope).toMatchObject({
+      mode: 'hint',
+      hintLevel: 1,
+      context: { checked: false, answer: null },
+    });
+    act(() => {
+      navigation.back();
+    });
+    fireEvent.press(screen.getByText('Hinweis 2'));
+    fireEvent.press(screen.getByText('KI-Hinweis 2 ergänzen'));
+    expect(useTutor.getState().scope).toMatchObject({ mode: 'hint', hintLevel: 2 });
+    act(() => {
+      navigation.back();
+    });
+    fireEvent.press(screen.getByText('Lösung erklären'));
+    fireEvent.press(screen.getByText('Lösung mit KI erklären'));
+    expect(useTutor.getState().scope).toMatchObject({
+      mode: 'solution',
+      hintLevel: null,
+      context: { checked: false },
+    });
+    await waitFor(() => {
+      expect(screen.getByText(/Melde dich mit deinem Konto/)).toBeTruthy();
+    });
   });
   it('zehn richtige Antworten führen direkt zum Ergebnis und werden einmal gespeichert', async () => {
     start();

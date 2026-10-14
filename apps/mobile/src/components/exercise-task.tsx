@@ -48,6 +48,8 @@ import { DurationQuestion } from './duration-question';
 import { KeyboardExample } from './keyboard-example';
 import { MatchAnswerInput, OrderAnswerInput } from './knowledge-answer-input';
 import { useExercisePlayback } from './use-exercise-playback';
+import { openTaskTutor } from '@/tutor/state';
+import { taskTutorScore } from '@/tutor/context';
 
 interface Props {
   readonly session: ExerciseSession;
@@ -443,6 +445,35 @@ export function ExerciseTask({
               onHint();
             }}
           />
+          {reportSource && session.hintLevel > 0 ? (
+            <Button
+              variant="ghost"
+              size="medium"
+              icon="sparkle"
+              label={
+                session.hintLevel === 3
+                  ? t('tutor.aiSolution')
+                  : t('tutor.aiHint', { level: session.hintLevel })
+              }
+              onPress={() => {
+                audio.stop();
+                onReportOpen?.();
+                openTaskTutor(
+                  {
+                    locale,
+                    noteNaming: locale === 'de' ? 'de' : 'intl',
+                    mode: session.hintLevel === 3 ? 'solution' : 'hint',
+                    hintLevel:
+                      session.hintLevel === 1 || session.hintLevel === 2 ? session.hintLevel : null,
+                    context: { source: reportSource, answer, checked: false },
+                  },
+                  prompt,
+                  taskTutorScore(item, session.hintLevel === 3 ? 'solution' : 'hint'),
+                );
+                router.push('/tutor-task');
+              }}
+            />
+          ) : null}
           <Button
             label={t('practice.check')}
             disabled={
@@ -507,6 +538,30 @@ export function ExerciseTask({
               onNext();
             }}
           />
+          {reportSource ? (
+            <Button
+              variant="ghost"
+              size="medium"
+              icon="sparkle"
+              label={t('tutor.why')}
+              onPress={() => {
+                audio.stop();
+                onReportOpen?.();
+                openTaskTutor(
+                  {
+                    locale,
+                    noteNaming: locale === 'de' ? 'de' : 'intl',
+                    mode: 'explain',
+                    hintLevel: null,
+                    context: { source: reportSource, answer: result.answer, checked: true },
+                  },
+                  prompt,
+                  taskTutorScore(item, 'explain'),
+                );
+                router.push('/tutor-task');
+              }}
+            />
+          ) : null}
         </View>
       ) : null}
       {reportSource ? (

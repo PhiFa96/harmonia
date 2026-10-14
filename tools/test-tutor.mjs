@@ -2,7 +2,11 @@
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
-import { DEFAULT_TUTOR_POLICY, tutorPolicySchema } from '../packages/content/src/index.ts';
+import {
+  DEFAULT_TUTOR_POLICY,
+  tutorPolicySchema,
+  tutorAccountSchema,
+} from '../packages/content/src/index.ts';
 import { catalogue } from '../packages/content/src/authoring.ts';
 const status = JSON.parse(
   execFileSync('pnpm', ['exec', 'supabase', 'status', '-o', 'json'], {
@@ -191,6 +195,11 @@ try {
   );
   expect((await usage(a)).requests, 1, 'Ein bezahlter API-Dialog');
   const ownStatus = await call(endpoint + '?view=status', { token: a.token, method: 'GET' });
+  expect(
+    tutorAccountSchema.safeParse(ownStatus.data).success,
+    true,
+    'App-Vertrag liest PostgreSQL-Zeitoffset und Kontingent',
+  );
   expect(ownStatus.data.tier, 'premium', 'Kontingent verwendet Server-Abo');
   expect(ownStatus.data.requestsUsed, 1, 'Kontingent enthält eigene Zulassungen');
   expect(ownStatus.data.requestsRemaining, 199, 'Verbleibendes Kontingent');
@@ -235,6 +244,163 @@ try {
     method: 'GET',
   });
   expect(history.data.messages.length, 2, 'Benutzer und Tutor gespeichert');
+  const tail = await call(`${endpoint}?conversationId=${first.conversationId}&tail=true`, {
+    token: a.token,
+    method: 'GET',
+  });
+  expect(
+    tail.data.messages.map((m) => m.id),
+    history.data.messages.map((m) => m.id),
+    'Neueste Verlaufseite chronologisch',
+  );
+  expect(tail.data.older, null, 'Kein alter Cursor bei kurzem Verlauf');
+  expect(
+    tail.data.messages.at(-1).content.simulation,
+    true,
+    'Gespeicherte Antwort kennzeichnet Simulation',
+  );
+  const report = {
+    id: randomUUID(),
+    conversationId: first.conversationId,
+    messageId: history.data.messages.at(-1).id,
+    category: 'incorrect',
+    message: 'Kontakt test@example.invalid ist hier unnötig.',
+  };
+  const reportEndpoint = endpoint + '?view=report';
+  expect(
+    (await call(reportEndpoint, { token: a.token, body: report })).data.accepted,
+    report.id,
+    'KI-Antwortmeldung bestätigt',
+  );
+  expect(
+    (await call(reportEndpoint, { token: a.token, body: report })).data.accepted,
+    report.id,
+    'Gleiche Meldung idempotent',
+  );
+  expect(
+    (await call(reportEndpoint, { token: a.token, body: { ...report, message: 'anders' } })).status,
+    409,
+    'Geänderte Meldungs-ID zurückgewiesen',
+  );
+  expect(
+    (await call(reportEndpoint, { token: b.token, body: { ...report, id: randomUUID() } })).status,
+    404,
+    'Fremde Antwort nicht meldbar',
+  );
+  expect(
+    (
+      await call(reportEndpoint, {
+        token: a.token,
+        body: { ...report, id: randomUUID(), messageId: history.data.messages[0].id },
+      })
+    ).status,
+    404,
+    'Frage ist keine KI-Antwort',
+  );
+  expect(
+    (await call(reportEndpoint, { body: report })).status,
+    401,
+    'Keine Gastmeldung einer KI-Antwort',
+  );
+  expect(
+    (
+      await call(reportEndpoint, {
+        token: a.token,
+        body: { ...report, id: randomUUID(), actor: b.id },
+      })
+    ).status,
+    400,
+    'Kein Client-Actor',
+  );
+  const reports = (await table('tutor_reports', { token: a.token })).data;
+  expect(reports.length, 1, 'Meldung ohne Duplikat gespeichert');
+  expect(reports[0].message.includes('test@example.invalid'), false, 'Keine E-Mail im Berichttext');
+  expect(
+    (await table('tutor_reports', { token: b.token })).data.length,
+    0,
+    'Meldungen kontogetrennt',
+  );
+  const snapshotConversation = randomUUID();
+  expect(
+    (
+      await raw('/rest/v1/tutor_conversations', {
+        admin: true,
+        body: {
+          id: snapshotConversation,
+          user_id: b.id,
+          context: { locale: 'de', noteNaming: 'de', mode: 'chat', hintLevel: null, context: null },
+          context_hash: 'a'.repeat(64),
+        },
+      })
+    ).status,
+    201,
+    'Eigene separate Pagination-Testdaten',
+  );
+  const pageRows = Array.from({ length: 112 }, (_, n) => ({
+    conversation_id: snapshotConversation,
+    role: n % 2 ? 'assistant' : 'user',
+    content:
+      n % 2
+        ? {
+            text: 'Simulierte Pagination-Antwort ' + n,
+            examples: [],
+            errors: [],
+            status: 'complete',
+            simulation: true,
+          }
+        : { text: 'Pagination-Frage ' + n },
+  }));
+  expect(
+    (await raw('/rest/v1/tutor_messages', { admin: true, body: pageRows })).status,
+    201,
+    'Mehr als 100 Verlaufseinträge für echte Cursorprüfung',
+  );
+  const recent = await call(`${endpoint}?conversationId=${snapshotConversation}&tail=true`, {
+    token: b.token,
+    method: 'GET',
+  });
+  expect(recent.data.messages.length, 100, 'Neueste Seite begrenzt');
+  expect(
+    recent.data.messages.at(-1).content.text,
+    'Simulierte Pagination-Antwort 111',
+    'Letzte Antwort sofort sichtbar',
+  );
+  const previous = await call(
+    `${endpoint}?conversationId=${snapshotConversation}&tail=true&beforeMessage=${recent.data.older}`,
+    { token: b.token, method: 'GET' },
+  );
+  expect(previous.data.messages.length, 12, 'Ältere Seite vollständig');
+  expect(
+    new Set([...previous.data.messages, ...recent.data.messages].map((m) => m.id)).size,
+    112,
+    'Cursor ohne Lücke oder Duplikat',
+  );
+  expect(
+    (
+      await call(`${endpoint}?conversationId=${snapshotConversation}&tail=true&after=1`, {
+        token: b.token,
+        method: 'GET',
+      })
+    ).status,
+    400,
+    'Kein gemischter Cursor',
+  );
+  expect(
+    (await call(`${endpoint}?tail=true`, { token: b.token, method: 'GET' })).status,
+    400,
+    'Nachrichtencursor braucht Gespräch',
+  );
+  expect(
+    (
+      await call(`${endpoint}?conversationId=${snapshotConversation}`, {
+        token: b.token,
+        method: 'DELETE',
+      })
+    ).status,
+    204,
+    'Nur eigene Pagination-Testdaten entfernt',
+  );
+
   expect(
     (
       await call(
@@ -553,6 +719,12 @@ try {
   );
   const ledger = (await table(`tutor_requests?id=eq.${first.id}`, { admin: true })).data[0];
   expect(ledger.result, null, 'Cache gelöscht');
+  expect(
+    (await table(`tutor_reports?conversation_id=eq.${first.conversationId}`, { admin: true })).data
+      .length,
+    0,
+    'Gesprächslöschung entfernt alle Antwortmeldungen',
+  );
   expect(ledger.user_text, '', 'Keine verbliebene Kopie der Frage');
   expect(
     (await table(`ai_usage?user_id=eq.${a.id}`, { token: b.token })).data.length,

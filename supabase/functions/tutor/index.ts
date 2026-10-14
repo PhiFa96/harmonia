@@ -6,6 +6,8 @@ import {
   tutorRequestSchema,
   TUTOR_PROMPT_VERSION,
   TUTOR_TOOL_VERSION,
+  tutorReportSchema,
+  tutorReportResponseSchema,
 } from '../../../packages/content/src/index.ts';
 import type {
   ContentCatalogue,
@@ -178,12 +180,13 @@ async function read(client: SupabaseClient, actor: string, url: URL) {
       requestsLimit: allowance.requests,
       requestsRemaining: Math.max(0, allowance.requests - own.requestsUsed),
       availability,
+      simulation: localTutorFixtureEnabled((key) => Deno.env.get(key)),
     });
   }
   const id = url.searchParams.get('conversationId');
   if (
     Array.from(url.searchParams.keys()).some(
-      (k) => !['conversationId', 'before', 'after'].includes(k),
+      (k) => !['conversationId', 'before', 'after', 'tail', 'beforeMessage'].includes(k),
     )
   )
     return json(400, { error: 'schema' });
@@ -201,6 +204,37 @@ async function read(client: SupabaseClient, actor: string, url: URL) {
       >();
     if (owned.error) return json(503, { error: 'storage' });
     if (!owned.data) return json(404, { error: 'missing' });
+    if (url.searchParams.has('tail')) {
+      const beforeMessage = url.searchParams.has('beforeMessage')
+        ? Number(url.searchParams.get('beforeMessage'))
+        : null;
+      if (
+        url.searchParams.get('tail') !== 'true' ||
+        url.searchParams.has('after') ||
+        (beforeMessage !== null && (!Number.isSafeInteger(beforeMessage) || beforeMessage < 1))
+      )
+        return json(400, { error: 'schema' });
+      let query = client
+        .from('tutor_messages')
+        .select('id,role,content,created_at')
+        .eq('conversation_id', id)
+        .order('id', { ascending: false })
+        .limit(101);
+      if (beforeMessage !== null) query = query.lt('id', beforeMessage);
+      const page = await query.overrideTypes<
+        { id: number; role: string; content: unknown; created_at: string }[],
+        { merge: false }
+      >();
+      if (page.error) return json(503, { error: 'storage' });
+      const messages = page.data.slice(0, 100).reverse();
+      return json(200, {
+        conversation: owned.data,
+        messages,
+        next: null,
+        older: page.data.length > 100 ? messages[0]?.id : null,
+      });
+    }
+    if (url.searchParams.has('beforeMessage')) return json(400, { error: 'schema' });
     const after = Number(url.searchParams.get('after') ?? 0);
     if (!Number.isSafeInteger(after) || after < 0) return json(400, { error: 'schema' });
     const page = await client
@@ -222,7 +256,8 @@ async function read(client: SupabaseClient, actor: string, url: URL) {
       next: page.data.length > 100 ? messages.at(-1)?.id : null,
     });
   }
-  if (url.searchParams.has('after')) return json(400, { error: 'schema' });
+  if (['after', 'tail', 'beforeMessage'].some((key) => url.searchParams.has(key)))
+    return json(400, { error: 'schema' });
   let query = client
     .from('tutor_conversations')
     .select('id,context,created_at,updated_at')
@@ -307,6 +342,32 @@ Deno.serve(async (request) => {
         : removed.data
           ? new Response(null, { status: 204, headers })
           : json(404, { error: 'missing' });
+    }
+    if (
+      url.searchParams.get('view') === 'report' &&
+      Array.from(url.searchParams.keys()).length === 1
+    ) {
+      const body = await boundedBody(request);
+      if (body === null) return json(413, { error: 'size' });
+      let value: unknown;
+      try {
+        value = JSON.parse(body);
+      } catch {
+        return json(400, { error: 'schema' });
+      }
+      const parsed = tutorReportSchema.safeParse(value);
+      if (!parsed.success) return json(400, { error: 'schema' });
+      const stored = await client.rpc('submit_tutor_report', {
+        actor,
+        report: { ...parsed.data, message: redactTutorText(parsed.data.message) },
+      });
+      const receipt = tutorReportResponseSchema.safeParse(stored.data);
+      if (stored.error || !receipt.success) return json(503, { error: 'storage' });
+      if ('error' in receipt.data)
+        return json(receipt.data.error === 'missing' ? 404 : 409, { error: receipt.data.error });
+      return receipt.data.accepted === parsed.data.id
+        ? json(200, { accepted: parsed.data.id })
+        : json(503, { error: 'storage' });
     }
     if (url.search) return json(400, { error: 'schema' });
     const body = await boundedBody(request);
@@ -476,7 +537,7 @@ Deno.serve(async (request) => {
             lease_id: held.lease,
             final_state: outcome.result.status,
             final_usage: outcome.usage,
-            final_result: outcome.result,
+            final_result: { ...outcome.result, simulation: test },
           });
           if (finished.error || !finished.data)
             send({ type: 'error', code: 'storage', retryId: input.id });

@@ -207,7 +207,7 @@ Die Blöcke B, C und D können teilweise parallel laufen.
 - **Umfang:** M
 - **Aufgaben:**
   - [x] Feedback mit Erklärtext aus der Engine, Notenbild der Lösung, Hörbeispiel
-  - [x] Hinweisleiter (feste Hinweise; KI-Hinweise kommen in P2.18)
+  - [x] Hinweisleiter (feste Hinweise; ergänzende KI-Hinweise seit P2.17)
   - [x] „Fehler melden“ → `content_reports`
 - **Fertig, wenn:** Jeder Übungstyp liefert verständliches Feedback in beiden Sprachen.
 
@@ -265,12 +265,14 @@ Die Blöcke B, C und D können teilweise parallel laufen.
 - **Abhängig von:** P2.15
 - **Umfang:** M
 - **Aufgaben:**
-  - [ ] Chat-Screen mit gestreamter Antwort, Quellen, Notenbeispielen (rendern und abspielen)
-  - [ ] „Warum?“ nach einer Aufgabe mit Kontext; KI-Hinweise in der Hinweisleiter
-  - [ ] KI-Kennzeichnung (Art. 50), Hinweis auf mögliche Fehler, Melde-Knopf pro Antwort
-  - [ ] Verlauf ansehen und löschen
-  - [ ] Kontingent-Anzeige und Hinweis auf Premium
+  - [x] Chat-Screen mit gestreamter Antwort, Quellen, Notenbeispielen (rendern und abspielen)
+  - [x] „Warum?“ nach einer Aufgabe mit Kontext; KI-Hinweise in der Hinweisleiter
+  - [x] KI-Kennzeichnung (Art. 50), Hinweis auf mögliche Fehler, Melde-Knopf pro Antwort
+  - [x] Verlauf ansehen und löschen
+  - [x] Kontingent-Anzeige und Hinweis auf Premium
 - **Fertig, wenn:** Ein Nutzer kann nach einer falschen Antwort nachfragen und erhält eine korrekte, verständliche Erklärung mit Beispiel.
+
+- **Stand 14.10.2026:** Technische Aufgaben umgesetzt in DE/US/UK: eigener Tutor-Tab, nativer/Web-SSE-Transport, Originalaufgabe/Erstantwort, KI-Hinweise ohne zusätzliche Bewertung, geprüfte Beispiele und Quellen, private Sitzungsdaten, eigener Verlauf mit Pagination/Löschung, Antwortmeldungen und Serverkontingent. **Echte Definition-of-Done offen:** Lokale API-/Browserabnahme verwendet ausschließlich ein sichtbar simuliertes Modell. Sichere Anthropic-Bindung, echte fachliche Erklärungen und native Geräteabnahme fehlen weiterhin. Übergabe: [P2.17](tutor-oberflaeche.md), [ADR 0017](../decisions/0017-tutor-oberflaeche-und-private-sitzung.md). Nächster technischer Schritt P2.18.
 
 ### P2.18 – Tutor-Testkatalog und Kalibrierung
 

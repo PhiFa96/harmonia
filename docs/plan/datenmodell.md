@@ -21,6 +21,7 @@ Postgres in Supabase, Region EU. Alle Tabellen mit Row Level Security (RLS). Än
 | `streaks` | Lernserie | `user_id`, `current`, `longest`, `last_active_date` (in Nutzer-Zeitzone), `freezes_available` |
 | `tutor_conversations` | Gespräche mit dem KI-Tutor | `id`, `user_id`, `context` (jsonb: Lektion/Aufgabe), `created_at` |
 | `tutor_messages` | Nachrichten | `id`, `conversation_id`, `role`, `content` (jsonb), `created_at` |
+| `tutor_reports` | Private Meldung zu einer gespeicherten KI-Antwort | `id`, `user_id`, `conversation_id`, `message_id`, `category`, `message`, `created_at`; FK-Löschkaskaden, eigene Leserechte, Schreiben nur Service |
 | `ai_usage` | Kosten und Kontingente | `user_id`, `day`, `requests`, `input_tokens`, `output_tokens`, `cache_read_tokens`, `cost_estimate` |
 | `entitlements` | Abo-Berechtigungen (Spiegel aus RevenueCat) | `user_id`, `entitlement` (premium/max), `active`, `expires_at`, `store`, `updated_at` |
 | `billing_events` | Rohdaten der Webhooks | `id`, `provider`, `event_id` (eindeutig), `payload`, `processed_at` |
@@ -98,3 +99,7 @@ sequenceDiagram
 ## Wissensbasis v1 (P2.16)
 
 Öffentliche Leser sehen ausschließlich `published` mit `freigegeben`; auch Konten lesen keine `preview`-Datensätze. Indexabgleich und Suche sind Service-RPCs. `replace_knowledge_index` ersetzt einen Snapshot transaktional, `search_knowledge` liefert nur IDs/Ränge aus exakt passender Sprache und erwartetem Snapshot. Modelltexte stammen anschließend aus bekannten kompilierten Katalogdatensätzen. Quellen-IDs enthalten einen SHA-256 über kanonischen Originaltext und Metadaten; alte Quellen werden nach Rückzug nicht weitergesucht. Validierte Zitate werden mit der privaten Tutorantwort gespeichert und beim Löschen des Gesprächs entfernt. Details: [Wissensbasis](wissensbasis.md).
+
+## Tutor-Oberfläche (P2.17)
+
+`tutor_reports` enthält keine Kopie der KI-Antwort: Der private Service-RPC prüft die eigene Assistentennachricht im eigenen Gespräch und verarbeitet die Meldungs-ID idempotent. Direkte Clients dürfen nur eigene Meldungen lesen. Antworten-/Gesprächs-/Kontolöschung entfernt Meldungen per Fremdschlüssel. Meldungen benötigen kein aktives Modellkontingent; freie Beschreibung ist auf 2000 Zeichen begrenzt und E-Mail-Adressen werden vor Speicherung redigiert. Der Verlauf liefert auf Wunsch die letzten 100 Nachrichten mit exklusivem Cursor für ältere Einträge. Keine lokale Persistenz von Chat oder ungesendeten Fragen; Kontowechsel löscht private App-Sitzungsdaten. Details: [Tutor-Oberfläche](tutor-oberflaeche.md).

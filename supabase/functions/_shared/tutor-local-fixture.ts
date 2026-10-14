@@ -52,7 +52,7 @@ export const localTutorFetch: typeof fetch = (_url, options) => {
     );
   const encoder = new TextEncoder();
   const body = new ReadableStream<Uint8Array>({
-    start(controller) {
+    async start(controller) {
       const event = (type: string, data: unknown) => {
         controller.enqueue(encoder.encode(`event: ${type}\ndata: ${JSON.stringify(data)}\n\n`));
       };
@@ -80,21 +80,33 @@ export const localTutorFetch: typeof fetch = (_url, options) => {
         return;
       }
       let stop = 'end_turn';
-      const tools = [
-        { name: 'analyze_interval', input: { from: 'C4', to: 'Fb4' } },
-        {
-          name: 'build_scale',
-          input: {
-            tonic: 'C5',
-            type: 'melodicMinor',
-            direction: 'descending',
-            includeOctave: true,
-          },
-        },
-        { name: 'render_example', input: { source: 'treble | 4/4 | C4/1', bpm: 90 } },
-        { name: 'get_exercise_context', input: {} },
-      ];
-      if ((!result || question.includes('fixture:loop')) && question.includes('fixture:tools')) {
+      const tools = question.includes('fixture:showcase')
+        ? [
+            { name: 'get_exercise_context', input: {} },
+            { name: 'analyze_interval', input: { from: 'C4', to: 'Fb4' } },
+            {
+              name: 'render_example',
+              input: { source: 'treble | 4/4 | C4/4 Fb4/4 r/2', bpm: 120 },
+            },
+          ]
+        : [
+            { name: 'analyze_interval', input: { from: 'C4', to: 'Fb4' } },
+            {
+              name: 'build_scale',
+              input: {
+                tonic: 'C5',
+                type: 'melodicMinor',
+                direction: 'descending',
+                includeOctave: true,
+              },
+            },
+            { name: 'render_example', input: { source: 'treble | 4/4 | C4/1', bpm: 90 } },
+            { name: 'get_exercise_context', input: {} },
+          ];
+      if (
+        (!result || question.includes('fixture:loop')) &&
+        (question.includes('fixture:tools') || question.includes('fixture:showcase'))
+      ) {
         stop = 'tool_use';
         tools.forEach((tool, index) => {
           event('content_block_start', {
@@ -116,9 +128,12 @@ export const localTutorFetch: typeof fetch = (_url, options) => {
         });
       } else {
         if (question.includes('fixture:refusal')) stop = 'refusal';
-        const text = result
-            ? 'Engine-geprüft: ' + JSON.stringify(last?.content)
-            : 'Eine kurze Erklärung mit einem nächsten Übungsschritt.',
+        const text =
+            result && question.includes('fixture:showcase')
+              ? 'C–Fes wird als verminderte Quarte geschrieben. Das geprüfte Beispiel lässt dich die Schreibweise und den Klang vergleichen. Dies ist eine lokale Testantwort.'
+              : result
+                ? 'Engine-geprüft: ' + JSON.stringify(last?.content)
+                : 'Eine kurze Erklärung mit einem nächsten Übungsschritt.',
           pieces = question.includes('fixture:markup')
             ? ['Vorher [[no', 'tes:C4/1]] danach.']
             : [text];
@@ -127,6 +142,22 @@ export const localTutorFetch: typeof fetch = (_url, options) => {
           index: 0,
           content_block: { type: 'text', text: '' },
         });
+        if (question.includes('fixture:slow')) {
+          event('content_block_delta', {
+            type: 'content_block_delta',
+            index: 0,
+            delta: { type: 'text_delta', text: 'Ein erster Denkanstoß. ' },
+          });
+          await new Promise((resolve) => setTimeout(resolve, 1500));
+          if (options?.signal?.aborted) {
+            try {
+              controller.close();
+            } catch {
+              /* Bereits geschlossener Teststream. */
+            }
+            return;
+          }
+        }
         for (const text of pieces)
           event('content_block_delta', {
             type: 'content_block_delta',

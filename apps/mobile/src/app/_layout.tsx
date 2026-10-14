@@ -90,6 +90,7 @@ export default function RootLayout() {
                 <Stack.Screen name="(tabs)" />
                 <Stack.Screen name="lesson" />
                 <Stack.Screen name="article" />
+                <Stack.Screen name="tutor-task" />
                 <Stack.Screen name="note-input" />
                 <Stack.Screen name="audio-test" />
                 <Stack.Screen name="gallery" />

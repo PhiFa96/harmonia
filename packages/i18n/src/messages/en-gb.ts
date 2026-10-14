@@ -5,6 +5,10 @@ import type { PartialMessages } from './types.ts';
 import { contentMessages } from '@harmonia/i18n/content-messages';
 
 export const enGB = {
+  tutor: {
+    practice: 'Practise freely',
+    error_unavailable: 'The AI tutor is currently unavailable. You can continue practising.',
+  },
   motivation: {
     goalReached: 'Daily goal reached. Well practised!',
     remindersBody:

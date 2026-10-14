@@ -30,6 +30,10 @@ export default function TabLayout() {
         options={{ title: t('tabs.practice'), tabBarIcon: tabIcon('metronome') }}
       />
       <Tabs.Screen
+        name="tutor"
+        options={{ title: t('tutor.title'), tabBarIcon: tabIcon('sparkle') }}
+      />
+      <Tabs.Screen
         name="profile"
         options={{ title: t('tabs.profile'), tabBarIcon: tabIcon('person') }}
       />

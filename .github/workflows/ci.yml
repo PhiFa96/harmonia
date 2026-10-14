@@ -183,7 +183,7 @@ jobs:
       - name: Motivation, Schutzkäufe, Zeitzonen und ersetzten Push-Versand prüfen
         run: pnpm db:test:motivation
 
-      - name: Tutor-SSE, Verlauf, Abo, Budgets, Abbrüche und Löschung lokal prüfen
+      - name: Tutor-SSE, Verlauf, Antwortmeldungen, Abo, Budgets und Löschung lokal prüfen
         run: pnpm db:test:tutor
 
       - name: Volltextsuche, Quellenrückzug, Zitate und Konto-Zugriff lokal prüfen

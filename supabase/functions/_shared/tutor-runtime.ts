@@ -30,6 +30,7 @@ export interface TutorResult {
   status: TutorStatus;
   citations?: KnowledgeCitation[];
   sourceState?: 'cited' | 'no_source' | 'unavailable';
+  simulation?: boolean;
 }
 export type TutorEvent =
   | { type: 'text'; text: string }

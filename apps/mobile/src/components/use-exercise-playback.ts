@@ -16,10 +16,10 @@ import { playScale } from '@/exercises/play-scale';
 import { playChordExercise } from '@/exercises/play-chord';
 import { playRhythm } from '@/exercises/play-rhythm';
 import { playListening } from '@/exercises/play-listening';
-import { playExample } from '@/exercises/play-example';
+import { playExample, EXAMPLE_BPM } from '@/exercises/play-example';
 
 /** Keine automatische Wiedergabe. Ein verspätetes resume() darf nach dem Verlassen nicht klingen. */
-export function useExercisePlayback(item: ExerciseItem | Score | undefined) {
+export function useExercisePlayback(item: ExerciseItem | Score | undefined, bpm = EXAMPLE_BPM) {
   const current = useRef(item);
   current.current = item;
   const focused = useRef(true);
@@ -42,7 +42,7 @@ export function useExercisePlayback(item: ExerciseItem | Score | undefined) {
     stop();
     setHeard(false);
     setError(false);
-  }, [item, stop]);
+  }, [item, bpm, stop]);
   useFocusEffect(
     useCallback(() => {
       focused.current = true;
@@ -80,7 +80,7 @@ export function useExercisePlayback(item: ExerciseItem | Score | undefined) {
       if (token !== request.current || current.current !== item || !canPlay()) return;
       playback.current =
         'staves' in item
-          ? playExample(engine, item)
+          ? playExample(engine, item, bpm)
           : item.type === 'LISTENING_CHOICE'
             ? playListening(engine, item)
             : isRhythmItem(item)

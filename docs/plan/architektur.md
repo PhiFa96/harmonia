@@ -111,6 +111,7 @@ flowchart LR
 - **Serverdaten:** TanStack Query (Caching, Wiederholung, Offline-Pausierung). In P1.03 bestätigt: `QueryClientProvider` im Wurzel-Layout.
 - **Lokaler Zustand:** Zustand für Einstellungen und Sitzungszustand von Lektionen. In P1.03 bestätigt (erster Store: `src/state/settings.ts`, Sprache).
 - **Persistenz offline:** SQLite über `expo-sqlite` für Versuche, Fortschritt und Warteschlange der Synchronisation; schneller Key-Value-Speicher für Einstellungen.
+- **Tutor (P2.17):** `expo/fetch` streamt SSE auf Web/iOS/Android; gemeinsamer begrenzter Decoder und Zod-Verträge, explizite Wiederholung derselben Anfrage-ID. Private Dialogdaten liegen ausschließlich im flüchtigen Zustand; Abbruch und Generationsprüfung verhindern verspätete Kontodaten. Verlauf/Meldungen verbleiben serverseitig mit eigener RLS und Löschkaskaden. [ADR 0017](../decisions/0017-tutor-oberflaeche-und-private-sitzung.md).
 - **Synchronisation:** Jede Aktion (z. B. abgeschlossene Aufgabe) bekommt eine Client-ID (UUID) und wird idempotent hochgeladen. Doppelte Uploads haben keine Wirkung. Konflikte: Der Server führt zusammen (Summen, Maxima). Für Wettbewerbswerte rechnet nur der Server.
 
 ## Umgebungen

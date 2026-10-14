@@ -58,6 +58,8 @@ Der Tutor rechnet nicht selbst, sondern ruft die Engine auf. Werkzeuge mit stren
 
 **Notenbeispiele in Antworten:** Seit P2.15 verwendet der Tutor `render_example`. Nur nach erfolgreicher Parser-/Engine-Prüfung sendet die Function ein strukturiertes `example`-Ereignis mit geprüftem Score und Tempo. Die App-Oberfläche aus P2.17 rendert und spielt diese Daten. Freie Noten-Makros des Modells werden entfernt und als `unverified_example` protokolliert.
 
+**Oberfläche P2.17:** Eigener Tab und „Warum?“-Route mit Originalaufgabe, ausdrücklich gestarteter Erklärung, KI-Kennzeichnung, Fehlerhinweis, Quellen und Meldung pro gespeicherter Antwort. KI-Hinweise ergänzen ausschließlich eine bereits verwendete feste Stufe 1/2; Lösung folgt erst nach Stufe 3. Kontingent und Verfügbarkeit kommen vom Server. Unterbrechungen werden sichtbar, eine ausdrückliche Wiederholung behält dieselbe Anfrage-ID. Verlauf und Meldungen sind privat und löschbar; Chat wird in der App nicht persistiert. Übergabe: [Tutor-Oberfläche](tutor-oberflaeche.md).
+
 ## Wissensbasis
 
 - Eigene Artikel (DE/EN) zu allen Themen der freigegebenen Stufen, geschrieben nach dem Prozess in [inhalte-und-didaktik.md](inhalte-und-didaktik.md).
