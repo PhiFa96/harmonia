@@ -96,13 +96,16 @@ jobs:
         run: deno check --config tools/deno.json tools/deno-smoke.ts
 
       - name: Engine-geprüfte Sync-Funktion unter Deno prüfen
-        run: deno check --config supabase/functions/deno.json supabase/functions/learning-sync/index.ts supabase/functions/content-reports/index.ts supabase/functions/motivation/index.ts supabase/functions/reminder-dispatch/index.ts
+        run: deno check --config supabase/functions/deno.json supabase/functions/learning-sync/index.ts supabase/functions/content-reports/index.ts supabase/functions/motivation/index.ts supabase/functions/reminder-dispatch/index.ts supabase/functions/tutor/index.ts tools/tutor-live.ts
 
       - name: Theorie, Übungen, Lektion und Fähigkeitsplan unter Deno ausführen
         run: deno run --config tools/deno.json tools/deno-smoke.ts
 
       - name: Push-Tickets, Receipts und Transportfehler ohne echten Versand prüfen
         run: deno run --config supabase/functions/deno.json --allow-env=EXPO_ACCESS_TOKEN tools/push-smoke.ts
+
+      - name: Tutor-Werkzeuge, SDK-Streaming und Testtarif ohne echte KI-Kosten prüfen
+        run: deno run --config tools/deno.json --allow-env=ANTHROPIC_CUSTOM_HEADERS tools/tutor-smoke.ts
 
   database:
     name: Supabase und Profil-Zugriffsschutz
@@ -147,17 +150,18 @@ jobs:
 
       - name: Öffentliche Lernpfad-Funktion verweigert Entwurfsinhalte
         run: |
-          node tools/serve-local-learning.mjs --published > "$RUNNER_TEMP/harmonia-learning-public.log" 2>&1 &
+          node tools/serve-local-learning.mjs --published --tutor-test > "$RUNNER_TEMP/harmonia-learning-public.log" 2>&1 &
           harmonia_learning_pid=$!
           trap 'kill "$harmonia_learning_pid" 2>/dev/null || true' EXIT
           node tools/test-learning-sync.mjs --published
           node tools/test-content-reports.mjs --published
+          node tools/test-tutor.mjs --published
           kill "$harmonia_learning_pid"
           wait "$harmonia_learning_pid" || true
           trap - EXIT
 
       - name: Lokale Lernpfad-Synchronisation starten
-        run: pnpm db:serve:learning > "$RUNNER_TEMP/harmonia-learning.log" 2>&1 &
+        run: pnpm db:serve:learning --tutor-test > "$RUNNER_TEMP/harmonia-learning.log" 2>&1 &
 
       - name: Offline-Versuche und Synchronisation zwischen zwei Geräten prüfen
         run: pnpm db:test:learning
@@ -167,6 +171,9 @@ jobs:
 
       - name: Motivation, Schutzkäufe, Zeitzonen und ersetzten Push-Versand prüfen
         run: pnpm db:test:motivation
+
+      - name: Tutor-SSE, Verlauf, Abo, Budgets, Abbrüche und Löschung lokal prüfen
+        run: pnpm db:test:tutor
 
       - name: Lokale Container stoppen
         if: always()

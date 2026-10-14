@@ -19,7 +19,7 @@
     "check:content:bundle": "node tools/check-public-bundle.mjs",
     "content:publish": "node tools/check-content.mjs --write",
     "preview:web": "node tools/serve-web.mjs",
-    "check:deno": "npx -y deno@2.9.6 check --config tools/deno.json tools/deno-smoke.ts && npx -y deno@2.9.6 run --config tools/deno.json tools/deno-smoke.ts && npx -y deno@2.9.6 check --config supabase/functions/deno.json supabase/functions/learning-sync/index.ts supabase/functions/content-reports/index.ts && npx -y deno@2.9.6 check --config supabase/functions/deno.json supabase/functions/motivation/index.ts supabase/functions/reminder-dispatch/index.ts && npx -y deno@2.9.6 run --config supabase/functions/deno.json --allow-env=EXPO_ACCESS_TOKEN tools/push-smoke.ts",
+    "check:deno": "npx -y deno@2.9.6 check --config tools/deno.json tools/deno-smoke.ts && npx -y deno@2.9.6 run --config tools/deno.json tools/deno-smoke.ts && npx -y deno@2.9.6 check --config supabase/functions/deno.json supabase/functions/learning-sync/index.ts supabase/functions/content-reports/index.ts && npx -y deno@2.9.6 check --config supabase/functions/deno.json supabase/functions/motivation/index.ts supabase/functions/reminder-dispatch/index.ts && npx -y deno@2.9.6 run --config supabase/functions/deno.json --allow-env=EXPO_ACCESS_TOKEN tools/push-smoke.ts && pnpm check:tutor",
     "db:start": "node tools/start-local-supabase.mjs",
     "db:stop": "supabase stop",
     "db:reset": "supabase db reset --local --yes",
@@ -30,9 +30,13 @@
     "db:serve:learning": "node tools/serve-local-learning.mjs",
     "db:test:learning": "node tools/test-learning-sync.mjs",
     "db:test:reports": "node tools/test-content-reports.mjs",
-    "db:test:motivation": "node tools/test-motivation.mjs && node tools/test-reminder-job.mjs"
+    "db:test:motivation": "node tools/test-motivation.mjs && node tools/test-reminder-job.mjs",
+    "check:tutor": "npx -y deno@2.9.6 check --config tools/deno.json tools/tutor-smoke.ts tools/tutor-live.ts supabase/functions/tutor/index.ts && npx -y deno@2.9.6 run --config tools/deno.json --allow-env=ANTHROPIC_CUSTOM_HEADERS tools/tutor-smoke.ts",
+    "check:tutor:live": "npx -y deno@2.9.6 run --config tools/deno.json --allow-env=ANTHROPIC_API_KEY,HARMONIA_TUTOR_MODEL,HARMONIA_TUTOR_TARIFF,ANTHROPIC_CUSTOM_HEADERS --allow-net=api.anthropic.com tools/tutor-live.ts",
+    "db:test:tutor": "node tools/test-tutor.mjs"
   },
   "devDependencies": {
+    "@anthropic-ai/sdk": "0.133.0",
     "@eslint/js": "catalog:",
     "@harmonia/config": "workspace:*",
     "eslint": "catalog:",

@@ -10,3 +10,4 @@ export * from './lesson-rewards.ts';
 export * from './content-reports.ts';
 export * from './motivation.ts';
 export * from './reminders.ts';
+export * from './tutor.ts';

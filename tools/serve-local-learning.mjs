@@ -8,6 +8,12 @@ const docker = execFileSync('which', ['docker'], {
   stdio: ['ignore', 'pipe', 'pipe'],
 }).trim();
 const dir = mkdtempSync(join(tmpdir(), 'harmonia-learning-'));
+const tutorTest = process.argv.includes('--tutor-test'),
+  tutorLive = process.argv.includes('--tutor-live');
+if ((tutorLive && tutorTest) || (tutorLive && !process.env.ANTHROPIC_API_KEY)) {
+  rmSync(dir, { recursive: true, force: true });
+  throw new Error('Tutor-Live benötigt ANTHROPIC_API_KEY und ist vom lokalen Test getrennt.');
+}
 const wrapper = join(dir, 'docker'),
   envFile = join(dir, 'preview.env');
 copyFileSync(new URL('./docker-local-wrapper.cjs', import.meta.url), wrapper);
@@ -15,7 +21,8 @@ chmodSync(wrapper, 0o755);
 // Ausschließlich lokale Entwürfe für die Integration, kein Remote-Release.
 writeFileSync(
   envFile,
-  process.argv.includes('--published') ? '' : 'HARMONIA_LOCAL_PREVIEW=true\n',
+  (process.argv.includes('--published') ? '' : 'HARMONIA_LOCAL_PREVIEW=true\n') +
+    (tutorTest ? 'HARMONIA_TUTOR_LOCAL_TEST=true\n' : ''),
   { mode: 0o600 },
 );
 const child = spawn('pnpm', ['exec', 'supabase', 'functions', 'serve', '--env-file', envFile], {
@@ -23,6 +30,7 @@ const child = spawn('pnpm', ['exec', 'supabase', 'functions', 'serve', '--env-fi
   env: {
     ...process.env,
     HARMONIA_DOCKER_BINARY: docker,
+    HARMONIA_TUTOR_FORWARD_KEY: tutorLive ? 'true' : 'false',
     PATH: dir + delimiter + process.env.PATH,
   },
   stdio: 'inherit',

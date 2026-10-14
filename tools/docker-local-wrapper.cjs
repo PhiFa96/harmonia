@@ -19,6 +19,19 @@ const named =
   );
 if (
   ['create', 'run'].includes(args[0]) &&
+  edge &&
+  process.env.HARMONIA_TUTOR_FORWARD_KEY === 'true'
+) {
+  const image = args.findIndex((arg) => /(?:^|\/)edge-runtime(?::|@)/.test(arg));
+  if (image < 0 || !process.env.ANTHROPIC_API_KEY) {
+    process.stderr.write('Lokale Tutor-Schlüsselbindung fehlt.\n');
+    process.exit(1);
+  }
+  // Docker liest den Wert aus der Umgebung; kein Schlüssel in Argumenten oder env-Datei.
+  args.splice(image, 0, '--env', 'ANTHROPIC_API_KEY');
+}
+if (
+  ['create', 'run'].includes(args[0]) &&
   named &&
   (process.env.HTTP_PROXY || process.env.http_proxy)
 ) {

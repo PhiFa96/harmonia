@@ -90,3 +90,40 @@ test('Eigener Edge-Container erhält internes Kong und CA-Vertrauen ohne externe
     rmSync(dir, { recursive: true, force: true });
   }
 });
+test('Tutor-Live bindet den Schlüssel nur per Umgebungsnamen im eigenen Edge-Container', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'harmonia-tutor-wrapper-test-')),
+    fake = join(dir, 'docker');
+  try {
+    writeFileSync(
+      fake,
+      '#!/usr/bin/env node\nprocess.stdout.write(JSON.stringify(process.argv.slice(2)));',
+      { mode: 0o755 },
+    );
+    const key = 'synthetic-test-value-never-a-real-key';
+    const run = (args, supplied = key) =>
+      spawnSync(process.execPath, ['tools/docker-local-wrapper.cjs', ...args], {
+        env: {
+          ...process.env,
+          HARMONIA_DOCKER_BINARY: fake,
+          HARMONIA_TUTOR_FORWARD_KEY: 'true',
+          ANTHROPIC_API_KEY: supplied,
+          HTTP_PROXY: '',
+          http_proxy: '',
+        },
+        encoding: 'utf8',
+      });
+    const image = 'ghcr.io/supabase/cli/edge-runtime:version',
+      own = ['create', '--name', 'supabase_edge_runtime_harmonia', image],
+      response = run(own);
+    assert.equal(response.status, 0);
+    const args = JSON.parse(response.stdout);
+    assert.equal(args.at(-1), image);
+    assert.ok(args.includes('ANTHROPIC_API_KEY'));
+    assert.ok(!response.stdout.includes(key));
+    const other = ['create', '--name', 'supabase_edge_runtime_other', image];
+    assert.deepEqual(JSON.parse(run(other).stdout), other);
+    assert.equal(run(own, '').status, 1);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});

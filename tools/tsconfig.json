@@ -4,7 +4,11 @@
     // Skripte laufen in Node oder Deno; `console` kommt hier über die DOM-Typen.
     "lib": ["ES2023", "DOM"],
     "paths": {
-      "npm:@supabase/supabase-js@2.117.3": ["../apps/mobile/node_modules/@supabase/supabase-js"]
+      "npm:@supabase/supabase-js@2.117.3": ["../apps/mobile/node_modules/@supabase/supabase-js"],
+      "npm:@anthropic-ai/sdk@0.133.0": ["../node_modules/@anthropic-ai/sdk"],
+      "npm:@anthropic-ai/sdk@0.133.0/resources/messages": [
+        "../node_modules/@anthropic-ai/sdk/resources/messages"
+      ]
     }
   },
   "include": ["*.ts", "../supabase/functions/runtime.d.ts"]

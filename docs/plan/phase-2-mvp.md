@@ -235,14 +235,16 @@ Die Blöcke B, C und D können teilweise parallel laufen.
 - **Abhängig von:** P2.01, P1.10
 - **Umfang:** L
 - **Aufgaben:**
-  - [ ] Edge Function `tutor` mit Anthropic-SDK, Streaming (Server-Sent Events)
-  - [ ] Werkzeuge der Phase 2 als Engine-Aufrufe (strenge Schemas)
-  - [ ] Systemprompt (Pädagogik-Regeln, Glossar, Sprache) mit Prompt-Caching
-  - [ ] Abo- und Kontingentprüfung, Ratenbegrenzung
-  - [ ] Protokoll in `ai_usage` (Tokens, Cache-Treffer, Kosten)
-  - [ ] Behandlung von Ablehnungen und Fehlern
+  - [x] Edge Function `tutor` mit Anthropic-SDK, Streaming (Server-Sent Events)
+  - [x] Werkzeuge der Phase 2 als Engine-Aufrufe (strenge Schemas)
+  - [x] Systemprompt (Pädagogik-Regeln, Glossar, Sprache) mit Prompt-Caching
+  - [x] Abo- und Kontingentprüfung, Ratenbegrenzung
+  - [x] Protokoll in `ai_usage` (Tokens, Cache-Treffer, Kosten)
+  - [x] Behandlung von Ablehnungen und Fehlern
 - **Fertig, wenn:** Der Tutor beantwortet Testfragen mit korrekten Werkzeugaufrufen; Kosten pro Antwort sind gemessen.
 - **Tests:** Deno-Tests mit Attrappe der API; Integrationstest gegen die echte API (manuell ausgelöst).
+
+- **Stand 14.10.2026:** Technische Aufgaben umgesetzt und lokal geprüft: SDK-SSE, acht strenge Werkzeuge, Prompt-/Glossarcache, serverseitige Abo-/Quota-/Budgetprüfung, Verlauf mit Löschung und Kostenprotokoll. 206 Deno-Tutorprüfungen, 122 lokale API-Prüfungen je interner/öffentlicher Auslieferung und 181 pgTAP-Prüfungen insgesamt bestehen. **Live-Definition-of-Done noch offen:** sichere Anthropic-Schlüsselbindung, offiziell geprüftes aktuelles Modell und Tarif sowie echte Antworten/Kosten pro Antwort fehlen. Policy bleibt standardmäßig deaktiviert; Testtarife sind ausschließlich simuliert. Übergabe: [P2.15](tutor-backend.md), [ADR 0015](../decisions/0015-tutor-backend-und-kostenreservierung.md). Nächster technischer Schritt P2.16.
 
 ### P2.16 – Wissensbasis v1
 
