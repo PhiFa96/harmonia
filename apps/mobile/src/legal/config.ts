@@ -19,8 +19,13 @@ export function legalConfig() {
     privacyDe: legalUrl(process.env.EXPO_PUBLIC_LEGAL_PRIVACY_DE),
     privacyEn: legalUrl(process.env.EXPO_PUBLIC_LEGAL_PRIVACY_EN),
     imprint: legalUrl(process.env.EXPO_PUBLIC_LEGAL_IMPRINT),
+    withdrawalDe: legalUrl(process.env.EXPO_PUBLIC_LEGAL_WITHDRAWAL_DE),
+    withdrawalEn: legalUrl(process.env.EXPO_PUBLIC_LEGAL_WITHDRAWAL_EN),
   };
 }
 export function legalReady() {
-  return Object.values(legalConfig()).every(Boolean);
+  return (
+    process.env.EXPO_PUBLIC_LEGAL_RELEASE_APPROVED === 'true' &&
+    Object.values(legalConfig()).every(Boolean)
+  );
 }

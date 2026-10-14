@@ -1,3 +1,4 @@
+import { assertPrivacyWrite } from '@/privacy/guard';
 import { create } from 'zustand';
 import { randomUUID } from 'expo-crypto';
 import { contentReportSchema, reportSourceSchema } from '@harmonia/content';
@@ -106,6 +107,7 @@ export async function saveReport(input: ContentReport, owner: string): Promise<v
     throw new Error('Meldungsspeicher nicht bereit');
   const memory = state.memory;
   await serialize(async () => {
+    assertPrivacyWrite(owner, report.id);
     if (memory) {
       const rows = temporaryRows.get(owner) ?? [],
         old = rows.find((r) => r.report.id === report.id);
@@ -188,4 +190,10 @@ export async function retryReports() {
   } catch {
     if (owner === reportOwner()) useReports.setState({ sync: 'error' });
   }
+}
+
+export function eraseReportsMemory(scope: string) {
+  temporaryRows.delete(scope);
+  if (useReports.getState().scope === scope)
+    useReports.setState({ rows: [], draft: null, phase: 'loading' });
 }

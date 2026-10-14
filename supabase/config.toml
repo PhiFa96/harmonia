@@ -106,3 +106,11 @@ enabled = false
 [functions.cancellation]
 verify_jwt = false
 import_map = "./functions/deno.json"
+
+[functions.privacy]
+verify_jwt = false
+import_map = "./functions/deno.json"
+
+[functions.privacy-retention]
+verify_jwt = false
+import_map = "./functions/deno.json"

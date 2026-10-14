@@ -111,6 +111,21 @@ export default function ProfileScreen() {
             />
           ) : null}
         </ListGroup>
+        <ListGroup>
+          <ListItem
+            label={t('privacy.title')}
+            onPress={() => {
+              router.push('/privacy');
+            }}
+          />
+          <ListItem
+            label={t('legal.title')}
+            onPress={() => {
+              router.push('/legal');
+            }}
+            last
+          />
+        </ListGroup>
         <AppText variant="title3">{t('profile.licenses')}</AppText>
         <AppText variant="footnote" tone="muted">
           {t('profile.bravuraLicense')}

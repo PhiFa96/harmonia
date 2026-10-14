@@ -329,8 +329,9 @@ Die Blöcke B, C und D können teilweise parallel laufen.
 - **Aufgaben:**
   - [ ] Rechtstexte DE/EN erstellen lassen und einbinden
   - [ ] AV-Verträge, Verarbeitungsverzeichnis, Löschkonzept (F17), ggf. DSFA
-  - [ ] Einwilligungsverwaltung (Analytics, Push)
+  - [x] Technische Einwilligungsverwaltung (Analytics/Marketing derzeit inaktiv, Push separat); juristische Abnahme offen
   - [ ] Store-Datenschutzangaben, Altersfreigabe
+- **Stand 14.10.2026:** Technische Rechtstextbindung, Consent, Export, Kontolöschung, F17-Kürzung, Freigabecheck und Arbeitsunterlagen umgesetzt. Betreiberangaben und juristische/Anbieter-/Storeabnahmen offen; Veröffentlichung und Checkout bleiben gesperrt. [Übergabe P2.21](recht-und-datenschutz.md), [Abnahmepaket](../legal/README.md).
 - **Fertig, wenn:** Die Checkliste für Phase 2 ist vollständig abgehakt und juristisch geprüft.
 
 ### P2.22 – Analytics und Kennzahlen

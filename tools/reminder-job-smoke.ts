@@ -32,6 +32,17 @@ async function account(consent = true, practice = 0) {
   if (result.error) throw new Error('Testkonto fehlt');
   const id = result.data.user.id;
   users.push(id);
+  const choices = await client.rpc('set_privacy_consent', {
+    actor: id,
+    entry: {
+      id: crypto.randomUUID(),
+      purpose: 'push',
+      granted: consent,
+      version: 'privacy-v1',
+      locale: 'de',
+    },
+  });
+  if (choices.error) throw new Error('Fixture consent failed');
   const saved = await client.rpc('save_motivation_preferences', {
     actor: id,
     prefs: { ...prefs, reminderConsent: consent },

@@ -3,6 +3,61 @@ import { contentMessages } from '@harmonia/i18n/content-messages';
 // Fachbegriffe kommen aus dem Glossar: $t(glossary:…).
 
 export const de = {
+  privacy: {
+    title: 'Datenschutz und Daten',
+    body: 'Du entscheidest über optionale Verarbeitung. Dein Lernen funktioniert auch ohne Statistik und Marketing.',
+    retentionTitle: 'Wie lange bleiben deine Lerndaten?',
+    retention:
+      'Einzelantworten und detaillierte Lernnachweise werden zwölf Monate aufbewahrt. Danach bleiben knappe, bestätigte Fortschritte und Lernstatistiken erhalten.',
+    choices: 'Deine Einwilligungen',
+    analytics: 'Nutzungsstatistik',
+    inactive: 'Nicht aktiv',
+    marketing: 'Marketing-E-Mails',
+    optionalLater:
+      'Nutzungsstatistik und Marketing sind derzeit nicht aktiv. Für eine spätere Aktivierung wirst du gesondert gefragt.',
+    pending:
+      'Deine Änderung muss noch gesichert und gegebenenfalls mit dem Konto synchronisiert werden. Ein Widerruf stoppt die lokale Verarbeitung sofort.',
+    retry: 'Änderungen erneut synchronisieren',
+    exportTitle: 'Deine Daten mitnehmen',
+    exportBody:
+      'Lade deine Konto- und lokalen Lerndaten als JSON-Datei herunter. Zugangsschlüssel und Sitzungstoken werden nicht exportiert. Bewahre die Datei privat auf.',
+    guestBody:
+      'Als Gast kannst du deine auf diesem Gerät gespeicherten Lerndaten herunterladen. Es gibt kein Konto auf dem Server.',
+    export: 'Daten herunterladen',
+    exported: 'Die Datei wurde zum Speichern oder Teilen übergeben.',
+    deleteTitle: 'Konto löschen',
+    deleteBody:
+      'Die Kontolöschung entfernt dein Konto und seine Lerndaten. Laufende Store- oder Web-Abos werden dadurch nicht gekündigt. Prüfe zuerst deine Abo-Verwaltung.',
+    delete: 'Kontolöschung öffnen',
+    confirmTitle: 'Konto dauerhaft löschen?',
+    confirmBody:
+      'Dieser Schritt löscht dein Konto, Antworten, Fortschritt und Tutor-Verlauf. Die Daten dieses Kontos werden auch von diesem Gerät entfernt. Ein bereits gespeicherter Export bleibt in deiner Verantwortung.',
+    ackSubscriptions: 'Ich weiß, dass die Kontolöschung laufende Abos nicht kündigt.',
+    confirmDelete: 'Konto endgültig löschen',
+    cancel: 'Abbrechen',
+    deleted: 'Konto und eigene Lerndaten gelöscht',
+    externalPending:
+      'Löschaufträge bei externen Anbietern sind noch in Bearbeitung. Der Beleg bestätigt die Kontolöschung, noch keine vollständige Löschung bei diesen Anbietern.',
+    externalCompleted:
+      'Die dokumentierten Anbieteraufträge sind abgeschlossen. Du kannst den Löschbeleg speichern.',
+    saveReceipt: 'Löschbeleg speichern',
+    working: 'Deine Anfrage wird bearbeitet …',
+    error_export:
+      'Der Export konnte nicht vollständig erstellt werden. Prüfe deine Verbindung und versuche es erneut.',
+    error_delete:
+      'Die Löschung konnte nicht vollständig bestätigt werden. Versuche es erneut; dieselbe Anfrage wird weiterbearbeitet.',
+    error_reauth: 'Bitte bestätige deine E-Mail-Anmeldung erneut, bevor du dein Konto löschst.',
+  },
+  legal: {
+    title: 'Rechtliche Informationen',
+    preparation:
+      'Harmonia ist noch in Vorbereitung. Geprüfte Rechtstexte und Betreiberangaben müssen vor Veröffentlichung bereitstehen.',
+    withdrawal: 'Widerrufsinformationen',
+    aiTitle: 'Über den KI-Tutor',
+    aiBody:
+      'Der Tutor ist eine KI und kann Fehler machen. Eine getrennte Musiktheorie-Engine bewertet die Aufgaben. KI-Antworten ersetzen keine fachliche Prüfung.',
+  },
+
   paywall: {
     title: 'Abos vergleichen',
     energy: 'Lernenergie',

@@ -24,9 +24,10 @@
 | 13.10.2026 | F11: mindestens 80 % anrechenbare richtige Erstversuchsantworten einer Lektion; Hinweise 1–2 erlaubt, Lösungen und ausgelassene Aufgaben liefern keine Richtig-Gutschrift; frühere Erfolge bleiben gültig | [ADR 0011](../decisions/0011-lernfortschritt-aus-geprueften-versuchen.md), [Lernpfad](lernpfad.md) |
 | 14.10.2026 | F07: zusätzliche Spielwährung für Streak-Schutz; Startwerte 3/1 verdiente Münzen und 10 pro Schutz, weiterhin kostenlos nach sieben erfolgreichen Lerntagen, höchstens zwei insgesamt | [ADR 0014](../decisions/0014-motivation-mit-muenzen-und-erinnerungen.md), [P2.14](streaks-xp-tagesziel-erinnerungen.md) |
 | 14.10.2026 | P2.19/F08: Monats- und Jahresabos vorbereiten; Preise später festlegen. Keine Preisfreigabe durch technische Integration. | [ADR 0019](../decisions/0019-revenuecat-abos-und-berechtigungen.md), [P2.19](abos-revenuecat.md) |
-
 | 14.10.2026 | F06: wiederauffüllbare Energie/Herzen; 30 Punkte und ein Punkt je zehn Minuten als serverseitig änderbare Startwerte. | [ADR 0020](../decisions/0020-lernenergie-paywall-und-kuendigungseingang.md), [P2.20](paywall-und-gratis-limits.md) |
 | 14.10.2026 | F09: Werbung später vorbereiten; aktuell kein SDK und keine Werbung. | [P2.20](paywall-und-gratis-limits.md) |
+
+| 14.10.2026 | F17: zwölf Monate für einzelne Antworten/detaillierte Lernnachweise; bestätigter Fortschritt und zusammengefasste Statistik bleiben. Betreiberangaben noch offen, Veröffentlichung gesperrt. | [ADR 0021](../decisions/0021-datenschutz-und-kuerzung-von-lernnachweisen.md), [P2.21](recht-und-datenschutz.md) |
 
 ## Offen
 
@@ -41,4 +42,3 @@
 | F14 | Coaching für Minderjährige | ab 18 / mit Eltern-Einwilligung | Phillip (nach Rechtsberatung) | P4.01 |
 | F15 | Rechtsform | Einzelunternehmen / UG / GmbH | Phillip (nach Beratung) | P0.02 |
 | F16 | Name und Marke „Harmonia“ | behalten / Alternativen nach Recherche | Phillip | P0.03 |
-| F17 | Aufbewahrungsfrist für Einzelaufgaben | 12 Monate / anderer Wert | gemeinsam (Löschkonzept) | P2.21 |

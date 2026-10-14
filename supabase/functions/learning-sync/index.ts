@@ -11,6 +11,7 @@ import {
   learningRowSchema,
   accessSourceSchema,
   accessSourceDetails,
+  retainLearningEvent,
 } from '../../../packages/content/src/index.ts';
 import type { ContentCatalogue } from '../../../packages/content/src/index.ts';
 const learningRewardPageSchema = learningRowSchema
@@ -69,10 +70,12 @@ Deno.serve(async (request) => {
       ruleVersion: number;
       qualified: boolean;
     }[] = [];
+    const summaries: unknown[] = [];
     const proofs: { id: string; source: unknown; cost: number; level: number }[] = [];
     try {
       for (const event of parsed.data.events) {
         const proof = validateLearningEvent(current, event);
+        summaries.push(retainLearningEvent(current, event));
         if (event.kind === 'lesson') {
           const source = accessSourceSchema.parse({
             kind: 'lesson',
@@ -99,11 +102,12 @@ Deno.serve(async (request) => {
     } catch {
       return json(422, { error: 'evidence' });
     }
-    const result = await client.rpc('append_access_learning_results', {
+    const result = await client.rpc('append_privacy_learning_results', {
       actor: data.user.id,
       events: parsed.data.events,
       rewards,
       proofs,
+      summaries,
     });
     if (result.error)
       return json(result.error.message.startsWith('Access ') ? 403 : 409, {
@@ -117,6 +121,8 @@ Deno.serve(async (request) => {
     const parsedRows = learningRewardPageSchema.safeParse(rows.data);
     if (!parsedRows.success) return json(503, { error: 'storage' });
     const page = parsedRows.data.slice(0, 200);
+    if (parsed.data.rowFormat !== 2 && page.some((row) => row.event.kind === 'retained'))
+      return json(426, { error: 'upgrade_required' });
     return json(200, {
       accepted: parsed.data.events.map((e) => e.id),
       rows: page.map((row) => {

@@ -96,3 +96,19 @@ it('weist beschädigte Daten und neuere Schema-Versionen ohne Löschen zurück',
   db.exec('PRAGMA user_version=2');
   await expect(initializeMotivationDatabase(adapter())).rejects.toThrow('Unbekannte');
 });
+it('erases one account and its notification plan while keeping another account', async () => {
+  const repo = await repository();
+  await repo.save('erase-motive-a', motivationFixture());
+  await repo.save('erase-motive-b', motivationFixture());
+  await repo.saveReminderPlan({
+    lastRemindedAt: 1000,
+    entries: [
+      { id: 'a', at: 2000, date: '2026-10-14', owner: 'erase-motive-a' },
+      { id: 'b', at: 3000, date: '2026-10-15', owner: 'erase-motive-b' },
+    ],
+  });
+  await repo.eraseScope('erase-motive-a');
+  expect(await repo.read('erase-motive-a')).toBeNull();
+  expect(await repo.read('erase-motive-b')).not.toBeNull();
+  expect((await repo.reminderPlan()).entries.map((entry) => entry.id)).toEqual(['b']);
+});

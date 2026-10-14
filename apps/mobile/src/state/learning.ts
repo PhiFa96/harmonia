@@ -1,3 +1,4 @@
+import { assertPrivacyWrite } from '@/privacy/guard';
 import { create } from 'zustand';
 import { catalogue } from '@harmonia/content/catalogue';
 import {
@@ -186,6 +187,7 @@ export async function recordLearningEvent(
   temporary = false,
   owner = scope(),
 ) {
+  assertPrivacyWrite(owner, event.id);
   validateLearningEvent(catalogue, event);
   await serialize(async () => {
     const state = useLearningState.getState();
@@ -260,7 +262,7 @@ export function syncLearning(): Promise<void> {
     for (let page = 0; page < 1000; page++) {
       if (token !== generation || owner !== scope()) return;
       const pending = (await repo.list(owner))
-        .filter((row) => row.pending)
+        .filter((row) => row.pending && row.event.kind !== 'retained')
         .filter((row) => {
           try {
             validateLearningEvent(catalogue, row.event);
@@ -273,13 +275,13 @@ export function syncLearning(): Promise<void> {
       const events: LearningEvent[] = [];
       for (const row of pending.slice(0, 1)) {
         if (JSON.stringify([...events, row.event]).length > 120000) break;
-        events.push(row.event);
+        if (row.event.kind !== 'retained') events.push(row.event);
       }
       if (pending.length && !events.length) throw new Error('Lernnachweis zu groß');
       const since = await repo.cursor(owner);
       if (token !== generation || owner !== scope()) return;
       const result = await client.functions.invoke('learning-sync', {
-        body: { since, events, rewardFormat: 2 },
+        body: { since, events, rewardFormat: 2, rowFormat: 2 },
         headers: { Authorization: `Bearer ${session.access_token}` },
         timeout: 15000,
       });

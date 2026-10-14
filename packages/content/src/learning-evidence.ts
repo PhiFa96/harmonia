@@ -65,6 +65,52 @@ export const learningEventSchema = z.discriminatedUnion('kind', [
     .strict(),
 ]);
 export type LearningEvent = z.infer<typeof learningEventSchema>;
+const retainedBase = {
+  kind: z.literal('retained'),
+  id: z.string().min(1).max(256),
+  finishedAt: time,
+  timeZone: timeZoneSchema.optional(),
+};
+export const retainedLearningEventSchema = z.discriminatedUnion('sourceKind', [
+  z
+    .object({
+      ...retainedBase,
+      sourceKind: z.literal('lesson'),
+      lessonId: z.string().max(128),
+      contentVersion: z.number().int().positive(),
+      planKey: z.string().max(4096).optional(),
+      progress: z
+        .object({
+          lessonId: z.string().max(128),
+          contentVersion: z.number().int().positive(),
+          passed: z.boolean(),
+          eligibleCorrect: z.number().int().nonnegative(),
+          total: z.number().int().positive().max(200),
+        })
+        .strict(),
+    })
+    .strict(),
+  z
+    .object({
+      ...retainedBase,
+      sourceKind: z.literal('placement'),
+      bankKey: z.string().max(64),
+      testedUnitIds: z.array(z.string().max(128)).max(200),
+    })
+    .strict(),
+  z
+    .object({
+      ...retainedBase,
+      sourceKind: z.literal('unavailable'),
+      lessonId: z.string().max(128).optional(),
+      contentVersion: z.number().int().positive().optional(),
+      bankKey: z.string().max(64).optional(),
+    })
+    .strict(),
+]);
+export type RetainedLearningEvent = z.infer<typeof retainedLearningEventSchema>;
+export const learningRowEventSchema = z.union([learningEventSchema, retainedLearningEventSchema]);
+export type LearningRowEvent = z.infer<typeof learningRowEventSchema>;
 export const learningViewSchema = z
   .object({
     areaId: z.string().max(128).nullable(),
@@ -75,7 +121,7 @@ export const learningViewSchema = z
 export const learningRowSchema = z
   .object({
     sequence: z.number().int().positive(),
-    event: learningEventSchema,
+    event: learningRowEventSchema,
     reward: z
       .object({
         amount: z.number().int().min(0).max(3000),
@@ -91,6 +137,7 @@ export const learningRowSchema = z
 export const learningSyncRequestSchema = z
   .object({
     rewardFormat: z.literal(2).optional(),
+    rowFormat: z.literal(2).optional(),
     since: time,
     events: z.array(learningEventSchema).max(50),
   })
@@ -166,7 +213,39 @@ function restoreRound(
   return state;
 }
 export function validateLearningEvent(catalogue: ContentCatalogue, input: unknown) {
-  const event = learningEventSchema.parse(input);
+  const event = learningRowEventSchema.parse(input);
+  if (event.kind === 'retained') {
+    if (event.sourceKind === 'unavailable') throw new EvidenceError('changed');
+    if (event.sourceKind === 'placement') {
+      const bank = placementBank(catalogue);
+      if (
+        event.bankKey !== bank.key ||
+        event.testedUnitIds.some((id) => !catalogue.units.some((unit) => unit.id === id))
+      )
+        throw new EvidenceError('changed');
+      return { event, lesson: null, testedUnitIds: event.testedUnitIds };
+    }
+    const lesson =
+      event.planKey === undefined
+        ? resolveLesson(catalogue, event.lessonId)
+        : lessonPlan(catalogue, event.lessonId);
+    if (
+      lesson?.contentVersion !== event.contentVersion ||
+      (event.planKey !== undefined && (!('planKey' in lesson) || lesson.planKey !== event.planKey))
+    )
+      throw new EvidenceError('changed');
+    const p = event.progress;
+    if (
+      p.lessonId !== event.lessonId ||
+      p.contentVersion !== event.contentVersion ||
+      p.total !== lesson.exercises.length ||
+      p.eligibleCorrect > p.total ||
+      p.passed !== p.eligibleCorrect * 100 >= p.total * PASS_PERCENT
+    )
+      throw new EvidenceError('invalid');
+    return { event, lesson: p, testedUnitIds: [] as string[] };
+  }
+
   if (event.finishedAt < event.startedAt) throw new EvidenceError('invalid');
   if (event.kind === 'placement') {
     const bank = placementBank(catalogue);
@@ -280,5 +359,51 @@ export function legacyLessonEvent(input: unknown): LearningEvent {
     finishedAt: Math.max(Date.parse(old.startedAt), Date.parse(old.finishedAt)),
     initial: evidence(s.initial),
     review: s.review ? evidence(s.review) : null,
+  });
+}
+
+/** Only trusted server responses/local compaction may use these summaries; uploads stay raw. */
+export function retainLearningEvent(
+  catalogue: ContentCatalogue,
+  input: LearningEvent,
+): RetainedLearningEvent {
+  const proof = validateLearningEvent(catalogue, input),
+    base = {
+      kind: 'retained' as const,
+      id: input.id,
+      finishedAt: input.finishedAt,
+      ...(input.kind === 'lesson' && input.timeZone ? { timeZone: input.timeZone } : {}),
+    };
+  if (input.kind === 'lesson' && proof.lesson)
+    return retainedLearningEventSchema.parse({
+      ...base,
+      sourceKind: 'lesson',
+      lessonId: input.lessonId,
+      contentVersion: input.contentVersion,
+      ...(input.planKey ? { planKey: input.planKey } : {}),
+      progress: proof.lesson,
+    });
+  if (input.kind === 'placement')
+    return retainedLearningEventSchema.parse({
+      ...base,
+      sourceKind: 'placement',
+      bankKey: input.bankKey,
+      testedUnitIds: proof.testedUnitIds,
+    });
+  throw new EvidenceError('invalid');
+}
+export function unavailableRetainedEvent(input: LearningEvent): RetainedLearningEvent {
+  return retainedLearningEventSchema.parse({
+    kind: 'retained',
+    sourceKind: 'unavailable',
+    id: input.id,
+    finishedAt: input.finishedAt,
+    ...(input.kind === 'lesson'
+      ? {
+          lessonId: input.lessonId,
+          contentVersion: input.contentVersion,
+          ...(input.timeZone ? { timeZone: input.timeZone } : {}),
+        }
+      : { bankKey: input.bankKey }),
   });
 }

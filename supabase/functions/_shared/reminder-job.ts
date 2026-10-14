@@ -82,6 +82,15 @@ export async function dispatchReminders(
   for (const device of devices.data) {
     if (visited.has(device.user_id)) continue;
     visited.add(device.user_id);
+    const consent = await client.rpc('privacy_choices', { actor: device.user_id });
+    if (consent.error) {
+      failed++;
+      continue;
+    }
+    if ((consent.data as { push?: unknown }).push !== true) {
+      skipped++;
+      continue;
+    }
     const profile = await client
       .from('motivation_preferences')
       .select('preferences,practiced_at,reminded_at')

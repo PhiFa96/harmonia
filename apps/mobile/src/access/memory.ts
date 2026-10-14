@@ -1,6 +1,7 @@
 import { accessSourceSchema, refillEnergy, guestAccessStatus } from '@harmonia/content';
 import type { AccessSource, AccessStatus, AccessGrant, EnergyState } from '@harmonia/content';
 import type { createAccessRepository } from './repository.ts';
+import { assertPrivacyWrite } from '@/privacy/guard';
 /** Only used after the learner explicitly selects the temporary device session. */
 export function createMemoryAccessRepository(): ReturnType<typeof createAccessRepository> {
   const grants = new Map<string, { source: string; grant: AccessGrant }>(),
@@ -9,6 +10,18 @@ export function createMemoryAccessRepository(): ReturnType<typeof createAccessRe
   const key = (scope: string, id: string) => JSON.stringify([scope, id]);
   const sourceKey = (source: AccessSource) => JSON.stringify(accessSourceSchema.parse(source));
   return {
+    eraseIds(ids) {
+      for (const [key, value] of grants) if (ids.includes(value.grant.id)) grants.delete(key);
+      return Promise.resolve();
+    },
+    eraseScope(scope) {
+      for (const key of grants.keys()) {
+        const parts: unknown = JSON.parse(key);
+        if (Array.isArray(parts) && parts[0] === scope) grants.delete(key);
+      }
+      statuses.delete(scope);
+      return Promise.resolve();
+    },
     existing(scope, id, source) {
       const previous = grants.get(key(scope, id));
       if (previous && previous.source !== sourceKey(source))
@@ -16,6 +29,7 @@ export function createMemoryAccessRepository(): ReturnType<typeof createAccessRe
       return Promise.resolve(previous?.grant ?? null);
     },
     save(scope, source, grant) {
+      assertPrivacyWrite(scope, grant.id);
       if (grant.allowed) grants.set(key(scope, grant.id), { source: sourceKey(source), grant });
       return Promise.resolve();
     },
@@ -23,6 +37,7 @@ export function createMemoryAccessRepository(): ReturnType<typeof createAccessRe
       return Promise.resolve(statuses.get(scope) ?? null);
     },
     saveStatus(scope, status) {
+      assertPrivacyWrite(scope);
       statuses.set(scope, status);
       return Promise.resolve();
     },

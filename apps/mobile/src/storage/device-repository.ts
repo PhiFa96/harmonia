@@ -1,4 +1,4 @@
-import type { DeviceSnapshot } from '../onboarding/model.ts';
+import type { DeviceSnapshot, OnboardingData } from '../onboarding/model.ts';
 import { parseDeviceSnapshot } from '../onboarding/model.ts';
 import type { LessonDatabase } from './lesson-repository.ts';
 import { parsePlacementData } from '../placement/model.ts';
@@ -16,6 +16,27 @@ export async function initializeDeviceDatabase(db: LessonDatabase): Promise<void
 }
 export function createDeviceRepository(db: LessonDatabase) {
   return {
+    async eraseAccount(scope: string, ids: readonly string[], empty: OnboardingData) {
+      await db.runAsync(
+        "UPDATE placement_state SET payload=json_set(payload,'$.active',NULL,'$.last',NULL) WHERE EXISTS(SELECT 1 FROM device_preferences WHERE json_extract(payload,'$.onboarding.accountId')=?)",
+        scope,
+      );
+      for (const id of ids) {
+        await db.runAsync(
+          "UPDATE placement_state SET payload=json_set(payload,'$.active',NULL) WHERE json_extract(payload,'$.active.id')=?",
+          id,
+        );
+        await db.runAsync(
+          "UPDATE placement_state SET payload=json_set(payload,'$.last',NULL) WHERE json_extract(payload,'$.last.id')=?",
+          id,
+        );
+      }
+      await db.runAsync(
+        "UPDATE device_preferences SET payload=json_set(payload,'$.onboarding',json(?)) WHERE json_extract(payload,'$.onboarding.accountId')=?",
+        JSON.stringify(empty),
+        scope,
+      );
+    },
     async loadPlacement(): Promise<PlacementData | null> {
       const row = await db.getFirstAsync<{ payload: string }>(
         'SELECT payload FROM placement_state WHERE id = 1',

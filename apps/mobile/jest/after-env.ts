@@ -7,7 +7,19 @@ import type { usePlacementState as PlacementStateHook } from '../src/state/place
 import { catalogue } from '@harmonia/content/authoring';
 import { learningPath } from '@harmonia/content';
 import type { useLearningState as LearningStateHook } from '../src/state/learning.ts';
+import type { usePrivacy as PrivacyHook } from '../src/privacy/state.ts';
 beforeEach(() => {
+  const { usePrivacy } = jest.requireActual<{ usePrivacy: typeof PrivacyHook }>('@/privacy/state');
+  usePrivacy.setState({
+    owner: 'guest',
+    phase: 'ready',
+    choices: { analytics: false, push: false, marketing: false },
+    policy: null,
+    pending: false,
+    busy: false,
+    recentSignIn: false,
+    receipt: null,
+  });
   const { useMotivation } = jest.requireActual<{ useMotivation: typeof MotivationHook }>(
     '@/state/motivation',
   );

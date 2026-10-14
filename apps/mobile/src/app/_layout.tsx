@@ -25,6 +25,7 @@ import { initializeAuth } from '@/auth';
 import { MotivationLifecycle } from '@/components/motivation-lifecycle';
 import { ReportLifecycle } from '@/components/report-lifecycle';
 import { LearningLifecycle } from '@/components/learning-lifecycle';
+import { PrivacyLifecycle } from '@/components/privacy-lifecycle';
 import { LegalFooter } from '@/components/legal-footer';
 import { AccessLifecycle } from '@/components/access-lifecycle';
 import { BillingLifecycle } from '@/components/billing-lifecycle';
@@ -64,7 +65,9 @@ export default function RootLayout() {
           <MotivationLifecycle />
           <BillingLifecycle />
           <AccessLifecycle />
-          {device.phase !== 'ready' && pathname !== '/cancel-subscription' ? (
+          <PrivacyLifecycle />
+          {device.phase !== 'ready' &&
+          !['/cancel-subscription', '/legal', '/privacy'].includes(pathname) ? (
             <View style={bootStyles.container}>
               <Card>
                 <AppText aria-live="polite">
@@ -108,6 +111,8 @@ export default function RootLayout() {
               </Stack.Protected>
               <Stack.Screen name="report" />
               <Stack.Screen name="cancel-subscription" />
+              <Stack.Screen name="legal" />
+              <Stack.Screen name="privacy" />
             </Stack>
           )}
           <LegalFooter />

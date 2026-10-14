@@ -44,6 +44,9 @@ jobs:
       - name: Tests
         run: pnpm test
 
+      - name: Rechtliche Freigabefelder und geschlossene Vorbereitung prüfen
+        run: pnpm check:legal
+
       - name: Übersetzungen
         run: pnpm check:i18n
 
@@ -134,7 +137,7 @@ jobs:
         run: deno check --config tools/deno.json tools/deno-smoke.ts
 
       - name: Engine-geprüfte Sync-Funktion unter Deno prüfen
-        run: deno check --config supabase/functions/deno.json supabase/functions/learning-sync/index.ts supabase/functions/content-reports/index.ts supabase/functions/motivation/index.ts supabase/functions/reminder-dispatch/index.ts supabase/functions/tutor/index.ts tools/tutor-live.ts
+        run: deno check --config supabase/functions/deno.json supabase/functions/learning-sync/index.ts supabase/functions/content-reports/index.ts supabase/functions/motivation/index.ts supabase/functions/reminder-dispatch/index.ts supabase/functions/tutor/index.ts supabase/functions/privacy/index.ts supabase/functions/privacy-retention/index.ts tools/tutor-live.ts
 
       - name: Theorie, Übungen, Lektion und Fähigkeitsplan unter Deno ausführen
         run: deno run --config tools/deno.json tools/deno-smoke.ts
@@ -233,6 +236,9 @@ jobs:
 
       - name: Lernenergie und öffentlicher Kündigungseingang prüfen
         run: pnpm db:test:access
+
+      - name: Datenschutz, Export, Aufbewahrung und Kontolöschung lokal prüfen
+        run: pnpm db:test:privacy
 
       - name: Lokale Container stoppen
         if: always()

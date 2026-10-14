@@ -4,6 +4,61 @@ import { contentMessages } from '@harmonia/i18n/content-messages';
 import type { Messages } from './types.ts';
 
 export const enUS = {
+  privacy: {
+    title: 'Privacy and data',
+    body: 'You control optional processing. Learning also works without analytics or marketing.',
+    retentionTitle: 'How long is learning data kept?',
+    retention:
+      'Individual answers and detailed learning evidence are kept for twelve months. Compact, verified progress and learning statistics remain after that.',
+    choices: 'Your consents',
+    analytics: 'Usage analytics',
+    inactive: 'Inactive',
+    marketing: 'Marketing emails',
+    optionalLater:
+      'Analytics and marketing are currently inactive. You will be asked separately before any later activation.',
+    pending:
+      'Your change still needs to be saved and, if applicable, synced with your account. Withdrawal stops local processing immediately.',
+    retry: 'Sync changes again',
+    exportTitle: 'Take your data with you',
+    exportBody:
+      'Download your account and local learning data as a JSON file. Access keys and session tokens are excluded. Keep the file private.',
+    guestBody:
+      'As a guest, you can download learning data saved on this device. There is no server account.',
+    export: 'Download data',
+    exported: 'The file has been handed over for saving or sharing.',
+    deleteTitle: 'Delete account',
+    deleteBody:
+      'Account deletion removes your account and learning data. It does not cancel ongoing store or web subscriptions. Check subscription management first.',
+    delete: 'Open account deletion',
+    confirmTitle: 'Permanently delete account?',
+    confirmBody:
+      'This deletes your account, answers, progress and tutor history. Data belonging to this account is also removed from this device. You remain responsible for any previously saved export.',
+    ackSubscriptions:
+      'I understand that deleting my account does not cancel ongoing subscriptions.',
+    confirmDelete: 'Permanently delete account',
+    cancel: 'Cancel',
+    deleted: 'Account and own learning data deleted',
+    externalPending:
+      'Erasure requests with external providers are still being processed. The receipt confirms account deletion, not completed erasure at those providers.',
+    externalCompleted:
+      'The documented provider requests are complete. You can save the erasure receipt.',
+    saveReceipt: 'Save erasure receipt',
+    working: 'Processing your request …',
+    error_export: 'The full export could not be created. Check your connection and try again.',
+    error_delete:
+      'Deletion could not be fully confirmed. Try again; the same request will continue processing.',
+    error_reauth: 'Confirm your email sign-in again before deleting your account.',
+  },
+  legal: {
+    title: 'Legal information',
+    preparation:
+      'Harmonia is still in preparation. Reviewed legal documents and operator details must be ready before publication.',
+    withdrawal: 'Withdrawal information',
+    aiTitle: 'About the AI tutor',
+    aiBody:
+      'The tutor is AI and can make mistakes. A separate music theory engine grades exercises. AI answers do not replace expert review.',
+  },
+
   paywall: {
     title: 'Compare subscriptions',
     energy: 'Learning energy',

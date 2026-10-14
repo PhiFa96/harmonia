@@ -1,0 +1,96 @@
+{
+  "operator": {
+    "name": null,
+    "address": null,
+    "email": null,
+    "legalForm": null
+  },
+  "documents": {
+    "imprint": {
+      "reviewed": false,
+      "reviewReference": null
+    },
+    "privacyDe": {
+      "reviewed": false,
+      "reviewReference": null
+    },
+    "privacyEn": {
+      "reviewed": false,
+      "reviewReference": null
+    },
+    "termsDe": {
+      "reviewed": false,
+      "reviewReference": null
+    },
+    "termsEn": {
+      "reviewed": false,
+      "reviewReference": null
+    },
+    "withdrawalDe": {
+      "reviewed": false,
+      "reviewReference": null
+    },
+    "withdrawalEn": {
+      "reviewed": false,
+      "reviewReference": null
+    }
+  },
+  "approvals": {
+    "supabaseDpa": {
+      "approved": false,
+      "evidenceReference": null
+    },
+    "anthropicDpa": {
+      "approved": false,
+      "evidenceReference": null
+    },
+    "revenuecatDpa": {
+      "approved": false,
+      "evidenceReference": null
+    },
+    "expoDpa": {
+      "approved": false,
+      "evidenceReference": null
+    },
+    "transferReview": {
+      "approved": false,
+      "evidenceReference": null
+    },
+    "processingRegister": {
+      "approved": false,
+      "evidenceReference": null
+    },
+    "retentionReview": {
+      "approved": false,
+      "evidenceReference": null
+    },
+    "dpiaAssessment": {
+      "approved": false,
+      "evidenceReference": null
+    },
+    "ageReview": {
+      "approved": false,
+      "evidenceReference": null
+    },
+    "storePrivacy": {
+      "approved": false,
+      "evidenceReference": null
+    },
+    "subscriptionCancellation": {
+      "approved": false,
+      "evidenceReference": null
+    },
+    "consentReview": {
+      "approved": false,
+      "evidenceReference": null
+    },
+    "taxReview": {
+      "approved": false,
+      "evidenceReference": null
+    },
+    "licensesReview": {
+      "approved": false,
+      "evidenceReference": null
+    }
+  }
+}

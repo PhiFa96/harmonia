@@ -43,6 +43,8 @@ export interface OnboardingData {
     readonly answer: string | null;
     readonly hintLevel: 0 | 1 | 2 | 3;
     readonly checked: boolean;
+    /** Only a completed onboarding may discard its expired or erased raw answer. */
+    readonly detailsRemoved?: true;
   };
 }
 export interface DeviceSnapshot {
@@ -76,6 +78,7 @@ export function newOnboarding(now: number): OnboardingData {
   };
 }
 export function miniSession(data: OnboardingData): ExerciseSession {
+  if (data.mini.detailsRemoved) throw new Error('Mini-Aufgabendetails gelöscht');
   let session = createMiniSession(data.mini.seed);
   const item = session.items[0];
   if (!item) throw new Error('Mini-Aufgabe fehlt');
@@ -202,6 +205,7 @@ export function parseDeviceSnapshot(json: string): DeviceSnapshot {
       ]),
       hintLevel: oneOf(m['hintLevel'], [0, 1, 2, 3]),
       checked: bool(m['checked']),
+      ...(m['detailsRemoved'] === true ? { detailsRemoved: true as const } : {}),
     },
   };
   if (onboarding.account === 'guest' && onboarding.accountId !== null)
@@ -212,7 +216,16 @@ export function parseDeviceSnapshot(json: string): DeviceSnapshot {
       (onboarding.firstTaskAt === null || onboarding.completedAt < onboarding.firstTaskAt))
   )
     throw new Error('Widersprüchliche lokale Zeitpunkte');
-  miniSession(onboarding);
+  if (onboarding.mini.detailsRemoved) {
+    if (
+      onboarding.step !== 'complete' ||
+      onboarding.mini.answer !== null ||
+      onboarding.mini.seed !== 0 ||
+      onboarding.mini.hintLevel !== 0 ||
+      onboarding.mini.checked
+    )
+      throw new Error('Ungültige gekürzte Mini-Aufgabe');
+  } else miniSession(onboarding);
   const index = ONBOARDING_STEPS.indexOf(onboarding.step as (typeof ONBOARDING_STEPS)[number]);
   if (
     (index >= 2 && onboarding.goal === null) ||
@@ -223,7 +236,17 @@ export function parseDeviceSnapshot(json: string): DeviceSnapshot {
   )
     throw new Error('Unvollständiger lokaler Ablauf');
   if (onboarding.step === 'complete')
-    completeOnboarding({ ...onboarding, step: 'account' }, onboarding.completedAt ?? -1);
+    completeOnboarding(
+      {
+        ...onboarding,
+        step: 'account',
+        mini: {
+          ...onboarding.mini,
+          checked: onboarding.mini.detailsRemoved === true || onboarding.mini.checked,
+        },
+      },
+      onboarding.completedAt ?? -1,
+    );
   if ((onboarding.step === 'complete') !== (onboarding.completedAt !== null))
     throw new Error('Ungültiger lokaler Abschluss');
   return { schemaVersion: 1, settings, onboarding };

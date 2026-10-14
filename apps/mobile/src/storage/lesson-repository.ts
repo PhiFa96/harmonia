@@ -1,3 +1,4 @@
+import { assertPrivacyWrite } from '@/privacy/guard';
 import type { LessonSession } from '@harmonia/exercises';
 import { lessonSummary } from '@harmonia/exercises';
 
@@ -77,6 +78,9 @@ export function createLessonAttempt(
 }
 export function createLessonRepository(db: LessonDatabase) {
   return {
+    async eraseIds(ids: readonly string[]) {
+      for (const id of ids) await db.runAsync('DELETE FROM lesson_attempts WHERE id=?', id);
+    },
     async allAttempts(): Promise<readonly unknown[]> {
       const row = await db.getFirstAsync<{ value: string }>(
         'SELECT json_group_array(json(payload)) AS value FROM lesson_attempts',
@@ -86,6 +90,7 @@ export function createLessonRepository(db: LessonDatabase) {
       return values as unknown[];
     },
     async save(attempt: LessonAttempt): Promise<void> {
+      assertPrivacyWrite('legacy', attempt.id);
       if (attempt.session.phase !== 'complete') throw new Error('Lektion nicht abgeschlossen');
       const { summary, session } = attempt;
       await db.runAsync(

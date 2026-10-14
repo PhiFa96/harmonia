@@ -1,3 +1,4 @@
+import { assertPrivacyWrite } from '@/privacy/guard';
 import {
   accessGrantSchema,
   accessPolicySchema,
@@ -53,6 +54,18 @@ export function createAccessRepository(db: LessonDatabase) {
     return state;
   };
   return {
+    eraseIds(ids: readonly string[]) {
+      return atomic(async () => {
+        for (const id of ids) await db.runAsync('DELETE FROM access_cache WHERE id=?', id);
+      });
+    },
+    eraseScope(scope: string) {
+      return atomic(async () => {
+        await db.runAsync('DELETE FROM access_cache WHERE scope=?', scope);
+        await db.runAsync('DELETE FROM access_settings WHERE id=?', 'status:' + scope);
+      });
+    },
+
     async existing(scope: string, id: string, source: AccessSource) {
       const row = await db.getFirstAsync<{ source: string; payload: string }>(
         'SELECT source,payload FROM access_cache WHERE scope=? AND id=?',
@@ -64,6 +77,7 @@ export function createAccessRepository(db: LessonDatabase) {
       return accessGrantSchema.parse(JSON.parse(row.payload));
     },
     async save(scope: string, source: AccessSource, grant: AccessGrant) {
+      assertPrivacyWrite(scope, grant.id);
       if (!grant.allowed) return;
       await atomic(async () => {
         const old = await db.getFirstAsync<{ source: string }>(
@@ -89,11 +103,14 @@ export function createAccessRepository(db: LessonDatabase) {
       return row ? accessStatusSchema.parse(JSON.parse(row.value)) : null;
     },
     async saveStatus(scope: string, status: AccessStatus) {
-      await db.runAsync(
-        'INSERT INTO access_settings VALUES(?,?) ON CONFLICT(id) DO UPDATE SET value=excluded.value',
-        'status:' + scope,
-        JSON.stringify(status),
-      );
+      await atomic(async () => {
+        assertPrivacyWrite(scope);
+        await db.runAsync(
+          'INSERT INTO access_settings VALUES(?,?) ON CONFLICT(id) DO UPDATE SET value=excluded.value',
+          'status:' + scope,
+          JSON.stringify(status),
+        );
+      });
     },
     guestStatus(policy: AccessPolicy, now: number, revision = 1) {
       return atomic(async () =>

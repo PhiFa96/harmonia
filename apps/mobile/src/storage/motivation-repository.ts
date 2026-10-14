@@ -1,3 +1,4 @@
+import { assertPrivacyWrite } from '@/privacy/guard';
 import {
   reminderPlanSchema,
   motivationLocalSchema,
@@ -39,6 +40,7 @@ export function createMotivationRepository(db: LessonDatabase) {
     return row ? motivationLocalSchema.parse(JSON.parse(row.payload) as unknown) : null;
   };
   const put = async (scope: string, value: MotivationLocal) => {
+    assertPrivacyWrite(scope);
     await db.runAsync(
       'INSERT INTO motivation_records VALUES (?,?) ON CONFLICT(scope) DO UPDATE SET payload=excluded.payload',
       scope,
@@ -46,6 +48,23 @@ export function createMotivationRepository(db: LessonDatabase) {
     );
   };
   return {
+    eraseScope: (scope: string) =>
+      transaction(async () => {
+        await db.runAsync('DELETE FROM motivation_records WHERE scope=?', scope);
+        const row = await db.getFirstAsync<{ payload: string }>(
+          "SELECT payload FROM motivation_meta WHERE id='reminders'",
+        );
+        if (row) {
+          const plan = reminderPlanSchema.parse(JSON.parse(row.payload) as unknown);
+          await db.runAsync(
+            "UPDATE motivation_meta SET payload=? WHERE id='reminders'",
+            JSON.stringify({
+              ...plan,
+              entries: plan.entries.filter((entry) => entry.owner !== scope),
+            }),
+          );
+        }
+      }),
     reminderPlan: () =>
       transaction(async () => {
         const row = await db.getFirstAsync<{ payload: string }>(

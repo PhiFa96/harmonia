@@ -20,6 +20,8 @@ const vars = [
   'EXPO_PUBLIC_LEGAL_PRIVACY_DE',
   'EXPO_PUBLIC_LEGAL_PRIVACY_EN',
   'EXPO_PUBLIC_LEGAL_IMPRINT',
+  'EXPO_PUBLIC_LEGAL_WITHDRAWAL_DE',
+  'EXPO_PUBLIC_LEGAL_WITHDRAWAL_EN',
 ];
 function view(reason = 'settings') {
   return renderRouter(
@@ -44,6 +46,7 @@ beforeEach(async () => {
       { id: 'p:y', tier: 'premium', period: 'annual', price: '99,00 €' },
     ],
   };
+  Reflect.set(process.env, 'EXPO_PUBLIC_LEGAL_RELEASE_APPROVED', 'true');
   for (const name of vars) process.env[name] = 'https://example.invalid/legal';
   useAccess.setState({
     owner: 'a',
@@ -59,6 +62,7 @@ beforeEach(async () => {
   await i18n.changeLanguage('de');
 });
 afterEach(() => {
+  Reflect.deleteProperty(process.env, 'EXPO_PUBLIC_LEGAL_RELEASE_APPROVED');
   for (const name of vars) Reflect.deleteProperty(process.env, name);
 });
 it('uses store prices per period and only buys after an explicit choice', () => {

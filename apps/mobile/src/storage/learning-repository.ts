@@ -1,22 +1,31 @@
+import { assertPrivacyWrite } from '@/privacy/guard';
 import {
-  learningEventSchema,
+  learningRowEventSchema,
   learningSyncResponseSchema,
   learningViewSchema,
   lessonDraftSchema,
   learningRowSchema,
+  retainLearningEvent,
+  unavailableRetainedEvent,
+  validateLearningEvent,
+  lessonReward,
+  DEFAULT_REWARD_RULE,
+  lessonDay,
 } from '@harmonia/content';
 import type {
   LearningEvent,
+  LearningRowEvent,
   LearningSyncResponse,
   LessonDraft,
   LessonRewardReceipt,
+  ContentCatalogue,
 } from '@harmonia/content';
 import type { LessonDatabase } from './lesson-repository.ts';
 import { parsePlacementData, EMPTY_PLACEMENT } from '../placement/model.ts';
 import type { PlacementData } from '../placement/model.ts';
 
 export interface StoredLearningEvent {
-  readonly event: LearningEvent;
+  readonly event: LearningRowEvent;
   readonly sequence: number | null;
   readonly position: number;
   readonly pending: boolean;
@@ -26,12 +35,12 @@ export type LearningScope = string;
 export const GUEST_SCOPE = 'guest';
 export async function initializeLearningDatabase(db: LessonDatabase) {
   const version = await db.getFirstAsync<{ user_version: number }>('PRAGMA user_version');
-  if ((version?.user_version ?? 0) > 1) throw new Error('Unbekannte Lernpfad-Datenbankversion');
+  if ((version?.user_version ?? 0) > 2) throw new Error('Unbekannte Lernpfad-Datenbankversion');
   await db.execAsync(`BEGIN;
     CREATE TABLE IF NOT EXISTS learning_events (position INTEGER PRIMARY KEY AUTOINCREMENT, scope TEXT NOT NULL, id TEXT NOT NULL, payload TEXT NOT NULL, sequence INTEGER NOT NULL DEFAULT -1, acked INTEGER NOT NULL DEFAULT 0, UNIQUE(scope,id));
     CREATE TABLE IF NOT EXISTS learning_cursors (scope TEXT PRIMARY KEY, cursor INTEGER NOT NULL);
     CREATE TABLE IF NOT EXISTS learning_meta (id TEXT PRIMARY KEY, value TEXT NOT NULL);
-    COMMIT; PRAGMA user_version = 1;`);
+    COMMIT; PRAGMA user_version = 2;`);
 }
 export function createLearningRepository(db: LessonDatabase) {
   let queue: Promise<unknown> = Promise.resolve();
@@ -54,29 +63,36 @@ export function createLearningRepository(db: LessonDatabase) {
   };
   const insert = async (
     scope: LearningScope,
-    event: LearningEvent,
+    event: LearningRowEvent,
     sequence: number | null = null,
   ) => {
-    const payload = JSON.stringify(learningEventSchema.parse(event));
+    assertPrivacyWrite(scope, event.id);
+    const payload = JSON.stringify(learningRowEventSchema.parse(event));
     const existing = await db.getFirstAsync<{ payload: string; sequence: number }>(
       'SELECT payload,sequence FROM learning_events WHERE scope = ? AND id = ?',
       scope,
       event.id,
     );
+    const previous = existing
+      ? learningRowEventSchema.parse(JSON.parse(existing.payload) as unknown)
+      : null;
     if (
       existing &&
-      JSON.stringify(learningEventSchema.parse(JSON.parse(existing.payload) as unknown)) !== payload
+      JSON.stringify(learningRowEventSchema.parse(JSON.parse(existing.payload) as unknown)) !==
+        payload &&
+      event.kind !== 'retained' &&
+      !(previous?.kind === 'retained' && sequence !== null)
     )
       throw new Error('Lernnachweis-ID wurde bereits anders verwendet');
     if (existing && existing.sequence > 0 && sequence !== null && existing.sequence !== sequence)
       throw new Error('Widersprüchliche Reihenfolge des Lernnachweises');
     await db.runAsync(
-      'INSERT INTO learning_events (scope,id,payload,sequence,acked) VALUES (?,?,?,?,?) ON CONFLICT(scope,id) DO UPDATE SET sequence = CASE WHEN excluded.sequence < 0 THEN learning_events.sequence ELSE excluded.sequence END, acked = max(learning_events.acked,excluded.acked)',
+      "INSERT INTO learning_events (scope,id,payload,sequence,acked) VALUES (?,?,?,?,?) ON CONFLICT(scope,id) DO UPDATE SET payload = CASE WHEN json_extract(excluded.payload,'$.kind') = 'retained' THEN excluded.payload ELSE learning_events.payload END, sequence = CASE WHEN excluded.sequence < 0 THEN learning_events.sequence ELSE excluded.sequence END, acked = max(learning_events.acked,excluded.acked)",
       scope,
       event.id,
       payload,
       sequence ?? -1,
-      sequence === null ? 0 : 1,
+      sequence === null && event.kind !== 'retained' ? 0 : 1,
     );
   };
   const list = async (scope: LearningScope): Promise<StoredLearningEvent[]> => {
@@ -105,7 +121,7 @@ export function createLearningRepository(db: LessonDatabase) {
       )
         throw new Error('Lernnachweise beschädigt');
       return {
-        event: learningEventSchema.parse(JSON.parse(input.payload) as unknown),
+        event: learningRowEventSchema.parse(JSON.parse(input.payload) as unknown),
         position: input.position,
         sequence: input.sequence < 0 ? null : input.sequence,
         pending: input.acked === 0,
@@ -127,6 +143,7 @@ export function createLearningRepository(db: LessonDatabase) {
     return row ? parsePlacementData(row.value) : EMPTY_PLACEMENT;
   };
   const putPlacement = async (scope: LearningScope, data: PlacementData) => {
+    assertPrivacyWrite(scope);
     const json = JSON.stringify(parsePlacementData(JSON.stringify(data)));
     await db.runAsync(
       'INSERT INTO learning_meta VALUES (?,?) ON CONFLICT(id) DO UPDATE SET value = excluded.value',
@@ -136,6 +153,107 @@ export function createLearningRepository(db: LessonDatabase) {
   };
   return {
     list,
+    compact(scope: string, catalogue: ContentCatalogue, cutoff: number) {
+      return transaction(async () => {
+        const seen = new Set<string>(),
+          removed: string[] = [];
+        for (const row of await list(scope)) {
+          const event = row.event;
+          if (event.kind === 'retained') {
+            if (
+              'lessonId' in event &&
+              'contentVersion' in event &&
+              (row.reward?.qualified || (event.sourceKind === 'lesson' && event.progress.passed))
+            )
+              seen.add(`${String(event.lessonId)}:${String(event.contentVersion)}`);
+            continue;
+          }
+          let summary;
+          try {
+            summary = retainLearningEvent(catalogue, event);
+          } catch {
+            summary = unavailableRetainedEvent(event);
+          }
+          if (event.kind === 'lesson') {
+            const key = `${event.lessonId}:${String(event.contentVersion)}`;
+            if (event.finishedAt < cutoff && !row.reward && event.timeZone) {
+              try {
+                const proof = validateLearningEvent(catalogue, event);
+                if ('session' in proof && proof.lesson) {
+                  const qualified = proof.lesson.passed;
+                  await db.runAsync(
+                    'INSERT INTO learning_meta VALUES(?,?) ON CONFLICT(id) DO NOTHING',
+                    'reward:' + scope + ':' + event.id,
+                    JSON.stringify({
+                      amount: lessonReward(proof.session, seen.has(key), DEFAULT_REWARD_RULE),
+                      qualified,
+                      coins: qualified
+                        ? seen.has(key)
+                          ? DEFAULT_REWARD_RULE.repeatCoins
+                          : DEFAULT_REWARD_RULE.newCoins
+                        : 0,
+                      ruleVersion: 1,
+                      date: lessonDay(event.finishedAt, event.timeZone),
+                    }),
+                  );
+                }
+              } catch {
+                /* Changed sources retain any existing verified reward. */
+              }
+            }
+            if (
+              (summary.sourceKind === 'lesson' && summary.progress.passed) ||
+              row.reward?.qualified
+            )
+              seen.add(key);
+          }
+          if (event.finishedAt < cutoff) {
+            await db.runAsync(
+              'UPDATE learning_events SET payload=?,acked=1 WHERE scope=? AND id=?',
+              JSON.stringify(summary),
+              scope,
+              event.id,
+            );
+            removed.push(event.id);
+          }
+        }
+        for (const draft of Object.values(await this.drafts(scope)))
+          if (draft.startedAt < cutoff) {
+            await db.runAsync(
+              'DELETE FROM learning_meta WHERE id=?',
+              'lesson:' + scope + ':' + draft.lessonId,
+            );
+            removed.push(draft.id);
+          }
+        const placed = await placement(scope);
+        if (
+          (placed.last && (placed.last.endedAt ?? placed.last.startedAt) < cutoff) ||
+          (placed.active && placed.active.startedAt < cutoff)
+        )
+          await putPlacement(scope, {
+            ...placed,
+            last:
+              placed.last && (placed.last.endedAt ?? placed.last.startedAt) < cutoff
+                ? null
+                : placed.last,
+            active: placed.active && placed.active.startedAt < cutoff ? null : placed.active,
+          });
+        return removed;
+      });
+    },
+    eraseScope(scope: string) {
+      return transaction(async () => {
+        await db.runAsync('DELETE FROM learning_events WHERE scope=?', scope);
+        await db.runAsync('DELETE FROM learning_cursors WHERE scope=?', scope);
+        for (const prefix of ['lesson:', 'reward:', 'view:', 'placement:'])
+          await db.runAsync(
+            'DELETE FROM learning_meta WHERE id=? OR substr(id,1,length(?))=?',
+            prefix + scope,
+            prefix + scope + ':',
+            prefix + scope + ':',
+          );
+      });
+    },
     async drafts(scope: LearningScope): Promise<Record<string, LessonDraft>> {
       const row = await db.getFirstAsync<{ value: string }>(
         'SELECT json_group_array(value) AS value FROM learning_meta WHERE substr(id,1,length(?)) = ?',
@@ -160,6 +278,7 @@ export function createLearningRepository(db: LessonDatabase) {
       return row ? lessonDraftSchema.parse(JSON.parse(row.value) as unknown) : null;
     },
     saveDraft(scope: LearningScope, draft: LessonDraft) {
+      assertPrivacyWrite(scope, draft.id);
       const payload = JSON.stringify(lessonDraftSchema.parse(draft));
       return transaction(async () => {
         await db.runAsync(

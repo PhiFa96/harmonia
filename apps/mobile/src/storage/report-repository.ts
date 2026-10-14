@@ -1,3 +1,4 @@
+import { assertPrivacyWrite } from '@/privacy/guard';
 import {
   storedContentReportSchema,
   contentReportSchema,
@@ -41,9 +42,19 @@ export function createReportRepository(db: LessonDatabase) {
     return storedContentReportSchema.array().parse(JSON.parse(row?.value ?? '[]') as unknown);
   };
   return {
+    pruneBefore: (cutoff: number) =>
+      transaction(() =>
+        db.runAsync(
+          "DELETE FROM content_report_outbox WHERE json_extract(payload,'$.createdAt')<?",
+          cutoff,
+        ),
+      ),
+    eraseScope: (scope: string) =>
+      transaction(() => db.runAsync('DELETE FROM content_report_outbox WHERE scope=?', scope)),
     list: (scope: string) => transaction(() => list(scope)),
     save: (scope: string, input: ContentReport) =>
       transaction(async () => {
+        assertPrivacyWrite(scope, input.id);
         const report = contentReportSchema.parse(input),
           payload = JSON.stringify(report);
         const old = await db.getFirstAsync<{ payload: string }>(

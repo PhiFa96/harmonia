@@ -1,3 +1,4 @@
+import { setPrivacyConsent, usePrivacy } from '@/privacy/state';
 import { useTranslation } from 'react-i18next';
 import { Linking } from 'react-native';
 import { AppText, Button, ListGroup, ListItem } from '@harmonia/ui/native';
@@ -9,7 +10,8 @@ import { optInReminders, reconcileReminders } from '@/reminders';
 export function ReminderControls() {
   const { t } = useTranslation(),
     state = useMotivation(),
-    auth = useAuthState();
+    auth = useAuthState(),
+    privacy = usePrivacy();
   if (state.phase !== 'ready' || state.scope !== (auth.session?.user.id ?? 'guest') || !state.data)
     return null;
   const p = state.data.preferences;
@@ -27,11 +29,12 @@ export function ReminderControls() {
           icon="bell"
           label={t('motivation.remindersEnabled')}
           toggle={{
-            value: p.reminderConsent,
+            value: p.reminderConsent && privacy.choices.push,
             onValueChange: (value) => {
               if (!value || state.permission === 'unsupported' || state.memory) {
                 updateOnboarding((d) => ({ ...d, reminderConsent: value }));
-                void changeMotivationPreferences({ reminderConsent: value })
+                void setPrivacyConsent('push', value)
+                  .then(() => changeMotivationPreferences({ reminderConsent: value }))
                   .then(() => reconcileReminders())
                   .catch(() => undefined);
               } else void optInReminders();

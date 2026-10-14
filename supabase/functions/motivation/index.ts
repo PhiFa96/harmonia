@@ -61,6 +61,9 @@ Deno.serve(async (request) => {
       return json(422, { error: 'time' });
     let practicedAt = Math.max(Number(stored.data?.practiced_at ?? 0), data.practicedAt ?? 0);
     const pushAvailable = Deno.env.get('HARMONIA_PUSH_ENABLED') === 'true';
+    const consent = await client.rpc('privacy_choices', { actor });
+    if (consent.error) return json(503, { error: 'storage' });
+    const pushConsent = (consent.data as { push?: unknown }).push === true;
     const device = await client
       .from('reminder_devices')
       .select('push_token,user_id')
@@ -68,7 +71,7 @@ Deno.serve(async (request) => {
       .maybeSingle();
     if (device.error) return json(503, { error: 'storage' });
     const token =
-      pushAvailable && preferences.reminderConsent
+      pushAvailable && pushConsent && preferences.reminderConsent
         ? data.pushToken === undefined
           ? device.data?.user_id === actor
             ? (device.data.push_token as string | null)
@@ -173,7 +176,8 @@ Deno.serve(async (request) => {
       summary,
       pushAvailable,
       pushRegistered: actualDevice.data?.push_token != null,
-      remoteReminders: preferences.reminderConsent && pushAvailable && active.data.length > 0,
+      remoteReminders:
+        pushConsent && preferences.reminderConsent && pushAvailable && active.data.length > 0,
       accepted,
       purchases: current.purchases,
     });

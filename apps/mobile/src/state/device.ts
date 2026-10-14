@@ -105,6 +105,9 @@ export function updateOnboarding(update: (data: OnboardingData) => OnboardingDat
 export async function retryDeviceSave(): Promise<void> {
   await save(snapshot());
 }
+export function flushDeviceWrites() {
+  return queue;
+}
 /** Navigation erst nach dem gespeicherten Abschluss freigeben; fehlgeschlagene Writes bleiben wiederholbar. */
 export async function finishOnboarding(): Promise<void> {
   const state = useDeviceState.getState();

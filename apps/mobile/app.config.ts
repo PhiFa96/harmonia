@@ -5,6 +5,8 @@ import type { ConfigContext, ExpoConfig } from 'expo/config';
 import { configuredAuth } from './src/auth/config.ts';
 import { billingConfig } from './src/billing/config.ts';
 
+import readiness from './legal-readiness.json' with { type: 'json' };
+import { legalReleaseMissing } from './src/legal/readiness.ts';
 import { legalConfig } from './src/legal/config.ts';
 
 type Variant = 'development' | 'preview' | 'production';
@@ -30,6 +32,11 @@ export default ({ config }: ConfigContext): ExpoConfig => {
   configuredAuth();
   billingConfig();
   legalConfig();
+  if (
+    process.env.EXPO_PUBLIC_LEGAL_RELEASE_APPROVED === 'true' &&
+    legalReleaseMissing(readiness).length
+  )
+    throw new Error('Legal release evidence is incomplete');
   const variant = currentVariant();
   const { name, id } = VARIANTS[variant];
   // Öffentliche Projekt-ID, keine Zugangsdaten. Ohne Bindung bleiben OTA-Updates deaktiviert.

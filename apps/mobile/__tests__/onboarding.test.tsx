@@ -10,6 +10,7 @@ import { useSettings } from '@/state/settings';
 import { i18n } from '@/i18n';
 import { sendEmailCode, verifyEmailCode, useAuthState } from '@/auth';
 import { completedDeviceFixture } from '../jest/device-fixture.ts';
+import { initializePrivacy, usePrivacy } from '@/privacy/state';
 const mockSave = jest.fn<Promise<void>, [DeviceSnapshot]>(() => Promise.resolve());
 const mockSession: Session = {
   access_token: 'test-access',
@@ -219,6 +220,12 @@ describe('Onboarding auf echten App-Routen', () => {
     });
   });
   it('bereits eingerichtete Geräte öffnen das Profil und können Erinnerungen widerrufen und Tagesziele ändern', async () => {
+    await initializePrivacy();
+    usePrivacy.setState({
+      owner: 'guest',
+      phase: 'ready',
+      choices: { analytics: false, marketing: false, push: true },
+    });
     useDeviceState.setState({
       completed: true,
       data: { ...completedDeviceFixture(), reminderConsent: true },

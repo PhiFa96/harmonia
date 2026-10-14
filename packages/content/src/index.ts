@@ -16,3 +16,5 @@ export * from './knowledge.ts';
 export * from './access.ts';
 
 export * from './cancellation.ts';
+
+export * from './privacy.ts';

@@ -1,3 +1,4 @@
+import { assertPrivacyWrite } from '@/privacy/guard';
 import { getLocales } from 'expo-localization';
 import { resolveLocale } from '@harmonia/i18n';
 import { create } from 'zustand';
@@ -88,6 +89,7 @@ function initial(first: boolean): MotivationLocal {
   };
 }
 async function persist(owner: string, data: MotivationLocal, memory: boolean, token = generation) {
+  assertPrivacyWrite(owner);
   const parsed = motivationLocalSchema.parse(data);
   try {
     if (memory) memoryRows.set(owner, parsed);
@@ -180,9 +182,14 @@ export function motivationActivities(): MotivationActivity[] {
     )
     .flatMap((row) => {
       const e = row.event;
-      if (e.kind !== 'lesson' || !e.timeZone) return [];
+      if (
+        (e.kind !== 'lesson' &&
+          !(e.kind === 'retained' && 'lessonId' in e && e.lessonId && 'contentVersion' in e)) ||
+        !e.timeZone
+      )
+        return [];
       try {
-        const key = `${e.lessonId}:${String(e.contentVersion)}`,
+        const key = `${String(e.lessonId)}:${String(e.contentVersion)}`,
           repeat = seen.has(key),
           rule = rewardRuleAt(rules, e.finishedAt),
           proof = row.reward ? null : validateLearningEvent(catalogue, e),
@@ -470,4 +477,10 @@ export function syncMotivation(): Promise<void> {
       if (again || token !== generation || owner !== motivationOwner()) void syncMotivation();
     });
   return syncing;
+}
+
+export function eraseMotivationMemory(scope: string) {
+  memoryRows.delete(scope);
+  if (useMotivation.getState().scope === scope)
+    useMotivation.setState({ data: null, phase: 'loading' });
 }

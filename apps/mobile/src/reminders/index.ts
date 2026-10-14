@@ -1,3 +1,4 @@
+import { setPrivacyConsent, privacyPushAllowed, usePrivacy } from '@/privacy/state';
 import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-device';
 import Constants from 'expo-constants';
@@ -58,6 +59,7 @@ export async function optInReminders() {
       permission: result.granted ? 'granted' : 'denied',
       notificationError: false,
     });
+    await setPrivacyConsent('push', result.granted);
     updateOnboarding((d) => ({ ...d, reminderConsent: result.granted }));
     await changeMotivationPreferences({ reminderConsent: result.granted });
     void reconcileReminders();
@@ -80,6 +82,7 @@ export function initializeReminderHandler() {
         state.phase === 'ready' &&
         useDeviceState.getState().completed &&
         view.preferences.reminderConsent &&
+        privacyPushAllowed() &&
         !view.summary.practiced;
       return Promise.resolve({
         shouldShowBanner: show,
@@ -89,12 +92,17 @@ export function initializeReminderHandler() {
       });
     },
   });
+  const privacySubscription = usePrivacy.subscribe((next, previous) => {
+    if (next.choices.push !== previous.choices.push || next.phase !== previous.phase)
+      void reconcileReminders();
+  });
   const subscription = Notifications.addPushTokenListener(() => {
     useMotivation.setState({ pushToken: null });
     void reconcileReminders();
   });
   return () => {
     subscription.remove();
+    privacySubscription();
   };
 }
 /** Keine automatische Berechtigungsanfrage. Reconcile stoppt alte Pläne auch bei Kontowechseln. */
@@ -130,7 +138,9 @@ export function reconcileReminders(): Promise<void> {
         eas && typeof eas === 'object' && 'projectId' in eas ? eas.projectId : null;
       if (
         ready.permission === 'granted' &&
+        privacyPushAllowed() &&
         view.preferences.reminderConsent &&
+        privacyPushAllowed() &&
         ready.data?.server?.pushAvailable &&
         Device.isDevice &&
         typeof projectId === 'string' &&
@@ -150,7 +160,9 @@ export function reconcileReminders(): Promise<void> {
         useDeviceState.getState().completed &&
         !ready.memory &&
         ready.permission === 'granted' &&
+        privacyPushAllowed() &&
         view.preferences.reminderConsent &&
+        privacyPushAllowed() &&
         !remote;
       const dates = enabled
         ? reminderTimes(now, view.preferences, view.summary.practiced, lastRemindedAt)
@@ -209,3 +221,9 @@ export function reconcileReminders(): Promise<void> {
   return work;
 }
 export const reminderDate = () => lessonDay(Date.now(), currentMotivation().preferences.timeZone);
+export async function cancelErasedReminders(scope: string) {
+  if (Platform.OS === 'web') return;
+  for (const item of await Notifications.getAllScheduledNotificationsAsync())
+    if (item.content.data?.['harmoniaReminder'] === 'true' && item.content.data['scope'] === scope)
+      await Notifications.cancelScheduledNotificationAsync(item.identifier);
+}

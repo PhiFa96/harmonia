@@ -1,6 +1,6 @@
 # Recht und Compliance – Checkliste
 
-> **Keine Rechtsberatung.** Diese Liste sammelt Themen, die wir mit Fachleuten (Anwaltskanzlei, Steuerberatung, Datenschutz) klären müssen. Stand der Angaben: 02.10.2026.
+> **Keine Rechtsberatung.** Diese Liste sammelt Themen, die wir mit Fachleuten (Anwaltskanzlei, Steuerberatung, Datenschutz) klären müssen. Stand der technischen Arbeitsunterlagen: 14.10.2026; aktuelle amtliche Fassungen und juristische Abnahme offen. Siehe [P2.21](recht-und-datenschutz.md) und [Abnahmepaket](../legal/README.md).
 
 ## Vor Phase 2 (vor dem ersten öffentlichen Release)
 
@@ -40,7 +40,7 @@
 **KI-Verordnung (EU AI Act)**
 
 - [ ] **Transparenzpflicht (Art. 50)** gilt seit 02.08.2026: Nutzer klar informieren, dass sie mit einer KI interagieren; KI-generierte Audio- und Bildinhalte kennzeichnen.
-- [ ] Einordnung prüfen: Hochrisiko-Bereich Bildung (Anhang III Nr. 3), z. B. KI-Systeme zur Bewertung von Lernergebnissen in Bildungseinrichtungen. Die Pflichten dafür gelten nach der Verschiebung durch den „Digital Omnibus“ ab **02.12.2027**. Unsere Architektur (Bewertung durch deterministische Engine, KI nur erklärend) ist hier hilfreich. Die Einordnung muss trotzdem rechtlich geprüft werden, besonders vor Schul-Lizenzen und Zertifikaten (Phase 4).
+- [ ] Einordnung prüfen: Hochrisiko-Bereich Bildung (Anhang III Nr. 3), z. B. KI-Systeme zur Bewertung von Lernergebnissen in Bildungseinrichtungen. Geltungsfristen und mögliche Änderungen sind gegen die aktuelle amtliche konsolidierte Fassung zu prüfen; eine zuvor genannte „Digital-Omnibus“-Verschiebung ist hier nicht verifiziert. Unsere Architektur (Bewertung durch deterministische Engine, KI nur erklärend) ist hier hilfreich. Die Einordnung muss trotzdem rechtlich geprüft werden, besonders vor Schul-Lizenzen und Zertifikaten (Phase 4).
 
 **App Stores**
 

@@ -5,6 +5,7 @@ import type { ReminderPlan } from '@harmonia/content';
 import { useMotivation } from '@/state/motivation';
 import { useDeviceState } from '@/state/device';
 import { useAuthState } from '@/auth';
+import { usePrivacy, initializePrivacy } from '@/privacy/state';
 import type { Session } from '@supabase/supabase-js';
 import type * as ReminderModule from '@/reminders';
 import { motivationFixture, motivationResponse } from '../jest/motivation-fixture';
@@ -35,7 +36,7 @@ jest.mock('expo-constants', () => ({
   },
 }));
 const originalOS = Platform.OS;
-beforeEach(() => {
+beforeEach(async () => {
   Object.defineProperty(Platform, 'OS', { value: 'ios', configurable: true });
   jest.spyOn(Date, 'now').mockReturnValue(Date.parse('2026-10-14T10:00:00Z'));
   jest.clearAllMocks();
@@ -70,6 +71,12 @@ beforeEach(() => {
   });
   useAuthState.setState({ session: null });
   useDeviceState.setState({ completed: true, storage: 'saved' });
+  await initializePrivacy();
+  usePrivacy.setState({
+    owner: 'guest',
+    phase: 'ready',
+    choices: { analytics: false, marketing: false, push: true },
+  });
 });
 afterEach(() => {
   jest.restoreAllMocks();
@@ -79,7 +86,7 @@ it('plant sieben einmalige Ortszeiten ohne automatische Berechtigungsanfrage und
   jest.mocked(Notifications.getAllScheduledNotificationsAsync).mockResolvedValue([
     { identifier: 'old', content: { data: { harmoniaReminder: 'true' } } },
     { identifier: 'other', content: { data: {} } },
-  ] as Notifications.NotificationRequest[]);
+  ] as unknown as Notifications.NotificationRequest[]);
   await reminders.reconcileReminders();
   expect(Notifications.requestPermissionsAsync).not.toHaveBeenCalled();
   expect(Notifications.cancelScheduledNotificationAsync).toHaveBeenCalledWith('old');
@@ -277,4 +284,19 @@ it('entfernt einen verspätet angelegten lokalen Plan nach Kontowechsel', async 
   await next;
   expect(Notifications.cancelScheduledNotificationAsync).toHaveBeenCalledWith('late');
   expect(mockPlan.entries).toEqual([]);
+});
+it('cancels only notifications belonging to the explicitly erased account', async () => {
+  jest.mocked(Notifications.getAllScheduledNotificationsAsync).mockResolvedValue([
+    {
+      identifier: 'erase-own',
+      content: { data: { harmoniaReminder: 'true', scope: 'erase-notification-a' } },
+    },
+    {
+      identifier: 'keep-other',
+      content: { data: { harmoniaReminder: 'true', scope: 'erase-notification-b' } },
+    },
+  ] as unknown as Notifications.NotificationRequest[]);
+  await reminders.cancelErasedReminders('erase-notification-a');
+  expect(Notifications.cancelScheduledNotificationAsync).toHaveBeenCalledWith('erase-own');
+  expect(Notifications.cancelScheduledNotificationAsync).not.toHaveBeenCalledWith('keep-other');
 });
