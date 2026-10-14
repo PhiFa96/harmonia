@@ -1,3 +1,4 @@
+import { act as settleAct } from 'expo-router/testing-library';
 import type { ExerciseItem, ExerciseSession, PitchInputItem } from '@harmonia/exercises';
 import {
   currentItem,
@@ -62,10 +63,13 @@ afterEach(() => {
   clock.mockRestore();
 });
 
-function start() {
+async function start() {
   const router = renderRouter('./src/app', { initialUrl: '/practice' });
   expect(screen.getByText('Musik lesen und hören')).toBeTruthy();
   fireEvent.press(screen.getByText('Übungssatz starten'));
+  await settleAct(async () => {
+    await Promise.resolve();
+  });
   return router;
 }
 function itemAt(session: ExerciseSession): ExerciseItem {
@@ -111,8 +115,8 @@ function tapStaff(
 }
 
 describe('Aufgaben-Screen', () => {
-  it('Prüfen braucht eine Antwort; falsche Antwort bleibt gewertet und wird zusammen mit der Lösung markiert', () => {
-    start();
+  it('Prüfen braucht eine Antwort; falsche Antwort bleibt gewertet und wird zusammen mit der Lösung markiert', async () => {
+    await start();
     const state = createPracticeSession(SEED);
     const item = itemAt(state);
     expect(screen.getByRole('button', { name: 'Prüfen' })).toBeDisabled();
@@ -134,8 +138,8 @@ describe('Aufgaben-Screen', () => {
     expect(screen.getByRole('button', { name: 'Prüfen' })).toBeDisabled();
   });
 
-  it('Ansage der Notenfrage beschreibt Positionen, ohne die Antwort zu verraten; alle Hinweisstufen helfen', () => {
-    start();
+  it('Ansage der Notenfrage beschreibt Positionen, ohne die Antwort zu verraten; alle Hinweisstufen helfen', async () => {
+    await start();
     const item = itemAt(createPracticeSession(SEED));
     expect(screen.getAllByRole('img')).toHaveLength(1);
     expect(screen.getByRole('img').props['aria-label']).toMatch(/untersten Linie/);
@@ -154,7 +158,7 @@ describe('Aufgaben-Screen', () => {
   });
 
   it('Hörfrage zeigt vor der Bewertung kein Notenbild und braucht eine ausdrücklich gestartete Wiedergabe', async () => {
-    start();
+    await start();
     const state = reachHearing();
     expect(screen.queryByRole('img')).toBeNull();
     expect(mockPlay).not.toHaveBeenCalled();
@@ -174,7 +178,7 @@ describe('Aufgaben-Screen', () => {
   });
 
   it('Gerade nicht hören beendet den Klang und überspringt alle weiteren Hörfragen des Satzes', async () => {
-    start();
+    await start();
     let state = reachHearing();
     await act(() => {
       fireEvent.press(screen.getByText('Töne anhören'));
@@ -188,13 +192,16 @@ describe('Aufgaben-Screen', () => {
     while (currentItem(state)) state = next(check(state));
     expect(screen.getByText('6 von 6 Antworten richtig.')).toBeTruthy();
     expect(screen.getByText('3 Hörfragen übersprungen; sie zählen nicht als Fehler.')).toBeTruthy();
-    fireEvent.press(screen.getByText('Neuen Übungssatz starten'));
+    await settleAct(async () => {
+      fireEvent.press(screen.getByText('Neuen Übungssatz starten'));
+      await Promise.resolve();
+    });
     expect(screen.getByText('Aufgabe 1 von 9')).toBeTruthy();
     expect(screen.queryByText(/Hörfragen werden in diesem Übungssatz übersprungen/)).toBeNull();
   });
 
   it('ein kompletter gemischter Satz zeigt ein Ergebnis und trennt Hilfen von selbständig richtigen Antworten', async () => {
-    start();
+    await start();
     let state = createPracticeSession(SEED);
     fireEvent.press(screen.getByText('Hinweis 1'));
     while (currentItem(state)) {
@@ -219,7 +226,7 @@ describe('Aufgaben-Screen', () => {
           resume = resolve;
         }),
     );
-    start();
+    await start();
     reachHearing();
     fireEvent.press(screen.getByText('Töne anhören'));
     fireEvent.press(screen.getByText('Gerade nicht hören'));
@@ -233,7 +240,7 @@ describe('Aufgaben-Screen', () => {
 
   it('Audio-Fehler bleibt bedienbar und zeigt den Weg zum Überspringen', async () => {
     mockResume.mockRejectedValue(new Error('no audio'));
-    start();
+    await start();
     reachHearing();
     await act(() => {
       fireEvent.press(screen.getByText('Töne anhören'));
@@ -253,7 +260,7 @@ describe('Aufgaben-Screen', () => {
         return { remove: jest.fn() };
       });
     try {
-      start();
+      await start();
       reachHearing();
       await act(() => {
         fireEvent.press(screen.getByText('Töne anhören'));
@@ -285,7 +292,7 @@ describe('Aufgaben-Screen', () => {
           resume = resolve;
         }),
     );
-    start();
+    await start();
     reachHearing();
     fireEvent.press(screen.getByText('Töne anhören'));
     fireEvent.press(screen.getByText('Profil'));
@@ -307,7 +314,10 @@ describe('Aufgaben-Screen', () => {
   it('Englisch bleibt beim Start und während der Aufgabe vollständig übersetzt', async () => {
     useSettings.setState({ locale: 'en-GB' });
     renderRouter('./src/app', { initialUrl: '/practice' });
-    fireEvent.press(screen.getByText('Start practice set'));
+    await settleAct(async () => {
+      fireEvent.press(screen.getByText('Start practice set'));
+      await Promise.resolve();
+    });
     expect(screen.getByText('Question 1 of 9')).toBeTruthy();
     expect(
       screen.getByText('What is this note called? Choose the name without its octave.'),
@@ -317,9 +327,12 @@ describe('Aufgaben-Screen', () => {
     });
   });
 
-  it('neun Eingabeaufgaben lassen sich setzen, prüfen und abschließen; nächste Aufgabe beginnt leer', () => {
+  it('neun Eingabeaufgaben lassen sich setzen, prüfen und abschließen; nächste Aufgabe beginnt leer', async () => {
     renderRouter('./src/app', { initialUrl: '/practice' });
-    fireEvent.press(screen.getByRole('button', { name: 'Noten und Intervalle selbst eingeben' }));
+    await settleAct(async () => {
+      fireEvent.press(screen.getByRole('button', { name: 'Noten und Intervalle selbst eingeben' }));
+      await Promise.resolve();
+    });
     let state = createPitchInputSession(SEED);
     while (currentItem(state)) {
       const item = itemAt(state);
@@ -359,14 +372,20 @@ describe('Aufgaben-Screen', () => {
     }
     expect(screen.getByText('9 von 9 Antworten richtig.')).toBeTruthy();
     expect(screen.getByText('9 Antworten ohne Hinweis richtig.')).toBeTruthy();
-    fireEvent.press(screen.getByText('Neuen Übungssatz starten'));
+    await settleAct(async () => {
+      fireEvent.press(screen.getByText('Neuen Übungssatz starten'));
+      await Promise.resolve();
+    });
     expect(screen.getByText('Noten setzen')).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Prüfen' })).toBeDisabled();
   });
 
-  it('freie Eingabe löscht die Antwort, erklärt erst mit Hinweis 3 die Lösung und sperrt die erste Wertung', () => {
+  it('freie Eingabe löscht die Antwort, erklärt erst mit Hinweis 3 die Lösung und sperrt die erste Wertung', async () => {
     renderRouter('./src/app', { initialUrl: '/practice' });
-    fireEvent.press(screen.getByRole('button', { name: 'Noten und Intervalle selbst eingeben' }));
+    await settleAct(async () => {
+      fireEvent.press(screen.getByRole('button', { name: 'Noten und Intervalle selbst eingeben' }));
+      await Promise.resolve();
+    });
     const item = itemAt(createPitchInputSession(SEED));
     if (item.type !== 'NOTE_PLACE') throw new Error('Notenplatz fehlt');
     const wrong = {
@@ -393,9 +412,12 @@ describe('Aufgaben-Screen', () => {
     expect(screen.queryByText('So sieht die Lösung aus')).toBeNull();
   });
 
-  it('Screenreader kann eine freie Antwort aus der Pause aufbauen und Vorzeichen ändern', () => {
+  it('Screenreader kann eine freie Antwort aus der Pause aufbauen und Vorzeichen ändern', async () => {
     renderRouter('./src/app', { initialUrl: '/practice' });
-    fireEvent.press(screen.getByRole('button', { name: 'Noten und Intervalle selbst eingeben' }));
+    await settleAct(async () => {
+      fireEvent.press(screen.getByRole('button', { name: 'Noten und Intervalle selbst eingeben' }));
+      await Promise.resolve();
+    });
     const rest = screen.getByLabelText('Ganze Pause');
     expect(rest.props['accessibilityRole']).toBe('adjustable');
     fireEvent(rest, 'accessibilityAction', { nativeEvent: { actionName: 'increment' } });
@@ -404,10 +426,13 @@ describe('Aufgaben-Screen', () => {
     expect(screen.getByRole('radio', { name: 'b' })).toBeChecked();
   });
 
-  it('UK-Eingabeaufgaben und ihre Hinweise verwenden vollständig übersetzte Texte', () => {
+  it('UK-Eingabeaufgaben und ihre Hinweise verwenden vollständig übersetzte Texte', async () => {
     useSettings.setState({ locale: 'en-GB' });
     renderRouter('./src/app', { initialUrl: '/practice' });
-    fireEvent.press(screen.getByRole('button', { name: 'Enter notes and build intervals' }));
+    await settleAct(async () => {
+      fireEvent.press(screen.getByRole('button', { name: 'Enter notes and build intervals' }));
+      await Promise.resolve();
+    });
     expect(screen.getByText('Place notes')).toBeTruthy();
     expect(screen.getByText(/Write .* on the empty staff/)).toBeTruthy();
     fireEvent.press(screen.getByText('Hint 1'));

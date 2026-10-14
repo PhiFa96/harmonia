@@ -32,7 +32,7 @@ const initial = (): BillingState => ({
 });
 function view() {
   return renderRouter(
-    { subscription: Subscription, account: () => null, index: () => null },
+    { subscription: Subscription, paywall: () => null, account: () => null, index: () => null },
     {
       initialUrl: '/subscription',
       wrapper: ({ children }) => <UiProvider scheme="light">{children}</UiProvider>,
@@ -45,15 +45,12 @@ beforeEach(async () => {
   useSettings.setState({ locale: 'de' });
   await i18n.changeLanguage('de');
 });
-it('shows actual period prices and only purchases after explicit press', () => {
-  view();
-  expect(screen.getByText('9,99 € pro Monat')).toBeTruthy();
-  expect(screen.getByText('99,00 € pro Jahr')).toBeTruthy();
+it('routes offers to the legally gated paywall without purchasing', () => {
+  const app = view();
   expect(mockBuy).not.toHaveBeenCalled();
-  const button = screen.getAllByRole('button', { name: 'Premium monatlich abonnieren' })[0];
-  if (!button) throw new Error('Missing buy button');
-  fireEvent.press(button);
-  expect(mockBuy).toHaveBeenCalledWith('premium:monthly', 'de');
+  fireEvent.press(screen.getByRole('button', { name: 'Abos vergleichen' }));
+  expect(app.getPathname()).toBe('/paywall');
+  expect(mockBuy).not.toHaveBeenCalled();
 });
 it('offers account login to guests and hides purchase and restore', () => {
   mockState = {
@@ -102,7 +99,7 @@ it('shows cancellation expiry and links management instead of another purchase',
 it('pending confirmation prevents another purchase while allowing refresh', () => {
   mockState.notice = 'pending';
   view();
-  expect(screen.getAllByRole('button', { name: 'Premium monatlich abonnieren' })[0]).toBeDisabled();
+  expect(screen.queryByRole('button', { name: 'Premium monatlich abonnieren' })).toBeNull();
   fireEvent.press(screen.getByRole('button', { name: 'Status aktualisieren' }));
   expect(mockRefresh).toHaveBeenCalledTimes(1);
 });
@@ -115,19 +112,13 @@ it.each([
   mockState.notice = 'canceled';
   view();
   expect(screen.getByText(wording)).toBeTruthy();
-  expect(screen.getByText('9,99 € per month')).toBeTruthy();
+  expect(screen.queryByText('9,99 € per month')).toBeNull();
 });
 it('busy purchase disables restore and refresh', () => {
   mockState.busy = true;
   view();
   expect(screen.getByRole('button', { name: 'Käufe wiederherstellen' })).toBeDisabled();
   expect(screen.getByRole('button', { name: 'Status aktualisieren' })).toBeDisabled();
-});
-it('annual and monthly purchase buttons identify their own billing period', () => {
-  view();
-  fireEvent.press(screen.getByRole('button', { name: 'Premium jährlich abonnieren' }));
-  expect(mockBuy).toHaveBeenCalledWith('premium:annual', 'de');
-  expect(screen.getByRole('button', { name: 'Premium monatlich abonnieren' })).toBeTruthy();
 });
 it('billing issues are not displayed as customer cancellation', () => {
   mockState.status = {

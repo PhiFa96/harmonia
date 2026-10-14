@@ -1,3 +1,4 @@
+import { act as settleAct } from 'expo-router/testing-library';
 import { DatabaseSync } from 'node:sqlite';
 import { act, fireEvent, renderRouter, screen, waitFor } from 'expo-router/testing-library';
 import { router } from 'expo-router';
@@ -48,10 +49,13 @@ afterEach(() => {
 function open() {
   return renderRouter('./src/app', { initialUrl: `/lesson?id=${id}` });
 }
-function start() {
+async function start() {
   for (let n = 1; n < content.introduction.length; n++)
     fireEvent.press(screen.getByText('Nächste Einführungskarte'));
   fireEvent.press(screen.getByText(`Mit ${String(content.exercises.length)} Aufgaben starten`));
+  await settleAct(async () => {
+    await Promise.resolve();
+  });
 }
 async function persisted() {
   await waitFor(() => {
@@ -72,7 +76,10 @@ describe('P2.12 mit echtem lokalem Lektionsspeicher', () => {
     expect((await persisted())?.introCard).toBe(1);
     await coldLoad(app.unmount);
     expect(screen.getByText('Deine Lektion wartet')).toBeTruthy();
-    fireEvent.press(screen.getByText('Lektion fortsetzen'));
+    await settleAct(async () => {
+      fireEvent.press(screen.getByText('Lektion fortsetzen'));
+      await Promise.resolve();
+    });
     expect(
       screen.getByText(`Einführung 2 von ${String(content.introduction.length)}`),
     ).toBeTruthy();
@@ -80,7 +87,7 @@ describe('P2.12 mit echtem lokalem Lektionsspeicher', () => {
   });
   it('bewahrt ungeprüfte Antworten und Hinweise beim Neustart', async () => {
     const app = open();
-    start();
+    await start();
     const snapshot = await persisted();
     if (!snapshot) throw new Error('Snapshot fehlt');
     const item = createLessonSession(content, snapshot.seed).initial.items[0];
@@ -91,7 +98,10 @@ describe('P2.12 mit echtem lokalem Lektionsspeicher', () => {
     expect(saved?.answer).toBe(expectedAnswer(item));
     expect(saved?.actions).toEqual([{ type: 'hint' }]);
     await coldLoad(app.unmount);
-    fireEvent.press(screen.getByText('Lektion fortsetzen'));
+    await settleAct(async () => {
+      fireEvent.press(screen.getByText('Lektion fortsetzen'));
+      await Promise.resolve();
+    });
     expect(screen.getByText('Prüfen')).toBeEnabled();
     expect(screen.getByText('Hinweis 2')).toBeTruthy();
     expect(screen.getByTestId(`answer-${expectedAnswer(item)}`)).toBeChecked();
@@ -99,7 +109,7 @@ describe('P2.12 mit echtem lokalem Lektionsspeicher', () => {
   });
   it('stellt sichtbares Feedback wieder her und wertet dieselbe Antwort nicht noch einmal', async () => {
     const app = open();
-    start();
+    await start();
     const snapshot = await persisted();
     if (!snapshot) throw new Error('Snapshot fehlt');
     const item = createLessonSession(content, snapshot.seed).initial.items[0];
@@ -108,7 +118,10 @@ describe('P2.12 mit echtem lokalem Lektionsspeicher', () => {
     fireEvent.press(screen.getByText('Prüfen'));
     expect((await persisted())?.actions).toHaveLength(1);
     await coldLoad(app.unmount);
-    fireEvent.press(screen.getByText('Lektion fortsetzen'));
+    await settleAct(async () => {
+      fireEvent.press(screen.getByText('Lektion fortsetzen'));
+      await Promise.resolve();
+    });
     expect(screen.getByText('Richtig!')).toBeTruthy();
     fireEvent.press(screen.getByTestId('exercise-next'));
     expect(screen.getByText(`Aufgabe 2 von ${String(content.exercises.length)}`)).toBeTruthy();
@@ -116,7 +129,7 @@ describe('P2.12 mit echtem lokalem Lektionsspeicher', () => {
   });
   it('pausiert, kehrt zum Pfad zurück und bietet denselben Durchgang wieder an', async () => {
     open();
-    start();
+    await start();
     await persisted();
     fireEvent.press(screen.getByText('Pausieren oder abbrechen'));
     expect(screen.queryByTestId('exercise-question')).toBeNull();
@@ -128,7 +141,10 @@ describe('P2.12 mit echtem lokalem Lektionsspeicher', () => {
       router.push({ pathname: '/lesson', params: { id } });
     });
     expect(screen.getByText('Deine Lektion wartet')).toBeTruthy();
-    fireEvent.press(screen.getByText('Lektion fortsetzen'));
+    await settleAct(async () => {
+      fireEvent.press(screen.getByText('Lektion fortsetzen'));
+      await Promise.resolve();
+    });
     await persisted();
     expect(mockSave).not.toHaveBeenCalled();
   });
@@ -137,7 +153,7 @@ describe('P2.12 mit echtem lokalem Lektionsspeicher', () => {
     act(() => {
       router.push({ pathname: '/lesson', params: { id } });
     });
-    start();
+    await start();
     await persisted();
     act(() => {
       router.back();
@@ -163,7 +179,7 @@ describe('P2.12 mit echtem lokalem Lektionsspeicher', () => {
   });
   it('verwirft einen Durchgang ohne Ergebnis und ohne XP', async () => {
     open();
-    start();
+    await start();
     await persisted();
     fireEvent.press(screen.getByText('Pausieren oder abbrechen'));
     fireEvent.press(screen.getByText('Durchgang verwerfen'));

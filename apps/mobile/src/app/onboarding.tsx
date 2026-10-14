@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { ReminderControls } from '@/components/reminder-controls';
 import { APP_LOCALES, LOCALE_NAMES } from '@harmonia/i18n';
 import { LAYOUT, RADIUS, SPACE } from '@harmonia/ui';
@@ -81,6 +82,7 @@ export default function OnboardingScreen() {
     setFinishError(false);
     try {
       await finishOnboarding();
+      router.replace({ pathname: '/paywall', params: { reason: 'onboarding' } });
     } catch {
       setFinishError(true);
     }

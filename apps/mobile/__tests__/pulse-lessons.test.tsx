@@ -1,3 +1,4 @@
+import { act as settleAct } from 'expo-router/testing-library';
 import { catalogue } from '@harmonia/content/authoring';
 import { lessonPlan } from '@harmonia/content';
 import {
@@ -73,13 +74,16 @@ function required<T>(value: T | undefined): T {
   if (value === undefined) throw new Error('Testwert fehlt');
   return value;
 }
-function intro(name: string) {
+async function intro(name: string) {
   const lesson = required(lessonPlan(catalogue, `rhythm.l1.pulse.${name}`));
   for (let index = 1; index < lesson.introduction.length; index++)
     fireEvent.press(screen.getByRole('button', { name: 'Nächste Einführungskarte' }));
   fireEvent.press(
     screen.getByRole('button', { name: `Mit ${String(lesson.exercises.length)} Aufgaben starten` }),
   );
+  await settleAct(async () => {
+    await Promise.resolve();
+  });
   return createLessonSession(lesson, SEED);
 }
 function advance(time: number) {
@@ -139,7 +143,7 @@ describe('Pulslektionen mit Audio-Uhr im Spieler', () => {
     '%s speichert %s echte Antworten und Rohzeiten mit Version 6',
     async (name, newCount) => {
       renderRouter('./src/app', { initialUrl: `/lesson?id=rhythm.l1.pulse.${name}` });
-      const session = intro(name);
+      const session = await intro(name);
       const count = session.initial.items.length;
       expect(lessonPlan(catalogue, session.lesson.id)?.newCount).toBe(newCount);
       for (const item of session.initial.items) {
@@ -168,7 +172,7 @@ describe('Pulslektionen mit Audio-Uhr im Spieler', () => {
   );
   it('wertet einen zusätzlichen Anschlag falsch und speichert die andere Gruppengröße in der Wiederholung', async () => {
     renderRouter('./src/app', { initialUrl: '/lesson?id=rhythm.l1.pulse.steady' });
-    let session = intro('steady');
+    let session = await intro('steady');
     for (const [index, item] of session.initial.items.entries()) {
       const extra = index === 4;
       await answer(item, extra);
@@ -198,7 +202,7 @@ describe('Pulslektionen mit Audio-Uhr im Spieler', () => {
   });
   it('überspringt alle Tippaufgaben ohne Hörmöglichkeit und wertet nur die Begriffsfragen', async () => {
     renderRouter('./src/app', { initialUrl: '/lesson?id=rhythm.l1.pulse.tempo' });
-    const session = intro('tempo');
+    const session = await intro('tempo');
     const skipped = session.initial.items.filter((item) => item.type === 'RHYTHM_TAP').length;
     for (const item of session.initial.items) {
       if (item.type === 'RHYTHM_TAP') {

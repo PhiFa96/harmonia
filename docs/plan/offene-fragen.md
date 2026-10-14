@@ -25,6 +25,9 @@
 | 14.10.2026 | F07: zusätzliche Spielwährung für Streak-Schutz; Startwerte 3/1 verdiente Münzen und 10 pro Schutz, weiterhin kostenlos nach sieben erfolgreichen Lerntagen, höchstens zwei insgesamt | [ADR 0014](../decisions/0014-motivation-mit-muenzen-und-erinnerungen.md), [P2.14](streaks-xp-tagesziel-erinnerungen.md) |
 | 14.10.2026 | P2.19/F08: Monats- und Jahresabos vorbereiten; Preise später festlegen. Keine Preisfreigabe durch technische Integration. | [ADR 0019](../decisions/0019-revenuecat-abos-und-berechtigungen.md), [P2.19](abos-revenuecat.md) |
 
+| 14.10.2026 | F06: wiederauffüllbare Energie/Herzen; 30 Punkte und ein Punkt je zehn Minuten als serverseitig änderbare Startwerte. | [ADR 0020](../decisions/0020-lernenergie-paywall-und-kuendigungseingang.md), [P2.20](paywall-und-gratis-limits.md) |
+| 14.10.2026 | F09: Werbung später vorbereiten; aktuell kein SDK und keine Werbung. | [P2.20](paywall-und-gratis-limits.md) |
+
 ## Offen
 
 | # | Frage | Optionen | Entscheidet | Bis |
@@ -32,9 +35,7 @@
 | F03 | Schreibweise der Funktionssymbole | Konvention festlegen (z. B. nach verbreitetem Hochschul-Lehrbuch) | Claude (nach Recherche, ADR 0005) | P0.05 |
 | F04 | Schreibweise der Akkordsymbole für Septakkorde und erweiterte Akkorde (Dreiklänge entschieden) | z. B. Cmaj7 / CΔ7 / CM7; umschaltbar? | Claude (nach Recherche, ADR 0005) | mit den Septakkorden (Phase 2) |
 | F05 | Stimmumfänge und Regelwerk für den Tonsatz | Lehrbuchkonvention wählen | Claude (nach Recherche, ADR 0005) | vor P4.09 |
-| F06 | Gratis-Limit-Modell | Energie / feste Tageskontingente / nur Inhaltsgrenze | gemeinsam | P2.20 |
 | F08 | Preise Premium und Max | nach Marktvergleich | Phillip | P2.19 |
-| F09 | Werbung im Gratis-Bereich | ja / nein | Phillip | P2.20 |
 | F10 | Gastmodus ohne Konto | ja (Fortschritt lokal, später verknüpfen) / nein | gemeinsam | P2.01 |
 | F13 | Wer trägt Stripe-Gebühren im Marktplatz | Plattform / Coach | Phillip | P4.04 |
 | F14 | Coaching für Minderjährige | ab 18 / mit Eltern-Einwilligung | Phillip (nach Rechtsberatung) | P4.01 |

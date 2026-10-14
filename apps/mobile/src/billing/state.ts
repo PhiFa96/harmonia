@@ -5,6 +5,8 @@ import { BillingController } from './controller.ts';
 import type { BillingState } from './controller.ts';
 import { billingAvailable, createBillingSdk } from '@/billing/adapter';
 import { parseBillingStatus } from './model.ts';
+import { legalReady } from '@/legal/config';
+import { refreshAccess, useAccess } from '@/access/state';
 export const useBilling = create<BillingState>(() => ({
   actor: null,
   phase: 'guest',
@@ -36,6 +38,15 @@ const controller = new BillingController(
   },
   (state) => {
     useBilling.setState(state, true);
+    if (state.notice === 'purchased' || state.notice === 'restored') void refreshAccess();
+  },
+  async () => {
+    if (!legalReady()) return false;
+    await refreshAccess();
+    return (
+      useAccess.getState().owner === actor() &&
+      useAccess.getState().status?.policy.checkoutEnabled === true
+    );
   },
 );
 let previous: string | null | undefined;

@@ -5,6 +5,8 @@ import type { ConfigContext, ExpoConfig } from 'expo/config';
 import { configuredAuth } from './src/auth/config.ts';
 import { billingConfig } from './src/billing/config.ts';
 
+import { legalConfig } from './src/legal/config.ts';
+
 type Variant = 'development' | 'preview' | 'production';
 
 const VARIANTS: Readonly<Record<Variant, { name: string; id: string }>> = {
@@ -27,6 +29,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
   // Vor Metro abbrechen, damit ein versehentlich eingetragener Service-Schlüssel nie in ein Bundle gelangt.
   configuredAuth();
   billingConfig();
+  legalConfig();
   const variant = currentVariant();
   const { name, id } = VARIANTS[variant];
   // Öffentliche Projekt-ID, keine Zugangsdaten. Ohne Bindung bleiben OTA-Updates deaktiviert.

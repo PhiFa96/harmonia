@@ -1,3 +1,4 @@
+import { act as settleAct } from 'expo-router/testing-library';
 import { catalogue } from '@harmonia/content/authoring';
 import { lessonPlan } from '@harmonia/content';
 import {
@@ -70,13 +71,16 @@ function required<T>(value: T | undefined): T {
   if (value === undefined) throw new Error('Testwert fehlt');
   return value;
 }
-function intro(name: string) {
+async function intro(name: string) {
   const lesson = required(lessonPlan(catalogue, `rhythm.l1.simple-meter.${name}`));
   for (let index = 1; index < lesson.introduction.length; index++)
     fireEvent.press(screen.getByRole('button', { name: 'Nächste Einführungskarte' }));
   fireEvent.press(
     screen.getByRole('button', { name: `Mit ${String(lesson.exercises.length)} Aufgaben starten` }),
   );
+  await settleAct(async () => {
+    await Promise.resolve();
+  });
   return createLessonSession(lesson, SEED);
 }
 function advance(time: number) {
@@ -120,7 +124,7 @@ describe('Einfache Takte im Lektionsspieler', () => {
     '%s speichert %s Antworten mit einem vollständigen Einzähltakt',
     async (name, newCount) => {
       renderRouter('./src/app', { initialUrl: `/lesson?id=rhythm.l1.simple-meter.${name}` });
-      const session = intro(name);
+      const session = await intro(name);
       const count = session.initial.items.length;
       expect(lessonPlan(catalogue, session.lesson.id)?.newCount).toBe(newCount);
       for (const item of session.initial.items) {
@@ -144,7 +148,7 @@ describe('Einfache Takte im Lektionsspieler', () => {
   );
   it('zeigt die Auftaktfrage, bewertet einen Fehler und stellt in der Wiederholung die Gegenantwort', async () => {
     renderRouter('./src/app', { initialUrl: '/lesson?id=rhythm.l1.simple-meter.count-in' });
-    let session = intro('count-in');
+    let session = await intro('count-in');
     const wrongIndex = session.initial.items.findIndex(
       (item) => item.type === 'METER_IDENTIFY' && item.presentation === 'pickup',
     );

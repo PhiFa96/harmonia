@@ -222,7 +222,16 @@ export function TutorScreen({ task = false }: { readonly task?: boolean }) {
             <Card>
               <View style={styles.actions}>
                 <AppText>{t('tutor.guest')}</AppText>
-                <AppText tone="muted">{t('tutor.premium')}</AppText>
+                <>
+                  <AppText tone="muted">{t('tutor.premium')}</AppText>
+                  <Button
+                    variant="secondary"
+                    label={t('paywall.title')}
+                    onPress={() => {
+                      router.push({ pathname: '/paywall', params: { reason: 'tutor' } });
+                    }}
+                  />
+                </>
                 <Button
                   label={t('tutor.signIn')}
                   disabled={!auth.ready}
@@ -262,7 +271,16 @@ export function TutorScreen({ task = false }: { readonly task?: boolean }) {
                     </>
                   ) : null}
                   {state?.account?.tier === 'free' ? (
-                    <AppText tone="muted">{t('tutor.premium')}</AppText>
+                    <>
+                      <AppText tone="muted">{t('tutor.premium')}</AppText>
+                      <Button
+                        variant="secondary"
+                        label={t('paywall.title')}
+                        onPress={() => {
+                          router.push({ pathname: '/paywall', params: { reason: 'tutor' } });
+                        }}
+                      />
+                    </>
                   ) : null}
                   {state?.accountError ? (
                     <AppText role="alert" tone="danger">

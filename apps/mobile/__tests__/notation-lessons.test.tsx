@@ -1,3 +1,4 @@
+import { act as settleAct } from 'expo-router/testing-library';
 import { learningPath } from '@harmonia/content';
 import { useLearningState } from '@/state/learning';
 import { catalogue } from '@harmonia/content/authoring';
@@ -58,17 +59,20 @@ function required<T>(value: T | undefined): T {
 function content(name: string) {
   return required(lessonPlan(catalogue, `notation.l1.staff.${name}`));
 }
-function intro(name: string) {
+async function intro(name: string) {
   const lesson = content(name);
   for (let index = 1; index < lesson.introduction.length; index++)
     fireEvent.press(screen.getByRole('button', { name: 'Nächste Einführungskarte' }));
   fireEvent.press(
     screen.getByRole('button', { name: `Mit ${String(lesson.exercises.length)} Aufgaben starten` }),
   );
+  await settleAct(async () => {
+    await Promise.resolve();
+  });
   return createLessonSession(lesson, SEED);
 }
-function finish(name: string) {
-  const session = intro(name);
+async function finish(name: string) {
+  const session = await intro(name);
   for (const item of session.initial.items) {
     fireEvent.press(screen.getByTestId(`answer-${expectedAnswer(item)}`));
     fireEvent.press(screen.getByRole('button', { name: 'Prüfen' }));
@@ -100,7 +104,7 @@ describe('Auswahl und Wiedergabe der Notationslektionen', () => {
       const count = content(name).exercises.length;
       expect(content(name).newCount).toBe(newCount);
       renderRouter('./src/app', { initialUrl: `/lesson?id=notation.l1.staff.${name}` });
-      finish(name);
+      await finish(name);
       await waitFor(() => {
         expect(mockSave).toHaveBeenCalledTimes(1);
       });
@@ -118,7 +122,7 @@ describe('Auswahl und Wiedergabe der Notationslektionen', () => {
   );
   it('setzt bei einer geänderten Lektions-ID Aufgabe, Antwort und Einführung zurück', async () => {
     renderRouter('./src/app', { initialUrl: '/lesson?id=notation.l1.staff.anchor' });
-    const state = intro('anchor'),
+    const state = await intro('anchor'),
       first = required(state.initial.items[0]);
     fireEvent.press(screen.getByTestId(`answer-${expectedAnswer(first)}`));
     fireEvent.press(screen.getByRole('button', { name: 'Prüfen' }));
@@ -129,7 +133,7 @@ describe('Auswahl und Wiedergabe der Notationslektionen', () => {
     expect(screen.queryByText('Richtig!')).toBeNull();
     expect(screen.queryByText('Aufgabe 1 von 8')).toBeNull();
     expect(mockSave).not.toHaveBeenCalled();
-    finish('positions');
+    await finish('positions');
     await waitFor(() => {
       expect(mockSave).toHaveBeenCalledTimes(1);
     });
@@ -169,7 +173,10 @@ describe('Auswahl und Wiedergabe der Notationslektionen', () => {
       'A',
       'B',
     ]);
-    fireEvent.press(screen.getByRole('button', { name: 'Mit 8 Aufgaben starten' }));
+    await settleAct(async () => {
+      fireEvent.press(screen.getByRole('button', { name: 'Mit 8 Aufgaben starten' }));
+      await Promise.resolve();
+    });
     expect(mockStop).toHaveBeenCalledTimes(4);
     expect(screen.getByText('Aufgabe 1 von 8')).toBeTruthy();
   });

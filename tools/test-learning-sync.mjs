@@ -87,6 +87,20 @@ try {
     assert.equal(signed.status, 200, 'Lokale Auth');
     users.at(-1).token = signed.data.access_token;
   }
+  // These tests cover bulk sync/paging. Free energy is exercised independently in test-access.
+  for (const user of users) {
+    const grant = await request('/rest/v1/entitlements', {
+      admin: true,
+      body: {
+        user_id: user.id,
+        entitlement: 'premium',
+        active: true,
+        expires_at: '2099-01-01T00:00:00Z',
+        store: 'manual',
+      },
+    });
+    assert.equal(grant.status, 201);
+  }
   const [a, b] = users;
   assert.equal((await sync('invalid')).status, 401, 'Ungültiges JWT');
   assert.equal((await sync(status.ANON_KEY)).status, 401, 'Gast darf nicht syncen');

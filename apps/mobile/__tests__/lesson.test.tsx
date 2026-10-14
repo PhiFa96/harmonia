@@ -1,3 +1,4 @@
+import { act as settleAct } from 'expo-router/testing-library';
 import { firstLesson } from '@harmonia/content/authoring';
 import type { LessonSession } from '@harmonia/exercises';
 import {
@@ -59,11 +60,14 @@ beforeEach(() => {
 afterEach(() => {
   clock.mockRestore();
 });
-function start() {
+async function start() {
   const router = renderRouter('./src/app', { initialUrl: '/lesson' });
   fireEvent.press(screen.getByText('Nächste Einführungskarte'));
   fireEvent.press(screen.getByText('Nächste Einführungskarte'));
   fireEvent.press(screen.getByText('Mit 10 Aufgaben starten'));
+  await settleAct(async () => {
+    await Promise.resolve();
+  });
   return router;
 }
 function itemOf(state: LessonSession) {
@@ -131,7 +135,7 @@ describe('Vollständige Lektion', () => {
     ]);
   });
   it('Warum übernimmt die falsche Erstantwort und kehrt zum unveränderten Feedback zurück', async () => {
-    const router = start(),
+    const router = await start(),
       state = createLessonSession(firstLesson, SEED),
       item = itemOf(state);
     const wrong = required(item.choices.find((choice) => choice !== expectedAnswer(item)));
@@ -166,7 +170,7 @@ describe('Vollständige Lektion', () => {
     expect(mockSave).not.toHaveBeenCalled();
   });
   it('KI-Hinweise bewahren die verwendete Stufe; KI-Lösung wird erst nach festem Hinweis 3 angeboten', async () => {
-    start();
+    await start();
     expect(screen.queryByText('KI-Hinweis 1 ergänzen')).toBeNull();
     fireEvent.press(screen.getByText('Hinweis 1'));
     fireEvent.press(screen.getByText('KI-Hinweis 1 ergänzen'));
@@ -196,7 +200,7 @@ describe('Vollständige Lektion', () => {
     });
   });
   it('zehn richtige Antworten führen direkt zum Ergebnis und werden einmal gespeichert', async () => {
-    start();
+    await start();
     expect(screen.getByText('Aufgabe 1 von 10')).toBeTruthy();
     await finish(createLessonSession(firstLesson, SEED));
     expect(screen.getByText('Im Erstversuch: 10 von 10 richtig.')).toBeTruthy();
@@ -211,7 +215,7 @@ describe('Vollständige Lektion', () => {
     expect(attempt.session.initial.records).toHaveLength(10);
   });
   it('zeigt neue Varianten für Fehler, zählt beide Runden getrennt und behält Hinweise', async () => {
-    start();
+    await start();
     let state = createLessonSession(firstLesson, SEED);
     fireEvent.press(screen.getByText('Hinweis 1'));
     state = revealLessonHint(state);
@@ -231,7 +235,7 @@ describe('Vollständige Lektion', () => {
     });
   });
   it('Hör-Pause überspringt drei Hörfragen, zählt sieben Antworten und setzt sich im neuen Durchgang zurück', async () => {
-    start();
+    await start();
     let state = createLessonSession(firstLesson, SEED);
     state = next(await answer(state));
     state = next(await answer(state));
@@ -243,13 +247,16 @@ describe('Vollständige Lektion', () => {
     await waitFor(() => {
       expect(screen.getByText('Lektion erneut üben')).toBeEnabled();
     });
-    fireEvent.press(screen.getByText('Lektion erneut üben'));
+    await settleAct(async () => {
+      fireEvent.press(screen.getByText('Lektion erneut üben'));
+      await Promise.resolve();
+    });
     expect(screen.getByText('Aufgabe 1 von 10')).toBeTruthy();
     expect(screen.queryByText(/^Hörfragen werden in dieser Lektion/)).toBeNull();
   });
   it('bietet bei Speicherfehler einen erneuten Versuch mit derselben ID und demselben Ergebnis', async () => {
     mockSave.mockRejectedValueOnce(new Error('Speicher voll'));
-    start();
+    await start();
     await finish(createLessonSession(firstLesson, SEED));
     await waitFor(() => {
       expect(screen.getByText('Speichern erneut versuchen')).toBeTruthy();

@@ -1,3 +1,7 @@
+import { authorizeStart, accessOwner } from '@/access/state';
+import { EnergyCard } from '@/components/energy-card';
+import { PRACTICE_CONTENT_VERSION } from '@harmonia/exercises';
+import { randomUUID } from 'expo-crypto';
 import { recordPractice } from '@/state/motivation';
 import type { ExerciseSession } from '@harmonia/exercises';
 import {
@@ -44,22 +48,50 @@ export default function PracticeScreen() {
   const prompt = item ? exercisePrompt(item, locale) : '';
   const started = session !== null;
   const summary = session ? sessionSummary(session) : undefined;
-  const start = (selected = mode) => {
-    setMode(selected);
-    setAnswer(null);
-    const nextSeed = Date.now() + run.current++;
-    setSeed(nextSeed);
-    setSession(
-      {
-        reading: createPracticeSession,
-        pitch: createPitchInputSession,
-        tonality: createTonalitySession,
-        chords: createChordSession,
-        rhythm: createRhythmSession,
-        knowledge: createKnowledgeSession,
-      }[selected](nextSeed),
-    );
-    scroll.current?.scrollTo({ y: 0, animated: false });
+  const pending = useRef(false);
+  const [accessPending, setAccessPending] = useState(false),
+    [accessError, setAccessError] = useState(false);
+  const start = async (selected = mode) => {
+    if (pending.current) return;
+    pending.current = true;
+    setAccessPending(true);
+    setAccessError(false);
+    const actor = accessOwner(),
+      nextSeed = Date.now() + run.current++;
+    try {
+      const grant = await authorizeStart(randomUUID(), {
+        kind: 'practice',
+        set: selected,
+        contentVersion: PRACTICE_CONTENT_VERSION,
+        seed: nextSeed,
+      });
+      if (actor !== accessOwner()) return;
+      if (!grant.allowed) {
+        if (grant.reason === 'limit' || grant.reason === 'premium')
+          router.push({ pathname: '/paywall', params: { reason: grant.reason } });
+        else setAccessError(true);
+        return;
+      }
+      setMode(selected);
+      setAnswer(null);
+      setSeed(nextSeed);
+      setSession(
+        {
+          reading: createPracticeSession,
+          pitch: createPitchInputSession,
+          tonality: createTonalitySession,
+          chords: createChordSession,
+          rhythm: createRhythmSession,
+          knowledge: createKnowledgeSession,
+        }[selected](nextSeed),
+      );
+      scroll.current?.scrollTo({ y: 0, animated: false });
+    } catch {
+      setAccessError(true);
+    } finally {
+      pending.current = false;
+      setAccessPending(false);
+    }
   };
   useFocusEffect(
     useCallback(() => {
@@ -75,10 +107,13 @@ export default function PracticeScreen() {
   return (
     <ScrollView ref={scroll} contentContainerStyle={styles.container}>
       <View style={styles.content}>
+        {accessError ? <AppText role="alert">{t('paywall.accessError')}</AppText> : null}
+        {accessPending ? <AppText aria-live="polite">{t('paywall.loading')}</AppText> : null}
         {!session ? (
           <>
             <AppText variant="title1">{t('exercise.title')}</AppText>
             <AppText tone="muted">{t('exercise.intro')}</AppText>
+            <EnergyCard />
             <Card>
               <View style={styles.types}>
                 {(
@@ -92,8 +127,9 @@ export default function PracticeScreen() {
             </Card>
             <Button
               label={t('exercise.start')}
+              disabled={accessPending}
               onPress={() => {
-                start('reading');
+                void start('reading');
               }}
             />
             <Card>
@@ -103,8 +139,9 @@ export default function PracticeScreen() {
             <Button
               variant="secondary"
               label={t('exercise.constructionStart')}
+              disabled={accessPending}
               onPress={() => {
-                start('pitch');
+                void start('pitch');
               }}
             />
             <Card>
@@ -114,8 +151,9 @@ export default function PracticeScreen() {
             <Button
               variant="secondary"
               label={t('exercise.tonalityStart')}
+              disabled={accessPending}
               onPress={() => {
-                start('tonality');
+                void start('tonality');
               }}
             />
             <Card>
@@ -125,8 +163,9 @@ export default function PracticeScreen() {
             <Button
               variant="secondary"
               label={t('exercise.chordStart')}
+              disabled={accessPending}
               onPress={() => {
-                start('chords');
+                void start('chords');
               }}
             />
             <Card>
@@ -136,8 +175,9 @@ export default function PracticeScreen() {
             <Button
               variant="secondary"
               label={t('exercise.rhythmStart')}
+              disabled={accessPending}
               onPress={() => {
-                start('rhythm');
+                void start('rhythm');
               }}
             />
             <Card>
@@ -147,8 +187,9 @@ export default function PracticeScreen() {
             <Button
               variant="secondary"
               label={t('exercise.knowledgeStart')}
+              disabled={accessPending}
               onPress={() => {
-                start('knowledge');
+                void start('knowledge');
               }}
             />
           </>
@@ -227,8 +268,9 @@ export default function PracticeScreen() {
             </Card>
             <Button
               label={t('exercise.restart')}
+              disabled={accessPending}
               onPress={() => {
-                start();
+                void start();
               }}
             />
             <Button

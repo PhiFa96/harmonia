@@ -89,3 +89,14 @@ jest.mock('@/reminders', () => ({
   refreshReminderPermission: () => Promise.resolve(),
   initializeReminderHandler: () => undefined,
 }));
+
+// Existing exercise/notation UI tests isolate grading from access transport.
+// P2.20 separately tests real SQLite, server decisions and blocked/pending UI.
+jest.mock('@/access/state', () => ({
+  ...jest.requireActual<object>('@/access/state'),
+  initializeAccess: () => undefined,
+  refreshAccess: () => Promise.resolve(),
+  authorizeStart: jest.fn((id: string) =>
+    Promise.resolve({ allowed: true, reason: 'allowed', id, cost: 0 }),
+  ),
+}));

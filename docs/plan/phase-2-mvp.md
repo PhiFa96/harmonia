@@ -313,10 +313,11 @@ Die Blöcke B, C und D können teilweise parallel laufen.
 - **Abhängig von:** P2.19, F06, F09
 - **Umfang:** M
 - **Aufgaben:**
-  - [ ] Paywall DE/EN mit Vergleichstabelle, Store-Preisen und Rechtstexten
-  - [ ] Gratis-Limits serverseitig konfigurierbar, Anzeige des verbleibenden Kontingents
-  - [ ] Kündigungsbutton im Web (§ 312k BGB)
-- **Fertig, wenn:** Limits greifen korrekt; Paywall erscheint nur an den definierten Stellen.
+  - [x] Paywall DE/US/UK mit Vergleichsansicht, Store-Preisen und gesperrtem Checkout bis zur geprüften Rechtstextbindung
+  - [x] Wiederauffüllbare Energie serverseitig konfigurierbar, Anzeige des verbleibenden Vorrats
+  - [x] Öffentlicher Web-Kündigungsbutton mit Prüfschritt und dauerhaftem Eingangsbeleg; Anbieterabwicklung/Bestätigungsversand und juristische §312k-Abnahme offen
+- **Stand 14.10.2026:** Technisch umgesetzt und lokal geprüft. F06: regenerierende Energie; F09: Werbung später vorbereiten. Checkout bleibt aus; echte Käufe und die vollständige Kündigungs-/Rechtsabnahme sind offen. Übergabe: [P2.20](paywall-und-gratis-limits.md), [ADR 0020](../decisions/0020-lernenergie-paywall-und-kuendigungseingang.md).
+- **Fertig, wenn:** Limits greifen korrekt; Paywall erscheint nur an den definierten Stellen. Technische Prüfungen umgesetzt; echte Verkaufs-/Rechtsabnahme noch nicht erfüllt.
 
 ## Block F – Launch
 

@@ -239,6 +239,8 @@ function LessonPlayer({
       <Stack.Screen options={{ headerShown: true, title: contentText(content.titleKey) }} />
       <ScrollView ref={scroll} contentContainerStyle={styles.container}>
         <View style={styles.content}>
+          {flow.accessError ? <AppText role="alert">{t('paywall.accessError')}</AppText> : null}
+          {flow.accessPending ? <AppText aria-live="polite">{t('paywall.loading')}</AppText> : null}
           {flow.resume && !paused ? (
             <Card>
               <View style={styles.result}>

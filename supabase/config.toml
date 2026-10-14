@@ -96,5 +96,13 @@ import_map = "./functions/deno.json"
 verify_jwt = false
 import_map = "./functions/deno.json"
 
+[functions.access]
+verify_jwt = false
+import_map = "./functions/deno.json"
+
 [analytics]
 enabled = false
+
+[functions.cancellation]
+verify_jwt = false
+import_map = "./functions/deno.json"

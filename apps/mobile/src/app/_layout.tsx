@@ -8,7 +8,7 @@ import { ACCIDENTAL_FONT, FONT_FAMILIES } from '@harmonia/ui';
 import { UiProvider } from '@harmonia/ui/native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useFonts } from 'expo-font';
-import { Stack, ThemeProvider } from 'expo-router';
+import { Stack, ThemeProvider, usePathname } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -25,12 +25,15 @@ import { initializeAuth } from '@/auth';
 import { MotivationLifecycle } from '@/components/motivation-lifecycle';
 import { ReportLifecycle } from '@/components/report-lifecycle';
 import { LearningLifecycle } from '@/components/learning-lifecycle';
+import { LegalFooter } from '@/components/legal-footer';
+import { AccessLifecycle } from '@/components/access-lifecycle';
 import { BillingLifecycle } from '@/components/billing-lifecycle';
 
 export default function RootLayout() {
   const [queryClient] = useState(() => new QueryClient());
   const { t } = useTranslation();
   const device = useDeviceState();
+  const pathname = usePathname();
   useEffect(() => {
     void initializeDeviceState();
     void initializeAuth();
@@ -60,7 +63,8 @@ export default function RootLayout() {
           <ReportLifecycle />
           <MotivationLifecycle />
           <BillingLifecycle />
-          {device.phase !== 'ready' ? (
+          <AccessLifecycle />
+          {device.phase !== 'ready' && pathname !== '/cancel-subscription' ? (
             <View style={bootStyles.container}>
               <Card>
                 <AppText aria-live="polite">
@@ -99,11 +103,14 @@ export default function RootLayout() {
                 <Stack.Screen name="preferences" />
                 <Stack.Screen name="account" />
                 <Stack.Screen name="subscription" />
+                <Stack.Screen name="paywall" />
                 <Stack.Screen name="placement" />
               </Stack.Protected>
               <Stack.Screen name="report" />
+              <Stack.Screen name="cancel-subscription" />
             </Stack>
           )}
+          <LegalFooter />
           <StatusBar style={scheme === 'dark' ? 'light' : 'dark'} />
         </QueryClientProvider>
       </ThemeProvider>

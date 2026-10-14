@@ -2,6 +2,11 @@ export {};
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
+      readonly EXPO_PUBLIC_LEGAL_TERMS_DE?: string;
+      readonly EXPO_PUBLIC_LEGAL_TERMS_EN?: string;
+      readonly EXPO_PUBLIC_LEGAL_PRIVACY_DE?: string;
+      readonly EXPO_PUBLIC_LEGAL_PRIVACY_EN?: string;
+      readonly EXPO_PUBLIC_LEGAL_IMPRINT?: string;
       readonly EXPO_PUBLIC_REVENUECAT_IOS_KEY?: string;
       readonly EXPO_PUBLIC_REVENUECAT_ANDROID_KEY?: string;
       readonly EXPO_PUBLIC_REVENUECAT_WEB_KEY?: string;

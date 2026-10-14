@@ -1,3 +1,4 @@
+import { act as settleAct } from 'expo-router/testing-library';
 import type { ExerciseItem, ScaleItem } from '@harmonia/exercises';
 import {
   choiceLabel,
@@ -60,9 +61,12 @@ beforeEach(() => {
 afterEach(() => {
   clock.mockRestore();
 });
-function start() {
+async function start() {
   const router = renderRouter('./src/app', { initialUrl: '/practice' });
   fireEvent.press(screen.getByRole('button', { name: 'Tonleitern und Tonarten üben' }));
+  await settleAct(async () => {
+    await Promise.resolve();
+  });
   return router;
 }
 function tap(item: ScaleItem, index: number, pitch: Pitch, score: Score) {
@@ -130,8 +134,8 @@ function reachSignature() {
   return item;
 }
 describe('Tonleitern und Vorzeichnungen in der App', () => {
-  it('zwölf Aufgaben lassen sich vollständig eingeben, erkennen und abschließen; nach dem Neustart ist die Antwort leer', () => {
-    start();
+  it('zwölf Aufgaben lassen sich vollständig eingeben, erkennen und abschließen; nach dem Neustart ist die Antwort leer', async () => {
+    await start();
     const state = createTonalitySession(SEED);
     state.items.forEach((item, index) => {
       expect(screen.getByText(`Aufgabe ${String(index + 1)} von 12`)).toBeTruthy();
@@ -146,13 +150,16 @@ describe('Tonleitern und Vorzeichnungen in der App', () => {
     });
     expect(screen.getByText('12 von 12 Antworten richtig.')).toBeTruthy();
     expect(screen.getByText('12 Antworten ohne Hinweis richtig.')).toBeTruthy();
-    fireEvent.press(screen.getByText('Neuen Übungssatz starten'));
+    await settleAct(async () => {
+      fireEvent.press(screen.getByText('Neuen Übungssatz starten'));
+      await Promise.resolve();
+    });
     expect(screen.getByText('Aufgabe 1 von 12')).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Prüfen' })).toBeDisabled();
   });
 
-  it('vorgegebener Grundton bleibt fest; Löschen betrifft nur den ausgewählten Ton; Screenreader bedient alle sieben Plätze', () => {
-    start();
+  it('vorgegebener Grundton bleibt fest; Löschen betrifft nur den ausgewählten Ton; Screenreader bedient alle sieben Plätze', async () => {
+    await start();
     const item = currentItem(createTonalitySession(SEED));
     if (item?.type !== 'SCALE_BUILD') throw new Error('Tonleiter fehlt');
     tap(item, 0, scalePitches(item)[1] ?? item.tonic, item.score);
@@ -174,8 +181,8 @@ describe('Tonleitern und Vorzeichnungen in der App', () => {
     expect(pitches.filter(Boolean)).toHaveLength(8);
   });
 
-  it('Vorzeichenfolge bleibt in eingegebener Reihenfolge erhalten, kann rückwärts gelöscht werden und sperrt nach dem Prüfen', () => {
-    start();
+  it('Vorzeichenfolge bleibt in eingegebener Reihenfolge erhalten, kann rückwärts gelöscht werden und sperrt nach dem Prüfen', async () => {
+    await start();
     reachSignature();
     expect(screen.queryByRole('img')).toBeNull();
     expect(screen.getByText('Noch keine Vorzeichenfolge eingegeben.')).toBeTruthy();
@@ -192,8 +199,8 @@ describe('Tonleitern und Vorzeichnungen in der App', () => {
     expect(screen.getByText('So sieht die Lösung aus')).toBeTruthy();
   });
 
-  it('Hinweis 3 erklärt erst die vollständige Tonleiter und zählt die Antwort als unterstützt', () => {
-    start();
+  it('Hinweis 3 erklärt erst die vollständige Tonleiter und zählt die Antwort als unterstützt', async () => {
+    await start();
     const item = currentItem(createTonalitySession(SEED));
     if (item?.type !== 'SCALE_BUILD') throw new Error('Tonleiter fehlt');
     fireEvent.press(screen.getByText('Hinweis 1'));
@@ -207,7 +214,7 @@ describe('Tonleitern und Vorzeichnungen in der App', () => {
   });
 
   it('Tonleiter-Wiedergabe bewahrt die Reihenfolge und stoppt bei Weiter nur ihre acht Stimmen', async () => {
-    start();
+    await start();
     const item = currentItem(createTonalitySession(SEED));
     if (item?.type !== 'SCALE_BUILD') throw new Error('Tonleiter fehlt');
     fill(item);
@@ -240,7 +247,7 @@ describe('Tonleitern und Vorzeichnungen in der App', () => {
           resume = resolve;
         }),
     );
-    start();
+    await start();
     const item = currentItem(createTonalitySession(SEED));
     if (item?.type !== 'SCALE_BUILD') throw new Error('Tonleiter fehlt');
     fill(item);
@@ -268,7 +275,7 @@ describe('Tonleitern und Vorzeichnungen in der App', () => {
   });
 
   it('teilweise fehlgeschlagene Planung stoppt bereits geplante Töne und zeigt den Audiofehler', async () => {
-    start();
+    await start();
     const item = currentItem(createTonalitySession(SEED));
     if (item?.type !== 'SCALE_BUILD') throw new Error('Tonleiter fehlt');
     fill(item);
@@ -286,10 +293,13 @@ describe('Tonleitern und Vorzeichnungen in der App', () => {
     expect(mockStopAll).not.toHaveBeenCalled();
   });
 
-  it('UK-Begriffe bleiben beim Tonleiter-Erkennen und in Hilfen korrekt übersetzt', () => {
+  it('UK-Begriffe bleiben beim Tonleiter-Erkennen und in Hilfen korrekt übersetzt', async () => {
     useSettings.setState({ locale: 'en-GB' });
     renderRouter('./src/app', { initialUrl: '/practice' });
-    fireEvent.press(screen.getByRole('button', { name: 'Practise scales and key signatures' }));
+    await settleAct(async () => {
+      fireEvent.press(screen.getByRole('button', { name: 'Practise scales and key signatures' }));
+      await Promise.resolve();
+    });
     expect(screen.getByText('Question 1 of 12')).toBeTruthy();
     fireEvent.press(screen.getByText('Hint 1'));
     fireEvent.press(screen.getByText('Hint 2'));

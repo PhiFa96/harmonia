@@ -13,3 +13,6 @@ export * from './reminders.ts';
 export * from './tutor.ts';
 export * from './tutor-interface.ts';
 export * from './knowledge.ts';
+export * from './access.ts';
+
+export * from './cancellation.ts';

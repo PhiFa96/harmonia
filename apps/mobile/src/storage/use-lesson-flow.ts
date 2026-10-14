@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { router } from 'expo-router';
+import { authorizeStart, accessOwner } from '@/access/state';
 import { randomUUID } from 'expo-crypto';
 import { catalogue } from '@harmonia/content/catalogue';
 import { applyLessonAction, restoreLessonDraft } from '@harmonia/content';
@@ -38,6 +40,17 @@ export function useLessonFlow(plan: Plan) {
       session: null,
     };
   };
+  const accessActor = useRef(accessOwner()).current;
+  const locked = useRef(false);
+  const mounted = useRef(true);
+  useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+    };
+  }, []);
+  const [accessPending, setAccessPending] = useState(false);
+  const [accessError, setAccessError] = useState(false);
   const [changed, setChanged] = useState(false);
   const [state, setState] = useState(() => {
     if (saved) {
@@ -111,24 +124,56 @@ export function useLessonFlow(plan: Plan) {
       };
     });
   };
+  const permit = async (draft: LessonDraft, commit: () => void) => {
+    if (locked.current || accessActor !== accessOwner()) return;
+    locked.current = true;
+    setAccessPending(true);
+    setAccessError(false);
+    try {
+      const grant = await authorizeStart(draft.id, {
+        kind: 'lesson',
+        lessonId: plan.id,
+        contentVersion: plan.contentVersion,
+        planKey: plan.planKey,
+        seed: draft.seed,
+      });
+      if (!mounted.current || accessActor !== accessOwner()) return;
+      if (grant.allowed) commit();
+      else if (grant.reason === 'limit' || grant.reason === 'premium')
+        router.push({ pathname: '/paywall', params: { reason: grant.reason } });
+      else setAccessError(true);
+    } catch {
+      if (mounted.current) setAccessError(true);
+    } finally {
+      locked.current = false;
+      if (mounted.current) setAccessPending(false);
+    }
+  };
   const start = () => {
-    setState((current) => ({
-      session: createLessonSession(plan, current.draft.seed),
-      draft: { ...current.draft, started: true },
-    }));
+    void permit(state.draft, () => {
+      setState((current) => ({
+        session: createLessonSession(plan, current.draft.seed),
+        draft: { ...current.draft, started: true },
+      }));
+    });
   };
   const restart = (started = false) => {
-    setChanged(false);
-    setResume(false);
+    if (locked.current) return;
     const next = fresh();
-    setState(
-      started
-        ? {
-            draft: { ...next.draft, started: true },
-            session: createLessonSession(plan, next.draft.seed),
-          }
-        : next,
-    );
+    const commit = () => {
+      setChanged(false);
+      setResume(false);
+      setState(
+        started
+          ? {
+              draft: { ...next.draft, started: true },
+              session: createLessonSession(plan, next.draft.seed),
+            }
+          : next,
+      );
+    };
+    if (started) void permit(next.draft, commit);
+    else commit();
   };
   const clear = useCallback(async () => {
     await pending.current.catch(() => undefined);
@@ -147,6 +192,8 @@ export function useLessonFlow(plan: Plan) {
     owner,
     temporary,
     status,
+    accessPending,
+    accessError,
     resume,
     changed,
     select,
@@ -155,7 +202,13 @@ export function useLessonFlow(plan: Plan) {
     restart,
     clear,
     continue: () => {
-      if (!changed) setResume(false);
+      if (!changed) {
+        if (state.draft.started && state.session?.phase !== 'complete')
+          void permit(state.draft, () => {
+            setResume(false);
+          });
+        else setResume(false);
+      }
     },
     card: (introCard: number) => {
       setState((current) => ({ ...current, draft: { ...current.draft, introCard } }));

@@ -29,6 +29,7 @@ export class BillingController {
     private available: () => boolean,
     private server: (actor: string, sync: boolean) => Promise<BillingStatus>,
     private update: (state: BillingState) => void,
+    private approvePurchase: () => Promise<boolean> = () => Promise.resolve(true),
   ) {}
   private publish(state: BillingState) {
     this.state = state;
@@ -98,6 +99,8 @@ export class BillingController {
       try {
         if (kind !== 'purchase') await this.sdk.bind(actor);
         if (kind === 'purchase') {
+          if (!(await this.approvePurchase()) || !this.current(actor, generation))
+            throw new Error('Checkout unavailable');
           if (!id || !locale) throw new Error('Missing purchase');
           await this.sdk.purchase(id, locale);
           purchased = true;

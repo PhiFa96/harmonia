@@ -1,3 +1,4 @@
+import { act as settleAct } from 'expo-router/testing-library';
 import { act, fireEvent, renderRouter, screen, waitFor } from 'expo-router/testing-library';
 import { expectedAnswer } from '@harmonia/exercises';
 import type { ContentReport } from '@harmonia/content';
@@ -16,13 +17,16 @@ beforeEach(async () => {
   await i18n.changeLanguage('de');
   mockSave.mockReset().mockResolvedValue(undefined);
 });
-function open() {
+async function open() {
   const app = renderRouter('./src/app', { initialUrl: '/practice' });
-  fireEvent.press(screen.getByText('Übungssatz starten'));
+  await settleAct(async () => {
+    fireEvent.press(screen.getByText('Übungssatz starten'));
+    await Promise.resolve();
+  });
   return app;
 }
 it('hält Antwort und Hinweise beim Melden und Zurückkehren stabil', async () => {
-  const app = open();
+  const app = await open();
   const answer = screen.getAllByTestId(/^answer-/)[0];
   if (!answer) throw new Error('Antwort fehlt');
   fireEvent.press(answer);
@@ -44,7 +48,7 @@ it('hält Antwort und Hinweise beim Melden und Zurückkehren stabil', async () =
   expect(useReports.getState().draft?.report.answer).toBe(draft?.report.answer);
 });
 it('speichert den Kontext nach Bewertung, ohne die Bewertung zu verändern', async () => {
-  const app = open();
+  const app = await open();
   const first = screen.getAllByTestId(/^answer-/)[0];
   if (!first) throw new Error('Antwort fehlt');
   fireEvent.press(first);
@@ -73,7 +77,7 @@ it('speichert den Kontext nach Bewertung, ohne die Bewertung zu verändern', asy
   expect(screen.getByTestId('exercise-next')).toBeTruthy();
 });
 it('bewahrt einen Speicherversuch und verwendet bei Wiederholung dieselbe ID', async () => {
-  open();
+  await open();
   fireEvent.press(screen.getByRole('button', { name: 'Fehler melden' }));
   fireEvent.changeText(
     screen.getByLabelText('Beschreibung (optional, bis zu 2000 Zeichen)'),
@@ -99,7 +103,10 @@ it.each(['en-US', 'en-GB'] as const)(
     const seed = 123456;
     jest.spyOn(Date, 'now').mockReturnValue(seed);
     renderRouter('./src/app', { initialUrl: '/practice' });
-    fireEvent.press(screen.getByText(i18n.t('exercise.start')));
+    await settleAct(async () => {
+      fireEvent.press(screen.getByText(i18n.t('exercise.start')));
+      await Promise.resolve();
+    });
     const item = createPracticeSession(seed).items[0];
     if (!item) throw new Error('Aufgabe');
     fireEvent.press(screen.getByTestId('answer-' + expectedAnswer(item)));

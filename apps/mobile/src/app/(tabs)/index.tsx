@@ -13,6 +13,7 @@ import { LearningPath } from '@/components/learning-path';
 import { useLocale } from '@/i18n';
 import { useDeviceState } from '@/state/device';
 import { DeviceStatus } from '@/components/device-status';
+import { EnergyCard } from '@/components/energy-card';
 import { PlacementEntry } from '@/components/placement-entry';
 
 /** Beispiel bis zu den echten Lektionen: zeigt, dass das Notenbild auf allen Plattformen läuft. */
@@ -44,6 +45,7 @@ export default function LearnScreen() {
           </Card>
         ) : null}
         <MotivationCard compact />
+        <EnergyCard />
         <PlacementEntry />
         <LearningPath />
         <AppText>{t('learn.exampleScale')}</AppText>

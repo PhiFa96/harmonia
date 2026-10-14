@@ -1,3 +1,4 @@
+import { act as settleAct } from 'expo-router/testing-library';
 import { catalogue } from '@harmonia/content/authoring';
 import { lessonPlan } from '@harmonia/content';
 import {
@@ -74,13 +75,16 @@ function required<T>(value: T | undefined): T {
   return value;
 }
 
-function intro(name: string) {
+async function intro(name: string) {
   const lesson = required(lessonPlan(catalogue, `rhythm.l1.values.${name}`));
   for (let i = 1; i < lesson.introduction.length; i++)
     fireEvent.press(screen.getByRole('button', { name: 'Nächste Einführungskarte' }));
   fireEvent.press(
     screen.getByRole('button', { name: `Mit ${String(lesson.exercises.length)} Aufgaben starten` }),
   );
+  await settleAct(async () => {
+    await Promise.resolve();
+  });
   return createLessonSession(lesson, SEED);
 }
 function answer(item: ExerciseItem, wrong = false) {
@@ -109,7 +113,7 @@ describe('Notenwerte und Pausen im Lektionsspieler', () => {
     ['fill', 12],
   ] as const)('%s speichert %s echte Antworten in Version 7', async (name, newCount) => {
     renderRouter('./src/app', { initialUrl: `/lesson?id=rhythm.l1.values.${name}` });
-    const session = intro(name);
+    const session = await intro(name);
     const count = session.initial.items.length;
     expect(lessonPlan(catalogue, session.lesson.id)?.newCount).toBe(newCount);
     for (const item of session.initial.items) {
@@ -136,7 +140,7 @@ describe('Notenwerte und Pausen im Lektionsspieler', () => {
   });
   it('wiederholt eine falsch ergänzte Taktlücke mit neuer Quelle und getrennten Ergebnissen', async () => {
     renderRouter('./src/app', { initialUrl: '/lesson?id=rhythm.l1.values.fill' });
-    let session = intro('fill');
+    let session = await intro('fill');
     for (const [index, item] of session.initial.items.entries()) {
       const wrong = index === 4;
       answer(item, wrong);

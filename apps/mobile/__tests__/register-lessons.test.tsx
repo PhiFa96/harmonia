@@ -1,3 +1,4 @@
+import { act as settleAct } from 'expo-router/testing-library';
 import { catalogue } from '@harmonia/content/authoring';
 import { lessonPlan } from '@harmonia/content';
 import type { ExerciseItem } from '@harmonia/exercises';
@@ -54,7 +55,7 @@ function required<T>(value: T | undefined): T {
   if (value === undefined) throw new Error('Testwert fehlt');
   return value;
 }
-function intro(name: string) {
+async function intro(name: string) {
   const content = required(lessonPlan(catalogue, `notation.l1.register.${name}`));
   for (let index = 1; index < content.introduction.length; index++)
     fireEvent.press(screen.getByRole('button', { name: 'Nächste Einführungskarte' }));
@@ -63,6 +64,9 @@ function intro(name: string) {
       name: `Mit ${String(content.exercises.length)} Aufgaben starten`,
     }),
   );
+  await settleAct(async () => {
+    await Promise.resolve();
+  });
   return createLessonSession(content, SEED);
 }
 function answer(item: ExerciseItem, value = expectedAnswer(item)) {
@@ -99,7 +103,7 @@ describe('Oktavlagen und Hilfslinien im Spieler', () => {
     '%s speichert alle %s Antworten mit eigener ID und Version 5',
     async (name, newCount) => {
       renderRouter('./src/app', { initialUrl: `/lesson?id=notation.l1.register.${name}` });
-      const state = intro(name);
+      const state = await intro(name);
       const count = state.initial.items.length;
       expect(lessonPlan(catalogue, state.lesson.id)?.newCount).toBe(newCount);
       for (const item of state.initial.items) {
@@ -120,7 +124,7 @@ describe('Oktavlagen und Hilfslinien im Spieler', () => {
   );
   it('weist denselben Buchstaben in anderer Lage zurück und speichert 7/8 plus eine neue richtige Wiederholung', async () => {
     renderRouter('./src/app', { initialUrl: '/lesson?id=notation.l1.register.octaves' });
-    let simulated = intro('octaves');
+    let simulated = await intro('octaves');
     const first = required(simulated.initial.items[0]);
     const correct = expectedAnswer(first);
     const wrong = required(
@@ -150,9 +154,9 @@ describe('Oktavlagen und Hilfslinien im Spieler', () => {
       unresolved: 0,
     });
   });
-  it('zeigt bei der Tastenfrage das Notenbild ohne vorgegebenen Namen; eine falsche Oktave bleibt falsch', () => {
+  it('zeigt bei der Tastenfrage das Notenbild ohne vorgegebenen Namen; eine falsche Oktave bleibt falsch', async () => {
     renderRouter('./src/app', { initialUrl: '/lesson?id=notation.l1.register.match' });
-    const state = intro('match'),
+    const state = await intro('match'),
       item = required(state.initial.items[0]);
     expect(screen.getByTestId('exercise-question')).not.toHaveTextContent(/[0-9¹²³⁴⁵]/);
     expect(screen.getByTestId('exercise-question')).toHaveTextContent(/Spiele die notierte Note/);

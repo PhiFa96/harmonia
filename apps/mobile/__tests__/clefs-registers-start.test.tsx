@@ -1,3 +1,4 @@
+import { act as settleAct } from 'expo-router/testing-library';
 import { catalogue } from '@harmonia/content/authoring';
 import { lessonPlan } from '@harmonia/content';
 import {
@@ -77,13 +78,16 @@ function required<T>(value: T | undefined): T {
 }
 
 const unit = 'notation.l2.clefs-registers';
-function intro(id: string) {
+async function intro(id: string) {
   const lesson = required(lessonPlan(catalogue, id));
   for (let i = 1; i < lesson.introduction.length; i++)
     fireEvent.press(screen.getByRole('button', { name: 'Nächste Einführungskarte' }));
   fireEvent.press(
     screen.getByRole('button', { name: `Mit ${String(lesson.exercises.length)} Aufgaben starten` }),
   );
+  await settleAct(async () => {
+    await Promise.resolve();
+  });
   return createLessonSession(lesson, SEED);
 }
 function answer(item: ExerciseItem, wrong = false) {
@@ -111,7 +115,7 @@ describe('Bassschlüssel und Oktavnamen im App-Spieler', () => {
     async (name) => {
       const id = unit + '.' + name;
       renderRouter('./src/app', { initialUrl: `/lesson?id=${id}` });
-      const session = intro(id);
+      const session = await intro(id);
       for (const item of session.initial.items) {
         answer(item);
         expect(screen.getByText('Richtig!')).toBeTruthy();
@@ -154,7 +158,7 @@ describe('Bassschlüssel und Oktavnamen im App-Spieler', () => {
   it('falsche Oktavantwort erhält eine neue Quellhöhe und getrennte Wiederholungsstatistik', async () => {
     const id = unit + '.names';
     renderRouter('./src/app', { initialUrl: `/lesson?id=${id}` });
-    let session = intro(id);
+    let session = await intro(id);
     for (const [i, item] of session.initial.items.entries()) {
       answer(item, i === 0);
       session = nextLessonExercise(

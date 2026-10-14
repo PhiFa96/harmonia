@@ -1,3 +1,4 @@
+import { act as settleAct } from 'expo-router/testing-library';
 import { catalogue } from '@harmonia/content/authoring';
 import { lessonPlan } from '@harmonia/content';
 import type { ExerciseItem } from '@harmonia/exercises';
@@ -49,7 +50,7 @@ function required<T>(value: T | undefined): T {
   if (value === undefined) throw new Error('Testwert fehlt');
   return value;
 }
-function intro(name: string) {
+async function intro(name: string) {
   const content = required(lessonPlan(catalogue, `notation.l1.keyboard.${name}`));
   for (let index = 1; index < content.introduction.length; index++)
     fireEvent.press(screen.getByRole('button', { name: 'Nächste Einführungskarte' }));
@@ -58,6 +59,9 @@ function intro(name: string) {
       name: `Mit ${String(content.exercises.length)} Aufgaben starten`,
     }),
   );
+  await settleAct(async () => {
+    await Promise.resolve();
+  });
   return createLessonSession(content, SEED);
 }
 function answer(item: ExerciseItem) {
@@ -90,7 +94,7 @@ describe('Klaviaturlektionen im vorhandenen Spieler', () => {
     '%s speichert alle %s Aufgaben unter ihrer eigenen ID und Version 4',
     async (name, newCount) => {
       renderRouter('./src/app', { initialUrl: `/lesson?id=notation.l1.keyboard.${name}` });
-      const state = intro(name);
+      const state = await intro(name);
       const count = state.initial.items.length;
       expect(lessonPlan(catalogue, state.lesson.id)?.newCount).toBe(newCount);
       for (const item of state.initial.items) answer(item);
@@ -108,9 +112,9 @@ describe('Klaviaturlektionen im vorhandenen Spieler', () => {
       expect(attempt.summary).toMatchObject({ correct: count, answered: count, reviewTotal: 0 });
     },
   );
-  it('fragt Namen ohne Notenbild oder Oktave und hält zwölf Tasten fest; Anpassen öffnet keinen größeren Tonbereich', () => {
+  it('fragt Namen ohne Notenbild oder Oktave und hält zwölf Tasten fest; Anpassen öffnet keinen größeren Tonbereich', async () => {
     renderRouter('./src/app', { initialUrl: '/lesson?id=notation.l1.keyboard.keys' });
-    const state = intro('keys');
+    const state = await intro('keys');
     expect(screen.getByTestId('exercise-question')).not.toHaveTextContent(/[0-9¹²³⁴⁵]|Oktav/);
     expect(screen.queryAllByRole('img')).toHaveLength(0);
     for (let number = 60; number <= 71; number++)

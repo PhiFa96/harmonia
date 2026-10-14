@@ -1,3 +1,4 @@
+import { act as settleAct } from 'expo-router/testing-library';
 import { catalogue } from '@harmonia/content/authoring';
 import { lessonPlan } from '@harmonia/content';
 import {
@@ -88,13 +89,16 @@ const units = [
   'history.l1.overview',
 ];
 const lessons = catalogue.lessons.filter((l) => units.includes(l.unitId));
-function intro(id: string) {
+async function intro(id: string) {
   const lesson = required(lessonPlan(catalogue, id));
   for (let i = 1; i < lesson.introduction.length; i++)
     fireEvent.press(screen.getByRole('button', { name: 'Nächste Einführungskarte' }));
   fireEvent.press(
     screen.getByRole('button', { name: `Mit ${String(lesson.exercises.length)} Aufgaben starten` }),
   );
+  await settleAct(async () => {
+    await Promise.resolve();
+  });
   return createLessonSession(lesson, SEED);
 }
 async function answer(item: ExerciseItem, wrong = false) {
@@ -135,7 +139,7 @@ describe('Restliche Stufe 1 im App-Spieler', () => {
     '%s lässt sich vollständig beantworten und speichern',
     async (id) => {
       renderRouter('./src/app', { initialUrl: `/lesson?id=${id}` });
-      const session = intro(id);
+      const session = await intro(id);
       for (const item of session.initial.items) {
         if (item.type === 'LISTENING_CHOICE')
           expect(screen.queryByTestId('listening-scores') !== null).toBe(
@@ -163,7 +167,7 @@ describe('Restliche Stufe 1 im App-Spieler', () => {
   it('Hörpause speichert acht übersprungene Aufgaben und keine falschen Wertungen', async () => {
     const id = 'aural.l1.pulse-rhythm.pulse';
     renderRouter('./src/app', { initialUrl: `/lesson?id=${id}` });
-    intro(id);
+    await intro(id);
     fireEvent.press(screen.getByRole('button', { name: 'Gerade nicht hören' }));
     await waitFor(() => {
       expect(mockSave).toHaveBeenCalledTimes(1);
@@ -179,7 +183,7 @@ describe('Restliche Stufe 1 im App-Spieler', () => {
   it('Klangauswahl spielt beide Rhythmusquellen mit ihrer Trennpause und stoppt alle eigenen Stimmen', async () => {
     const id = 'aural.l1.pulse-rhythm.compare';
     renderRouter('./src/app', { initialUrl: `/lesson?id=${id}` });
-    const session = intro(id),
+    const session = await intro(id),
       item = required(session.initial.items[0]);
     if (item.type !== 'LISTENING_CHOICE') throw new Error('Hörfrage fehlt');
     await act(async () => {
@@ -199,7 +203,7 @@ describe('Restliche Stufe 1 im App-Spieler', () => {
   it('Eine falsche Tonrichtung bekommt eine andere Antwort in der Wiederholung', async () => {
     const id = 'aural.l1.pitch-intervals.direction';
     renderRouter('./src/app', { initialUrl: `/lesson?id=${id}` });
-    let session = intro(id);
+    let session = await intro(id);
     for (const [i, item] of session.initial.items.entries()) {
       await answer(item, i === 0);
       session = nextLessonExercise(

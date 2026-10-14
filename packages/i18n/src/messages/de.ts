@@ -3,6 +3,78 @@ import { contentMessages } from '@harmonia/i18n/content-messages';
 // Fachbegriffe kommen aus dem Glossar: $t(glossary:…).
 
 export const de = {
+  paywall: {
+    title: 'Abos vergleichen',
+    energy: 'Lernenergie',
+    unlimited: 'Unbegrenzte Lernenergie',
+    remaining: '{{count}} von {{total}} Energiepunkten',
+    refill: 'Ein neuer Energiepunkt alle {{minutes}} Minuten, bis der Vorrat voll ist.',
+    nextEnergy: 'Nächster Energiepunkt um {{time}}.',
+    reservation:
+      'Ein neuer Durchgang reserviert einen Punkt pro Aufgabe. Hinweise und Fehlerwiederholungen darin brauchen keine weitere Energie.',
+    loading: 'Zugang wird geprüft …',
+    accessError:
+      'Der Zugang konnte nicht geprüft werden. Prüfe deine Verbindung und versuche den Start erneut.',
+    compare: 'Gratis, Premium und Max',
+    reason_settings: 'Wähle das Angebot, das zu deinem Lernen passt.',
+    reason_onboarding: 'Du kannst gratis beginnen und diese Auswahl überspringen.',
+    reason_limit:
+      'Für diesen neuen Durchgang reicht deine Energie noch nicht. Warte auf die Auffüllung oder sieh dir Premium an.',
+    reason_premium: 'Diese Kursstufe gehört zu Premium.',
+    reason_tutor: 'Der KI-Tutor gehört zu Premium und Max und hat ein eigenes Kontingent.',
+    skip: 'Gratis weiterlernen',
+    close: 'Zurück zum Lernen',
+    course_free: 'Veröffentlichte Grundlagen bis Stufe 2',
+    course_premium: 'Alle veröffentlichten Kursstufen',
+    course_max: 'Alle veröffentlichten Kursstufen',
+    energyLimited: 'Lernenergie füllt sich wieder auf',
+    tutor_free: 'Kein KI-Tutor',
+    tutor_premium: 'KI-Tutor mit eigenem Kontingent',
+    tutor_max: 'KI-Tutor mit erweitertem Kontingent',
+    maxPreparing:
+      'Max ist in Vorbereitung. Weitere Funktionen werden erst angeboten, wenn sie verfügbar sind.',
+    learningRule:
+      'Voraussetzungen und die Bestehensschwelle bleiben für alle gleich. Ein Abo überspringt keine Lernschritte.',
+    monthly: 'Monatlich',
+    annual: 'Jährlich',
+    unavailable: 'Abos sind derzeit nicht zum Kauf freigegeben. Du kannst gratis weiterlernen.',
+    purchaseTerms:
+      'Die angezeigten Preise kommen aus dem Store. Vor dem Kauf gelten dessen Bestätigung und die verlinkten Vertragsbedingungen. Keine kostenlose Probezeit wird zugesagt.',
+    terms: 'Vertragsbedingungen',
+    privacy: 'Datenschutz',
+    imprint: 'Impressum',
+  },
+  cancellation: {
+    title: 'Verträge hier kündigen',
+    body: 'Hier kannst du ohne Anmeldung eine Kündigung für dein Web-Abo erklären. Abos aus dem Apple App Store oder Google Play verwaltest du im jeweiligen Store.',
+    name: 'Vollständiger Name',
+    email: 'E-Mail-Adresse des Vertrags',
+    contract: 'Vertragskennung (optional)',
+    product: 'Welches Web-Abo?',
+    ordinary: 'Ordentliche Kündigung',
+    extraordinary: 'Außerordentliche Kündigung',
+    reason: 'Kündigungsgrund',
+    date: 'Gewünschter Beendigungszeitpunkt',
+    dateBody: 'Wähle den frühestmöglichen Zeitpunkt oder gib ein Datum als JJJJ-MM-TT ein.',
+    earliest: 'Frühestmöglich',
+    continue: 'Kündigung prüfen',
+    review: 'Kündigung überprüfen',
+    reviewBody:
+      'Mit dem nächsten Button sendest du diese Kündigungserklärung. Eine bestätigte Vertragsbeendigung wird gesondert bearbeitet.',
+    submit: 'Jetzt kündigen',
+    edit: 'Angaben bearbeiten',
+    received: 'Kündigungserklärung eingegangen',
+    receipt: 'Eingangsbeleg {{id}} · {{time}}',
+    receivedBody:
+      'Die Erklärung ist gespeichert. Vertragszuordnung, Beendigungsdatum und Bestätigung sind noch in Bearbeitung. Dies bestätigt den Eingang, noch keine abgeschlossene Vertragsbeendigung.',
+    download: 'Eingangsbeleg speichern',
+    error_schema:
+      'Bitte prüfe Name, E-Mail-Adresse, Datum und bei außerordentlicher Kündigung den Grund.',
+    error_send:
+      'Die Erklärung konnte nicht bestätigt werden. Versuche es erneut; dieselbe Erklärung wird nicht doppelt gespeichert.',
+    sending: 'Kündigungserklärung wird gesendet …',
+  },
+
   billing: {
     tier_free: 'Gratis',
     tier_premium: 'Premium',

@@ -217,3 +217,28 @@ it('refresh keeps a pending payment warning until access is confirmed', async ()
   await controller.refresh();
   expect(state.notice).toBe('storePending');
 });
+
+it('requires a fresh checkout gate before invoking the payment SDK', async () => {
+  const sdk: BillingSdk = {
+    bind: () => Promise.resolve(),
+    load: () =>
+      Promise.resolve({
+        customer: { active: false, managementUrl: null },
+        offers: [{ id: 'p', tier: 'premium', period: 'monthly', price: 'fixture' }],
+      }),
+    purchase: jest.fn(() => Promise.resolve()),
+    restore: () => Promise.resolve(),
+  };
+  const gate = jest.fn(() => Promise.resolve(false));
+  const controller = new BillingController(
+    sdk,
+    () => true,
+    () => Promise.resolve({ configured: true, simulation: false, entitlements: [] }),
+    () => undefined,
+    gate,
+  );
+  await controller.setActor('a');
+  await controller.purchase('p', 'de');
+  expect(gate).toHaveBeenCalledTimes(1);
+  expect(sdk.purchase).not.toHaveBeenCalled();
+});

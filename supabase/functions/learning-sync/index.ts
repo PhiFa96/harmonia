@@ -9,6 +9,8 @@ import {
   rewardRuleAt,
   lessonDay,
   learningRowSchema,
+  accessSourceSchema,
+  accessSourceDetails,
 } from '../../../packages/content/src/index.ts';
 import type { ContentCatalogue } from '../../../packages/content/src/index.ts';
 const learningRewardPageSchema = learningRowSchema
@@ -67,9 +69,20 @@ Deno.serve(async (request) => {
       ruleVersion: number;
       qualified: boolean;
     }[] = [];
+    const proofs: { id: string; source: unknown; cost: number; level: number }[] = [];
     try {
       for (const event of parsed.data.events) {
         const proof = validateLearningEvent(current, event);
+        if (event.kind === 'lesson') {
+          const source = accessSourceSchema.parse({
+            kind: 'lesson',
+            lessonId: event.lessonId,
+            contentVersion: event.contentVersion,
+            seed: event.seed,
+            ...(event.planKey ? { planKey: event.planKey } : {}),
+          });
+          proofs.push({ id: event.id, source, ...accessSourceDetails(current, source) });
+        }
         if (event.kind === 'lesson' && event.timeZone && 'session' in proof) {
           if (event.finishedAt > Date.now() + 300000) throw new Error('Future completion');
           const rule = rewardRuleAt(rewardRules, event.finishedAt);
@@ -86,12 +99,16 @@ Deno.serve(async (request) => {
     } catch {
       return json(422, { error: 'evidence' });
     }
-    const result = await client.rpc('append_learning_results', {
+    const result = await client.rpc('append_access_learning_results', {
       actor: data.user.id,
       events: parsed.data.events,
       rewards,
+      proofs,
     });
-    if (result.error) return json(409, { error: 'conflict' });
+    if (result.error)
+      return json(result.error.message.startsWith('Access ') ? 403 : 409, {
+        error: result.error.message.startsWith('Access ') ? 'access' : 'conflict',
+      });
     const rows = await client.rpc('learning_reward_page', {
       actor: data.user.id,
       after_sequence: parsed.data.since,

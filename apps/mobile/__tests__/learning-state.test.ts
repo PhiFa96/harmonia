@@ -251,15 +251,13 @@ describe('Kontogebundene Lernpfad-Synchronisation', () => {
     expect(learning.useLearningState.getState().path.some((u) => u.status === 'tested')).toBe(
       false,
     );
-    mockInvoke.mockResolvedValue(
-      ok(
-        [advanced, partial],
-        [
-          { sequence: 1, event: partial },
-          { sequence: 2, event: advanced },
-        ],
-      ),
-    );
+    mockInvoke.mockImplementation((_name, options) => {
+      const rows = [
+        { sequence: 1, event: partial },
+        { sequence: 2, event: advanced },
+      ].filter((row) => row.sequence > options.body.since);
+      return Promise.resolve(ok(options.body.events, rows, options.body.since));
+    });
     await learning.syncLearning();
     expect(learning.useLearningState.getState().path.some((u) => u.status === 'tested')).toBe(true);
     mockInvoke.mockResolvedValue({ data: null, error: new Error('Offline') });

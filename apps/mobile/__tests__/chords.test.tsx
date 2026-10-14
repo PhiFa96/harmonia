@@ -1,3 +1,4 @@
+import { act as settleAct } from 'expo-router/testing-library';
 import type { ChordItem } from '@harmonia/exercises';
 import {
   chordAnswerId,
@@ -73,9 +74,12 @@ function required<T>(value: T | undefined | null): T {
   if (value == null) throw new Error('Testwert fehlt');
   return value;
 }
-function start() {
+async function start() {
   const router = renderRouter('./src/app', { initialUrl: '/practice' });
   fireEvent.press(screen.getByRole('button', { name: 'Akkorde erkennen und schreiben' }));
+  await settleAct(async () => {
+    await Promise.resolve();
+  });
   return router;
 }
 function firstBuild(): ChordItem {
@@ -128,14 +132,17 @@ function reachHearing() {
   return required(items[2]);
 }
 async function hear(label = 'Töne anhören') {
-  await act(() => {
-    fireEvent.press(screen.getByRole('button', { name: label }));
+  await act(async () => {
+    await settleAct(async () => {
+      fireEvent.press(screen.getByRole('button', { name: label }));
+      await Promise.resolve();
+    });
     return Promise.resolve();
   });
 }
 describe('Akkorde schreiben, sehen und hören in der App', () => {
   it('neun Aufgaben lassen sich vollständig abschließen; Hörfragen brauchen eine bewusste Wiedergabe und Neustart leert die Eingabe', async () => {
-    start();
+    await start();
     expect(mockPlay).not.toHaveBeenCalled();
     const state = createChordSession(SEED);
     for (const [index, item] of state.items.entries()) {
@@ -171,14 +178,17 @@ describe('Akkorde schreiben, sehen und hören in der App', () => {
       expect(stop).toHaveBeenCalledTimes(1);
     });
     expect(mockStopAll).not.toHaveBeenCalled();
-    fireEvent.press(screen.getByText('Neuen Übungssatz starten'));
+    await settleAct(async () => {
+      fireEvent.press(screen.getByText('Neuen Übungssatz starten'));
+      await Promise.resolve();
+    });
     expect(screen.getByText('Aufgabe 1 von 9')).toBeTruthy();
     expect(screen.getByText('0 von 2 Antworttönen gesetzt.')).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Prüfen' })).toBeDisabled();
   });
 
-  it('Basston bleibt fest; Screenreader setzt Töne; Löschen betrifft nur den ausgewählten Platz', () => {
-    start();
+  it('Basston bleibt fest; Screenreader setzt Töne; Löschen betrifft nur den ausgewählten Platz', async () => {
+    await start();
     const item = firstBuild(),
       pitches: (Pitch | null)[] = [item.bass, null, null];
     tap(item, required(chordTargets(item)[1]), chordEditScore(item, null, 1), 0);
@@ -200,8 +210,8 @@ describe('Akkorde schreiben, sehen und hören in der App', () => {
     expect(screen.getByRole('button', { name: 'Prüfen' })).toBeDisabled();
   });
 
-  it('doppelte Töne bleiben in der Antwort, erhalten einzelne Fehlermarkierungen und sperren nach Prüfen', () => {
-    start();
+  it('doppelte Töne bleiben in der Antwort, erhalten einzelne Fehlermarkierungen und sperren nach Prüfen', async () => {
+    await start();
     const item = firstBuild();
     fill(item, false, true);
     fireEvent.press(screen.getByText('Prüfen'));
@@ -214,8 +224,8 @@ describe('Akkorde schreiben, sehen und hören in der App', () => {
     expect(screen.getByRole('button', { name: 'Löschen' })).toBeDisabled();
   });
 
-  it('Hinweis 3 zeigt den Lösungsklang als Noten und zählt Schreiben und ungehörte Erkennung als unterstützt', () => {
-    start();
+  it('Hinweis 3 zeigt den Lösungsklang als Noten und zählt Schreiben und ungehörte Erkennung als unterstützt', async () => {
+    await start();
     fireEvent.press(screen.getByText('Hinweis 1'));
     fireEvent.press(screen.getByText('Hinweis 2'));
     expect(screen.queryByText('So sieht die Lösung aus')).toBeNull();
@@ -242,8 +252,8 @@ describe('Akkorde schreiben, sehen und hören in der App', () => {
     expect(mockPlay).not.toHaveBeenCalled();
   });
 
-  it('Hör-Pause überspringt alle drei Akkordhörfragen und beendet die sechs visuellen Aufgaben ohne Fehler', () => {
-    start();
+  it('Hör-Pause überspringt alle drei Akkordhörfragen und beendet die sechs visuellen Aufgaben ohne Fehler', async () => {
+    await start();
     reachHearing();
     fireEvent.press(screen.getByText('Gerade nicht hören'));
     for (const [index, item] of createChordSession(SEED).items.slice(3).entries()) {
@@ -259,7 +269,7 @@ describe('Akkorde schreiben, sehen und hören in der App', () => {
   });
 
   it('späte Audio-Freigabe startet nach Hör-Pause nichts', async () => {
-    start();
+    await start();
     reachHearing();
     let resume: (() => void) | undefined;
     mockResume.mockImplementation(
@@ -284,7 +294,7 @@ describe('Akkorde schreiben, sehen und hören in der App', () => {
       onState = callback;
       return { remove: jest.fn() };
     });
-    start();
+    await start();
     reachHearing();
     let resume: (() => void) | undefined;
     mockResume.mockImplementation(
@@ -314,7 +324,7 @@ describe('Akkorde schreiben, sehen und hören in der App', () => {
   });
 
   it('Audiofehler lässt Prüfen gesperrt und Hör-Pause weiterhin bedienbar', async () => {
-    start();
+    await start();
     const item = reachHearing();
     fireEvent.press(screen.getByTestId(`answer-${expectedAnswer(item)}`));
     mockFail = true;
@@ -332,10 +342,13 @@ describe('Akkorde schreiben, sehen und hören in der App', () => {
     ['en-GB', 'Recognise and write chords', 'bar'],
   ] as const)(
     'die Eingabe und ihre Hilfe verwenden vollständige Begriffe in %s',
-    (locale, label, measure) => {
+    async (locale, label, measure) => {
       useSettings.setState({ locale });
       renderRouter('./src/app', { initialUrl: '/practice' });
-      fireEvent.press(screen.getByRole('button', { name: label }));
+      await settleAct(async () => {
+        fireEvent.press(screen.getByRole('button', { name: label }));
+        await Promise.resolve();
+      });
       expect(screen.getByText('Question 1 of 9')).toBeTruthy();
       expect(screen.getByRole('radio', { name: 'Note 2, not placed yet' })).toBeTruthy();
       expect(screen.getByText(new RegExp(`right ${measure}`))).toBeTruthy();

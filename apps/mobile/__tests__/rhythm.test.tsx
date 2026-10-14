@@ -1,3 +1,4 @@
+import { act as settleAct } from 'expo-router/testing-library';
 import type { RhythmItem } from '@harmonia/exercises';
 import {
   expectedAnswer,
@@ -80,9 +81,12 @@ function required<T>(value: T | undefined): T {
   if (value === undefined) throw new Error('Testwert fehlt');
   return value;
 }
-function start() {
+async function start() {
   const router = renderRouter('./src/app', { initialUrl: '/practice' });
   fireEvent.press(screen.getByRole('button', { name: 'Rhythmus und Taktgliederung üben' }));
+  await settleAct(async () => {
+    await Promise.resolve();
+  });
   return router;
 }
 function advance(time: number) {
@@ -120,7 +124,7 @@ function first(): RhythmItem {
 }
 describe('Rhythmusaufnahme und Taktgliederung in der App', () => {
   it('sechs Aufgaben lassen sich mit Audio-Uhr und Latenzbezug korrekt abschließen; Neustart leert die Aufnahme', async () => {
-    start();
+    await start();
     expect(mockPlay).not.toHaveBeenCalled();
     const items = createRhythmSession(SEED).items;
     for (const [index, item] of items.entries()) {
@@ -141,12 +145,15 @@ describe('Rhythmusaufnahme und Taktgliederung in der App', () => {
       expect(stop).toHaveBeenCalledTimes(1);
     });
     expect(mockStopAll).not.toHaveBeenCalled();
-    fireEvent.press(screen.getByText('Neuen Übungssatz starten'));
+    await settleAct(async () => {
+      fireEvent.press(screen.getByText('Neuen Übungssatz starten'));
+      await Promise.resolve();
+    });
     expect(screen.getByText('0 Anschläge aufgenommen.')).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Prüfen' })).toBeDisabled();
   });
   it('Einzähltakt nimmt noch nichts auf; nur vollständig beendete Aufnahmen aktivieren Prüfen', async () => {
-    start();
+    await start();
     const item = first(),
       beginAt = await begin(item);
     expect(screen.getByText(/Einzählen: 1 von/)).toBeTruthy();
@@ -168,7 +175,7 @@ describe('Rhythmusaufnahme und Taktgliederung in der App', () => {
     });
   });
   it('doppelter Anschlag bleibt ein Fehler, spätere Treffer bleiben erhalten und eine zweite Wertung ist gesperrt', async () => {
-    start();
+    await start();
     const item = first();
     await take(item, 'extra');
     fireEvent.press(screen.getByText('Prüfen'));
@@ -179,7 +186,7 @@ describe('Rhythmusaufnahme und Taktgliederung in der App', () => {
     expect(screen.queryByRole('button', { name: 'Neu aufnehmen' })).toBeNull();
   });
   it('ein leerer vollständiger Take ist ein gewerteter Fehler; vor Prüfen kann neu aufgenommen werden', async () => {
-    start();
+    await start();
     await take(first(), 'empty');
     expect(screen.getByRole('button', { name: 'Prüfen' })).not.toBeDisabled();
     fireEvent.press(screen.getByText('Neu aufnehmen'));
@@ -194,7 +201,7 @@ describe('Rhythmusaufnahme und Taktgliederung in der App', () => {
     );
   });
   it('Hinweis 3 bietet ein Klangbeispiel; es enthält Pausen und korrekte Einsätze und wird als Hilfe gewertet', async () => {
-    start();
+    await start();
     const item = first();
     fireEvent.press(screen.getByText('Hinweis 1'));
     fireEvent.press(screen.getByText('Hinweis 2'));
@@ -218,8 +225,8 @@ describe('Rhythmusaufnahme und Taktgliederung in der App', () => {
     expect(screen.getByText('Mit Hinweis beantwortet')).toBeTruthy();
     expect(mockStopAll).not.toHaveBeenCalled();
   });
-  it('Hör-Pause überspringt drei Aufnahmeaufgaben; die drei Taktfragen bleiben', () => {
-    start();
+  it('Hör-Pause überspringt drei Aufnahmeaufgaben; die drei Taktfragen bleiben', async () => {
+    await start();
     fireEvent.press(screen.getByText('Gerade nicht hören'));
     for (const [index, item] of createRhythmSession(SEED)
       .items.filter((item) => item.type === 'METER_IDENTIFY')
@@ -240,7 +247,7 @@ describe('Rhythmusaufnahme und Taktgliederung in der App', () => {
           resume = resolve;
         }),
     );
-    start();
+    await start();
     fireEvent.press(screen.getByText('Einzählen und aufnehmen'));
     fireEvent.press(screen.getByText('Aufnahme abbrechen'));
     await act(() => {
@@ -265,7 +272,7 @@ describe('Rhythmusaufnahme und Taktgliederung in der App', () => {
     expect(mockPlay).not.toHaveBeenCalled();
   });
   it('Hintergrund verwirft einen laufenden Take und stoppt ausschließlich seine vorgeplanten Stimmen', async () => {
-    start();
+    await start();
     await begin(first());
     act(() => {
       mockStateListeners.forEach((listener) => {
@@ -280,7 +287,7 @@ describe('Rhythmusaufnahme und Taktgliederung in der App', () => {
     expect(mockStopAll).not.toHaveBeenCalled();
   });
   it('teilweise fehlgeschlagene Planung stoppt angelegte Stimmen; Audiofehler erzeugt keine Antwort', async () => {
-    start();
+    await start();
     mockFailAt = 3;
     await act(() => {
       fireEvent.press(screen.getByText('Einzählen und aufnehmen'));
@@ -298,14 +305,20 @@ describe('Rhythmusaufnahme und Taktgliederung in der App', () => {
   it.each([
     ['en-US', 'Practice rhythm and meter', 'quarter note'],
     ['en-GB', 'Practise rhythm and metre', 'crotchet'],
-  ] as const)('Bezeichnungen und Notenwerte in %s sind vollständig', (locale, label, note) => {
-    useSettings.setState({ locale });
-    renderRouter('./src/app', { initialUrl: '/practice' });
-    fireEvent.press(screen.getByRole('button', { name: label }));
-    expect(screen.getByText('Question 1 of 6')).toBeTruthy();
-    expect(screen.getByTestId('exercise-question').props['aria-label']).toContain(note);
-    fireEvent.press(screen.getByText('Hint 1'));
-    fireEvent.press(screen.getByText('Hint 2'));
-    expect(screen.queryByText(/exercise\.|glossary:|\{\{|\$t\(/)).toBeNull();
-  });
+  ] as const)(
+    'Bezeichnungen und Notenwerte in %s sind vollständig',
+    async (locale, label, note) => {
+      useSettings.setState({ locale });
+      renderRouter('./src/app', { initialUrl: '/practice' });
+      await settleAct(async () => {
+        fireEvent.press(screen.getByRole('button', { name: label }));
+        await Promise.resolve();
+      });
+      expect(screen.getByText('Question 1 of 6')).toBeTruthy();
+      expect(screen.getByTestId('exercise-question').props['aria-label']).toContain(note);
+      fireEvent.press(screen.getByText('Hint 1'));
+      fireEvent.press(screen.getByText('Hint 2'));
+      expect(screen.queryByText(/exercise\.|glossary:|\{\{|\$t\(/)).toBeNull();
+    },
+  );
 });

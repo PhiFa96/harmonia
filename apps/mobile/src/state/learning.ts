@@ -271,7 +271,7 @@ export function syncLearning(): Promise<void> {
           }
         });
       const events: LearningEvent[] = [];
-      for (const row of pending.slice(0, 50)) {
+      for (const row of pending.slice(0, 1)) {
         if (JSON.stringify([...events, row.event]).length > 120000) break;
         events.push(row.event);
       }

@@ -4,6 +4,77 @@ import { contentMessages } from '@harmonia/i18n/content-messages';
 import type { Messages } from './types.ts';
 
 export const enUS = {
+  paywall: {
+    title: 'Compare subscriptions',
+    energy: 'Learning energy',
+    unlimited: 'Unlimited learning energy',
+    remaining: '{{count}} of {{total}} energy points',
+    refill: 'One energy point refills every {{minutes}} minutes, up to the maximum.',
+    nextEnergy: 'Next energy point at {{time}}.',
+    reservation:
+      'A new session reserves one point per exercise. Hints and mistake review within that session use no additional energy.',
+    loading: 'Checking access …',
+    accessError: 'Access could not be checked. Check your connection and try starting again.',
+    compare: 'Free, Premium and Max',
+    reason_settings: 'Choose the option that fits your learning.',
+    reason_onboarding: 'You can start for free and skip this choice.',
+    reason_limit:
+      'You need more energy for this new session. Wait for it to refill or explore Premium.',
+    reason_premium: 'This course level requires Premium.',
+    reason_tutor: 'The AI tutor is included in Premium and Max and has its own allowance.',
+    skip: 'Continue for free',
+    close: 'Back to learning',
+    course_free: 'Published foundations through level 2',
+    course_premium: 'All published course levels',
+    course_max: 'All published course levels',
+    energyLimited: 'Learning energy refills over time',
+    tutor_free: 'No AI tutor',
+    tutor_premium: 'AI tutor with its own allowance',
+    tutor_max: 'AI tutor with an increased allowance',
+    maxPreparing: 'Max is in preparation. Additional features will only be offered when available.',
+    learningRule:
+      'Prerequisites and the passing threshold are the same for everyone. A subscription does not skip learning steps.',
+    monthly: 'Monthly',
+    annual: 'Annual',
+    unavailable:
+      'Subscriptions are currently unavailable for purchase. You can continue learning for free.',
+    purchaseTerms:
+      'Displayed prices come from the store. Its purchase confirmation and the linked contract terms apply. No free trial is promised.',
+    terms: 'Contract terms',
+    privacy: 'Privacy',
+    imprint: 'Legal notice',
+  },
+  cancellation: {
+    title: 'Cancel contracts here',
+    body: 'Submit a cancellation declaration for your web subscription without signing in. Manage Apple App Store or Google Play subscriptions in the respective store.',
+    name: 'Full name',
+    email: 'Contract email address',
+    contract: 'Contract identifier (optional)',
+    product: 'Which web subscription?',
+    ordinary: 'Ordinary cancellation',
+    extraordinary: 'Extraordinary cancellation',
+    reason: 'Reason for cancellation',
+    date: 'Requested end date',
+    dateBody: 'Choose the earliest possible date or enter a date as YYYY-MM-DD.',
+    earliest: 'Earliest possible',
+    continue: 'Review cancellation',
+    review: 'Review your cancellation',
+    reviewBody:
+      'The next button submits this cancellation declaration. Confirmation of the contract end is processed separately.',
+    submit: 'Cancel now',
+    edit: 'Edit details',
+    received: 'Cancellation declaration received',
+    receipt: 'Receipt {{id}} · {{time}}',
+    receivedBody:
+      'Your declaration has been saved. Contract matching, the end date and confirmation are still being processed. This confirms receipt, not a completed contract cancellation.',
+    download: 'Save receipt',
+    error_schema:
+      'Check your name, email address, date and the reason for an extraordinary cancellation.',
+    error_send:
+      'Receipt could not be confirmed. Try again; the same declaration will not be saved twice.',
+    sending: 'Sending cancellation declaration …',
+  },
+
   billing: {
     tier_free: 'Free',
     tier_premium: 'Premium',

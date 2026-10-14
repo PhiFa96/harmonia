@@ -198,9 +198,10 @@ jobs:
 
       - name: Öffentliche Lernpfad-Funktion verweigert Entwurfsinhalte
         run: |
-          node tools/serve-local-learning.mjs --published --tutor-test > "$RUNNER_TEMP/harmonia-learning-public.log" 2>&1 &
+          node tools/serve-local-learning.mjs --published --tutor-test --billing-test > "$RUNNER_TEMP/harmonia-learning-public.log" 2>&1 &
           harmonia_learning_pid=$!
           trap 'kill "$harmonia_learning_pid" 2>/dev/null || true' EXIT
+          node tools/test-access.mjs --published
           node tools/test-learning-sync.mjs --published
           node tools/test-content-reports.mjs --published
           node tools/test-tutor.mjs --published
@@ -229,6 +230,9 @@ jobs:
 
       - name: Abo-Webhooks, Konto-Isolation und ersetzten RevenueCat-Kontostand prüfen
         run: pnpm db:test:billing
+
+      - name: Lernenergie und öffentlicher Kündigungseingang prüfen
+        run: pnpm db:test:access
 
       - name: Lokale Container stoppen
         if: always()
