@@ -3,6 +3,19 @@ import { contentMessages } from '@harmonia/i18n/content-messages';
 // Fachbegriffe kommen aus dem Glossar: $t(glossary:…).
 
 export const de = {
+  article: {
+    title: 'Bibliotheksquelle',
+    loading: 'Quelle wird geprüft …',
+    unavailable:
+      'Diese Quelle ist in dieser App-Version nicht verfügbar. Der Artikel wurde geändert, zurückgezogen oder noch nicht veröffentlicht.',
+    retry: 'Quelle erneut prüfen',
+    back: 'Zurück',
+    draft: 'Interne Vorschau · Dieser Artikel wartet noch auf die fachliche Freigabe.',
+    version: 'Artikelversion {{version}}',
+    sourceLanguage: 'Sprache der zitierten Quelle: {{language}}',
+    citedSection: 'Zitierter Abschnitt',
+    sections: 'Abschnitte dieses Artikels',
+  },
   motivation: {
     writeError:
       'Die Änderung wurde nicht gespeichert. Dein bisheriger Stand bleibt erhalten; bitte versuche die Änderung erneut.',

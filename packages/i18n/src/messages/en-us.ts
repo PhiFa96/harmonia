@@ -4,6 +4,19 @@ import { contentMessages } from '@harmonia/i18n/content-messages';
 import type { Messages } from './types.ts';
 
 export const enUS = {
+  article: {
+    title: 'Library source',
+    loading: 'Checking source …',
+    unavailable:
+      'This source is unavailable in this app version. The article has changed, been withdrawn or has not yet been published.',
+    retry: 'Check source again',
+    back: 'Back',
+    draft: 'Internal preview · This article is still awaiting subject review.',
+    version: 'Article version {{version}}',
+    sourceLanguage: 'Language of the cited source: {{language}}',
+    citedSection: 'Cited section',
+    sections: 'Sections in this article',
+  },
   motivation: {
     writeError:
       'The change was not saved. Your previous progress remains intact; please try the change again.',

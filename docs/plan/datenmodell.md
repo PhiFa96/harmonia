@@ -25,7 +25,8 @@ Postgres in Supabase, Region EU. Alle Tabellen mit Row Level Security (RLS). Än
 | `entitlements` | Abo-Berechtigungen (Spiegel aus RevenueCat) | `user_id`, `entitlement` (premium/max), `active`, `expires_at`, `store`, `updated_at` |
 | `billing_events` | Rohdaten der Webhooks | `id`, `provider`, `event_id` (eindeutig), `payload`, `processed_at` |
 | `content_reports` | Gemeldete Inhaltsfehler | `id`, `user_id`, `content_id`, `content_version`, `message`, `status` |
-| `knowledge_chunks` | Wissensbasis des Tutors | `id`, `article_id`, `locale`, `title`, `body`, `tsv` (Volltextindex), `content_version` |
+| `knowledge_indexes` | Aktiver Wissensstand je Auslieferung | `lane` (`published`/`preview`), `snapshot`, `content_version`, `article_count`, `chunk_count`, `updated_at` |
+| `knowledge_chunks` | Versionierte Quellenabschnitte des Tutors | Schlüssel (`lane`, `id`), `snapshot`, `article_id`, `locale`, `content_version`, `status`, `stage`, `section`, `part`, `start_char`, `end_char`, `title`, `heading`, `body`, `skill_ids`, `tsv` (gespeicherter DE-/EN-Volltextvektor mit GIN) |
 
 **Aufbewahrung:** `item_attempts` wächst am schnellsten. Nach 12 Monaten werden Einzelaufgaben zu Tageswerten je Fähigkeit verdichtet (Frist offen, im Löschkonzept festlegen). Tutor-Gespräche sind für Nutzer löschbar.
 
@@ -93,3 +94,7 @@ sequenceDiagram
   E-->>A: Bestätigung + aktueller Serverstand
   A->>A: Lokalen Stand angleichen
 ```
+
+## Wissensbasis v1 (P2.16)
+
+Öffentliche Leser sehen ausschließlich `published` mit `freigegeben`; auch Konten lesen keine `preview`-Datensätze. Indexabgleich und Suche sind Service-RPCs. `replace_knowledge_index` ersetzt einen Snapshot transaktional, `search_knowledge` liefert nur IDs/Ränge aus exakt passender Sprache und erwartetem Snapshot. Modelltexte stammen anschließend aus bekannten kompilierten Katalogdatensätzen. Quellen-IDs enthalten einen SHA-256 über kanonischen Originaltext und Metadaten; alte Quellen werden nach Rückzug nicht weitergesucht. Validierte Zitate werden mit der privaten Tutorantwort gespeichert und beim Löschen des Gesprächs entfernt. Details: [Wissensbasis](wissensbasis.md).

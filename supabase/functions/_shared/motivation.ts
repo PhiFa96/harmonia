@@ -16,10 +16,7 @@ export const backend = () =>
     Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
     { auth: { persistSession: false, autoRefreshToken: false } },
   );
-export const hash = async (key: string) =>
-  Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(key))))
-    .map((b) => b.toString(16).padStart(2, '0'))
-    .join('');
+export { hash } from './hash.ts';
 export async function history(client: SupabaseClient, actor: string) {
   const result = await client.rpc('motivation_history', { actor });
   if (result.error) throw new Error('History unavailable');

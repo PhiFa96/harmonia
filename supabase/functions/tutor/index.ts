@@ -28,6 +28,7 @@ import {
   localTutorFetch,
 } from '../_shared/tutor-local-fixture.ts';
 import type { TutorModelMessage } from '../_shared/tutor-provider.ts';
+import { retrieveKnowledge } from '../_shared/knowledge.ts';
 
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const codes: Record<string, number> = {
@@ -419,6 +420,7 @@ Deno.serve(async (request) => {
     if (!claim.lease) return json(409, { error: 'busy' });
     reserved = { client, actor, id: input.id, lease: claim.lease };
     const history = await conversationHistory(client, actor, input.conversationId),
+      knowledge = await retrieveKnowledge(client, input, context),
       provider = new AnthropicTutorProvider(
         test ? 'local-fixture-no-secret' : (key ?? ''),
         test ? localTutorFetch : undefined,
@@ -464,6 +466,7 @@ Deno.serve(async (request) => {
             policy,
             context,
             history,
+            knowledge,
             signal: AbortSignal.any([abort.signal, request.signal]),
             emit: send,
           });

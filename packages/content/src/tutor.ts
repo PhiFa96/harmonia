@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { reportSourceSchema } from './content-reports.ts';
 
-export const TUTOR_PROMPT_VERSION = 1;
+export const TUTOR_PROMPT_VERSION = 2;
 export const TUTOR_TOOL_VERSION = 1;
 const tokens = z.number().int().nonnegative().max(10_000_000);
 const money = z.number().int().nonnegative().max(1_000_000_000_000);

@@ -11,6 +11,11 @@ import { AnthropicTutorProvider } from '../supabase/functions/_shared/tutor-prov
 import { runTutor } from '../supabase/functions/_shared/tutor-runtime.ts';
 import { exerciseContext } from '../supabase/functions/_shared/tutor-tools.ts';
 import type { TutorEvent } from '../supabase/functions/_shared/tutor-runtime.ts';
+import {
+  currentKnowledgeSnapshot,
+  selectKnowledgeChunks,
+} from '../supabase/functions/_shared/knowledge.ts';
+import { knowledgeQueries } from './knowledge-queries.ts';
 const key = Deno.env.get('ANTHROPIC_API_KEY'),
   model = Deno.env.get('HARMONIA_TUTOR_MODEL'),
   tariffJson = Deno.env.get('HARMONIA_TUTOR_TARIFF');
@@ -124,6 +129,95 @@ const questions: { tool: string; request: TutorRequest }[] = [
     },
   },
 ];
+const knowledgeCheck =
+  Deno.args.includes('--knowledge') || Deno.args.includes('--knowledge-preview');
+if (knowledgeCheck) {
+  const snapshot = await currentKnowledgeSnapshot(
+    Deno.args.includes('--knowledge-preview') ? 'preview' : 'published',
+  );
+  if (!snapshot.chunks.length)
+    throw new Error(
+      'Keine freigegebenen Wissensquellen verfügbar. Kein API-Aufruf. Interne Quellen nur ausdrücklich mit --knowledge-preview prüfen.',
+    );
+  let totalCostNanoUsd = 0,
+    passed = 0;
+  for (const locale of ['de', 'en-US', 'en-GB'] as const)
+    for (const article of [
+      'notation.l1.staff.article',
+      'rhythm.l1.values.article',
+      'history.l2.jazz-pop-sources.article',
+    ]) {
+      const query = knowledgeQueries.find((q) => q.article === article);
+      if (!query) throw new Error('Missing live query');
+      const question =
+        locale === 'de' ? query.de : locale === 'en-GB' ? (query.uk ?? query.us) : query.us;
+      const knowledge = selectKnowledgeChunks(
+        snapshot,
+        locale,
+        snapshot.chunks
+          .filter((c) => c.locale === locale && c.articleId === article)
+          .sort((a, b) => a.section - b.section || a.part - b.part)
+          .map((c) => ({ id: c.id })),
+      );
+      if (!knowledge.chunks.length) throw new Error('Missing live article');
+      const request: TutorRequest = {
+        ...base,
+        id: crypto.randomUUID(),
+        conversationId: crypto.randomUUID(),
+        locale,
+        noteNaming: locale === 'de' ? 'de' : 'intl',
+        message: question,
+      };
+      const outcome = await runTutor({
+        provider,
+        request,
+        policy,
+        context: { available: false },
+        history: [],
+        knowledge,
+        signal: new AbortController().signal,
+        emit: () => {
+          /* Ergebnis und Zitate werden gemeinsam ausgegeben. */
+        },
+      });
+      const accepted =
+        outcome.result.status === 'complete' &&
+        outcome.result.sourceState === 'cited' &&
+        Boolean(outcome.result.citations?.length) &&
+        !outcome.result.errors.includes('invalid_citation');
+      totalCostNanoUsd += outcome.usage.costNanoUsd;
+      console.log(
+        JSON.stringify({
+          test: ++passed,
+          simulation: false,
+          preview: snapshot.lane === 'preview',
+          model,
+          tariffVersion: tariff.version,
+          locale,
+          article,
+          question,
+          passed: accepted,
+          answer: outcome.result.text,
+          citations: outcome.result.citations,
+          errors: outcome.result.errors,
+          usage: outcome.usage,
+        }),
+      );
+      if (!accepted)
+        throw new Error('Live-Quellenprüfung fehlgeschlagen. Keine automatische Wiederholung.');
+    }
+  console.log(
+    JSON.stringify({
+      passed,
+      simulation: false,
+      preview: snapshot.lane === 'preview',
+      totalCostNanoUsd,
+      totalCostUsd: totalCostNanoUsd / 1_000_000_000,
+      checkedAt: new Date().toISOString(),
+    }),
+  );
+  Deno.exit(0);
+}
 let total = 0;
 for (const [index, q] of questions.entries()) {
   const events: TutorEvent[] = [],

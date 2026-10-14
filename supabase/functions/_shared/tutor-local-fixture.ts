@@ -2,6 +2,7 @@
 import type {
   MessageCreateParamsStreaming,
   Usage,
+  TextCitation,
 } from 'npm:@anthropic-ai/sdk@0.133.0/resources/messages';
 export const LOCAL_TUTOR_URL =
   /^http:\/\/(?:127\.0\.0\.1|localhost|supabase_kong_harmonia|kong)(?::\d+)?$/;
@@ -132,6 +133,28 @@ export const localTutorFetch: typeof fetch = (_url, options) => {
             index: 0,
             delta: { type: 'text_delta', text },
           });
+        const document = Array.isArray(first?.content)
+          ? first.content.find((block) => block.type === 'document')
+          : undefined;
+        if (question.includes('fixture:knowledge') && document?.source.type === 'text') {
+          const quote = Array.from(document.source.data).slice(0, 80).join('');
+          const citation: TextCitation = {
+            type: 'char_location',
+            document_index: question.includes('fixture:bad-index') ? 999 : 0,
+            document_title: 'Untrusted model title',
+            file_id: null,
+            start_char_index: 0,
+            end_char_index: Array.from(quote).length,
+            cited_text: question.includes('fixture:bad-quote')
+              ? 'Not in the supplied source'
+              : quote,
+          };
+          event('content_block_delta', {
+            type: 'content_block_delta',
+            index: 0,
+            delta: { type: 'citations_delta', citation },
+          });
+        }
         event('content_block_stop', { type: 'content_block_stop', index: 0 });
       }
       event('message_delta', {

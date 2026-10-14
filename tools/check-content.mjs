@@ -2,7 +2,12 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import prettier from 'prettier';
-import { parseCatalogue, publicCatalogue, publicMessages } from '../packages/content/src/index.ts';
+import {
+  parseCatalogue,
+  publicCatalogue,
+  publicMessages,
+  knowledgeArticles,
+} from '../packages/content/src/index.ts';
 import { catalogue as authored, curriculumPlan } from '../packages/content/src/authoring.ts';
 import { RESOURCES, checkTranslations } from '../packages/i18n/src/index.ts';
 import { contentMessages } from '../packages/i18n/src/authoring-content-messages.ts';
@@ -32,6 +37,12 @@ if (translations.length > 0) throw new Error(translations.join('\n'));
 const published = publicCatalogue(catalogue);
 const files = [
   ['../packages/content/src/published.json', published],
+  [
+    '../packages/content/src/published-knowledge-stages.json',
+    Object.fromEntries(
+      knowledgeArticles(catalogue, 'published').map(({ article, stage }) => [article.id, stage]),
+    ),
+  ],
   [
     '../packages/i18n/src/published-content.json',
     Object.fromEntries(

@@ -11,3 +11,4 @@ export * from './content-reports.ts';
 export * from './motivation.ts';
 export * from './reminders.ts';
 export * from './tutor.ts';
+export * from './knowledge.ts';

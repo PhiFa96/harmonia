@@ -326,6 +326,9 @@ importers:
       '@harmonia/theory':
         specifier: workspace:*
         version: link:../theory
+      '@types/node':
+        specifier: ^26.6.5
+        version: 26.6.5
       fast-check:
         specifier: 'catalog:'
         version: 4.10.2

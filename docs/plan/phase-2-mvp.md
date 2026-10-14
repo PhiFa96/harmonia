@@ -252,10 +252,12 @@ Die Blöcke B, C und D können teilweise parallel laufen.
 - **Abhängig von:** P2.07, P2.15
 - **Umfang:** M
 - **Aufgaben:**
-  - [ ] Artikel in Abschnitte teilen, `knowledge_chunks` mit Volltextindex (DE, EN)
-  - [ ] Spike: Abschnitte vorab einbinden oder als Werkzeug – Entscheidung dokumentieren
-  - [ ] Zitate in der Antwort → Links auf Artikel in der App
+  - [x] Artikel in Abschnitte teilen, `knowledge_chunks` mit Volltextindex (DE, EN)
+  - [x] Spike: Abschnitte vorab einbinden oder als Werkzeug – Entscheidung dokumentieren
+  - [x] Zitate in der Antwort → Links auf Artikel in der App
 - **Fertig, wenn:** Fragen zu Stufe-1–2-Themen werden mit passenden Quellen beantwortet.
+
+- **Stand 14.10.2026:** Technische Aufgaben umgesetzt: 714 interne Abschnitte in DE/US/UK, getrennte RLS-geschützte Auslieferungen, atomarer Snapshot-Abgleich, PostgreSQL-Volltextsuche, vorab eingebundene native Dokumente, exakt geprüfte Zitate mit Links und verifizierte Artikelroute. 87/87 feste Themenfragen finden passende Artikel, 755 Wissensbasis-/SDK-Prüfungen, 244 interne und 214 öffentliche lokale API-Prüfungen bestehen. **Fachliche/Live-Definition-of-Done offen:** Alle 29 Artikel warten auf Claude nach ADR 0005; öffentliche Quellen sind daher leer. Ohne sichere Schlüssel-/Modell-/Tarifbindung wurden keine echten KI-Antworten oder deren Kosten gemessen. Übergabe: [P2.16](wissensbasis.md), [ADR 0016](../decisions/0016-wissensbasis-vorab-und-native-zitate.md). Nächster technischer Schritt P2.17.
 
 ### P2.17 – Tutor-Oberfläche
 

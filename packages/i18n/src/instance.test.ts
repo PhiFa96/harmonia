@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { createI18n } from './instance.ts';
+import { createI18n, contentTranslator } from './instance.ts';
 
 describe('i18next-Instanz', () => {
   it('Texte sofort nach dem Erzeugen verfügbar', () => {
@@ -50,5 +50,21 @@ describe('i18next-Instanz', () => {
     expect(i18n.t('tabs.lern')).toBe('tabs.lern');
     // @ts-expect-error: unbekannter Glossarbegriff
     expect(i18n.t('glossary:crotchet')).toBe('crotchet');
+  });
+});
+
+describe('Explizite Inhaltsbindung ohne Ressourcen-Leck', () => {
+  it('löst Glossarbegriffe in DE/US/UK auf und lässt globale Inhalte unverändert', () => {
+    const content = {
+      de: { probe: { body: '$t(glossary:notes.quarter_one)' } },
+      'en-US': { probe: { body: '$t(glossary:notes.quarter_one)' } },
+      'en-GB': { probe: { body: '$t(glossary:notes.quarter_one)' } },
+    };
+    expect(createI18n('de').exists('content.probe.body')).toBe(false);
+    expect(contentTranslator('de', content)('content.probe.body')).toBe('Viertelnote');
+    expect(contentTranslator('en-US', content)('content.probe.body')).toBe('quarter note');
+    expect(contentTranslator('en-GB', content)('content.probe.body')).toBe('crotchet');
+    expect(createI18n('de').exists('content.probe.body')).toBe(false);
+    expect(createI18n('en-US').exists('content.probe.body')).toBe(false);
   });
 });

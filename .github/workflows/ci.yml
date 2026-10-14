@@ -107,6 +107,11 @@ jobs:
       - name: Tutor-Werkzeuge, SDK-Streaming und Testtarif ohne echte KI-Kosten prüfen
         run: deno run --config tools/deno.json --allow-env=ANTHROPIC_CUSTOM_HEADERS tools/tutor-smoke.ts
 
+      - name: Wissensabschnitte, native Zitate und versionierte Quellen prüfen
+        run: |
+          deno check --config tools/deno.json tools/knowledge-smoke.ts
+          deno run --config tools/deno.json --allow-env=ANTHROPIC_CUSTOM_HEADERS tools/knowledge-smoke.ts
+
   database:
     name: Supabase und Profil-Zugriffsschutz
     runs-on: ubuntu-latest
@@ -148,6 +153,11 @@ jobs:
       - name: E-Mail-Codes, Bestätigung, Sitzung und Abmeldung prüfen
         run: pnpm db:test:email
 
+      - name: Getrennte öffentliche und interne Wissensindexe lokal erzeugen
+        run: |
+          pnpm knowledge:sync
+          pnpm knowledge:sync --preview
+
       - name: Öffentliche Lernpfad-Funktion verweigert Entwurfsinhalte
         run: |
           node tools/serve-local-learning.mjs --published --tutor-test > "$RUNNER_TEMP/harmonia-learning-public.log" 2>&1 &
@@ -156,6 +166,7 @@ jobs:
           node tools/test-learning-sync.mjs --published
           node tools/test-content-reports.mjs --published
           node tools/test-tutor.mjs --published
+          node tools/test-knowledge.mjs --published
           kill "$harmonia_learning_pid"
           wait "$harmonia_learning_pid" || true
           trap - EXIT
@@ -174,6 +185,9 @@ jobs:
 
       - name: Tutor-SSE, Verlauf, Abo, Budgets, Abbrüche und Löschung lokal prüfen
         run: pnpm db:test:tutor
+
+      - name: Volltextsuche, Quellenrückzug, Zitate und Konto-Zugriff lokal prüfen
+        run: pnpm db:test:knowledge
 
       - name: Lokale Container stoppen
         if: always()

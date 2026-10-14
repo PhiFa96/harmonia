@@ -56,13 +56,14 @@ Der Tutor rechnet nicht selbst, sondern ruft die Engine auf. Werkzeuge mit stren
 | `analyze_progression` | Akkordfolge in Funktionen oder Stufen | 3 |
 | `check_voice_leading` | Stimmführungsprüfung | 4 |
 
-**Notenbeispiele in Antworten:** Der Tutor schreibt Beispiele in einer kleinen Auszeichnung (z. B. `[[notes: C4 E4 G4 | chord]]`). Die App rendert sie als Notenbild mit Abspielknopf. Ungültige Beispiele werden nicht angezeigt, sondern als Fehler protokolliert.
+**Notenbeispiele in Antworten:** Seit P2.15 verwendet der Tutor `render_example`. Nur nach erfolgreicher Parser-/Engine-Prüfung sendet die Function ein strukturiertes `example`-Ereignis mit geprüftem Score und Tempo. Die App-Oberfläche aus P2.17 rendert und spielt diese Daten. Freie Noten-Makros des Modells werden entfernt und als `unverified_example` protokolliert.
 
 ## Wissensbasis
 
 - Eigene Artikel (DE/EN) zu allen Themen der freigegebenen Stufen, geschrieben nach dem Prozess in [inhalte-und-didaktik.md](inhalte-und-didaktik.md).
 - **Suche v1:** Postgres-Volltextsuche (deutsche und englische Wörterbücher). Später bei Bedarf zusätzlich semantische Suche mit Vektoren (`pgvector`).
-- Gefundene Abschnitte gehen als Dokumente mit aktivierten Zitaten an die API. Die Antwort enthält Quellenverweise, die die App als Links auf die Artikel zeigt. Wie genau die Abschnitte eingebunden werden (vorab oder als Werkzeug), entscheidet der Spike in P2.16.
+- Gefundene Abschnitte gehen als Dokumente mit aktivierten Zitaten an die API. Die Antwort enthält Quellenverweise, die die App als Links auf die Artikel zeigt. P2.16 bindet sie vor dem ersten Modellaufruf ein: maximal sechs Dokumente, drei je Artikel und 6000 UTF-8-Bytes Quelldaten, zusätzlich begrenzt durch das vollständige Eingabebudget. Entscheidung und überprüfte Grenzen: [ADR 0016](../decisions/0016-wissensbasis-vorab-und-native-zitate.md).
+- Quellen werden nur bei exakt passendem native Plaintext-Zitat verlinkt; Artikel-ID, Version, Sprache und Abschnittshash kommen vom Server. Die Artikelroute prüft dieselbe Fassung erneut. Vorschau und veröffentlichte Indexe bleiben getrennt; aktuell sind alle 29 Artikel Entwürfe, der öffentliche Index ist leer. Übergabe: [Wissensbasis v1](wissensbasis.md).
 - Für Fragen außerhalb der Wissensbasis darf der Tutor antworten, kennzeichnet das aber („ohne Quelle aus der Harmonia-Bibliothek“) und benennt Unsicherheit.
 
 ## Pädagogische Regeln (Systemprompt)

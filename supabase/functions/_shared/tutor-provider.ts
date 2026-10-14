@@ -4,6 +4,7 @@ import type {
   MessageParam,
   MessageCreateParamsStreaming,
   Usage,
+  TextCitation,
 } from 'npm:@anthropic-ai/sdk@0.133.0/resources/messages';
 import type { TutorPolicy, TutorTariff, TutorUsage } from '../../../packages/content/src/index.ts';
 import { EMPTY_TUTOR_USAGE, tutorUsageSchema } from '../../../packages/content/src/index.ts';
@@ -15,6 +16,7 @@ export interface TutorModelProvider {
     signal: AbortSignal,
     onText: (text: string) => void,
     onUsage: (usage: Usage) => void,
+    onCitation?: (citation: TextCitation, blockIndex: number) => void,
   ): Promise<Message>;
 }
 export type TutorModelMessage = MessageParam;
@@ -36,10 +38,16 @@ export class AnthropicTutorProvider implements TutorModelProvider {
     signal: AbortSignal,
     onText: (text: string) => void,
     onUsage: (usage: Usage) => void,
+    onCitation?: (citation: TextCitation, blockIndex: number) => void,
   ) {
     const stream = this.client.messages.stream(params, { signal });
     let usage: Usage | null = null;
     stream.on('streamEvent', (event) => {
+      if (event.type === 'content_block_delta' && event.delta.type === 'citations_delta')
+        onCitation?.(event.delta.citation, event.index);
+      if (event.type === 'content_block_start' && event.content_block.type === 'text')
+        for (const citation of event.content_block.citations ?? [])
+          onCitation?.(citation, event.index);
       if (event.type === 'message_start') usage = event.message.usage;
       if (event.type === 'message_delta' && usage)
         usage = {

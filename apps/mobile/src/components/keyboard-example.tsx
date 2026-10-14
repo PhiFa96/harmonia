@@ -1,5 +1,6 @@
 import type { KeyboardRange, Score } from '@harmonia/notation';
 import { signatureNoteLabel } from '@harmonia/exercises';
+import type { AppLocale } from '@harmonia/i18n';
 import {
   keyboardLabel,
   keyboardLayout,
@@ -20,14 +21,17 @@ export function KeyboardExample({
   score,
   range,
   showOctaves = false,
+  locale: sourceLocale,
 }: {
   readonly score: Score;
   readonly range: KeyboardRange;
   readonly showOctaves?: boolean;
+  readonly locale?: AppLocale;
 }) {
   const { t } = useTranslation(),
-    locale = useLocale(),
+    currentLocale = useLocale(),
     { colors } = useUiTheme();
+  const locale = sourceLocale ?? currentLocale;
   const [width, setWidth] = useState(0);
   const layout = useMemo(() => keyboardLayout(range), [range]);
   const pitches = useMemo(
