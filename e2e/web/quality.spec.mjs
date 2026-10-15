@@ -46,7 +46,13 @@ for (const scenario of [
         // Restore device locale before going through the real persisted guest flow.
         await first.focus();
         await page.keyboard.press('Space');
-        await onboard(page, scenario.locale);
+        await expect(first).toHaveAttribute('aria-checked', 'true');
+        await expect(page.locator('html')).toHaveAttribute(
+          'lang',
+          scenario.locale.startsWith('de') ? 'de' : scenario.locale,
+        );
+        // Keep this page: reloading here can precede the asynchronous SQLite preference save.
+        await onboard(page, scenario.locale, { navigate: false });
         await audit(page);
         await page.screenshot({ path: testInfo.outputPath('learning-path.png'), fullPage: true });
         await noOverflow(page);

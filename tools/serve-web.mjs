@@ -20,7 +20,9 @@ const mime = {
   '.otf': 'font/otf',
   '.ttf': 'font/ttf',
   '.mp3': 'audio/mpeg',
+  '.mp4': 'video/mp4',
   '.png': 'image/png',
+  '.jpeg': 'image/jpeg',
   '.ico': 'image/x-icon',
   '.svg': 'image/svg+xml',
 };
