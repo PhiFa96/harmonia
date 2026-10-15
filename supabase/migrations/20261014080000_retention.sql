@@ -1,4 +1,7 @@
-alter table public.learning_events drop constraint learning_events_event_check;
+-- The original check references event and client_id. PostgreSQL can therefore
+-- name it learning_events_check rather than the column-style legacy name.
+alter table public.learning_events drop constraint if exists learning_events_event_check;
+alter table public.learning_events drop constraint if exists learning_events_check;
 alter table public.learning_events add constraint learning_events_event_check check(jsonb_typeof(event)='object' and event ? 'kind' and event ? 'id' and event->>'kind' in ('lesson','placement','retained') and event->>'id'=client_id);
 alter table public.learning_events add column event_hash text;
 alter table public.learning_events add column retained_summary jsonb;
