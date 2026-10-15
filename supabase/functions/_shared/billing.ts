@@ -12,6 +12,8 @@ export const billingEventSchema = z.object({
       app_id: z.string().min(1).max(256),
       environment: z.enum(['SANDBOX', 'PRODUCTION']).nullable().optional(),
       event_timestamp_ms: z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER),
+      period_type: z.string().max(80).optional(),
+      is_trial_conversion: z.boolean().optional(),
       app_user_id: z.string().max(256).optional(),
       original_app_user_id: z.string().max(256).optional(),
       aliases: ids.optional(),

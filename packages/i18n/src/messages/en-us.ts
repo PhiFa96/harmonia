@@ -15,7 +15,7 @@ export const enUS = {
     inactive: 'Inactive',
     marketing: 'Marketing emails',
     optionalLater:
-      'Analytics and marketing are currently inactive. You will be asked separately before any later activation.',
+      'Marketing is currently inactive. Each optional purpose requires its own information and your explicit choice.',
     pending:
       'Your change still needs to be saved and, if applicable, synced with your account. Withdrawal stops local processing immediately.',
     retry: 'Sync changes again',
@@ -44,6 +44,7 @@ export const enUS = {
       'The documented provider requests are complete. You can save the erasure receipt.',
     saveReceipt: 'Save erasure receipt',
     working: 'Processing your request …',
+    error_consent: 'Your choice could not be saved yet. Please try again.',
     error_export: 'The full export could not be created. Check your connection and try again.',
     error_delete:
       'Deletion could not be fully confirmed. Try again; the same request will continue processing.',
@@ -1749,5 +1750,14 @@ export const enUS = {
     sheetTitle: 'Appearance',
     sheetText:
       'Choices or details go here. Close with the button, by tapping outside or with Back.',
+  },
+  analytics: {
+    choiceTitle: 'Optional usage statistics',
+    choiceBody:
+      'With your consent, Harmonia uses its own Supabase system to analyse active app days, onboarding, lesson starts and verified completions, paywall views, verified purchases, tutor requests and their costs. This includes account association, language, platform and event time. Answers, tutor text, email addresses and advertising IDs are excluded from these statistics. Signed-in accounts only; no retrospective collection. Observation ends after at most twelve months. Withdrawal stops collection immediately on this device; once synced, your previous analytics data is deleted. You can learn just as well without consenting.',
+    allow: 'Allow usage statistics',
+    unavailable: 'Collection is switched off until legal approval.',
+    accountOnly:
+      'Guests are not tracked. The optional choice becomes available after sign-in and legal approval.',
   },
 } as const satisfies Messages;

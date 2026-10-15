@@ -137,5 +137,5 @@ flowchart LR
 ## Beobachtbarkeit
 
 - **Fehler und Abstürze:** Sentry (React Native SDK, EU-Datenregion prüfen)
-- **Produkt-Analytics:** nur mit Einwilligung; Kandidat PostHog (EU-Hosting prüfen). Ein kleines, dokumentiertes Event-Schema statt „alles tracken“.
+- **Produkt-Analytics:** nur mit Einwilligung; P2.22 verwendet auf Phillips Entscheidung Supabase und ein privates eigenes Dashboard (ADR 0022). Kleines strenges Schema, keine automatische Bildschirmaufzeichnung. Erfassung bleibt bis zur Rechtsfreigabe aus.
 - **Server:** Logs der Edge Functions; Kosten pro KI-Anfrage in einer eigenen Tabelle (`ai_usage`).

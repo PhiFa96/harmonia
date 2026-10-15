@@ -69,6 +69,8 @@ Deno.serve(async (request) => {
       if (result.data) retained++;
     }
     const cutoff = new Date(retentionCutoff(Date.now())).toISOString();
+    const analytics = await client.rpc('analytics_retention');
+    if (analytics.error) return json(503, { error: 'retention' });
     const details = await client.rpc('privacy_retention_details');
     if (details.error) return json(503, { error: 'retention' });
     const detailResult = details.data as { changed: number; more: boolean };
@@ -95,7 +97,12 @@ Deno.serve(async (request) => {
     return json(200, {
       retained,
       details: detailResult.changed,
-      more: rows.data.length === 100 || audit.data.length === 100 || detailResult.more,
+      analytics: analytics.data as number,
+      more:
+        rows.data.length === 100 ||
+        audit.data.length === 100 ||
+        detailResult.more ||
+        analytics.data === 100,
     });
   } catch {
     return json(503, { error: 'retention' });

@@ -9,6 +9,7 @@ import { createLessonSession } from '@harmonia/exercises';
 import type { LessonSession } from '@harmonia/exercises';
 import { useLearningState } from '../state/learning.ts';
 import { getLearningRepository } from './learning.ts';
+import { trackAnalytics } from '@/analytics/track';
 
 type Plan = NonNullable<ReturnType<typeof lessonPlan>>;
 /** Besitzer und Speicherart gehören zum Durchgang, auch wenn später das Konto wechselt. */
@@ -63,6 +64,18 @@ export function useLessonFlow(plan: Plan) {
     return fresh();
   });
   const [resume, setResume] = useState(!!saved);
+  useEffect(() => {
+    if (state.draft.started && !resume)
+      trackAnalytics(
+        {
+          name: 'lesson_started',
+          lessonId: plan.id,
+          contentVersion: plan.contentVersion,
+          attemptId: state.draft.id,
+        },
+        owner,
+      );
+  }, [state.draft.started, state.draft.id, resume, owner, plan.id, plan.contentVersion]);
   const [status, setStatus] = useState<'saving' | 'saved' | 'memory' | 'error'>(
     temporary ? 'memory' : saved ? 'saved' : 'saving',
   );

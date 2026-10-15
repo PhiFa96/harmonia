@@ -18,3 +18,4 @@ export * from './access.ts';
 export * from './cancellation.ts';
 
 export * from './privacy.ts';
+export * from './analytics.ts';

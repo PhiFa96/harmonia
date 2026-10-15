@@ -29,6 +29,9 @@
 
 | 14.10.2026 | F17: zwölf Monate für einzelne Antworten/detaillierte Lernnachweise; bestätigter Fortschritt und zusammengefasste Statistik bleiben. Betreiberangaben noch offen, Veröffentlichung gesperrt. | [ADR 0021](../decisions/0021-datenschutz-und-kuerzung-von-lernnachweisen.md), [P2.21](recht-und-datenschutz.md) |
 
+| 15.10.2026 | P2.22: Supabase und eigenes privates Dashboard; kein externer Analytics-Dienst. Erfassung erst nach Rechtsfreigabe und ausdrücklicher Einwilligung. | [ADR 0022](../decisions/0022-eigene-consentgebundene-analytics.md) |
+| 15.10.2026 | Offene Arbeitsbranches nach P2.22 geprüft zusammenführen; Claudes vorhandene Änderungen erhalten. | [P2.22](analytics-und-kennzahlen.md) |
+
 ## Offen
 
 | # | Frage | Optionen | Entscheidet | Bis |

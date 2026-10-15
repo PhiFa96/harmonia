@@ -240,6 +240,9 @@ jobs:
       - name: Datenschutz, Export, Aufbewahrung und Kontolöschung lokal prüfen
         run: pnpm db:test:privacy
 
+      - name: Einwilligung, Analytics und private Kennzahlen prüfen
+        run: pnpm db:test:analytics
+
       - name: Lokale Container stoppen
         if: always()
         run: pnpm db:stop

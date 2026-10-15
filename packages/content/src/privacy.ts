@@ -7,7 +7,7 @@ export const consentEventSchema = z
     id: z.uuid(),
     purpose: consentPurposeSchema,
     granted: z.boolean(),
-    version: z.literal(PRIVACY_VERSION),
+    version: z.enum([PRIVACY_VERSION, 'analytics-supabase-v1']),
     locale: z.enum(['de', 'en-US', 'en-GB']),
   })
   .strict();
@@ -57,6 +57,8 @@ export const PRIVACY_EXPORT_SECTIONS = [
   'access',
   'energy',
   'cancellations',
+  'analyticsParticipants',
+  'analyticsEvents',
 ] as const;
 export const privacyPolicySchema = z
   .object({

@@ -19,7 +19,7 @@
     "check:content:bundle": "node tools/check-public-bundle.mjs",
     "content:publish": "node tools/check-content.mjs --write",
     "preview:web": "node tools/serve-web.mjs",
-    "check:deno": "npx -y deno@2.9.6 check --config tools/deno.json tools/deno-smoke.ts && npx -y deno@2.9.6 run --config tools/deno.json tools/deno-smoke.ts && npx -y deno@2.9.6 check --config supabase/functions/deno.json supabase/functions/learning-sync/index.ts supabase/functions/content-reports/index.ts supabase/functions/access/index.ts supabase/functions/cancellation/index.ts supabase/functions/privacy/index.ts supabase/functions/privacy-retention/index.ts && npx -y deno@2.9.6 check --config supabase/functions/deno.json supabase/functions/motivation/index.ts supabase/functions/reminder-dispatch/index.ts && npx -y deno@2.9.6 run --config supabase/functions/deno.json --allow-env=EXPO_ACCESS_TOKEN tools/push-smoke.ts && pnpm check:tutor && pnpm check:knowledge && pnpm check:tutor:benchmark && pnpm check:billing",
+    "check:deno": "npx -y deno@2.9.6 check --config tools/deno.json tools/deno-smoke.ts && npx -y deno@2.9.6 run --config tools/deno.json tools/deno-smoke.ts && npx -y deno@2.9.6 check --config supabase/functions/deno.json supabase/functions/learning-sync/index.ts supabase/functions/content-reports/index.ts supabase/functions/access/index.ts supabase/functions/cancellation/index.ts supabase/functions/analytics/index.ts supabase/functions/privacy/index.ts supabase/functions/privacy-retention/index.ts && npx -y deno@2.9.6 check --config supabase/functions/deno.json supabase/functions/motivation/index.ts supabase/functions/reminder-dispatch/index.ts && npx -y deno@2.9.6 run --config supabase/functions/deno.json --allow-env=EXPO_ACCESS_TOKEN tools/push-smoke.ts && pnpm check:tutor && pnpm check:knowledge && pnpm check:tutor:benchmark && pnpm check:billing",
     "db:start": "node tools/start-local-supabase.mjs",
     "db:stop": "supabase stop",
     "db:reset": "supabase db reset --local --yes",
@@ -47,7 +47,9 @@
     "db:test:access": "node tools/test-access.mjs",
     "check:legal": "node tools/check-legal-release.mjs",
     "check:legal:release": "node tools/check-legal-release.mjs --release",
-    "db:test:privacy": "node tools/test-privacy.mjs"
+    "db:test:privacy": "node tools/test-privacy.mjs",
+    "db:test:analytics": "node tools/test-analytics.mjs",
+    "analytics:dashboard": "node tools/analytics-dashboard.mjs"
   },
   "devDependencies": {
     "@anthropic-ai/sdk": "0.133.0",

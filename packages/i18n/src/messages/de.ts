@@ -14,7 +14,7 @@ export const de = {
     inactive: 'Nicht aktiv',
     marketing: 'Marketing-E-Mails',
     optionalLater:
-      'Nutzungsstatistik und Marketing sind derzeit nicht aktiv. Für eine spätere Aktivierung wirst du gesondert gefragt.',
+      'Marketing ist derzeit nicht aktiv. Jede optionale Verarbeitung braucht eine eigene Information und deine ausdrückliche Wahl.',
     pending:
       'Deine Änderung muss noch gesichert und gegebenenfalls mit dem Konto synchronisiert werden. Ein Widerruf stoppt die lokale Verarbeitung sofort.',
     retry: 'Änderungen erneut synchronisieren',
@@ -42,6 +42,7 @@ export const de = {
       'Die dokumentierten Anbieteraufträge sind abgeschlossen. Du kannst den Löschbeleg speichern.',
     saveReceipt: 'Löschbeleg speichern',
     working: 'Deine Anfrage wird bearbeitet …',
+    error_consent: 'Deine Wahl konnte noch nicht gespeichert werden. Bitte versuche es erneut.',
     error_export:
       'Der Export konnte nicht vollständig erstellt werden. Prüfe deine Verbindung und versuche es erneut.',
     error_delete:
@@ -1787,5 +1788,14 @@ export const de = {
     openSheet: 'Blatt öffnen',
     sheetTitle: 'Erscheinungsbild',
     sheetText: 'Hier stehen Auswahl oder Details. Schließen per Knopf, Tippen daneben oder Zurück.',
+  },
+  analytics: {
+    choiceTitle: 'Freiwillige Nutzungsstatistik',
+    choiceBody:
+      'Mit deiner Zustimmung wertet Harmonia im eigenen Supabase-System App-Nutzungstage, Onboarding, Lektionsstarts und bestätigte Abschlüsse, Paywall-Aufrufe, bestätigte Käufe sowie Tutor-Anfragen und deren Kosten aus. Dazu gehören Konto-Zuordnung, Sprache, Plattform und Ereigniszeit. Antworten, Tutor-Texte, E-Mail-Adressen und Werbe-IDs gehören nicht zu diesen Statistiken. Nur für angemeldete Konten; keine rückwirkende Erfassung. Die Beobachtung endet spätestens nach zwölf Monaten. Widerruf stoppt die Erfassung sofort auf diesem Gerät; nach Synchronisation werden die bisherigen Analytics-Daten deines Kontos gelöscht. Du kannst ohne Zustimmung genauso lernen.',
+    allow: 'Nutzungsstatistik erlauben',
+    unavailable: 'Die Erfassung ist bis zur rechtlichen Freigabe ausgeschaltet.',
+    accountOnly:
+      'Gäste werden nicht erfasst. Die freiwillige Wahl ist nach der Anmeldung und rechtlichen Freigabe verfügbar.',
   },
 } as const;

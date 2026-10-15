@@ -9,6 +9,7 @@ import { useAccess, refreshAccess } from '@/access/state';
 import { legalConfig, legalReady } from '@/legal/config';
 import { useLocale } from '@/i18n';
 import { EnergyCard } from '@/components/energy-card';
+import { trackAnalytics } from '@/analytics/track';
 export default function PaywallScreen() {
   const { t } = useTranslation(),
     locale = useLocale(),
@@ -29,6 +30,9 @@ export default function PaywallScreen() {
   useEffect(() => {
     void refreshAccess();
   }, []);
+  useEffect(() => {
+    trackAnalytics({ name: 'paywall_viewed', reason });
+  }, [reason]);
   const active = access.status?.tier !== 'free' && !!access.status;
   const canBuy =
     legalReady() &&

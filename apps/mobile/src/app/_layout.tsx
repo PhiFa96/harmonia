@@ -26,6 +26,7 @@ import { MotivationLifecycle } from '@/components/motivation-lifecycle';
 import { ReportLifecycle } from '@/components/report-lifecycle';
 import { LearningLifecycle } from '@/components/learning-lifecycle';
 import { PrivacyLifecycle } from '@/components/privacy-lifecycle';
+import { AnalyticsLifecycle } from '@/components/analytics-lifecycle';
 import { LegalFooter } from '@/components/legal-footer';
 import { AccessLifecycle } from '@/components/access-lifecycle';
 import { BillingLifecycle } from '@/components/billing-lifecycle';
@@ -66,6 +67,7 @@ export default function RootLayout() {
           <BillingLifecycle />
           <AccessLifecycle />
           <PrivacyLifecycle />
+          <AnalyticsLifecycle />
           {device.phase !== 'ready' &&
           !['/cancel-subscription', '/legal', '/privacy'].includes(pathname) ? (
             <View style={bootStyles.container}>

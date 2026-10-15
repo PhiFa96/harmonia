@@ -340,15 +340,16 @@ Die Blöcke B, C und D können teilweise parallel laufen.
 - **Abhängig von:** P2.21
 - **Umfang:** M
 - **Aufgaben:**
-  - [ ] Event-Schema (z. B. `onboarding_completed`, `lesson_completed`, `paywall_viewed`, `purchase_completed`, `tutor_question_asked`)
-  - [ ] Einbindung nur mit Einwilligung
-  - [ ] Dashboard:
+  - [x] Event-Schema (z. B. `onboarding_completed`, `lesson_completed`, `paywall_viewed`, `purchase_completed`, `tutor_question_asked`)
+  - [x] Einbindung nur mit Einwilligung (konkrete Zweckversion, standardmäßig aus)
+  - [x] Privates Supabase-Dashboard technisch umgesetzt (echte Beta offen):
     - Aktivierung
     - Bindung (Tag 1 / 7 / 30)
     - Abschlussquote je Lektion
     - Umwandlung zu Premium
     - KI-Kosten
-- **Fertig, wenn:** Dashboard zeigt Daten der Beta.
+- **Stand 15.10.2026:** Technisch umgesetzt; Supabase/eigenes Dashboard ausdrücklich gewählt. Erfassung und Rechtsfreigabe aus, Kennzahlen mit eigenen lokalen Fixtures geprüft. [Übergabe P2.22](analytics-und-kennzahlen.md), [ADR 0022](../decisions/0022-eigene-consentgebundene-analytics.md).
+- **Fertig, wenn:** Dashboard zeigt Daten der Beta. Noch offen: Rechts-/Betriebsfreigabe und echte Beta-Daten.
 
 ### P2.23 – Qualitäts-Durchgang
 

@@ -36,6 +36,7 @@ import {
 } from '@/onboarding/model';
 import { finishOnboarding, updateOnboarding, useDeviceState } from '@/state/device';
 import { useSettings } from '@/state/settings';
+import { trackAnalytics } from '@/analytics/track';
 
 const ICONS: Readonly<Record<(typeof ONBOARDING_STEPS)[number], IconName>> = {
   language: 'globe',
@@ -82,6 +83,7 @@ export default function OnboardingScreen() {
     setFinishError(false);
     try {
       await finishOnboarding();
+      trackAnalytics({ name: 'onboarding_completed' }, data.accountId ?? 'guest');
       router.replace({ pathname: '/paywall', params: { reason: 'onboarding' } });
     } catch {
       setFinishError(true);

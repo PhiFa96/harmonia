@@ -19,3 +19,9 @@ Individual answers and detailed evidence are kept for twelve months: from receip
 **[Complete applicable access, correction, erasure, restriction, portability, objection and withdrawal rights; complaints and the actual competent authority/contact.]** The tutor does not make officially recognised examination or school-certificate decisions. Future school features need separate assessment.
 
 This draft requires comparison with actual contracts, operations and qualified privacy review. It is not approved for publication.
+
+## Additional P2.22 working draft: optional usage statistics (still off)
+
+After separate legal approval, signed-in learners may explicitly consent to analysis of active app days, onboarding, lesson starts/completions, paywall views, verified paid first purchases/trial conversions, tutor requests and costs. Data includes internal account association, consent start, event time, language/platform and limited source IDs or status/cost values. Answers, tutor/question text, email addresses and advertising IDs are excluded from this purpose. Data remains in the existing Supabase system; no additional analytics provider. Private operator reports contain aggregates only. Guests are not tracked.
+
+The purpose version is `analytics-supabase-v1`. Learning remains equally available without consent. Withdrawal in Privacy stops local collection immediately; once synced, the previous cohort and all associated analytics events are deleted. Re-consenting starts a separate observation without historical import. Account deletion also removes these data. Observation ends at most twelve months after consent; actual deletion requires the retention operations prepared for deployment. Previously exported operator reports must be replaced/deleted. Legal basis, recipient/transfer details and retention require legal review before activation.

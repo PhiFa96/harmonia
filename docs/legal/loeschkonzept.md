@@ -29,3 +29,7 @@ Kündigungserklärungen und notwendige Anbieter-/Finanznachweise können eigene 
 ## Betrieb
 
 Der Retention-Endpoint ist ausschließlich service-authentifiziert, verarbeitet begrenzte Chargen und meldet weitere Arbeit. Keine automatische Ausführung gegen produktive Nutzerdaten aus diesem Entwicklungsschritt. Cron-/Vault-/Remote-URL, Alarmierung bei Fehlchargen, Backup-Auslauf und Wiederherstellung mit erneut anzuwendenden Löschmarkern müssen vor dem Release gebunden und getestet werden. Lokale Integration arbeitet ausschließlich mit eigenen Testkonten und entfernt diese wieder. Keine vollständige DSGVO-Erledigung behaupten, solange Betreiberpflichten und externe Bearbeitung offen sind.
+
+## Ergänzung P2.22
+
+Eigene Analytics-Kohorte und alle Ereignisse bei synchronisiertem Widerruf/Kontolöschung vollständig entfernen. Aufnahme endet nach zwölf Monaten ab Einwilligungsbeginn. `analytics_retention()` löscht abgelaufene Kohorten in Batches zu 100 im bestehenden vorzubereitenden `privacy-retention`-Job; kein Scheduler aktiviert. Keine externen Analytics-Anbieter. Private Betreiberberichte regenerieren, veraltete Kopien löschen; keine öffentliche Veröffentlichung. Details und Zweckversion: ADR 0022.

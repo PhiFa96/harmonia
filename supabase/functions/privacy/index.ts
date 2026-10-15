@@ -59,6 +59,8 @@ const sections = {
     'device_id,revision,seen_at,time_zone,locale',
   ],
   consents: ['privacy_consents', 'user_id', 'sequence', '*'],
+  analyticsParticipants: ['analytics_participants', 'user_id', 'user_id', '*'],
+  analyticsEvents: ['analytics_events', 'user_id', 'sequence', '*'],
   contentReports: ['content_reports', 'user_id', 'id', '*'],
   conversations: ['tutor_conversations', 'user_id', 'id', '*'],
   messages: [
@@ -155,9 +157,17 @@ Deno.serve(async (request) => {
     if (request.method === 'GET' && view === 'status') {
       const choices = await client.rpc('privacy_choices', { actor });
       if (choices.error) return json(503, { error: 'storage' });
+      const analytics = await client
+        .from('analytics_participants')
+        .select('consent_id')
+        .eq('user_id', actor)
+        .maybeSingle()
+        .overrideTypes<{ consent_id: string } | null, { merge: false }>();
+      if (analytics.error) return json(503, { error: 'storage' });
       return json(200, {
         policy: config,
         choices: consentChoicesSchema.parse(choices.data),
+        analyticsConsentId: analytics.data?.consent_id ?? null,
         sections: PRIVACY_EXPORT_SECTIONS,
         recentSignIn: recentlyAuthenticated(bearer.slice(7), user.last_sign_in_at),
       });

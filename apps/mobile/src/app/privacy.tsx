@@ -4,7 +4,13 @@ import { Stack, useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { LAYOUT, SPACE } from '@harmonia/ui';
 import { AppText, Button, Card, ListGroup, ListItem, BottomSheet } from '@harmonia/ui/native';
-import { usePrivacy, exportPrivacyData, deletePrivacyAccount, syncPrivacy } from '@/privacy/state';
+import {
+  usePrivacy,
+  exportPrivacyData,
+  deletePrivacyAccount,
+  syncPrivacy,
+  setPrivacyConsent,
+} from '@/privacy/state';
 import { useAuthState } from '@/auth';
 import { ReminderControls } from '@/components/reminder-controls';
 import { EmailSignIn } from '@/components/email-sign-in';
@@ -19,7 +25,7 @@ export default function PrivacyScreen() {
   const devicePhase = useDeviceState((data) => data.phase);
   const [confirm, setConfirm] = useState(false),
     [ack, setAck] = useState(false),
-    [error, setError] = useState<'export' | 'delete' | 'reauth' | null>(null),
+    [error, setError] = useState<'export' | 'delete' | 'reauth' | 'consent' | null>(null),
     [done, setDone] = useState(false);
   const [confirmedActor, setConfirmedActor] = useState<string | null>(null);
   const actor = auth.session?.user.id ?? null;
@@ -67,9 +73,37 @@ export default function PrivacyScreen() {
           </Card>
           <AppText variant="title2">{t('privacy.choices')}</AppText>
           <ListGroup>
-            <ListItem label={t('privacy.analytics')} value={t('privacy.inactive')} />
             <ListItem label={t('privacy.marketing')} value={t('privacy.inactive')} last />
           </ListGroup>
+          <Card>
+            <AppText variant="title3">{t('analytics.choiceTitle')}</AppText>
+            <AppText>{t('analytics.choiceBody')}</AppText>
+            {account &&
+            (state.choices.analytics ||
+              (state.phase === 'ready' &&
+                state.policy?.analyticsEnabled &&
+                state.policy.legalPublished)) ? (
+              <ListGroup>
+                <ListItem
+                  label={t('analytics.allow')}
+                  toggle={{
+                    value: state.choices.analytics,
+                    onValueChange: (granted) => {
+                      setError(null);
+                      void setPrivacyConsent('analytics', granted).catch(() => {
+                        setError('consent');
+                      });
+                    },
+                  }}
+                  last
+                />
+              </ListGroup>
+            ) : (
+              <AppText tone="muted">
+                {t(account ? 'analytics.unavailable' : 'analytics.accountOnly')}
+              </AppText>
+            )}
+          </Card>
           <AppText variant="footnote" tone="muted">
             {t('privacy.optionalLater')}
           </AppText>

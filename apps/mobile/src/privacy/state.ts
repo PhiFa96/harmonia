@@ -7,6 +7,7 @@ import {
   privacyReceiptSchema,
   PRIVACY_EXPORT_SECTIONS,
   privacyPolicySchema,
+  ANALYTICS_CONSENT_VERSION,
 } from '@harmonia/content';
 import type { ConsentPurpose, ConsentEvent } from '@harmonia/content';
 import { useAuthState, signOutDevice } from '@/auth';
@@ -27,6 +28,7 @@ export const usePrivacy = create<{
   pending: boolean;
   busy: boolean;
   recentSignIn: boolean;
+  analyticsConsentId: string | null;
   policy: ReturnType<typeof privacyPolicySchema.parse> | null;
   receipt: ReturnType<typeof privacyReceiptSchema.parse> | null;
 }>(() => ({
@@ -36,6 +38,7 @@ export const usePrivacy = create<{
   pending: false,
   busy: false,
   recentSignIn: false,
+  analyticsConsentId: null,
   policy: null,
   receipt: null,
 }));
@@ -72,6 +75,7 @@ export async function initializePrivacy() {
     phase: 'loading',
     pending: false,
     policy: null,
+    analyticsConsentId: null,
   });
   try {
     const repo = await getPrivacyRepository(),
@@ -111,11 +115,13 @@ export function syncPrivacy() {
       choices: unknown;
       recentSignIn: boolean;
       policy: unknown;
+      analyticsConsentId?: string | null;
     };
     if (owner === privacyOwner() && token === generation)
       usePrivacy.setState({
         choices: consentChoicesSchema.parse(result.choices),
         policy: privacyPolicySchema.parse(result.policy),
+        analyticsConsentId: result.analyticsConsentId ?? null,
         pending: false,
         recentSignIn: result.recentSignIn,
         phase: 'ready',
@@ -136,7 +142,7 @@ export async function setPrivacyConsent(purpose: ConsentPurpose, granted: boolea
       id: randomUUID(),
       purpose,
       granted,
-      version: PRIVACY_VERSION,
+      version: purpose === 'analytics' ? ANALYTICS_CONSENT_VERSION : PRIVACY_VERSION,
       locale: useSettings.getState().locale ?? 'en-US',
     };
   generation++;
@@ -172,6 +178,7 @@ useAuthState.subscribe(() => {
       receipt: null,
       pending: false,
       policy: null,
+      analyticsConsentId: null,
     });
     if (useDeviceState.getState().phase === 'ready') void initializePrivacy();
   }
