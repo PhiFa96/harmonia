@@ -280,6 +280,9 @@ jobs:
       - name: Offline-Versuche und Synchronisation zwischen zwei Geräten prüfen
         run: pnpm db:test:learning
 
+      - name: Rating-Sync, Rückrechnung, Kontentrennung und parallele Aktualisierungen prüfen
+        run: pnpm db:test:ratings
+
       - name: Inhaltsmeldungen, Wiederholungen und Konto-Isolation prüfen
         run: pnpm db:test:reports
 

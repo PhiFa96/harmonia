@@ -1,4 +1,4 @@
-// Blatt von unten über einer Abdunkelung. Gleitet federnd herein und hinaus (reduziert: Überblenden).
+// Blatt von unten über einer Abdunkelung. Reduziert: nur der Hintergrund blendet über.
 // Schließen über den Knopf, Tippen auf die Abdunkelung oder die Zurück-Taste (Android).
 
 import type { ReactNode } from 'react';
@@ -49,12 +49,12 @@ export function BottomSheet({ visible, onClose, title, closeLabel, children }: B
   }, [visible, reduceMotion]);
 
   const fade = reduceMotion ? DURATION.reduced : DURATION.fade;
+  // Fading the whole sheet makes its text temporarily fail contrast requirements.
+  // Reduced motion keeps foreground text opaque; the separate scrim still fades.
   const sheetIn = reduceMotion
-    ? FadeIn.duration(DURATION.reduced).reduceMotion(ReduceMotion.Never)
+    ? undefined
     : SlideInDown.springify().damping(SPRING.gentle.damping).stiffness(SPRING.gentle.stiffness);
-  const sheetOut = reduceMotion
-    ? FadeOut.duration(DURATION.reduced).reduceMotion(ReduceMotion.Never)
-    : SlideOutDown.duration(DURATION.fade);
+  const sheetOut = reduceMotion ? undefined : SlideOutDown.duration(DURATION.fade);
 
   return (
     <Modal
@@ -83,9 +83,9 @@ export function BottomSheet({ visible, onClose, title, closeLabel, children }: B
         ) : null}
         {visible ? (
           <Animated.View
-            entering={sheetIn}
+            {...(sheetIn ? { entering: sheetIn } : {})}
             testID="bottom-sheet-panel"
-            exiting={sheetOut}
+            {...(sheetOut ? { exiting: sheetOut } : {})}
             {...(Platform.OS === 'web' ? {} : { accessibilityViewIsModal: true })}
             style={[
               styles.sheet,

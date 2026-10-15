@@ -234,6 +234,22 @@ function releasedOnly(catalogue: ContentCatalogue): ContentCatalogue {
   };
 }
 
+/** Per-task provenance stays aligned with the authored set expansion. */
+export function lessonExerciseSources(catalogue: ContentCatalogue, id: string) {
+  const lesson = catalogue.lessons.find((value) => value.id === id);
+  if (!lesson) return undefined;
+  return lesson.exerciseSetIds.flatMap((setId) => {
+    const set = catalogue.exerciseSets.find((value) => value.id === setId);
+    if (!set) throw new ContentValidationError([`${id}: Übungssatz ${setId} fehlt`]);
+    return set.exercises.flatMap((entry) =>
+      Array.from({ length: entry.count }, () => ({
+        spec: entry.spec,
+        skillIds: set.skillIds,
+        contentVersion: set.contentVersion,
+      })),
+    );
+  });
+}
 export function resolveLesson(catalogue: ContentCatalogue, id: string): LessonContent | undefined {
   const lesson = catalogue.lessons.find((value) => value.id === id);
   if (!lesson) return undefined;
@@ -242,11 +258,7 @@ export function resolveLesson(catalogue: ContentCatalogue, id: string): LessonCo
     if (!card) throw new ContentValidationError([`${id}: Einführung ${cardId} fehlt`]);
     return { titleKey: card.titleKey, bodyKey: card.bodyKey, examples: card.examples };
   });
-  const exercises = lesson.exerciseSetIds.flatMap((setId) => {
-    const set = catalogue.exerciseSets.find((value) => value.id === setId);
-    if (!set) throw new ContentValidationError([`${id}: Übungssatz ${setId} fehlt`]);
-    return set.exercises.flatMap((entry) => Array.from({ length: entry.count }, () => entry.spec));
-  });
+  const exercises = lessonExerciseSources(catalogue, id)?.map((entry) => entry.spec) ?? [];
   return lessonSchema.parse({
     id: lesson.id,
     contentVersion: lesson.contentVersion,

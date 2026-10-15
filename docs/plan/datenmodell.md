@@ -38,6 +38,8 @@ Postgres in Supabase, Region EU. Alle Tabellen mit Row Level Security (RLS). Än
 **Lokaler Einstieg P2.09:** `harmonia-device.db` ergänzt ein getrenntes Geräteschema 1 mit `device_preferences` (eine validierte JSON-Zeile). Sprache/Darstellung/Haptik, Lernziel/Selbsteinschätzung, Einstufungswunsch, Tagesziel, Erinnerungs-Einwilligung/-Uhrzeit, Ablauf-/Mini-Zustand und Zeitpunkte werden lokal bewahrt. E-Mail/Codes/Token liegen dort nicht; Supabase-Sitzungen verwenden Web-SDK-Speicherung bzw. natives SecureStore. Die bisherige Lektionsdatenbank bleibt Schema 1. Keine neue Supabase-Profilmigration; Sync und die Übernahme lokaler Versuche in ein Konto bleiben P2.03. Details: [Onboarding](onboarding.md).
 ## Phase 3 (V1)
 
+**P3.01 umgesetzt:** `skill_progress` speichert Rating, Abweichung, Volatilität, Beobachtungsanzahl und letzten serverseitigen Übungszeitpunkt. Lernpfadstatus wird weiterhin aus den P2-Nachweisen abgeleitet. `item_difficulty` enthält private globale Modellparameter je versioniertem Parameterprofil. `rating_control` schützt diese mit einer Revision; `learning_events.rating_version/rating_outcome/rated_at` sind idempotente Verarbeitungsbelege. Die vorher erwähnte `item_attempts`-Tabelle ist weiterhin nur ein früher Entwurf und wurde nicht als zweiter Rohantwortspeicher eingeführt. Details: [Ratings](ratings-glicko2.md), ADR 0028.
+
 | Tabelle | Zweck | Wichtige Spalten |
 |---|---|---|
 | `skill_progress` (erweitert) | Rating und Wiederholung | `rating`, `rating_deviation`, `volatility` (Glicko-2), `fsrs_stability`, `fsrs_difficulty`, `fsrs_due`, `fsrs_reps`, `fsrs_lapses`, `fsrs_state` |

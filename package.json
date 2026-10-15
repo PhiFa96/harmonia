@@ -72,7 +72,9 @@
     "check:storefront": "node tools/storefront/check.mjs",
     "check:storefront:release": "node tools/storefront/check.mjs --release",
     "check:accounts": "npx -y deno@2.9.6 check --config tools/deno.json tools/account-operations-smoke.ts supabase/functions/apple-grant/index.ts && npx -y deno@2.9.6 run --config tools/deno.json tools/account-operations-smoke.ts",
-    "test:tools": "node --test tools/content-pipeline.test.mjs tools/curriculum-view.test.mjs tools/local-backend-setup.test.mjs tools/local-backend-diagnostics.test.mjs tools/app-test-reporter.test.mjs tools/tutor-interface.test.mjs tools/tutor-benchmark.test.mjs && node --test tools/qa/release.test.mjs tools/qa/server.test.mjs tools/storefront/model.test.mjs tools/beta/beta.test.mjs tools/release/monitor.test.mjs tools/release/check.test.mjs"
+    "test:tools": "node --test tools/content-pipeline.test.mjs tools/curriculum-view.test.mjs tools/local-backend-setup.test.mjs tools/local-backend-diagnostics.test.mjs tools/app-test-reporter.test.mjs tools/ratings-worker.test.mjs tools/tutor-interface.test.mjs tools/tutor-benchmark.test.mjs && node --test tools/qa/release.test.mjs tools/qa/server.test.mjs tools/storefront/model.test.mjs tools/beta/beta.test.mjs tools/release/monitor.test.mjs tools/release/check.test.mjs",
+    "ratings:backfill": "node tools/ratings-backfill.mjs",
+    "db:test:ratings": "node tools/test-ratings.mjs"
   },
   "devDependencies": {
     "@anthropic-ai/sdk": "0.133.0",
