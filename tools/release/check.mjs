@@ -143,11 +143,11 @@ export function verifyGitHubRelease(pr, commit, checks) {
   if (
     pr?.baseRefName !== 'main' ||
     pr.state !== 'MERGED' ||
-    pr.isDraft ||
-    pr.reviewDecision !== 'APPROVED' ||
+    pr.isDraft !== false ||
+    !['APPROVED', null, ''].includes(pr.reviewDecision) ||
     pr.mergeCommit?.oid !== commit
   )
-    throw Error('Reviewed main release PR required');
+    throw Error('Merged main release PR with satisfied review rules required');
   const runs = checks?.check_runs;
   if (!Array.isArray(runs)) throw Error('Commit CI evidence missing');
   for (const name of required) {

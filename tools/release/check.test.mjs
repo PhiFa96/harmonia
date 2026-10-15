@@ -42,11 +42,15 @@ test('release requires the approved merged main PR and every successful candidat
     })),
   };
   verifyGitHubRelease(pr, commit, checks);
-  assert.throws(
-    () => verifyGitHubRelease({ ...pr, reviewDecision: null }, commit, checks),
-    /Reviewed/,
-  );
-  assert.throws(() => verifyGitHubRelease(pr, 'b'.repeat(40), checks), /Reviewed/);
+  // GitHub returns null/empty when the repository does not require a review.
+  for (const decision of [null, ''])
+    verifyGitHubRelease({ ...pr, reviewDecision: decision }, commit, checks);
+  for (const decision of ['REVIEW_REQUIRED', 'CHANGES_REQUESTED', undefined])
+    assert.throws(
+      () => verifyGitHubRelease({ ...pr, reviewDecision: decision }, commit, checks),
+      /review rules/,
+    );
+  assert.throws(() => verifyGitHubRelease(pr, 'b'.repeat(40), checks), /main release PR/);
   checks.check_runs.push({ ...checks.check_runs[0], id: 100, conclusion: 'failure' });
   assert.throws(() => verifyGitHubRelease(pr, commit, checks), /not successful/);
 });

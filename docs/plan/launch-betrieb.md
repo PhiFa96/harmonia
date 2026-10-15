@@ -14,7 +14,7 @@ Nach geprüftem PR-Merge den sauberen `main`-Commit auschecken. In der bestätig
 APP_VARIANT=production pnpm p2:release --pr <gemergter-PR> --study <echtes-Beta-Journal> --tutor-evaluation <echte-Auswertung> --media <native-Medienbelege>
 ```
 
-Argumente mit den tatsächlichen privaten Nachweisen befüllen. Der Befehl liest GitHub-PR und erforderliche Check-Runs des exakten Commits; fehlende API-Verbindung, Reviews oder Checks blockieren. Er führt weder Build noch Deployment, Einreichung, Merge oder Kauf aus. P2.24 und P2.25 sind noch ungemergte Vorgänger; diese Branch-Kette zuerst über ihre PRs integrieren. Keine direkte Main-Integration und keine Löschung fremder Branches.
+Argumente mit den tatsächlichen privaten Nachweisen befüllen. Der Befehl liest GitHub-PR und erforderliche Check-Runs des exakten Commits; fehlende API-Verbindung, unerfüllte GitHub-Reviewregeln oder Checks blockieren. Ist im Repository kein Review vorgeschrieben, wird dafür keine zusätzliche Genehmigung verlangt. Er führt weder Build noch Deployment, Einreichung, Merge oder Kauf aus. P2.24 und P2.25 sind noch ungemergte Vorgänger; diese Branch-Kette zuerst über ihre PRs integrieren. Keine direkte Main-Integration und keine Löschung fremder Branches.
 
 ## Produktionsbereitstellung und Rollout
 
