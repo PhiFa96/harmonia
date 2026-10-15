@@ -26,7 +26,7 @@ export default defineConfig({
   expect: { timeout: 15000 },
   fullyParallel: false,
   workers: 1,
-  reporter: [['list']],
+  reporter: process.env.GITHUB_ACTIONS === 'true' ? [['list'], ['github']] : [['list']],
   outputDir,
   use: {
     baseURL,
