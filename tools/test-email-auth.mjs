@@ -70,7 +70,13 @@ try {
       ids.push(result.data.user.id);
     }
     const client = createClient(api.href, status.ANON_KEY, {
-      auth: { storage, persistSession: true, autoRefreshToken: false, detectSessionInUrl: false },
+      auth: {
+        flowType: 'pkce',
+        storage,
+        persistSession: true,
+        autoRefreshToken: false,
+        detectSessionInUrl: false,
+      },
     });
     clients.push(client);
     const sent = await client.auth.signInWithOtp({
@@ -107,7 +113,13 @@ try {
     const replay = await client.auth.verifyOtp({ email, token: message.token, type: 'email' });
     assert.ok(replay.error, 'Ein benutzter Code ist ungültig');
     const restored = createClient(api.href, status.ANON_KEY, {
-      auth: { storage, persistSession: true, autoRefreshToken: false, detectSessionInUrl: false },
+      auth: {
+        flowType: 'pkce',
+        storage,
+        persistSession: true,
+        autoRefreshToken: false,
+        detectSessionInUrl: false,
+      },
     });
     clients.push(restored);
     const user = await restored.auth.getUser();
