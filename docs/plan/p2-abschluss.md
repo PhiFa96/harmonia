@@ -39,7 +39,7 @@ Die 85 Lektionen mit 850 Aufgaben bleiben Entwurf, öffentlich sind weiterhin **
 
 1. **Phillip/Betreiber:** Angaben und Name/Domain klären; geprüfte Rechtstexte/Verträge, Anbieter-/Storekonten, reale Produktpreise und Betriebsbudget bereitstellen. Secrets ausschließlich in Umgebung/Providerkonsole.
 2. **Claude Code/Fachprüfung:** alle Inhalte und Tutor-Katalog getrennt prüfen, tatsächliche Urteile dokumentieren, erst dann fachlich freigeben. Produktionskatalog/Index neu erzeugen.
-3. **Technische Integration:** P2.24 → P2.25 → P2-Abschluss über konkrete PRs, erforderliche grüne CI und Reviews. `main` nicht direkt pushen. GitHub-API-Zugriff ist in der laufenden Cloud noch blockiert; `api.github.com` ist additiv im Konfigurationsentwurf vorgemerkt und benötigt dessen Prüfung/Speicherung/Veröffentlichung.
+3. **Technische Integration:** P2.24 → P2.25 → P2-Abschluss über konkrete PRs, erforderliche grüne CI und Reviews. `main` nicht direkt pushen. Die PRs sind erstellt: [P2.24 #80](https://github.com/PhiFa96/harmonia/pull/80), [P2.25 #81](https://github.com/PhiFa96/harmonia/pull/81), [P2-Abschluss #79](https://github.com/PhiFa96/harmonia/pull/79). CI/Review-Status ist dort maßgeblich; ausschließlich mit erfolgreichen erforderlichen Checks integrieren. Ausführliche CI-Logs über `productionresultssa10.blob.core.windows.net` waren noch gesperrt; der zusätzliche Host ist im Umgebungsentwurf gespeichert und muss geprüft/gespeichert/veröffentlicht werden.
 4. **Betreiber/Entwicklung:** Staging mit realen Auth-, Apple-Grant-, RevenueCat-, Modell-/Tarif-, EAS-, SMTP-/Push- und Betriebsbindungen aufsetzen. Vier Geräte, Backup/Restore, Rollback und Alarmempfang tatsächlich prüfen. Kein Live-Aufruf erfolgte in dieser Umsetzung.
 5. **Betreiber/Testleitung:** geschützte echte Beta starten, Feedback und Kennzahlen erheben, Fehler beheben und Abschlussbedingungen nachweisen. Niemand wurde automatisch eingeladen.
 6. **Releaseverantwortliche:** Preflight nach [Launch und Betrieb](launch-betrieb.md), Store-/Web-Veröffentlichung und tatsächliche 72-h-Beobachtung, danach Rückblick und begründete Phase-3-Anpassung.
@@ -50,7 +50,7 @@ Die wiederholbaren Befehle stehen in [Konten und Einstellungen](konten-und-einst
 
 Prüfstand dieses Arbeitsbranches:
 
-- `pnpm test`: 2.998 bestandene Tests (davon 552 App-Tests in 71 Dateien; Werkzeuggruppen 101 und 38).
+- `pnpm test`: 2.998 bestandene Tests (davon 552 App-Tests in 71 Dateien; Werkzeuggruppen 101 und 38). Danach zwei zusätzliche CI-Diagnoseprüfungen bestanden; der diagnostische Runner gibt ausschließlich feste Fehlerklassen und Containerzustände aus, niemals Startup-Logzeilen oder Schlüssel.
 - `pnpm db:test`: 328 bestandene pgTAP-Prüfungen, einschließlich Apple-Vault/Rotation/Kaskade und privater Betriebsmetriken. Kein Datenbankreset.
 - Lokale Auth-/Profil-/Datenschutz-/Lern-API bestanden: echter lokaler E-Mail-Code für neue und bestehende Konten, atomare Profiländerungen/Kontentrennung, 104 Datenschutzprüfungen und 226 Offline-Lernversuche mit zwei Clients. Eigene Testdaten bereinigt, keine externen E-Mails/Provideraktionen.
 - 17 Web-E2E/axe-Prüfungen und fünf geschützte Beta-Web-Prüfungen bestanden. Auch Codeentfernung aus fehlerhafter Rückleitung und bestätigte SQLite-Speicherung vor Neustart geprüft. Lokales Chromium-Start-P95 etwa 1,42 s, Lektionsöffnung-P95 etwa 0,26 s; kein physisches Gerät und keine akustische Messung.
