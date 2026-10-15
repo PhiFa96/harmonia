@@ -74,3 +74,10 @@ Tatsächlich am 15.10.2026 lokal ausgeführt:
 - `qa:release` scheitert wie vorgesehen an vier unausgeführten Geräteslots. Beide Maestro-Flows bleiben unausgeführt. Remote-GitHub-CI wurde eingerichtet, aber ihr Laufstatus ist in dieser Umgebung nicht einsehbar.
 
 Lokale, ignorierte Belege: `artifacts/quality/final-accepted` und `artifacts/quality/public-accepted` (Screenshots und Timing-Anhang); Builds unter `/workspace/p223-preview-final` und `/workspace/p223-public-final`. Die Playwright-Konfiguration akzeptiert ausschließlich separate Unterordner von `artifacts/quality` und verhindert damit, dass ihr automatisches Leeren Quellcode oder den Fixture-Build entfernt. Parallele Läufe benötigen weiterhin unterschiedliche Ausgabeordner. Die finalen Abnahmeläufe wurden nacheinander ausgeführt.
+
+
+## Git-Integration und Übergabe
+
+Am 15.10.2026 auf Phillips bereits erteilten Wunsch nach `main` integriert und gepusht: Qualitätsänderung `cc3cb7de617858a19738841a99534a29a0b19595` vom Arbeitsbranch `codex/p2-23-quality-review`, Fast-forward ausgehend von `328ef484b00ec1b0bd270aee10d5f83054e1c6eb`. Beim Abgleich lagen keine zusätzlichen Änderungen auf `origin/main` vor; alle vorhandenen Remote-Branch-Spitzen sind enthalten. Keine Branches gelöscht und keine Historie überschrieben.
+
+Claude Code bleibt Hauptprogrammierer. Nächster Planpunkt ist P2.24 als Vorbereitung. Die offenen vier Geräte-/Akustik-/Storeprüfungen aus diesem Dokument und die fachlichen, rechtlichen sowie Anbieterfreigaben aus den vorherigen Schritten bleiben erforderlich. Die Integration ist keine Veröffentlichung oder vollständige P2.23-Abnahme.
