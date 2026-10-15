@@ -91,6 +91,11 @@
       "^@harmonia/i18n/content-messages$": "<rootDir>/../../packages/i18n/src/authoring-content-messages.ts",
       "^@harmonia/content/catalogue$": "<rootDir>/../../packages/content/src/authoring.ts",
       "\\.(otf|ttf|mp3)$": "<rootDir>/jest/asset-stub.ts"
-    }
+    },
+    "workerIdleMemoryLimit": "1024MB",
+    "reporters": [
+      "default",
+      "github-actions"
+    ]
   }
 }
