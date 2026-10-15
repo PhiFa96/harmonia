@@ -232,8 +232,9 @@ jobs:
           node tools/serve-local-learning.mjs --published --tutor-test --billing-test > "$RUNNER_TEMP/harmonia-learning-public.log" 2>&1 &
           harmonia_learning_pid=$!
           trap 'kill "$harmonia_learning_pid" 2>/dev/null || true' EXIT
-          node tools/test-access.mjs --published
+          # This test waits for the actual Edge worker before the other API checks start.
           node tools/test-learning-sync.mjs --published
+          node tools/test-access.mjs --published
           node tools/test-content-reports.mjs --published
           node tools/test-tutor.mjs --published
           node tools/test-knowledge.mjs --published
