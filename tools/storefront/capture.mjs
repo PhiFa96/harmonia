@@ -74,6 +74,12 @@ for (const locale of locales) {
   }
   const path = locale + '/preview.mp4',
     file = join(output, path);
+  const timeline = JSON.parse(
+    readFileSync(join(output, locale, 'frames', 'timeline.json'), 'utf8'),
+  );
+  if (!Number.isFinite(timeline.durationSeconds) || timeline.durationSeconds < 15)
+    throw Error('Reference recording is too short');
+  const targetDuration = Math.min(30, timeline.durationSeconds);
   const filter = `scale=1080:1920:force_original_aspect_ratio=decrease:force_divisible_by=2,pad=1080:1920:(ow-iw)/2:(oh-ih)/2:color=0x${COLORS.light.background.slice(1)},fps=30`;
   execFileSync(
     'ffmpeg',
@@ -101,7 +107,7 @@ for (const locale of locales) {
       '-movflags',
       '+faststart',
       '-t',
-      '30',
+      String(targetDuration),
       file,
     ],
     { stdio: 'inherit' },
@@ -131,6 +137,7 @@ for (const locale of locales) {
     width: video.width,
     height: video.height,
     durationSeconds,
+    capturedDurationSeconds: timeline.durationSeconds,
     codec: video.codec_name,
     frameRate: video.avg_frame_rate,
     audio: false,
