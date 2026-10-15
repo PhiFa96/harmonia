@@ -36,6 +36,9 @@ jobs:
         run: pnpm format:check
 
       - name: Lint und Paket-Abhängigkeiten
+        # TypeScript project service retains several workspace programs; hosted runners default to a smaller heap.
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
         run: pnpm lint
 
       - name: Typprüfung
@@ -218,7 +221,11 @@ jobs:
 
       - name: Lokales Supabase starten
         # Die CLI gibt lokale Schlüssel aus; nicht im CI-Protokoll veröffentlichen.
-        run: pnpm db:start > "$RUNNER_TEMP/harmonia-supabase-start.log" 2>&1
+        run: |
+          if ! pnpm db:start > "$RUNNER_TEMP/harmonia-supabase-start.log" 2>&1; then
+            node tools/local-backend-diagnostics.mjs "$RUNNER_TEMP/harmonia-supabase-start.log"
+            exit 1
+          fi
 
       - name: Migrationen aus leerer lokaler Datenbank prüfen
         run: pnpm db:reset
