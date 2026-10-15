@@ -100,6 +100,26 @@ for (const scenario of [
           name: new RegExp('^' + copy(scenario.locale).appearance + ','),
         });
         await appearance.focus();
+        if (scenario.reducedMotion === 'reduce') {
+          await page.evaluate(() => {
+            window.__sheetOpacityProbe = new Promise((resolve) => {
+              const samples = [];
+              const observer = new MutationObserver(() => {
+                const panel = document.querySelector('[data-testid="bottom-sheet-panel"]');
+                if (!panel) return;
+                observer.disconnect();
+                const end = performance.now() + 250;
+                const sample = () => {
+                  samples.push(Number(getComputedStyle(panel).opacity));
+                  if (performance.now() < end) requestAnimationFrame(sample);
+                  else resolve(samples);
+                };
+                sample();
+              });
+              observer.observe(document.body, { childList: true, subtree: true });
+            });
+          });
+        }
         await appearance.click();
         const dialog = page.getByRole('dialog', {
           name: copy(scenario.locale).appearance,
@@ -107,6 +127,11 @@ for (const scenario of [
         });
         await expect(dialog).toBeVisible();
         await audit(page);
+        if (scenario.reducedMotion === 'reduce') {
+          const samples = await page.evaluate(() => window.__sheetOpacityProbe);
+          expect(samples.length).toBeGreaterThan(0);
+          expect(samples.every((opacity) => opacity >= 0.999)).toBe(true);
+        }
         await page.setViewportSize({ width: scenario.width, height: 420 });
         await dialog.evaluate((element) => {
           for (const node of element.querySelectorAll('*')) {

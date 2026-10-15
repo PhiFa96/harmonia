@@ -12,6 +12,8 @@ Stand: 15.10.2026. Technische Umsetzung für interne Erprobung; P2-Launch und Pl
 
 Die mathematischen, zeitlichen und mehrteiligen Modellannahmen sowie Quellen stehen in [ADR 0028](../decisions/0028-glicko-aus-kanonischen-lernversuchen.md). Ratings verändern noch keine Lektionsauswahl oder Freischaltung. Adaptive Auswahl folgt in P3.02.
 
+Der CI-Durchgang fand außerdem einen bestehenden Kontrastfehler im Auswahlblatt: Im Modus „Bewegung reduzieren“ verblasste auch der Text kurz bis etwa 1,8:1 Kontrast. Das Blatt erscheint dort nun sofort deckend; nur der Hintergrund blendet über. Die Browserprüfung erfasst die Deckkraft über die ersten Animationsframes und prüft weiterhin unverändert mit axe.
+
 ## Wiederholbare lokale Prüfung
 
 Mit vorhandenen Abhängigkeiten und laufendem lokalen Supabase; nur additive Migrationen anwenden, eine bestehende Entwicklungsdatenbank nicht zurücksetzen:
