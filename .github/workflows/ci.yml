@@ -17,7 +17,7 @@ jobs:
   checks:
     name: Lint, Typen, Tests
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v7
 
@@ -44,7 +44,14 @@ jobs:
       - name: Typprüfung
         run: pnpm typecheck
 
-      - name: Tests
+      - name: Werkzeugtests
+        run: pnpm test:tools
+
+      - name: Pakettests
+        run: pnpm -r --if-present --filter '!@harmonia/mobile' test
+
+      - name: App-Tests
+        working-directory: apps/mobile
         run: pnpm test
 
       - name: Rechtliche Freigabefelder und geschlossene Vorbereitung prüfen

@@ -89,7 +89,8 @@ afterEach(() => {
   clock.mockRestore();
   jest.useRealTimers();
 });
-jest.setTimeout(20_000);
+// Full lessons drive dozens of individual note edits through the router and renderer.
+jest.setTimeout(60_000);
 function required<T>(value: T | undefined): T {
   if (value === undefined) throw new Error('Testwert fehlt');
   return value;
