@@ -31,6 +31,7 @@ import { AnalyticsLifecycle } from '@/components/analytics-lifecycle';
 import { LegalFooter } from '@/components/legal-footer';
 import { AccessLifecycle } from '@/components/access-lifecycle';
 import { BillingLifecycle } from '@/components/billing-lifecycle';
+import { ProfileLifecycle } from '@/components/profile-lifecycle';
 
 export default function RootLayout() {
   const [queryClient] = useState(() => new QueryClient());
@@ -63,6 +64,7 @@ export default function RootLayout() {
       <ThemeProvider value={theme}>
         <QueryClientProvider client={queryClient}>
           <LearningLifecycle />
+          <ProfileLifecycle />
           <ReportLifecycle />
           <MotivationLifecycle />
           <BillingLifecycle />
@@ -74,7 +76,7 @@ export default function RootLayout() {
             {...(Platform.OS === 'web' ? { role: 'main' as const } : {})}
           >
             {device.phase !== 'ready' &&
-            !['/cancel-subscription', '/legal', '/privacy'].includes(pathname) ? (
+            !['/cancel-subscription', '/legal', '/privacy', '/auth/callback'].includes(pathname) ? (
               <View style={bootStyles.container}>
                 <Card>
                   <AppText aria-live="polite">
@@ -120,6 +122,7 @@ export default function RootLayout() {
                 <Stack.Screen name="cancel-subscription" />
                 <Stack.Screen name="legal" />
                 <Stack.Screen name="privacy" />
+                <Stack.Screen name="auth/callback" />
                 <Stack.Screen name="+not-found" />
               </Stack>
             )}

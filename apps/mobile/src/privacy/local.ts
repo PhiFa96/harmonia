@@ -16,9 +16,11 @@ import { usePlacementState, flushPlacementWrites } from '@/state/placement';
 import { erasePrivateExports } from '@/privacy/download';
 import { useAuthState } from '@/auth';
 import { cancelErasedReminders } from '@/reminders';
+import { eraseProfileScope } from '@/state/profile';
 /** Block delayed writes before draining each repository's serialized queue. */
 export async function eraseLocalAccount(scope: string) {
   blockErasedScope(scope, []);
+  await eraseProfileScope(scope);
   eraseMotivationMemory(scope);
   eraseReportsMemory(scope);
   const learning = await getLearningRepository(),

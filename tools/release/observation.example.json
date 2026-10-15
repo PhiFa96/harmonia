@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "dataKind": "real",
+  "releaseCommit": null,
+  "launchedAt": null,
+  "channels": {
+    "ios": { "verified": false, "evidenceReference": null },
+    "android": { "verified": false, "evidenceReference": null },
+    "web": { "verified": false, "evidenceReference": null }
+  },
+  "observations": [],
+  "incidents": [],
+  "retrospective": { "completed": false, "evidenceReference": null },
+  "phase3Plan": { "updated": false, "evidenceReference": null }
+}

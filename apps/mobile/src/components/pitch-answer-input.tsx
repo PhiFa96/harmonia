@@ -26,7 +26,7 @@ import { useFocusEffect } from 'expo-router';
 import { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, ScrollView, StyleSheet, View } from 'react-native';
-import { useLocale } from '@/i18n';
+import { useMusicLocale } from '@/i18n';
 import { AccidentalBar } from './accidental-bar';
 import { PianoKeyboard } from './piano-keyboard';
 
@@ -40,7 +40,7 @@ interface Props {
 /** Derselbe Baustein in freiem Üben und versionierten Lektionen. Die Antwort bleibt im Aufgabenablauf. */
 export function PitchAnswerInput({ item, answer, result, showSolution, onSelect }: Props) {
   const { t } = useTranslation();
-  const locale = useLocale();
+  const locale = useMusicLocale();
   const { colors, scheme } = useUiTheme();
   const [focused, setFocused] = useState(true);
   useFocusEffect(

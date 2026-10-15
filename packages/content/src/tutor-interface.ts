@@ -5,6 +5,7 @@ export const tutorScopeSchema = z
   .object({
     locale: tutorRequestSchema.shape.locale,
     noteNaming: tutorRequestSchema.shape.noteNaming,
+    harmonySystem: tutorRequestSchema.shape.harmonySystem,
     mode: tutorRequestSchema.shape.mode,
     hintLevel: tutorRequestSchema.shape.hintLevel,
     context: tutorRequestSchema.shape.context,

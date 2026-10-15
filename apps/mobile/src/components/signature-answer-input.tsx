@@ -13,7 +13,7 @@ import { AppText, Button, Card, MusicText, useUiTheme } from '@harmonia/ui/nativ
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
-import { useLocale } from '@/i18n';
+import { useMusicLocale } from '@/i18n';
 import { useWebChoiceInput } from './use-web-choice-input';
 
 interface Props {
@@ -25,7 +25,7 @@ interface Props {
 }
 export function SignatureAnswerInput({ item, answer, result, showSolution, onSelect }: Props) {
   const { t } = useTranslation(),
-    locale = useLocale(),
+    locale = useMusicLocale(),
     { colors } = useUiTheme();
   const [alter, setAlter] = useState<1 | -1>(1);
   const group = useRef<View>(null);

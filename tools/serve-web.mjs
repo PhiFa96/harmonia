@@ -26,6 +26,7 @@ export function createPreviewServer(root, { authorize, allowFile, privateMode = 
   return createServer(async (request, response) => {
     response.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
     response.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
+    response.setHeader('Referrer-Policy', 'no-referrer');
     response.setHeader('Cache-Control', privateMode ? 'no-store' : 'no-cache');
     if (privateMode) {
       response.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');

@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "productionSupabaseOrigin": null,
+  "productionEasProjectId": null,
+  "dailyTutorBudgetNanoUsd": null,
+  "owner": null,
+  "approvals": {
+    "authProvidersAndRevocation": { "approved": false, "evidenceReference": null },
+    "settingsCrossDevice": { "approved": false, "evidenceReference": null },
+    "nativeOta": { "approved": false, "evidenceReference": null },
+    "pushDelivery": { "approved": false, "evidenceReference": null },
+    "tutorLiveCalibration": { "approved": false, "evidenceReference": null },
+    "billingAndCancellation": { "approved": false, "evidenceReference": null },
+    "backupRestore": { "approved": false, "evidenceReference": null },
+    "monitoringDrill": { "approved": false, "evidenceReference": null },
+    "nativeCrashMonitoring": { "approved": false, "evidenceReference": null },
+    "support": { "approved": false, "evidenceReference": null },
+    "rollbackDrill": { "approved": false, "evidenceReference": null }
+  }
+}

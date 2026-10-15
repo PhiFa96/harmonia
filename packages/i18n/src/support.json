@@ -1,0 +1,54 @@
+{
+  "de": {
+    "received": {
+      "subject": "Deine Anfrage zu Harmonia",
+      "body": "Danke für deine Nachricht. Deine Anfrage wird unter {{reference}} geprüft. Bitte sende uns keine Passwörter, Anmeldecodes, Zahlungsdaten oder privaten Tutor-Gespräche. Wenn wir weitere Angaben benötigen, melden wir uns. Diese Nachricht bestätigt noch keine Fehlerbehebung oder Erstattung."
+    },
+    "reproduction": {
+      "subject": "Rückfrage zu {{reference}}",
+      "body": "Damit wir den Fehler nachvollziehen können, beschreibe bitte die Schritte, deine Erwartung und das tatsächliche Ergebnis. Hilfreich sind App-Version/Build, Plattform, Betriebssystem und Sprache. Entferne persönliche Daten aus Bildern. Inhaltsfehler kannst du direkt an der Aufgabe melden."
+    },
+    "subscription": {
+      "subject": "Dein Abo und {{reference}}",
+      "body": "Den aktuellen Anbieter und die verfügbare Abo-Verwaltung findest du in Harmonia unter Profil → Abo. Dort kannst du auch Käufe wiederherstellen. Für einen Web-Kündigungseingang steht die Kündigungsseite bereit. Ein eingegangener Kündigungswunsch ist noch kein Nachweis, dass der Anbieter ihn bereits verarbeitet hat. Erstattungen prüfen wir anhand des tatsächlichen Anbieters und Kaufbelegs; bitte sende keine vollständigen Zahlungsdaten."
+    },
+    "privacy": {
+      "subject": "Datenschutzanfrage {{reference}}",
+      "body": "Export und Kontolöschung kannst du nach Anmeldung in Harmonia unter Datenschutz starten. Die Löschung verlangt eine frische Bestätigung. Teile uns keine Anmeldecodes mit. Die App zeigt gesondert an, falls bei Anbietern noch Löschaufträge offen sind. Wir bestätigen eine vollständige Bearbeitung erst anhand der tatsächlichen Nachweise."
+    },
+    "incident": {
+      "subject": "Wir prüfen eine Störung · {{reference}}",
+      "body": "Wir untersuchen die gemeldete Störung. Welche Funktionen betroffen sind und wann sie wieder verfügbar sind, ist noch nicht abschließend bestätigt. Bitte starte keine wiederholten Käufe. Bei neuen verifizierten Erkenntnissen aktualisieren wir den Supportstand."
+    },
+    "resolved": {
+      "subject": "Prüfergebnis zu {{reference}}",
+      "body": "Die Korrektur ist im geprüften Build {{build}} enthalten. Der Nachweis {{verification}} dokumentiert den erneut ausgeführten Test. Bitte prüfe, ob die neue Version bei dir verfügbar ist. Wenn das Problem dort weiter auftritt, antworte mit den Schritten zum Nachstellen."
+    }
+  },
+  "en": {
+    "received": {
+      "subject": "Your Harmonia request",
+      "body": "Thank you for your message. Your request is being reviewed under {{reference}}. Do not send passwords, sign-in codes, payment details or private tutor conversations. We will follow up if we need more information. This message does not confirm a fix or refund."
+    },
+    "reproduction": {
+      "subject": "Follow-up on {{reference}}",
+      "body": "Please describe the steps, what you expected and what actually happened. Your app version/build, platform, operating system and language are useful. Remove personal details from images. Exercise content errors can be reported directly from the exercise."
+    },
+    "subscription": {
+      "subject": "Your subscription and {{reference}}",
+      "body": "In Harmonia, open Profile → Subscription to see the current provider, subscription management and purchase restoration. The cancellation page accepts web cancellation requests. Receipt of a request does not prove that the provider has processed it. Refunds depend on the actual provider and purchase evidence; do not send complete payment details."
+    },
+    "privacy": {
+      "subject": "Privacy request {{reference}}",
+      "body": "After signing in, open Privacy in Harmonia to request an export or account deletion. Deletion requires a fresh confirmation. Do not share your sign-in codes. The app separately shows any outstanding provider deletion requests. We confirm completion only against the actual evidence."
+    },
+    "incident": {
+      "subject": "Investigating an incident · {{reference}}",
+      "body": "We are investigating the reported issue. The affected features and recovery time have not yet been fully confirmed. Please avoid repeated purchase attempts. We will update the support information when new findings have been verified."
+    },
+    "resolved": {
+      "subject": "Review outcome for {{reference}}",
+      "body": "The correction is included in reviewed build {{build}}. Evidence {{verification}} records the repeated test. Please check whether that version is available to you. If the problem continues there, reply with the steps to reproduce it."
+    }
+  }
+}

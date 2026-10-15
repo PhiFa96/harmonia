@@ -8,7 +8,7 @@ import { AppText, Button, Card, MusicText, useUiTheme } from '@harmonia/ui/nativ
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, ScrollView, StyleSheet, View } from 'react-native';
-import { useLocale } from '@/i18n';
+import { useMusicLocale } from '@/i18n';
 import { useContentText } from '@/content/use-content-text';
 import { useExercisePlayback } from './use-exercise-playback';
 import { EXAMPLE_BPM } from '@/exercises/play-example';
@@ -29,7 +29,7 @@ export function LessonIntroduction({
 }) {
   const { t } = useTranslation();
   const contentText = useContentText();
-  const locale = useLocale();
+  const locale = useMusicLocale();
   const { colors } = useUiTheme();
   const [index, setIndex] = useState(initialCard);
   const [exampleIndex, setExampleIndex] = useState(0);

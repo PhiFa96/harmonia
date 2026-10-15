@@ -35,6 +35,9 @@ jest.mock('expo-sqlite', () => ({
   ),
 }));
 jest.mock('expo-crypto', () => ({ randomUUID: () => '00000000-0000-4000-8000-000000000001' }));
+jest.mock('expo-web-browser', () => ({
+  openAuthSessionAsync: jest.fn(() => Promise.resolve({ type: 'cancel' })),
+}));
 // Private file sharing and the privacy startup lifecycle have dedicated tests.
 jest.mock('@/privacy/download', () => ({
   downloadPrivateFile: jest.fn(() => Promise.resolve()),
@@ -42,6 +45,12 @@ jest.mock('@/privacy/download', () => ({
   erasePrivateExports: () => undefined,
 }));
 jest.mock('@/components/privacy-lifecycle', () => ({ PrivacyLifecycle: () => null }));
+// Profile persistence/transport have dedicated controller, SQLite and RLS tests.
+jest.mock('@/state/profile', () => ({
+  ...jest.requireActual<object>('@/state/profile'),
+  initializeProfile: () => Promise.resolve(),
+  syncProfile: () => Promise.resolve(),
+}));
 
 // Bestehende Routen prüfen ein bereits eingerichtetes Gerät. Der echte neue Ablauf,
 // Loader, SQLite-Neustart und Fehlerfälle werden in den Onboarding-Prüfungen abgedeckt.

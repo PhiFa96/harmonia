@@ -65,6 +65,9 @@ jobs:
       - name: Beta-Vorbereitung und offene Startvoraussetzungen prüfen
         run: pnpm check:beta
 
+      - name: P2-Releasevorbereitung mit offenen Abnahmen prüfen
+        run: pnpm p2:status
+
       - name: Übersetzungen
         run: pnpm check:i18n
 
@@ -244,6 +247,9 @@ jobs:
 
       - name: Auth- und REST-API mit zwei Konten prüfen
         run: pnpm db:test:api
+
+      - name: Profileinstellungen, atomare Feldänderungen und Kontentrennung prüfen
+        run: pnpm db:test:profile
 
       - name: E-Mail-Codes, Bestätigung, Sitzung und Abmeldung prüfen
         run: pnpm db:test:email

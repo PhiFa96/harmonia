@@ -53,17 +53,30 @@ export function isAppLocale(value: unknown): value is AppLocale {
 }
 
 /** Sprache und Variante für die Benennungen der Engine (z. B. `durationName`, `describeEvent`). */
-export function engineLanguage(locale: AppLocale): {
+export interface MusicLocale {
+  readonly locale: AppLocale;
+  readonly noteNaming: 'de' | 'intl';
+}
+export type TextLocale = AppLocale | MusicLocale;
+export function textLocale(value: TextLocale): AppLocale {
+  return typeof value === 'string' ? value : value.locale;
+}
+export function notationSystem(value: TextLocale): 'de' | 'intl' {
+  return typeof value === 'string' ? (value === 'de' ? 'de' : 'intl') : value.noteNaming;
+}
+export function engineLanguage(value: TextLocale): {
   readonly language: 'de' | 'en';
+  readonly noteNaming?: 'de' | 'intl';
   /** Nur Englisch: US- oder UK-Begriffe. */
   readonly variant?: 'us' | 'uk';
 } {
-  switch (locale) {
+  const names = typeof value === 'string' ? {} : { noteNaming: value.noteNaming };
+  switch (textLocale(value)) {
     case 'de':
-      return { language: 'de' };
+      return { language: 'de', ...names };
     case 'en-US':
-      return { language: 'en', variant: 'us' };
+      return { language: 'en', variant: 'us', ...names };
     case 'en-GB':
-      return { language: 'en', variant: 'uk' };
+      return { language: 'en', variant: 'uk', ...names };
   }
 }

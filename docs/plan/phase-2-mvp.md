@@ -23,18 +23,18 @@ Die Blöcke B, C und D können teilweise parallel laufen.
 - **Abhängig von:** P1.04, F10
 - **Umfang:** L
 - **Aufgaben:**
-  - [ ] Supabase Auth: E-Mail (Magic Link oder Passwort), „Mit Apple anmelden“, Google
-  - [ ] Gastmodus (falls F10 = ja): lokaler Fortschritt, späteres Verknüpfen mit einem Konto ohne Datenverlust
-  - [ ] Altersbestätigung (ab 16, F01) im Onboarding
+  - [x] E-Mail-OTP und technisch vorbereitete Apple-/Google-PKCE-Anmeldung; soziale Anbieter bis zur echten Abnahme aus
+  - [x] Gastmodus: lokaler Fortschritt und kontogebundene Übernahme
+  - [x] Altersbestätigung (ab 16, F01) im Onboarding
   - [ ] Konto löschen in der App (vollständige Löschung aller Daten, auch bei RevenueCat und Analytics)
-  - [ ] Datenexport (JSON) auf Anfrage
+  - [x] Privater JSON-Datenexport auf Anfrage in der App
 - **Fertig, wenn:**
   - Anmeldung funktioniert auf allen Plattformen.
   - Die Löschung entfernt nachweislich alle Daten.
   - Die Apple-Richtlinien 4.8 und 5.1.1(v) sind erfüllt.
 - **Tests:** E2E Anmeldung (Web), pgTAP für Löschkaskade.
 
-- **Vorarbeit 13.10.2026:** P2.09 zieht die E-Mail-Code-Anmeldung vor; lokaler Gaststart, Bestätigung, Sitzung und Abmeldung sind implementiert. Apple/Google, Kontolöschung, Export und geräteübergreifende Daten bleiben offen. [Onboarding](onboarding.md).
+- **Stand 15.10.2026:** E-Mail/Gast und Datenübernahme sind implementiert; Export/Löschung/Retention stammen aus P2.21. Apple-/Google-PKCE und verschlüsselte Apple-Grants mit Widerruf sind ergänzt, standardmäßig aus. Tatsächliche Auth-/SMTP-/Relay-/Anbieter-/Geräteabnahme und externe Löschbearbeitung sowie Apple-Policy bleiben offen. [Konten und Einstellungen](konten-und-einstellungen.md), ADR 0026. P2.01 ist nicht produktiv abgeschlossen.
 
 ### P2.02 – Profil und Einstellungen
 
@@ -42,7 +42,7 @@ Die Blöcke B, C und D können teilweise parallel laufen.
 - **Abhängig von:** P2.01
 - **Umfang:** M
 - **Aufgaben:**
-  - [ ] Einstellungen:
+  - [x] Einstellungen implementiert; native und geräteübergreifende Abnahme offen:
     - App-Sprache
     - Tonnamen (deutsch/international)
     - Harmonik-System (Funktionen/Stufen/beides)
@@ -51,9 +51,10 @@ Die Blöcke B, C und D können teilweise parallel laufen.
     - Erinnerungszeit
     - Ton und Haptik
     - Kammerton
-  - [ ] Profil: Anzeigename, Statistik (Streak, XP, Lektionen)
-  - [ ] Rechtliches: Impressum, Datenschutz, AGB, Credits, Lizenzen
+  - [x] Profil: Anzeigename, Statistik (Streak, XP, Lektionen)
+  - [x] Rechtsbereich, Credits und Lizenzen eingebunden; geprüfte Betreiber-/Rechtstexte weiterhin offen
 - **Fertig, wenn:** Alle Einstellungen wirken sofort und bleiben nach Neustart und auf anderen Geräten erhalten.
+- **Stand 15.10.2026:** Unabhängige Tonnamen, Klang/Kammerton, Harmonikpräferenz im Tutor, Profilname und kontogebundene Feldsynchronisation ergänzt. Tagesziel/Erinnerungen verwenden die bestehende Motivation. Autorenbeispiele werden nicht umgeschrieben; spätere Harmonieanalyse bleibt Phase 3. Echte Geräteabnahme offen. [Konten und Einstellungen](konten-und-einstellungen.md).
 
 ### P2.03 – Fortschritt speichern und synchronisieren
 
@@ -61,13 +62,13 @@ Die Blöcke B, C und D können teilweise parallel laufen.
 - **Abhängig von:** P2.01, P1.20
 - **Umfang:** L
 - **Aufgaben:**
-  - [ ] Migrationen für `lesson_attempts`, `item_attempts`, `skill_progress`, `xp_ledger`, `streaks` mit RLS
-  - [ ] Lokale Warteschlange (SQLite) mit Client-IDs
-  - [ ] Edge Function `sync` nach dem Ablauf in [datenmodell.md](datenmodell.md); XP und Streak serverseitig
-  - [ ] Verhalten bei Konflikten und Zeitzonen
+  - [x] RLS-Migrationen für kanonische Lernereignisse, abgeleiteten Fortschritt, `xp_ledger` und Streaks
+  - [x] Lokale Warteschlange (SQLite) mit Client-IDs
+  - [x] Edge Function `learning-sync` mit Engine-Prüfung; XP und Streak serverseitig
+  - [x] Konflikte, Kontowechsel, Duplikate und Zeitzonen behandelt
 - **Fertig, wenn:** 50 Lektionen offline, dann Netz an → alles korrekt synchronisiert, keine Duplikate.
 - **Tests:** Edge-Function-Tests (Duplikate, Zeitzonen, Manipulationsversuche), pgTAP für RLS.
-- **Vorarbeit P1.20:** lokale SQLite-Versuche mit Client-ID, Inhaltsversion und vollständigen Antwort-/Wiederholungssnapshots existieren. Übernahme in Konten, Migrationen und Sync-Warteschlange ergänzen; Duplikatschutz erhalten. SQLite-Web-Header mit Auth-Rückleitungen prüfen.
+- **Stand 15.10.2026:** P2.11–P2.14 implementieren diese Synchronisation bereits über `learning_events`, Replay und atomare Belohnungen statt paralleler Versuchstabellen. Lokale API-Prüfung mit 226 Offline-Versuchen, zwei Clients, RLS und Manipulationsabwehr bestanden. 50 vollständige Lektionen auf echten Geräten bleiben Abnahme. [Konten und Einstellungen](konten-und-einstellungen.md).
 
 ## Block B – Inhalte
 
@@ -401,6 +402,7 @@ Die Blöcke B, C und D können teilweise parallel laufen.
   - [ ] Beobachtung in den ersten 72 Stunden
   - [ ] Rückblick Phase 2, Plan für Phase 3 anpassen
 - **Fertig, wenn:** Harmonia ist im App Store, bei Google Play und im Web verfügbar.
+- **Stand 15.10.2026:** Zentraler Release-Preflight mit PR-/CI-Prüfung, private Supabase-Betriebsmetriken und Kosten-/Queue-Alarme, DE/EN-Supportvorlagen und streng zeitgebundenes 72-h-Journal vorbereitet. Kein Produktionsstart, kein Alarmversand, keine echten Beobachtungen. [Launch und Betrieb](launch-betrieb.md), [gesamter P2-Abschlussstand](p2-abschluss.md), ADR 0027. P2 bleibt bis zu den tatsächlichen Abnahmen und Veröffentlichungen offen.
 
 ---
 

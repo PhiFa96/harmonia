@@ -5,8 +5,8 @@ import {
   contextExplanation,
   contextHint,
 } from './context-text.ts';
-import type { AppLocale, Messages } from '@harmonia/i18n';
-import { createI18n, engineLanguage } from '@harmonia/i18n';
+import type { TextLocale, Messages } from '@harmonia/i18n';
+import { createI18n, engineLanguage, textLocale, notationSystem } from '@harmonia/i18n';
 import type { NoteName, Pitch } from '@harmonia/theory';
 import { octaveName, octaveNamePitch } from './octave-names.ts';
 import { grandStaffTarget } from '@harmonia/notation';
@@ -90,7 +90,7 @@ import {
   intervalReadingSemitones,
 } from './interval-reading.ts';
 
-const translations = new Map<AppLocale, ReturnType<typeof createI18n>>();
+const translations = new Map<string, ReturnType<typeof createI18n>>();
 type TextKey =
   | `exercise.${keyof Messages['exercise']}`
   | 'exercise.noteSteps'
@@ -114,30 +114,30 @@ type AccidentalKey =
   | 'glossary:sharp_one'
   | 'glossary:doubleSharp_one';
 function translate(
-  locale: AppLocale,
+  locale: TextLocale,
   key: TextKey | AccidentalKey,
   values: Readonly<Record<string, string | number>> = {},
 ): string {
-  let instance = translations.get(locale);
+  let instance = translations.get(textLocale(locale));
   if (!instance) {
-    instance = createI18n(locale);
-    translations.set(locale, instance);
+    instance = createI18n(textLocale(locale));
+    translations.set(textLocale(locale), instance);
   }
   return instance.t(key, values);
 }
-function noteName(pitch: Pitch, locale: AppLocale, octave = true): string {
+function noteName(pitch: Pitch, locale: TextLocale, octave = true): string {
   return pitchName(pitch, {
-    system: locale === 'de' ? 'de' : 'intl',
-    octave: octave ? (locale === 'de' ? 'helmholtz' : 'scientific') : 'none',
+    system: notationSystem(locale),
+    octave: octave ? (notationSystem(locale) === 'de' ? 'helmholtz' : 'scientific') : 'none',
   });
 }
-export function signatureNoteLabel(note: NoteName, locale: AppLocale): string {
+export function signatureNoteLabel(note: NoteName, locale: TextLocale): string {
   return noteName({ ...note, octave: 4 }, locale, false);
 }
-export function pitchInputLabel(pitch: Pitch, locale: AppLocale): string {
+export function pitchInputLabel(pitch: Pitch, locale: TextLocale): string {
   return noteName(pitch, locale);
 }
-export function choiceLabel(item: ExerciseItem, answer: string, locale: AppLocale): string {
+export function choiceLabel(item: ExerciseItem, answer: string, locale: TextLocale): string {
   if (item.type === 'CONTEXT_CHOICE') return contextChoiceLabel(item, answer, locale);
   if (item.type === 'LISTENING_CHOICE') {
     if (!item.choices.includes(answer)) return translate(locale, 'exercise.unknownAnswer');
@@ -270,7 +270,7 @@ export function choiceLabel(item: ExerciseItem, answer: string, locale: AppLocal
   const pitch = { ...item.pitch, letter: letter as Pitch['letter'], alter: Number(alter) };
   return noteName(pitch, locale, false);
 }
-export function exercisePrompt(item: ExerciseItem, locale: AppLocale): string {
+export function exercisePrompt(item: ExerciseItem, locale: TextLocale): string {
   if (item.type === 'CONTEXT_CHOICE') return contextPrompt(item, locale);
   if (item.type === 'NOTE_NAME' && item.presentation === 'octave-name')
     return translate(locale, 'exercise.question_octaveName', {
@@ -376,7 +376,7 @@ function reference(
 }
 function noteExplanation(
   item: Extract<ExerciseItem, { readonly pitch: Pitch }>,
-  locale: AppLocale,
+  locale: TextLocale,
 ): string {
   const anchor = reference(item);
   const distance = diatonicIndex(item.pitch) - diatonicIndex(anchor.pitch);
@@ -399,7 +399,7 @@ function noteExplanation(
 export function exerciseFeedback(
   item: ExerciseItem,
   result: Evaluation,
-  locale: AppLocale,
+  locale: TextLocale,
 ): ExerciseFeedback {
   let message: string;
   if (item.type === 'CONTEXT_CHOICE') message = contextExplanation(item, locale);
@@ -446,7 +446,7 @@ export function exerciseFeedback(
         item.presentation === 'pickup'
           ? translate(locale, 'exercise.pickupExplanation', {
               meter: formatTimeSignature(rhythmMeter(item)),
-              first: new Intl.NumberFormat(locale).format(
+              first: new Intl.NumberFormat(textLocale(locale)).format(
                 (pickupFirstDuration(item).num * 4) / pickupFirstDuration(item).den,
               ),
               capacity: rhythmBeatCount(item),
@@ -660,7 +660,7 @@ export function exerciseHints(item: ExerciseItem, level: 1 | 2 | 3): ExerciseHin
     values: level === 1 ? {} : { semitones: Math.abs(semitones(interval)) },
   };
 }
-export function hintText(item: ExerciseItem, hint: ExerciseHint, locale: AppLocale): string {
+export function hintText(item: ExerciseItem, hint: ExerciseHint, locale: TextLocale): string {
   if (item.type === 'CONTEXT_CHOICE')
     return hint.level === 3
       ? contextExplanation(item, locale)
@@ -731,7 +731,7 @@ export function hintText(item: ExerciseItem, hint: ExerciseHint, locale: AppLoca
   return translate(locale, hint.key, hint.values);
 }
 
-function alterationText(pitch: Pitch, locale: AppLocale): string {
+function alterationText(pitch: Pitch, locale: TextLocale): string {
   switch (pitch.alter) {
     case -2:
       return translate(locale, 'exercise.alter_-2');
@@ -749,7 +749,7 @@ function alterationText(pitch: Pitch, locale: AppLocale): string {
 }
 
 /** Positionen statt Tonnamen: Vor dem Prüfen darf der Screenreader die Lösung nicht vorwegnehmen. */
-export function exerciseDescription(item: ExerciseItem, locale: AppLocale): string {
+export function exerciseDescription(item: ExerciseItem, locale: TextLocale): string {
   if (item.type === 'CONTEXT_CHOICE') return contextPrompt(item, locale);
   if (item.type === 'LISTENING_CHOICE') return exercisePrompt(item, locale);
   if (item.type === 'KNOWLEDGE_MC' && item.presentation === 'symbol' && 'duration' in item.fact)
@@ -865,7 +865,7 @@ export function exerciseDescription(item: ExerciseItem, locale: AppLocale): stri
       })
     : description;
 }
-export function knowledgeFactLabel(fact: KnowledgeFact, locale: AppLocale): string {
+export function knowledgeFactLabel(fact: KnowledgeFact, locale: TextLocale): string {
   if (isHistoryTopic(fact.topic) && 'kind' in fact)
     return translate(locale, `exercise.knowledgeHistory_${fact.topic}_${fact.kind}` as TextKey);
   switch (fact.topic) {
@@ -906,7 +906,7 @@ export function knowledgeFactLabel(fact: KnowledgeFact, locale: AppLocale): stri
   }
   throw new RangeError('Unbekannter Wissensbegriff');
 }
-export function knowledgeDefinition(fact: KnowledgeFact, locale: AppLocale): string {
+export function knowledgeDefinition(fact: KnowledgeFact, locale: TextLocale): string {
   if (isHistoryTopic(fact.topic) && 'kind' in fact)
     return translate(
       locale,
@@ -981,14 +981,14 @@ export function knowledgeDefinition(fact: KnowledgeFact, locale: AppLocale): str
   }
   throw new RangeError('Unbekannter Wissensbegriff');
 }
-export function orderValueLabel(value: OrderValue, locale: AppLocale): string {
+export function orderValueLabel(value: OrderValue, locale: TextLocale): string {
   if (value.kind === 'period')
     return knowledgeFactLabel({ topic: 'periods', kind: value.period }, locale);
   return value.kind === 'pitch'
     ? noteName(value.pitch, locale)
     : durationName(value.duration, engineLanguage(locale));
 }
-function knowledgeValues(item: KnowledgeExerciseItem, locale: AppLocale) {
+function knowledgeValues(item: KnowledgeExerciseItem, locale: TextLocale) {
   if (item.type === 'ORDER') {
     const sorted = orderedValues(item).map((value) => orderValueLabel(value, locale));
     return {
@@ -1049,7 +1049,7 @@ function knowledgeValues(item: KnowledgeExerciseItem, locale: AppLocale) {
     candidates: candidates.map((fact) => knowledgeFactLabel(fact, locale)).join(' / '),
   };
 }
-function rhythmValues(item: RhythmItem, locale: AppLocale) {
+function rhythmValues(item: RhythmItem, locale: TextLocale) {
   const meter = rhythmMeter(item);
   return {
     meter: formatTimeSignature(meter),
@@ -1062,7 +1062,7 @@ function rhythmValues(item: RhythmItem, locale: AppLocale) {
     tolerance: rhythmTolerance(item),
   };
 }
-function chordExplanationValues(item: ChordItem, locale: AppLocale) {
+function chordExplanationValues(item: ChordItem, locale: TextLocale) {
   const value = resolvedChord(item),
     intervals = chordIntervals(value.type),
     third = intervals[1],
@@ -1092,7 +1092,7 @@ function scalePattern(item: ScaleItem): string {
     .map((pitch, index) => Math.abs(midi(pitch) - midi(pitches[index] ?? item.tonic)))
     .join('–');
 }
-function signatureText(item: KeySignatureItem, locale: AppLocale): string {
+function signatureText(item: KeySignatureItem, locale: TextLocale): string {
   const notes = keySignature(signatureKey(item));
   const first = notes[0];
   if (!first) return translate(locale, 'exercise.signatureEmpty');
@@ -1112,7 +1112,7 @@ function signatureText(item: KeySignatureItem, locale: AppLocale): string {
 }
 
 /** Beschreibt die Form, ohne den zu erkennenden Wert zu verraten. */
-export function durationSymbolDescription(value: RhythmValue, locale: AppLocale): string {
+export function durationSymbolDescription(value: RhythmValue, locale: TextLocale): string {
   const name = value.duration.value;
   if (
     !['whole', 'half', 'quarter', 'eighth', 'sixteenth'].includes(name) ||

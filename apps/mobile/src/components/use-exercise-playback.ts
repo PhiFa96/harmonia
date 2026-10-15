@@ -12,6 +12,7 @@ import { useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AppState } from 'react-native';
 import { getAudioEngine } from '@/audio';
+import { useSettings } from '@/state/settings';
 import { playScale } from '@/exercises/play-scale';
 import { playChordExercise } from '@/exercises/play-chord';
 import { playRhythm } from '@/exercises/play-rhythm';
@@ -30,6 +31,8 @@ export function useExercisePlayback(item: ExerciseItem | Score | undefined, bpm 
   const [playing, setPlaying] = useState(false);
   const [heard, setHeard] = useState(false);
   const [error, setError] = useState(false);
+  const sound = useSettings((s) => s.sound),
+    referenceHz = useSettings((s) => s.referenceHz);
   const stop = useCallback(() => {
     request.current++;
     playback.current?.stop();
@@ -42,7 +45,7 @@ export function useExercisePlayback(item: ExerciseItem | Score | undefined, bpm 
     stop();
     setHeard(false);
     setError(false);
-  }, [item, bpm, stop]);
+  }, [item, bpm, stop, sound, referenceHz]);
   useFocusEffect(
     useCallback(() => {
       focused.current = true;
@@ -63,6 +66,10 @@ export function useExercisePlayback(item: ExerciseItem | Score | undefined, bpm 
     };
   }, [stop]);
   const play = async () => {
+    if (!useSettings.getState().sound) {
+      setError(true);
+      return;
+    }
     const canPlay = () => focused.current && appActive.current;
     if (
       !item ||

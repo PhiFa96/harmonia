@@ -36,7 +36,8 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 import type { RefObject } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, ScrollView, StyleSheet, View } from 'react-native';
-import { useLocale } from '@/i18n';
+import { useMusicLocale } from '@/i18n';
+import { useSettings } from '@/state/settings';
 import { ExerciseChoices } from './exercise-choices';
 import { ChordAnswerInput } from './chord-answer-input';
 import { PitchAnswerInput } from './pitch-answer-input';
@@ -90,7 +91,8 @@ export function ExerciseTask({
   onNext,
 }: Props) {
   const { t } = useTranslation();
-  const locale = useLocale();
+  const locale = useMusicLocale();
+  const music = useSettings();
   const { colors, reduceMotion } = useUiTheme();
   const media = useMemo(() => feedbackMedia(item), [item]);
   const audio = useExercisePlayback(media.audio ?? item);
@@ -152,6 +154,17 @@ export function ExerciseTask({
         aria-label={prompt}
         {...(Platform.OS === 'web' ? { tabIndex: -1 } : {})}
       >
+        {!music.sound ? (
+          <View>
+            <AppText>{t('profile.soundDisabled')}</AppText>
+            <Button
+              label={t('profile.enableSound')}
+              onPress={() => {
+                music.setSound(true);
+              }}
+            />
+          </View>
+        ) : null}
         <AppText variant="overline" tone="muted">
           {t(
             item.type === 'RHYTHM_TAP' && item.presentation === 'pulse'
@@ -460,8 +473,9 @@ export function ExerciseTask({
                 onReportOpen?.();
                 openTaskTutor(
                   {
-                    locale,
-                    noteNaming: locale === 'de' ? 'de' : 'intl',
+                    locale: locale.locale,
+                    noteNaming: locale.noteNaming,
+                    harmonySystem: music.harmonySystem,
                     mode: session.hintLevel === 3 ? 'solution' : 'hint',
                     hintLevel:
                       session.hintLevel === 1 || session.hintLevel === 2 ? session.hintLevel : null,
@@ -549,8 +563,9 @@ export function ExerciseTask({
                 onReportOpen?.();
                 openTaskTutor(
                   {
-                    locale,
-                    noteNaming: locale === 'de' ? 'de' : 'intl',
+                    locale: locale.locale,
+                    noteNaming: locale.noteNaming,
+                    harmonySystem: music.harmonySystem,
                     mode: 'explain',
                     hintLevel: null,
                     context: { source: reportSource, answer: result.answer, checked: true },
@@ -574,7 +589,7 @@ export function ExerciseTask({
             onReportOpen?.();
             openReport(
               reportSource,
-              locale,
+              locale.locale,
               prompt,
               result?.answer ?? answer,
               session.hintLevel,

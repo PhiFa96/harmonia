@@ -18,6 +18,10 @@ export type Experience = 'new' | 'basics' | 'experienced';
 export type DailyGoal = 10 | 20 | 30 | 50;
 export type ReminderTime = '17:00' | '18:00' | '19:00' | '20:00';
 export interface SettingsData {
+  readonly noteNaming?: 'auto' | 'de' | 'intl';
+  readonly harmonySystem?: 'functions' | 'roman' | 'both';
+  readonly sound?: boolean;
+  readonly referenceHz?: number;
   readonly locale: AppLocale | null;
   readonly appearance: 'system' | 'light' | 'dark';
   readonly reduceMotion: boolean;
@@ -169,6 +173,21 @@ export function parseDeviceSnapshot(json: string): DeviceSnapshot {
     m = object(o['mini']);
   if (root['schemaVersion'] !== 1) throw new Error('Unbekannte lokale Einstellungs-Version');
   const settings: SettingsData = {
+    ...(s['noteNaming'] === undefined
+      ? {}
+      : { noteNaming: oneOf(s['noteNaming'], ['auto', 'de', 'intl']) }),
+    ...(s['harmonySystem'] === undefined
+      ? {}
+      : { harmonySystem: oneOf(s['harmonySystem'], ['functions', 'roman', 'both']) }),
+    ...(s['sound'] === undefined ? {} : { sound: bool(s['sound']) }),
+    ...(s['referenceHz'] === undefined
+      ? {}
+      : {
+          referenceHz: oneOf(
+            s['referenceHz'],
+            Array.from({ length: 52 }, (_, i) => 415 + i),
+          ),
+        }),
     locale: oneOf(s['locale'], [null, 'de', 'en-US', 'en-GB']),
     appearance: oneOf(s['appearance'], ['system', 'light', 'dark']),
     reduceMotion: bool(s['reduceMotion']),
