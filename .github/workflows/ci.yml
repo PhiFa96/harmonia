@@ -17,7 +17,7 @@ jobs:
   checks:
     name: Lint, Typen, Tests
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v7
 
@@ -36,16 +36,37 @@ jobs:
         run: pnpm format:check
 
       - name: Lint und Paket-Abhängigkeiten
+        # TypeScript project service retains several workspace programs; hosted runners default to a smaller heap.
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
         run: pnpm lint
 
       - name: Typprüfung
         run: pnpm typecheck
 
-      - name: Tests
-        run: pnpm test
+      - name: Werkzeugtests
+        run: pnpm test:tools
+
+      - name: Pakettests
+        run: pnpm -r --if-present --filter '!@harmonia/mobile' test
+
+      - name: App-Tests
+        working-directory: apps/mobile
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        run: pnpm exec jest --runInBand
 
       - name: Rechtliche Freigabefelder und geschlossene Vorbereitung prüfen
         run: pnpm check:legal
+
+      - name: Store-Texte, Sprachen und geschlossene Veröffentlichung prüfen
+        run: pnpm check:storefront
+
+      - name: Beta-Vorbereitung und offene Startvoraussetzungen prüfen
+        run: pnpm check:beta
+
+      - name: P2-Releasevorbereitung mit offenen Abnahmen prüfen
+        run: pnpm p2:status
 
       - name: Übersetzungen
         run: pnpm check:i18n
@@ -120,6 +141,11 @@ jobs:
       - name: Kernabläufe, axe, Tastatur und Leistungsbudgets prüfen
         run: pnpm qa:web
 
+      - name: Privaten Beta-Zugang und Testhinweise mit eigenen Fixtures prüfen
+        env:
+          HARMONIA_QA_OUTPUT: artifacts/quality/beta-playwright
+        run: pnpm beta:test:web
+
       - name: Web-Prüfnachweise aus eigenen Gast-Fixtures aufbewahren
         if: always()
         uses: actions/upload-artifact@v7
@@ -129,10 +155,22 @@ jobs:
           if-no-files-found: ignore
           retention-days: 7
 
+      - name: Synthetische Beta-Webprüfungen aufbewahren
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: beta-web-fixtures
+          path: artifacts/quality/beta-playwright
+          if-no-files-found: ignore
+          retention-days: 7
+
       - name: Produktions-Bundle mit öffentlichen Inhalten bauen
         env:
           APP_VARIANT: production
         run: pnpm check:content && pnpm --filter @harmonia/mobile build:web
+
+      - name: Statische Website neben der öffentlichen Web-App bauen
+        run: pnpm website:build
 
       - name: Tatsächlichen Export auf Entwurfsdaten, Texte und Größenbudgets prüfen
         run: pnpm check:content:bundle && pnpm qa:bundle
@@ -192,7 +230,11 @@ jobs:
 
       - name: Lokales Supabase starten
         # Die CLI gibt lokale Schlüssel aus; nicht im CI-Protokoll veröffentlichen.
-        run: pnpm db:start > "$RUNNER_TEMP/harmonia-supabase-start.log" 2>&1
+        run: |
+          if ! pnpm db:start > "$RUNNER_TEMP/harmonia-supabase-start.log" 2>&1; then
+            node tools/local-backend-diagnostics.mjs "$RUNNER_TEMP/harmonia-supabase-start.log"
+            exit 1
+          fi
 
       - name: Migrationen aus leerer lokaler Datenbank prüfen
         run: pnpm db:reset
@@ -205,6 +247,9 @@ jobs:
 
       - name: Auth- und REST-API mit zwei Konten prüfen
         run: pnpm db:test:api
+
+      - name: Profileinstellungen, atomare Feldänderungen und Kontentrennung prüfen
+        run: pnpm db:test:profile
 
       - name: E-Mail-Codes, Bestätigung, Sitzung und Abmeldung prüfen
         run: pnpm db:test:email
@@ -219,8 +264,9 @@ jobs:
           node tools/serve-local-learning.mjs --published --tutor-test --billing-test > "$RUNNER_TEMP/harmonia-learning-public.log" 2>&1 &
           harmonia_learning_pid=$!
           trap 'kill "$harmonia_learning_pid" 2>/dev/null || true' EXIT
-          node tools/test-access.mjs --published
+          # This test waits for the actual Edge worker before the other API checks start.
           node tools/test-learning-sync.mjs --published
+          node tools/test-access.mjs --published
           node tools/test-content-reports.mjs --published
           node tools/test-tutor.mjs --published
           node tools/test-knowledge.mjs --published

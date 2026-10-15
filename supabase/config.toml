@@ -118,3 +118,7 @@ import_map = "./functions/deno.json"
 [functions.analytics]
 verify_jwt = false
 import_map = "./functions/deno.json"
+
+[functions.apple-grant]
+verify_jwt = false
+import_map = "./functions/deno.json"

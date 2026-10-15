@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { useSettings } from '../state/settings.ts';
 import { randomUUID } from 'expo-crypto';
 import {
   tutorAccountSchema,
@@ -109,7 +110,15 @@ export function newTutorConversation(locale: AppLocale) {
   useTutor.setState({
     scope: {
       locale,
-      noteNaming: locale === 'de' ? 'de' : 'intl',
+      noteNaming:
+        useSettings.getState().noteNaming === 'auto'
+          ? locale === 'de'
+            ? 'de'
+            : 'intl'
+          : useSettings.getState().noteNaming === 'de'
+            ? 'de'
+            : 'intl',
+      harmonySystem: useSettings.getState().harmonySystem,
       mode: 'chat',
       hintLevel: null,
       context: null,

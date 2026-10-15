@@ -14,6 +14,7 @@ import { useSettings } from '@/state/settings';
 import { MotivationCard } from '@/components/motivation-card';
 import { ReportStatus } from '@/components/report-status';
 import { LearningProfile } from '@/components/learning-profile';
+import { ProfilePreferences } from '@/components/profile-preferences';
 
 type LanguageChoice = AppLocale | 'device';
 
@@ -91,6 +92,7 @@ export default function ProfileScreen() {
         <AppText variant="overline" tone="muted">
           {t('profile.more')}
         </AppText>
+        <ProfilePreferences />
         <ListGroup>
           <ListItem
             icon="speaker"

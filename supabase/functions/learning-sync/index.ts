@@ -1,3 +1,4 @@
+import { observeHandler } from '../_shared/operations.ts';
 import { createClient } from 'npm:@supabase/supabase-js@2.117.3';
 import { catalogue } from '../../../packages/content/src/published.ts';
 import {
@@ -40,7 +41,7 @@ async function content(): Promise<ContentCatalogue> {
     return (await import('../../../packages/content/src/authoring.ts')).catalogue;
   return catalogue;
 }
-Deno.serve(async (request) => {
+async function handler(request: Request): Promise<Response> {
   if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers });
   if (request.method !== 'POST') return json(405, { error: 'method' });
   try {
@@ -145,4 +146,5 @@ Deno.serve(async (request) => {
   } catch {
     return json(400, { error: 'request' });
   }
-});
+}
+Deno.serve(observeHandler('learning-sync', handler));

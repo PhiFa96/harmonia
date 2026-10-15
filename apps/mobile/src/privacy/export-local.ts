@@ -8,6 +8,8 @@ import { useMotivation } from '@/state/motivation';
 import { useReports } from '@/state/reports';
 import { useTutor } from '@/tutor/state';
 import { useAccess } from '@/access/state';
+import { getProfileRepository } from '@/storage/profile';
+import { useProfile } from '@/state/profile';
 export async function exportLocalData(scope: string) {
   const temporary = useDeviceState.getState().storage === 'memory',
     state = useLearningState.getState(),
@@ -17,6 +19,11 @@ export async function exportLocalData(scope: string) {
     access = useAccess.getState();
   const learning = temporary ? null : await getLearningRepository();
   return {
+    profile: temporary
+      ? useProfile.getState().scope === scope
+        ? useProfile.getState().data
+        : null
+      : await (await getProfileRepository()).load(scope),
     device:
       useDeviceState.getState().data?.accountId === scope ||
       (scope === 'guest' && !useDeviceState.getState().data?.accountId)

@@ -43,6 +43,7 @@ const GERMAN_QUALITY: Readonly<Record<ChordType, string>> = {
 const GERMAN_TRIAD_FORMS = ['Dreiklang', 'Sextakkord', 'Quartsextakkord'] as const;
 
 export interface ChordNameOptions {
+  readonly noteNaming?: 'de' | 'intl';
   readonly language?: 'de' | 'en';
 }
 
@@ -56,10 +57,13 @@ export interface ChordNameOptions {
 export function chordName(c: Chord, options: ChordNameOptions = {}): string {
   const size = chordFactors(c.type).length === 4 ? 4 : 3;
   if (options.language === 'en') {
-    const base = `${internationalName(c.root.letter, c.root.alter)} ${c.type} triad`;
+    const base = `${options.noteNaming === 'de' ? germanName(c.root.letter, c.root.alter) : internationalName(c.root.letter, c.root.alter)} ${c.type} triad`;
     return c.inversion === 0 ? base : `${base}, ${inversionName(c.inversion, 'en', size)}`;
   }
-  const root = germanName(c.root.letter, c.root.alter);
+  const root =
+    options.noteNaming === 'intl'
+      ? internationalName(c.root.letter, c.root.alter)
+      : germanName(c.root.letter, c.root.alter);
   const form = GERMAN_TRIAD_FORMS[c.inversion] ?? inversionName(c.inversion, 'de', size);
   switch (c.type) {
     case 'major':

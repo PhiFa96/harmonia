@@ -205,6 +205,7 @@ export default function PrivacyScreen() {
           </ListGroup>
           {error === 'reauth' ? (
             <EmailSignIn
+              reauthenticate
               ageConfirmed={age}
               onVerified={() => {
                 setError(null);

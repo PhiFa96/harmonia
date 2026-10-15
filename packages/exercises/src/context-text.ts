@@ -1,6 +1,6 @@
 import { layoutScore } from '@harmonia/notation';
-import type { AppLocale, Messages } from '@harmonia/i18n';
-import { createI18n, engineLanguage } from '@harmonia/i18n';
+import type { TextLocale, Messages } from '@harmonia/i18n';
+import { createI18n, engineLanguage, textLocale, notationSystem } from '@harmonia/i18n';
 import {
   intervalName,
   diatonicIndex,
@@ -14,16 +14,16 @@ import {
 } from '@harmonia/theory';
 import type { ContextItem } from './context.ts';
 import { contextAnswer } from './context.ts';
-const engines = new Map<AppLocale, ReturnType<typeof createI18n>>();
+const engines = new Map<string, ReturnType<typeof createI18n>>();
 function t(
-  locale: AppLocale,
+  locale: TextLocale,
   k: `exercise.${keyof Messages['exercise']}` | 'glossary:trebleClef_one' | 'glossary:bassClef_one',
   values: Record<string, string | number> = {},
 ) {
-  let i = engines.get(locale);
+  let i = engines.get(textLocale(locale));
   if (!i) {
-    i = createI18n(locale);
-    engines.set(locale, i);
+    i = createI18n(textLocale(locale));
+    engines.set(textLocale(locale), i);
   }
   const translate = i.t as unknown as (
     key: string,
@@ -31,14 +31,14 @@ function t(
   ) => string;
   return translate(k, values);
 }
-const named = (name: string, locale: AppLocale, octave = true) =>
+const named = (name: string, locale: TextLocale, octave = true) =>
   pitchName(parsePitch(name), {
-    system: locale === 'de' ? 'de' : 'intl',
-    octave: octave ? (locale === 'de' ? 'helmholtz' : 'scientific') : 'none',
+    system: notationSystem(locale),
+    octave: octave ? (notationSystem(locale) === 'de' ? 'helmholtz' : 'scientific') : 'none',
   });
 export function contextValues(
   item: ContextItem,
-  locale: AppLocale,
+  locale: TextLocale,
 ): Record<string, string | number> {
   const source = item.source;
   if (source.kind === 'score')
@@ -65,10 +65,10 @@ export function contextValues(
     medium: t(locale, `exercise.contextMedium_${source.medium}`),
   };
 }
-export function contextPrompt(item: ContextItem, locale: AppLocale) {
+export function contextPrompt(item: ContextItem, locale: TextLocale) {
   return t(locale, `exercise.contextQuestion_${item.topic}`, contextValues(item, locale));
 }
-export function contextSourceText(item: ContextItem, locale: AppLocale) {
+export function contextSourceText(item: ContextItem, locale: TextLocale) {
   const source = item.source;
   if (item.topic === 'jazz-roots' && source.kind === 'document')
     return t(
@@ -90,7 +90,7 @@ export function contextSourceText(item: ContextItem, locale: AppLocale) {
     contextValues(item, locale),
   );
 }
-export function contextChoiceLabel(item: ContextItem, answer: string, locale: AppLocale): string {
+export function contextChoiceLabel(item: ContextItem, answer: string, locale: TextLocale): string {
   if (!item.choices.includes(answer)) return t(locale, 'exercise.unknownAnswer');
   const parts = answer.split(':'),
     kind = parts[0],
@@ -99,7 +99,7 @@ export function contextChoiceLabel(item: ContextItem, answer: string, locale: Ap
   if (kind === 'note')
     return pitchName(
       { ...parseNoteName(value), octave: 4 },
-      { system: locale === 'de' ? 'de' : 'intl', octave: 'none' },
+      { system: notationSystem(locale), octave: 'none' },
     );
   if (kind === 'interval')
     return intervalName(parseInterval(value), { ...engineLanguage(locale), showDirection: false });
@@ -150,13 +150,13 @@ export function contextChoiceLabel(item: ContextItem, answer: string, locale: Ap
   const label = labels[answer];
   return label ? t(locale, label) : t(locale, 'exercise.unknownAnswer');
 }
-export function contextExplanation(item: ContextItem, locale: AppLocale) {
+export function contextExplanation(item: ContextItem, locale: TextLocale) {
   return t(locale, 'exercise.contextResult', {
     explanation: t(locale, `exercise.contextExplain_${item.topic}`, contextValues(item, locale)),
     answer: contextChoiceLabel(item, contextAnswer(item), locale),
   });
 }
-export function contextHint(item: ContextItem, level: 1 | 2, locale: AppLocale) {
+export function contextHint(item: ContextItem, level: 1 | 2, locale: TextLocale) {
   return t(
     locale,
     `exercise.contextHint${String(level) as '1' | '2'}_${item.topic}`,
@@ -165,7 +165,7 @@ export function contextHint(item: ContextItem, level: 1 | 2, locale: AppLocale) 
 }
 
 /** Beschreibt die gedruckten Zeichen und Positionen, ohne die Zieltonnamen vorwegzunehmen. */
-export function contextNotationDescription(item: ContextItem, locale: AppLocale): string {
+export function contextNotationDescription(item: ContextItem, locale: TextLocale): string {
   if (item.source.kind !== 'score') return contextSourceText(item, locale);
   const score = item.source.score,
     staff = score.staves[0];

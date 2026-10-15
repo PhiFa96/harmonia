@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { RADIUS, SPACE, TOUCH, TYPOGRAPHY } from '@harmonia/ui';
 import { AppText, Button, Card, useUiTheme } from '@harmonia/ui/native';
 import { useLocale } from '@/i18n';
+import { OAuthSignIn } from './oauth-sign-in';
+import { captureGuestProfile } from '@/state/profile';
 import {
   getAuthClient,
   sendEmailCode,
@@ -11,20 +13,23 @@ import {
   verifyEmailCode,
   useAuthState,
   initializeAuth,
+  signOutDevice,
 } from '@/auth';
 
 export function EmailSignIn({
   ageConfirmed,
   onVerified,
+  reauthenticate = false,
 }: {
   readonly ageConfirmed: boolean;
   readonly onVerified: (userId: string) => void;
+  readonly reauthenticate?: boolean;
 }) {
   const { t } = useTranslation(),
     locale = useLocale(),
     { colors } = useUiTheme(),
     auth = useAuthState();
-  const [email, setEmail] = useState(''),
+  const [email, setEmail] = useState(reauthenticate ? (auth.session?.user.email ?? '') : ''),
     [code, setCode] = useState(''),
     [sentTo, setSentTo] = useState<string | null>(null),
     [busy, setBusy] = useState(false),
@@ -81,7 +86,7 @@ export function EmailSignIn({
       </Card>
     );
   if (!auth.ready) return <AppText aria-live="polite">{t('onboarding.loading')}</AppText>;
-  if (auth.session)
+  if (auth.session && !reauthenticate)
     return (
       <Card>
         <AppText>{t('auth.signedIn', { email: auth.session.user.email ?? '' })}</AppText>
@@ -105,7 +110,10 @@ export function EmailSignIn({
     setBusy(true);
     setError(null);
     try {
-      await sendEmailCode(address, locale);
+      if (reauthenticate && address !== auth.session?.user.email)
+        throw new Error('Reauthentication account mismatch');
+      if (reauthenticate) await sendEmailCode(address, locale, true);
+      else await sendEmailCode(address, locale);
       if (mounted.current) {
         setSentTo(address);
         setCode('');
@@ -129,7 +137,12 @@ export function EmailSignIn({
     setBusy(true);
     setError(null);
     try {
+      if (!reauthenticate) await captureGuestProfile();
       const session = await verifyEmailCode(sentTo, code);
+      if (reauthenticate && session.user.id !== auth.session?.user.id) {
+        await signOutDevice();
+        throw new Error('Reauthentication account mismatch');
+      }
       if (mounted.current) onVerified(session.user.id);
     } catch {
       if (mounted.current) setError('verifyError');
@@ -140,6 +153,7 @@ export function EmailSignIn({
   };
   return (
     <View style={styles.form}>
+      {reauthenticate ? null : <OAuthSignIn ageConfirmed={ageConfirmed} onVerified={onVerified} />}
       {sentTo ? (
         <>
           <AppText aria-live="polite">{t('auth.sent')}</AppText>
@@ -206,7 +220,7 @@ export function EmailSignIn({
             placeholderTextColor={colors.textMuted}
             value={email}
             onChangeText={setEmail}
-            editable={!busy}
+            editable={!busy && !reauthenticate}
             keyboardType="email-address"
             autoComplete="email"
             textContentType="emailAddress"

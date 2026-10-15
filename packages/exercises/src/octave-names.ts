@@ -1,5 +1,6 @@
 import { pitchName } from '@harmonia/theory';
-import type { AppLocale } from '@harmonia/i18n';
+import type { TextLocale } from '@harmonia/i18n';
+import { notationSystem } from '@harmonia/i18n';
 import type { NoteItem } from './types.ts';
 
 /** Quelle des angezeigten Namens; beschädigte oder mehrdeutige Quellen werden abgewiesen. */
@@ -28,7 +29,7 @@ export function octaveNamePitch(item: NoteItem) {
 }
 export function octaveName(
   item: NoteItem,
-  locale: AppLocale,
+  locale: TextLocale,
   source = true,
   pitch = octaveNamePitch(item),
 ): string {
@@ -40,6 +41,6 @@ export function octaveName(
       : 'helmholtz';
   return pitchName(pitch, {
     octave: system,
-    system: system === 'scientific' ? 'intl' : locale === 'de' ? 'de' : 'intl',
+    system: system === 'scientific' ? 'intl' : notationSystem(locale),
   });
 }

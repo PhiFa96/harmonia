@@ -28,7 +28,7 @@ import { useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
-import { useLocale } from '@/i18n';
+import { useMusicLocale } from '@/i18n';
 import { AccidentalBar } from './accidental-bar';
 import { useWebChoiceInput } from './use-web-choice-input';
 
@@ -43,7 +43,7 @@ interface Props {
 }
 export function ScaleAnswerInput({ item, answer, result, showSolution, onSelect }: Props) {
   const { t } = useTranslation(),
-    locale = useLocale();
+    locale = useMusicLocale();
   const { colors, scheme } = useUiTheme();
   const [selected, setSelected] = useState(1),
     [focused, setFocused] = useState(true);

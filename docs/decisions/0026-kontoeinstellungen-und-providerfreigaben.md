@@ -1,0 +1,17 @@
+# ADR 0026 – Kontoeinstellungen und Anbieterfreigaben
+
+Datum: 15.10.2026. Status: technische Umsetzung, Anbieter-/Geräteabnahme offen.
+
+P2.09 hatte E-Mail-Codes vorgezogen; P2.11–P2.14 synchronisieren bereits echte Lernnachweise und Motivation. Der ursprüngliche Block A blieb dadurch in der Planung teilweise veraltet. Allgemeine Profileinstellungen und soziale Anmeldung fehlten tatsächlich.
+
+Apple und Google verwenden Supabase OAuth mit PKCE. Web-Rückleitungen sind an den konfigurierten Ursprung gebunden; native Rückleitungen nutzen den App-Link. Ein kurzlebiger, einmal verbrauchter Versuch bindet Pfad, Anbieter und Code. Native Auth-Sitzungen bleiben im bestehenden SecureStore-Adapter. Beide Anbieter sind standardmäßig ausgeblendet. Echte Providerkonfiguration, Relay-Mail, native Rückleitung und Apple-Richtlinien 4.8/5.1.1(v) sind vor Aktivierung separat nachzuweisen.
+
+Supabase-Kontolöschung widerruft Apple-Grants nicht selbst. Deshalb prüft `apple-grant` den bei der Anmeldung erhaltenen Refresh-Token am festen Apple-Tokenendpoint und vergleicht die zurückgegebene Identität mit der serverseitig bestätigten Apple-Identität des Kontos. Nur danach wird der Token in Supabase Vault verschlüsselt abgelegt. Clientrollen dürfen weder Referenzen lesen noch speichern oder entschlüsseln. Vor Kontolöschung muss der Apple-Widerruf erfolgreich sein; Fehler erhalten das Konto für einen erneuten Versuch. Die Auth-Löschkaskade entfernt auch das Vault-Geheimnis. Es werden keine Provider-Tokens in Exporten, Metriken oder Fehlermeldungen ausgegeben. Bereits bestehende Apple-Konten ohne gespeicherten Grant benötigen eine erneute Apple-Anmeldung. Der E-Mail-Code zur frischen Löschbestätigung wird tatsächlich neu angefordert und muss dasselbe Konto bestätigen.
+
+`profiles.settings` enthält validierte Präferenzen, `display_name` bleibt eine eigene Spalte. Eine authentifizierte RPC bestimmt den Eigentümer aus `auth.uid()`, sperrt dessen Zeile und vereinigt nur explizit geänderte Felder. Zwei Geräte mit verschiedenen Änderungen überschreiben dadurch nicht gegenseitig das ganze Profil. Gleichzeitige Änderungen desselben Feldes verwenden die Reihenfolge der Servertransaktionen. Die Übertragung bindet jeden Request an den beim Start gewählten JWT; ein Kontowechsel darf einen alten Patch nicht mit dem neuen Konto signieren.
+
+Ein separater SQLite-Cache bewahrt Snapshot und ausstehende Änderungen pro Konto und Gast. Bestehende Servereinstellungen haben beim ersten Login Vorrang vor unveränderten Gastdefaults; tatsächlich während des Ladens geänderte Felder bleiben ausstehend. Lern- und Motivationsdaten verwenden ihre vorhandenen Verfahren. Datenschutzexport und kontoweise lokale Löschung umfassen den neuen Cache. Veröffentlichung und fachliche Inhaltsfreigabe ändern sich nicht.
+
+Tonnamen gelten unabhängig von der UI-Sprache für dynamische Engine-Namen, Antwortfelder und Notenbeschreibungen. Autorenbeispiele behalten ihre erklärte Konvention. Harmonikpräferenzen steuern Tutor-Kontexte; fehlende spätere Funktionsanalyse wird dadurch nicht als implementiert ausgegeben. Kammerton und Klang wirken auf die Audio-Engine. Änderungen stoppen laufende Hör-/Rhythmusversuche, damit stumme oder anders gestimmte Wiedergabe keinen Nachweis erzeugt. Der Tutor-Prompt steigt auf Version 3 und benötigt eine neue echte Kalibrierung.
+
+Nachweise und Grenzen: [Konten und Einstellungen](../plan/konten-und-einstellungen.md).
