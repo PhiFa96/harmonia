@@ -42,5 +42,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     } else
       console.log('Release evidence fields complete; actual approvals remain human decisions.');
   } else
-    console.log('DE/US/UK storefront texts, field budgets, links and closed preparation checked.');
+    console.log(
+      'DE/US/UK storefront texts, field budgets and links checked; release evidence is separate.',
+    );
 }

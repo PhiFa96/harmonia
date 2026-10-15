@@ -40,6 +40,18 @@ const report = {
   sourceDirty,
   locales: [],
   mediaCaptureKind: media?.captureKind ?? null,
+  mediaProvenance: media
+    ? {
+        sourceCommit: media.sourceCommit,
+        sourceDirty: media.sourceDirty,
+        capturedAt: media.capturedAt,
+        captureTransport: media.captureTransport,
+        physicalDeviceEvidence: media.physicalDeviceEvidence,
+        audioIncluded: media.audioIncluded,
+        reviewed: media.reviewed,
+        reviewReference: media.reviewReference,
+      }
+    : null,
   missingReleaseEvidence: missing,
   files: [],
 };

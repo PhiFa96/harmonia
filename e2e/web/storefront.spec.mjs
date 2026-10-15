@@ -14,10 +14,11 @@ for (const locale of locales)
       errors = [],
       external = [];
     page.on('pageerror', (e) => errors.push(e.message));
-    page.on('request', (r) => {
+    const watchWebsiteRequest = (r) => {
       if (new URL(r.url()).origin !== new URL(testInfo.project.use.baseURL).origin)
         external.push(r.url());
-    });
+    };
+    page.on('request', watchWebsiteRequest);
     try {
       await page.goto(pagePath(locale));
       await expect(page.getByRole('heading', { name: t.headline, exact: true })).toBeVisible();
@@ -41,10 +42,12 @@ for (const locale of locales)
       await audit(page);
       await noOverflow(page);
       await page.getByRole('link', { name: t.back, exact: false }).click();
+      // The static website makes no external requests. After entry, the app may load its public access policy.
+      expect(external).toEqual([]);
+      page.off('request', watchWebsiteRequest);
       await page.getByRole('link', { name: t.openApp, exact: false }).first().click();
       await page.getByTestId('setup-next').waitFor();
       expect(errors).toEqual([]);
-      expect(external).toEqual([]);
     } finally {
       await context.close();
     }
