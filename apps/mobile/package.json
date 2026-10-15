@@ -5,6 +5,7 @@
   "description": "Harmonia-App für iOS, Android und Web (Expo)",
   "main": "expo-router/entry",
   "scripts": {
+    "eas-build-post-install": "node ../../tools/beta/eas-hook.mjs",
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",

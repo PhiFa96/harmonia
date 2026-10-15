@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "campaignId": "closed-beta-1",
+  "coordinator": null,
+  "feedbackEmail": null,
+  "bindings": { "supabaseOrigin": null, "easProjectId": null },
+  "approvals": {
+    "participantNotice": { "approved": false, "evidenceReference": null },
+    "feedbackPrivacyAndRetention": { "approved": false, "evidenceReference": null },
+    "backendAuthAndSmtp": { "approved": false, "evidenceReference": null },
+    "providerSandboxAndTutor": { "approved": false, "evidenceReference": null },
+    "privacyOperations": { "approved": false, "evidenceReference": null },
+    "weeklyTriageAndSupport": { "approved": false, "evidenceReference": null },
+    "rollbackDrill": { "approved": false, "evidenceReference": null }
+  },
+  "channels": {
+    "ios": { "approved": false, "evidenceReference": null },
+    "android": { "approved": false, "evidenceReference": null },
+    "web": { "approved": false, "evidenceReference": null }
+  }
+}

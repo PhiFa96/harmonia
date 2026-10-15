@@ -38,6 +38,8 @@ export default ({ config }: ConfigContext): ExpoConfig => {
   )
     throw new Error('Legal release evidence is incomplete');
   const variant = currentVariant();
+  if (process.env['EAS_BUILD_PROFILE'] === 'beta' && variant !== 'production')
+    throw new Error('Beta-Builds verwenden ausschließlich den freigegebenen Produktionskatalog.');
   const { name, id } = VARIANTS[variant];
   // Öffentliche Projekt-ID, keine Zugangsdaten. Ohne Bindung bleiben OTA-Updates deaktiviert.
   const rawProjectId: unknown = process.env['EAS_PROJECT_ID'];
