@@ -50,4 +50,25 @@ Ein normaler vorhandener Expo-Export erhält die Website über `pnpm website:bui
 
 ## Nachweise und Git-Übergabe
 
-Abschließende tatsächlich ausgeführte Prüfungen, Dateien und Git-Stand werden nach den finalen Läufen ergänzt. Zielbranch `codex/p2-24-store-website`; ausschließlich PR-Integration. Der vorherige Korrekturbranch `codex/pr-workflow-correction` bleibt separat. Zugriff auf die GitHub-API war zuletzt gesperrt (`Forbidden`); kein PR- oder CI-Erfolg darf daraus abgeleitet werden.
+Tatsächlich am 15.10.2026 lokal ausgeführt:
+
+- **15 Werkzeugtests** bestanden: neun Store-/Websitefälle sowie sechs bestehende QA-/Serverfälle. Vollständige Typprüfung, ESLint, Formatierung, Übersetzungs-, Inhalts-, Curriculum- und Paketgraphprüfung grün; nach den letzten Anpassungen nochmals betroffene Werkzeuge, Server und E2E-Dateien mit ESLint sowie Formatierung und Werkzeugtests geprüft. Der App-Quellcode ist unverändert; der tatsächliche Vorschau-Web-Entry ist bytegleich zum geprüften P2.23-Export. Die App-Jest-Suite wurde für die Website-/Werkzeugänderungen nicht erneut ausgeführt.
+- **13 Vorschau-Browserabläufe** einschließlich der bestehenden Lektions-/Persistenz-/Tastaturregression und **acht Produktions-Browserabläufe** für Website, Support, Einstieg und öffentliche Rechtsbereiche bestanden. Axe in allen aufgerufenen Prüfungen ohne Befund. Ohne JavaScript und bei 320 px/200-%-Textstress geprüft; keine vollständige manuelle WCAG-Erklärung.
+- Die Netzprüfung der statischen Website endet beim Wechsel in die App. Dort darf die bestehende öffentliche Zugriffspolicy-API geladen werden. Statische Start-/Supportseiten laden ausschließlich eigene Ressourcen und enthalten kein JavaScript.
+- Lokale Chromium-Probe (fünf Messungen): Start-P95 **1.405,420 ms**, Lektionsöffnung-P95 **237,738 ms**. Kein physisches Gerät oder hörbarer Latenznachweis.
+- **Drei Medienabläufe** bestanden: zwölf unveränderte PNGs bei **1.320 × 2.868**, drei stumme MP4/H.264-Dateien bei **1.080 × 1.920 / 30 fps**, jeweils **22,033333 s** tatsächliche kodierte Dauer. Direkte Chromium-CDP-Frames mit Zeitstempeln, jeweils etwa 22,02 s tatsächliche Aufnahmezeit. Ein zusätzlich benötigter Playwright-Encoder konnte wegen der Domainfreigabe nicht geladen werden; der geprüfte Recorder verwendet den vorhandenen lokalen ffmpeg und benötigt diesen Download nicht.
+- Private Galerie tatsächlich im Browser geprüft: alle zwölf PNGs dekodieren, alle drei Videos spielen, korrekter MP4-MIME-Typ, keine Seitenfehler. Alle **44 im Paket aufgelisteten Dateien** anhand ihrer SHA-256-Werte geprüft; ZIP mit zusätzlich dem Manifest, insgesamt **45 Dateien / 4.295.894 Byte**.
+- Produktions-Export: fünf JavaScript-Dateien ohne unveröffentlichte Katalog-IDs oder Inhaltstexte; weiterhin null freigegebene Kataloglektionen. Web-JavaScript **5.375.274 Byte roh / 1.279.172 Byte Gzip-Potenzial**, Audio **686.098 Byte**. Die statische Website umfasst **12 Dateien / 165.766 Byte** (sechs HTML, CSS, drei lokale Schriften, Logo und OFL). Keine Store-Referenzbilder oder -videos im öffentlichen Export.
+- Store- und Website-Veröffentlichungsprüfung scheitern wie vorgesehen an den fehlenden Freigaben. Das Medienpaket bleibt `web-preview-reference`, `physicalDeviceEvidence: false`, `reviewed: false` und `approvedForUpload: false`. Kein nativer Geräte-/Storetest durchgeführt.
+
+Lokale, ignorierte Belege:
+
+- Vorschau-Webexport: `/workspace/p224-preview`; Produktions-Prüfexport: `/workspace/p224-public`.
+- Browsernachweise: `artifacts/quality/p224-preview-accepted` und `artifacts/quality/p224-public-final`.
+- Finale Medien samt Aufnahmeprotokollen: `artifacts/quality/p224-store-captures-final` (Aufnahmequelle `3c9c5de75a72472d2e657e924b54d50e444caa6c`, sauberer Git-Stand).
+- Prüfpaket: `artifacts/quality/p224-store-package/review.html`, dazu `manifest.json`; Dateierzeugung aus `c53c5e5f73a978d13e423e4f937427ea313cca1f`, sauberer Git-Stand, Aufnahmequelle separat erhalten.
+- Downloadpaket: `artifacts/quality/p224-store-package.zip`; entpacken und `harmonia-store-review/review.html` öffnen. Nur die im Manifest aufgeführten Text-/Medien-/Galeriedateien und das Manifest enthalten; keine Rohframes oder Testjournale.
+
+Arbeitsbranch `codex/p2-24-store-website`, ausgehend von `main` bei `ed0aa558a66d3c8d2676d2b25cd3a548ef633fbb`. Kein direkter Push oder Merge nach `main`. PR-Beschreibung lokal unter `/workspace/p224-pr-body.md` vorbereitet; der vorherige Korrekturbranch bleibt separat. GitHub-API-Zugriff war zuletzt gesperrt (`Forbidden`); ein Pull Request wurde hier nicht erstellt und ein grüner Remote-CI-Status nicht behauptet. Claude kann den Arbeitsbranch übernehmen, den PR anlegen und nach erfolgreicher erforderlicher CI und den vorgesehenen Reviews integrieren.
+
+Die technische Vorbereitung ist prüfbar. P2.24 insgesamt bleibt bis zu den oben genannten tatsächlichen Angaben, nativen Store-Medien und Phillips Freigabe offen.

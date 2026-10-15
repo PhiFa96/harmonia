@@ -370,7 +370,7 @@ Die Blöcke B, C und D können teilweise parallel laufen.
 - **Abhängig von:** P0.07
 - **Umfang:** M
 - **Aufgaben:**
-  - [x] Store-Texte und Schlüsselwörter DE/US/UK mit Feldprüfung; Web-Referenzaufnahmen und Videowerkzeuge vorbereitet
+  - [x] Store-Texte und Schlüsselwörter DE/US/UK mit Feldprüfung; 12 Web-Referenzbilder und 3 Videos erstellt; native Store-Medien offen
   - [x] Statische Website DE/US/UK mit Web-App, Rechts-/Datenschutz- und Supporteinbindung; tatsächliche Betreiber-/Supportangaben offen
   - [ ] Native Store-Medien, aktuelle Store-Vorgaben und finale Einträge prüfen; Phillip gibt den Auftritt frei
 - **Stand 15.10.2026:** Technische Vorbereitung auf Arbeitsbranch; keine Veröffentlichung oder Store-Einreichung. [Übergabe P2.24](store-auftritt-und-website.md), [ADR 0024](../decisions/0024-statischer-storeauftritt.md).
