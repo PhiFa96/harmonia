@@ -138,5 +138,11 @@ const styles = StyleSheet.create({
     paddingVertical: SPACE.s,
     borderRadius: RADIUS.control,
   },
-  label: { fontFamily: FONT_FAMILIES.bold, fontSize: 17, lineHeight: 22, textAlign: 'center' },
+  label: {
+    fontFamily: FONT_FAMILIES.bold,
+    fontSize: 17,
+    lineHeight: 22,
+    textAlign: 'center',
+    flexShrink: 1,
+  },
 });

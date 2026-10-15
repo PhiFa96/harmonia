@@ -5,7 +5,7 @@ import { LAYOUT as PAGE_LAYOUT, SPACE } from '@harmonia/ui';
 import { AppText, Card, useUiTheme } from '@harmonia/ui/native';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { Platform, ScrollView, StyleSheet, View } from 'react-native';
 
 import { useMotivation, currentMotivation } from '@/state/motivation';
 import { MotivationCard } from '@/components/motivation-card';
@@ -50,7 +50,13 @@ export default function LearnScreen() {
         <LearningPath />
         <AppText>{t('learn.exampleScale')}</AppText>
         <Card style={styles.card}>
-          <ScrollView horizontal contentContainerStyle={styles.score}>
+          <ScrollView
+            horizontal
+            contentContainerStyle={styles.score}
+            {...(Platform.OS === 'web'
+              ? { tabIndex: 0, 'aria-label': t('learn.exampleScale') }
+              : {})}
+          >
             <ScoreView
               score={score}
               staffSpace={9}

@@ -237,7 +237,11 @@ function LessonPlayer({
   return (
     <>
       <Stack.Screen options={{ headerShown: true, title: contentText(content.titleKey) }} />
-      <ScrollView ref={scroll} contentContainerStyle={styles.container}>
+      <ScrollView
+        ref={scroll}
+        contentContainerStyle={styles.container}
+        {...(Platform.OS === 'web' ? { tabIndex: 0 } : {})}
+      >
         <View style={styles.content}>
           {flow.accessError ? <AppText role="alert">{t('paywall.accessError')}</AppText> : null}
           {flow.accessPending ? <AppText aria-live="polite">{t('paywall.loading')}</AppText> : null}

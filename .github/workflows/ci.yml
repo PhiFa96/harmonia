@@ -111,16 +111,31 @@ jobs:
       - name: Abhängigkeiten installieren
         run: pnpm install --frozen-lockfile
 
-      - name: Web-Bundle bauen (expo export)
-        run: pnpm --filter @harmonia/mobile build:web
+      - name: Isolierte Gast-Vorschau für Web-E2E bauen
+        run: pnpm qa:build --output apps/mobile/dist
+
+      - name: Chromium für Web-E2E installieren
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Kernabläufe, axe, Tastatur und Leistungsbudgets prüfen
+        run: pnpm qa:web
+
+      - name: Web-Prüfnachweise aus eigenen Gast-Fixtures aufbewahren
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: web-quality-fixtures
+          path: artifacts/quality/playwright
+          if-no-files-found: ignore
+          retention-days: 7
 
       - name: Produktions-Bundle mit öffentlichen Inhalten bauen
         env:
           APP_VARIANT: production
         run: pnpm check:content && pnpm --filter @harmonia/mobile build:web
 
-      - name: Tatsächlichen Export auf Entwurfsdaten und -texte prüfen
-        run: pnpm check:content:bundle
+      - name: Tatsächlichen Export auf Entwurfsdaten, Texte und Größenbudgets prüfen
+        run: pnpm check:content:bundle && pnpm qa:bundle
 
   deno:
     name: Deno-Kompatibilität

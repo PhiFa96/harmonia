@@ -34,7 +34,7 @@ flowchart LR
   R --> PU[EAS Update → Kanal production]
 ```
 
-- **Stand (P1.02):** `.github/workflows/ci.yml` prüft bei jedem Pull Request und jedem Push auf `main`:
+- **Ursprünglicher Stand (P1.02):** `.github/workflows/ci.yml` prüft bei jedem Pull Request und jedem Push auf `main`:
   - Job „Lint, Typen, Tests“: Formatierung, Lint, Paket-Abhängigkeiten, Typen, Tests
   - Job „Deno-Kompatibilität“: Theorie-Engine unter Deno
 
@@ -89,3 +89,9 @@ flowchart LR
 - **Support:** Kontaktformular in der App, Antwortvorlagen DE/EN, Kategorie „Inhaltsfehler“ direkt an `content_reports`.
 - **Störungen:** kurzes Ablaufdokument (Wer prüft was, wie wird kommuniziert, Nachbetrachtung).
 - **Kosten:** monatliche Übersicht aller Dienste (Supabase, EAS, Anthropic, RevenueCat, Stripe, LiveKit, Sentry, Analytics).
+
+## Technischer Prüfstand P2.23 (15.10.2026)
+
+Die aktuelle CI prüft inzwischen auch Supabase/RLS-/Function-Kernabläufe, Tutor-Batchmechanik, Inhalts-/Fähigkeitsfreigaben und echte Web-Gastabläufe. `qa:web` verbindet Playwright mit axe, Tastatur-/Persistenzproben, Screenshots und fünf lokalen Start-/Lektionsmessungen. `qa:bundle` beobachtet den vollständigen öffentlichen Export mit festen Größenwachen. Der Webjob führt diese Prüfungen vor dem Produktions-Bundlecheck aus; eigene Gast-Fixtures werden als kurzlebige Prüfnachweise gespeichert. Details: [P2.23](qualitaets-durchgang.md).
+
+`e2e/mobile` und vier Nachweisslots sind vorbereitet. Die native Maestro-Ausführung, mindestens vier physische Geräte und die tatsächliche hörbare Latenz sind hier nicht abgenommen; `qa:release` bleibt deshalb gesperrt. Lokale Chromium-Zeiten, JavaScript-/Hermes-Exporte oder ausgefüllte JSON-Felder ersetzen keine native Messung. Die bestehende Anforderung an vier Geräte ist weiterhin offen. Staging/EAS/Store-Veröffentlichung und Sentry wurden durch diesen Prüfschritt nicht aktiviert.

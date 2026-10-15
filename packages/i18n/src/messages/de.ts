@@ -1798,4 +1798,13 @@ export const de = {
     accountOnly:
       'Gäste werden nicht erfasst. Die freiwillige Wahl ist nach der Anmeldung und rechtlichen Freigabe verfügbar.',
   },
+  quality: {
+    failureTitle: 'Hier ist etwas schiefgelaufen.',
+    failureBody:
+      'Versuche, die Ansicht erneut zu öffnen. Deine gespeicherten Lernstände werden dabei nicht gelöscht.',
+    retryFailed: 'Die Ansicht konnte noch nicht geöffnet werden. Bitte versuche es später erneut.',
+    notFound: 'Diese Seite gibt es nicht.',
+    notFoundBody: 'Du kannst zu deinem Lernbereich zurückkehren.',
+    home: 'Zum Lernbereich',
+  },
 } as const;

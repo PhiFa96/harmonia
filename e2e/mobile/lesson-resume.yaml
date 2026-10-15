@@ -1,0 +1,34 @@
+# Same disposable preview install. No purchase or external provider action.
+appId: app.harmonia.mobile.preview
+---
+- runFlow: onboarding.yaml
+- tapOn: Lernen
+- scrollUntilVisible:
+    element:
+      text: 'Lektionen in .* anzeigen'
+    direction: DOWN
+- tapOn:
+    text: 'Lektionen in .* anzeigen'
+    index: 0
+- tapOn: Lektion ansehen
+- repeat:
+    times: 2
+    commands:
+      - tapOn: Nächste Einführungskarte
+- tapOn: 'Mit .* Aufgaben starten'
+- assertVisible:
+    id: exercise-question
+- stopApp
+- launchApp
+- scrollUntilVisible:
+    element:
+      text: 'Lektionen in .* anzeigen'
+    direction: DOWN
+- tapOn:
+    text: 'Lektionen in .* anzeigen'
+    index: 0
+- tapOn: Lektion ansehen
+- assertVisible: Deine Lektion wartet
+- tapOn: Lektion fortsetzen
+- assertVisible:
+    id: exercise-question

@@ -91,6 +91,9 @@ export function LessonIntroduction({
               key={`score:${example.score}`}
               testID="lesson-example-scroll"
               horizontal
+              {...(Platform.OS === 'web'
+                ? { tabIndex: 0, 'aria-label': t('lesson.scrollExample') }
+                : {})}
               contentContainerStyle={styles.score}
               onLayout={(event) => {
                 setViewportWidth(event.nativeEvent.layout.width);

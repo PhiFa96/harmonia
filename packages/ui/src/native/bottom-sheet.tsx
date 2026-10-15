@@ -3,7 +3,7 @@
 
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
-import { Modal, Pressable, StyleSheet, View } from 'react-native';
+import { Modal, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import Animated, {
   FadeIn,
   FadeOut,
@@ -63,6 +63,7 @@ export function BottomSheet({ visible, onClose, title, closeLabel, children }: B
       onRequestClose={onClose}
       animationType="none"
       statusBarTranslucent
+      {...(Platform.OS === 'web' ? { 'aria-label': title } : {})}
     >
       <View style={styles.fill}>
         {visible ? (
@@ -72,15 +73,20 @@ export function BottomSheet({ visible, onClose, title, closeLabel, children }: B
             style={[StyleSheet.absoluteFill, { backgroundColor: scrim }]}
           >
             {/* Nur für Finger und Maus; Screenreader schließen über den Knopf */}
-            <Pressable style={StyleSheet.absoluteFill} onPress={onClose} aria-hidden />
+            <Pressable
+              style={StyleSheet.absoluteFill}
+              onPress={onClose}
+              aria-hidden
+              {...(Platform.OS === 'web' ? { tabIndex: -1 } : {})}
+            />
           </Animated.View>
         ) : null}
         {visible ? (
           <Animated.View
             entering={sheetIn}
+            testID="bottom-sheet-panel"
             exiting={sheetOut}
-            aria-modal
-            accessibilityViewIsModal
+            {...(Platform.OS === 'web' ? {} : { accessibilityViewIsModal: true })}
             style={[
               styles.sheet,
               {
@@ -103,7 +109,13 @@ export function BottomSheet({ visible, onClose, title, closeLabel, children }: B
                 <Icon name="close" color={colors.textMuted} />
               </Pressable>
             </View>
-            {children}
+            <ScrollView
+              style={styles.scroll}
+              contentContainerStyle={styles.body}
+              keyboardShouldPersistTaps="handled"
+            >
+              {children}
+            </ScrollView>
           </Animated.View>
         ) : null}
       </View>
@@ -113,6 +125,8 @@ export function BottomSheet({ visible, onClose, title, closeLabel, children }: B
 
 const styles = StyleSheet.create({
   fill: { flex: 1, justifyContent: 'flex-end', alignItems: 'center' },
+  scroll: { flexShrink: 1 },
+  body: { gap: SPACE.m, paddingBottom: SPACE.s },
   sheet: {
     width: '100%',
     maxWidth: LAYOUT.maxContentWidth + 2 * LAYOUT.screenPadding,

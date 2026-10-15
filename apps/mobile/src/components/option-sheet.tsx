@@ -1,7 +1,9 @@
 import { SPACE } from '@harmonia/ui';
 import { AppText, BottomSheet, Icon, useHaptics, useUiTheme } from '@harmonia/ui/native';
 import { useTranslation } from 'react-i18next';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, View } from 'react-native';
+import { useRef } from 'react';
+import { useWebChoiceInput } from './use-web-choice-input';
 
 export interface Option<T extends string> {
   readonly value: T;
@@ -27,34 +29,73 @@ export function OptionSheet<T extends string>({
   onSelect,
 }: OptionSheetProps<T>) {
   const { t } = useTranslation();
-  const { colors } = useUiTheme();
-  const haptics = useHaptics();
   return (
     <BottomSheet visible={visible} onClose={onClose} title={title} closeLabel={t('common.close')}>
-      <View role="radiogroup" aria-label={title}>
-        {options.map((option) => {
-          const checked = option.value === selected;
-          return (
-            <Pressable
-              key={option.value}
-              role="radio"
-              aria-checked={checked}
-              onPress={() => {
-                haptics.tap();
-                onSelect(option.value);
-                onClose();
-              }}
-              style={[styles.row, { borderBottomColor: colors.border }]}
-            >
-              <AppText style={styles.label} tone={checked ? 'primary' : 'default'}>
-                {option.label}
-              </AppText>
-              {checked ? <Icon name="check" color={colors.primaryText} strokeWidth={2.6} /> : null}
-            </Pressable>
-          );
-        })}
-      </View>
+      <OptionRows
+        title={title}
+        options={options}
+        selected={selected}
+        onSelect={onSelect}
+        onClose={onClose}
+      />
     </BottomSheet>
+  );
+}
+
+/** Mounted with the actual dialog, so DOM refs exist before keyboard listeners attach. */
+function OptionRows<T extends string>({
+  title,
+  options,
+  selected,
+  onSelect,
+  onClose,
+}: Omit<OptionSheetProps<T>, 'visible'>) {
+  const { colors } = useUiTheme();
+  const haptics = useHaptics();
+  const group = useRef<View>(null);
+  const select = (value: string) => {
+    const option = options.find((entry) => entry.value === value);
+    if (!option) return;
+    haptics.tap();
+    onSelect(option.value);
+    onClose();
+  };
+  useWebChoiceInput(group, {
+    choices: options.map((option) => option.value),
+    enabled: true,
+    select,
+  });
+  return (
+    <View ref={group} role="radiogroup" aria-label={title}>
+      {options.map((option, index) => {
+        const checked = option.value === selected;
+        return (
+          <Pressable
+            key={option.value}
+            role="radio"
+            aria-label={option.label}
+            aria-checked={checked}
+            {...(Platform.OS === 'web'
+              ? {
+                  tabIndex:
+                    checked || (!options.some((entry) => entry.value === selected) && index === 0)
+                      ? 0
+                      : -1,
+                }
+              : {})}
+            onPress={() => {
+              select(option.value);
+            }}
+            style={[styles.row, { borderBottomColor: colors.border }]}
+          >
+            <AppText style={styles.label} tone={checked ? 'primary' : 'default'}>
+              {option.label}
+            </AppText>
+            {checked ? <Icon name="check" color={colors.primaryText} strokeWidth={2.6} /> : null}
+          </Pressable>
+        );
+      })}
+    </View>
   );
 }
 

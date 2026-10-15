@@ -6,7 +6,15 @@ import tseslint from 'typescript-eslint';
 import harmonia from './packages/i18n/eslint/no-hardcoded-text.js';
 
 export default defineConfig(
-  globalIgnores(['**/node_modules/', '**/dist/', '**/coverage/', '**/.expo/']),
+  globalIgnores([
+    '**/node_modules/',
+    '**/dist/',
+    '**/coverage/',
+    '**/.expo/',
+    'artifacts/quality/**',
+    'playwright-report/**',
+    'test-results/**',
+  ]),
   js.configs.recommended,
   {
     files: ['**/*.ts', '**/*.tsx'],
@@ -35,5 +43,9 @@ export default defineConfig(
     languageOptions: {
       globals: globals.node,
     },
+  },
+  {
+    files: ['e2e/web/**/*.mjs'],
+    languageOptions: { globals: { ...globals.node, ...globals.browser } },
   },
 );

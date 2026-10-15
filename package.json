@@ -11,7 +11,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "pnpm -r --if-present typecheck && tsc -p tools --noEmit && tsc -p supabase/functions --noEmit",
-    "test": "pnpm -r --if-present test && node --test tools/content-pipeline.test.mjs tools/curriculum-view.test.mjs tools/local-backend-setup.test.mjs tools/tutor-interface.test.mjs tools/tutor-benchmark.test.mjs",
+    "test": "pnpm -r --if-present test && node --test tools/content-pipeline.test.mjs tools/curriculum-view.test.mjs tools/local-backend-setup.test.mjs tools/tutor-interface.test.mjs tools/tutor-benchmark.test.mjs && node --test tools/qa/release.test.mjs tools/qa/server.test.mjs",
     "check:i18n": "node tools/check-translations.ts",
     "check:content": "node tools/check-content.mjs --check",
     "check:curriculum": "node tools/check-curriculum.mjs --check",
@@ -49,12 +49,18 @@
     "check:legal:release": "node tools/check-legal-release.mjs --release",
     "db:test:privacy": "node tools/test-privacy.mjs",
     "db:test:analytics": "node tools/test-analytics.mjs",
-    "analytics:dashboard": "node tools/analytics-dashboard.mjs"
+    "analytics:dashboard": "node tools/analytics-dashboard.mjs",
+    "qa:build": "node tools/qa/export.mjs",
+    "qa:web": "playwright test --config tools/qa/playwright.config.mjs",
+    "qa:bundle": "node tools/qa/bundle.mjs",
+    "qa:release": "node tools/qa/release.mjs"
   },
   "devDependencies": {
     "@anthropic-ai/sdk": "0.133.0",
+    "@axe-core/playwright": "4.13.0",
     "@eslint/js": "catalog:",
     "@harmonia/config": "workspace:*",
+    "@playwright/test": "1.64.1",
     "eslint": "catalog:",
     "globals": "catalog:",
     "prettier": "catalog:",

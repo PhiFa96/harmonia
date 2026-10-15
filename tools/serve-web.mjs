@@ -4,6 +4,7 @@ import { stat } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { extname, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createGzip } from 'node:zlib';
 
 const root = resolve(
   process.env['HARMONIA_PREVIEW_DIR'] ??
@@ -23,7 +24,7 @@ const mime = {
   '.ico': 'image/x-icon',
   '.svg': 'image/svg+xml',
 };
-createServer(async (request, response) => {
+const server = createServer(async (request, response) => {
   response.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
   response.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
   try {
@@ -40,10 +41,26 @@ createServer(async (request, response) => {
     }
     response.setHeader('Content-Type', mime[extname(file)] ?? 'application/octet-stream');
     response.setHeader('Cache-Control', 'no-cache');
-    createReadStream(file)
-      .on('error', () => response.destroy())
-      .pipe(response);
+    response.setHeader('Vary', 'Accept-Encoding');
+    const gzip = (request.headers['accept-encoding'] ?? '').split(',').some((entry) => {
+      const [name, ...parameters] = entry.trim().toLowerCase().split(';');
+      const quality = parameters.find((value) => value.trim().startsWith('q='));
+      return name === 'gzip' && (quality === undefined || Number(quality.trim().slice(2)) > 0);
+    });
+    const compressed =
+      gzip && ['.html', '.js', '.json', '.css', '.svg', '.wasm'].includes(extname(file));
+    if (compressed) response.setHeader('Content-Encoding', 'gzip');
+    if (request.method === 'HEAD') {
+      response.end();
+      return;
+    }
+    const source = createReadStream(file).on('error', () => response.destroy());
+    if (compressed) source.pipe(createGzip().on('error', () => response.destroy())).pipe(response);
+    else source.pipe(response);
   } catch {
     response.writeHead(404).end();
   }
-}).listen(port, '127.0.0.1', () => console.log(`Harmonia-Vorschau: http://localhost:${port}`));
+});
+server.listen(port, '127.0.0.1', () =>
+  console.log(`Harmonia-Vorschau: http://127.0.0.1:${server.address().port}`),
+);

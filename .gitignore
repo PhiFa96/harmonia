@@ -32,3 +32,8 @@ coverage/
 
 # Private Tutor-Batchjournale, Modellantworten und separate Review-Arbeitsdateien
 /artifacts/tutor-benchmark/
+
+# Local quality evidence; guest fixtures and screenshots are not a public app bundle
+/artifacts/quality/
+/playwright-report/
+/test-results/

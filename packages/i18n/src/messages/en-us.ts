@@ -1760,4 +1760,12 @@ export const enUS = {
     accountOnly:
       'Guests are not tracked. The optional choice becomes available after sign-in and legal approval.',
   },
+  quality: {
+    failureTitle: 'Something went wrong.',
+    failureBody: 'Try opening this view again. Your saved learning progress will be kept.',
+    retryFailed: 'This view is still unavailable. Please try again later.',
+    notFound: 'This page could not be found.',
+    notFoundBody: 'You can return to your learning area.',
+    home: 'Go to learning',
+  },
 } as const satisfies Messages;

@@ -1,0 +1,42 @@
+# ONLY a disposable preview install on your own test simulator/device. Clears its test data.
+appId: app.harmonia.mobile.preview
+---
+- launchApp:
+    clearState: true
+- tapOn:
+    id: setup-choice-de
+- tapOn:
+    id: setup-next
+- tapOn:
+    id: setup-choice-hobby
+- tapOn:
+    id: setup-next
+- tapOn:
+    id: setup-choice-new
+- tapOn:
+    id: setup-next
+- tapOn:
+    id: setup-choice-later
+- tapOn:
+    id: setup-next
+- tapOn:
+    id: setup-next
+- tapOn:
+    id: setup-next
+- tapOn:
+    id: 'answer-interval-direction:up'
+- tapOn: Prüfen
+- tapOn:
+    id: exercise-next
+- tapOn: Ich bin mindestens 16 Jahre alt
+- tapOn:
+    id: setup-next
+- tapOn: Gratis weiterlernen
+- assertVisible: Dein Lernpfad
+- stopApp
+- launchApp
+- assertVisible: Dein Lernpfad
+- tapOn: Profil
+- tapOn: 'Erscheinungsbild.*'
+- tapOn: Dunkel
+- assertVisible: Profil

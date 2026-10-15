@@ -357,11 +357,12 @@ Die Blöcke B, C und D können teilweise parallel laufen.
 - **Abhängig von:** Block A–E
 - **Umfang:** L
 - **Aufgaben:**
-  - [ ] Barrierefreiheit nach [qualitaet-und-betrieb.md](qualitaet-und-betrieb.md) (inkl. automatischer Web-Prüfung)
-  - [ ] Leistungsbudgets messen und einhalten
-  - [ ] E2E-Tests (Playwright, Maestro) für Kernabläufe
-  - [ ] Gerätetest-Checkliste auf mindestens 4 Geräten
-- **Fertig, wenn:** Alle Budgets eingehalten, keine bekannten kritischen Fehler.
+  - [x] Automatische Web-Barrierefreiheitsprüfung und konkrete Korrekturen; manuelle Screenreader-/Geräteabnahme offen
+  - [x] Web-Proxymessung und Größenbudgets automatisiert; native Start-/Akustikmessung offen
+  - [x] Playwright-Kernabläufe und CI; Maestro-Flows vorbereitet, native Ausführung offen
+  - [ ] Gerätetest-Checkliste auf mindestens 4 echten Geräten ausführen (vier leere Nachweisslots vorbereitet)
+- **Stand 15.10.2026:** Technischer Qualitätsdurchgang, Regression und wiederholbare Prüfwerkzeuge umgesetzt. Vollständige Geräte-/Akustik-/Storeabnahme offen. [Übergabe P2.23](qualitaets-durchgang.md), [ADR 0023](../decisions/0023-wiederholbare-qualitaetspruefung.md).
+- **Fertig, wenn:** Alle Budgets eingehalten, keine bekannten kritischen Fehler. Noch nicht vollständig erfüllt: vier tatsächliche Gerätebelege und native Messungen fehlen.
 
 ### P2.24 – Store-Auftritt und Website
 

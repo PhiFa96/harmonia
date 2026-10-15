@@ -1,0 +1,93 @@
+{
+  "version": 1,
+  "devices": [
+    {
+      "platform": "ios",
+      "slot": "small",
+      "deviceModel": null,
+      "osVersion": null,
+      "testedAt": null,
+      "reviewer": null,
+      "evidenceReference": null,
+      "startupMs": null,
+      "lessonOpenMs": null,
+      "audibleLatencyMs": null,
+      "checks": {
+        "screenReader": false,
+        "text200Percent": false,
+        "reducedMotion": false,
+        "audioLatencyMeasured": false,
+        "muteBackgroundHeadphones": false,
+        "offlineResume": false,
+        "purchaseSandbox": false,
+        "privacyAccountSwitch": false
+      }
+    },
+    {
+      "platform": "ios",
+      "slot": "current",
+      "deviceModel": null,
+      "osVersion": null,
+      "testedAt": null,
+      "reviewer": null,
+      "evidenceReference": null,
+      "startupMs": null,
+      "lessonOpenMs": null,
+      "audibleLatencyMs": null,
+      "checks": {
+        "screenReader": false,
+        "text200Percent": false,
+        "reducedMotion": false,
+        "audioLatencyMeasured": false,
+        "muteBackgroundHeadphones": false,
+        "offlineResume": false,
+        "purchaseSandbox": false,
+        "privacyAccountSwitch": false
+      }
+    },
+    {
+      "platform": "android",
+      "slot": "midrange",
+      "deviceModel": null,
+      "osVersion": null,
+      "testedAt": null,
+      "reviewer": null,
+      "evidenceReference": null,
+      "startupMs": null,
+      "lessonOpenMs": null,
+      "audibleLatencyMs": null,
+      "checks": {
+        "screenReader": false,
+        "text200Percent": false,
+        "reducedMotion": false,
+        "audioLatencyMeasured": false,
+        "muteBackgroundHeadphones": false,
+        "offlineResume": false,
+        "purchaseSandbox": false,
+        "privacyAccountSwitch": false
+      }
+    },
+    {
+      "platform": "android",
+      "slot": "current",
+      "deviceModel": null,
+      "osVersion": null,
+      "testedAt": null,
+      "reviewer": null,
+      "evidenceReference": null,
+      "startupMs": null,
+      "lessonOpenMs": null,
+      "audibleLatencyMs": null,
+      "checks": {
+        "screenReader": false,
+        "text200Percent": false,
+        "reducedMotion": false,
+        "audioLatencyMeasured": false,
+        "muteBackgroundHeadphones": false,
+        "offlineResume": false,
+        "purchaseSandbox": false,
+        "privacyAccountSwitch": false
+      }
+    }
+  ]
+}

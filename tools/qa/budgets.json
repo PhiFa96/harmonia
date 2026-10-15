@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "startupMs": 3000,
+  "lessonOpenMs": 1000,
+  "audibleLatencyMs": 50,
+  "webJavaScriptGzipBytes": 1572864,
+  "webJavaScriptRawBytes": 6291456,
+  "nativeEntryBytes": 12582912,
+  "audioAssetsBytes": 4194304
+}
