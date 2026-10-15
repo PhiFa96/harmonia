@@ -1,0 +1,68 @@
+{
+  "de-DE": {
+    "title": "Dein Test hilft Harmonia wachsen.",
+    "label": "Geschlossene Beta",
+    "intro": "Teste in deinem eigenen Tempo. Der freigegebene Lernumfang kann während der Beta wachsen. Manche Funktionen sind noch eingeschränkt; ein Beta-Zugang ist kein kostenpflichtiges Abo.",
+    "start": "App öffnen",
+    "tasksTitle": "Das kannst du ausprobieren",
+    "tasks": [
+      "Starte als Gast oder mit deinem eigenen Testkonto. Prüfe Sprache, Instrument und Lernziel sowie den optionalen Einstufungstest.",
+      "Öffne eine freigeschaltete Lektion. Probiere Noten, Klang und Hinweise aus. Für den nächsten Lernschritt zählen mindestens 80 % richtige Erstversuchsantworten; Hinweise 1–2 sind erlaubt.",
+      "Unterbrich eine Lektion und kehre zurück. Probiere Wiederholung, Tagesziel und deine bevorzugten Bedienhilfen aus.",
+      "Prüfe mit deinem Testkonto Export und Löschung. Käufe nur im ausdrücklich eingerichteten Store-Testmodus testen. Tutor-Verfügbarkeit und Grenzen hängen von der Beta-Konfiguration ab."
+    ],
+    "feedbackTitle": "Sag uns, was passiert ist",
+    "feedback": "Notiere die Schritte, deine Erwartung und das tatsächliche Ergebnis. Nenne Plattform, Betriebssystem, App-Version und Sprache. Entferne Namen, E-Mails, Zugangscodes, private Gespräche und Zahlungsdaten aus Texten und Bildern.",
+    "content": "Fehler in einer Aufgabe meldest du direkt über „Problem melden“. Gastmeldungen bleiben auf dem Gerät und werden erst nach Anmeldung gesendet. Tutor-Antworten haben einen eigenen Meldeweg.",
+    "contact": "Allgemeines Beta-Feedback per E-Mail",
+    "pending": "Der Feedback-Kontakt wird vor dem Beta-Start eingerichtet.",
+    "template": "Vorlage herunterladen",
+    "templateBody": "Harmonia Beta-Feedback\nApp-Version / Build:\nPlattform / Betriebssystem:\nSprache:\nBereich:\nSchritte zum Nachstellen:\nErwartet:\nTatsächlich:\nHäufigkeit:\nBitte keine personenbezogenen Daten, Zugangscodes oder privaten Gespräche eintragen.\n",
+    "privacy": "Die Teilnahme an optionalen Nutzungsstatistiken ist freiwillig und getrennt von deinem Beta-Zugang. Du kannst ohne Einwilligung lernen. Feedback wird wöchentlich geprüft; eine Meldung ist noch keine Zusage für einen Termin.",
+    "access": "Dein persönlicher Web-Zugang läuft ab und kann widerrufen werden. Teile ihn nicht. Verwende auf gemeinsam genutzten Geräten ein privates Browserfenster und schließe es danach vollständig."
+  },
+  "en-US": {
+    "title": "Help Harmonia grow through practice.",
+    "label": "Closed beta",
+    "intro": "Explore at your own pace. The reviewed learning content may grow during the beta. Some features are still limited; beta access is not a paid subscription.",
+    "start": "Open the app",
+    "tasksTitle": "Things to try",
+    "tasks": [
+      "Start as a guest or with your own test account. Check your language, instrument and learning goal, and try the optional placement test.",
+      "Open an unlocked lesson. Try the notation, audio and hints. Moving forward requires at least 80% correct first attempts; hints 1–2 are allowed.",
+      "Pause a lesson and return. Try review practice, your daily goal and your preferred accessibility tools.",
+      "Use your test account to check export and deletion. Only test purchases in an explicitly configured store sandbox. Tutor availability and limits depend on the beta configuration."
+    ],
+    "feedbackTitle": "Tell us what happened",
+    "feedback": "Describe the steps, what you expected and what actually happened. Include your platform, operating system, app version and language. Remove names, emails, access codes, private conversations and payment details from text and images.",
+    "content": "Report exercise errors directly with “Report a problem.” Guest reports stay on the device until sign-in. Tutor answers have their own reporting option.",
+    "contact": "Email general beta feedback",
+    "pending": "The feedback contact will be configured before the beta starts.",
+    "template": "Download the template",
+    "templateBody": "Harmonia beta feedback\nApp version / build:\nPlatform / operating system:\nLanguage:\nArea:\nSteps to reproduce:\nExpected:\nActual:\nFrequency:\nDo not include personal data, access codes or private conversations.\n",
+    "privacy": "Optional usage statistics require a separate, voluntary choice. You can learn without consenting. Feedback is reviewed weekly; submitting a report does not promise a delivery date.",
+    "access": "Your personal web access expires and can be revoked. Do not share it. On shared devices, use a private browser window and close it completely afterward."
+  },
+  "en-GB": {
+    "title": "Help Harmonia grow through practice.",
+    "label": "Closed beta",
+    "intro": "Explore at your own pace. The reviewed learning content may grow during the beta. Some features are still limited; beta access is not a paid subscription.",
+    "start": "Open the app",
+    "tasksTitle": "Things to try",
+    "tasks": [
+      "Start as a guest or with your own test account. Check your language, instrument and learning goal, and try the optional placement test.",
+      "Open an unlocked lesson. Try the notation, audio and hints. Moving forward requires at least 80% correct first attempts; hints 1–2 are allowed.",
+      "Pause a lesson and return. Try revision practice, your daily goal and your preferred accessibility tools.",
+      "Use your test account to check export and deletion. Only test purchases in an explicitly configured store sandbox. Tutor availability and limits depend on the beta configuration."
+    ],
+    "feedbackTitle": "Tell us what happened",
+    "feedback": "Describe the steps, what you expected and what actually happened. Include your platform, operating system, app version and language. Remove names, emails, access codes, private conversations and payment details from text and images.",
+    "content": "Report exercise errors directly with “Report a problem”. Guest reports stay on the device until sign-in. Tutor answers have their own reporting option.",
+    "contact": "Email general beta feedback",
+    "pending": "The feedback contact will be configured before the beta starts.",
+    "template": "Download the template",
+    "templateBody": "Harmonia beta feedback\nApp version / build:\nPlatform / operating system:\nLanguage:\nArea:\nSteps to reproduce:\nExpected:\nActual:\nFrequency:\nDo not include personal data, access codes or private conversations.\n",
+    "privacy": "Optional usage statistics require a separate, voluntary choice. You can learn without consenting. Feedback is reviewed weekly; submitting a report does not promise a delivery date.",
+    "access": "Your personal web access expires and can be revoked. Do not share it. On shared devices, use a private browser window and close it completely afterwards."
+  }
+}

@@ -12,6 +12,7 @@ export default defineConfig(
     '**/coverage/',
     '**/.expo/',
     'artifacts/quality/**',
+    'artifacts/beta/**',
     'playwright-report/**',
     'test-results/**',
   ]),
@@ -45,7 +46,7 @@ export default defineConfig(
     },
   },
   {
-    files: ['e2e/web/**/*.mjs'],
+    files: ['e2e/web/**/*.mjs', 'e2e/beta/**/*.mjs'],
     languageOptions: { globals: { ...globals.node, ...globals.browser } },
   },
 );

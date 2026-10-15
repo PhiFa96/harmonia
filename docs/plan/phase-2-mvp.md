@@ -386,6 +386,7 @@ Die Blöcke B, C und D können teilweise parallel laufen.
   - [ ] 30–100 Testpersonen aus verschiedenen Zielgruppen (Einsteiger bis Studierende)
   - [ ] Feedback-Kanal, wöchentliche Auswertung, Fehlerbehebung
   - [ ] Zielwerte für Kennzahlen nach der Beta festlegen
+- **Technisch vorbereitet:** EAS-Betaprofil mit Produktionskatalog und Startgate, geschützter Web-Kandidat/Gateway mit individuellen Zugängen, Testhinweise DE/US/UK, privates Feedbackjournal und Wochen-/Abschlussprüfung. Keine reale Verteilung oder Testpersonen. [Übergabe P2.25](geschlossene-beta.md), [ADR 0025](../decisions/0025-geschlossene-beta.md).
 - **Fertig, wenn:** Keine kritischen Fehler offen; Rückmeldungen ausgewertet und eingeplant.
 
 ### P2.26 – Launch

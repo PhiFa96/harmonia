@@ -50,6 +50,9 @@ jobs:
       - name: Store-Texte, Sprachen und geschlossene Veröffentlichung prüfen
         run: pnpm check:storefront
 
+      - name: Beta-Vorbereitung und offene Startvoraussetzungen prüfen
+        run: pnpm check:beta
+
       - name: Übersetzungen
         run: pnpm check:i18n
 
@@ -123,12 +126,26 @@ jobs:
       - name: Kernabläufe, axe, Tastatur und Leistungsbudgets prüfen
         run: pnpm qa:web
 
+      - name: Privaten Beta-Zugang und Testhinweise mit eigenen Fixtures prüfen
+        env:
+          HARMONIA_QA_OUTPUT: artifacts/quality/beta-playwright
+        run: pnpm beta:test:web
+
       - name: Web-Prüfnachweise aus eigenen Gast-Fixtures aufbewahren
         if: always()
         uses: actions/upload-artifact@v7
         with:
           name: web-quality-fixtures
           path: artifacts/quality/playwright
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: Synthetische Beta-Webprüfungen aufbewahren
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: beta-web-fixtures
+          path: artifacts/quality/beta-playwright
           if-no-files-found: ignore
           retention-days: 7
 
