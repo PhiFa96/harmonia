@@ -15,6 +15,7 @@ Closes #<!-- Issue-Nummer, z. B. 8 für P1.01 -->
 
 ## Definition of Done
 
+- [ ] Erforderliche GitHub-CI und Reviews am aktuellen PR-Stand erfolgreich; lokale Tests getrennt dokumentiert
 - [ ] Abnahmekriterien des Arbeitsschritts erfüllt
 - [ ] Alle Texte in Deutsch **und** Englisch (falls UI oder Inhalte betroffen)
 - [ ] Neue Logik hat Tests; fachliche Logik mit Literaturbeispielen geprüft
