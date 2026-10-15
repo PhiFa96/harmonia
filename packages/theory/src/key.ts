@@ -203,6 +203,7 @@ export function diatonicTriads(
 }
 
 export interface KeyNameOptions {
+  readonly noteNaming?: 'de' | 'intl';
   readonly language?: 'de' | 'en';
   /** Nur für Englisch: Unicode-Zeichen (♯ ♭) oder ASCII (# b). */
   readonly accidentals?: AccidentalStyle;
@@ -214,9 +215,12 @@ export interface KeyNameOptions {
  */
 export function keyName(k: Key, options: KeyNameOptions = {}): string {
   if (options.language === 'en') {
-    return `${internationalName(k.tonic.letter, k.tonic.alter, options.accidentals ?? 'unicode')} ${k.mode}`;
+    return `${options.noteNaming === 'de' ? germanName(k.tonic.letter, k.tonic.alter) : internationalName(k.tonic.letter, k.tonic.alter, options.accidentals ?? 'unicode')} ${k.mode}`;
   }
-  const tonic = germanName(k.tonic.letter, k.tonic.alter);
+  const tonic =
+    options.noteNaming === 'intl'
+      ? internationalName(k.tonic.letter, k.tonic.alter, options.accidentals ?? 'unicode')
+      : germanName(k.tonic.letter, k.tonic.alter);
   return k.mode === 'major' ? `${tonic}-Dur` : `${tonic.toLowerCase()}-Moll`;
 }
 

@@ -16,7 +16,7 @@ import { AppText, Button, Card, Icon, MusicText, useUiTheme } from '@harmonia/ui
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, Pressable, StyleSheet, View } from 'react-native';
-import { useLocale } from '@/i18n';
+import { useMusicLocale } from '@/i18n';
 import { ExerciseChoices } from './exercise-choices';
 import { useWebChoiceInput } from './use-web-choice-input';
 
@@ -28,7 +28,7 @@ interface Props<Item> {
 }
 export function MatchAnswerInput({ item, answer, result, onSelect }: Props<MatchItem>) {
   const { t } = useTranslation(),
-    locale = useLocale(),
+    locale = useMusicLocale(),
     { colors } = useUiTheme();
   const [selected, setSelected] = useState(0),
     group = useRef<View>(null);
@@ -134,7 +134,7 @@ export function MatchAnswerInput({ item, answer, result, onSelect }: Props<Match
 }
 export function OrderAnswerInput({ item, answer, result, onSelect }: Props<OrderItem>) {
   const { t } = useTranslation(),
-    locale = useLocale();
+    locale = useMusicLocale();
   const values = orderAnswerValues(item, answer ?? '') ?? [],
     statuses = result ? knowledgeStatuses(item, answer ?? '') : undefined;
   const edit = (next: readonly string[]) => {

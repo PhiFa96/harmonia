@@ -8,6 +8,7 @@ import { AudioContext, AudioManager } from 'react-native-audio-api';
 import { create } from 'zustand';
 
 import { loadPiano } from './piano';
+import { useSettings } from '../state/settings.ts';
 
 /** Klavierproben: laden beim ersten Klang; bis dahin klingt der einfache Synthesizer. */
 export type PianoStatus = 'idle' | 'loading' | 'ready' | 'error';
@@ -57,6 +58,8 @@ export function getAudioEngine(): AudioEngine {
     }
     const context = new AudioContext();
     engine = createAudioEngine(context, {
+      referenceHz: useSettings.getState().referenceHz,
+      volume: useSettings.getState().sound ? 0.8 : 0,
       // Als Pfeilfunktionen: Browser verlangen beim Aufruf `window` als `this` („Illegal invocation“)
       timers: {
         setInterval: (callback, ms) => setInterval(callback, ms),
@@ -82,3 +85,13 @@ export function getAudioEngine(): AudioEngine {
   }
   return engine;
 }
+useSettings.subscribe((next, previous) => {
+  if (next.referenceHz !== previous.referenceHz) {
+    engine?.stopAll();
+    engine?.setReferenceHz(next.referenceHz);
+  }
+  if (next.sound !== previous.sound) {
+    engine?.stopAll();
+    engine?.setVolume(next.sound ? 0.8 : 0);
+  }
+});

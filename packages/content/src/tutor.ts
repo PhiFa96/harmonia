@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { reportSourceSchema } from './content-reports.ts';
 
-export const TUTOR_PROMPT_VERSION = 2;
+export const TUTOR_PROMPT_VERSION = 3;
 export const TUTOR_TOOL_VERSION = 1;
 const tokens = z.number().int().nonnegative().max(10_000_000);
 const money = z.number().int().nonnegative().max(1_000_000_000_000);
@@ -20,6 +20,7 @@ export const tutorRequestSchema = z
     message: z.string().trim().min(1).max(4000),
     locale: z.enum(['de', 'en-US', 'en-GB']),
     noteNaming: z.enum(['de', 'intl']),
+    harmonySystem: z.enum(['functions', 'roman', 'both']).optional(),
     mode: z.enum(['chat', 'hint', 'explain', 'solution']),
     hintLevel: z.union([z.literal(1), z.literal(2)]).nullable(),
     context: tutorContextSchema.nullable(),

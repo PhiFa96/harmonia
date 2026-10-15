@@ -1,3 +1,4 @@
+import { observeHandler } from '../_shared/operations.ts';
 import { createClient } from 'npm:@supabase/supabase-js@2.117.3';
 import type { SupabaseClient } from 'npm:@supabase/supabase-js@2.117.3';
 import { catalogue } from '../../../packages/content/src/published.ts';
@@ -78,6 +79,7 @@ function scope(request: TutorRequest) {
   return {
     locale: request.locale,
     noteNaming: request.noteNaming,
+    ...(request.harmonySystem ? { harmonySystem: request.harmonySystem } : {}),
     mode: request.mode,
     hintLevel: request.hintLevel,
     context: request.context
@@ -291,7 +293,7 @@ async function read(client: SupabaseClient, actor: string, url: URL) {
     next: page.data.length > 20 ? conversations.at(-1)?.id : null,
   });
 }
-Deno.serve(async (request) => {
+async function handler(request: Request): Promise<Response> {
   if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers });
   if (!['POST', 'GET', 'DELETE'].includes(request.method)) return json(405, { error: 'method' });
   let reserved: { client: SupabaseClient; actor: string; id: string; lease: string } | null = null;
@@ -587,4 +589,5 @@ Deno.serve(async (request) => {
       });
     return json(503, { error: 'server' });
   }
-});
+}
+Deno.serve(observeHandler('tutor', handler));

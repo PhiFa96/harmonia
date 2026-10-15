@@ -17,6 +17,23 @@ const hz = (osc: FakeOscillator | undefined) => osc?.frequency.events[0]?.value 
 const p = parsePitch;
 
 describe('Töne', () => {
+  it('applies a changed reference pitch to new tones and validates live volume changes', () => {
+    const { ctx, engine } = setup();
+    engine.playPitch(p('A4'));
+    expect(hz(ctx.oscillators[0])).toBe(440);
+    engine.setReferenceHz(442);
+    engine.playPitch(p('A4'));
+    expect(hz(ctx.oscillators[1])).toBe(442);
+    expect(() => {
+      engine.setReferenceHz(Number.NaN);
+    }).toThrow();
+    expect(() => {
+      engine.setVolume(2);
+    }).toThrow();
+    expect(() => {
+      engine.setVolume(0);
+    }).not.toThrow();
+  });
   it('Loslassen einer Taste stoppt nur ihren Ton; andere Finger und Metronom laufen weiter', () => {
     const { ctx, timers, engine } = setup();
     engine.startMetronome(120, 4);

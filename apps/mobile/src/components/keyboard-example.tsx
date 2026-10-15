@@ -1,6 +1,7 @@
 import type { KeyboardRange, Score } from '@harmonia/notation';
 import { signatureNoteLabel } from '@harmonia/exercises';
-import type { AppLocale } from '@harmonia/i18n';
+import type { TextLocale } from '@harmonia/i18n';
+import { notationSystem } from '@harmonia/i18n';
 import {
   keyboardLabel,
   keyboardLayout,
@@ -14,7 +15,7 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, ScrollView, View } from 'react-native';
 import Svg, { Circle, G, Rect, Text as SvgText } from 'react-native-svg';
-import { useLocale } from '@/i18n';
+import { useMusicLocale } from '@/i18n';
 
 /** Statische Lernabbildung: dieselben Tonhöhen wie im Notenbild, keine Eingabe oder Wiedergabe. */
 export function KeyboardExample({
@@ -26,10 +27,10 @@ export function KeyboardExample({
   readonly score: Score;
   readonly range: KeyboardRange;
   readonly showOctaves?: boolean;
-  readonly locale?: AppLocale;
+  readonly locale?: TextLocale;
 }) {
   const { t } = useTranslation(),
-    currentLocale = useLocale(),
+    currentLocale = useMusicLocale(),
     { colors } = useUiTheme();
   const locale = sourceLocale ?? currentLocale;
   const [width, setWidth] = useState(0);
@@ -39,9 +40,7 @@ export function KeyboardExample({
     [score],
   );
   const active = new Set(pitches.map(keyboardMidi));
-  const notes = [
-    ...new Set(pitches.map((pitch) => keyboardLabel(pitch, locale === 'de' ? 'de' : 'intl'))),
-  ];
+  const notes = [...new Set(pitches.map((pitch) => keyboardLabel(pitch, notationSystem(locale))))];
   const whiteWidth = layout.keys.find((key) => !key.black)?.width ?? SPACE.xxxl;
   const svgWidth = width
     ? Math.max(width, showOctaves ? (layout.width * SPACE.xxxl) / whiteWidth : 0)
@@ -115,7 +114,7 @@ export function KeyboardExample({
                         fill={marked ? colors.onPrimary : COLORS.light.text}
                       >
                         {showOctaves
-                          ? keyboardLabel(keyboardPitch(key.midi), locale === 'de' ? 'de' : 'intl')
+                          ? keyboardLabel(keyboardPitch(key.midi), notationSystem(locale))
                           : signatureNoteLabel(keyboardPitch(key.midi), locale)}
                       </SvgText>
                     ) : null}

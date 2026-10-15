@@ -7,6 +7,14 @@ import { create } from 'zustand';
 export type Appearance = 'system' | 'light' | 'dark';
 
 interface SettingsState {
+  readonly noteNaming: 'auto' | 'de' | 'intl';
+  readonly harmonySystem: 'functions' | 'roman' | 'both';
+  readonly sound: boolean;
+  readonly referenceHz: number;
+  readonly setNoteNaming: (value: SettingsState['noteNaming']) => void;
+  readonly setHarmonySystem: (value: SettingsState['harmonySystem']) => void;
+  readonly setSound: (value: boolean) => void;
+  readonly setReferenceHz: (value: number) => void;
   /** Gewählte Sprache; null = wie das Gerät */
   readonly locale: AppLocale | null;
   readonly appearance: Appearance;
@@ -20,6 +28,23 @@ interface SettingsState {
 }
 
 export const useSettings = create<SettingsState>()((set) => ({
+  noteNaming: 'auto',
+  harmonySystem: 'both',
+  sound: true,
+  referenceHz: 440,
+  setNoteNaming: (noteNaming) => {
+    set({ noteNaming });
+  },
+  setHarmonySystem: (harmonySystem) => {
+    set({ harmonySystem });
+  },
+  setSound: (sound) => {
+    set({ sound });
+  },
+  setReferenceHz: (referenceHz) => {
+    if (Number.isInteger(referenceHz) && referenceHz >= 415 && referenceHz <= 466)
+      set({ referenceHz });
+  },
   locale: null,
   appearance: 'system',
   reduceMotion: false,

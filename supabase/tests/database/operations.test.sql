@@ -1,0 +1,15 @@
+begin;
+create extension if not exists pgtap with schema extensions;
+select plan(8);
+select ok(not has_table_privilege('anon','public.operational_counts','SELECT'),'Anonymous operational reads denied');
+select ok(not has_table_privilege('authenticated','public.operational_counts','SELECT'),'Account operational reads denied');
+select ok(not has_function_privilege('authenticated','public.operations_snapshot()','EXECUTE'),'Private snapshot is not a client endpoint');
+select ok(not has_function_privilege('anon','public.record_operational_outcome(text,integer,integer)','EXECUTE'),'Anonymous metrics forgery denied');
+select ok(has_function_privilege('service_role','public.record_operational_outcome(text,integer,integer)','EXECUTE'),'Only service recorder enabled');
+set local role service_role;
+select lives_ok($$select public.record_operational_outcome('learning-sync',200,15)$$,'Service outcome recorded');
+select is((public.operations_snapshot()->>'version')::integer,1,'Versioned aggregate snapshot');
+select throws_ok($$select public.record_operational_outcome('user@example.test',200,10)$$,'P0001','Invalid operational metric','Free-text dimensions rejected');
+reset role;
+select * from finish();
+rollback;

@@ -6,6 +6,7 @@
 import 'intl-pluralrules';
 
 import type { AppLocale } from '@harmonia/i18n';
+import type { MusicLocale } from '@harmonia/i18n';
 import { createI18n, resolveLocale } from '@harmonia/i18n';
 import { getLocales } from 'expo-localization';
 import { initReactI18next } from 'react-i18next';
@@ -41,4 +42,10 @@ useSettings.subscribe((state, previous) => {
 /** Wirksame Sprache: Einstellung oder Gerät. */
 export function useLocale(): AppLocale {
   return effectiveLocale(useSettings((state) => state.locale));
+}
+/** Presentation preferences never alter language-neutral answers or music data. */
+export function useMusicLocale(): MusicLocale {
+  const locale = useLocale(),
+    choice = useSettings((s) => s.noteNaming);
+  return { locale, noteNaming: choice === 'auto' ? (locale === 'de' ? 'de' : 'intl') : choice };
 }

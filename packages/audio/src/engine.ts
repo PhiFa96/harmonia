@@ -87,6 +87,8 @@ export interface AudioEngine {
   stopAll(): void;
   /** Instrument wechseln, z. B. sobald die Klavierproben geladen sind. Gilt für neue Töne. */
   setInstrument(instrument: Instrument): void;
+  setReferenceHz(referenceHz: number): void;
+  setVolume(volume: number): void;
   latency(): LatencyInfo;
 }
 
@@ -98,7 +100,7 @@ const CLICK_HZ = { accent: 1500, beat: 1000 } as const;
 const LEAD = 0.05;
 
 export function createAudioEngine(ctx: AudioContextLike, options: AudioEngineOptions): AudioEngine {
-  const referenceHz = options.referenceHz ?? 440;
+  let referenceHz = options.referenceHz ?? 440;
   const timers = options.timers;
   let instrument = options.instrument ?? SYNTH;
   const master: GainLike = ctx.createGain();
@@ -259,6 +261,14 @@ export function createAudioEngine(ctx: AudioContextLike, options: AudioEngineOpt
     stopAll,
     setInstrument: (next) => {
       instrument = next;
+    },
+    setReferenceHz: (next) => {
+      if (!Number.isFinite(next) || next <= 0) throw new Error('Invalid reference frequency');
+      referenceHz = next;
+    },
+    setVolume: (next) => {
+      if (!Number.isFinite(next) || next < 0 || next > 1) throw new Error('Invalid volume');
+      master.gain.value = next;
     },
     latency: () => {
       const reported = options.reportedLatency?.() ?? {

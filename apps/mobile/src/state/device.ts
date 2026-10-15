@@ -26,10 +26,28 @@ let subscribed = false;
 let suppress = false;
 function snapshot(data = useDeviceState.getState().data): DeviceSnapshot {
   if (!data) throw new Error('Onboarding nicht geladen');
-  const { locale, appearance, reduceMotion, haptics } = useSettings.getState();
+  const {
+    locale,
+    appearance,
+    reduceMotion,
+    haptics,
+    noteNaming,
+    harmonySystem,
+    sound,
+    referenceHz,
+  } = useSettings.getState();
   return {
     schemaVersion: 1,
-    settings: { locale, appearance, reduceMotion, haptics },
+    settings: {
+      locale,
+      appearance,
+      reduceMotion,
+      haptics,
+      noteNaming,
+      harmonySystem,
+      sound,
+      referenceHz,
+    },
     onboarding: data,
   };
 }

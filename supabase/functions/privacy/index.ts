@@ -9,6 +9,7 @@ import {
   PRIVACY_EXPORT_SECTIONS,
 } from '../../../packages/content/src/privacy.ts';
 import { billingBody } from '../_shared/billing.ts';
+import { revokeAppleGrant } from '../_shared/apple-grant.ts';
 const headers = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization,apikey,content-type,x-client-info',
@@ -252,6 +253,7 @@ Deno.serve(async (request) => {
       if (!input.success) return json(400, { error: 'schema' });
       if (!recentlyAuthenticated(bearer.slice(7), user.last_sign_in_at))
         return json(403, { error: 'reauth' });
+      await revokeAppleGrant(user, client, (key) => Deno.env.get(key));
       const prepared = await client.rpc('prepare_privacy_erasure', {
         actor,
         request_id: input.data.id,

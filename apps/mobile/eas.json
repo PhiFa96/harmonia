@@ -7,12 +7,16 @@
     "development": {
       "developmentClient": true,
       "distribution": "internal",
-      "env": { "APP_VARIANT": "development" }
+      "env": {
+        "APP_VARIANT": "development"
+      }
     },
     "preview": {
       "channel": "preview",
       "distribution": "internal",
-      "env": { "APP_VARIANT": "preview" }
+      "env": {
+        "APP_VARIANT": "preview"
+      }
     },
     "beta": {
       "extends": "production",
@@ -20,16 +24,32 @@
       "environment": "preview",
       "channel": "beta",
       "distribution": "store",
-      "env": { "APP_VARIANT": "production" }
+      "env": {
+        "APP_VARIANT": "production"
+      }
     },
     "production": {
       "channel": "production",
       "autoIncrement": true,
-      "env": { "APP_VARIANT": "production" }
+      "env": {
+        "APP_VARIANT": "production"
+      },
+      "node": "22.23.3",
+      "environment": "production"
     }
   },
   "submit": {
-    "beta": { "android": { "track": "internal", "releaseStatus": "draft" } },
-    "production": {}
+    "beta": {
+      "android": {
+        "track": "internal",
+        "releaseStatus": "draft"
+      }
+    },
+    "production": {
+      "android": {
+        "track": "production",
+        "releaseStatus": "draft"
+      }
+    }
   }
 }

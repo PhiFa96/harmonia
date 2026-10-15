@@ -23,6 +23,7 @@ export function getAuthClient(): SupabaseClient | null {
         persistSession: true,
         autoRefreshToken: true,
         detectSessionInUrl: false,
+        flowType: 'pkce',
         ...(Platform.OS !== 'web' ? { storage: createSecureAuthStorage() } : {}),
       },
     });
@@ -61,13 +62,20 @@ export function initializeAuth(): Promise<void> {
 export function validEmail(email: string): boolean {
   return email.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
-export async function sendEmailCode(email: string, locale: AppLocale): Promise<void> {
+export async function sendEmailCode(
+  email: string,
+  locale: AppLocale,
+  reauthenticate = false,
+): Promise<void> {
   if (!validEmail(email)) throw new Error('Ungültige E-Mail-Adresse');
   const auth = getAuthClient();
   if (!auth) throw new Error('Anmeldung nicht konfiguriert');
   const { error } = await auth.auth.signInWithOtp({
     email,
-    options: { shouldCreateUser: true, data: { locale, age_confirmed: true } },
+    options: {
+      shouldCreateUser: !reauthenticate,
+      ...(reauthenticate ? {} : { data: { locale, age_confirmed: true } }),
+    },
   });
   if (error) throw error;
 }

@@ -1,10 +1,11 @@
 // Texte für Screenreader: jede Note, jeder Akkord und jede Pause einzeln, auf Deutsch oder Englisch.
 
-import { durationName, spokenPitchName } from '@harmonia/theory';
+import { durationName, spokenPitchName, pitchName } from '@harmonia/theory';
 
 import type { Score, VoiceEvent } from './score.ts';
 
 export interface DescribeOptions {
+  readonly noteNaming?: 'de' | 'intl';
   readonly language?: 'de' | 'en';
   /** Nur Englisch: US („quarter note“, Standard) oder UK („crotchet“). */
   readonly variant?: 'us' | 'uk';
@@ -17,18 +18,22 @@ export interface DescribeOptions {
 export function describeEvent(event: VoiceEvent, options: DescribeOptions = {}): string {
   const language = options.language ?? 'de';
   const variant = options.variant ?? 'us';
+  const name = (pitch: Parameters<typeof spokenPitchName>[0]) =>
+    options.noteNaming && options.noteNaming !== (language === 'de' ? 'de' : 'intl')
+      ? pitchName(pitch, { system: options.noteNaming, octave: 'scientific' })
+      : spokenPitchName(pitch, language);
   const kind = event.kind === 'rest' ? 'rest' : 'note';
   const duration = capitalize(durationName(event.duration, { language, variant, kind }));
   switch (event.kind) {
     case 'rest':
       return duration;
     case 'note':
-      return `${duration}, ${spokenPitchName(event.pitch, language)}`;
+      return `${duration}, ${name(event.pitch)}`;
     case 'chord': {
       const label = language === 'de' ? 'Akkord' : 'chord';
       const pitches = [...event.notes]
         .map((n) => n.pitch)
-        .map((p) => spokenPitchName(p, language))
+        .map((p) => name(p))
         .join(', ');
       return `${duration}, ${label}: ${pitches}`;
     }

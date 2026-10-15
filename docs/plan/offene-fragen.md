@@ -32,6 +32,8 @@
 | 15.10.2026 | P2.22: Supabase und eigenes privates Dashboard; kein externer Analytics-Dienst. Erfassung erst nach Rechtsfreigabe und ausdrücklicher Einwilligung. | [ADR 0022](../decisions/0022-eigene-consentgebundene-analytics.md) |
 | 15.10.2026 | Offene Arbeitsbranches nach P2.22 geprüft zusammenführen; Claudes vorhandene Änderungen erhalten. | [P2.22](analytics-und-kennzahlen.md) |
 
+| 15.10.2026 | F16: Phillip möchte „Harmonia“, falls der Name frei ist. Verfügbarkeits-/Marken-/Store-/Domainprüfung und Betreiberangaben bleiben offen; keine Veröffentlichung freigegeben. | [P2-Abschlussstand](p2-abschluss.md) |
+
 ## Offen
 
 | # | Frage | Optionen | Entscheidet | Bis |

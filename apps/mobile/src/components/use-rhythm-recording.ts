@@ -5,6 +5,7 @@ import { useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AppState } from 'react-native';
 import { getAudioEngine } from '@/audio';
+import { useSettings } from '@/state/settings';
 import { playRhythm } from '@/exercises/play-rhythm';
 import type { RhythmPlayback } from '@/exercises/play-rhythm';
 
@@ -52,6 +53,11 @@ export function useRhythmRecording(
       props.current.onSelect(null);
     }
   }, [dispose]);
+  const sound = useSettings((s) => s.sound),
+    referenceHz = useSettings((s) => s.referenceHz);
+  useEffect(() => {
+    cancel();
+  }, [cancel, sound, referenceHz]);
   useFocusEffect(
     useCallback(() => {
       focused.current = true;
@@ -72,6 +78,10 @@ export function useRhythmRecording(
     };
   }, [cancel, dispose]);
   const start = async () => {
+    if (!useSettings.getState().sound) {
+      setError(true);
+      return;
+    }
     const canRecord = () => !props.current.locked && focused.current && active.current;
     if (!canRecord()) return;
     dispose();
