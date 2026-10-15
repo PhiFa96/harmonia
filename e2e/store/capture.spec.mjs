@@ -1,10 +1,11 @@
 import { test, expect } from '@playwright/test';
 import { mkdirSync } from 'node:fs';
 import { join } from 'node:path';
+import { recordPage } from '../../tools/storefront/record.mjs';
 import { locales } from '../../tools/storefront/model.mjs';
 import { onboard, expandFirstLesson, startLesson } from '../web/helpers.mjs';
 for (const locale of locales)
-  test(locale + ' genuine guest app reference media', async ({ browser }, testInfo) => {
+  test(locale + ' genuine guest app reference media', async ({ browser }) => {
     const output = process.env.HARMONIA_STORE_CAPTURE_DIR;
     if (!output) throw Error('Use store:capture with a verified isolated preview fixture');
     const dir = join(output, locale);
@@ -15,17 +16,14 @@ for (const locale of locales)
       viewport: { width: 440, height: 956 },
       deviceScaleFactor: 3,
       reducedMotion: 'reduce',
-      recordVideo: { dir: join(testInfo.outputDir, 'raw'), size: { width: 440, height: 956 } },
     });
-    let page = await context.newPage();
+    const page = await context.newPage();
     try {
       await onboard(page, locale);
-      await page.close();
-      page = await context.newPage();
+      const recording = await recordPage(page, join(dir, 'frames'));
       const started = Date.now(),
         errors = [];
       page.on('pageerror', (error) => errors.push(error.message));
-      await page.goto('/');
       await page
         .getByRole('heading', {
           name: locale === 'de-DE' ? 'Dein Lernpfad' : 'Your learning path',
@@ -54,9 +52,8 @@ for (const locale of locales)
       const remaining = 22000 - (Date.now() - started);
       if (remaining > 0) await page.waitForTimeout(remaining);
       expect(errors).toEqual([]);
-      const video = page.video();
+      await recording.stop();
       await page.close();
-      await video.saveAs(join(dir, 'preview.webm'));
     } finally {
       await context.close();
     }
