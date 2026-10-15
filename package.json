@@ -11,7 +11,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "pnpm -r --if-present typecheck && tsc -p tools --noEmit && tsc -p supabase/functions --noEmit",
-    "test": "pnpm -r --if-present test && node --test tools/content-pipeline.test.mjs tools/curriculum-view.test.mjs tools/local-backend-setup.test.mjs tools/local-backend-diagnostics.test.mjs tools/tutor-interface.test.mjs tools/tutor-benchmark.test.mjs && node --test tools/qa/release.test.mjs tools/qa/server.test.mjs tools/storefront/model.test.mjs",
+    "test": "pnpm -r --if-present test && pnpm test:tools",
     "check:i18n": "node tools/check-translations.ts",
     "check:content": "node tools/check-content.mjs --check",
     "check:curriculum": "node tools/check-curriculum.mjs --check",
@@ -58,7 +58,8 @@
     "store:prepare": "node tools/storefront/prepare.mjs",
     "store:capture": "node tools/storefront/capture.mjs",
     "check:storefront": "node tools/storefront/check.mjs",
-    "check:storefront:release": "node tools/storefront/check.mjs --release"
+    "check:storefront:release": "node tools/storefront/check.mjs --release",
+    "test:tools": "node --test tools/content-pipeline.test.mjs tools/curriculum-view.test.mjs tools/local-backend-setup.test.mjs tools/local-backend-diagnostics.test.mjs tools/tutor-interface.test.mjs tools/tutor-benchmark.test.mjs && node --test tools/qa/release.test.mjs tools/qa/server.test.mjs tools/storefront/model.test.mjs"
   },
   "devDependencies": {
     "@anthropic-ai/sdk": "0.133.0",

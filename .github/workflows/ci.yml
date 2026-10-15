@@ -44,7 +44,14 @@ jobs:
       - name: Typprüfung
         run: pnpm typecheck
 
-      - name: Tests
+      - name: Werkzeugtests
+        run: pnpm test:tools
+
+      - name: Pakettests
+        run: pnpm -r --if-present --filter '!@harmonia/mobile' test
+
+      - name: App-Tests
+        working-directory: apps/mobile
         run: pnpm test
 
       - name: Rechtliche Freigabefelder und geschlossene Vorbereitung prüfen
