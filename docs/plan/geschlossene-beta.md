@@ -128,3 +128,9 @@ Tatsächlich lokal ausgeführt am 15.10.2026:
 - Leeres echtes Journal ohne Startdatum und privater Wochenbericht tatsächlich angelegt: `artifacts/beta/private/study-unstarted.json`, `artifacts/beta/reports/unstarted-review/index.html`; **null Teilnehmer und Meldungen**, „Beta noch nicht gestartet“. Keine Einladungen, Nachrichten, Käufe oder Datenerfassung ausgelöst.
 
 Ignorierte lokale Browserbelege: `artifacts/quality/p225-beta-accepted` und `artifacts/quality/p225-app-regression`. Synthetische Browser-Fixtures werden nach den Tests entfernt; sie sind kein Kandidat. Remote-GitHub-CI ist über die hier verfügbaren Werkzeuge nicht einsehbar. Die PR-Erstellung und der tatsächliche Branch-Stand werden unten separat festgehalten.
+
+## Git-Übergabe
+
+Implementierung `57da87f` am 15.10.2026 auf **`codex/p2-25-closed-beta` gepusht**, aufbauend auf P2.24 `e0d9a9f`. P2.24 bleibt ein eigener ungemergter Branch. Für getrennte Prüfung den P2.25-PR zunächst gegen `codex/p2-24-store-website` richten und nach dessen geprüftem Merge die Basis auf `main` umstellen. Kein direkter Push/Merge nach `main`, keine Branchlöschung und keine Änderung am separaten PR-Workflow-Korrekturbranch.
+
+Tatsächlicher `gh pr create`-Versuch mit vorbereitetem Titel und Body scheitert mit `Post "https://api.github.com/graphql": Forbidden`. **Kein PR erstellt, keine erfolgreiche Remote-CI oder Review behauptet.** Die vollständige PR-Beschreibung liegt lokal unter `/workspace/p225-pr-body.md`; Git-Zugriff und Feature-Push funktionieren, GitHub-API-Zugriff dagegen nicht. PR-/CI-/Review-Weg vor jeder Integration abschließen; dieser technische Stand ist keine Beta- oder Launch-Freigabe.
