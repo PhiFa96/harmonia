@@ -1,0 +1,1001 @@
+{
+  "source": "https://github.com/mmai/glicko2js/blob/efe1e2d03f2a5a977b4dd9a2b07a169062f20f33/glicko2.js",
+  "cases": [
+    {
+      "tau": 0.3,
+      "player": {
+        "rating": 1000,
+        "deviation": 40,
+        "volatility": 0.02
+      },
+      "results": [
+        {
+          "opponent": {
+            "rating": 1000,
+            "deviation": 30,
+            "volatility": 0.06
+          },
+          "score": 0
+        },
+        {
+          "opponent": {
+            "rating": 1131,
+            "deviation": 59,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        },
+        {
+          "opponent": {
+            "rating": 1262,
+            "deviation": 88,
+            "volatility": 0.06
+          },
+          "score": 1
+        }
+      ],
+      "expected": {
+        "rating": 1004.108988568158,
+        "deviation": 39.520732794625296,
+        "volatility": 0.019999930398266592
+      }
+    },
+    {
+      "tau": 0.5,
+      "player": {
+        "rating": 1085,
+        "deviation": 63,
+        "volatility": 0.027
+      },
+      "results": [
+        {
+          "opponent": {
+            "rating": 1097,
+            "deviation": 37,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        },
+        {
+          "opponent": {
+            "rating": 1228,
+            "deviation": 66,
+            "volatility": 0.06
+          },
+          "score": 1
+        },
+        {
+          "opponent": {
+            "rating": 1359,
+            "deviation": 95,
+            "volatility": 0.06
+          },
+          "score": 0
+        },
+        {
+          "opponent": {
+            "rating": 1490,
+            "deviation": 124,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        }
+      ],
+      "expected": {
+        "rating": 1103.794809795818,
+        "deviation": 60.56237031365236,
+        "volatility": 0.027000070029813753
+      }
+    },
+    {
+      "tau": 1.2,
+      "player": {
+        "rating": 1170,
+        "deviation": 86,
+        "volatility": 0.034
+      },
+      "results": [
+        {
+          "opponent": {
+            "rating": 1194,
+            "deviation": 44,
+            "volatility": 0.06
+          },
+          "score": 1
+        },
+        {
+          "opponent": {
+            "rating": 1325,
+            "deviation": 73,
+            "volatility": 0.06
+          },
+          "score": 0
+        },
+        {
+          "opponent": {
+            "rating": 1456,
+            "deviation": 102,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        },
+        {
+          "opponent": {
+            "rating": 1587,
+            "deviation": 131,
+            "volatility": 0.06
+          },
+          "score": 1
+        },
+        {
+          "opponent": {
+            "rating": 1718,
+            "deviation": 160,
+            "volatility": 0.06
+          },
+          "score": 0
+        }
+      ],
+      "expected": {
+        "rating": 1218.8116680241487,
+        "deviation": 79.70609070251531,
+        "volatility": 0.034010096905992
+      }
+    },
+    {
+      "tau": 0.3,
+      "player": {
+        "rating": 1255,
+        "deviation": 109,
+        "volatility": 0.041
+      },
+      "results": [
+        {
+          "opponent": {
+            "rating": 1291,
+            "deviation": 51,
+            "volatility": 0.06
+          },
+          "score": 0
+        },
+        {
+          "opponent": {
+            "rating": 1422,
+            "deviation": 80,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        },
+        {
+          "opponent": {
+            "rating": 1553,
+            "deviation": 109,
+            "volatility": 0.06
+          },
+          "score": 1
+        },
+        {
+          "opponent": {
+            "rating": 1684,
+            "deviation": 138,
+            "volatility": 0.06
+          },
+          "score": 0
+        },
+        {
+          "opponent": {
+            "rating": 1815,
+            "deviation": 167,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        },
+        {
+          "opponent": {
+            "rating": 1946,
+            "deviation": 196,
+            "volatility": 0.06
+          },
+          "score": 1
+        }
+      ],
+      "expected": {
+        "rating": 1345.9171859935216,
+        "deviation": 96.82542646538188,
+        "volatility": 0.0410018769516294
+      }
+    },
+    {
+      "tau": 0.5,
+      "player": {
+        "rating": 1340,
+        "deviation": 132,
+        "volatility": 0.048
+      },
+      "results": [
+        {
+          "opponent": {
+            "rating": 1388,
+            "deviation": 58,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        },
+        {
+          "opponent": {
+            "rating": 1519,
+            "deviation": 87,
+            "volatility": 0.06
+          },
+          "score": 1
+        },
+        {
+          "opponent": {
+            "rating": 1650,
+            "deviation": 116,
+            "volatility": 0.06
+          },
+          "score": 0
+        },
+        {
+          "opponent": {
+            "rating": 1781,
+            "deviation": 145,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        },
+        {
+          "opponent": {
+            "rating": 1912,
+            "deviation": 174,
+            "volatility": 0.06
+          },
+          "score": 1
+        },
+        {
+          "opponent": {
+            "rating": 2043,
+            "deviation": 203,
+            "volatility": 0.06
+          },
+          "score": 0
+        },
+        {
+          "opponent": {
+            "rating": 1074,
+            "deviation": 232,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        }
+      ],
+      "expected": {
+        "rating": 1449.21005856754,
+        "deviation": 109.7674507814397,
+        "volatility": 0.04800441934967489
+      }
+    },
+    {
+      "tau": 1.2,
+      "player": {
+        "rating": 1425,
+        "deviation": 155,
+        "volatility": 0.05500000000000001
+      },
+      "results": [
+        {
+          "opponent": {
+            "rating": 1485,
+            "deviation": 65,
+            "volatility": 0.06
+          },
+          "score": 1
+        },
+        {
+          "opponent": {
+            "rating": 1616,
+            "deviation": 94,
+            "volatility": 0.06
+          },
+          "score": 0
+        },
+        {
+          "opponent": {
+            "rating": 1747,
+            "deviation": 123,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        },
+        {
+          "opponent": {
+            "rating": 1878,
+            "deviation": 152,
+            "volatility": 0.06
+          },
+          "score": 1
+        },
+        {
+          "opponent": {
+            "rating": 2009,
+            "deviation": 181,
+            "volatility": 0.06
+          },
+          "score": 0
+        },
+        {
+          "opponent": {
+            "rating": 1040,
+            "deviation": 210,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        },
+        {
+          "opponent": {
+            "rating": 1171,
+            "deviation": 239,
+            "volatility": 0.06
+          },
+          "score": 1
+        },
+        {
+          "opponent": {
+            "rating": 1302,
+            "deviation": 268,
+            "volatility": 0.06
+          },
+          "score": 0
+        }
+      ],
+      "expected": {
+        "rating": 1490.600500358496,
+        "deviation": 116.99801039517365,
+        "volatility": 0.05498098312923304
+      }
+    },
+    {
+      "tau": 0.3,
+      "player": {
+        "rating": 1510,
+        "deviation": 178,
+        "volatility": 0.062
+      },
+      "results": [
+        {
+          "opponent": {
+            "rating": 1582,
+            "deviation": 72,
+            "volatility": 0.06
+          },
+          "score": 0
+        },
+        {
+          "opponent": {
+            "rating": 1713,
+            "deviation": 101,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        },
+        {
+          "opponent": {
+            "rating": 1844,
+            "deviation": 130,
+            "volatility": 0.06
+          },
+          "score": 1
+        },
+        {
+          "opponent": {
+            "rating": 1975,
+            "deviation": 159,
+            "volatility": 0.06
+          },
+          "score": 0
+        },
+        {
+          "opponent": {
+            "rating": 1006,
+            "deviation": 188,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        },
+        {
+          "opponent": {
+            "rating": 1137,
+            "deviation": 217,
+            "volatility": 0.06
+          },
+          "score": 1
+        },
+        {
+          "opponent": {
+            "rating": 1268,
+            "deviation": 246,
+            "volatility": 0.06
+          },
+          "score": 0
+        },
+        {
+          "opponent": {
+            "rating": 1399,
+            "deviation": 275,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        },
+        {
+          "opponent": {
+            "rating": 1530,
+            "deviation": 304,
+            "volatility": 0.06
+          },
+          "score": 1
+        }
+      ],
+      "expected": {
+        "rating": 1511.4605623747548,
+        "deviation": 121.94755748330505,
+        "volatility": 0.061997291549062125
+      }
+    },
+    {
+      "tau": 0.5,
+      "player": {
+        "rating": 1595,
+        "deviation": 201,
+        "volatility": 0.069
+      },
+      "results": [
+        {
+          "opponent": {
+            "rating": 1679,
+            "deviation": 79,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        },
+        {
+          "opponent": {
+            "rating": 1810,
+            "deviation": 108,
+            "volatility": 0.06
+          },
+          "score": 1
+        },
+        {
+          "opponent": {
+            "rating": 1941,
+            "deviation": 137,
+            "volatility": 0.06
+          },
+          "score": 0
+        },
+        {
+          "opponent": {
+            "rating": 2072,
+            "deviation": 166,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        },
+        {
+          "opponent": {
+            "rating": 1103,
+            "deviation": 195,
+            "volatility": 0.06
+          },
+          "score": 1
+        },
+        {
+          "opponent": {
+            "rating": 1234,
+            "deviation": 224,
+            "volatility": 0.06
+          },
+          "score": 0
+        },
+        {
+          "opponent": {
+            "rating": 1365,
+            "deviation": 253,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        },
+        {
+          "opponent": {
+            "rating": 1496,
+            "deviation": 282,
+            "volatility": 0.06
+          },
+          "score": 1
+        },
+        {
+          "opponent": {
+            "rating": 1627,
+            "deviation": 311,
+            "volatility": 0.06
+          },
+          "score": 0
+        },
+        {
+          "opponent": {
+            "rating": 1758,
+            "deviation": 40,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        }
+      ],
+      "expected": {
+        "rating": 1634.113528605298,
+        "deviation": 122.66944475583578,
+        "volatility": 0.06899096882394189
+      }
+    },
+    {
+      "tau": 1.2,
+      "player": {
+        "rating": 1680,
+        "deviation": 224,
+        "volatility": 0.076
+      },
+      "results": [
+        {
+          "opponent": {
+            "rating": 1776,
+            "deviation": 86,
+            "volatility": 0.06
+          },
+          "score": 1
+        },
+        {
+          "opponent": {
+            "rating": 1907,
+            "deviation": 115,
+            "volatility": 0.06
+          },
+          "score": 0
+        },
+        {
+          "opponent": {
+            "rating": 2038,
+            "deviation": 144,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        },
+        {
+          "opponent": {
+            "rating": 1069,
+            "deviation": 173,
+            "volatility": 0.06
+          },
+          "score": 1
+        },
+        {
+          "opponent": {
+            "rating": 1200,
+            "deviation": 202,
+            "volatility": 0.06
+          },
+          "score": 0
+        },
+        {
+          "opponent": {
+            "rating": 1331,
+            "deviation": 231,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        },
+        {
+          "opponent": {
+            "rating": 1462,
+            "deviation": 260,
+            "volatility": 0.06
+          },
+          "score": 1
+        },
+        {
+          "opponent": {
+            "rating": 1593,
+            "deviation": 289,
+            "volatility": 0.06
+          },
+          "score": 0
+        },
+        {
+          "opponent": {
+            "rating": 1724,
+            "deviation": 318,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        },
+        {
+          "opponent": {
+            "rating": 1855,
+            "deviation": 47,
+            "volatility": 0.06
+          },
+          "score": 1
+        },
+        {
+          "opponent": {
+            "rating": 1986,
+            "deviation": 76,
+            "volatility": 0.06
+          },
+          "score": 0
+        }
+      ],
+      "expected": {
+        "rating": 1690.057061660471,
+        "deviation": 124.9317276841382,
+        "volatility": 0.07593497311189218
+      }
+    },
+    {
+      "tau": 0.3,
+      "player": {
+        "rating": 1765,
+        "deviation": 247,
+        "volatility": 0.083
+      },
+      "results": [
+        {
+          "opponent": {
+            "rating": 1873,
+            "deviation": 93,
+            "volatility": 0.06
+          },
+          "score": 0
+        },
+        {
+          "opponent": {
+            "rating": 2004,
+            "deviation": 122,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        },
+        {
+          "opponent": {
+            "rating": 1035,
+            "deviation": 151,
+            "volatility": 0.06
+          },
+          "score": 1
+        },
+        {
+          "opponent": {
+            "rating": 1166,
+            "deviation": 180,
+            "volatility": 0.06
+          },
+          "score": 0
+        },
+        {
+          "opponent": {
+            "rating": 1297,
+            "deviation": 209,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        },
+        {
+          "opponent": {
+            "rating": 1428,
+            "deviation": 238,
+            "volatility": 0.06
+          },
+          "score": 1
+        },
+        {
+          "opponent": {
+            "rating": 1559,
+            "deviation": 267,
+            "volatility": 0.06
+          },
+          "score": 0
+        },
+        {
+          "opponent": {
+            "rating": 1690,
+            "deviation": 296,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        },
+        {
+          "opponent": {
+            "rating": 1821,
+            "deviation": 325,
+            "volatility": 0.06
+          },
+          "score": 1
+        },
+        {
+          "opponent": {
+            "rating": 1952,
+            "deviation": 54,
+            "volatility": 0.06
+          },
+          "score": 0
+        },
+        {
+          "opponent": {
+            "rating": 2083,
+            "deviation": 83,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        },
+        {
+          "opponent": {
+            "rating": 1114,
+            "deviation": 112,
+            "volatility": 0.06
+          },
+          "score": 1
+        }
+      ],
+      "expected": {
+        "rating": 1648.1315561568085,
+        "deviation": 131.30292821505495,
+        "volatility": 0.08299685927679078
+      }
+    },
+    {
+      "tau": 0.5,
+      "player": {
+        "rating": 1850,
+        "deviation": 270,
+        "volatility": 0.09000000000000001
+      },
+      "results": [
+        {
+          "opponent": {
+            "rating": 1970,
+            "deviation": 100,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        },
+        {
+          "opponent": {
+            "rating": 1001,
+            "deviation": 129,
+            "volatility": 0.06
+          },
+          "score": 1
+        },
+        {
+          "opponent": {
+            "rating": 1132,
+            "deviation": 158,
+            "volatility": 0.06
+          },
+          "score": 0
+        },
+        {
+          "opponent": {
+            "rating": 1263,
+            "deviation": 187,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        },
+        {
+          "opponent": {
+            "rating": 1394,
+            "deviation": 216,
+            "volatility": 0.06
+          },
+          "score": 1
+        },
+        {
+          "opponent": {
+            "rating": 1525,
+            "deviation": 245,
+            "volatility": 0.06
+          },
+          "score": 0
+        },
+        {
+          "opponent": {
+            "rating": 1656,
+            "deviation": 274,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        },
+        {
+          "opponent": {
+            "rating": 1787,
+            "deviation": 303,
+            "volatility": 0.06
+          },
+          "score": 1
+        },
+        {
+          "opponent": {
+            "rating": 1918,
+            "deviation": 32,
+            "volatility": 0.06
+          },
+          "score": 0
+        },
+        {
+          "opponent": {
+            "rating": 2049,
+            "deviation": 61,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        },
+        {
+          "opponent": {
+            "rating": 1080,
+            "deviation": 90,
+            "volatility": 0.06
+          },
+          "score": 1
+        },
+        {
+          "opponent": {
+            "rating": 1211,
+            "deviation": 119,
+            "volatility": 0.06
+          },
+          "score": 0
+        },
+        {
+          "opponent": {
+            "rating": 1342,
+            "deviation": 148,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        }
+      ],
+      "expected": {
+        "rating": 1530.5117313879607,
+        "deviation": 137.67859654359262,
+        "volatility": 0.09001231029259299
+      }
+    },
+    {
+      "tau": 1.2,
+      "player": {
+        "rating": 1935,
+        "deviation": 293,
+        "volatility": 0.097
+      },
+      "results": [
+        {
+          "opponent": {
+            "rating": 2067,
+            "deviation": 107,
+            "volatility": 0.06
+          },
+          "score": 1
+        },
+        {
+          "opponent": {
+            "rating": 1098,
+            "deviation": 136,
+            "volatility": 0.06
+          },
+          "score": 0
+        },
+        {
+          "opponent": {
+            "rating": 1229,
+            "deviation": 165,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        },
+        {
+          "opponent": {
+            "rating": 1360,
+            "deviation": 194,
+            "volatility": 0.06
+          },
+          "score": 1
+        },
+        {
+          "opponent": {
+            "rating": 1491,
+            "deviation": 223,
+            "volatility": 0.06
+          },
+          "score": 0
+        },
+        {
+          "opponent": {
+            "rating": 1622,
+            "deviation": 252,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        },
+        {
+          "opponent": {
+            "rating": 1753,
+            "deviation": 281,
+            "volatility": 0.06
+          },
+          "score": 1
+        },
+        {
+          "opponent": {
+            "rating": 1884,
+            "deviation": 310,
+            "volatility": 0.06
+          },
+          "score": 0
+        },
+        {
+          "opponent": {
+            "rating": 2015,
+            "deviation": 39,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        },
+        {
+          "opponent": {
+            "rating": 1046,
+            "deviation": 68,
+            "volatility": 0.06
+          },
+          "score": 1
+        },
+        {
+          "opponent": {
+            "rating": 1177,
+            "deviation": 97,
+            "volatility": 0.06
+          },
+          "score": 0
+        },
+        {
+          "opponent": {
+            "rating": 1308,
+            "deviation": 126,
+            "volatility": 0.06
+          },
+          "score": 0.5
+        },
+        {
+          "opponent": {
+            "rating": 1439,
+            "deviation": 155,
+            "volatility": 0.06
+          },
+          "score": 1
+        },
+        {
+          "opponent": {
+            "rating": 1570,
+            "deviation": 184,
+            "volatility": 0.06
+          },
+          "score": 0
+        }
+      ],
+      "expected": {
+        "rating": 1491.7184409018364,
+        "deviation": 144.2945807693624,
+        "volatility": 0.0971761186460121
+      }
+    }
+  ]
+}

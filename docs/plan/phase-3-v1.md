@@ -21,15 +21,17 @@
 
 ### P3.01 – Ratings mit Glicko-2
 
+**Technischer Stand (15.10.2026):** Berechnung, Parameterprofile, Migration, kanonische Sync-Projektion und wiederaufnehmbare Rückrechnung implementiert; [Umsetzung und Abnahme](ratings-glicko2.md), [ADR 0028](../decisions/0028-glicko-aus-kanonischen-lernversuchen.md). Tatsächlicher P2-Launch und Plausibilität mit echten Lernenden bleiben offen.
+
 - **Ziel:** Fähigkeiten der Nutzer und Schwierigkeit der Aufgaben werden geschätzt.
 - **Abhängig von:** Phase 2
 - **Umfang:** L
 - **Aufgaben:**
-  - [ ] Glicko-2-Implementierung in `packages/exercises` (reines TypeScript, testbar, auch serverseitig)
-  - [ ] Migration: Rating-Felder in `skill_progress`, Tabelle `item_difficulty`
-  - [ ] Parameter-Gruppen je Übungstyp definieren (Schwierigkeits-Buckets)
-  - [ ] Serverseitige Aktualisierung beim Sync
-  - [ ] Rückrechnung aus vorhandenen `item_attempts` (einmalig)
+  - [x] Glicko-2-Implementierung in `packages/exercises` (reines TypeScript, testbar, auch serverseitig)
+  - [x] Migration: Rating-Felder in `skill_progress`, Tabelle `item_difficulty`
+  - [x] Parameter-Gruppen je Übungstyp definieren (Schwierigkeits-Buckets)
+  - [x] Serverseitige Aktualisierung beim Sync
+  - [x] Rückrechnung aus vorhandenen kanonischen `learning_events` (idempotent; `item_attempts` wurde in P2 nicht angelegt)
 - **Fertig, wenn:** Ratings konvergieren in Simulationen; Werte für echte Nutzer sind plausibel.
 - **Tests:** Glicko-2 gegen die Rechenbeispiele aus Glickmans Beschreibung des Verfahrens.
 

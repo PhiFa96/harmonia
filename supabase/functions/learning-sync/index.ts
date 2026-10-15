@@ -1,4 +1,5 @@
 import { observeHandler } from '../_shared/operations.ts';
+import { processPendingRatings } from '../_shared/ratings.ts';
 import { createClient } from 'npm:@supabase/supabase-js@2.117.3';
 import { catalogue } from '../../../packages/content/src/published.ts';
 import {
@@ -114,6 +115,12 @@ async function handler(request: Request): Promise<Response> {
       return json(result.error.message.startsWith('Access ') ? 403 : 409, {
         error: result.error.message.startsWith('Access ') ? 'access' : 'conflict',
       });
+    try {
+      await processPendingRatings(client, current, data.user.id);
+    } catch {
+      // Canonical progress/XP is committed. Durable null rating_version resumes next sync/backfill.
+      console.error('rating_projection_pending');
+    }
     const rows = await client.rpc('learning_reward_page', {
       actor: data.user.id,
       after_sequence: parsed.data.since,

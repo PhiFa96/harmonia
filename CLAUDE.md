@@ -16,6 +16,10 @@ P2.01/P2.02 wurden technisch ergänzt: Apple-/Google-PKCE (standardmäßig aus),
 
 Neue Befehle: `pnpm db:test:profile`, `pnpm check:accounts` (nur HTTP-Attrappen), `pnpm p2:status`, `pnpm p2:release`, `pnpm operations:monitor --local --check`, `pnpm release:observe --journal <privates-Journal>`. Die letzten drei Gates dürfen ohne tatsächliche Belege nicht als erfolgreiche Veröffentlichung/Beobachtung ausgegeben werden. Provider-Secrets ausschließlich serverseitig in der Supabase-Umgebung; Cloud-Draft-Einträge binden keine Produktionsprovider automatisch.
 
+## P3.01 – Ratings (15.10.2026)
+
+Technisch vorbereitet: reine Glicko-2-Berechnung, versionierte Parameterprofile aller 19 Übungstypen, Fähigkeits-/Schwierigkeitsprojektion aus kanonischen `learning_events`, serverseitiger Sync samt Revisionsschutz und wiederaufnehmbare Rückrechnung. Keine parallele `item_attempts`-Antworttabelle. Nur Erstaufgaben ohne Hinweise; echte Herkunft auch in Mischlektionen. Schema/Mathematik/Übertragung und Modellannahmen: `docs/plan/ratings-glicko2.md`, ADR 0028. Persönliche Ratings im Datenschutzexport, RLS und Kontolöschkaskade; keine zusätzlichen Rohantwortkopien. `pnpm db:test:ratings` prüft ausschließlich lokale eigene Fixtures, `pnpm ratings:backfill --local --preview` rechnet lokale Entwürfe zurück; `--remote` benötigt sichere Betreiberbindung und unterstützt keine Entwürfe. P3.01 bleibt empirisch offen, bis echte Lernverläufe und Vorhersagen geprüft sind. P2 ist weiterhin nicht öffentlich abgeschlossen. P2.24/P2.25/P2-Ergänzungen sind inzwischen über PR #80/#81/#79 mit grüner CI gemergt; PR #82 enthält die nachgeprüfte PR-Arbeitsweise. Keine direkte Main-Integration.
+
 ## Sprache
 
 - Gespräche und Dokumentation: Deutsch

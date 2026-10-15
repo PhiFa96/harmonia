@@ -39,6 +39,9 @@ import {
   currentPlacementTask,
   actPlacement,
   placementEstimates,
+  updateGlicko2,
+  INITIAL_RATING,
+  ratingBucket,
 } from '../packages/exercises/src/index.ts';
 import { firstLesson, catalogue, curriculumPlan } from '../packages/content/src/authoring.ts';
 import {
@@ -92,6 +95,22 @@ function check(label: string, actual: unknown, expected: unknown): void {
   }
   console.log(`ok  ${label}`);
 }
+
+const ratingExample = updateGlicko2({ ...INITIAL_RATING, deviation: 200 }, [
+  { opponent: { ...INITIAL_RATING, rating: 1400, deviation: 30 }, score: 1 },
+  { opponent: { ...INITIAL_RATING, rating: 1550, deviation: 100 }, score: 0 },
+  { opponent: { ...INITIAL_RATING, rating: 1700, deviation: 300 }, score: 0 },
+]);
+check(
+  'Glicko-2-Rechenbeispiel unter Deno',
+  Math.abs(ratingExample.rating - 1464.0506705393013) < 1e-8,
+  true,
+);
+check(
+  'Ratingprofil unter Deno',
+  ratingBucket({ type: 'NOTE_NAME', params: {} }, 1),
+  'g2:1:1:NOTE_NAME:{}',
+);
 
 const exercise = generateExercise(
   { type: 'INTERVAL_IDENTIFY_VISUAL', params: { intervals: ['m3', 'M3', 'P5'] } },

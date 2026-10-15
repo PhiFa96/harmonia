@@ -1,7 +1,7 @@
 import { timeZoneSchema } from './calendar.ts';
 export { timeZoneSchema } from './calendar.ts';
 import { z } from 'zod';
-import { resolveLesson } from './catalogue.ts';
+import { resolveLesson, lessonExerciseSources } from './catalogue.ts';
 import type { ContentCatalogue } from './catalogue-schema.ts';
 import type { LessonContent } from './schema.ts';
 import {
@@ -19,6 +19,8 @@ export function lessonPlan(catalogue: ContentCatalogue, id: string) {
   const content = resolveLesson(catalogue, id);
   const record = catalogue.lessons.find((l) => l.id === id);
   if (!content || !record) return undefined;
+  const origins = lessonExerciseSources(catalogue, id);
+  if (!origins) throw new Error('Aufgabenherkunft fehlt');
   const prerequisites = new Set<string>();
   const visit = (skillId: string) => {
     for (const prior of catalogue.skills.find((s) => s.id === skillId)?.prerequisites ?? []) {
@@ -51,13 +53,19 @@ export function lessonPlan(catalogue: ContentCatalogue, id: string) {
     const index = i % (lesson?.exercises.length ?? 1);
     const spec = lesson?.exercises[index];
     if (!spec) throw new Error('Wiederholungsaufgabe fehlt');
-    return { source, index, spec };
+    const origin = lessonExerciseSources(catalogue, source.id)?.[index];
+    if (!origin) throw new Error('Wiederholungsherkunft fehlt');
+    return { source, index, spec, origin };
   });
   const exercises: LessonContent['exercises'][number][] = [];
   const repetitionIndices: number[] = [];
+  const exerciseSources: typeof origins = [];
   let repeat = 0;
   content.exercises.forEach((spec, index) => {
     exercises.push(spec);
+    const origin = origins[index];
+    if (!origin) throw new Error('Aufgabenherkunft fehlt');
+    exerciseSources.push(origin);
     if (
       repeat < repeats.length &&
       index + 1 >= Math.ceil(((repeat + 1) * content.exercises.length) / (count + 1))
@@ -66,6 +74,7 @@ export function lessonPlan(catalogue: ContentCatalogue, id: string) {
       if (entry) {
         repetitionIndices.push(exercises.length);
         exercises.push(entry.spec);
+        exerciseSources.push(entry.origin);
       }
     }
   });
@@ -82,6 +91,7 @@ export function lessonPlan(catalogue: ContentCatalogue, id: string) {
     repetitionIndices,
     newCount: content.exercises.length,
     repetitionCount: count,
+    exerciseSources,
   };
 }
 
