@@ -20,3 +20,14 @@ Der aktuelle Korrekturbranch verändert ausschließlich Arbeitsanweisungen, PR-C
 ## Zugriffslimit
 
 Git-Transport funktioniert. Der konfigurierte GitHub-CLI-Zugriff meldet dagegen eine fehlgeschlagene Anmeldung; `gh api repos/PhiFa96/harmonia` liefert `Forbidden`. Hier ist damit weder die automatische PR-Erstellung noch das Auslesen des CI-Status bestätigt. Keine Tokens aus Dateien auslesen, keinen Ersatzschlüssel verlangen und keinen erfolgreichen PR-/CI-Status behaupten.
+
+## Ergebnis der Nachprüfung (15.10.2026, Claude)
+
+Geprüft wurde der aktuelle Stand `main` = `a8ff0807572d2d9965613c3ba0d2dad2c02a9499` (nach PR #80, #81 und #79). CI-Status über die GitHub-API abgerufen.
+
+- **Damalige Push-Läufe der direkten Integration:** `328ef48` und `ed0aa55` waren rot („Lint und Paket-Abhängigkeiten“ sowie „Lokales Supabase starten“), `46fe9fa` und `cc3cb7d` wurden abgebrochen. Der direkt integrierte Stand war also nicht grün.
+- **Behoben über PRs:** PR #80, #81 und #79 mit grüner PR-CI. Der Push-Lauf auf `a8ff080` ist in allen fünf Jobs grün („Lint, Typen, Tests“, „Web-Build der App“, „Deno-Kompatibilität“, „Supabase und Profil-Zugriffsschutz“, „Tutor-Batchmechanik ohne Modellkosten“). Kein Schritt wurde übersprungen.
+- **Keine abgeschwächten Prüfungen zwischen `ed0aa55` und `a8ff080`:** keine neuen `eslint-disable`, kein `.skip`/`.only`/`.todo`, keine gelöschten Testdateien, keine ignorierten Testpfade. ESLint ignoriert zusätzlich nur das erzeugte `artifacts/beta/**`; `if: always()` steht nur bei Artefakt-Uploads. Neu sind Speichergrenzen (`max-old-space-size`, `workerIdleMemoryLimit`) und ein Zeitlimit von 60 s in `level-two-complete.test.tsx`.
+- **Lokal auf `a8ff080` grün:** `format:check`, `lint`, `typecheck`, `check:i18n`, `check:content`, `check:curriculum`, `check:legal`, `check:tutor:catalogue`, `test` (alle Pakete, 552 App-Tests, 143 Werkzeugtests) und `check:deno`. Supabase- und Playwright-Prüfungen nur in der CI (kein Docker in dieser Umgebung).
+
+Nicht abgedeckt und weiter offen: eine inhaltliche Code-Review des Diffs P2.09–P2.23, die musikfachliche Prüfung nach ADR 0005, Geräte-/Akustik-/Storeabnahmen sowie Rechts- und Anbieterfreigaben.
