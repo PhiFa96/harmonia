@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "publicOrigin": null,
+  "supportEmail": null,
+  "links": {
+    "appStore": null,
+    "googlePlay": null
+  },
+  "availability": {
+    "ios": false,
+    "android": false
+  },
+  "approvals": {
+    "brand": {
+      "approved": false,
+      "evidenceReference": null
+    },
+    "domain": {
+      "approved": false,
+      "evidenceReference": null
+    },
+    "website": {
+      "approved": false,
+      "evidenceReference": null
+    },
+    "storeMetadata": {
+      "approved": false,
+      "evidenceReference": null
+    },
+    "nativeStoreMedia": {
+      "approved": false,
+      "evidenceReference": null
+    },
+    "currentStoreRequirements": {
+      "approved": false,
+      "evidenceReference": null
+    }
+  }
+}

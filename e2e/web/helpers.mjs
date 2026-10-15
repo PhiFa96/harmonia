@@ -37,9 +37,9 @@ export async function noOverflow(page) {
     true,
   );
 }
-export async function onboard(page, locale = 'de-DE') {
+export async function onboard(page, locale = 'de-DE', { navigate = true } = {}) {
   const text = copy(locale);
-  await page.goto('/');
+  if (navigate) await page.goto('/');
   await page.getByTestId('setup-next').waitFor();
   const next = () => page.getByTestId('setup-next').click();
   const choice = (id) => page.getByTestId('setup-choice-' + id).click();

@@ -47,6 +47,9 @@ jobs:
       - name: Rechtliche Freigabefelder und geschlossene Vorbereitung prüfen
         run: pnpm check:legal
 
+      - name: Store-Texte, Sprachen und geschlossene Veröffentlichung prüfen
+        run: pnpm check:storefront
+
       - name: Übersetzungen
         run: pnpm check:i18n
 
@@ -133,6 +136,9 @@ jobs:
         env:
           APP_VARIANT: production
         run: pnpm check:content && pnpm --filter @harmonia/mobile build:web
+
+      - name: Statische Website neben der öffentlichen Web-App bauen
+        run: pnpm website:build
 
       - name: Tatsächlichen Export auf Entwurfsdaten, Texte und Größenbudgets prüfen
         run: pnpm check:content:bundle && pnpm qa:bundle

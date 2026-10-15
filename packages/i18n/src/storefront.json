@@ -1,0 +1,398 @@
+{
+  "de-DE": {
+    "language": "Deutsch",
+    "lang": "de",
+    "pageTitle": "Harmonia – Musik verstehen, Schritt für Schritt",
+    "description": "Musiktheorie zum Mitmachen: Noten lesen, Rhythmus verstehen und das Gehör schulen. Entdecke Harmonia für Web, iOS und Android.",
+    "navFeatures": "Entdecken",
+    "navHow": "So lernst du",
+    "navSupport": "Support",
+    "skip": "Zum Inhalt",
+    "status": "In Vorbereitung",
+    "eyebrow": "Musiktheorie zum Mitmachen",
+    "headline": "Musik verstehen. Schritt für Schritt.",
+    "intro": "Aus einzelnen Noten wird ein Zusammenhang. Mit kurzen Lektionen, eigenen Antworten und Erklärungen, die dich weiterbringen.",
+    "openApp": "Web-App öffnen",
+    "explore": "Harmonia entdecken",
+    "mobileStatus": "iOS und Android sind in Vorbereitung.",
+    "apple": "Im App Store ansehen",
+    "google": "Bei Google Play ansehen",
+    "visualTitle": "Sehen. Hören. Verstehen.",
+    "visualBody": "Verbinde das Notenbild mit dem Klang und deiner eigenen Antwort.",
+    "visualTags": ["Noten lesen", "Genau hinhören", "Selbst ausprobieren"],
+    "featuresTitle": "Wissen, das du selbst ausprobierst.",
+    "featuresIntro": "Lesen allein reicht nicht. Harmonia verbindet Erklärungen mit Aufgaben, in denen du Musik erkennst, hörst und eingibst.",
+    "features": [
+      {
+        "title": "Vom Zeichen zum Klang",
+        "body": "Lerne Noten, Pausen und Rhythmus im Zusammenhang kennen. Notenbilder und Klavierbeispiele helfen dir beim Verstehen.",
+        "icon": "notes"
+      },
+      {
+        "title": "Antworten statt nur weiterlesen",
+        "body": "Erkenne Intervalle, setze Töne auf der Klaviatur und beschäftige dich mit Tonleitern und Akkorden.",
+        "icon": "keys"
+      },
+      {
+        "title": "Ein Lernpfad mit Zusammenhang",
+        "body": "Baue auf dem auf, was du schon kennst. Einführungen, Aufgaben und Wiederholung gehören zusammen.",
+        "icon": "path"
+      },
+      {
+        "title": "Fehler dürfen helfen",
+        "body": "Nutze Hinweise und Erklärungen. Wiederhole schwierige Aufgaben mit einer neuen Variante.",
+        "icon": "hint"
+      }
+    ],
+    "howTitle": "Dein nächster Schritt ist überschaubar.",
+    "steps": [
+      {
+        "title": "Ankommen",
+        "body": "Wähle deinen Einstieg und beginne als Gast. Du kannst später ein Konto ergänzen."
+      },
+      {
+        "title": "Selbst üben",
+        "body": "Lies eine Einführung, löse Aufgaben und hole dir bei Bedarf einen Hinweis."
+      },
+      {
+        "title": "Dranbleiben",
+        "body": "Nimm deinen gespeicherten Stand wieder auf und vertiefe, was noch nicht sicher sitzt."
+      }
+    ],
+    "faqTitle": "Noch eine Frage?",
+    "faq": [
+      {
+        "question": "Brauche ich Vorkenntnisse?",
+        "answer": "Du kannst bei den Grundlagen beginnen. Die Einstufung hilft dir, bereits Bekanntes einzuordnen."
+      },
+      {
+        "question": "Brauche ich ein Instrument?",
+        "answer": "Für den Einstieg brauchst du kein eigenes Instrument. Die App enthält eine Klaviatur und Klavierbeispiele. Für Höraufgaben muss der Ton an sein."
+      },
+      {
+        "question": "Welche Sprachen gibt es?",
+        "answer": "Deutsch sowie amerikanisches und britisches Englisch. Die musikalischen Begriffe passen zur gewählten Sprache."
+      },
+      {
+        "question": "Ist Harmonia schon veröffentlicht?",
+        "answer": "Harmonia wird noch für die Veröffentlichung vorbereitet. Store-Links folgen nach Freigabe. Inhalte und Plattformen werden vor dem Start weiter geprüft."
+      }
+    ],
+    "closingTitle": "Eine Note ist ein Anfang.",
+    "closingBody": "Schau dir an, wie aus kleinen Schritten musikalisches Verständnis wachsen kann.",
+    "legal": "Rechtliches und Impressum",
+    "privacy": "Datenschutz",
+    "cancellation": "Abo kündigen",
+    "supportTitle": "Wir helfen dir weiter.",
+    "supportIntro": "Wenn etwas nicht funktioniert oder eine Erklärung unklar bleibt, helfen ein paar genaue Angaben.",
+    "supportUnavailable": "Der Support-Kontakt wird zum Start ergänzt.",
+    "contact": "Support per E-Mail kontaktieren",
+    "supportChecklistTitle": "Das hilft bei deiner Nachricht:",
+    "supportChecklist": [
+      "Was wolltest du tun und was ist passiert?",
+      "Welche Plattform und App-Version nutzt du?",
+      "Bei einer Aufgabe: Lektion und Aufgabenkennung, wenn sichtbar."
+    ],
+    "supportPrivacy": "Schicke keine Passwörter, Anmeldecodes oder Zahlungsdaten. Inhalte kannst du auch direkt an der jeweiligen Aufgabe melden.",
+    "back": "Zurück zu Harmonia",
+    "footer": "Musik verstehen. Im eigenen Tempo.",
+    "store": {
+      "name": "Harmonia: Musiktheorie",
+      "subtitle": "Noten lesen. Musik verstehen.",
+      "promotionalText": "Lerne Musiktheorie Schritt für Schritt: mit Notenbildern, Klavierbeispielen, eigenen Antworten und hilfreichen Erklärungen.",
+      "keywords": "Musiktheorie,Noten,Gehörbildung,Rhythmus,Intervalle,Akkorde,Tonleitern",
+      "shortDescription": "Noten, Rhythmus und Gehörbildung: Musik verstehen und selbst üben.",
+      "description": "Musik verstehen beginnt mit einem kleinen Schritt. Harmonia verbindet Musiktheorie mit Aufgaben, in denen du selbst antwortest.\n\nVOM NOTENBILD ZUM KLANG\nBeschäftige dich mit Noten, Pausen, Rhythmus und Intervallen. Entdecke Tonleitern und Akkorde. Notenbilder, eine Klaviatur und eigene Klavierbeispiele helfen dir, Zusammenhänge zu verstehen.\n\nEIN LERNPFAD, DER AUFBAUT\nEinführungen bereiten dich auf die Aufgaben vor. Übe Lesen, Hören und Eingeben. Beginne bei den Grundlagen oder nutze die Einstufung, um bereits Bekanntes einzuordnen.\n\nHINWEISE, DIE WEITERHELFEN\nWenn eine Aufgabe schwierig ist, nutze Hinweise und Erklärungen. Wiederhole Fehler mit einer neuen Variante. Eingeblendete Lösungen ersetzen keinen selbst erreichten Lernerfolg.\n\nIN DEINEM TEMPO\nStarte als Gast und nimm deinen gespeicherten Stand wieder auf. Tagesziel und Lernserie helfen dir bei deiner Routine.\n\nDEUTSCH UND ENGLISCH\nLerne auf Deutsch sowie mit amerikanischen oder britischen Musikbegriffen. Hell- und Dunkelmodus und reduzierte Bewegung passen die Darstellung an.\n\nFür Höraufgaben brauchst du eingeschalteten Ton. Ein eigenes Instrument ist für den Einstieg nicht nötig.\n\nGrundfunktionen sind gratis nutzbar; für zusätzliche Funktionen sind optionale Abos vorgesehen. Die verfügbaren Angebote, Preise und Laufzeiten zeigt die App vor dem Kauf.",
+      "screenshots": [
+        {
+          "id": "learning-path",
+          "title": "Ein Schritt nach dem anderen",
+          "alt": "Lernpfad in der Harmonia-Web-App"
+        },
+        {
+          "id": "introduction",
+          "title": "Erst verstehen, dann ausprobieren",
+          "alt": "Einführung mit Notenbeispiel in der Harmonia-Web-App"
+        },
+        {
+          "id": "exercise",
+          "title": "Deine Antwort zählt",
+          "alt": "Intervallaufgabe in der Harmonia-Web-App"
+        },
+        {
+          "id": "hint",
+          "title": "Ein Hinweis bringt dich weiter",
+          "alt": "Aufgabe mit geöffnetem Hinweis in der Harmonia-Web-App"
+        }
+      ]
+    },
+    "navigation": "Hauptnavigation",
+    "languageNavigation": "Sprache wählen",
+    "footerNavigation": "Weitere Informationen",
+    "privacyChoices": "Datenschutzeinstellungen"
+  },
+  "en-US": {
+    "language": "English (US)",
+    "lang": "en-US",
+    "pageTitle": "Harmonia – Understand music, one step at a time",
+    "description": "Music theory you can put into practice: read music, understand rhythm and train your ear. Discover Harmonia for web, iOS and Android.",
+    "navFeatures": "Discover",
+    "navHow": "How you learn",
+    "navSupport": "Support",
+    "skip": "Skip to content",
+    "status": "In preparation",
+    "eyebrow": "Music theory you can put into practice",
+    "headline": "Understand music. One step at a time.",
+    "intro": "Turn individual notes into connections. With short lessons, answers of your own and explanations that help you move forward.",
+    "openApp": "Open the web app",
+    "explore": "Discover Harmonia",
+    "mobileStatus": "iOS and Android are in preparation.",
+    "apple": "View on the App Store",
+    "google": "View on Google Play",
+    "visualTitle": "See. Hear. Understand.",
+    "visualBody": "Connect the music on the staff with its sound and your own answer.",
+    "visualTags": ["Read music", "Listen closely", "Try it yourself"],
+    "featuresTitle": "Knowledge you put into practice.",
+    "featuresIntro": "Reading is only the beginning. Harmonia combines explanations with exercises in recognizing, hearing and entering music.",
+    "features": [
+      {
+        "title": "From symbol to sound",
+        "body": "Learn about notes, rests and rhythm in context. Notation and piano examples help you make sense of them.",
+        "icon": "notes"
+      },
+      {
+        "title": "Do more than keep reading",
+        "body": "Recognize intervals, enter notes on a keyboard and explore scales and chords.",
+        "icon": "keys"
+      },
+      {
+        "title": "A learning path that connects",
+        "body": "Build on what you already know. Introductions, exercises and review belong together.",
+        "icon": "path"
+      },
+      {
+        "title": "Learn from mistakes",
+        "body": "Use hints and explanations. Revisit challenging exercises with a new variation.",
+        "icon": "hint"
+      }
+    ],
+    "howTitle": "A next step you can manage.",
+    "steps": [
+      {
+        "title": "Find your starting point",
+        "body": "Choose where to begin and start as a guest. You can add an account later."
+      },
+      {
+        "title": "Practice for yourself",
+        "body": "Read an introduction, answer questions and ask for a hint when you need one."
+      },
+      {
+        "title": "Keep going",
+        "body": "Pick up your saved progress and revisit what still needs practice."
+      }
+    ],
+    "faqTitle": "One more question?",
+    "faq": [
+      {
+        "question": "Do I need previous experience?",
+        "answer": "You can begin with the basics. The placement test helps you put what you already know in context."
+      },
+      {
+        "question": "Do I need an instrument?",
+        "answer": "You do not need your own instrument to get started. The app includes a keyboard and piano examples. Turn on sound for listening exercises."
+      },
+      {
+        "question": "Which languages are available?",
+        "answer": "German, American English and British English. Musical terms match your selected language."
+      },
+      {
+        "question": "Has Harmonia launched yet?",
+        "answer": "Harmonia is still being prepared for release. Store links will follow approval. Content and platforms are being checked before launch."
+      }
+    ],
+    "closingTitle": "One note is a beginning.",
+    "closingBody": "Discover how small steps can build your understanding of music.",
+    "legal": "Legal information and imprint",
+    "privacy": "Privacy",
+    "cancellation": "Cancel a subscription",
+    "supportTitle": "Let us help you move forward.",
+    "supportIntro": "If something does not work or an explanation is unclear, a few details help us understand the problem.",
+    "supportUnavailable": "The support contact will be added at launch.",
+    "contact": "Contact support by email",
+    "supportChecklistTitle": "Include these details in your message:",
+    "supportChecklist": [
+      "What were you trying to do, and what happened?",
+      "Which platform and app version are you using?",
+      "For an exercise: the lesson and exercise ID, if shown."
+    ],
+    "supportPrivacy": "Do not send passwords, sign-in codes or payment details. You can also report content directly from an exercise.",
+    "back": "Back to Harmonia",
+    "footer": "Understand music. At your own pace.",
+    "store": {
+      "name": "Harmonia: Music Theory",
+      "subtitle": "Read music. Understand more.",
+      "promotionalText": "Learn music theory step by step, with notation, piano examples, answers of your own and explanations that help you make connections.",
+      "keywords": "music theory,sheet music,ear training,rhythm,intervals,chords,scales",
+      "shortDescription": "Read music, explore rhythm and train your ear. Learn by doing.",
+      "description": "Understanding music begins with a small step. Harmonia combines music theory with exercises where you answer for yourself.\n\nFROM NOTATION TO SOUND\nExplore notes, rests, rhythm and intervals. Learn about scales and chords. Notation, a keyboard and original piano examples help you understand the connections.\n\nA LEARNING PATH THAT BUILDS\nIntroductions prepare you for each lesson. Practice reading, listening and entering music. Start with the basics or use the placement test to put existing knowledge in context.\n\nHINTS THAT HELP\nUse hints and explanations when an exercise is challenging. Revisit mistakes with a new variation. Revealing a solution does not replace learning you have demonstrated yourself.\n\nAT YOUR OWN PACE\nStart as a guest and pick up your saved progress. A daily goal and learning streak help you build a routine.\n\nGERMAN AND ENGLISH\nLearn in German or with American or British musical terms. Light and dark themes and reduced motion let you adjust the presentation.\n\nTurn on sound for listening exercises. You do not need your own instrument to get started.\n\nCore features can be used for free; optional subscriptions are planned for additional features. The app shows available offers, prices and billing periods before purchase.",
+      "screenshots": [
+        {
+          "id": "learning-path",
+          "title": "One step at a time",
+          "alt": "Learning path in the Harmonia web app"
+        },
+        {
+          "id": "introduction",
+          "title": "Understand, then try it yourself",
+          "alt": "Lesson introduction with notation in the Harmonia web app"
+        },
+        {
+          "id": "exercise",
+          "title": "Your answer matters",
+          "alt": "Interval exercise in the Harmonia web app"
+        },
+        {
+          "id": "hint",
+          "title": "A hint helps you move forward",
+          "alt": "Exercise with an open hint in the Harmonia web app"
+        }
+      ]
+    },
+    "navigation": "Main navigation",
+    "languageNavigation": "Choose a language",
+    "footerNavigation": "More information",
+    "privacyChoices": "Privacy settings"
+  },
+  "en-GB": {
+    "language": "English (UK)",
+    "lang": "en-GB",
+    "pageTitle": "Harmonia – Understand music, one step at a time",
+    "description": "Music theory you can practise: read music, understand rhythm and train your ear. Discover Harmonia for web, iOS and Android.",
+    "navFeatures": "Discover",
+    "navHow": "How you learn",
+    "navSupport": "Support",
+    "skip": "Skip to content",
+    "status": "In preparation",
+    "eyebrow": "Music theory you can practise",
+    "headline": "Understand music. One step at a time.",
+    "intro": "Turn individual notes into connections. With short lessons, answers of your own and explanations that help you move forward.",
+    "openApp": "Open the web app",
+    "explore": "Discover Harmonia",
+    "mobileStatus": "iOS and Android are in preparation.",
+    "apple": "View on the App Store",
+    "google": "View on Google Play",
+    "visualTitle": "See. Hear. Understand.",
+    "visualBody": "Connect the music on the staff with its sound and your own answer.",
+    "visualTags": ["Read music", "Listen closely", "Try it yourself"],
+    "featuresTitle": "Knowledge you put into practice.",
+    "featuresIntro": "Reading is only the beginning. Harmonia combines explanations with exercises in recognising, hearing and entering music.",
+    "features": [
+      {
+        "title": "From symbol to sound",
+        "body": "Learn about notes, rests and rhythm in context. Notation and piano examples help you make sense of them.",
+        "icon": "notes"
+      },
+      {
+        "title": "Do more than keep reading",
+        "body": "Recognise intervals, enter notes on a keyboard and explore scales and chords.",
+        "icon": "keys"
+      },
+      {
+        "title": "A learning path that connects",
+        "body": "Build on what you already know. Introductions, exercises and revision belong together.",
+        "icon": "path"
+      },
+      {
+        "title": "Learn from mistakes",
+        "body": "Use hints and explanations. Revisit challenging exercises with a new variation.",
+        "icon": "hint"
+      }
+    ],
+    "howTitle": "A next step you can manage.",
+    "steps": [
+      {
+        "title": "Find your starting point",
+        "body": "Choose where to begin and start as a guest. You can add an account later."
+      },
+      {
+        "title": "Practise for yourself",
+        "body": "Read an introduction, answer questions and ask for a hint when you need one."
+      },
+      {
+        "title": "Keep going",
+        "body": "Pick up your saved progress and revisit what still needs practise."
+      }
+    ],
+    "faqTitle": "One more question?",
+    "faq": [
+      {
+        "question": "Do I need previous experience?",
+        "answer": "You can begin with the basics. The placement test helps you put what you already know in context."
+      },
+      {
+        "question": "Do I need an instrument?",
+        "answer": "You do not need your own instrument to get started. The app includes a keyboard and piano examples. Turn on sound for listening exercises."
+      },
+      {
+        "question": "Which languages are available?",
+        "answer": "German, American English and British English. Musical terms match your selected language."
+      },
+      {
+        "question": "Has Harmonia launched yet?",
+        "answer": "Harmonia is still being prepared for release. Store links will follow approval. Content and platforms are being checked before launch."
+      }
+    ],
+    "closingTitle": "One note is a beginning.",
+    "closingBody": "Discover how small steps can build your understanding of music.",
+    "legal": "Legal information and imprint",
+    "privacy": "Privacy",
+    "cancellation": "Cancel a subscription",
+    "supportTitle": "Let us help you move forward.",
+    "supportIntro": "If something does not work or an explanation is unclear, a few details help us understand the problem.",
+    "supportUnavailable": "The support contact will be added at launch.",
+    "contact": "Contact support by email",
+    "supportChecklistTitle": "Include these details in your message:",
+    "supportChecklist": [
+      "What were you trying to do, and what happened?",
+      "Which platform and app version are you using?",
+      "For an exercise: the lesson and exercise ID, if shown."
+    ],
+    "supportPrivacy": "Do not send passwords, sign-in codes or payment details. You can also report content directly from an exercise.",
+    "back": "Back to Harmonia",
+    "footer": "Understand music. At your own pace.",
+    "store": {
+      "name": "Harmonia: Music Theory",
+      "subtitle": "Read music. Understand more.",
+      "promotionalText": "Learn music theory step by step, with notation, piano examples, answers of your own and explanations that help you make connections.",
+      "keywords": "music theory,sheet music,ear training,rhythm,intervals,chords,scales",
+      "shortDescription": "Read music, explore rhythm and train your ear. Learn by doing.",
+      "description": "Understanding music begins with a small step. Harmonia combines music theory with exercises where you answer for yourself.\n\nFROM NOTATION TO SOUND\nExplore notes, rests, rhythm and intervals. Learn about scales and chords. Notation, a keyboard and original piano examples help you understand the connections.\n\nA LEARNING PATH THAT BUILDS\nIntroductions prepare you for each lesson. Practise reading, listening and entering music. Start with the basics or use the placement test to put existing knowledge in context.\n\nHINTS THAT HELP\nUse hints and explanations when an exercise is challenging. Revisit mistakes with a new variation. Revealing a solution does not replace learning you have demonstrated yourself.\n\nAT YOUR OWN PACE\nStart as a guest and pick up your saved progress. A daily goal and learning streak help you build a routine.\n\nGERMAN AND ENGLISH\nLearn in German or with American or British musical terms. Light and dark themes and reduced motion let you adjust the presentation.\n\nTurn on sound for listening exercises. You do not need your own instrument to get started.\n\nCore features can be used for free; optional subscriptions are planned for additional features. The app shows available offers, prices and billing periods before purchase.",
+      "screenshots": [
+        {
+          "id": "learning-path",
+          "title": "One step at a time",
+          "alt": "Learning path in the Harmonia web app"
+        },
+        {
+          "id": "introduction",
+          "title": "Understand, then try it yourself",
+          "alt": "Lesson introduction with notation in the Harmonia web app"
+        },
+        {
+          "id": "exercise",
+          "title": "Your answer matters",
+          "alt": "Interval exercise in the Harmonia web app"
+        },
+        {
+          "id": "hint",
+          "title": "A hint helps you move forward",
+          "alt": "Exercise with an open hint in the Harmonia web app"
+        }
+      ]
+    },
+    "navigation": "Main navigation",
+    "languageNavigation": "Choose a language",
+    "footerNavigation": "More information",
+    "privacyChoices": "Privacy settings"
+  }
+}
