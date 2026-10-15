@@ -95,7 +95,8 @@
     "workerIdleMemoryLimit": "1024MB",
     "reporters": [
       "default",
-      "github-actions"
+      "github-actions",
+      "<rootDir>/jest/ci-execution-reporter.js"
     ]
   }
 }

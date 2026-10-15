@@ -52,7 +52,9 @@ jobs:
 
       - name: App-Tests
         working-directory: apps/mobile
-        run: pnpm test
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        run: pnpm exec jest --runInBand
 
       - name: Rechtliche Freigabefelder und geschlossene Vorbereitung prüfen
         run: pnpm check:legal
