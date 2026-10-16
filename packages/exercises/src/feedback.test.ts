@@ -128,7 +128,7 @@ describe('Hörhinweise', () => {
       for (const locale of ['de', 'en-US', 'en-GB'] as const) {
         for (const level of [1, 2] as const) {
           const text = hintText(item, exerciseHints(item, level), locale);
-          expect(text, `${question}/${locale}/${level}`).not.toMatch(/NaN|undefined|\{\{/);
+          expect(text, `${question}/${locale}/${String(level)}`).not.toMatch(/NaN|undefined|\{\{/);
           expect(text.length).toBeGreaterThan(20);
           expect(text).not.toMatch(/Klangabstand|pitch distance/);
         }
