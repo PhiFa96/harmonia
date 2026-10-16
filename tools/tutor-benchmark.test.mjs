@@ -425,6 +425,17 @@ test('Die 98-%-Schwelle gilt je Sprache; Fehler werden nicht durch andere Sprach
   assert.equal(result.groups['locale:de'].factualPercent, 97.5);
   assert.equal(result.releaseEligible, false);
 });
+test('Auch die Annahmequote gilt je Sprache und Rolle', async () => {
+  const f = await gradingFixture();
+  for (const e of f.preparation.episodes.filter((e) => e.locale === 'en-GB').slice(0, 5))
+    f.grades.grades.find((g) => g.episodeId === e.id).verdicts.languageTone = false;
+  const result = await evaluateReport(f);
+  assert.ok(result.acceptancePercent > 98);
+  assert.equal(result.groups['locale:en-GB'].factualPercent, 100);
+  assert.ok(result.groups['locale:en-GB'].acceptancePercent < 98);
+  assert.equal(result.releaseEligible, false);
+  assert.equal(result.selection, null);
+});
 test('Günstigere schlechtere Variante wird verworfen; valide Rollenwahl bleibt möglich', async () => {
   const f = await gradingFixture(['baseline', 'cheap']);
   for (const e of f.preparation.episodes

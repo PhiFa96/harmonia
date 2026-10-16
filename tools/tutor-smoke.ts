@@ -92,6 +92,18 @@ check(
   JSON.stringify(tool('build_interval', { from: 'C4', interval: 'M3' })).includes('E4'),
   'Build major third',
 );
+const german = tool('build_interval', { from: 'B3', interval: 'M2' });
+check(
+  JSON.stringify(german).includes('"name":"cis¹"'),
+  'German display names use Helmholtz octaves',
+);
+const international = executeTutorTool(
+  'build_interval',
+  { from: 'B3', interval: 'M2' },
+  { ...request, noteNaming: 'intl' },
+  { available: false },
+);
+check(JSON.stringify(international).includes('"name":"C♯4"'), 'International scientific names');
 check(
   JSON.stringify(tool('build_interval', { from: 'C4', interval: 'M3', userId: 'other' })).includes(
     'invalid_tool_input',
@@ -247,6 +259,10 @@ const wrong = exerciseContext(catalogue, {
   context: { source, answer: 'untrusted-wrong', checked: true },
 });
 check('evaluation' in wrong && !wrong.evaluation.correct, 'Client cannot assert a correct answer');
+check(
+  'answer' in wrong && wrong.answer === null && !JSON.stringify(wrong).includes('untrusted-wrong'),
+  'Invalid free-text answers stay out of the trusted task block',
+);
 const seenTypes = new Set<string>();
 for (const entry of catalogue.lessons) {
   const lesson = resolveLesson(catalogue, entry.id);
@@ -287,6 +303,14 @@ for (const entry of catalogue.lessons) {
         !('solution' in hint) && !('feedback' in hint),
         'Non-solution hint context ' + item.type + ' ' + locale,
       );
+      if (
+        item.type === 'INTERVAL_IDENTIFY_AURAL' ||
+        (item.type === 'CHORD_IDENTIFY' && item.presentation === 'aural')
+      )
+        check(
+          'description' in hint && hint.description === null,
+          'Hidden aural score ' + item.type + ' ' + locale,
+        );
     }
   }
 }

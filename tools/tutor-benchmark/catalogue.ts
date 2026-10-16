@@ -68,7 +68,16 @@ function wrongAnswer(item: ExerciseItem): string {
   if (separator >= 0) {
     const prefix = expected.slice(0, separator + 1),
       parts = expected.slice(separator + 1).split(',');
-    candidates.push(prefix + [...parts].reverse().join(','));
+    // Akkord-/Tonleiterschreiben hält den ersten Ton fest; eine Umkehrung wäre dort keine mögliche,
+    // sondern beim Akkord sogar eine gleich klingende Antwort. Typischer Fehler: vergessenes Vorzeichen.
+    if (prefix === 'chord-notes:' || prefix === 'notes:') {
+      const index = parts.findIndex((part, i) => i > 0 && /^[A-G](?:bb|b|##|#)\d$/.test(part));
+      if (index > 0)
+        candidates.unshift(
+          prefix +
+            parts.map((part, i) => (i === index ? part.replace(/[b#]+/, '') : part)).join(','),
+        );
+    } else candidates.push(prefix + [...parts].reverse().join(','));
     if (parts.length > 1)
       for (const replacement of ['C4', 'D#4', 'F#4'])
         candidates.push(prefix + [parts[0], replacement, ...parts.slice(2)].join(','));
