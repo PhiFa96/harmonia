@@ -1556,7 +1556,7 @@ export const de = {
     halfSteps_one: '{{count}} $t(glossary:semitone_one)',
     halfSteps_other: '{{count}} $t(glossary:semitone_other)',
     intervalExplanation:
-      '{{from}} → {{to}}: {{diatonic}} einschließlich beider Töne gezählt, mit einem Klangabstand von {{distance}}. Das Intervall heißt {{answer}}.',
+      '{{from}} → {{to}}: {{diatonic}} einschließlich beider Töne gezählt; Klangabstand: {{distance}}. Das Intervall heißt {{answer}}.',
     noteHint1:
       'Beginne beim $t(glossary:clef_one). Zähle Linien und Zwischenräume, bevor du das $t(glossary:accidental_one) liest.',
     noteHint2:

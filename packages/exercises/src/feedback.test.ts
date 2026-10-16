@@ -8,7 +8,10 @@ import {
   exerciseFeedback,
   exerciseHints,
   exercisePrompt,
+  createRng,
+  generateListening,
   hintText,
+  LISTENING_QUESTIONS,
 } from './index.ts';
 import type { ExerciseClef, IntervalItem, NoteItem } from './types.ts';
 
@@ -112,6 +115,22 @@ describe('Engine-Bewertung und Erklärungen', () => {
           const text = hintText(item, exerciseHints(item, level), locale);
           expect(text.length).toBeGreaterThan(20);
           expect(text).not.toMatch(/exercise\.|glossary:|\{\{/);
+        }
+      }
+    }
+  });
+});
+
+describe('Hörhinweise', () => {
+  it('geben für jede Hörform Hinweis 1 und 2 in allen Sprachen ohne Zahlenplatzhalter aus', () => {
+    for (const question of LISTENING_QUESTIONS) {
+      const item = generateListening({ question }, createRng(11));
+      for (const locale of ['de', 'en-US', 'en-GB'] as const) {
+        for (const level of [1, 2] as const) {
+          const text = hintText(item, exerciseHints(item, level), locale);
+          expect(text, `${question}/${locale}/${level}`).not.toMatch(/NaN|undefined|\{\{/);
+          expect(text.length).toBeGreaterThan(20);
+          expect(text).not.toMatch(/Klangabstand|pitch distance/);
         }
       }
     }
