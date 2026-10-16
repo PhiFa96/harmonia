@@ -923,8 +923,8 @@ export const enUS = {
     listeningUp: 'Second pitch higher',
     listeningDown: 'Second pitch lower',
     listeningRepeat: 'Same pitch',
-    listeningSingle: 'Only one pitch sounds at a time',
-    listeningTogether: 'At least two pitches sound together',
+    listeningSingle: 'The notes begin one after another',
+    listeningTogether: 'At least two notes begin together',
     listeningDate: 'The work was certainly composed in 1750',
     listeningPlace: 'The music was certainly performed in a church',
     listeningHint1:
@@ -1183,7 +1183,7 @@ export const enUS = {
     knowledgeMeter:
       '{{count}} beats per $t(glossary:measure_one), each with the value {{beat}}. Grouping in denominator units: {{groups}}.',
     knowledgeHint_accidentals:
-      'Compare raising, lowering and cancelling an alteration. $t(glossary:sharp_other) and $t(glossary:flat_other) change the natural pitch by one $t(glossary:semitone_one), double signs by two.',
+      'Compare raising, lowering and removing an alteration: $t(glossary:sharp_other) and $t(glossary:flat_other) change the natural pitch by one $t(glossary:semitone_one), double signs by two.',
     knowledgeHint_noteValues:
       'Reference for the fractions: $t(glossary:notes.whole_one). A dot adds half of the undotted value.',
     knowledgeHint_intervals:
@@ -1198,7 +1198,7 @@ export const enUS = {
       'Compare the octave first, then the pitch within it. German H corresponds to English B.',
     knowledgeHint2_KNOWLEDGE_MC: 'Narrow your choice to these two concepts: {{candidates}}.',
     knowledgeHint2_MATCH: 'Begin with this pair: {{term}} – {{definition}}',
-    knowledgeHint2_ORDER: 'The first item is {{first}}.',
+    knowledgeHint2_ORDER: 'The first item is: {{first}}.',
     order_noteValues_ascending: 'from shortest to longest duration',
     order_noteValues_descending: 'from longest to shortest duration',
     order_pitches_ascending: 'from lowest to highest',
@@ -1391,7 +1391,7 @@ export const enUS = {
     keyScoreHint1:
       'First read the $t(glossary:clef_one) and the note position, including its $t(glossary:ledgerLine_other). Work out the complete $t(glossary:noteName_one). Find C in the same $t(glossary:octave_one) on the $t(glossary:keyboard_one), then move to the matching key.',
     keyHint2:
-      'First find {{natural}}. {{alteration}} Moving to the immediately adjacent key is one semitone, including between E and F and between B and C.',
+      'First find {{natural}}. {{alteration}} Moving to the immediately adjacent key is one $t(glossary:semitone_one), including between E and F and between B and C.',
     buildHint2:
       'The pitch distance is {{distance}}. First count the natural notes in the requested direction, including the starting note. Then adjust the target note’s accidental.',
     inputSolution: 'This is the solution',

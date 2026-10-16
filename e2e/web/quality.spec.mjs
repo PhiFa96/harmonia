@@ -153,6 +153,10 @@ for (const scenario of [
         expect(box.y + box.height).toBeLessThanOrEqual(421);
         await page.getByRole('radio').first().focus();
         await page.keyboard.press('ArrowDown');
+        // Pfeile bewegen nur den Fokus; erst Leertaste übernimmt und schließt (WCAG 3.2.2).
+        await expect(dialog).toBeVisible();
+        await expect(page.getByRole('radio').nth(1)).toBeFocused();
+        await page.keyboard.press('Space');
         await expect(dialog).toBeHidden();
         await expect(appearance).toBeFocused();
         await page.setViewportSize({ width: scenario.width, height: 900 });
@@ -193,3 +197,13 @@ for (const path of ['/legal', '/privacy', '/cancel-subscription'])
     await page.setViewportSize({ width: 320, height: 800 });
     await noOverflow(page);
   });
+// Regressionswache: Der Web-Export zeigte /_sitemap auch vor `sitemap: false` nicht an (Gegenprobe
+// 16.10.2026, mit und ohne abgeschlossenes Onboarding). Die Option sichert Entwicklung/native Deep Links ab.
+test('Interne Routenübersicht /_sitemap wird nicht ausgeliefert', async ({ page }) => {
+  await page.goto('/_sitemap');
+  await page
+    .getByRole('heading', { name: /Diese Seite gibt es nicht\.|This page could not be found\./ })
+    .last()
+    .waitFor();
+  await expect(page.getByText('_sitemap', { exact: false })).toHaveCount(0);
+});

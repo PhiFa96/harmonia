@@ -64,6 +64,7 @@ function OptionRows<T extends string>({
     choices: options.map((option) => option.value),
     enabled: true,
     select,
+    focusOnly: true,
   });
   return (
     <View ref={group} role="radiogroup" aria-label={title}>

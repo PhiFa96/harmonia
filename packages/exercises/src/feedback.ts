@@ -677,6 +677,7 @@ export function hintText(item: ExerciseItem, hint: ExerciseHint, locale: TextLoc
       locale,
     ).message;
   if (hint.key === 'solution') return '';
+  if (item.type === 'LISTENING_CHOICE') return translate(locale, hint.key, hint.values);
   if (isIntervalReadingItem(item)) return translate(locale, hint.key, hint.values);
   if (isKnowledgeItem(item)) return translate(locale, hint.key, knowledgeValues(item, locale));
   if (isRhythmItem(item)) return translate(locale, hint.key, rhythmValues(item, locale));
