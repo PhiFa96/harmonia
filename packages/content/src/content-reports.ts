@@ -12,7 +12,7 @@ import {
 import type { ContentCatalogue } from './catalogue-schema.ts';
 import { resolveLesson } from './catalogue.ts';
 import { lessonPlan } from './lesson-flow.ts';
-import { placementBank } from './placement.ts';
+import { placementBankForKey } from './placement.ts';
 import { learningEventSchema, EvidenceError } from './learning-evidence.ts';
 
 const time = z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER);
@@ -91,7 +91,7 @@ export function resolveReportSource(catalogue: ContentCatalogue, input: unknown)
     const lesson =
       source.planKey === undefined
         ? resolveLesson(catalogue, source.lessonId)
-        : lessonPlan(catalogue, source.lessonId);
+        : lessonPlan(catalogue, source.lessonId, source.planKey);
     if (
       lesson?.contentVersion !== source.contentVersion ||
       (source.planKey !== undefined &&
@@ -105,8 +105,8 @@ export function resolveReportSource(catalogue: ContentCatalogue, input: unknown)
     if (!item) throw new EvidenceError('invalid');
     return { item, contentId: lesson.id, contentVersion: lesson.contentVersion };
   }
-  const bank = placementBank(catalogue);
-  if (!bank.areas.length || source.bankKey !== bank.key) throw new EvidenceError('changed');
+  const bank = placementBankForKey(catalogue, source.bankKey);
+  if (!bank?.areas.length) throw new EvidenceError('changed');
   const task = currentPlacementTask(replayPlacement(bank, source.seed, source.actions));
   const item = task?.session.items[0],
     lesson = task && resolveLesson(catalogue, task.checkpoint.lessonId);

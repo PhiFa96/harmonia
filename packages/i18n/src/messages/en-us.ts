@@ -4,6 +4,21 @@ import { contentMessages } from '@harmonia/i18n/content-messages';
 import type { Messages } from './types.ts';
 
 export const enUS = {
+  adaptive: {
+    weaknessTitle: 'Practice weak skills',
+    weaknessIntro:
+      'Ten questions covering up to three skills you find difficult in material you have already reached. No course unlocks, XP, or coins.',
+    weaknessEmpty:
+      'First answer a few questions independently. Once a skill you have reached has at least two answers, you can practice it here.',
+    weaknessStart: 'Start focused practice',
+    lessonHint:
+      'The order and review questions reflect your learning so far. All new questions are included; suitable questions aim for about 70–85% success.',
+    practiceLabel: 'Focused practice',
+    returnPractice: 'Back to practice',
+    focusSkills: 'Your focus: {{skills}}',
+    practiceResult:
+      'Your independent answers help select future questions. This practice session does not unlock lessons or award XP or coins.',
+  },
   privacy: {
     title: 'Privacy and data',
     body: 'You control optional processing. Learning also works without analytics or marketing.',

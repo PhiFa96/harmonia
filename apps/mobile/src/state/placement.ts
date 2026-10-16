@@ -2,14 +2,14 @@ import { create } from 'zustand';
 import { randomUUID } from 'expo-crypto';
 import { actPlacement, currentPlacementTask } from '@harmonia/exercises';
 import type { PlacementAction } from '@harmonia/exercises';
-import { placementBank } from '@harmonia/content';
+import { ratingPlacementBank } from '@harmonia/content';
 import { catalogue } from '@harmonia/content/catalogue';
 import { EMPTY_PLACEMENT, restorePlacement } from '../placement/model.ts';
 import type { PlacementData } from '../placement/model.ts';
 import { getDeviceRepository } from '../storage/device.ts';
 import { useDeviceState } from './device.ts';
 
-export const bank = placementBank(catalogue);
+export const bank = ratingPlacementBank(catalogue);
 interface PlacementStore {
   readonly phase: 'loading' | 'ready' | 'error';
   readonly data: PlacementData;

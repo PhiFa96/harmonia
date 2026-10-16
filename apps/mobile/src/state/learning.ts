@@ -8,8 +8,16 @@ import {
   legacyLessonEvent,
   lessonEvent,
   validateLearningEvent,
+  learnerRatingCacheSchema,
+  lessonExerciseSources,
 } from '@harmonia/content';
-import type { LearningEvent, LessonProgress, PathUnit, LessonDraft } from '@harmonia/content';
+import type {
+  LearningEvent,
+  LessonProgress,
+  PathUnit,
+  LessonDraft,
+  LearnerRatingCache,
+} from '@harmonia/content';
 import type { LessonAttempt } from '../storage/lesson-repository.ts';
 import type { StoredLearningEvent } from '../storage/learning-repository.ts';
 import { GUEST_SCOPE } from '../storage/learning-repository.ts';
@@ -24,8 +32,20 @@ import {
   flushPlacementWrites,
 } from './placement.ts';
 import { EMPTY_PLACEMENT } from '../placement/model.ts';
+import { ratingBucket } from '@harmonia/exercises';
+
+const ratingBuckets = [
+  ...new Set(
+    catalogue.lessons.flatMap((lesson) =>
+      (lessonExerciseSources(catalogue, lesson.id) ?? []).map((source) =>
+        ratingBucket(source.spec, source.contentVersion),
+      ),
+    ),
+  ),
+];
 
 interface LearningState {
+  readonly ratings: LearnerRatingCache | null;
   readonly drafts: Readonly<Record<string, LessonDraft>>;
   readonly phase: 'loading' | 'ready' | 'error';
   readonly scope: string;
@@ -39,6 +59,7 @@ interface LearningState {
   readonly expanded: readonly string[];
 }
 export const useLearningState = create<LearningState>()(() => ({
+  ratings: null,
   drafts: {},
   phase: 'loading',
   scope: GUEST_SCOPE,
@@ -66,7 +87,11 @@ function derive(rows: readonly StoredLearningEvent[]) {
     try {
       const validated = validateLearningEvent(catalogue, row.event);
       if (validated.lesson) progress.push(validated.lesson);
-      else placements.push({ row, tested: validated.testedUnitIds });
+      else if (
+        row.event.kind === 'placement' ||
+        (row.event.kind === 'retained' && row.event.sourceKind === 'placement')
+      )
+        placements.push({ row, tested: validated.testedUnitIds });
     } catch (e) {
       if (e instanceof EvidenceError && e.reason === 'changed') outdated++;
       else throw e;
@@ -99,6 +124,7 @@ export async function initializeLearning(): Promise<void> {
     rows: [],
     path: [],
     drafts: {},
+    ratings: null,
     sync: 'guest',
   });
   try {
@@ -137,8 +163,9 @@ export async function initializeLearning(): Promise<void> {
         }
         const view = await repo.view(owner);
         const drafts = await repo.drafts(owner);
+        const ratings = await repo.ratings(owner);
         if (current === generation && owner === scope()) {
-          useLearningState.setState({ ...view, drafts });
+          useLearningState.setState({ ...view, drafts, ratings });
           configurePlacementStorage(data, (value) => repo.savePlacement(owner, value));
         }
       } else {
@@ -239,6 +266,7 @@ export function startTemporaryLearning() {
     scope: scope(),
     rows: [],
     drafts: {},
+    ratings: null,
     ...derive([]),
     sync: 'guest',
   });
@@ -281,7 +309,7 @@ export function syncLearning(): Promise<void> {
       const since = await repo.cursor(owner);
       if (token !== generation || owner !== scope()) return;
       const result = await client.functions.invoke('learning-sync', {
-        body: { since, events, rewardFormat: 2, rowFormat: 2 },
+        body: { since, events, rewardFormat: 2, rowFormat: 3 },
         headers: { Authorization: `Bearer ${session.access_token}` },
         timeout: 15000,
       });
@@ -304,7 +332,28 @@ export function syncLearning(): Promise<void> {
       if (!response.more && pending.length <= events.length) {
         if (token === generation && owner === scope()) {
           await refresh(owner);
-          useLearningState.setState({ sync: 'idle' });
+          // Ratings are optional for learning availability; an older deployment/offline failure uses local replay.
+          const ratingRequest = new AbortController();
+          const ratingDeadline = setTimeout(() => {
+            ratingRequest.abort();
+          }, 10000);
+          try {
+            const read = await client
+              .rpc('learner_rating_snapshot', { bucket_ids: ratingBuckets })
+              .setHeader('Authorization', `Bearer ${session.access_token}`)
+              .abortSignal(ratingRequest.signal);
+            const ratings = read.error ? null : learnerRatingCacheSchema.parse(read.data);
+            if (ratings && token === generation && owner === scope()) {
+              await repo.saveRatings(owner, ratings);
+              if (token === generation && owner === scope()) useLearningState.setState({ ratings });
+            }
+          } catch {
+            /* Keep the last account-scoped snapshot. */
+          } finally {
+            clearTimeout(ratingDeadline);
+          }
+          if (token === generation && owner === scope())
+            useLearningState.setState({ sync: 'idle' });
         }
         return;
       }

@@ -90,6 +90,7 @@ beforeEach(() => {
     '@/state/learning',
   );
   useLearningState.setState({
+    ratings: null,
     phase: 'ready',
     scope: 'guest',
     memory: false,

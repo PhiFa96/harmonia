@@ -8,6 +8,10 @@ import {
   rewardRuleAt,
   validateLearningEvent,
   PASS_PERCENT,
+  adaptiveLessonPlan,
+  weaknessPlan,
+  weaknessSourceLessons,
+  WEAKNESS_LESSON_ID,
 } from '@harmonia/content';
 import {
   activeLessonSession,
@@ -32,16 +36,39 @@ import { selectedLesson } from '@/content';
 import { useContentText } from '@/content/use-content-text';
 import { useLearningState } from '@/state/learning';
 import { useAuthState } from '@/auth';
+import { useLearningRatings } from '@/storage/use-learning-ratings';
+import { lessonSelectionGroup } from '@/content/adaptive-config';
 
 export default function LessonScreen() {
   const { t } = useTranslation();
   const { id } = useLocalSearchParams();
-  const content = useMemo(() => {
-    const selected = selectedLesson(id);
-    return selected ? lessonPlan(catalogue, selected.id) : undefined;
-  }, [id]);
   const learning = useLearningState();
   const owner = useAuthState((s) => s.session?.user.id ?? 'guest');
+  const ratings = useLearningRatings();
+  const content = useMemo(() => {
+    if (id === WEAKNESS_LESSON_ID) {
+      const saved = learning.drafts[WEAKNESS_LESSON_ID];
+      return (
+        (saved && lessonPlan(catalogue, id, saved.planKey)) ??
+        weaknessPlan(
+          catalogue,
+          ratings,
+          learning.path
+            .flatMap((u) => u.lessons)
+            .filter((l) => l.status !== 'locked')
+            .map((l) => l.id),
+          Date.now(),
+        )
+      );
+    }
+    const selected = selectedLesson(id);
+    return selected
+      ? lessonSelectionGroup(owner) === 'adaptive'
+        ? adaptiveLessonPlan(catalogue, selected.id, ratings, Date.now())
+        : lessonPlan(catalogue, selected.id)
+      : undefined;
+  }, [id, owner, ratings, learning.path, learning.drafts]);
+  const practice = content?.id === WEAKNESS_LESSON_ID;
   const status = learning.path
     .flatMap((unit) => unit.lessons)
     .find((l) => l.id === content?.id)?.status;
@@ -61,7 +88,16 @@ export default function LessonScreen() {
         />
       </View>
     );
-  if (learning.phase !== 'ready' || learning.scope !== owner || status === 'locked' || !status)
+  const reached = new Set(
+    learning.path
+      .flatMap((u) => u.lessons)
+      .filter((l) => l.status !== 'locked')
+      .map((l) => l.id),
+  );
+  const accessible = practice
+    ? weaknessSourceLessons(content.planKey).every((id) => reached.has(id))
+    : status && status !== 'locked';
+  if (learning.phase !== 'ready' || learning.scope !== owner || !accessible)
     return (
       <View style={styles.container}>
         <Stack.Screen options={{ headerShown: true, title: t('tabs.learn') }} />
@@ -91,7 +127,7 @@ export default function LessonScreen() {
 }
 
 function LessonPlayer({
-  content,
+  content: initialContent,
 }: {
   readonly content: NonNullable<ReturnType<typeof lessonPlan>>;
 }) {
@@ -99,7 +135,10 @@ function LessonPlayer({
   const contentText = useContentText();
   const locale = useLocale();
   const { colors } = useUiTheme();
-  const flow = useLessonFlow(content);
+  const flow = useLessonFlow(initialContent);
+  const content = flow.plan;
+  const practice = content.id === WEAKNESS_LESSON_ID;
+  const title = practice ? t('adaptive.weaknessTitle') : contentText(content.titleKey);
   const lesson = flow.session;
   const answer = flow.draft.answer;
   const navigation = useNavigation();
@@ -158,8 +197,8 @@ function LessonPlayer({
   useEffect(() => {
     if (!leaving) return;
     if (exitAction.current) navigation.dispatch(exitAction.current);
-    else router.dismissTo('/');
-  }, [leaving, navigation]);
+    else router.dismissTo(practice ? '/practice' : '/');
+  }, [leaving, navigation, practice]);
   useEffect(() => {
     if (storage.status === 'saved' || storage.status === 'memory')
       void flow.clear().catch(() => {
@@ -198,7 +237,7 @@ function LessonPlayer({
   const finishedAt = flow.draft.finishedAt ?? Date.now();
   const rule = rewardRuleAt(motivation.data?.rules ?? [DEFAULT_REWARD_RULE], finishedAt);
   const xp = own?.reward?.amount ?? (lesson ? lessonReward(lesson, repeated, rule) : 0);
-  const qualified = lesson ? lessonProgress(lesson).passed : false;
+  const qualified = !practice && lesson ? lessonProgress(lesson).passed : false;
   const coins =
     own?.reward?.coins ?? (qualified ? (repeated ? rule.repeatCoins : rule.newCoins) : 0);
   const motivationView = currentMotivation(
@@ -220,8 +259,8 @@ function LessonPlayer({
     : lesson?.phase === 'review-intro'
       ? t('lesson.reviewTitle')
       : lesson?.phase === 'complete'
-        ? t('lesson.complete')
-        : contentText(content.titleKey);
+        ? t(practice ? 'exercise.complete' : 'lesson.complete')
+        : title;
   const focusQuestion = useCallback(() => {
     scroll.current?.scrollTo({ y: 0, animated: false });
     if (Platform.OS === 'web')
@@ -236,7 +275,7 @@ function LessonPlayer({
   const start = flow.start;
   return (
     <>
-      <Stack.Screen options={{ headerShown: true, title: contentText(content.titleKey) }} />
+      <Stack.Screen options={{ headerShown: true, title }} />
       <ScrollView
         ref={scroll}
         contentContainerStyle={styles.container}
@@ -276,7 +315,7 @@ function LessonPlayer({
                 />
                 <Button
                   variant="secondary"
-                  label={t('flow.pauseLeave')}
+                  label={t(practice ? 'adaptive.returnPractice' : 'flow.pauseLeave')}
                   disabled={flow.status === 'saving' || flow.status === 'error'}
                   onPress={() => {
                     void leave();
@@ -306,14 +345,19 @@ function LessonPlayer({
                 aria-label={heading}
                 {...(Platform.OS === 'web' ? { tabIndex: -1 } : {})}
               >
-                <AppText variant="title1">{contentText(content.titleKey)}</AppText>
+                <AppText variant="title1">{title}</AppText>
               </View>
               <AppText variant="footnote" tone="muted">
-                {t('flow.mix', {
-                  newCount: content.newCount,
-                  repeatCount: content.repetitionCount,
-                })}
+                {practice
+                  ? t('adaptive.weaknessIntro')
+                  : t('flow.mix', {
+                      newCount: content.newCount,
+                      repeatCount: content.repetitionCount,
+                    })}
               </AppText>
+              {!practice && content.planKey.startsWith('["flow:2"') ? (
+                <AppText tone="muted">{t('adaptive.lessonHint')}</AppText>
+              ) : null}
               {content.introduction.length > 0 ? (
                 <LessonIntroduction
                   lesson={content}
@@ -333,11 +377,13 @@ function LessonPlayer({
             <>
               <AppText variant="footnote" tone="muted">
                 {t(
-                  lesson.phase === 'review'
-                    ? 'flow.errorPractice'
-                    : content.repetitionIndices.includes(session.index)
-                      ? 'flow.repetition'
-                      : 'flow.newMaterial',
+                  practice
+                    ? 'adaptive.practiceLabel'
+                    : lesson.phase === 'review'
+                      ? 'flow.errorPractice'
+                      : content.repetitionIndices.includes(session.index)
+                        ? 'flow.repetition'
+                        : 'flow.newMaterial',
                 )}
               </AppText>
               <ExerciseTask
@@ -417,40 +463,48 @@ function LessonPlayer({
                 aria-label={heading}
                 {...(Platform.OS === 'web' ? { tabIndex: -1 } : {})}
               >
-                <AppText variant="title1">{t('lesson.complete')}</AppText>
+                <AppText variant="title1">
+                  {t(practice ? 'exercise.complete' : 'lesson.complete')}
+                </AppText>
               </View>
               <Card>
                 <View style={styles.result}>
                   <Icon
-                    name={lessonProgress(lesson).passed ? 'check' : 'target'}
+                    name={!practice && lessonProgress(lesson).passed ? 'check' : 'target'}
                     color={colors.primaryText}
                     size={SPACE.xxl}
                   />
                   <AppText variant="title2">{t('lesson.initialResult', summary)}</AppText>
-                  <AppText variant="title2">{t('flow.xp', { count: xp })}</AppText>
-                  <AppText>{t('flow.streak', { count: streak })}</AppText>
-                  <AppText>{t('motivation.coinsEarned', { count: coins })}</AppText>
-                  <AppText>
-                    {t('motivation.dailyProgress', {
-                      xp: motivationView.summary.todayXP,
-                      goal: motivationView.preferences.dailyGoal,
-                    })}
-                  </AppText>
-                  {!own?.reward ? (
-                    <AppText variant="footnote" tone="muted">
-                      {t('flow.localReward')}
-                    </AppText>
-                  ) : null}
-                  <AppText tone={lessonProgress(lesson).passed ? 'success' : 'default'}>
-                    {t(lessonProgress(lesson).passed ? 'path.passed' : 'path.failed', {
-                      correct: lessonProgress(lesson).eligibleCorrect,
-                      total: lessonProgress(lesson).total,
-                      percent: PASS_PERCENT,
-                    })}
-                  </AppText>
-                  <AppText variant="footnote" tone="muted">
-                    {t('path.resultHint')}
-                  </AppText>
+                  {practice ? (
+                    <AppText>{t('adaptive.practiceResult')}</AppText>
+                  ) : (
+                    <>
+                      <AppText variant="title2">{t('flow.xp', { count: xp })}</AppText>
+                      <AppText>{t('flow.streak', { count: streak })}</AppText>
+                      <AppText>{t('motivation.coinsEarned', { count: coins })}</AppText>
+                      <AppText>
+                        {t('motivation.dailyProgress', {
+                          xp: motivationView.summary.todayXP,
+                          goal: motivationView.preferences.dailyGoal,
+                        })}
+                      </AppText>
+                      {!own?.reward ? (
+                        <AppText variant="footnote" tone="muted">
+                          {t('flow.localReward')}
+                        </AppText>
+                      ) : null}
+                      <AppText tone={lessonProgress(lesson).passed ? 'success' : 'default'}>
+                        {t(lessonProgress(lesson).passed ? 'path.passed' : 'path.failed', {
+                          correct: lessonProgress(lesson).eligibleCorrect,
+                          total: lessonProgress(lesson).total,
+                          percent: PASS_PERCENT,
+                        })}
+                      </AppText>
+                      <AppText variant="footnote" tone="muted">
+                        {t('path.resultHint')}
+                      </AppText>
+                    </>
+                  )}
                   {summary.accuracy !== null ? (
                     <AppText>
                       {t('lesson.accuracy', { value: Math.round(summary.accuracy * 100) })}
@@ -509,7 +563,7 @@ function LessonPlayer({
                 <Button label={t('lesson.retrySave')} onPress={storage.retrySave} />
               ) : null}
               <Button
-                label={t('lesson.restart')}
+                label={t(practice ? 'exercise.restart' : 'lesson.restart')}
                 disabled={storage.status !== 'saved' && storage.status !== 'memory'}
                 onPress={() => {
                   flow.restart(true);
@@ -517,10 +571,10 @@ function LessonPlayer({
               />
               <Button
                 variant="ghost"
-                label={t('lesson.home')}
+                label={t(practice ? 'adaptive.returnPractice' : 'lesson.home')}
                 disabled={storage.status !== 'saved' && storage.status !== 'memory'}
                 onPress={() => {
-                  router.dismissTo('/');
+                  router.dismissTo(practice ? '/practice' : '/');
                 }}
               />
             </>

@@ -10,6 +10,24 @@ const request = {
   event,
 };
 describe('bounded analytics allowlist', () => {
+  it('only accepts the explicit P3.02 beta marker, keeping unassigned starts distinct', () => {
+    const start = {
+      name: 'lesson_started',
+      lessonId: 'notation.test',
+      contentVersion: 1,
+      attemptId: request.id,
+      selectionGroup: 'adaptive',
+      selectionUsed: 'fixed',
+    };
+    expect(analyticsEventSchema.safeParse(start).success).toBe(true);
+    expect(
+      analyticsEventSchema.safeParse({ ...start, selectionExperiment: 'p302-beta-v1' }).success,
+    ).toBe(true);
+    expect(
+      analyticsEventSchema.safeParse({ ...start, selectionExperiment: 'unapproved-free-text' })
+        .success,
+    ).toBe(false);
+  });
   it('accepts only the documented envelope', () => {
     expect(analyticsRequestSchema.parse(request)).toEqual(request);
   });

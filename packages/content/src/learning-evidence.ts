@@ -15,8 +15,8 @@ import {
 import type { LessonSession } from '@harmonia/exercises';
 import type { ContentCatalogue } from './catalogue-schema.ts';
 import { resolveLesson } from './catalogue.ts';
-import { placementBank, placementRecommendations } from './placement.ts';
-import { lessonPlan, timeZoneSchema } from './lesson-flow.ts';
+import { placementBankForKey, placementRecommendations } from './placement.ts';
+import { lessonPlan, timeZoneSchema, WEAKNESS_LESSON_ID } from './lesson-flow.ts';
 
 export const PASS_PERCENT = 80;
 const time = z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER);
@@ -72,6 +72,7 @@ const retainedBase = {
   timeZone: timeZoneSchema.optional(),
 };
 export const retainedLearningEventSchema = z.discriminatedUnion('sourceKind', [
+  z.object({ ...retainedBase, sourceKind: z.literal('practice') }).strict(),
   z
     .object({
       ...retainedBase,
@@ -137,7 +138,7 @@ export const learningRowSchema = z
 export const learningSyncRequestSchema = z
   .object({
     rewardFormat: z.literal(2).optional(),
-    rowFormat: z.literal(2).optional(),
+    rowFormat: z.union([z.literal(2), z.literal(3)]).optional(),
     since: time,
     events: z.array(learningEventSchema).max(50),
   })
@@ -215,11 +216,13 @@ function restoreRound(
 export function validateLearningEvent(catalogue: ContentCatalogue, input: unknown) {
   const event = learningRowEventSchema.parse(input);
   if (event.kind === 'retained') {
+    if (event.sourceKind === 'practice')
+      return { event, lesson: null, testedUnitIds: [] as string[] };
     if (event.sourceKind === 'unavailable') throw new EvidenceError('changed');
     if (event.sourceKind === 'placement') {
-      const bank = placementBank(catalogue);
+      const bank = placementBankForKey(catalogue, event.bankKey);
       if (
-        event.bankKey !== bank.key ||
+        !bank ||
         event.testedUnitIds.some((id) => !catalogue.units.some((unit) => unit.id === id))
       )
         throw new EvidenceError('changed');
@@ -228,7 +231,7 @@ export function validateLearningEvent(catalogue: ContentCatalogue, input: unknow
     const lesson =
       event.planKey === undefined
         ? resolveLesson(catalogue, event.lessonId)
-        : lessonPlan(catalogue, event.lessonId);
+        : lessonPlan(catalogue, event.lessonId, event.planKey);
     if (
       lesson?.contentVersion !== event.contentVersion ||
       (event.planKey !== undefined && (!('planKey' in lesson) || lesson.planKey !== event.planKey))
@@ -248,8 +251,8 @@ export function validateLearningEvent(catalogue: ContentCatalogue, input: unknow
 
   if (event.finishedAt < event.startedAt) throw new EvidenceError('invalid');
   if (event.kind === 'placement') {
-    const bank = placementBank(catalogue);
-    if (!bank.areas.length || event.bankKey !== bank.key) throw new EvidenceError('changed');
+    const bank = placementBankForKey(catalogue, event.bankKey);
+    if (!bank?.areas.length) throw new EvidenceError('changed');
     const session = replayPlacement(bank, event.seed, event.actions);
     if (!session.ended) throw new EvidenceError('invalid');
     const estimates = placementEstimates(bank, session);
@@ -259,12 +262,12 @@ export function validateLearningEvent(catalogue: ContentCatalogue, input: unknow
       estimates,
       session.ended === 'complete',
     ).flatMap((r) => r.testedUnitIds);
-    return { event, lesson: null, testedUnitIds };
+    return { event, lesson: null, testedUnitIds, placement: session };
   }
   const lesson =
     event.planKey === undefined
       ? resolveLesson(catalogue, event.lessonId)
-      : lessonPlan(catalogue, event.lessonId);
+      : lessonPlan(catalogue, event.lessonId, event.planKey);
   if (lesson?.contentVersion !== event.contentVersion) throw new EvidenceError('changed');
   if (event.planKey !== undefined && (!('planKey' in lesson) || lesson.planKey !== event.planKey))
     throw new EvidenceError('changed');
@@ -275,7 +278,12 @@ export function validateLearningEvent(catalogue: ContentCatalogue, input: unknow
     session = restoreRound(session, event.review, 'review');
   } else if (event.review) throw new EvidenceError('invalid');
   if (session.phase !== 'complete') throw new EvidenceError('invalid');
-  return { event, lesson: lessonProgress(session), session, testedUnitIds: [] as string[] };
+  return {
+    event,
+    lesson: event.lessonId === WEAKNESS_LESSON_ID ? null : lessonProgress(session),
+    session,
+    testedUnitIds: [] as string[],
+  };
 }
 export function lessonEvent(
   id: string,
@@ -390,6 +398,8 @@ export function retainLearningEvent(
       bankKey: input.bankKey,
       testedUnitIds: proof.testedUnitIds,
     });
+  if (input.lessonId === WEAKNESS_LESSON_ID)
+    return retainedLearningEventSchema.parse({ ...base, sourceKind: 'practice' });
   throw new EvidenceError('invalid');
 }
 export function unavailableRetainedEvent(input: LearningEvent): RetainedLearningEvent {

@@ -6,7 +6,6 @@ import {
   learningSyncRequestSchema,
   validateLearningEvent,
   lessonReward,
-  lessonProgress,
   rewardRuleSchema,
   rewardRuleAt,
   lessonDay,
@@ -93,7 +92,7 @@ async function handler(request: Request): Promise<Response> {
           const rule = rewardRuleAt(rewardRules, event.finishedAt);
           rewards.push({
             ruleVersion: rule.version,
-            qualified: lessonProgress(proof.session).passed,
+            qualified: proof.lesson?.passed ?? false,
             id: event.id,
             newAmount: lessonReward(proof.session, false, rule),
             repeatAmount: lessonReward(proof.session, true, rule),
@@ -129,7 +128,11 @@ async function handler(request: Request): Promise<Response> {
     const parsedRows = learningRewardPageSchema.safeParse(rows.data);
     if (!parsedRows.success) return json(503, { error: 'storage' });
     const page = parsedRows.data.slice(0, 200);
-    if (parsed.data.rowFormat !== 2 && page.some((row) => row.event.kind === 'retained'))
+    if (
+      (parsed.data.rowFormat === undefined && page.some((row) => row.event.kind === 'retained')) ||
+      (parsed.data.rowFormat !== 3 &&
+        page.some((row) => row.event.kind === 'retained' && row.event.sourceKind === 'practice'))
+    )
       return json(426, { error: 'upgrade_required' });
     return json(200, {
       accepted: parsed.data.events.map((e) => e.id),

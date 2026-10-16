@@ -37,13 +37,15 @@
 
 ### P3.02 – Adaptive Aufgabenauswahl
 
+**Technischer Stand (16.10.2026):** Rating-Auswahl mit vollständigem Pflichtstoff, versionierte Glicko-Einstufung und gezielter Übungsmodus implementiert. [Umsetzung und offene Abnahme](adaptive-aufgabenauswahl.md), [ADR 0029](../decisions/0029-adaptive-auswahl-mit-nachpruefbaren-quellen.md). Reale Beta-Nichtunterlegenheit bleibt offen; Branch-Übergabe an Claude Code ohne PR/Integration.
+
 - **Ziel:** Aufgaben treffen die Leistungsgrenze (Erfolgswahrscheinlichkeit etwa 70–85 %).
 - **Abhängig von:** P3.01
 - **Umfang:** M
 - **Aufgaben:**
-  - [ ] Auswahl innerhalb einer Lektion nach Rating
-  - [ ] Einstufungstest auf Ratings umstellen
-  - [ ] „Schwächen trainieren“: Übungsmodus aus den schwächsten Fähigkeiten
+  - [x] Auswahl innerhalb einer Lektion nach Rating
+  - [x] Einstufungstest auf Ratings umstellen
+  - [x] „Schwächen trainieren“: Übungsmodus aus den schwächsten Fähigkeiten
 - **Fertig, wenn:** A/B-Vergleich in der Beta-Gruppe zeigt keine Verschlechterung der Abschlussquote.
 
 ### P3.03 – Wiederholung mit FSRS

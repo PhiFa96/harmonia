@@ -11,6 +11,7 @@ import {
   lessonReward,
   DEFAULT_REWARD_RULE,
   lessonDay,
+  learnerRatingCacheSchema,
 } from '@harmonia/content';
 import type {
   LearningEvent,
@@ -19,6 +20,7 @@ import type {
   LessonDraft,
   LessonRewardReceipt,
   ContentCatalogue,
+  LearnerRatingCache,
 } from '@harmonia/content';
 import type { LessonDatabase } from './lesson-repository.ts';
 import { parsePlacementData, EMPTY_PLACEMENT } from '../placement/model.ts';
@@ -245,13 +247,38 @@ export function createLearningRepository(db: LessonDatabase) {
       return transaction(async () => {
         await db.runAsync('DELETE FROM learning_events WHERE scope=?', scope);
         await db.runAsync('DELETE FROM learning_cursors WHERE scope=?', scope);
-        for (const prefix of ['lesson:', 'reward:', 'view:', 'placement:'])
+        for (const prefix of ['lesson:', 'reward:', 'view:', 'placement:', 'ratings:'])
           await db.runAsync(
             'DELETE FROM learning_meta WHERE id=? OR substr(id,1,length(?))=?',
             prefix + scope,
             prefix + scope + ':',
             prefix + scope + ':',
           );
+      });
+    },
+    async ratings(scope: LearningScope) {
+      const row = await db.getFirstAsync<{ value: string }>(
+        'SELECT value FROM learning_meta WHERE id = ?',
+        `ratings:${scope}`,
+      );
+      if (!row) return null;
+      // A damaged disposable projection must not hide intact learning evidence.
+      try {
+        const parsed = learnerRatingCacheSchema.safeParse(JSON.parse(row.value) as unknown);
+        return parsed.success ? parsed.data : null;
+      } catch {
+        return null;
+      }
+    },
+    saveRatings(scope: LearningScope, value: LearnerRatingCache) {
+      assertPrivacyWrite(scope);
+      const payload = JSON.stringify(learnerRatingCacheSchema.parse(value));
+      return transaction(async () => {
+        await db.runAsync(
+          'INSERT INTO learning_meta VALUES (?,?) ON CONFLICT(id) DO UPDATE SET value = excluded.value',
+          `ratings:${scope}`,
+          payload,
+        );
       });
     },
     async drafts(scope: LearningScope): Promise<Record<string, LessonDraft>> {

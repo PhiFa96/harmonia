@@ -186,6 +186,7 @@ export * from './context.ts';
 export * from './glicko2.ts';
 export * from './rating-buckets.ts';
 export * from './rating-period.ts';
+export * from './adaptive.ts';
 
 export { contextSourceText, contextNotationDescription } from './context-text.ts';
 

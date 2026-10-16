@@ -1,5 +1,6 @@
 import { authorizeStart, accessOwner } from '@/access/state';
 import { EnergyCard } from '@/components/energy-card';
+import { WeaknessEntry } from '@/components/weakness-entry';
 import { PRACTICE_CONTENT_VERSION } from '@harmonia/exercises';
 import { randomUUID } from 'expo-crypto';
 import { recordPractice } from '@/state/motivation';
@@ -114,6 +115,7 @@ export default function PracticeScreen() {
             <AppText variant="title1">{t('exercise.title')}</AppText>
             <AppText tone="muted">{t('exercise.intro')}</AppText>
             <EnergyCard />
+            <WeaknessEntry />
             <Card>
               <View style={styles.types}>
                 {(

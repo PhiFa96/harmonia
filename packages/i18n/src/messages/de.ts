@@ -3,6 +3,21 @@ import { contentMessages } from '@harmonia/i18n/content-messages';
 // Fachbegriffe kommen aus dem Glossar: $t(glossary:…).
 
 export const de = {
+  adaptive: {
+    weaknessTitle: 'Schwächen trainieren',
+    weaknessIntro:
+      'Zehn Aufgaben aus bis zu drei Fähigkeiten, die dir im bereits erreichten Stoff noch schwerfallen. Ohne Kursfreischaltung, XP oder Münzen.',
+    weaknessEmpty:
+      'Beantworte zunächst einige Aufgaben selbstständig. Sobald zu einer erreichten Fähigkeit mindestens zwei Antworten vorliegen, kannst du hier gezielt üben.',
+    weaknessStart: 'Gezielt üben',
+    lessonHint:
+      'Reihenfolge und Wiederholungen richten sich nach deinem bisherigen Lernen. Alle neuen Aufgaben bleiben enthalten; passende Fragen zielen auf etwa 70–85 % Erfolg.',
+    practiceLabel: 'Gezieltes Üben',
+    returnPractice: 'Zurück zum Üben',
+    focusSkills: 'Dein Fokus: {{skills}}',
+    practiceResult:
+      'Deine selbstständig beantworteten Aufgaben helfen bei der nächsten Auswahl. Dieser Übungsdurchgang schaltet keine Lektionen frei und vergibt keine XP oder Münzen.',
+  },
   privacy: {
     title: 'Datenschutz und Daten',
     body: 'Du entscheidest über optionale Verarbeitung. Dein Lernen funktioniert auch ohne Statistik und Marketing.',

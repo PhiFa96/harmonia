@@ -1,5 +1,5 @@
 import type { PlacementAction, PlacementBank, PlacementSession } from '@harmonia/exercises';
-import { replayPlacement, actPlacement } from '@harmonia/exercises';
+import { replayPlacement, actPlacement, placementBankVersion } from '@harmonia/exercises';
 
 export interface PlacementSnapshot {
   readonly id?: string;
@@ -73,7 +73,7 @@ export function parsePlacementData(json: string): PlacementData {
   return { schemaVersion: 1, active, last };
 }
 export function restorePlacement(bank: PlacementBank, snapshot: PlacementSnapshot) {
-  if (snapshot.bankKey !== bank.key) throw new Error('Einstufungskatalog hat sich geändert');
+  bank = placementBankVersion(bank, snapshot.bankKey);
   const state = replayPlacement(bank, snapshot.seed, snapshot.actions);
   if ((state.ended !== null) !== (snapshot.endedAt !== null))
     throw new Error('Unvollständiger Einstufungsabschluss');
@@ -89,7 +89,7 @@ export function resumePlacement(
   snapshot: PlacementSnapshot,
   previous?: PlacementReplay,
 ): PlacementReplay {
-  if (snapshot.bankKey !== bank.key) throw new Error('Einstufungskatalog hat sich geändert');
+  bank = placementBankVersion(bank, snapshot.bankKey);
   if (
     previous?.snapshot.id !== snapshot.id ||
     previous?.snapshot.bankKey !== snapshot.bankKey ||

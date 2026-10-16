@@ -55,6 +55,9 @@ import {
   lessonPlan,
   lessonReward,
   lessonDay,
+  localLearningRatings,
+  adaptiveLessonPlan,
+  weaknessPlan,
 } from '../packages/content/src/index.ts';
 import { parseScore, scoreTimeline, layoutGrandStaff } from '../packages/notation/src/index.ts';
 
@@ -148,6 +151,18 @@ for (const record of catalogue.lessons) {
   mixedTasks += plan.exercises.length;
 }
 check('Wiederholungsaufgaben unter Deno', mixedTasks > internalTasks, true);
+const selectedId = 'notation.l1.staff.positions';
+const priorPlan = lessonPlan(catalogue, selectedId);
+if (!priorPlan) throw new Error('Adaptive Quelle fehlt');
+let priorSession = createLessonSession(priorPlan, 'adaptive-deno');
+for (const item of priorSession.initial.items)
+  priorSession = nextLessonExercise(answerLesson(priorSession, expectedAnswer(item)));
+const ratings = localLearningRatings(catalogue, [lessonEvent('deno-prior', priorSession, 1, 2)]);
+const adaptive = adaptiveLessonPlan(catalogue, selectedId, ratings, 2);
+check('Adaptiver Quellenplan unter Deno', adaptive?.planKey.startsWith('["flow:2"'), true);
+const weak = weaknessPlan(catalogue, ratings, [selectedId], 2);
+if (!weak) throw new Error('Schwächenplan fehlt');
+check('Zehn gezielte Fragen unter Deno', weak.exercises.length, 10);
 check(
   'Lokaler Abschlusstag unter Deno',
   lessonDay(Date.parse('2026-03-29T22:30:00Z'), 'Europe/Berlin'),

@@ -52,6 +52,13 @@ async function repository() {
 }
 
 describe('Lernpfad mit echter SQLite', () => {
+  it('ein beschädigter Rating-Cache verdeckt keine intakten Lernnachweise', async () => {
+    const repo = await repository();
+    await repo.save('a', event());
+    db.prepare('INSERT INTO learning_meta VALUES (?,?)').run('ratings:a', '{broken');
+    expect(await repo.ratings('a')).toBeNull();
+    expect(await repo.list('a')).toHaveLength(1);
+  });
   it('importiert alte Versuche einmal und überträgt Gastdaten nur in das erste gewählte Konto', async () => {
     const repo = await repository(),
       one = event();
@@ -154,6 +161,14 @@ describe('Lernpfad mit echter SQLite', () => {
         more: false,
       });
       await repo.saveView('a', { areaId: 'rhythm', level: 2, expanded: ['rhythm.l2.compound'] });
+      const ratings = {
+        throughSequence: 9,
+        skills: {
+          read: { rating: 1600, deviation: 100, volatility: 0.06, attempts: 2, updatedAt: 2000 },
+        },
+        buckets: {},
+      };
+      await repo.saveRatings('a', ratings);
       disk.close();
       disk = new DatabaseSync(join(dir, 'learning.db'));
       repo = createLearningRepository(adapter(disk));
@@ -166,6 +181,10 @@ describe('Lernpfad mit echter SQLite', () => {
       });
       expect(await repo.view('b')).toEqual({ areaId: null, level: null, expanded: [] });
       expect(await repo.exists('one')).toBe(true);
+      expect(await repo.ratings('a')).toEqual(ratings);
+      expect(await repo.ratings('b')).toBeNull();
+      await repo.eraseScope('a');
+      expect(await repo.ratings('a')).toBeNull();
       disk.close();
     } finally {
       rmSync(dir, { recursive: true, force: true });

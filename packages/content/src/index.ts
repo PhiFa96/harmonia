@@ -5,6 +5,7 @@ export * from './curriculum.ts';
 export * from './placement.ts';
 export * from './learning-evidence.ts';
 export * from './learning-ratings.ts';
+export * from './local-ratings.ts';
 export * from './learning-path.ts';
 export * from './lesson-flow.ts';
 export * from './lesson-rewards.ts';

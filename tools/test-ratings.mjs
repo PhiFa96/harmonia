@@ -3,7 +3,16 @@ import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
 import { catalogue, firstLesson } from '../packages/content/src/authoring.ts';
-import { learningRatingEvidence, lessonEvent } from '../packages/content/src/index.ts';
+import {
+  learningRatingEvidence,
+  lessonEvent,
+  lessonPlan,
+  adaptiveLessonPlan,
+  weaknessPlan,
+  localLearningRatings,
+  ratingPlacementBank,
+  retainLearningEvent,
+} from '../packages/content/src/index.ts';
 import {
   answerLesson,
   createLessonSession,
@@ -11,6 +20,9 @@ import {
   nextLessonExercise,
   ratePeriod,
   revealLessonHint,
+  createPlacement,
+  actPlacement,
+  currentPlacementTask,
 } from '../packages/exercises/src/index.ts';
 
 const status = JSON.parse(
@@ -89,11 +101,11 @@ function event(id, assisted = false) {
   }
   return lessonEvent(id, session, 1000, 2000);
 }
-const sync = (user, events = []) =>
+const sync = (user, events = [], rowFormat = 2) =>
   request('/functions/v1/learning-sync', {
     token: user.token,
     method: 'POST',
-    body: { rowFormat: 2, rewardFormat: 2, since: 0, events },
+    body: { rowFormat, rewardFormat: 2, since: 0, events },
   });
 const skills = (user) => request('/rest/v1/skill_progress?order=skill_id', { token: user.token });
 const snapshot = (actor) => rpc('rating_snapshot', { actor, bucket_ids: bucketIds });
@@ -105,8 +117,53 @@ try {
   const a = await account(),
     b = await account();
   const first = event('rating-api-first');
+  const completePlan = (plan, id) => {
+    let state = createLessonSession(plan, id);
+    for (const item of state.initial.items)
+      state = nextLessonExercise(answerLesson(state, expectedAnswer(item)));
+    return lessonEvent(id, state, 1000, 2000, 'UTC');
+  };
+  const anchor = lessonPlan(catalogue, 'notation.l1.staff.anchor');
+  const localRatings = localLearningRatings(catalogue, [
+    completePlan(anchor, 'selection-prior'),
+    completePlan(lessonPlan(catalogue, 'notation.l1.staff.positions'), 'positions-prior'),
+  ]);
+  const adaptive = completePlan(
+    adaptiveLessonPlan(catalogue, 'notation.l1.staff.positions', localRatings, 2000),
+    'adaptive-api-lesson',
+  );
+  const weak = completePlan(
+    weaknessPlan(catalogue, localRatings, ['notation.l1.staff.anchor'], 2000),
+    'adaptive-api-weakness',
+  );
+  const bank = ratingPlacementBank(catalogue);
+  let diagnostic = createPlacement(bank, 'adaptive-api-placement');
+  const actions = [];
+  while (!diagnostic.ended) {
+    const item = currentPlacementTask(diagnostic).session.items[0];
+    for (const action of [{ type: 'answer', answer: expectedAnswer(item) }, { type: 'next' }]) {
+      actions.push(action);
+      diagnostic = actPlacement(bank, diagnostic, action);
+    }
+  }
+  const placement = {
+    kind: 'placement',
+    id: 'adaptive-api-placement',
+    bankKey: bank.key,
+    seed: diagnostic.seed,
+    startedAt: 1000,
+    finishedAt: 2000,
+    actions,
+  };
+  const adaptiveEvents = [adaptive, weak, placement];
   const evidence = learningRatingEvidence(catalogue, first);
-  bucketIds = [...new Set(evidence.observations.map((item) => item.bucketId))];
+  bucketIds = [
+    ...new Set(
+      [first, ...adaptiveEvents].flatMap((event) =>
+        learningRatingEvidence(catalogue, event).observations.map((item) => item.bucketId),
+      ),
+    ),
+  ];
   original = (await snapshot(a.id)).data;
   const before = original;
   check((await sync(a, [first])).status, 200, 'Verified lesson synchronizes');
@@ -282,6 +339,98 @@ try {
     exported.data.rows.every((row) => row.user_id === a.id),
     true,
     'Export remains account-separated',
+  );
+  for (const event of adaptiveEvents) {
+    check((await sync(a, [event])).status, 200, 'P3.02 canonical evidence synchronizes');
+    check(
+      (await source(a, event.id)).data[0].rating_outcome,
+      'rated',
+      'P3.02 source updates server ratings',
+    );
+  }
+  const weakReceipt = (await source(a, weak.id)).data[0];
+  check(
+    weakReceipt.retained_summary.sourceKind,
+    'practice',
+    'Weak practice retention has no invented course progress',
+  );
+  const weakReward = (
+    await request('/rest/v1/xp_ledger?user_id=eq.' + a.id + '&client_id=eq.' + weak.id, {
+      admin: true,
+    })
+  ).data;
+  check(weakReward.length, 1, 'Weak practice has one explicit zero-reward receipt');
+  check(
+    weakReward.every((row) => row.amount === 0 && !row.qualified && row.coins === 0),
+    true,
+    'Weak practice grants no XP, coins, or streak qualification',
+  );
+  const readRatings = (user) =>
+    request('/rest/v1/rpc/learner_rating_snapshot', {
+      token: user.token,
+      method: 'POST',
+      body: { bucket_ids: bucketIds },
+    });
+  const ownSnapshot = await readRatings(a);
+  check(ownSnapshot.status, 200, 'Authenticated learner reads own selection snapshot');
+  check(
+    Object.keys(ownSnapshot.data.skills).length,
+    (await skills(a)).data.length,
+    'Snapshot contains exactly own skills',
+  );
+  check(
+    Object.keys((await readRatings(b)).data.skills).length,
+    (await skills(b)).data.length,
+    'Snapshot stays isolated for another account',
+  );
+  const foreign = await request('/rest/v1/rpc/learner_rating_snapshot', {
+    token: a.token,
+    method: 'POST',
+    body: { actor: b.id, bucket_ids: [] },
+  });
+  check(foreign.status, 404, 'Snapshot does not accept a caller-supplied actor');
+  const beforeDuplicate = (await skills(a)).data;
+  for (const event of adaptiveEvents)
+    check((await sync(a, [event])).status, 200, 'P3.02 retry is acknowledged');
+  check(
+    (await skills(a)).data,
+    beforeDuplicate,
+    'Adaptive, weakness and placement retries do not rate twice',
+  );
+  check(
+    (
+      await request('/rest/v1/learning_events?user_id=eq.' + a.id + '&client_id=eq.' + weak.id, {
+        admin: true,
+        method: 'PATCH',
+        body: { received_at: '2020-01-01T00:00:00Z' },
+      })
+    ).status,
+    204,
+    'Age only own weakness fixture',
+  );
+  check(
+    (
+      await rpc('retain_learning_event', {
+        actor: a.id,
+        client_id: weak.id,
+        expected_hash: weakReceipt.event_hash,
+        summary: retainLearningEvent(catalogue, weak),
+      })
+    ).data,
+    true,
+    'Weakness raw answers follow actual retention',
+  );
+  check(
+    (await sync(a, [], 2)).status,
+    426,
+    'Older row format receives an explicit upgrade response for retained practice',
+  );
+  const upgraded = await sync(a, [], 3);
+  check(upgraded.status, 200, 'Current row format reads retained practice');
+  check(
+    upgraded.data.rows.find((row) => row.event.id === weak.id).event.sourceKind,
+    'practice',
+    'Retained practice never becomes course progress',
   );
 } finally {
   // Restore only model buckets touched by these fixtures. A revision guard prevents overwriting a concurrent learner.
