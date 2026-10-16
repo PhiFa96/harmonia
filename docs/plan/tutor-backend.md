@@ -88,3 +88,13 @@ Die einzige anfängliche Gesamt-Testabweichung war ein Zeitlimit einer vorhanden
 4. Für Live-Edge-Betrieb Modell/Tarif und passende Budgets in der privaten Policy setzen, dann freigeben. Lokales Live-Serving kann `node tools/serve-local-learning.mjs --tutor-live` verwenden; Docker bindet nur den Umgebungsnamen des Schlüssels. Remote-Functions/Secrets und echte Billing-Webhooks sind hier nicht bereitgestellt.
 
 Die Mindest-Liveprüfung aus P2.15 bleibt offen, bis diese tatsächlichen Antworten und Kosten vorliegen. P2.16/P2.17 sind anschließend technisch umgesetzt; nächster technischer Planpunkt ist **P2.18 – Tutor-Testkatalog und Kalibrierung**. Die Live-Abnahme bleibt in allen Übergaben sichtbar.
+
+## Nachprüfung P2.15–P2.18 (16.10.2026, Claude)
+
+Code-Review nach der direkten Integration; behoben und mit Tests abgesichert:
+
+- **Lösungsfreier Kontext bei Hörfragen:** `get_exercise_context` lieferte im Hinweis-/Chatmodus vor der Wertung die Notenpositionen von `INTERVAL_IDENTIFY_AURAL` und auditivem `CHORD_IDENTIFY`. Daraus ließ sich die Lösung ableiten, obwohl die App das Notenbild verbirgt. Die Beschreibung entfällt dort jetzt wie in der App; `RHYTHM_TAP` und `LISTENING_CHOICE` bleiben unverändert.
+- **Kein Freitext im vertrauenswürdigen Aufgabenblock:** Im Erklärmodus erscheint die Nutzerantwort nur noch als engine-gültige Antwort-ID; ungültige Eingaben werden als `answer: null`/`answerValid: false` übergeben.
+- **Prompt-Version in der Datenbank:** Neue Anfragen trugen trotz Prompt v3 den Spaltenstandard 2. Migration `20261016040000_tutor_prompt_v3.sql` setzt 3; ein Vitest vergleicht künftig `TUTOR_PROMPT_VERSION` mit dem letzten Migrationsstandard.
+- **Deutsche Oktavnamen:** Werkzeugergebnisse zeigten deutsche Buchstaben mit wissenschaftlicher Oktavzahl („H4“, „B4“ für B♭4), was mit der internationalen Schreibweise kollidiert. Sie folgen jetzt wie die App Helmholtz (h¹ = B4). Der Prompt-v3-Text nennt diese Regel; „eight-part scoring“ heißt jetzt „multi-part writing“. v3 wurde nie bereitgestellt oder echt kalibriert, deshalb bleibt die Versionsnummer.
+- **Testkatalog/Auswertung:** Die 98-%-Annahmequote gilt jetzt wie in ADR 0018 auch je Sprache und Rolle. Falsche Beispielantworten für Akkord-/Tonleiterschreiben vertauschen nicht mehr den fest vorgegebenen ersten Ton (beim Akkord war das sogar derselbe Klang), sondern lassen ein Vorzeichen weg. Der Katalog wurde neu erzeugt; alle Fälle bleiben Entwurf.

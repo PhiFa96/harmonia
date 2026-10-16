@@ -7,7 +7,7 @@ select ok((select relrowsecurity from pg_class where oid='public.knowledge_chunk
 select ok(exists(select 1 from pg_indexes where tablename='knowledge_chunks' and indexdef like '%USING gin (tsv)%'),'Stored full-text GIN index');
 select ok(not has_function_privilege('anon','search_knowledge(text,text,text,text,text[])','execute'),'Guest cannot search private index');
 select ok(not has_function_privilege('authenticated','replace_knowledge_index(text,text,integer,integer,jsonb)','execute'),'Account cannot replace sources');
-select is((select column_default from information_schema.columns where table_schema='public' and table_name='tutor_requests' and column_name='prompt_version'),'2','Prompt version 2 for new requests');
+select is((select column_default from information_schema.columns where table_schema='public' and table_name='tutor_requests' and column_name='prompt_version'),'3','Prompt version 3 for new requests');
 -- Eigenständige Transaktionsdaten; bestehende Indexe am Ende vollständig zurückrollen.
 delete from knowledge_indexes;
 create function public.knowledge_test_entry(language text,status text default 'entwurf') returns jsonb language sql as $$

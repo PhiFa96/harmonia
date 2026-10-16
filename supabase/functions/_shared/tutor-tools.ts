@@ -47,6 +47,7 @@ import {
   evaluateExercise,
   exerciseFeedback,
   choiceLabel,
+  isAuralExercise,
 } from '../../../packages/exercises/src/index.ts';
 
 const descriptions: Record<TutorToolName, string> = {
@@ -63,7 +64,7 @@ const descriptions: Record<TutorToolName, string> = {
   get_exercise_context:
     'Read the server-reconstructed CURRENT task and allowed hint or verified feedback. No task ID or user ID parameter.',
   render_example:
-    'Validate a short Harmonia score for notation and playback; only this result can be rendered. BPM counts quarter-note beats. Syntax: treble | key:G | 4/4 | C4/4 D4/4 E4/4 r/4. Chord: (C4 E4 G4)/1. Durations 1,2,4,8,16,32,64,breve; dot: /4.; tie: ~; unpointed triplet: /8{3:2}. Max 8 bars, one staff/voice. Two staves only the current simple treble/bass whole-note example.',
+    'Validate a short Harmonia score for notation and playback; only this result can be rendered. BPM counts quarter-note beats. Syntax: treble | key:G | 4/4 | C4/4 D4/4 E4/4 r/4. Chord: (C4 E4 G4)/1. Durations 1,2,4,8,16,32,64,breve; dot: /4.; tie: ~; undotted triplet: /8{3:2}. Max 8 bars, one staff/voice. Two staves only the current simple treble/bass whole-note example.',
 };
 export const TUTOR_TOOLS = (Object.keys(tutorToolSchemas) as TutorToolName[]).map(
   (name, index, names) => ({
@@ -87,13 +88,20 @@ export function exerciseContext(catalogue: ContentCatalogue, request: TutorReque
     catalogue,
     request.context.source,
   );
+  // Wie in der App: Hörfragen zeigen ihr Notenbild erst nach der Wertung.
+  const hidden =
+    (request.mode === 'hint' || request.mode === 'chat') &&
+    !request.context.checked &&
+    isAuralExercise(item) &&
+    item.type !== 'RHYTHM_TAP' &&
+    item.type !== 'LISTENING_CHOICE';
   const base = {
     available: true,
     contentId,
     contentVersion,
     type: item.type,
     prompt: exercisePrompt(item, request.locale),
-    description: exerciseDescription(item, request.locale),
+    description: hidden ? null : exerciseDescription(item, request.locale),
   };
   if (request.mode === 'hint') {
     const hint = exerciseHints(item, request.hintLevel ?? 1);
@@ -108,15 +116,19 @@ export function exerciseContext(catalogue: ContentCatalogue, request: TutorReque
   if (request.mode === 'chat') return { ...base, solutionAllowed: false };
   const solution = expectedAnswer(item),
     answer = request.mode === 'explain' ? (request.context.answer ?? '') : solution,
-    evaluation = evaluateExercise(item, answer);
+    evaluated = evaluateExercise(item, answer),
+    // Nur engine-gültige Antwort-IDs erscheinen im vertrauenswürdigen Kontextblock, kein freier Text.
+    shown = evaluated.validAnswer ? answer : null,
+    evaluation = { ...evaluated, answer: shown };
   return {
     ...base,
     solutionAllowed: true,
-    answer,
+    answer: shown,
+    answerValid: evaluated.validAnswer,
     solution,
     solutionLabel: choiceLabel(item, solution, request.locale),
     evaluation,
-    feedback: exerciseFeedback(item, evaluation, request.locale),
+    feedback: exerciseFeedback(item, evaluated, request.locale),
   };
 }
 export function executeTutorTool(
@@ -126,7 +138,11 @@ export function executeTutorTool(
   context: unknown,
 ) {
   const language = request.locale === 'de' ? 'de' : 'en',
-    names = { system: request.noteNaming, octave: 'scientific' as const },
+    // Deutsche Anzeige wie in der App mit Helmholtz-Oktaven (h¹ = B4), sonst wissenschaftlich.
+    names = {
+      system: request.noteNaming,
+      octave: request.noteNaming === 'de' ? ('helmholtz' as const) : ('scientific' as const),
+    },
     display = (p: Pitch) => ({ id: formatPitch(p), name: pitchName(p, names), midi: midi(p) });
   try {
     switch (name) {

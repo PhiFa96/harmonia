@@ -920,7 +920,7 @@
         "ok": true,
         "pitch": {
           "id": "E4",
-          "name": "E4",
+          "name": "e¹",
           "midi": 64
         }
       },
@@ -958,7 +958,7 @@
         "ok": true,
         "pitch": {
           "id": "B4",
-          "name": "H4",
+          "name": "h¹",
           "midi": 71
         }
       },
@@ -996,7 +996,7 @@
         "ok": true,
         "pitch": {
           "id": "Bb4",
-          "name": "B4",
+          "name": "b¹",
           "midi": 70
         }
       },
@@ -1034,7 +1034,7 @@
         "ok": true,
         "pitch": {
           "id": "F5",
-          "name": "F5",
+          "name": "f²",
           "midi": 77
         }
       },
@@ -1072,7 +1072,7 @@
         "ok": true,
         "pitch": {
           "id": "F#4",
-          "name": "Fis4",
+          "name": "fis¹",
           "midi": 66
         }
       },
@@ -1110,7 +1110,7 @@
         "ok": true,
         "pitch": {
           "id": "E#5",
-          "name": "Eis5",
+          "name": "eis²",
           "midi": 77
         }
       },
@@ -1148,7 +1148,7 @@
         "ok": true,
         "pitch": {
           "id": "Db5",
-          "name": "Des5",
+          "name": "des²",
           "midi": 73
         }
       },
@@ -1186,7 +1186,7 @@
         "ok": true,
         "pitch": {
           "id": "A#5",
-          "name": "Ais5",
+          "name": "ais²",
           "midi": 82
         }
       },
@@ -1224,7 +1224,7 @@
         "ok": true,
         "pitch": {
           "id": "C5",
-          "name": "C5",
+          "name": "c²",
           "midi": 72
         }
       },
@@ -1262,7 +1262,7 @@
         "ok": true,
         "pitch": {
           "id": "A#5",
-          "name": "Ais5",
+          "name": "ais²",
           "midi": 82
         }
       },
@@ -1300,7 +1300,7 @@
         "ok": true,
         "pitch": {
           "id": "Cb4",
-          "name": "Ces4",
+          "name": "ces¹",
           "midi": 59
         }
       },
@@ -1338,7 +1338,7 @@
         "ok": true,
         "pitch": {
           "id": "E4",
-          "name": "E4",
+          "name": "e¹",
           "midi": 64
         }
       },
@@ -1376,7 +1376,7 @@
         "ok": true,
         "pitch": {
           "id": "D#4",
-          "name": "Dis4",
+          "name": "dis¹",
           "midi": 63
         }
       },
@@ -1414,7 +1414,7 @@
         "ok": true,
         "pitch": {
           "id": "C5",
-          "name": "C5",
+          "name": "c²",
           "midi": 72
         }
       },
@@ -1452,7 +1452,7 @@
         "ok": true,
         "pitch": {
           "id": "G5",
-          "name": "G5",
+          "name": "g²",
           "midi": 79
         }
       },
@@ -1490,7 +1490,7 @@
         "ok": true,
         "pitch": {
           "id": "A#4",
-          "name": "Ais4",
+          "name": "ais¹",
           "midi": 70
         }
       },
@@ -1531,42 +1531,42 @@
         "pitches": [
           {
             "id": "C4",
-            "name": "C4",
+            "name": "c¹",
             "midi": 60
           },
           {
             "id": "D4",
-            "name": "D4",
+            "name": "d¹",
             "midi": 62
           },
           {
             "id": "E4",
-            "name": "E4",
+            "name": "e¹",
             "midi": 64
           },
           {
             "id": "F4",
-            "name": "F4",
+            "name": "f¹",
             "midi": 65
           },
           {
             "id": "G4",
-            "name": "G4",
+            "name": "g¹",
             "midi": 67
           },
           {
             "id": "A4",
-            "name": "A4",
+            "name": "a¹",
             "midi": 69
           },
           {
             "id": "B4",
-            "name": "H4",
+            "name": "h¹",
             "midi": 71
           },
           {
             "id": "C5",
-            "name": "C5",
+            "name": "c²",
             "midi": 72
           }
         ]
@@ -1608,42 +1608,42 @@
         "pitches": [
           {
             "id": "A4",
-            "name": "A4",
+            "name": "a¹",
             "midi": 69
           },
           {
             "id": "B4",
-            "name": "H4",
+            "name": "h¹",
             "midi": 71
           },
           {
             "id": "C5",
-            "name": "C5",
+            "name": "c²",
             "midi": 72
           },
           {
             "id": "D5",
-            "name": "D5",
+            "name": "d²",
             "midi": 74
           },
           {
             "id": "E5",
-            "name": "E5",
+            "name": "e²",
             "midi": 76
           },
           {
             "id": "F5",
-            "name": "F5",
+            "name": "f²",
             "midi": 77
           },
           {
             "id": "G5",
-            "name": "G5",
+            "name": "g²",
             "midi": 79
           },
           {
             "id": "A5",
-            "name": "A5",
+            "name": "a²",
             "midi": 81
           }
         ]
@@ -1685,42 +1685,42 @@
         "pitches": [
           {
             "id": "F#4",
-            "name": "Fis4",
+            "name": "fis¹",
             "midi": 66
           },
           {
             "id": "G#4",
-            "name": "Gis4",
+            "name": "gis¹",
             "midi": 68
           },
           {
             "id": "A4",
-            "name": "A4",
+            "name": "a¹",
             "midi": 69
           },
           {
             "id": "B4",
-            "name": "H4",
+            "name": "h¹",
             "midi": 71
           },
           {
             "id": "C#5",
-            "name": "Cis5",
+            "name": "cis²",
             "midi": 73
           },
           {
             "id": "D5",
-            "name": "D5",
+            "name": "d²",
             "midi": 74
           },
           {
             "id": "E#5",
-            "name": "Eis5",
+            "name": "eis²",
             "midi": 77
           },
           {
             "id": "F#5",
-            "name": "Fis5",
+            "name": "fis²",
             "midi": 78
           }
         ]
@@ -1762,42 +1762,42 @@
         "pitches": [
           {
             "id": "Bb4",
-            "name": "B4",
+            "name": "b¹",
             "midi": 70
           },
           {
             "id": "C5",
-            "name": "C5",
+            "name": "c²",
             "midi": 72
           },
           {
             "id": "Db5",
-            "name": "Des5",
+            "name": "des²",
             "midi": 73
           },
           {
             "id": "Eb5",
-            "name": "Es5",
+            "name": "es²",
             "midi": 75
           },
           {
             "id": "F5",
-            "name": "F5",
+            "name": "f²",
             "midi": 77
           },
           {
             "id": "G5",
-            "name": "G5",
+            "name": "g²",
             "midi": 79
           },
           {
             "id": "A5",
-            "name": "A5",
+            "name": "a²",
             "midi": 81
           },
           {
             "id": "Bb5",
-            "name": "B5",
+            "name": "b²",
             "midi": 82
           }
         ]
@@ -1839,42 +1839,42 @@
         "pitches": [
           {
             "id": "C4",
-            "name": "C4",
+            "name": "c¹",
             "midi": 60
           },
           {
             "id": "D4",
-            "name": "D4",
+            "name": "d¹",
             "midi": 62
           },
           {
             "id": "E4",
-            "name": "E4",
+            "name": "e¹",
             "midi": 64
           },
           {
             "id": "F4",
-            "name": "F4",
+            "name": "f¹",
             "midi": 65
           },
           {
             "id": "G4",
-            "name": "G4",
+            "name": "g¹",
             "midi": 67
           },
           {
             "id": "A4",
-            "name": "A4",
+            "name": "a¹",
             "midi": 69
           },
           {
             "id": "B4",
-            "name": "H4",
+            "name": "h¹",
             "midi": 71
           },
           {
             "id": "C5",
-            "name": "C5",
+            "name": "c²",
             "midi": 72
           }
         ]
@@ -1916,42 +1916,42 @@
         "pitches": [
           {
             "id": "A4",
-            "name": "A4",
+            "name": "a¹",
             "midi": 69
           },
           {
             "id": "B4",
-            "name": "H4",
+            "name": "h¹",
             "midi": 71
           },
           {
             "id": "C5",
-            "name": "C5",
+            "name": "c²",
             "midi": 72
           },
           {
             "id": "D5",
-            "name": "D5",
+            "name": "d²",
             "midi": 74
           },
           {
             "id": "E5",
-            "name": "E5",
+            "name": "e²",
             "midi": 76
           },
           {
             "id": "F#5",
-            "name": "Fis5",
+            "name": "fis²",
             "midi": 78
           },
           {
             "id": "G5",
-            "name": "G5",
+            "name": "g²",
             "midi": 79
           },
           {
             "id": "A5",
-            "name": "A5",
+            "name": "a²",
             "midi": 81
           }
         ]
@@ -1993,42 +1993,42 @@
         "pitches": [
           {
             "id": "F#4",
-            "name": "Fis4",
+            "name": "fis¹",
             "midi": 66
           },
           {
             "id": "G4",
-            "name": "G4",
+            "name": "g¹",
             "midi": 67
           },
           {
             "id": "A4",
-            "name": "A4",
+            "name": "a¹",
             "midi": 69
           },
           {
             "id": "B4",
-            "name": "H4",
+            "name": "h¹",
             "midi": 71
           },
           {
             "id": "C#5",
-            "name": "Cis5",
+            "name": "cis²",
             "midi": 73
           },
           {
             "id": "D5",
-            "name": "D5",
+            "name": "d²",
             "midi": 74
           },
           {
             "id": "E5",
-            "name": "E5",
+            "name": "e²",
             "midi": 76
           },
           {
             "id": "F#5",
-            "name": "Fis5",
+            "name": "fis²",
             "midi": 78
           }
         ]
@@ -2070,42 +2070,42 @@
         "pitches": [
           {
             "id": "Bb4",
-            "name": "B4",
+            "name": "b¹",
             "midi": 70
           },
           {
             "id": "C5",
-            "name": "C5",
+            "name": "c²",
             "midi": 72
           },
           {
             "id": "D5",
-            "name": "D5",
+            "name": "d²",
             "midi": 74
           },
           {
             "id": "E5",
-            "name": "E5",
+            "name": "e²",
             "midi": 76
           },
           {
             "id": "F5",
-            "name": "F5",
+            "name": "f²",
             "midi": 77
           },
           {
             "id": "G5",
-            "name": "G5",
+            "name": "g²",
             "midi": 79
           },
           {
             "id": "A5",
-            "name": "A5",
+            "name": "a²",
             "midi": 81
           },
           {
             "id": "Bb5",
-            "name": "B5",
+            "name": "b²",
             "midi": 82
           }
         ]
@@ -2147,42 +2147,42 @@
         "pitches": [
           {
             "id": "C4",
-            "name": "C4",
+            "name": "c¹",
             "midi": 60
           },
           {
             "id": "D4",
-            "name": "D4",
+            "name": "d¹",
             "midi": 62
           },
           {
             "id": "E4",
-            "name": "E4",
+            "name": "e¹",
             "midi": 64
           },
           {
             "id": "F4",
-            "name": "F4",
+            "name": "f¹",
             "midi": 65
           },
           {
             "id": "G4",
-            "name": "G4",
+            "name": "g¹",
             "midi": 67
           },
           {
             "id": "A4",
-            "name": "A4",
+            "name": "a¹",
             "midi": 69
           },
           {
             "id": "Bb4",
-            "name": "B4",
+            "name": "b¹",
             "midi": 70
           },
           {
             "id": "C5",
-            "name": "C5",
+            "name": "c²",
             "midi": 72
           }
         ]
@@ -2224,42 +2224,42 @@
         "pitches": [
           {
             "id": "A4",
-            "name": "A4",
+            "name": "a¹",
             "midi": 69
           },
           {
             "id": "B4",
-            "name": "H4",
+            "name": "h¹",
             "midi": 71
           },
           {
             "id": "C5",
-            "name": "C5",
+            "name": "c²",
             "midi": 72
           },
           {
             "id": "D5",
-            "name": "D5",
+            "name": "d²",
             "midi": 74
           },
           {
             "id": "E5",
-            "name": "E5",
+            "name": "e²",
             "midi": 76
           },
           {
             "id": "F5",
-            "name": "F5",
+            "name": "f²",
             "midi": 77
           },
           {
             "id": "G5",
-            "name": "G5",
+            "name": "g²",
             "midi": 79
           },
           {
             "id": "A5",
-            "name": "A5",
+            "name": "a²",
             "midi": 81
           }
         ]
@@ -2301,42 +2301,42 @@
         "pitches": [
           {
             "id": "F#4",
-            "name": "Fis4",
+            "name": "fis¹",
             "midi": 66
           },
           {
             "id": "G4",
-            "name": "G4",
+            "name": "g¹",
             "midi": 67
           },
           {
             "id": "A4",
-            "name": "A4",
+            "name": "a¹",
             "midi": 69
           },
           {
             "id": "B4",
-            "name": "H4",
+            "name": "h¹",
             "midi": 71
           },
           {
             "id": "C5",
-            "name": "C5",
+            "name": "c²",
             "midi": 72
           },
           {
             "id": "D5",
-            "name": "D5",
+            "name": "d²",
             "midi": 74
           },
           {
             "id": "E5",
-            "name": "E5",
+            "name": "e²",
             "midi": 76
           },
           {
             "id": "F#5",
-            "name": "Fis5",
+            "name": "fis²",
             "midi": 78
           }
         ]
@@ -2378,32 +2378,32 @@
         "pitches": [
           {
             "id": "Bb4",
-            "name": "B4",
+            "name": "b¹",
             "midi": 70
           },
           {
             "id": "C5",
-            "name": "C5",
+            "name": "c²",
             "midi": 72
           },
           {
             "id": "D5",
-            "name": "D5",
+            "name": "d²",
             "midi": 74
           },
           {
             "id": "F5",
-            "name": "F5",
+            "name": "f²",
             "midi": 77
           },
           {
             "id": "G5",
-            "name": "G5",
+            "name": "g²",
             "midi": 79
           },
           {
             "id": "Bb5",
-            "name": "B5",
+            "name": "b²",
             "midi": 82
           }
         ]
@@ -2445,32 +2445,32 @@
         "pitches": [
           {
             "id": "C4",
-            "name": "C4",
+            "name": "c¹",
             "midi": 60
           },
           {
             "id": "Eb4",
-            "name": "Es4",
+            "name": "es¹",
             "midi": 63
           },
           {
             "id": "F4",
-            "name": "F4",
+            "name": "f¹",
             "midi": 65
           },
           {
             "id": "G4",
-            "name": "G4",
+            "name": "g¹",
             "midi": 67
           },
           {
             "id": "Bb4",
-            "name": "B4",
+            "name": "b¹",
             "midi": 70
           },
           {
             "id": "C5",
-            "name": "C5",
+            "name": "c²",
             "midi": 72
           }
         ]
@@ -2512,37 +2512,37 @@
         "pitches": [
           {
             "id": "A4",
-            "name": "A4",
+            "name": "a¹",
             "midi": 69
           },
           {
             "id": "C5",
-            "name": "C5",
+            "name": "c²",
             "midi": 72
           },
           {
             "id": "D5",
-            "name": "D5",
+            "name": "d²",
             "midi": 74
           },
           {
             "id": "Eb5",
-            "name": "Es5",
+            "name": "es²",
             "midi": 75
           },
           {
             "id": "E5",
-            "name": "E5",
+            "name": "e²",
             "midi": 76
           },
           {
             "id": "G5",
-            "name": "G5",
+            "name": "g²",
             "midi": 79
           },
           {
             "id": "A5",
-            "name": "A5",
+            "name": "a²",
             "midi": 81
           }
         ]
@@ -2584,37 +2584,37 @@
         "pitches": [
           {
             "id": "F#4",
-            "name": "Fis4",
+            "name": "fis¹",
             "midi": 66
           },
           {
             "id": "G#4",
-            "name": "Gis4",
+            "name": "gis¹",
             "midi": 68
           },
           {
             "id": "A4",
-            "name": "A4",
+            "name": "a¹",
             "midi": 69
           },
           {
             "id": "A#4",
-            "name": "Ais4",
+            "name": "ais¹",
             "midi": 70
           },
           {
             "id": "C#5",
-            "name": "Cis5",
+            "name": "cis²",
             "midi": 73
           },
           {
             "id": "D#5",
-            "name": "Dis5",
+            "name": "dis²",
             "midi": 75
           },
           {
             "id": "F#5",
-            "name": "Fis5",
+            "name": "fis²",
             "midi": 78
           }
         ]
@@ -2656,37 +2656,37 @@
         "pitches": [
           {
             "id": "Bb4",
-            "name": "B4",
+            "name": "b¹",
             "midi": 70
           },
           {
             "id": "C5",
-            "name": "C5",
+            "name": "c²",
             "midi": 72
           },
           {
             "id": "D5",
-            "name": "D5",
+            "name": "d²",
             "midi": 74
           },
           {
             "id": "E5",
-            "name": "E5",
+            "name": "e²",
             "midi": 76
           },
           {
             "id": "F#5",
-            "name": "Fis5",
+            "name": "fis²",
             "midi": 78
           },
           {
             "id": "G#5",
-            "name": "Gis5",
+            "name": "gis²",
             "midi": 80
           },
           {
             "id": "Bb5",
-            "name": "B5",
+            "name": "b²",
             "midi": 82
           }
         ]
@@ -2728,67 +2728,67 @@
         "pitches": [
           {
             "id": "C4",
-            "name": "C4",
+            "name": "c¹",
             "midi": 60
           },
           {
             "id": "C#4",
-            "name": "Cis4",
+            "name": "cis¹",
             "midi": 61
           },
           {
             "id": "D4",
-            "name": "D4",
+            "name": "d¹",
             "midi": 62
           },
           {
             "id": "D#4",
-            "name": "Dis4",
+            "name": "dis¹",
             "midi": 63
           },
           {
             "id": "E4",
-            "name": "E4",
+            "name": "e¹",
             "midi": 64
           },
           {
             "id": "F4",
-            "name": "F4",
+            "name": "f¹",
             "midi": 65
           },
           {
             "id": "F#4",
-            "name": "Fis4",
+            "name": "fis¹",
             "midi": 66
           },
           {
             "id": "G4",
-            "name": "G4",
+            "name": "g¹",
             "midi": 67
           },
           {
             "id": "G#4",
-            "name": "Gis4",
+            "name": "gis¹",
             "midi": 68
           },
           {
             "id": "A4",
-            "name": "A4",
+            "name": "a¹",
             "midi": 69
           },
           {
             "id": "A#4",
-            "name": "Ais4",
+            "name": "ais¹",
             "midi": 70
           },
           {
             "id": "B4",
-            "name": "H4",
+            "name": "h¹",
             "midi": 71
           },
           {
             "id": "C5",
-            "name": "C5",
+            "name": "c²",
             "midi": 72
           }
         ]
@@ -2830,42 +2830,42 @@
         "pitches": [
           {
             "id": "A4",
-            "name": "A4",
+            "name": "a¹",
             "midi": 69
           },
           {
             "id": "G#4",
-            "name": "Gis4",
+            "name": "gis¹",
             "midi": 68
           },
           {
             "id": "F#4",
-            "name": "Fis4",
+            "name": "fis¹",
             "midi": 66
           },
           {
             "id": "E4",
-            "name": "E4",
+            "name": "e¹",
             "midi": 64
           },
           {
             "id": "D4",
-            "name": "D4",
+            "name": "d¹",
             "midi": 62
           },
           {
             "id": "C#4",
-            "name": "Cis4",
+            "name": "cis¹",
             "midi": 61
           },
           {
             "id": "B3",
-            "name": "H3",
+            "name": "h",
             "midi": 59
           },
           {
             "id": "A3",
-            "name": "A3",
+            "name": "a",
             "midi": 57
           }
         ]
@@ -2907,42 +2907,42 @@
         "pitches": [
           {
             "id": "F#4",
-            "name": "Fis4",
+            "name": "fis¹",
             "midi": 66
           },
           {
             "id": "E4",
-            "name": "E4",
+            "name": "e¹",
             "midi": 64
           },
           {
             "id": "D4",
-            "name": "D4",
+            "name": "d¹",
             "midi": 62
           },
           {
             "id": "C#4",
-            "name": "Cis4",
+            "name": "cis¹",
             "midi": 61
           },
           {
             "id": "B3",
-            "name": "H3",
+            "name": "h",
             "midi": 59
           },
           {
             "id": "A3",
-            "name": "A3",
+            "name": "a",
             "midi": 57
           },
           {
             "id": "G#3",
-            "name": "Gis3",
+            "name": "gis",
             "midi": 56
           },
           {
             "id": "F#3",
-            "name": "Fis3",
+            "name": "fis",
             "midi": 54
           }
         ]
@@ -2984,42 +2984,42 @@
         "pitches": [
           {
             "id": "Bb4",
-            "name": "B4",
+            "name": "b¹",
             "midi": 70
           },
           {
             "id": "A4",
-            "name": "A4",
+            "name": "a¹",
             "midi": 69
           },
           {
             "id": "Gb4",
-            "name": "Ges4",
+            "name": "ges¹",
             "midi": 66
           },
           {
             "id": "F4",
-            "name": "F4",
+            "name": "f¹",
             "midi": 65
           },
           {
             "id": "Eb4",
-            "name": "Es4",
+            "name": "es¹",
             "midi": 63
           },
           {
             "id": "Db4",
-            "name": "Des4",
+            "name": "des¹",
             "midi": 61
           },
           {
             "id": "C4",
-            "name": "C4",
+            "name": "c¹",
             "midi": 60
           },
           {
             "id": "Bb3",
-            "name": "B3",
+            "name": "b",
             "midi": 58
           }
         ]
@@ -3061,42 +3061,42 @@
         "pitches": [
           {
             "id": "C4",
-            "name": "C4",
+            "name": "c¹",
             "midi": 60
           },
           {
             "id": "Bb3",
-            "name": "B3",
+            "name": "b",
             "midi": 58
           },
           {
             "id": "Ab3",
-            "name": "As3",
+            "name": "as",
             "midi": 56
           },
           {
             "id": "G3",
-            "name": "G3",
+            "name": "g",
             "midi": 55
           },
           {
             "id": "F3",
-            "name": "F3",
+            "name": "f",
             "midi": 53
           },
           {
             "id": "Eb3",
-            "name": "Es3",
+            "name": "es",
             "midi": 51
           },
           {
             "id": "D3",
-            "name": "D3",
+            "name": "d",
             "midi": 50
           },
           {
             "id": "C3",
-            "name": "C3",
+            "name": "c",
             "midi": 48
           }
         ]
@@ -3138,42 +3138,42 @@
         "pitches": [
           {
             "id": "A4",
-            "name": "A4",
+            "name": "a¹",
             "midi": 69
           },
           {
             "id": "G#4",
-            "name": "Gis4",
+            "name": "gis¹",
             "midi": 68
           },
           {
             "id": "F#4",
-            "name": "Fis4",
+            "name": "fis¹",
             "midi": 66
           },
           {
             "id": "E4",
-            "name": "E4",
+            "name": "e¹",
             "midi": 64
           },
           {
             "id": "D4",
-            "name": "D4",
+            "name": "d¹",
             "midi": 62
           },
           {
             "id": "C#4",
-            "name": "Cis4",
+            "name": "cis¹",
             "midi": 61
           },
           {
             "id": "B3",
-            "name": "H3",
+            "name": "h",
             "midi": 59
           },
           {
             "id": "A3",
-            "name": "A3",
+            "name": "a",
             "midi": 57
           }
         ]
@@ -3215,42 +3215,42 @@
         "pitches": [
           {
             "id": "F#4",
-            "name": "Fis4",
+            "name": "fis¹",
             "midi": 66
           },
           {
             "id": "E4",
-            "name": "E4",
+            "name": "e¹",
             "midi": 64
           },
           {
             "id": "D#4",
-            "name": "Dis4",
+            "name": "dis¹",
             "midi": 63
           },
           {
             "id": "C#4",
-            "name": "Cis4",
+            "name": "cis¹",
             "midi": 61
           },
           {
             "id": "B3",
-            "name": "H3",
+            "name": "h",
             "midi": 59
           },
           {
             "id": "A3",
-            "name": "A3",
+            "name": "a",
             "midi": 57
           },
           {
             "id": "G#3",
-            "name": "Gis3",
+            "name": "gis",
             "midi": 56
           },
           {
             "id": "F#3",
-            "name": "Fis3",
+            "name": "fis",
             "midi": 54
           }
         ]
@@ -3292,42 +3292,42 @@
         "pitches": [
           {
             "id": "Bb4",
-            "name": "B4",
+            "name": "b¹",
             "midi": 70
           },
           {
             "id": "Ab4",
-            "name": "As4",
+            "name": "as¹",
             "midi": 68
           },
           {
             "id": "Gb4",
-            "name": "Ges4",
+            "name": "ges¹",
             "midi": 66
           },
           {
             "id": "F4",
-            "name": "F4",
+            "name": "f¹",
             "midi": 65
           },
           {
             "id": "Eb4",
-            "name": "Es4",
+            "name": "es¹",
             "midi": 63
           },
           {
             "id": "Db4",
-            "name": "Des4",
+            "name": "des¹",
             "midi": 61
           },
           {
             "id": "Cb4",
-            "name": "Ces4",
+            "name": "ces¹",
             "midi": 59
           },
           {
             "id": "Bb3",
-            "name": "B3",
+            "name": "b",
             "midi": 58
           }
         ]
@@ -3993,17 +3993,17 @@
         "pitches": [
           {
             "id": "C4",
-            "name": "C4",
+            "name": "c¹",
             "midi": 60
           },
           {
             "id": "E4",
-            "name": "E4",
+            "name": "e¹",
             "midi": 64
           },
           {
             "id": "G4",
-            "name": "G4",
+            "name": "g¹",
             "midi": 67
           }
         ]
@@ -4093,17 +4093,17 @@
         "pitches": [
           {
             "id": "F#4",
-            "name": "Fis4",
+            "name": "fis¹",
             "midi": 66
           },
           {
             "id": "A4",
-            "name": "A4",
+            "name": "a¹",
             "midi": 69
           },
           {
             "id": "D5",
-            "name": "D5",
+            "name": "d²",
             "midi": 74
           }
         ]
@@ -4193,17 +4193,17 @@
         "pitches": [
           {
             "id": "C#4",
-            "name": "Cis4",
+            "name": "cis¹",
             "midi": 61
           },
           {
             "id": "F#4",
-            "name": "Fis4",
+            "name": "fis¹",
             "midi": 66
           },
           {
             "id": "A#4",
-            "name": "Ais4",
+            "name": "ais¹",
             "midi": 70
           }
         ]
@@ -4293,17 +4293,17 @@
         "pitches": [
           {
             "id": "Bb4",
-            "name": "B4",
+            "name": "b¹",
             "midi": 70
           },
           {
             "id": "D5",
-            "name": "D5",
+            "name": "d²",
             "midi": 74
           },
           {
             "id": "F5",
-            "name": "F5",
+            "name": "f²",
             "midi": 77
           }
         ]
@@ -4393,17 +4393,17 @@
         "pitches": [
           {
             "id": "Eb4",
-            "name": "Es4",
+            "name": "es¹",
             "midi": 63
           },
           {
             "id": "G4",
-            "name": "G4",
+            "name": "g¹",
             "midi": 67
           },
           {
             "id": "C5",
-            "name": "C5",
+            "name": "c²",
             "midi": 72
           }
         ]
@@ -4493,17 +4493,17 @@
         "pitches": [
           {
             "id": "A4",
-            "name": "A4",
+            "name": "a¹",
             "midi": 69
           },
           {
             "id": "D5",
-            "name": "D5",
+            "name": "d²",
             "midi": 74
           },
           {
             "id": "F5",
-            "name": "F5",
+            "name": "f²",
             "midi": 77
           }
         ]
@@ -4593,17 +4593,17 @@
         "pitches": [
           {
             "id": "F#4",
-            "name": "Fis4",
+            "name": "fis¹",
             "midi": 66
           },
           {
             "id": "A4",
-            "name": "A4",
+            "name": "a¹",
             "midi": 69
           },
           {
             "id": "C#5",
-            "name": "Cis5",
+            "name": "cis²",
             "midi": 73
           }
         ]
@@ -4693,17 +4693,17 @@
         "pitches": [
           {
             "id": "Db4",
-            "name": "Des4",
+            "name": "des¹",
             "midi": 61
           },
           {
             "id": "F4",
-            "name": "F4",
+            "name": "f¹",
             "midi": 65
           },
           {
             "id": "Bb4",
-            "name": "B4",
+            "name": "b¹",
             "midi": 70
           }
         ]
@@ -4793,17 +4793,17 @@
         "pitches": [
           {
             "id": "Gb4",
-            "name": "Ges4",
+            "name": "ges¹",
             "midi": 66
           },
           {
             "id": "C5",
-            "name": "C5",
+            "name": "c²",
             "midi": 72
           },
           {
             "id": "Eb5",
-            "name": "Es5",
+            "name": "es²",
             "midi": 75
           }
         ]
@@ -4893,17 +4893,17 @@
         "pitches": [
           {
             "id": "D4",
-            "name": "D4",
+            "name": "d¹",
             "midi": 62
           },
           {
             "id": "F4",
-            "name": "F4",
+            "name": "f¹",
             "midi": 65
           },
           {
             "id": "Ab4",
-            "name": "As4",
+            "name": "as¹",
             "midi": 68
           }
         ]
@@ -4993,17 +4993,17 @@
         "pitches": [
           {
             "id": "A4",
-            "name": "A4",
+            "name": "a¹",
             "midi": 69
           },
           {
             "id": "C5",
-            "name": "C5",
+            "name": "c²",
             "midi": 72
           },
           {
             "id": "F#5",
-            "name": "Fis5",
+            "name": "fis²",
             "midi": 78
           }
         ]
@@ -5093,17 +5093,17 @@
         "pitches": [
           {
             "id": "Fb4",
-            "name": "Fes4",
+            "name": "fes¹",
             "midi": 64
           },
           {
             "id": "Bb4",
-            "name": "B4",
+            "name": "b¹",
             "midi": 70
           },
           {
             "id": "Db5",
-            "name": "Des5",
+            "name": "des²",
             "midi": 73
           }
         ]
@@ -5193,17 +5193,17 @@
         "pitches": [
           {
             "id": "C4",
-            "name": "C4",
+            "name": "c¹",
             "midi": 60
           },
           {
             "id": "E4",
-            "name": "E4",
+            "name": "e¹",
             "midi": 64
           },
           {
             "id": "G#4",
-            "name": "Gis4",
+            "name": "gis¹",
             "midi": 68
           }
         ]
@@ -5293,17 +5293,17 @@
         "pitches": [
           {
             "id": "F#4",
-            "name": "Fis4",
+            "name": "fis¹",
             "midi": 66
           },
           {
             "id": "A#4",
-            "name": "Ais4",
+            "name": "ais¹",
             "midi": 70
           },
           {
             "id": "D5",
-            "name": "D5",
+            "name": "d²",
             "midi": 74
           }
         ]
@@ -5393,17 +5393,17 @@
         "pitches": [
           {
             "id": "C##4",
-            "name": "Cisis4",
+            "name": "cisis¹",
             "midi": 62
           },
           {
             "id": "F#4",
-            "name": "Fis4",
+            "name": "fis¹",
             "midi": 66
           },
           {
             "id": "A#4",
-            "name": "Ais4",
+            "name": "ais¹",
             "midi": 70
           }
         ]
@@ -5493,17 +5493,17 @@
         "pitches": [
           {
             "id": "Bb4",
-            "name": "B4",
+            "name": "b¹",
             "midi": 70
           },
           {
             "id": "D5",
-            "name": "D5",
+            "name": "d²",
             "midi": 74
           },
           {
             "id": "F#5",
-            "name": "Fis5",
+            "name": "fis²",
             "midi": 78
           }
         ]
@@ -9029,9 +9029,9 @@
       "status": "entwurf",
       "category": "task",
       "questions": {
-        "de": "Schreibe Dur aufwärts ab a¹, über eine Oktave mit acht Tönen. Der erste Ton ist vorgegeben.\nMeine bewertete Antwort war „notes:A5,G#5,F#5,E5,D5,C#5,B4,A4“. Warum ist sie falsch? Erkläre den konkreten Fehler.",
-        "en-US": "Write major ascending from A4, over one octave with eight notes. The first note is given.\nMy checked answer was “notes:A5,G#5,F#5,E5,D5,C#5,B4,A4”. Why is it wrong? Explain the specific mistake.",
-        "en-GB": "Write major ascending from A4, over one octave with eight notes. The first note is given.\nMy checked answer was “notes:A5,G#5,F#5,E5,D5,C#5,B4,A4”. Why is it wrong? Explain the specific mistake."
+        "de": "Schreibe Dur aufwärts ab a¹, über eine Oktave mit acht Tönen. Der erste Ton ist vorgegeben.\nMeine bewertete Antwort war „notes:A4,B4,C5,D5,E5,F#5,G#5,A5“. Warum ist sie falsch? Erkläre den konkreten Fehler.",
+        "en-US": "Write major ascending from A4, over one octave with eight notes. The first note is given.\nMy checked answer was “notes:A4,B4,C5,D5,E5,F#5,G#5,A5”. Why is it wrong? Explain the specific mistake.",
+        "en-GB": "Write major ascending from A4, over one octave with eight notes. The first note is given.\nMy checked answer was “notes:A4,B4,C5,D5,E5,F#5,G#5,A5”. Why is it wrong? Explain the specific mistake."
       },
       "scope": {
         "locale": "de",
@@ -9047,7 +9047,7 @@
             "round": "initial",
             "index": 0
           },
-          "answer": "notes:A5,G#5,F#5,E5,D5,C#5,B4,A4",
+          "answer": "notes:A4,B4,C5,D5,E5,F#5,G#5,A5",
           "checked": true
         }
       },
@@ -9060,9 +9060,9 @@
       ],
       "expectedFacts": {
         "solution": "notes:A4,B4,C#5,D5,E5,F#5,G#5,A5",
-        "wrongAnswer": "notes:A5,G#5,F#5,E5,D5,C#5,B4,A4",
+        "wrongAnswer": "notes:A4,B4,C5,D5,E5,F#5,G#5,A5",
         "evaluation": {
-          "answer": "notes:A5,G#5,F#5,E5,D5,C#5,B4,A4",
+          "answer": "notes:A4,B4,C5,D5,E5,F#5,G#5,A5",
           "expected": "notes:A4,B4,C#5,D5,E5,F#5,G#5,A5",
           "validAnswer": true,
           "correct": false
@@ -9095,7 +9095,7 @@
             "round": "initial",
             "index": 0
           },
-          "answer": "notes:A5,G#5,F#5,E5,D5,C#5,B4,A4",
+          "answer": "notes:A4,B4,C5,D5,E5,F#5,G#5,A5",
           "checked": false
         }
       },
@@ -9108,9 +9108,9 @@
       ],
       "expectedFacts": {
         "solution": "notes:A4,B4,C#5,D5,E5,F#5,G#5,A5",
-        "wrongAnswer": "notes:A5,G#5,F#5,E5,D5,C#5,B4,A4",
+        "wrongAnswer": "notes:A4,B4,C5,D5,E5,F#5,G#5,A5",
         "evaluation": {
-          "answer": "notes:A5,G#5,F#5,E5,D5,C#5,B4,A4",
+          "answer": "notes:A4,B4,C5,D5,E5,F#5,G#5,A5",
           "expected": "notes:A4,B4,C#5,D5,E5,F#5,G#5,A5",
           "validAnswer": true,
           "correct": false
@@ -9143,7 +9143,7 @@
             "round": "initial",
             "index": 0
           },
-          "answer": "notes:A5,G#5,F#5,E5,D5,C#5,B4,A4",
+          "answer": "notes:A4,B4,C5,D5,E5,F#5,G#5,A5",
           "checked": false
         }
       },
@@ -9156,9 +9156,9 @@
       ],
       "expectedFacts": {
         "solution": "notes:A4,B4,C#5,D5,E5,F#5,G#5,A5",
-        "wrongAnswer": "notes:A5,G#5,F#5,E5,D5,C#5,B4,A4",
+        "wrongAnswer": "notes:A4,B4,C5,D5,E5,F#5,G#5,A5",
         "evaluation": {
-          "answer": "notes:A5,G#5,F#5,E5,D5,C#5,B4,A4",
+          "answer": "notes:A4,B4,C5,D5,E5,F#5,G#5,A5",
           "expected": "notes:A4,B4,C#5,D5,E5,F#5,G#5,A5",
           "validAnswer": true,
           "correct": false
@@ -9191,7 +9191,7 @@
             "round": "initial",
             "index": 0
           },
-          "answer": "notes:A5,G#5,F#5,E5,D5,C#5,B4,A4",
+          "answer": "notes:A4,B4,C5,D5,E5,F#5,G#5,A5",
           "checked": false
         }
       },
@@ -9204,9 +9204,9 @@
       ],
       "expectedFacts": {
         "solution": "notes:A4,B4,C#5,D5,E5,F#5,G#5,A5",
-        "wrongAnswer": "notes:A5,G#5,F#5,E5,D5,C#5,B4,A4",
+        "wrongAnswer": "notes:A4,B4,C5,D5,E5,F#5,G#5,A5",
         "evaluation": {
-          "answer": "notes:A5,G#5,F#5,E5,D5,C#5,B4,A4",
+          "answer": "notes:A4,B4,C5,D5,E5,F#5,G#5,A5",
           "expected": "notes:A4,B4,C#5,D5,E5,F#5,G#5,A5",
           "validAnswer": true,
           "correct": false
@@ -9413,9 +9413,9 @@
       "status": "entwurf",
       "category": "task",
       "questions": {
-        "de": "Schreibe diesen Akkord in enger Lage: as-Moll-Dreiklang. Der Basston as¹ ist vorgegeben; ergänze die zwei weiteren Töne.\nMeine bewertete Antwort war „chord-notes:Eb5,Cb5,Ab4“. Warum ist sie falsch? Erkläre den konkreten Fehler.",
-        "en-US": "Write A♭ minor triad in close position above A♭4. The bass note is given; add the two remaining notes.\nMy checked answer was “chord-notes:Eb5,Cb5,Ab4”. Why is it wrong? Explain the specific mistake.",
-        "en-GB": "Write A♭ minor triad in close position above A♭4. The bass note is given; add the two remaining notes.\nMy checked answer was “chord-notes:Eb5,Cb5,Ab4”. Why is it wrong? Explain the specific mistake."
+        "de": "Schreibe diesen Akkord in enger Lage: as-Moll-Dreiklang. Der Basston as¹ ist vorgegeben; ergänze die zwei weiteren Töne.\nMeine bewertete Antwort war „chord-notes:Ab4,C5,Eb5“. Warum ist sie falsch? Erkläre den konkreten Fehler.",
+        "en-US": "Write A♭ minor triad in close position above A♭4. The bass note is given; add the two remaining notes.\nMy checked answer was “chord-notes:Ab4,C5,Eb5”. Why is it wrong? Explain the specific mistake.",
+        "en-GB": "Write A♭ minor triad in close position above A♭4. The bass note is given; add the two remaining notes.\nMy checked answer was “chord-notes:Ab4,C5,Eb5”. Why is it wrong? Explain the specific mistake."
       },
       "scope": {
         "locale": "de",
@@ -9431,7 +9431,7 @@
             "round": "initial",
             "index": 0
           },
-          "answer": "chord-notes:Eb5,Cb5,Ab4",
+          "answer": "chord-notes:Ab4,C5,Eb5",
           "checked": true
         }
       },
@@ -9444,9 +9444,9 @@
       ],
       "expectedFacts": {
         "solution": "chord-notes:Ab4,Cb5,Eb5",
-        "wrongAnswer": "chord-notes:Eb5,Cb5,Ab4",
+        "wrongAnswer": "chord-notes:Ab4,C5,Eb5",
         "evaluation": {
-          "answer": "chord-notes:Eb5,Cb5,Ab4",
+          "answer": "chord-notes:Ab4,C5,Eb5",
           "expected": "chord-notes:Ab4,Cb5,Eb5",
           "validAnswer": true,
           "correct": false
@@ -9479,7 +9479,7 @@
             "round": "initial",
             "index": 0
           },
-          "answer": "chord-notes:Eb5,Cb5,Ab4",
+          "answer": "chord-notes:Ab4,C5,Eb5",
           "checked": false
         }
       },
@@ -9492,9 +9492,9 @@
       ],
       "expectedFacts": {
         "solution": "chord-notes:Ab4,Cb5,Eb5",
-        "wrongAnswer": "chord-notes:Eb5,Cb5,Ab4",
+        "wrongAnswer": "chord-notes:Ab4,C5,Eb5",
         "evaluation": {
-          "answer": "chord-notes:Eb5,Cb5,Ab4",
+          "answer": "chord-notes:Ab4,C5,Eb5",
           "expected": "chord-notes:Ab4,Cb5,Eb5",
           "validAnswer": true,
           "correct": false
@@ -9527,7 +9527,7 @@
             "round": "initial",
             "index": 0
           },
-          "answer": "chord-notes:Eb5,Cb5,Ab4",
+          "answer": "chord-notes:Ab4,C5,Eb5",
           "checked": false
         }
       },
@@ -9540,9 +9540,9 @@
       ],
       "expectedFacts": {
         "solution": "chord-notes:Ab4,Cb5,Eb5",
-        "wrongAnswer": "chord-notes:Eb5,Cb5,Ab4",
+        "wrongAnswer": "chord-notes:Ab4,C5,Eb5",
         "evaluation": {
-          "answer": "chord-notes:Eb5,Cb5,Ab4",
+          "answer": "chord-notes:Ab4,C5,Eb5",
           "expected": "chord-notes:Ab4,Cb5,Eb5",
           "validAnswer": true,
           "correct": false
@@ -9575,7 +9575,7 @@
             "round": "initial",
             "index": 0
           },
-          "answer": "chord-notes:Eb5,Cb5,Ab4",
+          "answer": "chord-notes:Ab4,C5,Eb5",
           "checked": false
         }
       },
@@ -9588,9 +9588,9 @@
       ],
       "expectedFacts": {
         "solution": "chord-notes:Ab4,Cb5,Eb5",
-        "wrongAnswer": "chord-notes:Eb5,Cb5,Ab4",
+        "wrongAnswer": "chord-notes:Ab4,C5,Eb5",
         "evaluation": {
-          "answer": "chord-notes:Eb5,Cb5,Ab4",
+          "answer": "chord-notes:Ab4,C5,Eb5",
           "expected": "chord-notes:Ab4,Cb5,Eb5",
           "validAnswer": true,
           "correct": false

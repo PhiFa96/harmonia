@@ -331,7 +331,10 @@ export async function evaluateReport({
         rows.every((c) => c.verdicts !== null && c.catalogueApproved && !c.estimated) &&
         a.factualPercent >= 98 &&
         a.acceptancePercent >= 98 &&
-        LOCALES.every((l) => aggregate(rows.filter((c) => c.locale === l)).factualPercent >= 98) &&
+        LOCALES.every((l) => {
+          const local = aggregate(rows.filter((c) => c.locale === l));
+          return local.factualPercent >= 98 && local.acceptancePercent >= 98;
+        }) &&
         rows.every((c) => c.verdicts?.sources && c.verdicts.hints) &&
         rows.every(
           (c) =>
