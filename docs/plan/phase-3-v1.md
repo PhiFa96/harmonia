@@ -119,6 +119,8 @@ Technische Übergabe: `theorie-rush.md`, ADR 0032. Freundesfilter auf gegenseiti
 
 ### P3.08 – Freunde und Freundes-Quests
 
+Technische Übergabe: `freunde-und-quests.md`, ADR 0035. Einmal-Einladungen, beidseitige Freundschaft, Blockieren/Entfernen und eine Quest pro UTC-Woche mit 300 neuen bestätigten XP und je einem Abzeichen sind vorbereitet. Datenbank-, Geräte-, Scheduler- und Rechtsabnahme bleiben offen.
+
 - **Ziel:** Gemeinsam lernen, ohne Chat-Risiken.
 - **Abhängig von:** Phase 2
 - **Umfang:** M

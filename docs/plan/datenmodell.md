@@ -55,6 +55,10 @@ Postgres in Supabase, Region EU. Alle Tabellen mit Row Level Security (RLS). Än
 | `daily_puzzles` (P3.07) | Global eingefrorenes Rätsel pro Datum | `day`, `bank`, `spec`, `seed`, `difficulty` |
 | `daily_puzzle_results` (P3.07) | Eigene Einmalantwort und Serienbeleg | `user_id`, `day`, `answer`, `correct`, `time_zone`, `answered_at`, `retained_at` |
 | `friendships` (Relationsgrenze P3.05, Verwaltung P3.08) | Gegenseitig bestätigte Freunde; pending/accepted/blocked, Service-only | `user_id`, `friend_id`, `status`, `created_at` |
+| `friend_invites` (P3.08) | Einmalige Zufallscodes mit sieben Tagen Gültigkeit | `token`, `host_id`, `guest_id`, `expires_at`, `used_at` |
+| `friend_quests`, `friend_quest_members` (P3.08) | Eine gemeinsame Quest je Person und UTC-Woche, 300 neue kanonische XP | `week_start`, `user_a`, `user_b`, `target`, `completed_at`, `user_id` |
+| `friend_quest_claims` (P3.08) | Wochenbeleg gegen zweite Quest nach Entfernen oder Blockieren | `user_id`, `week_start` |
+| `friend_quest_awards` (P3.08) | Ein Abzeichen pro Person und Woche; bleibt nach Entfreunden erhalten | `user_id`, `week_start`, `earned_at` |
 | `friend_quests` | Gemeinsame Wochenziele | `id`, `week_start`, `user_a`, `user_b`, `goal_type`, `target`, `progress`, `completed_at` |
 | `push_tokens` | Push-Benachrichtigungen | `user_id`, `token`, `platform`, `created_at` |
 

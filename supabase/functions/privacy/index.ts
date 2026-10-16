@@ -72,6 +72,16 @@ const sections = {
   duelInvitesAccepted: ['duel_invites', 'guest_id', 'token', 'token,created_at,expires_at,game_id'],
   dailyPuzzleResults: ['daily_puzzle_results', 'user_id', 'day', '*'],
   friendships: ['friendships', 'user_id', 'friend_id', '*'],
+  friendInvitesSent: ['friend_invites', 'host_id', 'token', '*'],
+  friendInvitesAccepted: ['friend_invites', 'guest_id', 'token', '*'],
+  friendQuests: [
+    'friend_quests',
+    'friend_quest_members.user_id',
+    'id',
+    'id,week_start,user_a,user_b,target,created_at,completed_at,friend_quest_members!inner(user_id)',
+  ],
+  friendQuestClaims: ['friend_quest_claims', 'user_id', 'week_start', '*'],
+  friendQuestAwards: ['friend_quest_awards', 'user_id', 'week_start', '*'],
   skillRatings: ['skill_progress', 'user_id', 'skill_id', '*'],
   cardReviews: ['card_review_progress', 'user_id', 'card_key', '*'],
   learning: [
