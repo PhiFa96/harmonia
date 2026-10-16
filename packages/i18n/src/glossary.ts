@@ -138,8 +138,8 @@ export const GLOSSARY = {
   },
   sourceInformation: {
     category: 'history',
-    de: { term: 'Quellenangabe', gender: 'f', plural: 'Quellenangaben' },
-    en: { term: 'source reference', plural: 'source references' },
+    de: { term: 'Herkunftsangabe', gender: 'f', plural: 'Herkunftsangaben' },
+    en: { term: 'source label', plural: 'source labels' },
   },
   inference: {
     category: 'history',

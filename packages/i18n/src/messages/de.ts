@@ -949,8 +949,8 @@ export const de = {
     listeningUp: 'Zweiter Ton höher',
     listeningDown: 'Zweiter Ton tiefer',
     listeningRepeat: 'Gleiche Tonhöhe',
-    listeningSingle: 'Es erklingt jeweils nur eine Tonhöhe',
-    listeningTogether: 'Mindestens zwei Tonhöhen erklingen zugleich',
+    listeningSingle: 'Die Töne beginnen jeweils nacheinander',
+    listeningTogether: 'Mindestens zwei Töne beginnen zugleich',
     listeningDate: 'Das Werk entstand sicher im Jahr 1750',
     listeningPlace: 'Die Musik wurde sicher in einer Kirche aufgeführt',
     listeningHint1:
@@ -1123,7 +1123,7 @@ export const de = {
     knowledgeKeyboardDefinition_semitone:
       'Abstand zwischen unmittelbar benachbarten $t(glossary:pianoKey_other), einschließlich schwarzer Tasten. Keine Taste liegt dazwischen.',
     knowledgeKeyboardDefinition_wholeTone:
-      'Abstand von zwei $t(glossary:semitone_other). Auf der $t(glossary:keyboard_one) liegt genau eine Taste zwischen Start und Ziel.',
+      'Abstand von zwei Schritten zu je einem $t(glossary:semitone_one). Auf der $t(glossary:keyboard_one) liegt genau eine Taste zwischen Start und Ziel.',
     knowledgeKeyboardDefinition_twoBlackKeys:
       'Wiederkehrende Gruppe aus zwei schwarzen Tasten. Die weiße Taste unmittelbar links davon heißt C.',
     knowledgeKeyboardDefinition_threeBlackKeys:
@@ -1139,9 +1139,9 @@ export const de = {
     knowledge_tempo_faster: 'Höheres $t(glossary:tempo)',
     knowledge_tempo_slower: 'Niedrigeres $t(glossary:tempo)',
     knowledge_beatGroup_first: 'Erster $t(glossary:beat_one)',
-    knowledge_beatGroup_duple: '$t(glossary:beatGroup_one) aus zwei $t(glossary:beat_other)',
-    knowledge_beatGroup_triple: '$t(glossary:beatGroup_one) aus drei $t(glossary:beat_other)',
-    knowledge_beatGroup_quadruple: '$t(glossary:beatGroup_one) aus vier $t(glossary:beat_other)',
+    knowledge_beatGroup_duple: '$t(glossary:beatGroup_one) aus zwei Schlägen',
+    knowledge_beatGroup_triple: '$t(glossary:beatGroup_one) aus drei Schlägen',
+    knowledge_beatGroup_quadruple: '$t(glossary:beatGroup_one) aus vier Schlägen',
     knowledgeDefinition_pulse_pulse:
       'Gleichmäßiger Grundschlag, der beim Musizieren als zeitliche Orientierung dient. Seine Abstände bleiben hier gleich.',
     knowledgeDefinition_pulse_rhythm:
@@ -1225,7 +1225,7 @@ export const de = {
     knowledgeHint2_KNOWLEDGE_MC:
       'Grenze deine Auswahl auf diese beiden Begriffe ein: {{candidates}}.',
     knowledgeHint2_MATCH: 'Beginne mit diesem Paar: {{term}} – {{definition}}',
-    knowledgeHint2_ORDER: 'An erster Stelle steht {{first}}.',
+    knowledgeHint2_ORDER: 'An erster Stelle steht: {{first}}.',
     order_noteValues_ascending: 'von kurzer zu langer Dauer',
     order_noteValues_descending: 'von langer zu kurzer Dauer',
     order_pitches_ascending: 'von tief zu hoch',
@@ -1403,7 +1403,7 @@ export const de = {
     question_KEY_FIND: 'Finde die Taste für {{note}}. Achte auf die Oktavlage.',
     question_KEY_FIND_name: 'Finde die Taste für {{note}}.',
     question_KEY_FIND_score:
-      'Spiele die notierte Note auf der $t(glossary:keyboard_one). Achte auf $t(glossary:noteName_one) und $t(glossary:octave_one).',
+      'Spiele die notierte Note auf der $t(glossary:keyboard_one). Achte auf den Tonnamen und die $t(glossary:octave_one).',
     question_INTERVAL_BUILD:
       'Schreibe den zweiten Ton: {{interval}} von {{from}} aus. Setze ihn in den leeren zweiten Takt.',
     writtenPitch:
@@ -1417,7 +1417,7 @@ export const de = {
     keyNameHint1:
       'Suche die $t(glossary:twoBlackKeys_other): C liegt direkt links davon, D zwischen den beiden schwarzen Tasten. Zähle von dort bis zum gesuchten $t(glossary:naturalNote_one) im gezeigten Ausschnitt.',
     keyScoreHint1:
-      'Lies zuerst den $t(glossary:clef_one) und die Position der Note, einschließlich der $t(glossary:ledgerLine_other). Bestimme dann den vollständigen $t(glossary:noteName_one). Suche auf der $t(glossary:keyboard_one) das C in derselben $t(glossary:octave_one) und gehe von dort zur passenden Taste.',
+      'Lies zuerst den $t(glossary:clef_one) und die Position der Note, einschließlich der $t(glossary:ledgerLine_other). Bestimme dann den vollständigen Tonnamen. Suche auf der $t(glossary:keyboard_one) das C in derselben $t(glossary:octave_one) und gehe von dort zur passenden Taste.',
     keyHint2:
       'Suche zuerst {{natural}}. {{alteration}} Jeder Schritt zur unmittelbar benachbarten Taste ist ein Halbtonschritt, auch zwischen E und F sowie H und C.',
     buildHint2:
