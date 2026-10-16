@@ -3,6 +3,82 @@ import { contentMessages } from '@harmonia/i18n/content-messages';
 // Fachbegriffe kommen aus dem Glossar: $t(glossary:…).
 
 export const de = {
+  leagues: {
+    globalPushTitle: 'Systemmitteilungen erlauben',
+    globalPushBody:
+      'Diese Erlaubnis gilt für Lern-Erinnerungen und Liga-Ergebnisse. Die Kategorien wählst du einzeln aus. Beim Ausschalten werden beide abgewählt. Änderungen im Konto brauchen eine Serverbestätigung.',
+    title: 'Ligen',
+    intro:
+      'Lerne in deinem Tempo und sammle bestätigte XP in einer wöchentlichen Gruppe. Die Liga zeigt deine Aktivität, nicht dein musikalisches Können.',
+    guestTitle: 'Gemeinsam lernen',
+    guest:
+      'Mit einem Konto kommst du bei deinen ersten bestätigten XP der Woche in eine Gruppe. Dein privater Profilname bleibt verborgen.',
+    account: 'Anmelden oder Konto erstellen',
+    loading: 'Liga wird geladen …',
+    error:
+      'Die Liga konnte nicht aktualisiert werden. Prüfe deine Verbindung und versuche es erneut.',
+    stale:
+      'Diese Rangliste stammt vom letzten Abruf. Bis zur nächsten Aktualisierung können sich die Plätze ändern.',
+    refresh: 'Liga aktualisieren',
+    empty:
+      'Noch keine Gruppe in dieser Woche. Sobald neue Lektions-XP auf dem Server bestätigt sind, wirst du eingeteilt.',
+    week: 'Woche vom {{start}} bis {{end}}',
+    boundary: 'Wochenwechsel: Montag, 00:00 UTC. Bei dir endet diese Woche am {{date}}.',
+    xpRule:
+      'Es zählen nur XP, die der Server in dieser Woche bestätigt. Offline erspielte XP zählen in der Woche ihrer Übertragung. Frühere XP werden nicht nachgetragen.',
+    group_one: '{{count}} Person in deiner Gruppe',
+    group_other: '{{count}} Personen in deiner Gruppe',
+    capacity: 'Bis zu {{count}} Personen pro Gruppe.',
+    you: 'Du',
+    alias: 'Lernperson {{number}}',
+    row: 'Platz {{rank}} · {{name}} · {{xp}} XP',
+    row_promoted: 'Voraussichtlicher Aufstiegsplatz',
+    row_relegated: 'Voraussichtlicher Abstiegsplatz',
+    row_stayed: 'Voraussichtlicher Ligaerhalt',
+    forecast:
+      'Die markierten Plätze sind vorläufig. Das Ergebnis steht erst nach dem Wochenwechsel fest.',
+    rules:
+      'Bei voller Gruppe steigen die besten {{count}} auf und die letzten {{count}} ab. In kleinen Gruppen betrifft das höchstens die Hälfte je Richtung. Bei gleicher XP-Zahl zählt die frühere Aufnahme in die Gruppe. In pp ist kein Abstieg, in fff kein Aufstieg möglich.',
+    privacy:
+      'Andere sehen nur deine Kennung innerhalb dieser Gruppe und deine Wochen-XP. Die Kennung gilt nur für diese Gruppe. Es werden keine Namen, E-Mail-Adressen oder Kontokennungen angezeigt.',
+    resultTitle: 'Dein Wochenresultat',
+    result: 'Woche ab {{date}}: Platz {{rank}} mit {{xp}} XP.',
+    result_promoted: 'Aufgestiegen in die Liga {{level}}.',
+    result_relegated: 'Nächste Woche lernst du in der Liga {{level}}.',
+    result_stayed: 'Du bleibst in der Liga {{level}}.',
+    ack: 'Als gelesen markieren',
+    actionError: 'Die Änderung konnte nicht gespeichert werden. Versuche es erneut.',
+    levelsTitle: 'Die sieben Ligen',
+    levelsBody:
+      'Die Namen stammen von musikalischen Dynamikangaben. Sie bezeichnen hier die Liga, nicht die Lautstärke beim Üben.',
+    pushTitle: 'Liga-Ergebnisse als Mitteilung',
+    pushBody:
+      'Auf Wunsch erhältst du eine Mitteilung zum Wochenresultat. Lern-Erinnerungen lassen sich getrennt einstellen. Insgesamt höchstens ein Zustellversuch pro Tag, zur gewählten Erinnerungszeit und außerhalb der Ruhezeit von 21 bis 8 Uhr.',
+    pushWeb:
+      'Im Web erscheinen Ergebnisse hier in der App. Systemmitteilungen sind für die iOS- und Android-App vorgesehen.',
+    pushUnavailable:
+      'Systemmitteilungen benötigen einen dauerhaften Speicher und ein eingerichtetes Mobilgerät. Dein Ergebnis bleibt hier verfügbar.',
+    pushPermission:
+      'Mitteilungen sind in den Systemeinstellungen gesperrt. Erlaube sie dort und versuche es erneut.',
+    pushPending:
+      'Liga-Mitteilungen sind ausgewählt. Die Serverregistrierung ist noch nicht bestätigt; dein Ergebnis findest du jederzeit hier.',
+    pushRegistered: 'Liga-Mitteilungen sind auf diesem Gerät eingerichtet.',
+    level_pp: 'pp · $t(glossary:dynamicPianissimo)',
+    meaning_pp: 'sehr leise',
+    level_p: 'p · $t(glossary:dynamicPiano)',
+    meaning_p: 'leise',
+    level_mp: 'mp · $t(glossary:dynamicMezzoPiano)',
+    meaning_mp: 'mäßig leise',
+    level_mf: 'mf · $t(glossary:dynamicMezzoForte)',
+    meaning_mf: 'mäßig laut',
+    level_f: 'f · $t(glossary:dynamicForte)',
+    meaning_f: 'laut',
+    level_ff: 'ff · $t(glossary:dynamicFortissimo)',
+    meaning_ff: 'sehr laut',
+    level_fff: 'fff · $t(glossary:dynamicFortississimo)',
+    meaning_fff: 'äußerst laut',
+  },
+
   review: {
     title: 'Wiederholen',
     intro: 'Frische Gelerntes auf. Deine Antworten bestimmen, wann es wieder dran ist.',

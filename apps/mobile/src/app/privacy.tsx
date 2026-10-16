@@ -1,3 +1,5 @@
+import { changeMotivationPreferences } from '@/state/motivation';
+import { refreshLeagues } from '@/state/leagues';
 import { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Stack, useRouter } from 'expo-router';
@@ -10,6 +12,7 @@ import {
   deletePrivacyAccount,
   syncPrivacy,
   setPrivacyConsent,
+  privacyOwner,
 } from '@/privacy/state';
 import { useAuthState } from '@/auth';
 import { ReminderControls } from '@/components/reminder-controls';
@@ -73,8 +76,31 @@ export default function PrivacyScreen() {
           </Card>
           <AppText variant="title2">{t('privacy.choices')}</AppText>
           <ListGroup>
-            <ListItem label={t('privacy.marketing')} value={t('privacy.inactive')} last />
+            <ListItem label={t('privacy.marketing')} value={t('privacy.inactive')} />
+            <ListItem
+              label={t('leagues.globalPushTitle')}
+              last
+              toggle={{
+                value: state.choices.push,
+                onValueChange: (granted) => {
+                  setError(null);
+                  void setPrivacyConsent('push', granted)
+                    .then(async () => {
+                      if (!granted && state.owner === privacyOwner())
+                        await changeMotivationPreferences({ reminderConsent: false });
+                    })
+                    .then(() => syncPrivacy())
+                    .then(() => refreshLeagues())
+                    .catch(() => {
+                      setError('consent');
+                    });
+                },
+              }}
+            />
           </ListGroup>
+          <AppText variant="footnote" tone="muted">
+            {t('leagues.globalPushBody')}
+          </AppText>
           <Card>
             <AppText variant="title3">{t('analytics.choiceTitle')}</AppText>
             <AppText>{t('analytics.choiceBody')}</AppText>

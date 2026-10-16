@@ -64,14 +64,16 @@
 
 ### P3.04 – Ligen
 
+**Technischer Stand (16.10.2026):** Wöchentliche Gruppen, kanonische XP, atomarer Auf-/Abstieg, Liga-Tab und getrennte Ergebnis-Mitteilungen implementiert. [Umsetzung und Betriebsabnahme](ligen.md), [ADR 0031](../decisions/0031-ligen-aus-bestaetigten-xp.md). Remote-Scheduler, Anbieter-/Geräteabnahme und Claudes Integration bleiben offen.
+
 - **Ziel:** Wöchentliche Ligen nach [motivation-und-social.md](motivation-und-social.md).
 - **Abhängig von:** Phase 2
 - **Umfang:** L
 - **Aufgaben:**
-  - [ ] Migrationen `league_cohorts`, `league_members`
-  - [ ] Einteilung bei erster XP der Woche; Wochengrenze festlegen
-  - [ ] Wochenabschluss als geplanter Job (Auf- und Abstieg)
-  - [ ] Liga-Screen, Ergebnis-Benachrichtigung
+  - [x] Migrationen `league_cohorts`, `league_members`
+  - [x] Einteilung bei erster XP der Woche; Wochengrenze festlegen
+  - [x] Wochenabschluss als geplanter Job (Auf- und Abstieg)
+  - [x] Liga-Screen, Ergebnis-Benachrichtigung
 - **Fertig, wenn:** Simulierte Wochen mit Tausenden Testnutzern laufen korrekt durch.
 
 ### P3.05 – Theorie-Rush

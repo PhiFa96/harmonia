@@ -34,6 +34,49 @@ export interface GlossaryEntry {
 
 /** Kernbegriffe, Version 1 (P1.05). Ausbau auf etwa 150 Begriffe in P0.05. */
 export const GLOSSARY = {
+  dynamicPianissimo: {
+    category: 'notation',
+    de: { term: 'pianissimo', gender: 'n' },
+    en: { term: 'pianissimo' },
+    note: 'Italienische Dynamikangabe; als Vortragsanweisung kleingeschrieben, in DE/US/UK unverändert.',
+  },
+  dynamicPiano: {
+    category: 'notation',
+    de: { term: 'piano', gender: 'n' },
+    en: { term: 'piano' },
+    note: 'Italienische Dynamikangabe; als Vortragsanweisung kleingeschrieben, in DE/US/UK unverändert.',
+  },
+  dynamicMezzoPiano: {
+    category: 'notation',
+    de: { term: 'mezzo piano', gender: 'n' },
+    en: { term: 'mezzo piano' },
+    note: 'Italienische Dynamikangabe; als Vortragsanweisung kleingeschrieben, in DE/US/UK unverändert.',
+  },
+  dynamicMezzoForte: {
+    category: 'notation',
+    de: { term: 'mezzo forte', gender: 'n' },
+    en: { term: 'mezzo forte' },
+    note: 'Italienische Dynamikangabe; als Vortragsanweisung kleingeschrieben, in DE/US/UK unverändert.',
+  },
+  dynamicForte: {
+    category: 'notation',
+    de: { term: 'forte', gender: 'n' },
+    en: { term: 'forte' },
+    note: 'Italienische Dynamikangabe; als Vortragsanweisung kleingeschrieben, in DE/US/UK unverändert.',
+  },
+  dynamicFortissimo: {
+    category: 'notation',
+    de: { term: 'fortissimo', gender: 'n' },
+    en: { term: 'fortissimo' },
+    note: 'Italienische Dynamikangabe; als Vortragsanweisung kleingeschrieben, in DE/US/UK unverändert.',
+  },
+  dynamicFortississimo: {
+    category: 'notation',
+    de: { term: 'fortississimo', gender: 'n' },
+    en: { term: 'fortississimo' },
+    note: 'Italienische Dynamikangabe; als Vortragsanweisung kleingeschrieben, in DE/US/UK unverändert.',
+  },
+
   voice: {
     category: 'history',
     de: { term: 'Stimme', gender: 'f', plural: 'Stimmen' },

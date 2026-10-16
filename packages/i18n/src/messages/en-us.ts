@@ -4,6 +4,80 @@ import { contentMessages } from '@harmonia/i18n/content-messages';
 import type { Messages } from './types.ts';
 
 export const enUS = {
+  leagues: {
+    globalPushTitle: 'Allow system notifications',
+    globalPushBody:
+      'This permission covers learning reminders and league results. You select each category separately. Turning it off deselects both categories. Account changes need confirmation from the server.',
+    title: 'Leagues',
+    intro:
+      'Learn at your own pace and collect confirmed XP in a weekly group. Your league reflects activity, not musical proficiency.',
+    guestTitle: 'Learn together',
+    guest:
+      'With an account, your first confirmed XP each week place you in a group. Your private profile name stays hidden.',
+    account: 'Sign in or create an account',
+    loading: 'Loading your league…',
+    error: 'Your league could not be updated. Check your connection and try again.',
+    stale: 'This leaderboard shows the last update. Positions may change before it refreshes.',
+    refresh: 'Refresh league',
+    empty:
+      'No group yet this week. You will join one when new lesson XP are confirmed by the server.',
+    week: 'Week from {{start}} to {{end}}',
+    boundary:
+      'The week changes on Monday at 00:00 UTC. In your local time, this week ends on {{date}}.',
+    xpRule:
+      'Only XP confirmed by the server this week count. XP earned offline count in the week they are uploaded. Earlier XP are not added retrospectively.',
+    group_one: '{{count}} person in your group',
+    group_other: '{{count}} people in your group',
+    capacity: 'Up to {{count}} people per group.',
+    you: 'You',
+    alias: 'Learner {{number}}',
+    row: 'Rank {{rank}} · {{name}} · {{xp}} XP',
+    row_promoted: 'Provisional promotion place',
+    row_relegated: 'Provisional relegation place',
+    row_stayed: 'Provisionally staying in this league',
+    forecast: 'The highlighted places are provisional. Results become final after the week ends.',
+    rules:
+      'In a full group, the top {{count}} move up and the bottom {{count}} move down. In smaller groups, at most half move in each direction. Ties are decided by who joined the group first. You cannot move down from pp or up from fff.',
+    privacy:
+      'Others see only your identifier within this group and your weekly XP. Your identifier is only valid within this group. Names, email addresses and account identifiers are never shown.',
+    resultTitle: 'Your weekly result',
+    result: 'Week starting {{date}}: rank {{rank}} with {{xp}} XP.',
+    result_promoted: 'Promoted to the {{level}} league.',
+    result_relegated: 'Next week you will learn in the {{level}} league.',
+    result_stayed: 'You stay in the {{level}} league.',
+    ack: 'Mark as read',
+    actionError: 'Your change could not be saved. Please try again.',
+    levelsTitle: 'The seven leagues',
+    levelsBody:
+      'The names come from musical dynamic markings. Here they name your league, not how loudly you should play or sing.',
+    pushTitle: 'League result notifications',
+    pushBody:
+      'You can receive a notification when your weekly result is ready. Learning reminders have a separate setting. Across both categories, at most one delivery attempt per day, at your chosen reminder time and outside quiet hours from 9 PM to 8 AM.',
+    pushWeb:
+      'On the web, results appear here in the app. System notifications are intended for the iOS and Android apps.',
+    pushUnavailable:
+      'System notifications require persistent storage and a configured mobile device. Your result remains available here.',
+    pushPermission:
+      'Notifications are blocked in system settings. Allow them there, then try again.',
+    pushPending:
+      'League notifications are selected. Server registration is not yet confirmed; you can always find your result here.',
+    pushRegistered: 'League notifications are set up on this device.',
+    level_pp: 'pp · $t(glossary:dynamicPianissimo)',
+    meaning_pp: 'very soft',
+    level_p: 'p · $t(glossary:dynamicPiano)',
+    meaning_p: 'soft',
+    level_mp: 'mp · $t(glossary:dynamicMezzoPiano)',
+    meaning_mp: 'moderately soft',
+    level_mf: 'mf · $t(glossary:dynamicMezzoForte)',
+    meaning_mf: 'moderately loud',
+    level_f: 'f · $t(glossary:dynamicForte)',
+    meaning_f: 'loud',
+    level_ff: 'ff · $t(glossary:dynamicFortissimo)',
+    meaning_ff: 'very loud',
+    level_fff: 'fff · $t(glossary:dynamicFortississimo)',
+    meaning_fff: 'extremely loud',
+  },
+
   review: {
     title: 'Review',
     intro: 'Refresh what you have learned. Your answers determine when it comes up again.',

@@ -44,8 +44,9 @@ Postgres in Supabase, Region EU. Alle Tabellen mit Row Level Security (RLS). Än
 |---|---|---|
 | `skill_progress` (erweitert) | Rating und Wiederholung | `rating`, `rating_deviation`, `volatility` (Glicko-2), `fsrs_stability`, `fsrs_difficulty`, `fsrs_due`, `fsrs_reps`, `fsrs_lapses`, `fsrs_state` |
 | `item_difficulty` | Schwierigkeit je Parameter-Gruppe | `bucket_id`, `rating`, `rating_deviation`, `attempts` |
-| `league_cohorts` | Ligagruppen pro Woche | `id`, `tier`, `week_start` |
-| `league_members` | Mitglieder und Ergebnis | `cohort_id`, `user_id`, `xp_week`, `final_rank`, `outcome` (aufstieg/bleibt/abstieg) |
+| `league_cohorts` (P3.04) | Ligagruppen pro UTC-Woche | `id`, `tier`, `week_start`, `capacity`, `movement`, `closed_at` |
+| `league_members` (P3.04) | Eigene Mitgliedschaft, Wochen-XP und eingefrorenes Resultat | `user_id`, `week_start`, `cohort_id`, `slot`, `xp`, `joined_at`, `final_rank`, `outcome` (promoted/stayed/relegated), `next_tier`, `seen_at`, `push_attempted_at` |
+| `league_accounts`, `league_rules` (P3.04) | Aktuelle Stufe, eigener Ergebnis-Push-Schalter und neue Gruppenregeln | `tier`, `push_consent`; `capacity`, `movement` |
 | `rush_runs` | Theorie-Rush | `id`, `user_id`, `mode` (3/5 min), `seed`, `score`, `answers` (jsonb), `validated` |
 | `duels` | Live- und Ghost-Duelle | `id`, `player_a`, `player_b` (oder `ghost_of_run`), `seed`, `status`, `score_a`, `score_b`, `winner`, `rating_delta_a`, `rating_delta_b` |
 | `duel_ratings` | Duell-Wertung | `user_id`, `rating`, `rating_deviation`, `volatility`, `games` |
@@ -106,3 +107,5 @@ sequenceDiagram
 ## Tutor-Oberfläche (P2.17)
 
 `tutor_reports` enthält keine Kopie der KI-Antwort: Der private Service-RPC prüft die eigene Assistentennachricht im eigenen Gespräch und verarbeitet die Meldungs-ID idempotent. Direkte Clients dürfen nur eigene Meldungen lesen. Antworten-/Gesprächs-/Kontolöschung entfernt Meldungen per Fremdschlüssel. Meldungen benötigen kein aktives Modellkontingent; freie Beschreibung ist auf 2000 Zeichen begrenzt und E-Mail-Adressen werden vor Speicherung redigiert. Der Verlauf liefert auf Wunsch die letzten 100 Nachrichten mit exklusivem Cursor für ältere Einträge. Keine lokale Persistenz von Chat oder ungesendeten Fragen; Kontowechsel löscht private App-Sitzungsdaten. Details: [Tutor-Oberfläche](tutor-oberflaeche.md).
+
+P3.04: Öffentliche Ranglisten-RPC liefert nur gruppeninterne Kennung, Rang, Wochen-XP und eigene Markierung. Reale Migrationen, TTL und gemeinsames Push-Tagesbudget: [Ligen](ligen.md), ADR 0031. Die früh geplante separate Tabelle `push_tokens` wird dafür nicht angelegt; das bestehende Reminder-Geräte-/Zustellsystem wird erweitert.

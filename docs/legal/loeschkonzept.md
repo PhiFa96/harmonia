@@ -33,3 +33,7 @@ Der Retention-Endpoint ist ausschließlich service-authentifiziert, verarbeitet 
 ## Ergänzung P2.22
 
 Eigene Analytics-Kohorte und alle Ereignisse bei synchronisiertem Widerruf/Kontolöschung vollständig entfernen. Aufnahme endet nach zwölf Monaten ab Einwilligungsbeginn. `analytics_retention()` löscht abgelaufene Kohorten in Batches zu 100 im bestehenden vorzubereitenden `privacy-retention`-Job; kein Scheduler aktiviert. Keine externen Analytics-Anbieter. Private Betreiberberichte regenerieren, veraltete Kopien löschen; keine öffentliche Veröffentlichung. Details und Zweckversion: ADR 0022.
+
+## Ergänzung P3.04
+
+Liga-Mitgliedschaften, Wochenresultate, Lese-/Zustellmarker und Konto-Stufe/-Präferenz kaskadieren bei Kontolöschung. Der lokale Arbeitsspeicher wird gesperrt und geleert; verzögerte Abrufe dürfen ihn nicht wieder befüllen. Der Liga-Job entfernt ältere Gruppen samt Mitgliedschaften und hält nur die laufende sowie die letzten 52 abgeschlossenen Wochen. Aktuelle Stufe und Kategoriepräferenz bleiben bis Kontolöschung bestehen. Geschlossene Resultate anderer Personen werden nach Löschung eines Kontos nicht neu berechnet. Beide persönlichen Bereiche sind im eigenen Export enthalten. Cronbetrieb und juristische Zweck-/Fristenprüfung bleiben offen; ADR 0031.

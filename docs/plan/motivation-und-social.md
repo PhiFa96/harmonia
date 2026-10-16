@@ -34,9 +34,9 @@ Spielmechaniken nach dem Vorbild von Duolingo und chess.com (siehe [Marktrecherc
 
 - Wöchentliche Gruppen von etwa 30 Personen derselben Liga.
 - **Ligastufen nach Dynamik:** pp → p → mp → mf → f → ff → fff.
-- Am Wochenende: die besten 5 steigen auf, die letzten 5 steigen ab (in pp kein Abstieg, in fff kein Aufstieg).
+- Beim Wochenabschluss: die besten 5 steigen auf, die letzten 5 steigen ab (in pp kein Abstieg, in fff kein Aufstieg). Kleine Gruppen: je Richtung höchstens die Hälfte; Gleichstand nach früherer Aufnahme.
 - Gruppen entstehen bei der ersten XP der Woche (Nutzer ohne Aktivität werden nicht eingeteilt).
-- Wochengrenze einheitlich, Festlegung in P3.03.
+- Wochengrenze seit P3.04: Montag 00:00 UTC; lokales Ende zusätzlich anzeigen. [Umsetzung und Grenzfälle](ligen.md), ADR 0031.
 - Abschluss und Einteilung per geplantem Job (`pg_cron` oder geplanter Edge-Function-Aufruf).
 
 ## Ratings (Phase 3)

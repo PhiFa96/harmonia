@@ -80,6 +80,9 @@ jest.mock('@/state/reports', () => ({
 
 // Systemberechtigungen und Zustellung werden im Erinnerungsadapter separat geprüft.
 jest.mock('expo-notifications', () => ({
+  addNotificationResponseReceivedListener: jest.fn(() => ({ remove: jest.fn() })),
+  clearLastNotificationResponse: jest.fn(),
+  getLastNotificationResponse: jest.fn(() => null),
   getPermissionsAsync: jest.fn(() => Promise.resolve({ granted: true, canAskAgain: true })),
   requestPermissionsAsync: jest.fn(() => Promise.resolve({ granted: true, canAskAgain: true })),
   getAllScheduledNotificationsAsync: jest.fn(() => Promise.resolve([])),

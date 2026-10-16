@@ -23,6 +23,7 @@ import { useSettings } from '@/state/settings';
 import { navigationTheme, useAppColorScheme } from '@/theme';
 import { initializeDeviceState, startTemporarySession, useDeviceState } from '@/state/device';
 import { initializeAuth } from '@/auth';
+import { LeagueLifecycle } from '@/components/league-lifecycle';
 import { MotivationLifecycle } from '@/components/motivation-lifecycle';
 import { ReportLifecycle } from '@/components/report-lifecycle';
 import { LearningLifecycle } from '@/components/learning-lifecycle';
@@ -67,6 +68,7 @@ export default function RootLayout() {
           <ProfileLifecycle />
           <ReportLifecycle />
           <MotivationLifecycle />
+          <LeagueLifecycle />
           <BillingLifecycle />
           <AccessLifecycle />
           <PrivacyLifecycle />

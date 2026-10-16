@@ -32,7 +32,7 @@
     "beta:report": "node tools/beta/report.mjs",
     "beta:test:web": "playwright test --config tools/beta/playwright.config.mjs",
     "check:reviews": "npx -y deno@2.9.6 check --config tools/deno.json tools/review-smoke.ts && npx -y deno@2.9.6 run --config tools/deno.json tools/review-smoke.ts",
-    "check:deno": "pnpm check:reviews && npx -y deno@2.9.6 check --config tools/deno.json tools/deno-smoke.ts && npx -y deno@2.9.6 run --config tools/deno.json tools/deno-smoke.ts && npx -y deno@2.9.6 check --config supabase/functions/deno.json supabase/functions/learning-sync/index.ts supabase/functions/content-reports/index.ts supabase/functions/access/index.ts supabase/functions/cancellation/index.ts supabase/functions/analytics/index.ts supabase/functions/privacy/index.ts supabase/functions/privacy-retention/index.ts && npx -y deno@2.9.6 check --config supabase/functions/deno.json supabase/functions/motivation/index.ts supabase/functions/reminder-dispatch/index.ts && npx -y deno@2.9.6 run --config supabase/functions/deno.json --allow-env=EXPO_ACCESS_TOKEN tools/push-smoke.ts && pnpm check:tutor && pnpm check:knowledge && pnpm check:tutor:benchmark && pnpm check:billing && pnpm check:accounts",
+    "check:deno": "pnpm check:reviews && npx -y deno@2.9.6 check --config tools/deno.json tools/deno-smoke.ts && npx -y deno@2.9.6 run --config tools/deno.json tools/deno-smoke.ts && npx -y deno@2.9.6 check --config supabase/functions/deno.json supabase/functions/learning-sync/index.ts supabase/functions/content-reports/index.ts supabase/functions/access/index.ts supabase/functions/cancellation/index.ts supabase/functions/analytics/index.ts supabase/functions/privacy/index.ts supabase/functions/privacy-retention/index.ts && npx -y deno@2.9.6 check --config supabase/functions/deno.json supabase/functions/motivation/index.ts supabase/functions/reminder-dispatch/index.ts tools/league-notifications-smoke.ts && npx -y deno@2.9.6 run --config supabase/functions/deno.json --allow-env=EXPO_ACCESS_TOKEN tools/push-smoke.ts && pnpm check:tutor && pnpm check:knowledge && pnpm check:tutor:benchmark && pnpm check:billing && pnpm check:accounts",
     "db:start": "node tools/start-local-supabase.mjs",
     "db:stop": "supabase stop",
     "db:reset": "supabase db reset --local --yes",
@@ -77,7 +77,8 @@
     "reviews:backfill": "node tools/reviews-backfill.mjs",
     "db:test:reviews": "node tools/test-reviews.mjs",
     "ratings:backfill": "node tools/ratings-backfill.mjs",
-    "db:test:ratings": "node tools/test-ratings.mjs"
+    "db:test:ratings": "node tools/test-ratings.mjs",
+    "db:test:leagues": "node tools/test-leagues.mjs && node tools/test-league-notifications.mjs"
   },
   "devDependencies": {
     "@anthropic-ai/sdk": "0.133.0",

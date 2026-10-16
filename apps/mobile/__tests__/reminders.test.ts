@@ -1,3 +1,5 @@
+import { useLeagues } from '@/state/leagues';
+import { router } from 'expo-router';
 import { waitFor } from '@testing-library/react-native';
 import { Platform } from 'react-native';
 import * as Notifications from 'expo-notifications';
@@ -299,4 +301,69 @@ it('cancels only notifications belonging to the explicitly erased account', asyn
   await reminders.cancelErasedReminders('erase-notification-a');
   expect(Notifications.cancelScheduledNotificationAsync).toHaveBeenCalledWith('erase-own');
   expect(Notifications.cancelScheduledNotificationAsync).not.toHaveBeenCalledWith('keep-other');
+});
+
+it('registers a result-only token and displays a league result even after practice', async () => {
+  useAuthState.setState({ session: { user: { id: 'league-user' } } as Session });
+  await initializePrivacy();
+  usePrivacy.setState({
+    owner: 'league-user',
+    phase: 'ready',
+    choices: { analytics: false, marketing: false, push: true },
+  });
+  const data = motivationFixture();
+  data.preferences.reminderConsent = false;
+  data.practicedAt = Date.now();
+  data.server = { ...motivationResponse(), pushAvailable: true };
+  useMotivation.setState({ scope: 'league-user', data });
+  useLeagues.setState({
+    owner: 'league-user',
+    data: {
+      weekStart: '2026-10-12',
+      weekEnd: '2026-10-19',
+      tier: 0,
+      cohort: null,
+      result: null,
+      pushConsent: true,
+    },
+  });
+  mockPhysical = true;
+  await reminders.reconcileReminders();
+  expect(Notifications.getExpoPushTokenAsync).toHaveBeenCalled();
+  expect(Notifications.scheduleNotificationAsync).not.toHaveBeenCalled();
+  const dispose = reminders.initializeReminderHandler();
+  const handler = jest.mocked(Notifications.setNotificationHandler).mock.calls.at(-1)?.[0];
+  if (!handler) throw Error('Handler missing');
+  const notification = {
+    request: {
+      content: { data: { harmoniaReminder: 'true', category: 'league', scope: 'league-user' } },
+    },
+  } as unknown as Notifications.Notification;
+  expect(await handler.handleNotification(notification)).toMatchObject({ shouldShowBanner: true });
+  useLeagues.setState((s) => ({ data: s.data ? { ...s.data, pushConsent: false } : null }));
+  expect(await handler.handleNotification(notification)).toMatchObject({ shouldShowBanner: false });
+  dispose();
+  useLeagues.setState({ owner: null, data: null });
+});
+
+it('opens a tapped result after initialization and consumes the cold-start response once', () => {
+  const push = jest.spyOn(router, 'push').mockImplementation(() => undefined);
+  useAuthState.setState({ session: { user: { id: 'league-user' } } as Session });
+  useMotivation.setState({ phase: 'loading', scope: 'guest' });
+  const response = {
+    notification: {
+      request: {
+        content: { data: { harmoniaReminder: 'true', category: 'league', scope: 'league-user' } },
+      },
+    },
+  } as unknown as Notifications.NotificationResponse;
+  jest.mocked(Notifications.getLastNotificationResponse).mockReturnValueOnce(response);
+  const dispose = reminders.initializeReminderHandler();
+  expect(push).not.toHaveBeenCalled();
+  useMotivation.setState({ scope: 'league-user', phase: 'ready' });
+  expect(push).toHaveBeenCalledWith('/(tabs)/leagues');
+  expect(Notifications.clearLastNotificationResponse).toHaveBeenCalledTimes(1);
+  useMotivation.setState({ notificationError: false });
+  expect(push).toHaveBeenCalledTimes(1);
+  dispose();
 });

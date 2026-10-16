@@ -42,6 +42,8 @@ export const PRIVACY_EXPORT_SECTIONS = [
   'learning',
   'skillRatings',
   'cardReviews',
+  'leagueAccount',
+  'leagueMemberships',
   'rewards',
   'motivation',
   'freezes',

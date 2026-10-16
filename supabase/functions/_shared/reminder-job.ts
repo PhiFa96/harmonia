@@ -1,10 +1,12 @@
+import { z } from 'zod';
 import {
   motivationPreferencesSchema,
   motivationSummary,
   reminderDue,
   reminderTTL,
+  lessonDay,
 } from '../../../packages/content/src/index.ts';
-import { reminderMessages } from '../../../packages/i18n/src/index.ts';
+import { leagueResultMessage, reminderMessages } from '../../../packages/i18n/src/index.ts';
 import type { SupabaseClient } from 'npm:@supabase/supabase-js@2.117.3';
 import { history } from './motivation.ts';
 import { sendReminder, pushReceipts } from './push.ts';
@@ -56,30 +58,29 @@ export async function dispatchReminders(
           .eq('push_token', ticket.push_token);
     }
   }
-  const deviceQuery = client
-    .from('reminder_devices')
-    .select('device_id,user_id,push_token,seen_at,time_zone,locale')
-    .not('push_token', 'is', null)
-    .gt('lease_until', new Date(now).toISOString())
-    .order('seen_at', { ascending: false })
-    .limit(1000);
-  const devices = await (actors ? deviceQuery.in('user_id', actors) : deviceQuery).overrideTypes<
-    {
-      device_id: string;
-      user_id: string;
-      push_token: string;
-      seen_at: string;
-      time_zone: string;
-      locale: string;
-    }[],
-    { merge: false }
-  >();
+  const devices = await client.rpc('reminder_candidates', {
+    at_time: new Date(now).toISOString(),
+    batch_size: 1000,
+    actors: actors ?? null,
+  });
   if (devices.error) throw new Error('Storage unavailable');
+  const deviceRows = z
+    .object({
+      device_id: z.uuid(),
+      user_id: z.uuid(),
+      push_token: z.string(),
+      seen_at: z.string(),
+      time_zone: z.string(),
+      locale: z.enum(['de', 'en-US', 'en-GB']),
+    })
+    .array()
+    .max(1000)
+    .parse(devices.data);
   const visited = new Set<string>();
   let sent = 0,
     skipped = 0,
     failed = 0;
-  for (const device of devices.data) {
+  for (const device of deviceRows) {
     if (visited.has(device.user_id)) continue;
     visited.add(device.user_id);
     const consent = await client.rpc('privacy_choices', { actor: device.user_id });
@@ -99,6 +100,76 @@ export async function dispatchReminders(
     if (profile.error || !profile.data) {
       failed++;
       continue;
+    }
+    // Result pushes use a separate opt-in and the SAME atomic daily budget.
+    // Every candidate is revalidated under the account lock immediately before send.
+    const resultQuery = await client
+      .from('league_members')
+      .select('week_start')
+      .eq('user_id', device.user_id)
+      .not('final_rank', 'is', null)
+      .is('seen_at', null)
+      .is('push_attempted_at', null)
+      .gte('week_start', new Date(now - 14 * 86400000).toISOString().slice(0, 10))
+      .order('week_start', { ascending: false })
+      .limit(1);
+    if (resultQuery.error) {
+      failed++;
+      continue;
+    }
+    const resultWeek = resultQuery.data[0]?.week_start as string | undefined;
+    if (resultWeek) {
+      const day = lessonDay(now, device.time_zone);
+      const claim = await client.rpc('claim_league_delivery', {
+        actor: device.user_id,
+        day,
+        device: device.device_id,
+        week: resultWeek,
+        at_time: new Date(now).toISOString(),
+      });
+      if (claim.error) {
+        failed++;
+        continue;
+      }
+      if (claim.data === true) {
+        const message = leagueResultMessage(device.locale);
+        try {
+          const pushed = await transport.send({
+            to: device.push_token,
+            ...message,
+            data: { harmoniaReminder: 'true', category: 'league', scope: device.user_id },
+            ttl: reminderTTL(now, device.time_zone),
+            sound: 'default',
+          });
+          const saved = await client
+            .from('reminder_deliveries')
+            .update({
+              status: pushed.ticket ? 'sent' : 'failed',
+              ticket_id: pushed.ticket,
+              push_token: device.push_token,
+            })
+            .eq('user_id', device.user_id)
+            .eq('local_date', day);
+          if (saved.error) throw new Error('Ticket not saved');
+          if (pushed.unregistered)
+            await client
+              .from('reminder_devices')
+              .update({ push_token: null, invalid_token: device.push_token })
+              .eq('device_id', device.device_id)
+              .eq('user_id', device.user_id)
+              .eq('push_token', device.push_token);
+          if (pushed.ticket) sent++;
+          else failed++;
+        } catch {
+          await client
+            .from('reminder_deliveries')
+            .update({ status: 'failed' })
+            .eq('user_id', device.user_id)
+            .eq('local_date', day);
+          failed++;
+        }
+        continue;
+      }
     }
     const prefs = motivationPreferencesSchema.parse({
         ...motivationPreferencesSchema.parse(profile.data.preferences),

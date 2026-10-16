@@ -43,6 +43,8 @@ function recentlyAuthenticated(token: string, lastSignIn: string | undefined) {
 }
 const sections = {
   profiles: ['profiles', 'id', 'id', '*'],
+  leagueAccount: ['league_accounts', 'user_id', 'user_id', '*'],
+  leagueMemberships: ['league_members', 'user_id', 'week_start', '*'],
   skillRatings: ['skill_progress', 'user_id', 'skill_id', '*'],
   cardReviews: ['card_review_progress', 'user_id', 'card_key', '*'],
   learning: [
