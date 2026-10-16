@@ -92,6 +92,8 @@ Technische Übergabe: `theorie-rush.md`, ADR 0032. Freundesfilter auf gegenseiti
 
 ### P3.06 – Live-Duelle und Ghost-Duelle
 
+**Technischer Stand (16.10.2026):** Implementierung auf `codex/p3-06-duels` mit Rush-Bank, Service-Matchmaking, privatem Broadcast, Ghosts, Einladungen und Glicko-2 vorbereitet; [Umsetzung und offene Abnahme](duelle.md), [ADR 0033](../decisions/0033-duelle-aus-geprueften-rush-aufgaben.md). Datenbank-/Realtime-Integration und Plattformkombinationen sind wegen gesperrtem Container-Download beziehungsweise fehlender Geräte noch nicht bestätigt.
+
 - **Ziel:** 1:1-Wettbewerb in Echtzeit.
 - **Abhängig von:** P3.05
 - **Umfang:** XL

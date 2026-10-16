@@ -4,6 +4,52 @@ import { contentMessages } from '@harmonia/i18n/content-messages';
 import type { Messages } from './types.ts';
 
 export const enUS = {
+  duel: {
+    title: 'Duels',
+    entry: 'Play for three minutes against another person or a real recorded Rush run.',
+    open: 'Open duels',
+    guest: 'You need an account and an internet connection for duels.',
+    loading: 'Loading duel progress…',
+    error: 'Confirmed duel progress could not be loaded. Try again.',
+    reload: 'Reload progress',
+    kind_live: 'Live duel',
+    kind_friend: 'Invitation duel',
+    kind_ghost: 'Ghost duel',
+    ghostDisclosure:
+      'You are playing against a recording of a real Rush run. The ghost is not live, and this duel does not change your rating.',
+    friendDisclosure:
+      'This duel was started through an invitation link and does not change your rating.',
+    time: 'Time remaining: {{time}}',
+    startIn: 'Starts in {{seconds}} seconds',
+    scores: 'You: {{own}} points · Opponent: {{rival}} points',
+    starting: 'Both sides will start shortly.',
+    running: 'The clock keeps running during connection loss. Only confirmed answers count.',
+    question_one: 'Question {{count}} · Difficulty level {{difficulty}}',
+    question_other: 'Question {{count}} · Difficulty level {{difficulty}}',
+    progress: 'Duel time',
+    outcome_win: 'Won',
+    outcome_loss: 'Lost',
+    outcome_draw: 'Draw',
+    finalScore: 'You: {{own}} points · Opponent: {{rival}} points',
+    rating: 'Duel rating: {{before}} → {{after}}',
+    unrated: 'This duel does not affect your rating.',
+    reward:
+      'Live duels award 10 XP for a win and 3 XP for a loss or draw, up to 50 XP per UTC day.',
+    searching: 'Finding an opponent…',
+    ghostWait:
+      'After about ten seconds, a real recorded run may stand in. Without a suitable recording, the search continues.',
+    cancel: 'Stop searching',
+    find: 'Find a live duel',
+    invite: 'Create invitation link',
+    inviteReady: 'Invitation ready',
+    share: 'Share or copy link',
+    shareMessage: 'Harmonia duel: {{link}}\nInvitation code: {{code}}',
+    acceptTitle: 'Accept an invitation',
+    inviteCode: 'Invitation code',
+    accept: 'Accept invitation',
+    rules:
+      'Three minutes, the same questions, and 10–50 points per correct answer. Live opponents are matched by duel rating. Invitations and ghosts are unrated and grant no XP. Answers are checked by the server.',
+  },
   rush: {
     title: 'Theory Rush',
     entry:

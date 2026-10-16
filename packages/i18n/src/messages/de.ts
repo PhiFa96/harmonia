@@ -3,6 +3,53 @@ import { contentMessages } from '@harmonia/i18n/content-messages';
 // Fachbegriffe kommen aus dem Glossar: $t(glossary:…).
 
 export const de = {
+  duel: {
+    title: 'Duelle',
+    entry:
+      'Spiele drei Minuten gegen eine andere Person oder einen echten aufgezeichneten Rush-Lauf.',
+    open: 'Duelle öffnen',
+    guest: 'Für Duelle brauchst du ein Konto und eine Internetverbindung.',
+    loading: 'Duellstand wird geladen …',
+    error: 'Der bestätigte Duellstand konnte nicht geladen werden. Versuche es erneut.',
+    reload: 'Stand neu laden',
+    kind_live: 'Live-Duell',
+    kind_friend: 'Einladungsduell',
+    kind_ghost: 'Ghost-Duell',
+    ghostDisclosure:
+      'Du spielst gegen die Aufzeichnung eines echten Rush-Laufs. Der Ghost ist nicht live; dieses Duell ändert dein Rating nicht.',
+    friendDisclosure:
+      'Dieses Duell wurde per Einladungslink gestartet und ändert das Rating nicht.',
+    time: 'Verbleibende Zeit: {{time}}',
+    startIn: 'Start in {{seconds}} Sekunden',
+    scores: 'Du: {{own}} Punkte · Gegenüber: {{rival}} Punkte',
+    starting: 'Beide Seiten starten in Kürze.',
+    running: 'Die Zeit läuft auch bei Verbindungsabbruch weiter. Nur bestätigte Antworten zählen.',
+    question_one: 'Aufgabe {{count}} · Schwierigkeitsstufe {{difficulty}}',
+    question_other: 'Aufgabe {{count}} · Schwierigkeitsstufe {{difficulty}}',
+    progress: 'Duellzeit',
+    outcome_win: 'Gewonnen',
+    outcome_loss: 'Verloren',
+    outcome_draw: 'Unentschieden',
+    finalScore: 'Du: {{own}} Punkte · Gegenüber: {{rival}} Punkte',
+    rating: 'Duell-Rating: {{before}} → {{after}}',
+    unrated: 'Dieses Duell zählt nicht für das Rating.',
+    reward:
+      'Live-Duelle geben 10 XP bei Sieg und 3 XP bei Niederlage oder Unentschieden, höchstens 50 XP pro UTC-Tag.',
+    searching: 'Gegner wird gesucht …',
+    ghostWait:
+      'Nach etwa zehn Sekunden kann ein echter aufgezeichneter Lauf einspringen. Ohne passende Aufzeichnung läuft die Suche weiter.',
+    cancel: 'Suche beenden',
+    find: 'Live-Duell suchen',
+    invite: 'Einladungslink erstellen',
+    inviteReady: 'Einladung bereit',
+    share: 'Link teilen oder kopieren',
+    shareMessage: 'Harmonia-Duell: {{link}}\nEinladungscode: {{code}}',
+    acceptTitle: 'Einladung annehmen',
+    inviteCode: 'Einladungskennung',
+    accept: 'Einladung annehmen',
+    rules:
+      'Drei Minuten, dieselben Aufgaben und 10–50 Punkte pro richtiger Antwort. Live-Gegner werden nach Duell-Rating gepaart. Einladungen und Ghosts sind ohne Rating und XP. Die Antwortprüfung erfolgt auf dem Server.',
+  },
   rush: {
     title: 'Theorie-Rush',
     entry: 'Wie viele Aufgaben schaffst du? Spiele gegen die Zeit oder bis zum dritten Fehler.',

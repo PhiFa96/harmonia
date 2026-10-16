@@ -60,7 +60,7 @@ port = 54324
 enabled = false
 
 [realtime]
-enabled = false
+enabled = true
 
 [storage]
 enabled = false
@@ -124,5 +124,9 @@ verify_jwt = false
 import_map = "./functions/deno.json"
 
 [functions.rush]
+verify_jwt = false
+import_map = "./functions/deno.json"
+
+[functions.duel]
 verify_jwt = false
 import_map = "./functions/deno.json"

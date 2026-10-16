@@ -1,4 +1,5 @@
 import { RushEntry } from '@/components/rush-entry';
+import { DuelEntry } from '@/components/duel-entry';
 import { authorizeStart, accessOwner } from '@/access/state';
 import { ReviewEntry } from '@/components/review-entry';
 import { EnergyCard } from '@/components/energy-card';
@@ -118,6 +119,7 @@ export default function PracticeScreen() {
             <AppText tone="muted">{t('exercise.intro')}</AppText>
             <EnergyCard />
             <RushEntry />
+            <DuelEntry />
             <ReviewEntry />
             <WeaknessEntry />
             <Card>
