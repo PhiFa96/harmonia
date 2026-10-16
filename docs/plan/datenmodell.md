@@ -47,12 +47,14 @@ Postgres in Supabase, Region EU. Alle Tabellen mit Row Level Security (RLS). Än
 | `league_cohorts` (P3.04) | Ligagruppen pro UTC-Woche | `id`, `tier`, `week_start`, `capacity`, `movement`, `closed_at` |
 | `league_members` (P3.04) | Eigene Mitgliedschaft, Wochen-XP und eingefrorenes Resultat | `user_id`, `week_start`, `cohort_id`, `slot`, `xp`, `joined_at`, `final_rank`, `outcome` (promoted/stayed/relegated), `next_tier`, `seen_at`, `push_attempted_at` |
 | `league_accounts`, `league_rules` (P3.04) | Aktuelle Stufe, eigener Ergebnis-Push-Schalter und neue Gruppenregeln | `tier`, `push_consent`; `capacity`, `movement` |
-| `rush_runs` | Theorie-Rush | `id`, `user_id`, `mode` (3/5 min), `seed`, `score`, `answers` (jsonb), `validated` |
+| `rush_runs` (P3.05) | Eingefrorene Serverläufe und bestätigte Summen | `id`, `user_id`, `mode` (three/five/survival), `bank`, `seed`, `pool`, `policy`, `state`, `started_at`, `deadline`, `last_at`, `finished_at`, `revision`, `correct`, `mistakes`, `score`, `xp`, `retained_at` |
+| `rush_steps` (P3.05) | Von der Edge-Engine geprüfte Schritte, zwölf Monate Rohdaten | `sequence`, `user_id`, `run_id`, `ordinal`, `answer`, `correct`, `points`, `received_at` |
+| `rush_policy`, `rush_daily_usage` (P3.05) | Versionierte Regeln und atomare Starts pro UTC-Tag | `policy`; `user_id`, `day`, `used` |
 | `duels` | Live- und Ghost-Duelle | `id`, `player_a`, `player_b` (oder `ghost_of_run`), `seed`, `status`, `score_a`, `score_b`, `winner`, `rating_delta_a`, `rating_delta_b` |
 | `duel_ratings` | Duell-Wertung | `user_id`, `rating`, `rating_deviation`, `volatility`, `games` |
 | `daily_puzzles` | Tägliches Rätsel | `date`, `puzzle` (jsonb), `difficulty` |
 | `daily_puzzle_results` | Ergebnisse | `date`, `user_id`, `solved`, `attempts`, `time_ms` |
-| `friendships` | Freunde | `user_id`, `friend_id`, `status`, `created_at` |
+| `friendships` (Relationsgrenze P3.05, Verwaltung P3.08) | Gegenseitig bestätigte Freunde; pending/accepted/blocked, Service-only | `user_id`, `friend_id`, `status`, `created_at` |
 | `friend_quests` | Gemeinsame Wochenziele | `id`, `week_start`, `user_a`, `user_b`, `goal_type`, `target`, `progress`, `completed_at` |
 | `push_tokens` | Push-Benachrichtigungen | `user_id`, `token`, `platform`, `created_at` |
 

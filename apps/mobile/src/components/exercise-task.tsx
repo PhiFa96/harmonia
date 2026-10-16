@@ -53,6 +53,8 @@ import { openTaskTutor } from '@/tutor/state';
 import { taskTutorScore } from '@/tutor/context';
 
 interface Props {
+  readonly hintsAllowed?: boolean;
+  readonly interactionDisabled?: boolean;
   readonly session: ExerciseSession;
   readonly reportSource?: ReportSource;
   readonly onReportOpen?: () => void;
@@ -72,6 +74,8 @@ interface Props {
   readonly onNext: () => void;
 }
 export function ExerciseTask({
+  hintsAllowed = true,
+  interactionDisabled = false,
   session,
   reportSource,
   onReportOpen,
@@ -417,6 +421,7 @@ export function ExerciseTask({
         <ExerciseChoices
           item={item}
           answer={answer}
+          disabled={interactionDisabled}
           {...(result ? { result } : {})}
           onSelect={onSelect}
         />
@@ -445,19 +450,21 @@ export function ExerciseTask({
               </MusicText>
             </Card>
           ) : null}
-          <Button
-            size="medium"
-            variant="ghost"
-            label={
-              session.hintLevel >= 2
-                ? t('exercise.solution')
-                : t('exercise.hint', { level: session.hintLevel + 1 })
-            }
-            disabled={session.hintLevel === 3}
-            onPress={() => {
-              onHint();
-            }}
-          />
+          {hintsAllowed ? (
+            <Button
+              size="medium"
+              variant="ghost"
+              label={
+                session.hintLevel >= 2
+                  ? t('exercise.solution')
+                  : t('exercise.hint', { level: session.hintLevel + 1 })
+              }
+              disabled={session.hintLevel === 3}
+              onPress={() => {
+                onHint();
+              }}
+            />
+          ) : null}
           {reportSource && session.hintLevel > 0 ? (
             <Button
               variant="ghost"
@@ -491,6 +498,7 @@ export function ExerciseTask({
           <Button
             label={t('practice.check')}
             disabled={
+              interactionDisabled ||
               answer === null ||
               !evaluateExercise(item, answer).validAnswer ||
               (item.type !== 'RHYTHM_TAP' &&
@@ -500,6 +508,7 @@ export function ExerciseTask({
             }
             onPress={() => {
               if (
+                interactionDisabled ||
                 answer === null ||
                 !evaluateExercise(item, answer).validAnswer ||
                 (item.type !== 'RHYTHM_TAP' &&

@@ -45,6 +45,10 @@ const sections = {
   profiles: ['profiles', 'id', 'id', '*'],
   leagueAccount: ['league_accounts', 'user_id', 'user_id', '*'],
   leagueMemberships: ['league_members', 'user_id', 'week_start', '*'],
+  rushRuns: ['rush_runs', 'user_id', 'id', '*'],
+  rushSteps: ['rush_steps', 'user_id', 'sequence', '*'],
+  rushUsage: ['rush_daily_usage', 'user_id', 'day', '*'],
+  friendships: ['friendships', 'user_id', 'friend_id', '*'],
   skillRatings: ['skill_progress', 'user_id', 'skill_id', '*'],
   cardReviews: ['card_review_progress', 'user_id', 'card_key', '*'],
   learning: [

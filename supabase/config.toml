@@ -122,3 +122,7 @@ import_map = "./functions/deno.json"
 [functions.apple-grant]
 verify_jwt = false
 import_map = "./functions/deno.json"
+
+[functions.rush]
+verify_jwt = false
+import_map = "./functions/deno.json"

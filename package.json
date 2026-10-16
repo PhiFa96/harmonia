@@ -78,7 +78,8 @@
     "db:test:reviews": "node tools/test-reviews.mjs",
     "ratings:backfill": "node tools/ratings-backfill.mjs",
     "db:test:ratings": "node tools/test-ratings.mjs",
-    "db:test:leagues": "node tools/test-leagues.mjs && node tools/test-league-notifications.mjs"
+    "db:test:leagues": "node tools/test-leagues.mjs && node tools/test-league-notifications.mjs",
+    "db:test:rush": "node tools/test-rush.mjs"
   },
   "devDependencies": {
     "@anthropic-ai/sdk": "0.133.0",

@@ -1,3 +1,4 @@
+import { RushEntry } from '@/components/rush-entry';
 import { authorizeStart, accessOwner } from '@/access/state';
 import { ReviewEntry } from '@/components/review-entry';
 import { EnergyCard } from '@/components/energy-card';
@@ -116,6 +117,7 @@ export default function PracticeScreen() {
             <AppText variant="title1">{t('exercise.title')}</AppText>
             <AppText tone="muted">{t('exercise.intro')}</AppText>
             <EnergyCard />
+            <RushEntry />
             <ReviewEntry />
             <WeaknessEntry />
             <Card>

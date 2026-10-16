@@ -1,5 +1,7 @@
 # CLAUDE.md
 
+P3.05 ist technisch auf `codex/p3-05-theory-rush` vorbereitet, aufbauend auf P3.04: servergeprüfte 3-/5-Minuten- und Überlebensläufe, steigende Aufgabenstufen, atomarer Startverbrauch, kanonische Rush-XP und minimale Tag-/Woche-/Allzeit-/Freundesbestenlisten. Übergabe `docs/plan/theorie-rush.md`, ADR 0032. Vier additive Rush-Migrationen vor Functions/Client; Cronvorlage nicht aktiviert. Die private Freundschaftsrelation zählt nur gegenseitige Annahme, Verwaltung folgt P3.08. Motivationsprotokoll optiert mit `rushFormat:1` in bestätigte Offline-Aggregate ein. Keine Remote-, fachliche oder Geräteabnahme und keine PR/Merges durch Codex.
+
 P3.04 ist technisch auf `codex/p3-04-leagues` vorbereitet, aufbauend auf P3.03/P3.02: wöchentliche Ligen pp–fff aus neuen kanonischen XP, Montag 00:00 UTC, anonyme Gruppenrangliste, atomarer Abschluss, Ergebnisanzeige und eigenes freiwilliges Push-Opt-in. Übergabe: `docs/plan/ligen.md`, ADR 0031. Drei additive Liga-Migrationen vor aktualisierten Functions/Client; `supabase/ops/schedule-leagues.sql` erst nach Prüfung im Zielbetrieb aktivieren. Codex erstellt weiterhin keine PRs oder Merges; Claude übernimmt den Prüfablauf. Keine Remote-, fachliche oder Geräte-/Pushabnahme behaupten. P3.03-Übergabe und Backfill-/Retention-Reihenfolge bleiben unter `docs/plan/fsrs-wiederholung.md`, ADR 0030 verbindlich.
 
 Hinweise für Claude Code in diesem Repository.

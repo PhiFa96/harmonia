@@ -1,3 +1,4 @@
+import { clearRush, useRush } from '@/state/rush';
 import { clearLeagues, useLeagues } from '@/state/leagues';
 import { eraseMotivationMemory } from '@/state/motivation';
 import { eraseReportsMemory } from '@/state/reports';
@@ -21,6 +22,7 @@ import { eraseProfileScope } from '@/state/profile';
 /** Block delayed writes before draining each repository's serialized queue. */
 export async function eraseLocalAccount(scope: string) {
   blockErasedScope(scope, []);
+  if (useRush.getState().owner === scope) clearRush();
   if (useLeagues.getState().owner === scope) clearLeagues();
   await eraseProfileScope(scope);
   eraseMotivationMemory(scope);

@@ -4,6 +4,66 @@ import { contentMessages } from '@harmonia/i18n/content-messages';
 import type { Messages } from './types.ts';
 
 export const enUS = {
+  rush: {
+    title: 'Theory Rush',
+    entry:
+      'How many questions can you answer? Race the clock or keep going until your third mistake.',
+    open: 'Open Theory Rush',
+    guest:
+      'Sign in to start a verified run and join the leaderboards. You can use the free practice exercises without an account.',
+    account: 'Go to account',
+    mode_three: '3 minutes',
+    mode_five: '5 minutes',
+    mode_survival: 'Survival',
+    scope_day: 'Today',
+    scope_week: 'This week',
+    scope_all: 'All time',
+    scope_friends: 'Friends',
+    rules:
+      'Three mistakes end any run. Survival has no time limit. Questions get harder in stages and may include material from later course units. Hints are turned off during a run.',
+    scoring:
+      'A correct answer earns 10 to 50 points, depending on its difficulty level. A completed run earns 1 XP per correct answer, up to 30 XP. Abandoned runs earn no XP. Rush does not unlock lessons, award coins, or add qualifying days to your streak.',
+    running:
+      'An internet connection is required. The timer keeps running when you leave this screen or lose your connection. Answers count once the server confirms them.',
+    loading: 'Loading run data…',
+    source: 'Theory Rush does not have any reviewed questions available yet.',
+    limit: 'You have used today’s run allowance.',
+    fast: 'Please wait a moment and check your answer again.',
+    error:
+      'The connection was interrupted or this run continued on another device. Reload the confirmed progress.',
+    reload: 'Load confirmed progress',
+    time: 'Time remaining: {{time}}',
+    noTimer: 'No time limit · Ends after three mistakes',
+    score: '{{score}} points · Mistakes: {{mistakes}} of 3',
+    question_one: 'Question {{count}} · Difficulty level {{difficulty}}',
+    question_other: 'Question {{count}} · Difficulty level {{difficulty}}',
+    progress: 'Mistakes until the run ends',
+    showResult: 'View result',
+    stop: 'End run',
+    abandon: 'Abandon run',
+    abandonConfirm:
+      'Abandon this run? It will not appear on the leaderboard or earn XP. It will still use one start from your daily allowance.',
+    keepPlaying: 'Keep playing',
+    result: 'Run confirmed',
+    abandoned: 'Run abandoned',
+    resultScore: '{{score}} points · {{correct}} correct · {{mistakes}} mistakes',
+    reward: '{{xp}} XP has been credited.',
+    noReward: 'This abandoned run earns no XP or leaderboard entry.',
+    allowance:
+      'Starts today: {{remaining}} of {{limit}} remaining. Resets at {{date}} (midnight UTC). Every started run counts, including abandoned runs.',
+    start: 'Start run',
+    upgrade: 'View subscriptions',
+    leaderboard: 'Leaderboards',
+    boardRules:
+      'Your best confirmed run counts for each mode and question bank. Days and weeks reset at midnight UTC; weeks start on Monday. Ties are decided by fewer mistakes, then the earlier finish. Other accounts appear without names or profile details.',
+    friendsPending: 'The friends leaderboard is currently unavailable.',
+    friendsIntro:
+      'This shows your best run and the best runs of mutually confirmed friends. Blocked or removed connections do not count.',
+    empty: 'There are no confirmed runs for this selection yet.',
+    ownRank: 'Rank {{rank}} · You · {{score}} points',
+    rank: 'Rank {{rank}} · Learner · {{score}} points',
+    back: 'Back to practice',
+  },
   leagues: {
     globalPushTitle: 'Allow system notifications',
     globalPushBody:

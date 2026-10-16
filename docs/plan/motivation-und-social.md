@@ -53,6 +53,8 @@ Glicko-2 berücksichtigt die Unsicherheit. Neue Nutzer bewegen sich schnell, erf
 
 ## Theorie-Rush (Phase 3)
 
+P3.05 ist technisch vorbereitet: [Übergabe](theorie-rush.md), ADR 0032. Ein Gratis-Start pro UTC-Tag, bezahlte Konten zunächst höchstens 100; serverseitig konfigurierbar. Wertung aus atomar gespeicherten, von der Edge-Engine geprüften Schritten, genau einmal im kanonischen XP-Buch; keine Münzen oder Serientage. Freundesfilter verwendet ausschließlich gegenseitig akzeptierte Beziehungen; Einladungen/Verwaltung folgen mit P3.08. Remote-/Scheduler- und Geräteabnahme bleiben offen.
+
 - **Modi:** 3 Minuten, 5 Minuten, „Überleben“ (ohne Zeit)
 - **Ablauf:** steigende Schwierigkeit; drei Fehler beenden den Lauf
 - **Gratis-Kontingent:** ein Lauf pro Tag (Vorbild chess.com)

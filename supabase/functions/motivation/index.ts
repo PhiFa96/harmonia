@@ -179,6 +179,9 @@ Deno.serve(async (request) => {
     });
     if (streak.error) return json(503, { error: 'storage' });
     return json(200, {
+      ...(data.rushFormat === 1
+        ? { rushActivities: current.activities.filter((a) => a.id.startsWith('rush:')) }
+        : {}),
       preferences,
       rules: rewardRules,
       summary,

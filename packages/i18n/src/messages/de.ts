@@ -3,6 +3,65 @@ import { contentMessages } from '@harmonia/i18n/content-messages';
 // Fachbegriffe kommen aus dem Glossar: $t(glossary:…).
 
 export const de = {
+  rush: {
+    title: 'Theorie-Rush',
+    entry: 'Wie viele Aufgaben schaffst du? Spiele gegen die Zeit oder bis zum dritten Fehler.',
+    open: 'Theorie-Rush öffnen',
+    guest:
+      'Melde dich an, um einen geprüften Lauf zu starten und in den Bestenlisten mitzuspielen. Ohne Konto kannst du die freien Übungen nutzen.',
+    account: 'Zum Konto',
+    mode_three: '3 Minuten',
+    mode_five: '5 Minuten',
+    mode_survival: 'Überleben',
+    scope_day: 'Heute',
+    scope_week: 'Diese Woche',
+    scope_all: 'Allzeit',
+    scope_friends: 'Freunde',
+    rules:
+      'Drei Fehler beenden jeden Lauf. Im Überlebensmodus gibt es kein Zeitlimit. Die Aufgaben werden schrittweise schwieriger und können auch Stoff aus späteren Kurseinheiten enthalten. Hinweise sind während des Laufs ausgeschaltet.',
+    scoring:
+      'Eine richtige Antwort gibt je nach Schwierigkeitsstufe 10 bis 50 Punkte. Ein abgeschlossener Lauf bringt 1 XP pro richtiger Antwort, höchstens 30 XP. Abgebrochene Läufe bringen keine XP. Rush schaltet keine Lektionen frei und vergibt keine Münzen oder Lerntage für die Serie.',
+    running:
+      'Du brauchst eine Internetverbindung. Die Zeit läuft beim Verlassen der Ansicht und bei Verbindungsabbrüchen weiter. Antworten zählen erst nach der Serverbestätigung.',
+    loading: 'Laufdaten werden geladen …',
+    source: 'Für Theorie-Rush sind noch keine fachlich freigegebenen Aufgaben verfügbar.',
+    limit: 'Dein Tageskontingent ist aufgebraucht.',
+    fast: 'Bitte warte kurz und prüfe deine Antwort erneut.',
+    error:
+      'Die Verbindung ist unterbrochen oder der Lauf wurde auf einem anderen Gerät fortgesetzt. Lade den bestätigten Stand neu.',
+    reload: 'Bestätigten Stand laden',
+    time: 'Verbleibende Zeit: {{time}}',
+    noTimer: 'Ohne Zeitlimit · Ende nach drei Fehlern',
+    score: '{{score}} Punkte · Fehler: {{mistakes}} von 3',
+    question_one: 'Aufgabe {{count}} · Schwierigkeitsstufe {{difficulty}}',
+    question_other: 'Aufgabe {{count}} · Schwierigkeitsstufe {{difficulty}}',
+    progress: 'Fehler bis zum Laufende',
+    showResult: 'Ergebnis ansehen',
+    stop: 'Lauf beenden',
+    abandon: 'Lauf abbrechen',
+    abandonConfirm:
+      'Diesen Lauf abbrechen? Er erscheint dann nicht in der Bestenliste, bringt keine XP und verbraucht weiterhin einen Start aus deinem Tageskontingent.',
+    keepPlaying: 'Weiterspielen',
+    result: 'Lauf bestätigt',
+    abandoned: 'Lauf abgebrochen',
+    resultScore: '{{score}} Punkte · {{correct}} richtig · {{mistakes}} Fehler',
+    reward: '{{xp}} XP wurden gutgeschrieben.',
+    noReward: 'Keine XP und kein Bestenlisteneintrag für diesen Abbruch.',
+    allowance:
+      'Starts heute: {{remaining}} von {{limit}} übrig. Neues Kontingent ab {{date}} (Tageswechsel um 00:00 UTC). Jeder gestartete Lauf zählt, auch bei Abbruch.',
+    start: 'Lauf starten',
+    upgrade: 'Abos ansehen',
+    leaderboard: 'Bestenlisten',
+    boardRules:
+      'Je Spielmodus und Aufgabenbank zählt dein bester bestätigter Lauf. Tag und Woche wechseln um 00:00 UTC, die Woche beginnt montags. Bei Punktgleichheit entscheiden weniger Fehler, dann der frühere Abschluss. Andere Konten erscheinen ohne Namen oder Profilangaben.',
+    friendsPending: 'Die Freundesbestenliste ist gerade nicht verfügbar.',
+    friendsIntro:
+      'Hier zählen dein bester Lauf und die besten Läufe beidseitig bestätigter Freundschaften. Blockierte oder entfernte Verbindungen zählen nicht.',
+    empty: 'Für diese Auswahl gibt es noch keine bestätigten Läufe.',
+    ownRank: 'Platz {{rank}} · Du · {{score}} Punkte',
+    rank: 'Platz {{rank}} · Lernperson · {{score}} Punkte',
+    back: 'Zurück zu den Übungen',
+  },
   leagues: {
     globalPushTitle: 'Systemmitteilungen erlauben',
     globalPushBody:

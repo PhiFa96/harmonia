@@ -82,11 +82,13 @@
 - **Abhängig von:** P3.01
 - **Umfang:** M
 - **Aufgaben:**
-  - [ ] Modi 3 / 5 Minuten / Überleben; steigende Schwierigkeit
-  - [ ] Seed vom Server, Prüfung des Laufs per Engine in Edge Function
-  - [ ] Bestenlisten (Tag, Woche, Allzeit, Freunde) über Funktion mit minimalen Feldern
-  - [ ] Gratis-Kontingent
+  - [x] Modi 3 / 5 Minuten / Überleben; steigende Schwierigkeit
+  - [x] Seed vom Server, Prüfung des Laufs per Engine in Edge Function
+  - [x] Bestenlisten (Tag, Woche, Allzeit, Freunde) über Funktion mit minimalen Feldern
+  - [x] Gratis-Kontingent
 - **Fertig, wenn:** Manipulierte Läufe werden abgelehnt; Bestenlisten aktualisieren sich korrekt.
+
+Technische Übergabe: `theorie-rush.md`, ADR 0032. Freundesfilter auf gegenseitig bestätigten privaten Beziehungen; Verwaltung folgt P3.08. Remote-/Scheduler-, Geräte- und Inhaltsfreigaben bleiben offen.
 
 ### P3.06 – Live-Duelle und Ghost-Duelle
 
