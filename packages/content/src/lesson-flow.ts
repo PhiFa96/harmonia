@@ -18,6 +18,9 @@ import {
 import type { LessonSession, RatingSnapshot } from '@harmonia/exercises';
 
 export const WEAKNESS_LESSON_ID = 'practice.weakness';
+export const REVIEW_LESSON_ID = 'practice.review';
+export const isPracticeLesson = (id: string) =>
+  id === WEAKNESS_LESSON_ID || id === REVIEW_LESSON_ID;
 
 function repetitionSources(catalogue: ContentCatalogue, id: string) {
   const record = catalogue.lessons.find((l) => l.id === id);
@@ -41,7 +44,7 @@ function repetitionSources(catalogue: ContentCatalogue, id: string) {
   );
 }
 
-/** Wiederholung ausschließlich aus früheren Lektionen und der Voraussetzungshülle. FSRS folgt in P3.03. */
+/** Wiederholung ausschließlich aus früheren Lektionen und der Voraussetzungshülle. Feste Altpläne bleiben reproduzierbar. */
 function fixedLessonPlan(catalogue: ContentCatalogue, id: string) {
   const content = resolveLesson(catalogue, id);
   const record = catalogue.lessons.find((l) => l.id === id);
@@ -140,6 +143,15 @@ const weaknessKeySchema = z.tuple([
   z.number().int().positive(),
   z.array(referenceSchema).length(10),
 ]);
+const reviewKeySchema = z.tuple([
+  z.literal('review:1'),
+  z.number().int().positive(),
+  z.array(referenceSchema).min(1).max(10),
+]);
+export function practiceSourceLessons(key: string): string[] {
+  const parsed = z.union([weaknessKeySchema, reviewKeySchema]).parse(JSON.parse(key) as unknown);
+  return [...new Set(parsed[2].map((ref) => ref[0]))];
+}
 export function weaknessSourceLessons(key: string): string[] {
   return [...new Set(weaknessKeySchema.parse(JSON.parse(key) as unknown)[2].map((ref) => ref[0]))];
 }
@@ -151,8 +163,8 @@ export function lessonPlan(catalogue: ContentCatalogue, id: string, key?: string
   if (key.length > 4096) return undefined;
   try {
     const input: unknown = JSON.parse(key);
-    if (id === WEAKNESS_LESSON_ID) {
-      const parsed = weaknessKeySchema.parse(input);
+    if (isPracticeLesson(id)) {
+      const parsed = (id === REVIEW_LESSON_ID ? reviewKeySchema : weaknessKeySchema).parse(input);
       if (parsed[1] !== catalogue.contentVersion || JSON.stringify(parsed) !== key)
         return undefined;
       const origins = parsed[2].map((ref) => dereference(catalogue, ref));
@@ -168,8 +180,8 @@ export function lessonPlan(catalogue: ContentCatalogue, id: string, key?: string
         exerciseSources,
         planKey: key,
         newCount: 0,
-        repetitionCount: 10,
-        repetitionIndices: Array.from({ length: 10 }, (_, i) => i),
+        repetitionCount: exerciseSources.length,
+        repetitionIndices: Array.from({ length: exerciseSources.length }, (_, i) => i),
       };
     }
     const parsed = adaptiveKeySchema.parse(input);
@@ -295,6 +307,25 @@ export function weaknessPlan(
     WEAKNESS_LESSON_ID,
     JSON.stringify(['weak:1', catalogue.contentVersion, refs]),
   );
+}
+
+export function reviewSkillPlan(
+  catalogue: ContentCatalogue,
+  skillIds: readonly string[],
+  lessonIds: readonly string[],
+) {
+  const pool = candidates(catalogue, lessonIds);
+  const refs = [...new Set(skillIds)].slice(0, 10).flatMap((id) => {
+    const candidate = pool.find((c) => c.skillIds.includes(id));
+    return candidate ? [candidate.ref] : [];
+  });
+  return refs.length
+    ? lessonPlan(
+        catalogue,
+        REVIEW_LESSON_ID,
+        JSON.stringify(['review:1', catalogue.contentVersion, refs]),
+      )
+    : undefined;
 }
 
 export const lessonActionSchema = z.discriminatedUnion('type', [

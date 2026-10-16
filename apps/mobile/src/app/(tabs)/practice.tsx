@@ -1,4 +1,5 @@
 import { authorizeStart, accessOwner } from '@/access/state';
+import { ReviewEntry } from '@/components/review-entry';
 import { EnergyCard } from '@/components/energy-card';
 import { WeaknessEntry } from '@/components/weakness-entry';
 import { PRACTICE_CONTENT_VERSION } from '@harmonia/exercises';
@@ -115,6 +116,7 @@ export default function PracticeScreen() {
             <AppText variant="title1">{t('exercise.title')}</AppText>
             <AppText tone="muted">{t('exercise.intro')}</AppText>
             <EnergyCard />
+            <ReviewEntry />
             <WeaknessEntry />
             <Card>
               <View style={styles.types}>

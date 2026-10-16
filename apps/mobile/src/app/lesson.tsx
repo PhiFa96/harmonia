@@ -10,8 +10,12 @@ import {
   PASS_PERCENT,
   adaptiveLessonPlan,
   weaknessPlan,
-  weaknessSourceLessons,
   WEAKNESS_LESSON_ID,
+  REVIEW_LESSON_ID,
+  isPracticeLesson,
+  practiceSourceLessons,
+  reviewSkillPlan,
+  dueReviews,
 } from '@harmonia/content';
 import {
   activeLessonSession,
@@ -37,6 +41,7 @@ import { useContentText } from '@/content/use-content-text';
 import { useLearningState } from '@/state/learning';
 import { useAuthState } from '@/auth';
 import { useLearningRatings } from '@/storage/use-learning-ratings';
+import { useReviews } from '@/storage/use-reviews';
 import { lessonSelectionGroup } from '@/content/adaptive-config';
 
 export default function LessonScreen() {
@@ -45,7 +50,29 @@ export default function LessonScreen() {
   const learning = useLearningState();
   const owner = useAuthState((s) => s.session?.user.id ?? 'guest');
   const ratings = useLearningRatings();
-  const content = useMemo(() => {
+  const reviews = useReviews();
+  const frozenReview = useRef<{
+    owner: string;
+    plan: NonNullable<ReturnType<typeof lessonPlan>>;
+  } | null>(null);
+  if (frozenReview.current?.owner !== owner || id !== REVIEW_LESSON_ID || learning.scope !== owner)
+    frozenReview.current = null;
+  const selectedContent = useMemo(() => {
+    if (id === REVIEW_LESSON_ID) {
+      const saved = learning.drafts[REVIEW_LESSON_ID];
+      const reached = learning.path
+        .flatMap((u) => u.lessons)
+        .filter((l) => l.status !== 'locked')
+        .map((l) => l.id);
+      return (
+        (saved && lessonPlan(catalogue, id, saved.planKey)) ??
+        reviewSkillPlan(
+          catalogue,
+          dueReviews(catalogue, reviews, Date.now(), reached).skills.map((s) => s.id),
+          reached,
+        )
+      );
+    }
     if (id === WEAKNESS_LESSON_ID) {
       const saved = learning.drafts[WEAKNESS_LESSON_ID];
       return (
@@ -67,8 +94,20 @@ export default function LessonScreen() {
         ? adaptiveLessonPlan(catalogue, selected.id, ratings, Date.now())
         : lessonPlan(catalogue, selected.id)
       : undefined;
-  }, [id, owner, ratings, learning.path, learning.drafts]);
-  const practice = content?.id === WEAKNESS_LESSON_ID;
+  }, [id, owner, ratings, reviews, learning.path, learning.drafts]);
+  if (
+    id === REVIEW_LESSON_ID &&
+    learning.phase === 'ready' &&
+    learning.scope === owner &&
+    selectedContent &&
+    !frozenReview.current
+  )
+    frozenReview.current = { owner, plan: selectedContent };
+  // Completing the last due skill clears its draft and removes it from the queue.
+  // Keep this route's plan so its saved result remains visible until the learner leaves.
+  const content =
+    id === REVIEW_LESSON_ID ? (frozenReview.current?.plan ?? selectedContent) : selectedContent;
+  const practice = content !== undefined && isPracticeLesson(content.id);
   const status = learning.path
     .flatMap((unit) => unit.lessons)
     .find((l) => l.id === content?.id)?.status;
@@ -95,7 +134,7 @@ export default function LessonScreen() {
       .map((l) => l.id),
   );
   const accessible = practice
-    ? weaknessSourceLessons(content.planKey).every((id) => reached.has(id))
+    ? practiceSourceLessons(content.planKey).every((id) => reached.has(id))
     : status && status !== 'locked';
   if (learning.phase !== 'ready' || learning.scope !== owner || !accessible)
     return (
@@ -137,8 +176,10 @@ function LessonPlayer({
   const { colors } = useUiTheme();
   const flow = useLessonFlow(initialContent);
   const content = flow.plan;
-  const practice = content.id === WEAKNESS_LESSON_ID;
-  const title = practice ? t('adaptive.weaknessTitle') : contentText(content.titleKey);
+  const practice = isPracticeLesson(content.id);
+  const title = practice
+    ? t(content.id === REVIEW_LESSON_ID ? 'review.skillsTitle' : 'adaptive.weaknessTitle')
+    : contentText(content.titleKey);
   const lesson = flow.session;
   const answer = flow.draft.answer;
   const navigation = useNavigation();
@@ -476,7 +517,13 @@ function LessonPlayer({
                   />
                   <AppText variant="title2">{t('lesson.initialResult', summary)}</AppText>
                   {practice ? (
-                    <AppText>{t('adaptive.practiceResult')}</AppText>
+                    <AppText>
+                      {t(
+                        content.id === REVIEW_LESSON_ID
+                          ? 'review.noRewards'
+                          : 'adaptive.practiceResult',
+                      )}
+                    </AppText>
                   ) : (
                     <>
                       <AppText variant="title2">{t('flow.xp', { count: xp })}</AppText>

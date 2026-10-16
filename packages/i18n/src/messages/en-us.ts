@@ -4,6 +4,39 @@ import { contentMessages } from '@harmonia/i18n/content-messages';
 import type { Messages } from './types.ts';
 
 export const enUS = {
+  review: {
+    title: 'Review',
+    intro: 'Refresh what you have learned. Your answers determine when it comes up again.',
+    empty: 'Nothing is due right now. Keep learning or check back later.',
+    new: 'After your first lessons, learned skills and knowledge cards will appear here.',
+    due: '{{skills}} skills and {{cards}} knowledge cards are due.',
+    open: 'See reviews',
+    skillsTitle: 'Due skills',
+    skillsStart: 'Review skills',
+    cardsTitle: 'Due knowledge cards',
+    cardOpen: 'Open card: {{title}}',
+    recall:
+      'What do you remember about this? Try recalling it yourself first. Then reveal the explanation and example.',
+    reveal: 'Reveal explanation',
+    rate: 'How well did you remember?',
+    again: 'Did not remember',
+    hard: 'Hard',
+    good: 'Remembered',
+    easy: 'Easy',
+    ratingHelp:
+      'Rate your recall before revealing the answer. Choose “Did not remember” if you needed the explanation.',
+    scheduled: 'Next review: {{date}}',
+    saving: 'Saving review …',
+    saved: 'Review saved.',
+    error: 'Could not save. Your rating is kept so you can retry.',
+    retry: 'Try saving again',
+    back: 'Back to reviews',
+    next: 'Next due: {{date}}',
+    noRewards:
+      'This review refreshes what you have learned. It does not unlock lessons or award XP or coins.',
+    backlog: 'Several reviews are waiting. Even a short session helps. You can pause at any time.',
+    memory: 'You are learning without persistent storage. Reviews are kept only for this session.',
+  },
   adaptive: {
     weaknessTitle: 'Practice weak skills',
     weaknessIntro:
@@ -1707,6 +1740,8 @@ export const enUS = {
     gallery: 'Components (development only)',
     licenses: 'Licenses',
     audioTest: 'Audio test (measurements)',
+    fsrsLicense:
+      'Review scheduling: ts-fsrs 5.4.2 © 2026 Open Spaced Repetition, MIT License. Full license text under Legal & information.',
     bravuraLicense:
       'Music font Bravura © Steinberg Media Technologies GmbH, SIL Open Font License 1.1',
     figtreeLicense:

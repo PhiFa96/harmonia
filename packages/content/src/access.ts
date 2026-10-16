@@ -5,7 +5,7 @@ import {
   PRACTICE_SETS,
 } from '@harmonia/exercises';
 import type { ContentCatalogue } from './catalogue-schema.ts';
-import { lessonPlan, WEAKNESS_LESSON_ID, weaknessSourceLessons } from './lesson-flow.ts';
+import { lessonPlan, isPracticeLesson, practiceSourceLessons } from './lesson-flow.ts';
 import { resolveLesson } from './catalogue.ts';
 
 export const accessPolicySchema = z
@@ -91,13 +91,13 @@ export function accessSourceDetails(catalogue: ContentCatalogue, source: AccessS
     ? lessonPlan(catalogue, source.lessonId, source.planKey)
     : resolveLesson(catalogue, source.lessonId);
   if (
-    source.lessonId === WEAKNESS_LESSON_ID &&
+    isPracticeLesson(source.lessonId) &&
     lesson &&
     source.planKey &&
     lesson.contentVersion === source.contentVersion
   ) {
     // All referenced levels count, so mixed practice cannot bypass a future premium level.
-    const refs = weaknessSourceLessons(source.planKey);
+    const refs = practiceSourceLessons(source.planKey);
     const levels = refs.map((id) => {
       const record = catalogue.lessons.find((l) => l.id === id);
       const unit = catalogue.units.find((u) => u.id === record?.unitId);

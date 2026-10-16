@@ -25,6 +25,7 @@ export function learningRatingEvidence(
   if (!parsed.success) return { outcome: 'invalid', observations: [] };
   const event = parsed.data;
   if (event.kind === 'retained') return { outcome: 'retained', observations: [] };
+  if (event.kind === 'card-review') return { outcome: 'no_evidence', observations: [] };
   let proof: ReturnType<typeof validateLearningEvent>;
   try {
     proof = validateLearningEvent(catalogue, event);

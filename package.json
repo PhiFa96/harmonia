@@ -31,7 +31,8 @@
     "beta:access": "node tools/beta/access.mjs",
     "beta:report": "node tools/beta/report.mjs",
     "beta:test:web": "playwright test --config tools/beta/playwright.config.mjs",
-    "check:deno": "npx -y deno@2.9.6 check --config tools/deno.json tools/deno-smoke.ts && npx -y deno@2.9.6 run --config tools/deno.json tools/deno-smoke.ts && npx -y deno@2.9.6 check --config supabase/functions/deno.json supabase/functions/learning-sync/index.ts supabase/functions/content-reports/index.ts supabase/functions/access/index.ts supabase/functions/cancellation/index.ts supabase/functions/analytics/index.ts supabase/functions/privacy/index.ts supabase/functions/privacy-retention/index.ts && npx -y deno@2.9.6 check --config supabase/functions/deno.json supabase/functions/motivation/index.ts supabase/functions/reminder-dispatch/index.ts && npx -y deno@2.9.6 run --config supabase/functions/deno.json --allow-env=EXPO_ACCESS_TOKEN tools/push-smoke.ts && pnpm check:tutor && pnpm check:knowledge && pnpm check:tutor:benchmark && pnpm check:billing && pnpm check:accounts",
+    "check:reviews": "npx -y deno@2.9.6 check --config tools/deno.json tools/review-smoke.ts && npx -y deno@2.9.6 run --config tools/deno.json tools/review-smoke.ts",
+    "check:deno": "pnpm check:reviews && npx -y deno@2.9.6 check --config tools/deno.json tools/deno-smoke.ts && npx -y deno@2.9.6 run --config tools/deno.json tools/deno-smoke.ts && npx -y deno@2.9.6 check --config supabase/functions/deno.json supabase/functions/learning-sync/index.ts supabase/functions/content-reports/index.ts supabase/functions/access/index.ts supabase/functions/cancellation/index.ts supabase/functions/analytics/index.ts supabase/functions/privacy/index.ts supabase/functions/privacy-retention/index.ts && npx -y deno@2.9.6 check --config supabase/functions/deno.json supabase/functions/motivation/index.ts supabase/functions/reminder-dispatch/index.ts && npx -y deno@2.9.6 run --config supabase/functions/deno.json --allow-env=EXPO_ACCESS_TOKEN tools/push-smoke.ts && pnpm check:tutor && pnpm check:knowledge && pnpm check:tutor:benchmark && pnpm check:billing && pnpm check:accounts",
     "db:start": "node tools/start-local-supabase.mjs",
     "db:stop": "supabase stop",
     "db:reset": "supabase db reset --local --yes",
@@ -72,7 +73,9 @@
     "check:storefront": "node tools/storefront/check.mjs",
     "check:storefront:release": "node tools/storefront/check.mjs --release",
     "check:accounts": "npx -y deno@2.9.6 check --config tools/deno.json tools/account-operations-smoke.ts supabase/functions/apple-grant/index.ts && npx -y deno@2.9.6 run --config tools/deno.json tools/account-operations-smoke.ts",
-    "test:tools": "node --test tools/content-pipeline.test.mjs tools/curriculum-view.test.mjs tools/local-backend-setup.test.mjs tools/local-backend-diagnostics.test.mjs tools/app-test-reporter.test.mjs tools/ratings-worker.test.mjs tools/tutor-interface.test.mjs tools/tutor-benchmark.test.mjs && node --test tools/qa/release.test.mjs tools/qa/server.test.mjs tools/storefront/model.test.mjs tools/beta/beta.test.mjs tools/release/monitor.test.mjs tools/release/check.test.mjs",
+    "test:tools": "node --test tools/content-pipeline.test.mjs tools/curriculum-view.test.mjs tools/local-backend-setup.test.mjs tools/local-backend-diagnostics.test.mjs tools/app-test-reporter.test.mjs tools/ratings-worker.test.mjs tools/reviews-worker.test.mjs tools/tutor-interface.test.mjs tools/tutor-benchmark.test.mjs && node --test tools/qa/release.test.mjs tools/qa/server.test.mjs tools/storefront/model.test.mjs tools/beta/beta.test.mjs tools/release/monitor.test.mjs tools/release/check.test.mjs",
+    "reviews:backfill": "node tools/reviews-backfill.mjs",
+    "db:test:reviews": "node tools/test-reviews.mjs",
     "ratings:backfill": "node tools/ratings-backfill.mjs",
     "db:test:ratings": "node tools/test-ratings.mjs"
   },
@@ -86,6 +89,7 @@
     "globals": "catalog:",
     "prettier": "catalog:",
     "supabase": "2.120.0",
+    "ts-fsrs": "5.4.2",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:",
     "zod": "catalog:"

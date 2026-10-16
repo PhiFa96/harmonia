@@ -285,6 +285,14 @@ try {
     204,
     'Age own fixture only',
   );
+  const fsrsBackfill = JSON.parse(
+    execFileSync(
+      process.execPath,
+      ['tools/reviews-backfill.mjs', '--local', '--preview', '--actor', a.id],
+      { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] },
+    ),
+  );
+  check(fsrsBackfill.complete, true, 'FSRS projection precedes detail retention');
   const old = (await source(a, retained.id)).data[0];
   check(
     (

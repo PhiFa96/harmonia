@@ -1,3 +1,4 @@
+import { FSRS_LICENSE } from '@/legal/ts-fsrs-license';
 import { useState } from 'react';
 import { Linking, ScrollView, StyleSheet, View } from 'react-native';
 import { Stack, useRouter } from 'expo-router';
@@ -59,12 +60,19 @@ export default function LegalScreen() {
           />
           <AppText variant="title2">{t('profile.licenses')}</AppText>
           {(
-            ['bravuraLicense', 'figtreeLicense', 'accidentalsLicense', 'pianoLicense'] as const
+            [
+              'bravuraLicense',
+              'figtreeLicense',
+              'accidentalsLicense',
+              'pianoLicense',
+              'fsrsLicense',
+            ] as const
           ).map((key) => (
             <AppText key={key} variant="footnote">
               {t(`profile.${key}`)}
             </AppText>
           ))}
+          <AppText variant="footnote">{FSRS_LICENSE}</AppText>
           <AppText variant="title2">{t('legal.aiTitle')}</AppText>
           <AppText>{t('legal.aiBody')}</AppText>
           {error ? <AppText role="alert">{t('billing.linkError')}</AppText> : null}

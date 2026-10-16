@@ -3,6 +3,41 @@ import { contentMessages } from '@harmonia/i18n/content-messages';
 // Fachbegriffe kommen aus dem Glossar: $t(glossary:…).
 
 export const de = {
+  review: {
+    title: 'Wiederholen',
+    intro: 'Frische Gelerntes auf. Deine Antworten bestimmen, wann es wieder dran ist.',
+    empty: 'Gerade ist nichts fällig. Lerne weiter oder schau später wieder vorbei.',
+    new: 'Nach deinen ersten Lektionen findest du hier gelernte Fähigkeiten und Wissenskarten.',
+    due: '{{skills}} Fähigkeiten und {{cards}} Wissenskarten sind fällig.',
+    open: 'Wiederholungen ansehen',
+    skillsTitle: 'Fällige Fähigkeiten',
+    skillsStart: 'Fähigkeiten wiederholen',
+    cardsTitle: 'Fällige Wissenskarten',
+    cardOpen: 'Karte öffnen: {{title}}',
+    recall:
+      'Was weißt du noch darüber? Erinnere dich zuerst selbst. Decke dann die Erklärung und das Beispiel auf.',
+    reveal: 'Erklärung aufdecken',
+    rate: 'Wie gut konntest du dich erinnern?',
+    again: 'Nicht gewusst',
+    hard: 'Schwer',
+    good: 'Gewusst',
+    easy: 'Leicht',
+    ratingHelp:
+      'Bewerte deine Erinnerung vor dem Aufdecken. „Nicht gewusst“ bedeutet, dass du die Erklärung gebraucht hast.',
+    scheduled: 'Nächste Wiederholung: {{date}}',
+    saving: 'Wiederholung wird gespeichert …',
+    saved: 'Wiederholung gespeichert.',
+    error: 'Speichern hat nicht geklappt. Deine Einschätzung bleibt zum erneuten Versuch erhalten.',
+    retry: 'Erneut speichern',
+    back: 'Zu den Wiederholungen',
+    next: 'Nächste Fälligkeit: {{date}}',
+    noRewards:
+      'Diese Wiederholung frischt Gelerntes auf. Sie schaltet keine Lektionen frei und vergibt keine XP oder Münzen.',
+    backlog:
+      'Es sind viele Wiederholungen offen. Schon eine kurze Runde hilft. Du kannst jederzeit pausieren.',
+    memory:
+      'Du lernst ohne dauerhaften Speicher. Deine Wiederholungen gelten nur für diese Sitzung.',
+  },
   adaptive: {
     weaknessTitle: 'Schwächen trainieren',
     weaknessIntro:
@@ -1744,6 +1779,8 @@ export const de = {
     gallery: 'Bausteine (nur Entwicklung)',
     licenses: 'Lizenzen',
     audioTest: 'Audio-Test (Messungen)',
+    fsrsLicense:
+      'Wiederholungsplanung: ts-fsrs 5.4.2 © 2026 Open Spaced Repetition, MIT-Lizenz. Vollständiger Lizenztext unter Recht & Informationen.',
     bravuraLicense:
       'Notenfont Bravura © Steinberg Media Technologies GmbH, SIL Open Font License 1.1',
     figtreeLicense: 'Schrift Figtree © 2022 The Figtree Project Authors, SIL Open Font License 1.1',

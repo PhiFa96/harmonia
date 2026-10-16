@@ -22,3 +22,4 @@ export * from './cancellation.ts';
 export * from './privacy.ts';
 export * from './analytics.ts';
 export * from './account-settings.ts';
+export * from './review.ts';

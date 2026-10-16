@@ -3,7 +3,7 @@ import { DEFAULT_REWARD_RULE } from './motivation.ts';
 import type { RewardRule } from './motivation.ts';
 import type { LessonSession } from '@harmonia/exercises';
 import { lessonProgress } from './learning-evidence.ts';
-import { WEAKNESS_LESSON_ID } from './lesson-flow.ts';
+import { isPracticeLesson } from './lesson-flow.ts';
 /** Regelversion 1. Erneutes Bestehen derselben Inhaltsversion verwendet die Wiederholungsbasis. */
 export function lessonReward(
   session: LessonSession,
@@ -11,7 +11,7 @@ export function lessonReward(
   rule: RewardRule = DEFAULT_REWARD_RULE,
 ) {
   const progress = lessonProgress(session);
-  if (!progress.passed || session.lesson.id === WEAKNESS_LESSON_ID) return 0;
+  if (!progress.passed || isPracticeLesson(session.lesson.id)) return 0;
   const records = session.initial.records;
   const weight = records.reduce((sum, r) => sum + (rule.hintWeights[r.hintLevel] ?? 0), 0);
   const base = Math.floor(((repeat ? rule.repeat : rule.lesson) * weight) / (progress.total * 100));

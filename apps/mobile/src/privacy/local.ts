@@ -41,7 +41,14 @@ export async function eraseLocalAccount(scope: string) {
   await (await getLessonRepository()).eraseIds(ids);
   await learning.eraseScope(scope);
   if (useLearningState.getState().scope === scope)
-    useLearningState.setState({ rows: [], drafts: {}, phase: 'loading', path: [] });
+    useLearningState.setState({
+      rows: [],
+      drafts: {},
+      reviews: null,
+      ratings: null,
+      phase: 'loading',
+      path: [],
+    });
   await (await getReportRepository()).eraseScope(scope);
   await (await getMotivationRepository()).eraseScope(scope);
   await cancelErasedReminders(scope);

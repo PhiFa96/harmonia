@@ -1,3 +1,5 @@
+import { catalogue } from '@harmonia/content/catalogue';
+import { localReviewState } from '@harmonia/content';
 import { getLearningRepository } from '@/storage/learning';
 import { getMotivationRepository } from '@/storage/motivation';
 import { getReportRepository } from '@/storage/reports';
@@ -30,6 +32,11 @@ export async function exportLocalData(scope: string) {
         ? useDeviceState.getState().data
         : null,
     learning: learning ? await learning.list(scope) : state.scope === scope ? state.rows : [],
+    reviewSchedule: learning
+      ? localReviewState(catalogue, await learning.list(scope), await learning.reviews(scope))
+      : state.scope === scope
+        ? localReviewState(catalogue, state.rows, state.reviews)
+        : null,
     drafts: learning ? await learning.drafts(scope) : state.scope === scope ? state.drafts : {},
     placement: learning
       ? await learning.placement(scope)

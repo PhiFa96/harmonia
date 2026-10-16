@@ -54,10 +54,11 @@
 - **Abhängig von:** P3.01
 - **Umfang:** M
 - **Aufgaben:**
-  - [ ] `ts-fsrs` (MIT) einbinden; FSRS-Felder in `skill_progress`
-  - [ ] Bereich „Wiederholen“ mit fälligen Wissenskarten und Fähigkeiten
-  - [ ] Erinnerung bei vielen fälligen Wiederholungen (optional)
+  - [x] `ts-fsrs` 5.4.2 (MIT) einbinden; FSRS-Zustand in `skill_progress` und versionierte Karten-Termine
+  - [x] Bereich „Wiederholen“ mit fälligen Wissenskarten und Fähigkeiten, Offline-Sync und pausierbarem Aufgabenablauf
+  - [x] Hinweis bei vielen fälligen Wiederholungen innerhalb der App; freiwillige Tageserinnerungen bleiben verfügbar (kein zusätzlicher Push-Versand)
 - **Fertig, wenn:** Fälligkeiten stimmen mit dem Algorithmus überein; Wiederholung ist in den Tagesablauf integriert.
+- Technische Umsetzung und Übergabe: [fsrs-wiederholung.md](fsrs-wiederholung.md), [ADR 0030](../decisions/0030-fsrs-aus-kanonischen-lernnachweisen.md). Auf normalem Branch für Claudes PR-/CI-Ablauf; keine eigene Integration. Physische Geräte und längerfristige Behaltenswirkung bleiben offen.
 
 ## Block B – Wettbewerb und Gemeinschaft
 

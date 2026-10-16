@@ -91,6 +91,7 @@ beforeEach(() => {
   );
   useLearningState.setState({
     ratings: null,
+    reviews: null,
     phase: 'ready',
     scope: 'guest',
     memory: false,

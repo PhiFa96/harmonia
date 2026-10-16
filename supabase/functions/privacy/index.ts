@@ -44,11 +44,12 @@ function recentlyAuthenticated(token: string, lastSignIn: string | undefined) {
 const sections = {
   profiles: ['profiles', 'id', 'id', '*'],
   skillRatings: ['skill_progress', 'user_id', 'skill_id', '*'],
+  cardReviews: ['card_review_progress', 'user_id', 'card_key', '*'],
   learning: [
     'learning_events',
     'user_id',
     'sequence',
-    'sequence,client_id,event,received_at,retained_at,rating_version,rating_outcome,rated_at',
+    'sequence,client_id,event,received_at,retained_at,rating_version,rating_outcome,rated_at,fsrs_version',
   ],
   rewards: ['xp_ledger', 'user_id', 'client_id', '*'],
   motivation: ['motivation_preferences', 'user_id', 'user_id', '*'],

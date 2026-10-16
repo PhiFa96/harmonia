@@ -11,7 +11,7 @@ import { useLearningState } from '../state/learning.ts';
 import { getLearningRepository } from './learning.ts';
 import { trackAnalytics } from '@/analytics/track';
 import { lessonSelectionGroup, lessonSelectionExperiment } from '@/content/adaptive-config';
-import { WEAKNESS_LESSON_ID } from '@harmonia/content';
+import { isPracticeLesson } from '@harmonia/content';
 
 type Plan = NonNullable<ReturnType<typeof lessonPlan>>;
 /** Besitzer und Speicherart gehören zum Durchgang, auch wenn später das Konto wechselt. */
@@ -71,7 +71,7 @@ export function useLessonFlow(plan: Plan) {
   });
   const [resume, setResume] = useState(!!saved);
   useEffect(() => {
-    if (state.draft.started && !resume && plan.id !== WEAKNESS_LESSON_ID)
+    if (state.draft.started && !resume && !isPracticeLesson(plan.id))
       trackAnalytics(
         {
           name: 'lesson_started',

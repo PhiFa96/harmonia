@@ -13,6 +13,7 @@ import { LearningPath } from '@/components/learning-path';
 import { useLocale } from '@/i18n';
 import { useDeviceState } from '@/state/device';
 import { DeviceStatus } from '@/components/device-status';
+import { ReviewEntry } from '@/components/review-entry';
 import { EnergyCard } from '@/components/energy-card';
 import { PlacementEntry } from '@/components/placement-entry';
 
@@ -46,6 +47,7 @@ export default function LearnScreen() {
         ) : null}
         <MotivationCard compact />
         <EnergyCard />
+        <ReviewEntry />
         <PlacementEntry />
         <LearningPath />
         <AppText>{t('learn.exampleScale')}</AppText>

@@ -283,6 +283,9 @@ jobs:
       - name: Rating-Sync, Rückrechnung, Kontentrennung und parallele Aktualisierungen prüfen
         run: pnpm db:test:ratings
 
+      - name: FSRS mit echten lokalen Konten prüfen
+        run: pnpm db:test:reviews
+
       - name: Inhaltsmeldungen, Wiederholungen und Konto-Isolation prüfen
         run: pnpm db:test:reports
 

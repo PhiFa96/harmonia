@@ -1,3 +1,4 @@
+import { processPendingReviews } from '../_shared/reviews.ts';
 import { createClient } from 'npm:@supabase/supabase-js@2.117.3';
 import {
   learningEventSchema,
@@ -30,10 +31,13 @@ Deno.serve(async (request) => {
     const current = local
       ? (await import('../../../packages/content/src/authoring.ts')).catalogue
       : catalogue;
+    // Inactive accounts must also keep their derived schedules before raw answers expire.
+    await processPendingReviews(client, current);
     const rows = await client
       .from('learning_events')
       .select('user_id,client_id,event,event_hash,retained_summary')
       .is('retained_at', null)
+      .eq('fsrs_version', 1)
       .lt('received_at', new Date(retentionCutoff(Date.now())).toISOString())
       .order('sequence')
       .limit(100)

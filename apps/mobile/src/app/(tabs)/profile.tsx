@@ -141,6 +141,9 @@ export default function ProfileScreen() {
         <AppText variant="footnote" tone="muted">
           {t('profile.pianoLicense')}
         </AppText>
+        <AppText variant="footnote" tone="muted">
+          {t('profile.fsrsLicense')}
+        </AppText>
       </View>
       <OptionSheet
         visible={sheet === 'language'}

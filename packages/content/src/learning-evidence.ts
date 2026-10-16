@@ -16,7 +16,7 @@ import type { LessonSession } from '@harmonia/exercises';
 import type { ContentCatalogue } from './catalogue-schema.ts';
 import { resolveLesson } from './catalogue.ts';
 import { placementBankForKey, placementRecommendations } from './placement.ts';
-import { lessonPlan, timeZoneSchema, WEAKNESS_LESSON_ID } from './lesson-flow.ts';
+import { lessonPlan, timeZoneSchema, isPracticeLesson } from './lesson-flow.ts';
 
 export const PASS_PERCENT = 80;
 const time = z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER);
@@ -61,6 +61,16 @@ export const learningEventSchema = z.discriminatedUnion('kind', [
       bankKey: z.string().min(1).max(64),
       seed: z.string().min(1).max(128),
       actions: z.array(action).max(150),
+    })
+    .strict(),
+  z
+    .object({
+      ...base,
+      kind: z.literal('card-review'),
+      cardId: z.string().min(1).max(128),
+      contentVersion: z.number().int().positive(),
+      rating: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+      timeZone: timeZoneSchema,
     })
     .strict(),
 ]);
@@ -138,7 +148,7 @@ export const learningRowSchema = z
 export const learningSyncRequestSchema = z
   .object({
     rewardFormat: z.literal(2).optional(),
-    rowFormat: z.union([z.literal(2), z.literal(3)]).optional(),
+    rowFormat: z.union([z.literal(2), z.literal(3), z.literal(4)]).optional(),
     since: time,
     events: z.array(learningEventSchema).max(50),
   })
@@ -250,6 +260,11 @@ export function validateLearningEvent(catalogue: ContentCatalogue, input: unknow
   }
 
   if (event.finishedAt < event.startedAt) throw new EvidenceError('invalid');
+  if (event.kind === 'card-review') {
+    const card = catalogue.knowledgeCards.find((c) => c.id === event.cardId);
+    if (card?.contentVersion !== event.contentVersion) throw new EvidenceError('changed');
+    return { event, lesson: null, testedUnitIds: [] as string[] };
+  }
   if (event.kind === 'placement') {
     const bank = placementBankForKey(catalogue, event.bankKey);
     if (!bank?.areas.length) throw new EvidenceError('changed');
@@ -280,7 +295,7 @@ export function validateLearningEvent(catalogue: ContentCatalogue, input: unknow
   if (session.phase !== 'complete') throw new EvidenceError('invalid');
   return {
     event,
-    lesson: event.lessonId === WEAKNESS_LESSON_ID ? null : lessonProgress(session),
+    lesson: isPracticeLesson(event.lessonId) ? null : lessonProgress(session),
     session,
     testedUnitIds: [] as string[],
   };
@@ -398,7 +413,7 @@ export function retainLearningEvent(
       bankKey: input.bankKey,
       testedUnitIds: proof.testedUnitIds,
     });
-  if (input.lessonId === WEAKNESS_LESSON_ID)
+  if (input.kind === 'card-review' || isPracticeLesson(input.lessonId))
     return retainedLearningEventSchema.parse({ ...base, sourceKind: 'practice' });
   throw new EvidenceError('invalid');
 }
@@ -414,6 +429,8 @@ export function unavailableRetainedEvent(input: LearningEvent): RetainedLearning
           contentVersion: input.contentVersion,
           ...(input.timeZone ? { timeZone: input.timeZone } : {}),
         }
-      : { bankKey: input.bankKey }),
+      : input.kind === 'placement'
+        ? { bankKey: input.bankKey }
+        : {}),
   });
 }

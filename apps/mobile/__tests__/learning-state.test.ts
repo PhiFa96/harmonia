@@ -7,6 +7,8 @@ import {
   lessonPlan,
   weaknessPlan,
   localLearningRatings,
+  newReviewCard,
+  localReviewState,
 } from '@harmonia/content';
 import type { PlacementAction } from '@harmonia/exercises';
 import type { LearningEvent, LearningSyncResponse } from '@harmonia/content';
@@ -205,6 +207,88 @@ describe('Kontogebundene Lernpfad-Synchronisation', () => {
       reply({ data: null, error: null });
       unsubscribe();
     }
+  });
+  it('eine verzögerte FSRS-Antwort schreibt nach Kontowechsel weder Snapshot noch erfolgreichen Status ins neue Konto', async () => {
+    let reply: (value: { data: unknown; error: null }) => void = () => {
+      throw new Error('Missing reply');
+    };
+    let reached: () => void = () => {
+      throw new Error('Missing signal');
+    };
+    const arrived = new Promise<void>((resolve) => {
+      reached = resolve;
+    });
+    const delayed = new Promise<{ data: unknown; error: null }>((resolve) => {
+      reply = resolve;
+    });
+    mockRpc
+      .mockResolvedValueOnce({ data: null, error: new Error('No rating snapshot') })
+      .mockImplementation(() => {
+        reached();
+        return delayed;
+      });
+    mockInvoke.mockResolvedValue(ok());
+    login('a');
+    await learning.initializeLearning();
+    await arrived;
+    expect(mockRpcHeader).toHaveBeenCalledWith('Authorization', 'Bearer a');
+    const phases: string[] = [];
+    const unsubscribe = learning.useLearningState.subscribe((s) => {
+      if (s.scope === 'b') phases.push(s.sync);
+    });
+    try {
+      login('b');
+      learning.useLearningState.setState({ scope: 'b', sync: 'error', reviews: null });
+      mockInvoke.mockResolvedValue({ data: null, error: new Error('Offline') });
+      reply({
+        data: {
+          throughSequence: 0,
+          throughPosition: 0,
+          skills: { foreign: newReviewCard(0) },
+          cards: {},
+        },
+        error: null,
+      });
+      await learning.syncLearning();
+      await learning.syncLearning();
+      expect(learning.useLearningState.getState().reviews).toBeNull();
+      expect(await mockRepository.reviews('b')).toBeNull();
+      expect(phases).not.toContain('idle');
+    } finally {
+      reply({ data: null, error: null });
+      unsubscribe();
+    }
+  });
+  it('bewahrt verdichtete Gast-Termine lokal und bevorzugt spätere eigene Server-Termine', async () => {
+    await learning.recordLearningEvent(event('retained-guest'));
+    const expected = localReviewState(catalogue, await mockRepository.list('guest'));
+    await mockRepository.compact('guest', catalogue, 3000);
+    mockInvoke.mockResolvedValue(ok());
+    mockRpc.mockResolvedValue({
+      data: { skills: {}, cards: {}, throughSequence: 0, throughPosition: 0 },
+      error: null,
+    });
+    login('a');
+    await learning.initializeLearning();
+    await learning.syncLearning();
+    expect(learning.useLearningState.getState().reviews?.skills).toEqual(expected.skills);
+    expect(learning.useLearningState.getState().reviews?.cards).toEqual(expected.cards);
+    expect(await mockRepository.reviews('b')).toBeNull();
+    const authoritative = {
+      ...expected,
+      throughSequence: 0,
+      throughPosition: 0,
+      skills: Object.fromEntries(
+        Object.entries(expected.skills).map(([id, card]) => [
+          id,
+          { ...card, due: card.due + 86400000 },
+        ]),
+      ),
+    };
+    mockRpc.mockResolvedValue({ data: authoritative, error: null });
+    await learning.syncLearning();
+    expect(learning.useLearningState.getState().reviews?.skills).toEqual(authoritative.skills);
+    expect(learning.useLearningState.getState().reviews?.cards).toEqual(authoritative.cards);
   });
   it('gezieltes Üben ersetzt keine ältere gültige Einstufung', async () => {
     await learning.recordLearningEvent(placement('valid-placement', true));

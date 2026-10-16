@@ -41,6 +41,7 @@ export const PRIVACY_EXPORT_SECTIONS = [
   'profiles',
   'learning',
   'skillRatings',
+  'cardReviews',
   'rewards',
   'motivation',
   'freezes',
