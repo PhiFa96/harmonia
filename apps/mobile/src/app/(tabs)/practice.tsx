@@ -1,5 +1,6 @@
 import { RushEntry } from '@/components/rush-entry';
 import { DuelEntry } from '@/components/duel-entry';
+import { DailyPuzzleEntry } from '@/components/daily-puzzle-entry';
 import { authorizeStart, accessOwner } from '@/access/state';
 import { ReviewEntry } from '@/components/review-entry';
 import { EnergyCard } from '@/components/energy-card';
@@ -120,6 +121,7 @@ export default function PracticeScreen() {
             <EnergyCard />
             <RushEntry />
             <DuelEntry />
+            <DailyPuzzleEntry />
             <ReviewEntry />
             <WeaknessEntry />
             <Card>

@@ -3,6 +3,28 @@ import { contentMessages } from '@harmonia/i18n/content-messages';
 // Fachbegriffe kommen aus dem Glossar: $t(glossary:…).
 
 export const de = {
+  puzzle: {
+    title: 'Tägliches Rätsel',
+    entry: 'Jeden Tag eine gemeinsame Aufgabe. Die Schwierigkeit steigt bis Sonntag.',
+    open: 'Heutiges Rätsel öffnen',
+    guest: 'Für deine Rätselserie brauchst du ein Konto und eine Internetverbindung.',
+    loading: 'Rätsel wird geladen …',
+    error: 'Das Rätsel konnte nicht geladen oder bestätigt werden. Versuche es erneut.',
+    newDay: 'Ein neuer Rätseltag hat begonnen. Lade das heutige Rätsel.',
+    reload: 'Rätsel neu laden',
+    day: 'Rätsel vom {{day}}',
+    streak_one: 'Rätselserie: {{count}} Tag',
+    streak_other: 'Rätselserie: {{count}} Tage',
+    reset: 'Neues Rätsel um Mitternacht ({{zone}}).',
+    difficulty: 'Schwierigkeitsstufe {{count}}',
+    unavailable: 'Für diesen Tag ist noch kein freigegebenes Rätsel verfügbar.',
+    oneAttempt: 'Ein Versuch für das heutige Rätsel',
+    correct: 'Richtig gelöst!',
+    incorrect: 'Heute leider nicht gelöst.',
+    tomorrow: 'Morgen wartet das nächste Rätsel.',
+    share: 'Ergebnis teilen oder kopieren',
+    shareText: 'Harmonia-Rätsel {{day}} {{symbol}} · Serie: {{streak}}',
+  },
   duel: {
     title: 'Duelle',
     entry:

@@ -130,3 +130,7 @@ import_map = "./functions/deno.json"
 [functions.duel]
 verify_jwt = false
 import_map = "./functions/deno.json"
+
+[functions.daily-puzzle]
+verify_jwt = false
+import_map = "./functions/deno.json"

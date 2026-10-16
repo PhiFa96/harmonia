@@ -1,5 +1,6 @@
 import { clearRush, useRush } from '@/state/rush';
 import { clearDuel, useDuel } from '@/state/duel';
+import { clearDailyPuzzle, useDailyPuzzle } from '@/state/daily-puzzle';
 import { clearLeagues, useLeagues } from '@/state/leagues';
 import { eraseMotivationMemory } from '@/state/motivation';
 import { eraseReportsMemory } from '@/state/reports';
@@ -25,6 +26,7 @@ export async function eraseLocalAccount(scope: string) {
   blockErasedScope(scope, []);
   if (useRush.getState().owner === scope) clearRush();
   if (useDuel.getState().owner === scope) clearDuel();
+  if (useDailyPuzzle.getState().owner === scope) clearDailyPuzzle();
   if (useLeagues.getState().owner === scope) clearLeagues();
   await eraseProfileScope(scope);
   eraseMotivationMemory(scope);

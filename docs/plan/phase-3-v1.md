@@ -107,6 +107,8 @@ Technische Übergabe: `theorie-rush.md`, ADR 0032. Freundesfilter auf gegenseiti
 
 ### P3.07 – Tägliches Rätsel
 
+**Technischer Stand (16.10.2026):** Auf `codex/p3-07-daily-puzzle` vorbereitet: 42 datierte Aufgaben aus freigegebenem Katalog, lokaler Mitternachtswechsel, servergeprüfte Einmalantwort, eigene Serie und lösungsfreier Teiltext. [Umsetzung und offene Abnahme](taegliches-raetsel.md), [ADR 0034](../decisions/0034-tagesraetsel-aus-freigegebenem-katalog.md). Produktiver Katalog und Datenbank-/Geräteabnahmen bleiben offen.
+
 - **Ziel:** Ein Grund, jeden Tag vorbeizuschauen.
 - **Abhängig von:** Phase 2
 - **Umfang:** M

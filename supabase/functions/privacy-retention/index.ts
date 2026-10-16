@@ -81,6 +81,9 @@ Deno.serve(async (request) => {
     const duels = await client.rpc('retain_duels');
     if (duels.error) return json(503, { error: 'retention' });
     const duelResult = duels.data as { changed: number; more: boolean };
+    const puzzle = await client.rpc('retain_daily_puzzles');
+    if (puzzle.error) return json(503, { error: 'retention' });
+    const puzzleResult = puzzle.data as { changed: number; more: boolean };
     const details = await client.rpc('privacy_retention_details');
     if (details.error) return json(503, { error: 'retention' });
     const detailResult = details.data as { changed: number; more: boolean };
@@ -109,6 +112,7 @@ Deno.serve(async (request) => {
       details: detailResult.changed,
       rush: rushResult.changed,
       duels: duelResult.changed,
+      dailyPuzzles: puzzleResult.changed,
       analytics: analytics.data as number,
       more:
         rows.data.length === 100 ||
@@ -116,6 +120,7 @@ Deno.serve(async (request) => {
         detailResult.more ||
         rushResult.more ||
         duelResult.more ||
+        puzzleResult.more ||
         analytics.data === 100,
     });
   } catch {

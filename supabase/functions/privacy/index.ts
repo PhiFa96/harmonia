@@ -70,6 +70,7 @@ const sections = {
   duelQueue: ['duel_queue', 'user_id', 'user_id', '*'],
   duelInvitesSent: ['duel_invites', 'host_id', 'token', 'token,created_at,expires_at,game_id'],
   duelInvitesAccepted: ['duel_invites', 'guest_id', 'token', 'token,created_at,expires_at,game_id'],
+  dailyPuzzleResults: ['daily_puzzle_results', 'user_id', 'day', '*'],
   friendships: ['friendships', 'user_id', 'friend_id', '*'],
   skillRatings: ['skill_progress', 'user_id', 'skill_id', '*'],
   cardReviews: ['card_review_progress', 'user_id', 'card_key', '*'],

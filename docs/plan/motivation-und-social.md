@@ -94,7 +94,7 @@ sequenceDiagram
 
 - **Inhalt:** ein Hör- oder Analyse-Rätsel, für alle gleich
 - **Schwierigkeit:** steigt von Montag bis Sonntag
-- **Teilen:** als Text ohne Lösung (z. B. Anzahl Versuche als Symbolreihe)
+- **Teilen:** als Text ohne Lösung mit Datum, Erfolgszeichen und Serienlänge; ein bestätigter Versuch pro Tag (ADR 0034)
 - **Serie:** eigene Rätsel-Serie neben dem Lern-Streak
 
 ## Freunde und Freundes-Quests (Phase 3)

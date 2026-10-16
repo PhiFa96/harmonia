@@ -1,5 +1,6 @@
 import { RushLifecycle } from '@/components/rush-lifecycle';
 import { DuelLifecycle } from '@/components/duel-lifecycle';
+import { DailyPuzzleLifecycle } from '@/components/daily-puzzle-lifecycle';
 import bravura from '@vexflow-fonts/bravura/bravura.otf';
 import accidentals from '../../assets/fonts/HarmoniaAccidentals.otf';
 import { Figtree_400Regular } from '@expo-google-fonts/figtree/400Regular';
@@ -73,6 +74,7 @@ export default function RootLayout() {
           <LeagueLifecycle />
           <RushLifecycle />
           <DuelLifecycle />
+          <DailyPuzzleLifecycle />
           <BillingLifecycle />
           <AccessLifecycle />
           <PrivacyLifecycle />
@@ -115,6 +117,7 @@ export default function RootLayout() {
                   <Stack.Screen name="lesson" />
                   <Stack.Screen name="rush" />
                   <Stack.Screen name="duel" />
+                  <Stack.Screen name="daily-puzzle" />
                   <Stack.Screen name="article" />
                   <Stack.Screen name="tutor-task" />
                   <Stack.Screen name="note-input" />

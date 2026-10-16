@@ -52,8 +52,8 @@ Postgres in Supabase, Region EU. Alle Tabellen mit Row Level Security (RLS). Än
 | `rush_policy`, `rush_daily_usage` (P3.05) | Versionierte Regeln und atomare Starts pro UTC-Tag | `policy`; `user_id`, `day`, `used` |
 | `duels` | Live- und Ghost-Duelle | `id`, `player_a`, `player_b` (oder `ghost_of_run`), `seed`, `status`, `score_a`, `score_b`, `winner`, `rating_delta_a`, `rating_delta_b` |
 | `duel_ratings` | Duell-Wertung | `user_id`, `rating`, `rating_deviation`, `volatility`, `games` |
-| `daily_puzzles` | Tägliches Rätsel | `date`, `puzzle` (jsonb), `difficulty` |
-| `daily_puzzle_results` | Ergebnisse | `date`, `user_id`, `solved`, `attempts`, `time_ms` |
+| `daily_puzzles` (P3.07) | Global eingefrorenes Rätsel pro Datum | `day`, `bank`, `spec`, `seed`, `difficulty` |
+| `daily_puzzle_results` (P3.07) | Eigene Einmalantwort und Serienbeleg | `user_id`, `day`, `answer`, `correct`, `time_zone`, `answered_at`, `retained_at` |
 | `friendships` (Relationsgrenze P3.05, Verwaltung P3.08) | Gegenseitig bestätigte Freunde; pending/accepted/blocked, Service-only | `user_id`, `friend_id`, `status`, `created_at` |
 | `friend_quests` | Gemeinsame Wochenziele | `id`, `week_start`, `user_a`, `user_b`, `goal_type`, `target`, `progress`, `completed_at` |
 | `push_tokens` | Push-Benachrichtigungen | `user_id`, `token`, `platform`, `created_at` |

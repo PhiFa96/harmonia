@@ -27,3 +27,5 @@ export * from './review.ts';
 export * from './leagues.ts';
 export * from './rush.ts';
 export * from './duel.ts';
+export * from './daily-puzzle.ts';
+export { lessonDay } from './calendar.ts';

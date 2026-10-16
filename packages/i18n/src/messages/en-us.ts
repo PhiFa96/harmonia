@@ -4,6 +4,28 @@ import { contentMessages } from '@harmonia/i18n/content-messages';
 import type { Messages } from './types.ts';
 
 export const enUS = {
+  puzzle: {
+    title: 'Daily puzzle',
+    entry: 'One shared question every day. Difficulty rises through Sunday.',
+    open: "Open today's puzzle",
+    guest: 'You need an account and an internet connection for your puzzle streak.',
+    loading: 'Loading puzzle…',
+    error: 'The puzzle could not be loaded or confirmed. Try again.',
+    newDay: 'A new puzzle day has begun. Load today’s puzzle.',
+    reload: 'Reload puzzle',
+    day: 'Puzzle for {{day}}',
+    streak_one: 'Puzzle streak: {{count}} day',
+    streak_other: 'Puzzle streak: {{count}} days',
+    reset: 'New puzzle at midnight ({{zone}}).',
+    difficulty: 'Difficulty level {{count}}',
+    unavailable: 'No approved puzzle is available for this day yet.',
+    oneAttempt: "One attempt for today's puzzle",
+    correct: 'Solved!',
+    incorrect: 'Not solved today.',
+    tomorrow: 'The next puzzle arrives tomorrow.',
+    share: 'Share or copy result',
+    shareText: 'Harmonia puzzle {{day}} {{symbol}} · Streak: {{streak}}',
+  },
   duel: {
     title: 'Duels',
     entry: 'Play for three minutes against another person or a real recorded Rush run.',
