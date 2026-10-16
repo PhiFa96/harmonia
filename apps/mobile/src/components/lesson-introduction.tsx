@@ -91,9 +91,6 @@ export function LessonIntroduction({
               key={`score:${example.score}`}
               testID="lesson-example-scroll"
               horizontal
-              {...(Platform.OS === 'web'
-                ? { tabIndex: 0, 'aria-label': t('lesson.scrollExample') }
-                : {})}
               contentContainerStyle={styles.score}
               onLayout={(event) => {
                 setViewportWidth(event.nativeEvent.layout.width);
@@ -101,7 +98,10 @@ export function LessonIntroduction({
               onContentSizeChange={(width) => {
                 setScoreWidth(width);
               }}
-              {...(Platform.OS === 'web' && scrollable ? { tabIndex: 0 } : {})}
+              // Nur ein tatsächlich scrollbares Beispiel ist ein eigener Tab-Halt.
+              {...(Platform.OS === 'web' && scrollable
+                ? { tabIndex: 0, 'aria-label': t('lesson.scrollExample') }
+                : {})}
             >
               {score.staves.length === 2 ? (
                 <View accessible role="img" aria-label={contentText(example.captionKey)}>

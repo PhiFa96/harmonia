@@ -68,7 +68,8 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     android: { package: id },
     web: { output: 'single', bundler: 'metro' },
     plugins: [
-      'expo-router',
+      // Die automatische Routenübersicht /_sitemap gehört nicht in die ausgelieferte App.
+      ['expo-router', { sitemap: false }],
       'expo-localization',
       'expo-sqlite',
       'expo-secure-store',

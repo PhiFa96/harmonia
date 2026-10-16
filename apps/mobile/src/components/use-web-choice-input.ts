@@ -10,6 +10,8 @@ export function useWebChoiceInput(
     readonly choices: readonly string[];
     readonly enabled: boolean;
     readonly select: (value: string) => void;
+    /** Pfeile/Pos1/Ende bewegen nur den Fokus, z. B. wenn Auswählen einen Dialog schließt (WCAG 3.2.2). */
+    readonly focusOnly?: boolean;
   },
 ) {
   const current = useRef(options);
@@ -50,6 +52,10 @@ export function useWebChoiceInput(
       event.stopPropagation();
       if (event.repeat && (event.key === ' ' || event.key === 'Enter')) return;
       const value = current.current.choices[next];
+      if (current.current.focusOnly && event.key !== ' ' && event.key !== 'Enter') {
+        radios[next]?.focus({ preventScroll: true });
+        return;
+      }
       if (value !== undefined) {
         current.current.select(value);
         radios[next]?.focus({ preventScroll: true });
