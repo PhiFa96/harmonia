@@ -197,6 +197,8 @@ for (const path of ['/legal', '/privacy', '/cancel-subscription'])
     await page.setViewportSize({ width: 320, height: 800 });
     await noOverflow(page);
   });
+// Regressionswache: Der Web-Export zeigte /_sitemap auch vor `sitemap: false` nicht an (Gegenprobe
+// 16.10.2026, mit und ohne abgeschlossenes Onboarding). Die Option sichert Entwicklung/native Deep Links ab.
 test('Interne Routenübersicht /_sitemap wird nicht ausgeliefert', async ({ page }) => {
   await page.goto('/_sitemap');
   await page
