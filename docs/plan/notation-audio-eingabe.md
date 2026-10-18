@@ -252,10 +252,10 @@ Erweiterungen in Phase 3: Klaviersystem (zwei Systeme mit Klammer), mehrere Stim
 
 ### Mikrofon (Phase 3)
 
-- **Tonhöhenerkennung** auf dem Gerät; Kandidaten: `pitchy` (MIT, McLeod Pitch Method, reines JavaScript) oder eine native Bibliothek (z. B. `react-native-pitchy`). Entscheidung per Spike.
+- **Tonhöhenerkennung** auf dem Gerät: P3.09 verwendet vorläufig `pitchy` (MIT, McLeod Pitch Method, JavaScript) auf allen drei Plattformen. Eine native Bibliothek (z. B. `react-native-pitchy`) ist statisch bewertet; Gerätedaten fehlen noch. Siehe [Mikrofon und Stimmgerät](mikrofon-und-stimmgeraet.md) und ADR 0036.
 - Verarbeitung: Audioblöcke von etwa 2048 Samples, Klarheitsschwelle, Medianfilter gegen Ausreißer, Ton gilt als erkannt, wenn er etwa 80 ms stabil ist.
 - Bewertung: Abweichung in Cent; Toleranz je Stufe einstellbar (Einstieg ±50 Cent, Fortgeschritten ±25 Cent).
-- Oktavfehler gesondert behandeln (bei Gesang häufig).
+- Einzelne Oktavausreißer werden im Medianfilter abgefangen; länger anhaltende Oktavfehler müssen auf Geräten gemessen werden.
 - **Datenschutz:** Audio wird nur auf dem Gerät verarbeitet, nichts wird hochgeladen.
 - Berechtigungen: iOS-Mikrofonbeschreibung, Android `RECORD_AUDIO`, Web nur über HTTPS.
 - Zuerst einstimmig (Singen, Einzeltöne). Akkorderkennung per Mikrofon erst nach eigener Evaluierung, da sie laut Testberichten bei anderen Apps weniger zuverlässig ist.

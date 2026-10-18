@@ -83,7 +83,9 @@ export default ({ config }: ConfigContext): ExpoConfig => {
           // Beides bräuchte eine Begründung im App-Review und eine Benachrichtigung auf Android.
           iosBackgroundMode: false,
           androidForegroundService: false,
-          androidPermissions: [],
+          androidPermissions: ['android.permission.RECORD_AUDIO'],
+          iosMicrophonePermission:
+            'Harmonia uses the microphone only while you tune a note. Audio stays on this device and is not saved or uploaded.',
         },
       ],
     ],

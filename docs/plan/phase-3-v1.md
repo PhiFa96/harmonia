@@ -138,10 +138,10 @@ Technische Übergabe: `freunde-und-quests.md`, ADR 0035. Einmal-Einladungen, bei
 - **Abhängig von:** P1.16
 - **Umfang:** L
 - **Aufgaben:**
-  - [ ] Spike `pitchy` gegen native Alternative (Genauigkeit, Latenz, Akku)
-  - [ ] Verarbeitungskette nach [notation-audio-eingabe.md](notation-audio-eingabe.md)
-  - [ ] Stimmgerät-Ansicht (Cent-Anzeige) als Testwerkzeug und Feature
-  - [ ] Berechtigungen und Datenschutzhinweis
+  - [ ] Spike `pitchy` gegen native Alternative: statische Bewertung dokumentiert, Messung auf Geräten offen ([Mikrofon und Stimmgerät](mikrofon-und-stimmgeraet.md))
+  - [x] Verarbeitungskette nach [notation-audio-eingabe.md](notation-audio-eingabe.md) technisch umgesetzt; Geräteabnahme offen
+  - [x] Stimmgerät-Ansicht mit Cent-Anzeige technisch umgesetzt; Geräteabnahme offen
+  - [x] Berechtigungen und Datenschutzhinweis technisch umgesetzt; rechtliche Abnahme offen
 - **Fertig, wenn:** Gesungene Töne werden in ruhiger Umgebung bei mindestens 95 % der Versuche richtig erkannt (Testreihe mit mehreren Stimmen und Geräten).
 
 ### P3.10 – Übungen mit Mikrofon

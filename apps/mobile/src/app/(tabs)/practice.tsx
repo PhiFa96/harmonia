@@ -2,6 +2,7 @@ import { RushEntry } from '@/components/rush-entry';
 import { DuelEntry } from '@/components/duel-entry';
 import { DailyPuzzleEntry } from '@/components/daily-puzzle-entry';
 import { FriendsEntry } from '@/components/friends-entry';
+import { TunerEntry } from '@/components/tuner-entry';
 import { authorizeStart, accessOwner } from '@/access/state';
 import { ReviewEntry } from '@/components/review-entry';
 import { EnergyCard } from '@/components/energy-card';
@@ -124,6 +125,7 @@ export default function PracticeScreen() {
             <DuelEntry />
             <DailyPuzzleEntry />
             <FriendsEntry />
+            <TunerEntry />
             <ReviewEntry />
             <WeaknessEntry />
             <Card>

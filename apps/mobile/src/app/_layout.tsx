@@ -121,6 +121,7 @@ export default function RootLayout() {
                   <Stack.Screen name="duel" />
                   <Stack.Screen name="daily-puzzle" />
                   <Stack.Screen name="friends" />
+                  <Stack.Screen name="tuner" />
                   <Stack.Screen name="article" />
                   <Stack.Screen name="tutor-task" />
                   <Stack.Screen name="note-input" />

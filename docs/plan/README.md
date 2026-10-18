@@ -12,6 +12,7 @@ Dieser Plan beschreibt, wie wir Harmonia Schritt für Schritt bauen: vom leeren 
 | [Duelle P3.06](duelle.md) | Live-Matchmaking, Ghosts, Einladungen, Rating und offene Abnahme |
 | [Tägliches Rätsel P3.07](taegliches-raetsel.md) | 42-Tage-Vorrat, Tageswechsel, Einmalantwort und eigene Serie |
 | [Freunde und Quests P3.08](freunde-und-quests.md) | Einmal-Einladungen, private Freundesliste und gemeinsame Wochenquest |
+| [Mikrofon und Stimmgerät P3.09](mikrofon-und-stimmgeraet.md) | Lokale Tonhöhenerkennung, Berechtigungen und Geräte-Messreihe |
 | [Theorie-Engine](theorie-engine.md) | Fachlicher Kern: Tonhöhen, Intervalle, Akkorde, Harmonik, Stimmführung |
 | [Notation, Audio, Eingabe](notation-audio-eingabe.md) | Notendarstellung, Klang, Klaviatur, Mikrofon, MIDI |
 | [Übersetzungen und Glossar](i18n-und-glossar.md) | Texte DE/EN (US/UK), Fachglossar, Prüfungen, Sprachwahl |

@@ -10,7 +10,7 @@
 | Käufe | Store, Produkt, Berechtigung, Ablauf/Zahlungsstatus | RevenueCat/Stores; Web-Zahlungsdaten ggf. bei Stripe. Endgültige SDK-/Checkout-Fragen prüfen |
 | Kennungen | Konto- und Gerätekennungen, bei Remote-Push Token | Funktion/optionale Erinnerung. Anbieterseitige Geräte-/Diagnosekennungen prüfen |
 | Diagnosen / IP / Protokolle | Mögliche Infrastruktur-/SDK-Protokolle | Konkrete Providerkonfiguration prüfen; keine ungeprüfte „kein Tracking/keine Daten“-Gesamtzusage |
-| Audio/Mikrofon | Aktuell Ausgabe und Rhythmus-Taps, keine Sprachaufnahme oder Stimm-/Songanalyse | Erst mit späterer Aufnahmefunktion neu deklarieren |
+| Audio/Mikrofon | Optionales Stimmgerät verarbeitet Mikrofon-PCM und Tonhöhe flüchtig auf dem Gerät, ohne Datei oder Upload; außerdem Ausgabe und Rhythmus-Taps | OS-/Browserberechtigung, Datenschutztext und die tatsächlichen Store-Formulare für lokale Verarbeitung prüfen; vor anderer Aufnahmefunktion neu bewerten |
 
 Tracking/Weitergabe anhand der Storedefinition und **aller** aktiven SDKs bewerten, nicht nur nach eigener Absicht. Aktuell keine Werbung, Ad-ID-Erfassung oder Analytics-/Marketing-SDK implementiert. P2.22 bereitet eigene einwilligungsgebundene Analytics-Ereignisse bei Supabase vor; diese Verarbeitung und deren Kontoverknüpfung in beiden Stores gesondert deklarieren, bevor die Erfassung aktiviert wird. RevenueCat-/Expo-/Infrastrukturverhalten bleibt vertraglich und auf Geräten zu verifizieren. Transitverschlüsselung für den echten Remote-Build/alle SDK-Destinationen prüfen; lokale HTTP-Testdienste sind kein produktiver Verschlüsselungsnachweis. Lokale SQLite-Daten sind OS-sandboxgeschützt, keine ungeprüfte Zusage eigener Datenbankverschlüsselung.
 

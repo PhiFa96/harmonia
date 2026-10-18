@@ -3,6 +3,31 @@ import { contentMessages } from '@harmonia/i18n/content-messages';
 // Fachbegriffe kommen aus dem Glossar: $t(glossary:…).
 
 export const de = {
+  tuner: {
+    title: 'Stimmgerät',
+    entry: 'Prüfe die Tonhöhe beim Singen oder Spielen.',
+    open: 'Stimmgerät öffnen',
+    intro: 'Spiele oder singe einen einzelnen, gehaltenen Ton in einer ruhigen Umgebung.',
+    privacyTitle: 'Mikrofonzugriff',
+    privacy:
+      'Das Mikrofon startet erst auf Knopfdruck. Audio wird nur auf deinem Gerät verarbeitet, weder gespeichert noch hochgeladen. Beim Verlassen oder im Hintergrund stoppt es.',
+    reference: 'Kammerton A: {{hz}} Hz',
+    start: 'Mikrofon starten',
+    stop: 'Mikrofon stoppen',
+    requesting: 'Mikrofonzugriff wird angefragt …',
+    permission:
+      'Mikrofonzugriff verweigert. Erlaube den Zugriff in den Geräteeinstellungen und versuche es erneut.',
+    interrupted: 'Die Mikrofonverbindung wurde unterbrochen. Starte sie erneut.',
+    unavailable: 'Das Mikrofon ist zurzeit nicht verfügbar. Prüfe Gerät und Browserberechtigungen.',
+    silent: 'Warte auf einen Ton …',
+    unstable: 'Halte einen einzelnen Ton etwas länger.',
+    frequency: '{{hz}} Hz',
+    cents: '{{cents}} Cent',
+    direction_low: 'Zu tief',
+    direction_center: 'Gestimmt',
+    direction_high: 'Zu hoch',
+    scale: 'Mitte = gestimmt; links zu tief, rechts zu hoch.',
+  },
   friends: {
     title: 'Freunde und Freundes-Quests',
     entry: 'Lerne mit eingeladenen Freunden und erreicht gemeinsam ein Wochenziel.',

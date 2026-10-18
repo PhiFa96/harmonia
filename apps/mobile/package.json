@@ -22,6 +22,7 @@
     "@harmonia/exercises": "workspace:*",
     "@harmonia/i18n": "workspace:*",
     "@harmonia/notation": "workspace:*",
+    "@harmonia/theory": "workspace:*",
     "@harmonia/ui": "workspace:*",
     "@revenuecat/purchases-js": "1.70.0",
     "@supabase/supabase-js": "^2.117.3",

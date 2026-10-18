@@ -5,14 +5,16 @@
   "description": "Klang: Töne, Akkorde, Sequenzen und Metronom über die Web Audio API (Browser) bzw. react-native-audio-api (iOS/Android)",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./pitch-detection": "./src/pitch-detection.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
   },
   "dependencies": {
-    "@harmonia/theory": "workspace:*"
+    "@harmonia/theory": "workspace:*",
+    "pitchy": "4.1.0"
   },
   "devDependencies": {
     "@harmonia/config": "workspace:*",

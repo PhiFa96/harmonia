@@ -6,7 +6,9 @@ Harmonia supports private music theory learning. Guests can start with locally s
 
 Guest data normally stays on your device; an explicitly temporary session is also available. Account evidence and necessary preferences are processed with our backend. Infrastructure/security logs may arise from public function/policy requests too. **[Insert verified recipients, locations, log periods, legal bases and device-storage rules from the reviewed processing register.]**
 
-The optional tutor processes your question and, where expressly requested, exercise context with an AI provider. Answers can be wrong. Avoid unnecessary sensitive information or other people's data. **[Insert actual Anthropic contract, retention, training terms, locations and transfer basis only after verification.]** There is currently no general microphone, voice or song-upload processing.
+The optional tutor processes your question and, where expressly requested, exercise context with an AI provider. Answers can be wrong. Avoid unnecessary sensitive information or other people's data. **[Insert actual Anthropic contract, retention, training terms, locations and transfer basis only after verification.]**
+
+The optional tuner accesses the microphone only after you start it and grant OS or browser permission. Sound is processed transiently on your device to show a note, frequency and cents. Neither a recording nor a pitch history is saved as a file or sent to Harmonia. Stop, leaving the screen or moving to the background ends access. You can change device permission in system settings. There is no general voice or song upload. **[Review the legal basis and store declarations for local device access.]**
 
 Subscriptions use an account identifier, store, product, entitlement and necessary status information. Payment processing happens with the actually configured store/web provider. **[Verify RevenueCat/store/Stripe roles, contacts and contractual retention.]** Deleting the account does not cancel ongoing subscriptions; a separate web cancellation flow is provided.
 

@@ -4,6 +4,30 @@ import { contentMessages } from '@harmonia/i18n/content-messages';
 import type { Messages } from './types.ts';
 
 export const enUS = {
+  tuner: {
+    title: 'Tuner',
+    entry: 'Check your pitch while singing or playing.',
+    open: 'Open tuner',
+    intro: 'Play or sing one sustained note in a quiet place.',
+    privacyTitle: 'Microphone access',
+    privacy:
+      'The microphone starts only when you press the button. Audio is processed on this device, never saved or uploaded. It stops when you leave or move to the background.',
+    reference: 'Reference A: {{hz}} Hz',
+    start: 'Start microphone',
+    stop: 'Stop microphone',
+    requesting: 'Requesting microphone access…',
+    permission: 'Microphone access denied. Allow access in device settings and try again.',
+    interrupted: 'Microphone connection interrupted. Start it again.',
+    unavailable: 'The microphone is unavailable. Check your device and browser permissions.',
+    silent: 'Waiting for a note…',
+    unstable: 'Hold one note a little longer.',
+    frequency: '{{hz}} Hz',
+    cents: '{{cents}} cents',
+    direction_low: 'Too low',
+    direction_center: 'In tune',
+    direction_high: 'Too high',
+    scale: 'Center is in tune; left is low, right is high.',
+  },
   friends: {
     title: 'Friends and friend quests',
     entry: 'Learn with invited friends and reach a weekly goal together.',
