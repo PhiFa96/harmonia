@@ -57,6 +57,7 @@ import { taskTutorScore } from '@/tutor/context';
 
 interface Props {
   readonly hintsAllowed?: boolean;
+  readonly scrollAfterCheck?: boolean;
   readonly interactionDisabled?: boolean;
   readonly session: ExerciseSession;
   readonly reportSource?: ReportSource;
@@ -79,6 +80,7 @@ interface Props {
 }
 export function ExerciseTask({
   hintsAllowed = true,
+  scrollAfterCheck = true,
   interactionDisabled = false,
   session,
   reportSource,
@@ -568,9 +570,10 @@ export function ExerciseTask({
                 return;
               audio.stop();
               onCheck(answer);
-              requestAnimationFrame(() => {
-                scroll.current?.scrollToEnd({ animated: !reduceMotion });
-              });
+              if (scrollAfterCheck)
+                requestAnimationFrame(() => {
+                  scroll.current?.scrollToEnd({ animated: !reduceMotion });
+                });
             }}
           />
         </>

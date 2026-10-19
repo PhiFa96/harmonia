@@ -220,13 +220,15 @@ Die fachliche Prüfung nach ADR 0005, F03 und echte Geräteabnahme bleiben offen
 
 ### P3.17 – Prüfungsmodus
 
+**Technischer Stand (19.10.2026):** Zwei interne Theorie-/Gehörbildungsvorlagen mit Frist, Bereichspunkten und Lernpfad-Empfehlungen vorbereitet; [Recherche, Umfang und offene Abnahme](pruefungsmodus.md). Beide Vorlagen und ihre Inhalte benötigen die getrennte fachliche Prüfung. Der öffentliche Katalog hat noch keine Prüfungsvorlagen. **P3.17 ist fachlich nicht abgeschlossen.**
+
 - **Ziel:** Simulation von Aufnahmeprüfungen (Theorie und Gehörbildung).
 - **Abhängig von:** P3.14
 - **Umfang:** L
 - **Aufgaben:**
-  - [ ] Recherche zu typischen Prüfungsformaten (öffentliche Informationen der Hochschulen; keine Übernahme fremder Prüfungsaufgaben)
-  - [ ] Prüfungsvorlagen mit Zeitlimit, Punktewertung, Auswertung je Bereich
-  - [ ] Empfehlungen nach der Prüfung (verknüpft mit Lernpfad)
+  - [x] Recherche zu typischen Prüfungsformaten (öffentliche Informationen der Hochschulen; keine Übernahme fremder Prüfungsaufgaben)
+  - [x] Prüfungsvorlagen mit Zeitlimit, Punktewertung, Auswertung je Bereich
+  - [x] Empfehlungen nach der Prüfung (verknüpft mit Lernpfad)
 - **Fertig, wenn:** Mindestens zwei Prüfungsvorlagen sind fachlich geprüft.
 
 ## Block E – Tutor
