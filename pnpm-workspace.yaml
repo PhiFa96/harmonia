@@ -7,7 +7,7 @@ catalog:
   '@eslint/js': ^10.0.1
   # App (Expo SDK 57): Versionen wie von `expo install` für SDK 57 vorgegeben
   '@types/react': ~19.2.2
-  expo: ~57.0.27
+  expo: ~57.0.30
   react: 19.2.3
   react-dom: 19.2.3
   react-native: 0.86.3
@@ -21,8 +21,8 @@ catalog:
   eslint: ^10.12.0
   fast-check: ^4.10.2
   # Übersetzungen (P1.05)
-  i18next: ^26.4.3
-  react-i18next: ^17.0.16
+  i18next: ^26.4.6
+  react-i18next: ^17.0.18
   globals: ^17.0.0
   # Kontrast-Orakel im Test des Design-Systems (P1.06)
   culori: ^4.0.2
@@ -32,8 +32,8 @@ catalog:
   tonal: 6.4.3
   typescript: ~6.0.3
   typescript-eslint: ^8.71.1
-  vitest: ^5.0.3
-  zod: ^4.6.5
+  vitest: ^5.0.5
+  zod: ^4.6.7
 
 # Unterpakete von tonal, deren Release vom 28.09.2026 auf fehlende Dateien verweist ("main": dist/index.js).
 # Betrifft nur das Test-Orakel. Entfernen, sobald tonal die Paketierung repariert hat.
