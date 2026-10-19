@@ -194,9 +194,11 @@ Technische Übergabe: `freunde-und-quests.md`, ADR 0035. Einmal-Einladungen, bei
 - **Abhängig von:** P3.13
 - **Umfang:** L
 - **Aufgaben:**
-  - [ ] `CADENCE_IDENTIFY`, `FUNCTION_ANALYSIS`, `MELODY_DICTATION`, `RHYTHM_DICTATION`
-  - [ ] Septakkorde in `CHORD_IDENTIFY` und `CHORD_BUILD`
+  - [x] `CADENCE_IDENTIFY`, `FUNCTION_ANALYSIS`, `MELODY_DICTATION`, `RHYTHM_DICTATION` technisch integriert ([Übergabe](harmonik-und-diktat-uebungen.md))
+  - [x] Septakkorde in `CHORD_IDENTIFY` und `CHORD_BUILD` technisch integriert
 - **Fertig, wenn:** Wie P2.06.
+
+Die fachliche Prüfung nach ADR 0005, F03 und echte Geräteabnahme bleiben offen; P3.14 ist noch nicht fachlich abgeschlossen.
 
 ### P3.15 – Inhalte Stufe 3 (DE + EN)
 

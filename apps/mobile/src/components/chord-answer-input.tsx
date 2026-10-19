@@ -37,7 +37,7 @@ export function ChordAnswerInput({ item, answer, result, showSolution, onSelect 
   const { t } = useTranslation(),
     locale = useMusicLocale(),
     { colors } = useUiTheme();
-  const [selected, setSelected] = useState<1 | 2>(1),
+  const [selected, setSelected] = useState<1 | 2 | 3>(1),
     [focused, setFocused] = useState(true);
   useFocusEffect(
     useCallback(() => {
@@ -56,9 +56,10 @@ export function ChordAnswerInput({ item, answer, result, showSolution, onSelect 
     labels = { correct: t('highlight.correct'), wrong: t('highlight.wrong') };
   const choose = (value: string) => {
     drag.current = null;
-    setSelected(value === '1' ? 1 : 2);
+    setSelected(value === '1' ? 1 : value === '2' ? 2 : 3);
   };
-  useWebChoiceInput(group, { choices: ['1', '2'], enabled, select: choose });
+  const slots = (pitches.length === 4 ? [1, 2, 3] : [1, 2]) as readonly (1 | 2 | 3)[];
+  useWebChoiceInput(group, { choices: slots.map(String), enabled, select: choose });
   const change = (next: Score) => {
     if (!enabled) return;
     const pitch = pitchAt(next, SLOT);
@@ -96,7 +97,7 @@ export function ChordAnswerInput({ item, answer, result, showSolution, onSelect 
         aria-label={t('exercise.chordSelectTone')}
         style={styles.tones}
       >
-        {([1, 2] as const).map((index) => {
+        {slots.map((index) => {
           const pitch = pitches[index],
             label = t('exercise.chordTone', { index: index + 1 }),
             value = pitch ? pitchInputLabel(pitch, locale) : t('exercise.chordToneEmpty');
@@ -142,7 +143,7 @@ export function ChordAnswerInput({ item, answer, result, showSolution, onSelect 
       {!result ? (
         <>
           <AppText variant="small" tone="muted">
-            {t('exercise.chordInputHint')}
+            {t(pitches.length === 4 ? 'exercise.chordInputHintSeventh' : 'exercise.chordInputHint')}
           </AppText>
           <Card padding={SPACE.s}>
             <ScrollView horizontal contentContainerStyle={styles.score}>
@@ -168,7 +169,9 @@ export function ChordAnswerInput({ item, answer, result, showSolution, onSelect 
         </>
       ) : null}
       <AppText variant="small" aria-live="polite">
-        {t('exercise.chordFilled', { count: pitches.slice(1).filter(Boolean).length })}
+        {t(pitches.length === 4 ? 'exercise.chordFilledSeventh' : 'exercise.chordFilled', {
+          count: pitches.slice(1).filter(Boolean).length,
+        })}
       </AppText>
       <AccidentalBar
         value={pitches[selected]?.alter}

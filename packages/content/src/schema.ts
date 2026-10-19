@@ -5,6 +5,8 @@ import {
   generateExercise,
   MVP_SCALE_TYPES,
   MVP_TRIAD_TYPES,
+  SEVENTH_TYPES,
+  CADENCE_TYPES,
   MVP_METERS,
   KNOWLEDGE_TOPICS,
   ORDER_TOPICS,
@@ -71,14 +73,14 @@ const orderParams = z
   .strict();
 const chordParams = noteParams
   .extend({
-    types: z.array(z.enum(MVP_TRIAD_TYPES)).nonempty(),
+    types: z.array(z.enum([...MVP_TRIAD_TYPES, ...SEVENTH_TYPES])).nonempty(),
     roots: z
       .array(z.string().regex(/^[A-G](?:bb|b|##|#)?$/))
       .nonempty()
       .optional(),
     diatonic: z.boolean().optional(),
     inversions: z
-      .array(z.union([z.literal(0), z.literal(1), z.literal(2)]))
+      .array(z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]))
       .nonempty()
       .optional(),
   })
@@ -140,6 +142,54 @@ export const exerciseSpecSchema = z
     z.object({ type: z.literal('MATCH'), params: matchParams }).strict(),
     z.object({ type: z.literal('ORDER'), params: orderParams }).strict(),
     z.object({ type: z.literal('RHYTHM_TAP'), params: rhythmParams }).strict(),
+    z
+      .object({
+        type: z.literal('CADENCE_IDENTIFY'),
+        params: z
+          .object({
+            fifths: fifths.optional(),
+            types: z.array(z.enum(CADENCE_TYPES)).nonempty().optional(),
+          })
+          .strict(),
+      })
+      .strict(),
+    z
+      .object({
+        type: z.literal('FUNCTION_ANALYSIS'),
+        params: z
+          .object({
+            fifths: fifths.optional(),
+            degrees: z
+              .array(
+                z.union([
+                  z.literal(1),
+                  z.literal(2),
+                  z.literal(3),
+                  z.literal(4),
+                  z.literal(5),
+                  z.literal(6),
+                  z.literal(7),
+                ]),
+              )
+              .nonempty()
+              .optional(),
+            notation: z.enum(['roman', 'function']).optional(),
+          })
+          .strict(),
+      })
+      .strict(),
+    z
+      .object({
+        type: z.literal('MELODY_DICTATION'),
+        params: z.object({ level: z.union([z.literal(1), z.literal(2)]).optional() }).strict(),
+      })
+      .strict(),
+    z
+      .object({
+        type: z.literal('RHYTHM_DICTATION'),
+        params: z.object({ level: z.union([z.literal(1), z.literal(2)]).optional() }).strict(),
+      })
+      .strict(),
     z.object({ type: z.literal('METER_IDENTIFY'), params: meterIdentifyParams }).strict(),
     z.object({ type: z.literal('CHORD_BUILD'), params: chordParams }).strict(),
     z
@@ -284,6 +334,25 @@ export const exerciseSpecSchema = z
           ...(value.params.direction ? { direction: value.params.direction } : {}),
         },
       };
+    if (value.type === 'CADENCE_IDENTIFY')
+      return {
+        type: value.type,
+        params: {
+          ...(value.params.fifths ? { fifths: value.params.fifths } : {}),
+          ...(value.params.types ? { types: value.params.types } : {}),
+        },
+      };
+    if (value.type === 'FUNCTION_ANALYSIS')
+      return {
+        type: value.type,
+        params: {
+          ...(value.params.fifths ? { fifths: value.params.fifths } : {}),
+          ...(value.params.degrees ? { degrees: value.params.degrees } : {}),
+          ...(value.params.notation ? { notation: value.params.notation } : {}),
+        },
+      };
+    if (value.type === 'MELODY_DICTATION' || value.type === 'RHYTHM_DICTATION')
+      return { type: value.type, params: value.params.level ? { level: value.params.level } : {} };
     if (value.type === 'RHYTHM_TAP' || value.type === 'METER_IDENTIFY')
       return {
         type: value.type,

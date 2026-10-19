@@ -10,11 +10,14 @@ export * from './pitch-input.ts';
 export * from './voice.ts';
 export * from './tonality.ts';
 export * from './chords.ts';
+export * from './harmony-exercises.ts';
+export * from './dictation.ts';
 export * from './rhythm.ts';
 export * from './knowledge.ts';
 export * from './interval-reading.ts';
 export * from './placement.ts';
 export { createRng } from '@harmonia/theory';
+export { durationName, formatPitch } from '@harmonia/theory';
 
 import {
   generateAuralInterval,

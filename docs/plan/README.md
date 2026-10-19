@@ -16,6 +16,7 @@ Dieser Plan beschreibt, wie wir Harmonia Schritt für Schritt bauen: vom leeren 
 | [MIDI-Eingabe P3.11](midi-eingabe.md) | MIDI-Keyboard auf Web/iOS/Android, Geräteauswahl, Sustain und offene Geräteabnahme |
 | [Rhythmus-Übungsmodus P3.12](rhythmus-uebungsmodus.md) | Langsames Üben mit Schleife und Metronom vor dem bewerteten Durchlauf |
 | [Engine und Notation v2 P3.13](engine-und-notation-v2.md) | Vierklänge, Harmonikgrundlagen und mehrstimmige Notation; F03 und Literaturabgleich offen |
+| [Harmonik und Diktat P3.14](harmonik-und-diktat-uebungen.md) | Vier neue Aufgabentypen, Septakkorde und freier Übungssatz; Fach- und Geräteabnahme offen |
 | [Theorie-Engine](theorie-engine.md) | Fachlicher Kern: Tonhöhen, Intervalle, Akkorde, Harmonik, Stimmführung |
 | [Notation, Audio, Eingabe](notation-audio-eingabe.md) | Notendarstellung, Klang, Klaviatur, Mikrofon, MIDI |
 | [Übersetzungen und Glossar](i18n-und-glossar.md) | Texte DE/EN (US/UK), Fachglossar, Prüfungen, Sprachwahl |

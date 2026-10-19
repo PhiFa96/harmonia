@@ -6,4 +6,5 @@ export {
   createChordSession,
   createRhythmSession,
   createKnowledgeSession,
+  createHarmonySession,
 } from '@harmonia/exercises';

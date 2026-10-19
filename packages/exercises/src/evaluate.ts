@@ -54,10 +54,15 @@ import {
 import type { Evaluation, ExerciseItem } from './types.ts';
 import { isIntervalReadingItem, intervalReadingAnswer } from './interval-reading.ts';
 import { evaluateVoice, isVoiceItem, voiceAnswerId, voiceTargets } from './voice.ts';
+import { cadenceAnswer, functionAnswer } from './harmony-exercises.ts';
+import { dictationExpected, dictationInputValues, isDictationItem } from './dictation.ts';
 
 /** Die Engine berechnet die Lösung aus den Fachdaten, nie aus dem sichtbaren Antworttext. */
 export function expectedAnswer(item: ExerciseItem): string {
   if (isVoiceItem(item)) return voiceAnswerId(voiceTargets(item));
+  if (item.type === 'CADENCE_IDENTIFY') return cadenceAnswer(item);
+  if (item.type === 'FUNCTION_ANALYSIS') return functionAnswer(item);
+  if (isDictationItem(item)) return dictationExpected(item);
   if (item.type === 'CONTEXT_CHOICE') return contextAnswer(item);
   if (item.type === 'LISTENING_CHOICE') return listeningAnswer(item);
   if (isIntervalReadingItem(item)) return intervalReadingAnswer(item);
@@ -96,6 +101,11 @@ export function expectedAnswer(item: ExerciseItem): string {
 export function evaluateExercise(item: ExerciseItem, answer: string): Evaluation {
   if (isVoiceItem(item)) return evaluateVoice(item, answer);
   const expected = expectedAnswer(item);
+  if (isDictationItem(item)) {
+    const values = dictationInputValues(item, answer);
+    const validAnswer = values?.length === item.pitches.length;
+    return { answer, expected, validAnswer, correct: validAnswer && answer === expected };
+  }
   if (item.type === 'MATCH' || item.type === 'ORDER') {
     const values =
       item.type === 'MATCH' ? matchAnswerValues(item, answer) : orderAnswerValues(item, answer);
@@ -115,7 +125,7 @@ export function evaluateExercise(item: ExerciseItem, answer: string): Evaluation
   if (item.type === 'CHORD_BUILD') {
     const pitches = chordAnswerPitches(item, answer);
     const complete = pitches?.filter((pitch): pitch is NonNullable<typeof pitch> => pitch !== null);
-    const validAnswer = complete?.length === 3;
+    const validAnswer = complete?.length === chordTargets(item).length;
     return {
       answer,
       expected,

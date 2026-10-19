@@ -41,6 +41,7 @@ import { useMusicLocale } from '@/i18n';
 import { useSettings } from '@/state/settings';
 import { ExerciseChoices } from './exercise-choices';
 import { ChordAnswerInput } from './chord-answer-input';
+import { DictationAnswerInput } from './dictation-answer-input';
 import { PitchAnswerInput } from './pitch-answer-input';
 import { MicrophoneAnswerInput } from './microphone-answer-input';
 import { ScaleAnswerInput } from './scale-answer-input';
@@ -408,6 +409,14 @@ export function ExerciseTask({
           answer={answer}
           {...(result ? { result } : {})}
           showSolution={!!result || session.hintLevel === 3}
+          onSelect={onSelect}
+        />
+      ) : item.type === 'MELODY_DICTATION' || item.type === 'RHYTHM_DICTATION' ? (
+        <DictationAnswerInput
+          key={`${String(session.index)}:${itemVariantKey(item)}`}
+          item={item}
+          answer={answer}
+          {...(result ? { result } : {})}
           onSelect={onSelect}
         />
       ) : item.type === 'SCALE_BUILD' ? (

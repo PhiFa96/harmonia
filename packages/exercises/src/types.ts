@@ -8,6 +8,7 @@ import type {
   Pitch,
   Rng,
   TriadType,
+  SeventhType,
   TimeSignature,
   Duration,
   Interval,
@@ -33,7 +34,11 @@ export type ExerciseType =
   | 'METER_IDENTIFY'
   | 'KNOWLEDGE_MC'
   | 'MATCH'
-  | 'ORDER';
+  | 'ORDER'
+  | 'CADENCE_IDENTIFY'
+  | 'FUNCTION_ANALYSIS'
+  | 'MELODY_DICTATION'
+  | 'RHYTHM_DICTATION';
 export type VoiceExerciseType = 'SING_INTERVAL' | 'SIGHT_SING' | 'PLAY_BACK';
 export type ExerciseClef = 'treble' | 'bass';
 export type IntervalPlayback = 'melodic-up' | 'melodic-down' | 'harmonic';
@@ -90,10 +95,10 @@ export interface KeySignatureParams {
   readonly fifths?: readonly number[];
 }
 export interface ChordParams extends NoteParams {
-  readonly types: readonly TriadType[];
+  readonly types: readonly (TriadType | SeventhType)[];
   /** Kanonische ASCII-Stammtöne, z. B. C, F#, Bb; ohne Angabe alle darstellbaren Grundtöne. */
   readonly roots?: readonly string[];
-  readonly inversions?: readonly (0 | 1 | 2)[];
+  readonly inversions?: readonly (0 | 1 | 2 | 3)[];
   readonly diatonic?: boolean;
 }
 export interface ChordIdentifyParams extends ChordParams {
@@ -116,6 +121,18 @@ export interface RhythmParams extends MeterParams {
   readonly rests?: boolean;
   /** Maximale Abweichung in ms; zusätzlich auf 40 % des kürzesten Einsatzabstands begrenzt. */
   readonly toleranceMs?: number;
+}
+export interface CadenceParams {
+  readonly fifths?: readonly number[];
+  readonly types?: readonly ('authentic' | 'plagal' | 'half' | 'deceptive')[];
+}
+export interface FunctionParams {
+  readonly fifths?: readonly number[];
+  readonly degrees?: readonly (1 | 2 | 3 | 4 | 5 | 6 | 7)[];
+  readonly notation?: 'roman' | 'function';
+}
+export interface DictationParams {
+  readonly level?: 1 | 2;
 }
 export type ListeningQuestion =
   | 'pulse'
@@ -249,6 +266,9 @@ export type ExerciseSpec =
   | { readonly type: 'KEYSIG_BUILD'; readonly params: KeySignatureParams }
   | { readonly type: 'CHORD_BUILD'; readonly params: ChordParams }
   | { readonly type: 'CHORD_IDENTIFY'; readonly params: ChordIdentifyParams }
+  | { readonly type: 'CADENCE_IDENTIFY'; readonly params: CadenceParams }
+  | { readonly type: 'FUNCTION_ANALYSIS'; readonly params: FunctionParams }
+  | { readonly type: 'MELODY_DICTATION' | 'RHYTHM_DICTATION'; readonly params: DictationParams }
   | { readonly type: 'RHYTHM_TAP'; readonly params: RhythmParams }
   | { readonly type: 'METER_IDENTIFY'; readonly params: MeterIdentifyParams }
   | { readonly type: 'INTERVAL_IDENTIFY_VISUAL'; readonly params: VisualIntervalParams }
@@ -322,6 +342,24 @@ export interface ChordItem extends ItemBase {
   readonly presentation: 'visual' | 'aural';
   readonly diatonic?: { readonly key: Key; readonly degree: number };
 }
+export interface CadenceItem extends ItemBase {
+  readonly type: 'CADENCE_IDENTIFY';
+  readonly key: Key;
+  readonly progression: readonly Chord[];
+}
+export interface FunctionItem extends ItemBase {
+  readonly type: 'FUNCTION_ANALYSIS';
+  readonly key: Key;
+  readonly chord: Chord;
+  readonly notation: 'roman' | 'function';
+}
+export interface DictationItem extends ItemBase {
+  readonly type: 'MELODY_DICTATION' | 'RHYTHM_DICTATION';
+  readonly pitches: readonly Pitch[];
+  readonly durations: readonly Duration[];
+  readonly inputPitches: readonly Pitch[];
+  readonly inputDurations: readonly Duration[];
+}
 export interface RhythmItem extends ItemBase {
   readonly type: 'RHYTHM_TAP' | 'METER_IDENTIFY';
   readonly meter: TimeSignature;
@@ -371,6 +409,9 @@ export type ExerciseItem =
   | ScaleItem
   | KeySignatureItem
   | ChordItem
+  | CadenceItem
+  | FunctionItem
+  | DictationItem
   | RhythmItem
   | KnowledgeExerciseItem;
 

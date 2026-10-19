@@ -29,8 +29,7 @@ Deno.serve(async (request) => {
       },
     );
     const auth = await client.auth.getUser(bearer.slice(7));
-    if (auth.error || auth.data.user.is_anonymous)
-      return json(401, { error: 'auth' });
+    if (auth.error || auth.data.user.is_anonymous) return json(401, { error: 'auth' });
     const actor = auth.data.user.id;
     let name = 'friend_status';
     let args: Record<string, unknown> = { actor };

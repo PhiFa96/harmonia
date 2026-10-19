@@ -25,6 +25,9 @@ export function feedbackMedia(item: ExerciseItem): {
   audio?: Score;
   label?: 'source' | 'key';
 } {
+  if (item.type === 'CADENCE_IDENTIFY') return { audio: item.score };
+  if (item.type === 'MELODY_DICTATION' || item.type === 'RHYTHM_DICTATION')
+    return { audio: item.score };
   if (isKeySignatureItem(item))
     return { audio: keyExample(signatureKey(item), item.clef === 'bass' ? 3 : 4), label: 'key' };
   if (item.type === 'CONTEXT_CHOICE') {

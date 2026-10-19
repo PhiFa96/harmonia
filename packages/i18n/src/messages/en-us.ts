@@ -1656,31 +1656,70 @@ export const enUS = {
     rhythmLatency:
       'Reported audio delay: {{latency}} ms; taken into account when measuring your taps.',
     chordStart: 'Recognize and write chords',
+    harmonyStart: 'Practise harmony and dictation',
+    harmonyIntro:
+      'Hear cadences, identify scale degrees, and enter short melodies and rhythms by ear.',
+    type_CADENCE_IDENTIFY: 'Identify cadence',
+    type_FUNCTION_ANALYSIS: 'Identify scale degree',
+    type_MELODY_DICTATION: 'Melodic dictation',
+    type_RHYTHM_DICTATION: 'Rhythmic dictation',
+    question_CADENCE_IDENTIFY: 'Listen to the chord progression in {{key}}. How does it end?',
+    question_FUNCTION_ANALYSIS: 'Which scale degree is this chord in {{key}}?',
+    question_MELODY_DICTATION:
+      'Listen to the melody and enter {{count}} notes in the order heard. The first note is C.',
+    question_RHYTHM_DICTATION:
+      'Listen to the rhythm and enter the {{count}} note values in the order heard.',
+    cadence_authentic: 'Authentic cadence (V–I)',
+    cadence_plagal: 'Plagal cadence (IV–I)',
+    cadence_half: 'Half cadence (I–V)',
+    cadence_deceptive: 'Deceptive cadence (V–vi)',
+    cadenceExplanation: 'In {{key}}, the progression ends with {{answer}}.',
+    functionExplanation: 'In {{key}}, the chord belongs to {{answer}}.',
+    dictationExplanation: 'Heard sequence: {{answer}}.',
+    harmonyHint1: 'Listen or look for the starting and ending points first.',
+    harmonyHint2: 'Compare the sequence step by step with the offered notes or functions.',
+    dictationProgress: '{{count}} of {{total}} entries placed',
+    dictationUndo: 'Remove last entry',
     chordIntro:
       'Nine questions: write major, minor, diminished and augmented triads with inversions, recognize them in notation and identify them by ear.',
     type_CHORD_BUILD: 'Write $t(glossary:chord_other)',
     type_CHORD_IDENTIFY: 'Recognize $t(glossary:chord_other)',
     question_CHORD_BUILD:
       'Write {{name}} in close position above {{bass}}. The $t(glossary:bassNote_one) is given; add the two remaining notes.',
+    question_CHORD_BUILD_SEVENTH:
+      'Write {{name}} in close position above {{bass}}. The bass note is given; add the three remaining notes.',
     question_CHORD_IDENTIFY:
       'Which $t(glossary:chord_one) do you see? Identify its $t(glossary:root_one), quality and $t(glossary:inversion_one).',
     question_CHORD_AURAL:
       'You hear $t(glossary:root_one) {{root}} first, then the $t(glossary:triad_one). Which quality and $t(glossary:inversion_one) do you hear?',
+    question_CHORD_AURAL_SEVENTH:
+      'You hear the root {{root}} first, then the seventh chord. Which quality and inversion do you hear?',
     chordExplanation:
       '{{name}}: {{notes}}. From $t(glossary:root_one) {{root}}, the intervals are {{third}} and {{fifth}}. The $t(glossary:bassNote_one) is {{bass}}, giving {{inversion}}. Written answers require complete notes, including accidentals and octave. Close position places the remaining chord tones in their next higher registers above the bass note.',
+    chordSeventhExplanation:
+      '{{name}}: {{notes}}. From root {{root}}, the intervals are {{third}}, {{fifth}}{{extension}}. The bass is {{bass}}, giving {{inversion}}. Written answers require full pitches, including accidentals and octave.',
     chordHint1:
       'Arrange the three letter names mentally in thirds. The bottom note of that arrangement is the $t(glossary:root_one). Compare it with the actual lowest note: root, third or fifth in the bass determines $t(glossary:rootPosition) or $t(glossary:inversion_one).',
+    chordSeventhHint1:
+      'Arrange four chord notes in thirds. Root, third, fifth or seventh in the bass determines the inversion.',
     chordHint2:
       'The $t(glossary:root_one) is {{root}}. From there you need {{third}} and {{fifth}}. The given or heard $t(glossary:bassNote_one) {{bass}} shows the position; place the other chord tones as close above it as possible.',
+    chordSeventhHint2:
+      'The root is {{root}}. Find {{third}}, {{fifth}}{{extension}}. The bass {{bass}} shows the inversion; place the remaining notes as close above it as possible.',
     chordAuralHint1:
       'Remember the first single note as the $t(glossary:root_one). Then listen for the lowest note of the $t(glossary:chord_one): compare it with the reference note, including across octaves. Root, third or fifth in the bass determines the position. The intervals between the notes determine the triad quality.',
+    chordSeventhAuralHint1:
+      'Remember the first note as the root. Then listen for the bass and seventh. Compare root, third, fifth and seventh to determine the inversion.',
     chordPreview: 'Your $t(glossary:chord_one)',
     chordSelectTone: 'Choose a chord tone to edit',
     chordTone: 'Note {{index}}',
     chordToneEmpty: 'not placed yet',
     chordFilled: '{{count}} of 2 answer notes placed.',
+    chordFilledSeventh: '{{count}} of 3 answer notes placed.',
     chordInputHint:
       'Choose note 2 or 3 and place it in the right $t(glossary:measure_one). The $t(glossary:bassNote_one) stays fixed on the left. The combined notation shows your $t(glossary:chord_one). You may enter the upper notes in either order.',
+    chordInputHintSeventh:
+      'Choose note 2, 3 or 4 and place it in the right measure. The bass stays fixed. You may enter the remaining notes in any order.',
     tonalityStart: 'Practise scales and key signatures',
     tonalityIntro:
       'Twelve questions: identify and write major and minor scales, recognise key signatures and build them yourself.',

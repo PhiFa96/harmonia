@@ -40,6 +40,10 @@ export const RATING_PARAMETERS = {
   ORDER: ['topics', 'maxDots', 'count', 'direction'],
   LISTENING_CHOICE: ['question', 'tempos'],
   CONTEXT_CHOICE: ['topics', 'years', 'modes', 'rootPosition'],
+  CADENCE_IDENTIFY: ['fifths', 'types'],
+  FUNCTION_ANALYSIS: ['fifths', 'degrees', 'notation'],
+  MELODY_DICTATION: ['level'],
+  RHYTHM_DICTATION: ['level'],
 } as const satisfies Record<ExerciseType, readonly string[]>;
 
 function canonical(value: unknown): string {

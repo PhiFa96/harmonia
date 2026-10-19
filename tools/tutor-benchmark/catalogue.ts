@@ -316,7 +316,7 @@ export function buildBenchmarkCatalogue(): BenchmarkCatalogue {
       entries.push({ source, item });
     }
   }
-  for (const set of PRACTICE_SETS) {
+  for (const set of PRACTICE_SETS.filter((value) => value !== 'harmony')) {
     const seed = 'tutor-catalogue-free-v1';
     for (const [index, item] of createFreePracticeSession(set, seed).items.entries())
       entries.push({

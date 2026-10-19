@@ -1689,31 +1689,71 @@ export const de = {
     rhythmLatency:
       'Gemeldete Audio-Verzögerung: {{latency}} ms; beim Messen deiner Anschläge berücksichtigt.',
     chordStart: 'Akkorde erkennen und schreiben',
+    harmonyStart: 'Harmonik und Diktat üben',
+    harmonyIntro:
+      'Kadenzen hören, Stufen bestimmen und kurze Melodien und Rhythmen nach Gehör eingeben.',
+    type_CADENCE_IDENTIFY: 'Kadenz erkennen',
+    type_FUNCTION_ANALYSIS: 'Stufe bestimmen',
+    type_MELODY_DICTATION: 'Melodiediktat',
+    type_RHYTHM_DICTATION: 'Rhythmusdiktat',
+    question_CADENCE_IDENTIFY: 'Höre die Akkordfolge in {{key}}. Wie endet sie?',
+    question_FUNCTION_ANALYSIS: 'Welche Stufe hat dieser Akkord in {{key}}?',
+    question_MELODY_DICTATION:
+      'Höre die Melodie und gib {{count}} Töne in der gehörten Reihenfolge ein. Der erste Ton ist C.',
+    question_RHYTHM_DICTATION:
+      'Höre den Rhythmus und gib die {{count}} Notenwerte in der gehörten Reihenfolge ein.',
+    cadence_authentic: 'Ganzschluss (V–I)',
+    cadence_plagal: 'Plagalschluss (IV–I)',
+    cadence_half: 'Halbschluss (I–V)',
+    cadence_deceptive: 'Trugschluss (V–vi)',
+    cadenceExplanation: 'In {{key}} endet die Folge mit {{answer}}.',
+    functionExplanation: 'Der Akkord gehört in {{key}} zu {{answer}}.',
+    dictationExplanation: 'Gehörte Folge: {{answer}}.',
+    harmonyHint1: 'Höre oder prüfe zuerst die Anfangs- und Schlusspunkte.',
+    harmonyHint2:
+      'Vergleiche die Folge Schritt für Schritt mit den angebotenen Tönen oder Funktionen.',
+    dictationProgress: '{{count}} von {{total}} Eingaben gesetzt',
+    dictationUndo: 'Letzte Eingabe entfernen',
     chordIntro:
       'Neun Aufgaben: Dur-, Moll-, verminderte und übermäßige Dreiklänge mit Umkehrungen schreiben, im Notenbild erkennen und nach Gehör bestimmen.',
     type_CHORD_BUILD: '$t(glossary:chord_other) schreiben',
     type_CHORD_IDENTIFY: '$t(glossary:chord_other) erkennen',
     question_CHORD_BUILD:
       'Schreibe diesen $t(glossary:chord_one) in enger Lage: {{name}}. Der $t(glossary:bassNote_one) {{bass}} ist vorgegeben; ergänze die zwei weiteren Töne.',
+    question_CHORD_BUILD_SEVENTH:
+      'Schreibe diesen Septakkord in enger Lage: {{name}}. Der Basston {{bass}} ist vorgegeben; ergänze die drei weiteren Töne.',
     question_CHORD_IDENTIFY:
       'Welchen $t(glossary:chord_one) siehst du? Bestimme den $t(glossary:root_one), die Art und die $t(glossary:inversion_one).',
     question_CHORD_AURAL:
       'Du hörst zuerst den $t(glossary:root_one) {{root}}, dann den $t(glossary:triad_one). Welche Art und $t(glossary:inversion_one) hörst du?',
+    question_CHORD_AURAL_SEVENTH:
+      'Du hörst zuerst den Grundton {{root}}, dann den Septakkord. Welche Art und Umkehrung hörst du?',
     chordExplanation:
       '{{name}}: {{notes}}. Vom $t(glossary:root_one) {{root}} aus liegen {{third}} und {{fifth}}. Der $t(glossary:bassNote_one) ist {{bass}}; daraus folgt {{inversion}}. Beim Schreiben zählen die vollständigen Töne einschließlich Vorzeichen und Oktave. Enge Lage bedeutet: Über dem Basston stehen die übrigen Akkordtöne in ihren nächsthöheren Lagen.',
+    chordSeventhExplanation:
+      '{{name}}: {{notes}}. Vom Grundton {{root}} aus liegen {{third}}, {{fifth}}{{extension}}. Der Basston ist {{bass}}; daraus folgt {{inversion}}. Beim Schreiben zählen vollständige Töne mit Vorzeichen und Oktave.',
     chordHint1:
       'Ordne die drei Stammtöne gedanklich in Terzschichtung. Der unterste Ton dieser Schichtung ist der $t(glossary:root_one). Vergleiche ihn mit dem tatsächlich tiefsten Ton: Grundton, Terz oder Quinte im Bass bestimmen die $t(glossary:rootPosition) oder $t(glossary:inversion_one).',
+    chordSeventhHint1:
+      'Ordne vier Akkordtöne in Terzschichtung. Grundton, Terz, Quinte oder Septime im Bass bestimmen die Umkehrung.',
     chordHint2:
       'Der $t(glossary:root_one) ist {{root}}. Von dort brauchst du {{third}} und {{fifth}}. Der vorgegebene oder gehörte $t(glossary:bassNote_one) {{bass}} zeigt dir die Lage; die übrigen Akkordtöne stehen möglichst nah darüber.',
+    chordSeventhHint2:
+      'Der Grundton ist {{root}}. Bestimme {{third}}, {{fifth}}{{extension}}. Der Basston {{bass}} zeigt die Umkehrung; setze die restlichen Töne möglichst nah darüber.',
     chordAuralHint1:
       'Merke dir den ersten einzelnen Ton als $t(glossary:root_one). Höre danach auf den tiefsten Ton des $t(glossary:chord_one): Vergleiche ihn mit dem Bezugston, auch über Oktaven hinweg. Grundton, Terz oder Quinte im Bass bestimmen die Lage. Die Abstände zwischen den Tönen bestimmen die Dreiklangart.',
+    chordSeventhAuralHint1:
+      'Merke dir den ersten Ton als Grundton. Höre dann auf den Basston und die Septime des Akkords. Vergleiche Grundton, Terz, Quinte und Septime, um die Umkehrung zu bestimmen.',
     chordPreview: 'Dein $t(glossary:chord_one)',
     chordSelectTone: 'Akkordton zur Bearbeitung wählen',
     chordTone: 'Ton {{index}}',
     chordToneEmpty: 'noch nicht gesetzt',
     chordFilled: '{{count}} von 2 Antworttönen gesetzt.',
+    chordFilledSeventh: '{{count}} von 3 Antworttönen gesetzt.',
     chordInputHint:
       'Wähle Ton 2 oder 3 und setze ihn im rechten $t(glossary:measure_one). Links bleibt der $t(glossary:bassNote_one) fest. Das gemeinsame Notenbild zeigt deinen $t(glossary:chord_one). Die oberen Töne kannst du in beliebiger Reihenfolge eingeben.',
+    chordInputHintSeventh:
+      'Wähle Ton 2, 3 oder 4 und setze ihn im rechten Takt. Der Basston bleibt fest. Die übrigen Töne kannst du in beliebiger Reihenfolge eingeben.',
     tonalityStart: 'Tonleitern und Tonarten üben',
     tonalityIntro:
       'Zwölf Aufgaben: Dur- und Molltonleitern erkennen und schreiben, Tonartvorzeichnungen bestimmen und selbst aufbauen.',

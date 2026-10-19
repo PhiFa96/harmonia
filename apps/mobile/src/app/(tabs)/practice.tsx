@@ -36,6 +36,7 @@ import {
   createChordSession,
   createRhythmSession,
   createKnowledgeSession,
+  createHarmonySession,
 } from '@/exercises/practice';
 import { useLocale } from '@/i18n';
 
@@ -46,7 +47,7 @@ export default function PracticeScreen() {
   const [seed, setSeed] = useState(0);
   const [answer, setAnswer] = useState<string | null>(null);
   const [mode, setMode] = useState<
-    'reading' | 'pitch' | 'tonality' | 'chords' | 'rhythm' | 'knowledge'
+    'reading' | 'pitch' | 'tonality' | 'chords' | 'rhythm' | 'knowledge' | 'harmony'
   >('reading');
   const run = useRef(0);
   const scroll = useRef<ScrollView>(null);
@@ -91,6 +92,7 @@ export default function PracticeScreen() {
           chords: createChordSession,
           rhythm: createRhythmSession,
           knowledge: createKnowledgeSession,
+          harmony: createHarmonySession,
         }[selected](nextSeed),
       );
       scroll.current?.scrollTo({ y: 0, animated: false });
@@ -193,6 +195,18 @@ export default function PracticeScreen() {
               disabled={accessPending}
               onPress={() => {
                 void start('rhythm');
+              }}
+            />
+            <Card>
+              <AppText variant="title3">{t('exercise.harmonyStart')}</AppText>
+              <AppText tone="muted">{t('exercise.harmonyIntro')}</AppText>
+            </Card>
+            <Button
+              variant="secondary"
+              label={t('exercise.harmonyStart')}
+              disabled={accessPending}
+              onPress={() => {
+                void start('harmony');
               }}
             />
             <Card>

@@ -120,6 +120,8 @@ export function itemVariantKey(item: ExerciseItem): string {
     return JSON.stringify([item.type, item.tonic, item.scaleType, item.direction]);
   if (isKeySignatureItem(item))
     return JSON.stringify([item.type, keyFifths(item.key), item.key.mode]);
+  if (item.type === 'CADENCE_IDENTIFY' || item.type === 'FUNCTION_ANALYSIS' || 'durations' in item)
+    return JSON.stringify([item.type, item.score]);
   if (item.type === 'KEY_FIND') return JSON.stringify([item.type, midi(inputTarget(item))]);
   if (item.type === 'NOTE_NAME' && item.presentation === 'octave-name')
     return JSON.stringify([item.type, octaveNamePitch(item)]);

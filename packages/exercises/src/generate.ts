@@ -40,6 +40,8 @@ import { generateChord } from './chords.ts';
 import { generatePickup, generateRhythm } from './rhythm.ts';
 import { generateKnowledge, generateMatch, generateOrder } from './knowledge.ts';
 import { generateListening } from './listening.ts';
+import { generateCadence, generateFunction } from './harmony-exercises.ts';
+import { generateDictation } from './dictation.ts';
 import { intervalMotion, intervalReadingAnswer } from './interval-reading.ts';
 import { generateSightSing, generateVoiceSequence } from './voice.ts';
 export function noteAnswerId(pitch: Pick<Pitch, 'letter' | 'alter'>): string {
@@ -410,6 +412,13 @@ export function generateExercise(spec: ExerciseSpec, rng: Rng) {
     case 'CHORD_IDENTIFY':
     case 'CHORD_BUILD':
       return generateChord(spec.params, rng, spec.type);
+    case 'CADENCE_IDENTIFY':
+      return generateCadence(spec.params, rng);
+    case 'FUNCTION_ANALYSIS':
+      return generateFunction(spec.params, rng);
+    case 'MELODY_DICTATION':
+    case 'RHYTHM_DICTATION':
+      return generateDictation(spec.params, rng, spec.type);
     case 'NOTE_NAME':
       return generateNote(spec.params, rng);
     case 'NOTE_PLACE':
