@@ -142,7 +142,10 @@ export function useLessonFlow(plan: Plan) {
         draft: {
           ...current.draft,
           actions: [...current.draft.actions, action],
-          answer: action.type === 'next' || action.type === 'skip' ? null : current.draft.answer,
+          answer:
+            action.type === 'next' || action.type === 'skip' || action.type === 'skipVoice'
+              ? null
+              : current.draft.answer,
           finishedAt:
             session.phase === 'complete' ? Math.max(current.draft.startedAt, Date.now()) : null,
         },

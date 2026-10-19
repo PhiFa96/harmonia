@@ -29,6 +29,10 @@ const noteParams = z
   })
   .strict();
 const intervals = z.array(z.string().regex(/^(?:P|m|M|A|d)(?:[1-9]|1[0-5])$/)).nonempty();
+const voiceParams = noteParams
+  .extend({ level: z.union([z.literal(1), z.literal(2), z.literal(3)]) })
+  .strict();
+const voiceSequenceParams = voiceParams.extend({ intervals }).strict();
 const meterParams = z
   .object({ meters: z.array(z.enum(MVP_METERS)).nonempty(), clefs: noteParams.shape.clefs })
   .strict();
@@ -102,6 +106,9 @@ const signatureParams = z
   .strict();
 export const exerciseSpecSchema = z
   .discriminatedUnion('type', [
+    z.object({ type: z.literal('SIGHT_SING'), params: voiceParams }).strict(),
+    z.object({ type: z.literal('SING_INTERVAL'), params: voiceSequenceParams }).strict(),
+    z.object({ type: z.literal('PLAY_BACK'), params: voiceSequenceParams }).strict(),
     z
       .object({
         type: z.literal('CONTEXT_CHOICE'),
@@ -206,6 +213,23 @@ export const exerciseSpecSchema = z
       .strict(),
   ])
   .transform((value): ExerciseSpec => {
+    if (
+      value.type === 'SIGHT_SING' ||
+      value.type === 'SING_INTERVAL' ||
+      value.type === 'PLAY_BACK'
+    ) {
+      const params = {
+        level: value.params.level,
+        ...(value.params.clefs ? { clefs: value.params.clefs } : {}),
+        ...(value.params.range ? { range: value.params.range } : {}),
+        ...(value.params.maxAccidentals === undefined
+          ? {}
+          : { maxAccidentals: value.params.maxAccidentals }),
+      };
+      return value.type === 'SIGHT_SING'
+        ? { type: value.type, params }
+        : { type: value.type, params: { ...params, intervals: value.params.intervals } };
+    }
     if (value.type === 'CONTEXT_CHOICE')
       return {
         type: value.type,

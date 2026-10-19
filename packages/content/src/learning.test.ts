@@ -45,6 +45,13 @@ function wrongAnswer(item: ExerciseItem): string {
   }
   if (expected.startsWith('match:') || expected.startsWith('order:'))
     candidates.push(expected.slice(0, 6) + expected.slice(6).split(',').reverse().join(','));
+  if (expected.startsWith('voice:'))
+    candidates.push(
+      expected.replace(
+        /^voice:(\d+)/,
+        (_, first: string) => `voice:${String(Number(first) + 1200)}`,
+      ),
+    );
   const wrong = candidates.find((answer) => {
     const evaluation = evaluateExercise(item, answer);
     return evaluation.validAnswer && !evaluation.correct;

@@ -53,9 +53,11 @@ import {
 } from './pitch-input.ts';
 import type { Evaluation, ExerciseItem } from './types.ts';
 import { isIntervalReadingItem, intervalReadingAnswer } from './interval-reading.ts';
+import { evaluateVoice, isVoiceItem, voiceAnswerId, voiceTargets } from './voice.ts';
 
 /** Die Engine berechnet die Lösung aus den Fachdaten, nie aus dem sichtbaren Antworttext. */
 export function expectedAnswer(item: ExerciseItem): string {
+  if (isVoiceItem(item)) return voiceAnswerId(voiceTargets(item));
   if (item.type === 'CONTEXT_CHOICE') return contextAnswer(item);
   if (item.type === 'LISTENING_CHOICE') return listeningAnswer(item);
   if (isIntervalReadingItem(item)) return intervalReadingAnswer(item);
@@ -92,6 +94,7 @@ export function expectedAnswer(item: ExerciseItem): string {
     : intervalAnswerId(intervalBetween(item.from, item.to));
 }
 export function evaluateExercise(item: ExerciseItem, answer: string): Evaluation {
+  if (isVoiceItem(item)) return evaluateVoice(item, answer);
   const expected = expectedAnswer(item);
   if (item.type === 'MATCH' || item.type === 'ORDER') {
     const values =

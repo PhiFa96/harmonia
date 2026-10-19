@@ -19,6 +19,7 @@ import {
   revealHint,
   sessionSummary,
   skipAuralExercises,
+  skipVoiceExercise,
 } from '@harmonia/exercises';
 import { LAYOUT, SPACE } from '@harmonia/ui';
 import { AppText, Button, Card } from '@harmonia/ui/native';
@@ -241,6 +242,10 @@ export default function PracticeScreen() {
               onSkip={() => {
                 setAnswer(null);
                 setSession(skipAuralExercises(session));
+              }}
+              onSkipVoice={() => {
+                setAnswer(null);
+                setSession(skipVoiceExercise(session));
               }}
               onNext={() => {
                 setAnswer(null);

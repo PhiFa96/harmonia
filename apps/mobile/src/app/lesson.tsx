@@ -466,6 +466,9 @@ function LessonPlayer({
                 onSkip={() => {
                   flow.act({ type: 'skip' });
                 }}
+                onSkipVoice={() => {
+                  flow.act({ type: 'skipVoice' });
+                }}
                 onNext={() => {
                   flow.act({ type: 'next' });
                 }}

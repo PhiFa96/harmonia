@@ -22,7 +22,6 @@
     "@harmonia/exercises": "workspace:*",
     "@harmonia/i18n": "workspace:*",
     "@harmonia/notation": "workspace:*",
-    "@harmonia/theory": "workspace:*",
     "@harmonia/ui": "workspace:*",
     "@revenuecat/purchases-js": "1.70.0",
     "@supabase/supabase-js": "^2.117.3",
@@ -89,6 +88,8 @@
       "<rootDir>/jest/after-env.ts"
     ],
     "moduleNameMapper": {
+      "^pitchy$": "<rootDir>/jest/pitchy-stub.ts",
+      "^react-native-worklets$": "<rootDir>/node_modules/react-native-worklets/lib/module/mock.js",
       "^@harmonia/i18n/content-messages$": "<rootDir>/../../packages/i18n/src/authoring-content-messages.ts",
       "^@harmonia/content/catalogue$": "<rootDir>/../../packages/content/src/authoring.ts",
       "\\.(otf|ttf|mp3)$": "<rootDir>/jest/asset-stub.ts"

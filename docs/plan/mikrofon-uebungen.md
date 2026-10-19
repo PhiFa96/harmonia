@@ -1,0 +1,11 @@
+# P3.10 – Mikrofonübungen (technischer Stand)
+
+`SING_INTERVAL` spielt den Ausgangston und zeigt ihn in Notenschrift. Die Aufgabe nennt das aufwärts zu singende Intervall; nur der Zielton wird bewertet. `SIGHT_SING` zeigt eine einzelne Note. Der Hilfeton ist verfügbar und zählt als Hinweis. `PLAY_BACK` spielt eine kurze Folge aus drei Tönen; die Noten erscheinen erst nach der Antwort.
+
+Die App übernimmt jeden stabil erkannten Ton erst nach einer eigenen Bestätigung. Damit steuert die lernende Person die Reihenfolge der drei Töne. Der lokale Detektor aus P3.09 verarbeitet nur den laufenden PCM-Stream. Die bestätigten Tonhöhenwerte in Cent werden als Antworten im Lektionsnachweis gespeichert. Es wird keine Audiodatei gespeichert oder übertragen. Ein Verlassen der Ansicht, Hintergrundwechsel oder Stop beendet den Mikrofonzugriff.
+
+Stufe 1 akzeptiert ±50 Cent, Stufen 2 und 3 ±25 Cent pro Ton. Die Oktave wird bewertet; ein reiner Oktavfehler erhält einen eigenen Hinweis. Bei verweigerter Erlaubnis oder ungeeignetem Gerät lässt sich jede Mikrofonaufgabe einzeln ohne Fehlerwertung überspringen. Die allgemeine Hörpause überspringt auch Mikrofonaufgaben. Einstufungsaufgaben enthalten keine Mikrofontypen.
+
+Im Entwurfskatalog sind `SING_INTERVAL` und `SIGHT_SING` in `aural.l1.pitch-intervals.intervals` sowie `SIGHT_SING` und `PLAY_BACK` in den passenden Stufe-2-Melodielektionen enthalten. Die Lektionen behalten ihre bisherige Aufgabenzahl. Eine Stufe 3 ist im Katalog noch nicht vorhanden; die Engine akzeptiert ihre Parameter, aber die Lektionseinbindung steht aus. Alle betroffenen Lektionen sind weiterhin Entwürfe.
+
+Vor fachlicher und Geräteabnahme: mit mehreren Stimmen und Geräten in ruhiger und mäßig lauter Umgebung Tonwechsel, Oktavverwechslungen und ±25/±50-Cent-Grenzen prüfen. Berechtigungsverweigerung, Audioausgabe über Lautsprecher/Kopfhörer, Sperrbildschirm, Navigation und Screenreader auf iOS, Android und Web durchgehen. Das 95-Prozent-Gerätekriterium von P3.09 ist noch nicht gemessen.

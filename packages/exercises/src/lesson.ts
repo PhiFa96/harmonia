@@ -16,6 +16,7 @@ import {
   revealHint,
   sessionSummary,
   skipAuralExercises,
+  skipVoiceExercise,
 } from './session.ts';
 import type { ExerciseSession } from './session.ts';
 import type { ExerciseItem, ExerciseSpec } from './types.ts';
@@ -71,6 +72,8 @@ export function revealLessonHint(lesson: LessonSession): LessonSession {
 }
 /** Das Musikbeispiel muss sich ändern; bloßes Mischen der Antworten ist keine neue Variante. */
 export function itemVariantKey(item: ExerciseItem): string {
+  if (item.type === 'SIGHT_SING' || item.type === 'SING_INTERVAL' || item.type === 'PLAY_BACK')
+    return JSON.stringify([item.type, item.pitches.map(midi)]);
   if (item.type === 'CONTEXT_CHOICE') return contextVariantKey(item);
   if (item.type === 'LISTENING_CHOICE') return listeningVariantKey(item);
   if (isIntervalReadingItem(item))
@@ -176,6 +179,15 @@ export function skipLessonAural(lesson: LessonSession): LessonSession {
   const session = activeLessonSession(lesson);
   if (!session) return lesson;
   const next = skipAuralExercises(session);
+  const updated = updateActive(lesson, next);
+  if (currentItem(next)) return updated;
+  return lesson.phase === 'initial' ? finishInitial(updated) : { ...updated, phase: 'complete' };
+}
+export function skipLessonVoice(lesson: LessonSession): LessonSession {
+  const session = activeLessonSession(lesson);
+  if (!session) return lesson;
+  const next = skipVoiceExercise(session);
+  if (next === session) return lesson;
   const updated = updateActive(lesson, next);
   if (currentItem(next)) return updated;
   return lesson.phase === 'initial' ? finishInitial(updated) : { ...updated, phase: 'complete' };

@@ -7,6 +7,7 @@ export * from './feedback.ts';
 export * from './session.ts';
 export * from './lesson.ts';
 export * from './pitch-input.ts';
+export * from './voice.ts';
 export * from './tonality.ts';
 export * from './chords.ts';
 export * from './rhythm.ts';

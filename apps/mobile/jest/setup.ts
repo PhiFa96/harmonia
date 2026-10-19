@@ -19,9 +19,6 @@ jest.mock('react-native-audio-api', () => {
 jest.mock('react-native-reanimated', () =>
   jest.requireActual<object>('react-native-reanimated/mock'),
 );
-jest.mock('react-native-worklets', () =>
-  jest.requireActual<object>('react-native-worklets/lib/module/mock'),
-);
 
 // Gerätedatenbank wird separat mit echter SQLite geprüft; UI-Tests ersetzen nur den Treiber.
 jest.mock('expo-sqlite', () => ({

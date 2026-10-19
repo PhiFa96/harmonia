@@ -1,5 +1,6 @@
 import { evaluateExercise } from './evaluate.ts';
 import { isAuralExercise } from './chords.ts';
+import { isVoiceItem } from './voice.ts';
 import type { Evaluation, ExerciseItem } from './types.ts';
 
 export interface AnswerRecord {
@@ -59,6 +60,12 @@ export function skipAuralExercises(session: ExerciseSession): ExerciseSession {
   }
   const next = { ...session, skipped: [...skipped], skipAural: true };
   return skipped.has(session.index) ? advance(next, session.index + 1) : next;
+}
+/** Überspringt nur die aktuelle Mikrofonaufgabe; Hörfragen bleiben verfügbar. */
+export function skipVoiceExercise(session: ExerciseSession): ExerciseSession {
+  const item = currentItem(session);
+  if (!item || !isVoiceItem(item) || session.result) return session;
+  return advance({ ...session, skipped: [...session.skipped, session.index] }, session.index + 1);
 }
 export function sessionSummary(session: ExerciseSession) {
   return {

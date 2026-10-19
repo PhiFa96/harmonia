@@ -3,6 +3,17 @@ import { contentMessages } from '@harmonia/i18n/content-messages';
 // Fachbegriffe kommen aus dem Glossar: $t(glossary:…).
 
 export const de = {
+  voice: {
+    privacy:
+      'Das Mikrofon verarbeitet den Ton auf deinem Gerät. Die übernommenen Tonhöhen werden als Übungsantwort gespeichert; es wird keine Audioaufnahme gespeichert oder hochgeladen. Beim Verlassen oder im Hintergrund stoppt das Mikrofon.',
+    helpTone: 'Hilfeton spielen (zählt als Hinweis)',
+    detected: 'Erkannt: {{note}}',
+    waiting: 'Warte auf einen gehaltenen Ton …',
+    capture: 'Diesen Ton übernehmen',
+    progress: '{{count}} von {{total}} Tönen übernommen',
+    retry: 'Töne neu aufnehmen',
+    skip: 'Diese Mikrofonaufgabe überspringen',
+  },
   tuner: {
     title: 'Stimmgerät',
     entry: 'Prüfe die Tonhöhe beim Singen oder Spielen.',
@@ -980,6 +991,19 @@ export const de = {
     wrongTitle: 'Noch nicht ganz',
   },
   exercise: {
+    type_SIGHT_SING: 'Vom Blatt singen',
+    type_SING_INTERVAL: 'Intervall singen',
+    type_PLAY_BACK: 'Melodie nachsingen',
+    question_SIGHT_SING: 'Singe die notierte Tonhöhe.',
+    question_SING_INTERVAL:
+      'Höre den Ausgangston und singe von dort das Intervall {{interval}} aufwärts.',
+    question_PLAY_BACK: 'Höre die kurze Melodie und singe ihre drei Töne nacheinander nach.',
+    voiceExplanation:
+      'Zieltöne: {{notes}}. Zulässige Abweichung je Ton: ±{{tolerance}} Cent; die Oktave zählt mit.',
+    voiceOctaveError:
+      'Die Tonklasse stimmt, aber die Oktave nicht. Zieltöne: {{notes}}. Zulässige Abweichung: ±{{tolerance}} Cent.',
+    voiceHint1: 'Höre auf den Ausgangston und halte jeden gesungenen Ton ruhig.',
+    voiceHint2: 'Singe die Töne einzeln und lasse dazwischen eine kurze Pause.',
     solutionImage: 'L\u00f6sungsbild',
     sourceReplay: 'Quellenbeispiel anh\u00f6ren',
     keyReplay:

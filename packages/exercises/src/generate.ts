@@ -41,6 +41,7 @@ import { generatePickup, generateRhythm } from './rhythm.ts';
 import { generateKnowledge, generateMatch, generateOrder } from './knowledge.ts';
 import { generateListening } from './listening.ts';
 import { intervalMotion, intervalReadingAnswer } from './interval-reading.ts';
+import { generateSightSing, generateVoiceSequence } from './voice.ts';
 export function noteAnswerId(pitch: Pick<Pitch, 'letter' | 'alter'>): string {
   return `${pitch.letter}:${String(pitch.alter)}`;
 }
@@ -385,6 +386,11 @@ export function generateIntervalBuild(params: VisualIntervalParams, rng: Rng): I
 }
 export function generateExercise(spec: ExerciseSpec, rng: Rng) {
   switch (spec.type) {
+    case 'SIGHT_SING':
+      return generateSightSing(spec.params, rng);
+    case 'SING_INTERVAL':
+    case 'PLAY_BACK':
+      return generateVoiceSequence(spec.params, rng, spec.type);
     case 'CONTEXT_CHOICE':
       return generateContext(spec.params, rng);
     case 'LISTENING_CHOICE':

@@ -21,7 +21,13 @@ export function placementBank(catalogue: ContentCatalogue): PlacementBank {
                 level: level.number,
                 specs: catalogue.exerciseSets
                   .filter((set) => lesson.exerciseSetIds.includes(set.id))
-                  .flatMap((set) => set.exercises.map((entry) => entry.spec)),
+                  .flatMap((set) => set.exercises.map((entry) => entry.spec))
+                  .filter(
+                    (spec) =>
+                      spec.type !== 'SIGHT_SING' &&
+                      spec.type !== 'SING_INTERVAL' &&
+                      spec.type !== 'PLAY_BACK',
+                  ),
               })),
           ),
       )

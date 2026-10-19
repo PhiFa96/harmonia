@@ -12,6 +12,7 @@ import { octaveName, octaveNamePitch } from './octave-names.ts';
 import { grandStaffTarget } from '@harmonia/notation';
 import { inputTarget } from './pitch-input.ts';
 import { listeningAnswer } from './listening.ts';
+import { isVoiceItem, voiceIntervalName, voiceOctaveError, voiceTargets } from './voice.ts';
 import { isHistoryTopic } from './knowledge.ts';
 import {
   diatonicIndex,
@@ -24,6 +25,7 @@ import {
   keyName,
   keySignature,
   midi,
+  fromMidi,
   scaleTypeName,
   SHARP_ORDER,
   FLAT_ORDER,
@@ -136,6 +138,9 @@ export function signatureNoteLabel(note: NoteName, locale: TextLocale): string {
 }
 export function pitchInputLabel(pitch: Pitch, locale: TextLocale): string {
   return noteName(pitch, locale);
+}
+export function pitchInputMidiLabel(value: number, locale: TextLocale): string {
+  return pitchInputLabel(fromMidi(value), locale);
 }
 export function choiceLabel(item: ExerciseItem, answer: string, locale: TextLocale): string {
   if (item.type === 'CONTEXT_CHOICE') return contextChoiceLabel(item, answer, locale);
@@ -271,6 +276,10 @@ export function choiceLabel(item: ExerciseItem, answer: string, locale: TextLoca
   return noteName(pitch, locale, false);
 }
 export function exercisePrompt(item: ExerciseItem, locale: TextLocale): string {
+  if (isVoiceItem(item))
+    return translate(locale, `exercise.question_${item.type}`, {
+      interval: voiceIntervalName(item),
+    });
   if (item.type === 'CONTEXT_CHOICE') return contextPrompt(item, locale);
   if (item.type === 'NOTE_NAME' && item.presentation === 'octave-name')
     return translate(locale, 'exercise.question_octaveName', {
@@ -402,7 +411,20 @@ export function exerciseFeedback(
   locale: TextLocale,
 ): ExerciseFeedback {
   let message: string;
-  if (item.type === 'CONTEXT_CHOICE') message = contextExplanation(item, locale);
+  if (isVoiceItem(item))
+    message = translate(
+      locale,
+      voiceOctaveError(item, result.answer)
+        ? 'exercise.voiceOctaveError'
+        : 'exercise.voiceExplanation',
+      {
+        notes: voiceTargets(item)
+          .map((pitch) => noteName(pitch, locale))
+          .join(' → '),
+        tolerance: item.toleranceCents,
+      },
+    );
+  else if (item.type === 'CONTEXT_CHOICE') message = contextExplanation(item, locale);
   else if (item.type === 'NOTE_NAME' && item.presentation === 'octave-name') {
     const pitch = octaveNamePitch(item);
     message = translate(locale, 'exercise.octaveNameExplanation', {
@@ -535,6 +557,8 @@ export function exerciseFeedback(
 export function exerciseHints(item: ExerciseItem, level: 1 | 2 | 3): ExerciseHint {
   if (item.type === 'CONTEXT_CHOICE') return { level, key: 'solution', values: {} };
   if (level === 3) return { level, key: 'solution', values: {} };
+  if (isVoiceItem(item))
+    return { level, key: level === 1 ? 'exercise.voiceHint1' : 'exercise.voiceHint2', values: {} };
   if (item.type === 'LISTENING_CHOICE')
     return {
       level,
@@ -750,6 +774,7 @@ function alterationText(pitch: Pitch, locale: TextLocale): string {
 
 /** Positionen statt Tonnamen: Vor dem Prüfen darf der Screenreader die Lösung nicht vorwegnehmen. */
 export function exerciseDescription(item: ExerciseItem, locale: TextLocale): string {
+  if (isVoiceItem(item)) return exercisePrompt(item, locale);
   if (item.type === 'CONTEXT_CHOICE') return contextPrompt(item, locale);
   if (item.type === 'LISTENING_CHOICE') return exercisePrompt(item, locale);
   if (item.type === 'KNOWLEDGE_MC' && item.presentation === 'symbol' && 'duration' in item.fact)

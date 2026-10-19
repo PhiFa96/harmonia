@@ -14,6 +14,7 @@ import type {
 } from '@harmonia/theory';
 
 export type ExerciseType =
+  | VoiceExerciseType
   | 'CONTEXT_CHOICE'
   | 'LISTENING_CHOICE'
   | 'NOTE_NAME'
@@ -33,6 +34,7 @@ export type ExerciseType =
   | 'KNOWLEDGE_MC'
   | 'MATCH'
   | 'ORDER';
+export type VoiceExerciseType = 'SING_INTERVAL' | 'SIGHT_SING' | 'PLAY_BACK';
 export type ExerciseClef = 'treble' | 'bass';
 export type IntervalPlayback = 'melodic-up' | 'melodic-down' | 'harmonic';
 
@@ -67,6 +69,12 @@ export type IntervalReadingQuestion =
 export interface AuralIntervalParams extends NoteParams {
   readonly intervals: readonly string[];
   readonly playback?: IntervalPlayback;
+}
+export interface VoiceParams extends NoteParams {
+  readonly level: 1 | 2 | 3;
+}
+export interface VoiceSequenceParams extends VoiceParams {
+  readonly intervals: readonly string[];
 }
 export type MvpScaleType = 'major' | 'naturalMinor' | 'harmonicMinor' | 'melodicMinor';
 export type ScaleDirection = 'ascending' | 'descending';
@@ -224,6 +232,8 @@ export type OrderValue =
   | { readonly kind: 'duration'; readonly duration: Duration }
   | { readonly kind: 'pitch'; readonly pitch: Pitch };
 export type ExerciseSpec =
+  | { readonly type: 'SIGHT_SING'; readonly params: VoiceParams }
+  | { readonly type: 'SING_INTERVAL' | 'PLAY_BACK'; readonly params: VoiceSequenceParams }
   | { readonly type: 'CONTEXT_CHOICE'; readonly params: ContextParams }
   | { readonly type: 'LISTENING_CHOICE'; readonly params: ListeningParams }
   | { readonly type: 'KNOWLEDGE_MC'; readonly params: KnowledgeMcParams }
@@ -282,6 +292,16 @@ export interface IntervalBuildItem extends ItemBase {
   readonly playback: IntervalPlayback;
 }
 export type PitchInputItem = NotePlaceItem | KeyFindItem | IntervalBuildItem;
+interface VoiceItemBase extends ItemBase {
+  readonly pitches: readonly Pitch[];
+  readonly toleranceCents: 25 | 50;
+}
+export type VoiceItem = VoiceItemBase &
+  (
+    | { readonly type: 'SING_INTERVAL' }
+    | { readonly type: 'SIGHT_SING' }
+    | { readonly type: 'PLAY_BACK' }
+  );
 export interface ScaleItem extends ItemBase {
   readonly type: 'SCALE_BUILD' | 'SCALE_IDENTIFY';
   readonly tonic: Pitch;
@@ -347,6 +367,7 @@ export type ExerciseItem =
   | NoteItem
   | IntervalItem
   | PitchInputItem
+  | VoiceItem
   | ScaleItem
   | KeySignatureItem
   | ChordItem

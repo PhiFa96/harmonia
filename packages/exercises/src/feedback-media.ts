@@ -33,6 +33,8 @@ export function feedbackMedia(item: ExerciseItem): {
       return { audio: keyExample(item.source.key, 4), label: 'source' };
     return {};
   }
+  if (item.type === 'SING_INTERVAL' || item.type === 'PLAY_BACK' || item.type === 'SIGHT_SING')
+    return { audio: item.score };
   if (
     (item.type === 'NOTE_NAME' && item.presentation === 'octave-name') ||
     (item.type === 'KEY_FIND' && item.presentation === 'name')

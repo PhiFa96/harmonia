@@ -87,6 +87,8 @@ overrides:
   '@tonaljs/pitch-interval': 6.1.0
   '@tonaljs/pitch-note': 6.1.0
 
+packageExtensionsChecksum: sha256-JAopHZpOZnRHfGiIlT7REZu2Y5BEgdv3Jf+2UFn9GCo=
+
 patchedDependencies:
   expo-sqlite@57.0.4:
     hash: f3102f4ca7d36fca8ce5b385cd85d8305772bd22c113f7d95e816ea7732a9c37
@@ -159,9 +161,6 @@ importers:
       '@harmonia/notation':
         specifier: workspace:*
         version: link:../../packages/notation
-      '@harmonia/theory':
-        specifier: workspace:*
-        version: link:../../packages/theory
       '@harmonia/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -7471,7 +7470,9 @@ snapshots:
       metro-runtime: 0.84.6
     transitivePeerDependencies:
       - '@babel/core'
+      - bufferutil
       - supports-color
+      - utf-8-validate
 
   '@react-native/normalize-colors@0.74.89': {}
 
@@ -11034,6 +11035,7 @@ snapshots:
   react-native-worklets@0.10.1(@babel/core@7.29.7)(@react-native/metro-config@0.86.3(@babel/core@7.29.7))(react-native@0.86.3(@babel/core@7.29.7)(@react-native/jest-preset@0.86.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.86.3(@babel/core@7.29.7))(@types/react@19.2.18)(react@19.2.3))(react@19.2.3):
     dependencies:
       '@babel/core': 7.29.7
+      '@babel/generator': 7.29.8
       '@babel/plugin-transform-arrow-functions': 7.29.7(@babel/core@7.29.7)
       '@babel/plugin-transform-class-properties': 7.29.7(@babel/core@7.29.7)
       '@babel/plugin-transform-classes': 7.29.7(@babel/core@7.29.7)
@@ -11043,6 +11045,7 @@ snapshots:
       '@babel/plugin-transform-template-literals': 7.29.7(@babel/core@7.29.7)
       '@babel/plugin-transform-unicode-regex': 7.29.7(@babel/core@7.29.7)
       '@babel/preset-typescript': 7.29.7(@babel/core@7.29.7)
+      '@babel/traverse': 7.29.8
       '@babel/types': 7.29.8
       '@react-native/metro-config': 0.86.3(@babel/core@7.29.7)
       convert-source-map: 2.0.0

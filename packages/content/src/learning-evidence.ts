@@ -5,9 +5,11 @@ import {
   createLessonSession,
   currentItem,
   isAuralExercise,
+  isVoiceItem,
   nextLessonExercise,
   revealLessonHint,
   skipLessonAural,
+  skipLessonVoice,
   startLessonReview,
   placementEstimates,
   replayPlacement,
@@ -202,8 +204,8 @@ function restoreRound(
       item = session && currentItem(session);
     if (!session || !item) throw new EvidenceError('invalid');
     if (evidence.skipped.includes(session.index)) {
-      if (!isAuralExercise(item)) throw new EvidenceError('invalid');
-      state = skipLessonAural(state);
+      if (!isAuralExercise(item) && !isVoiceItem(item)) throw new EvidenceError('invalid');
+      state = isVoiceItem(item) ? skipLessonVoice(state) : skipLessonAural(state);
     } else {
       const record = evidence.answers[seen.length];
       if (record?.index !== session.index) throw new EvidenceError('invalid');

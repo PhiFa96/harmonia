@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": 13,
+  "contentVersion": 14,
   "areas": [
     {
       "id": "fundament",
@@ -2182,7 +2182,7 @@
       ]
     },
     {
-      "contentVersion": 11,
+      "contentVersion": 14,
       "status": "entwurf",
       "id": "aural.l1.pitch-intervals.intervals.exercises",
       "titleKey": "content.auralPitchStart.lesson3",
@@ -2202,7 +2202,7 @@
               }
             }
           },
-          "count": 4
+          "count": 3
         },
         {
           "spec": {
@@ -2218,7 +2218,7 @@
               }
             }
           },
-          "count": 4
+          "count": 3
         },
         {
           "spec": {
@@ -2234,7 +2234,32 @@
               }
             }
           },
-          "count": 4
+          "count": 2
+        },
+        {
+          "spec": {
+            "type": "SING_INTERVAL",
+            "params": {
+              "level": 1,
+              "intervals": ["m3", "M3", "P4", "P5"],
+              "clefs": ["treble"],
+              "maxAccidentals": 0,
+              "range": { "minMidi": 60, "maxMidi": 76 }
+            }
+          },
+          "count": 2
+        },
+        {
+          "spec": {
+            "type": "SIGHT_SING",
+            "params": {
+              "level": 1,
+              "clefs": ["treble"],
+              "maxAccidentals": 0,
+              "range": { "minMidi": 60, "maxMidi": 76 }
+            }
+          },
+          "count": 2
         }
       ]
     },
@@ -3313,7 +3338,7 @@
       ]
     },
     {
-      "contentVersion": 13,
+      "contentVersion": 14,
       "status": "entwurf",
       "id": "aural.l2.melody.foundation.exercises",
       "titleKey": "content.levelTwoMelody.lesson0",
@@ -3333,7 +3358,19 @@
               "playback": "melodic-up"
             }
           },
-          "count": 8
+          "count": 6
+        },
+        {
+          "spec": {
+            "type": "SIGHT_SING",
+            "params": {
+              "level": 2,
+              "clefs": ["treble"],
+              "maxAccidentals": 0,
+              "range": { "minMidi": 60, "maxMidi": 76 }
+            }
+          },
+          "count": 2
         }
       ]
     },
@@ -3357,7 +3394,7 @@
       ]
     },
     {
-      "contentVersion": 13,
+      "contentVersion": 14,
       "status": "entwurf",
       "id": "aural.l2.melody.apply.exercises",
       "titleKey": "content.levelTwoMelody.lesson2",
@@ -3371,7 +3408,20 @@
               "tempos": [72, 90, 108]
             }
           },
-          "count": 12
+          "count": 10
+        },
+        {
+          "spec": {
+            "type": "PLAY_BACK",
+            "params": {
+              "level": 2,
+              "intervals": ["M2", "m3", "M3", "P4"],
+              "clefs": ["treble"],
+              "maxAccidentals": 0,
+              "range": { "minMidi": 60, "maxMidi": 76 }
+            }
+          },
+          "count": 2
         }
       ]
     },
@@ -11156,7 +11206,7 @@
       "exerciseSetIds": ["aural.l1.pitch-intervals.melodies.exercises"]
     },
     {
-      "contentVersion": 11,
+      "contentVersion": 14,
       "status": "entwurf",
       "id": "aural.l1.pitch-intervals.intervals",
       "titleKey": "content.auralPitchStart.lesson3",
@@ -11758,7 +11808,7 @@
       "exerciseSetIds": ["aural.l2.rhythm-detail.apply.exercises"]
     },
     {
-      "contentVersion": 13,
+      "contentVersion": 14,
       "status": "entwurf",
       "id": "aural.l2.melody.foundation",
       "titleKey": "content.levelTwoMelody.lesson0",
@@ -11786,7 +11836,7 @@
       "exerciseSetIds": ["aural.l2.melody.practice.exercises"]
     },
     {
-      "contentVersion": 13,
+      "contentVersion": 14,
       "status": "entwurf",
       "id": "aural.l2.melody.apply",
       "titleKey": "content.levelTwoMelody.lesson2",

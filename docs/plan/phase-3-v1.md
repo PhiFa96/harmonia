@@ -150,8 +150,8 @@ Technische Übergabe: `freunde-und-quests.md`, ADR 0035. Einmal-Einladungen, bei
 - **Abhängig von:** P3.09
 - **Umfang:** M
 - **Aufgaben:**
-  - [ ] `SING_INTERVAL`, `SIGHT_SING` (einfach), `PLAY_BACK` per Mikrofon
-  - [ ] Toleranzen je Stufe, Oktavfehler-Behandlung, Hilfeton
+  - [x] `SING_INTERVAL`, `SIGHT_SING` (einfach), `PLAY_BACK` per Mikrofon technisch umgesetzt; Geräteabnahme offen ([Mikrofonübungen](mikrofon-uebungen.md))
+  - [x] Toleranzen je Stufe, Oktavfehler-Behandlung, Hilfeton technisch umgesetzt
 - **Fertig, wenn:** Übungen sind in Lektionen der Stufen 1–3 eingebunden.
 
 ### P3.11 – MIDI-Eingabe

@@ -93,7 +93,7 @@ describe('Reproduzierbare Inhaltsmeldungen und Feedback', () => {
             expect(hintText(item, exerciseHints(item, level), locale).length).toBeGreaterThan(5);
         }
       }
-    expect(types.size).toBe(19);
+    expect(types.size).toBe(22);
   }, 30000);
   it.each(PRACTICE_SETS)(
     'reproduziert den öffentlichen freien Satz %s ohne freigegebenen Kurs',

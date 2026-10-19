@@ -10,6 +10,7 @@ import {
   nextLessonExercise,
   revealLessonHint,
   skipLessonAural,
+  skipLessonVoice,
   startLessonReview,
   adaptiveOrder,
   candidateProbability,
@@ -330,7 +331,7 @@ export function reviewSkillPlan(
 
 export const lessonActionSchema = z.discriminatedUnion('type', [
   z.object({ type: z.literal('answer'), answer: z.string().min(1).max(4096) }).strict(),
-  ...(['hint', 'next', 'skip', 'review'] as const).map((type) =>
+  ...(['hint', 'next', 'skip', 'skipVoice', 'review'] as const).map((type) =>
     z.object({ type: z.literal(type) }).strict(),
   ),
 ]);
@@ -366,6 +367,8 @@ export function applyLessonAction(session: LessonSession, action: LessonAction):
       return nextLessonExercise(session);
     case 'skip':
       return skipLessonAural(session);
+    case 'skipVoice':
+      return skipLessonVoice(session);
     case 'review':
       return startLessonReview(session);
   }

@@ -2,6 +2,17 @@ packages:
   - apps/*
   - packages/*
 
+allowBuilds:
+  '@parcel/watcher': false
+  unrs-resolver: false
+
+# Der Worklets-Babel-Plugin importiert diese Pakete, deklariert sie aber nicht.
+packageExtensions:
+  react-native-worklets@0.10.1:
+    dependencies:
+      '@babel/generator': 7.29.8
+      '@babel/traverse': 7.29.8
+
 # Gemeinsame Versionen für alle Pakete (Einbindung über "catalog:")
 catalog:
   '@eslint/js': ^10.0.1

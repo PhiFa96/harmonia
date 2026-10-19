@@ -4,8 +4,7 @@ import { AppState, Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { PitchTracker } from '@harmonia/audio/pitch-detection';
 import type { PitchReading } from '@harmonia/audio/pitch-detection';
-import { pitchInputLabel } from '@harmonia/exercises';
-import { fromMidi } from '@harmonia/theory';
+import { pitchInputMidiLabel } from '@harmonia/exercises';
 import { formatNumber } from '@harmonia/i18n';
 import { LAYOUT, SPACE } from '@harmonia/ui';
 import { AppText, Button, Card, useUiTheme } from '@harmonia/ui/native';
@@ -162,7 +161,7 @@ export default function TunerScreen() {
             <View style={styles.group}>
               <AppText aria-live="polite" variant="title2">
                 {stable
-                  ? pitchInputLabel(fromMidi(stable.midi), musicLocale)
+                  ? pitchInputMidiLabel(stable.midi, musicLocale)
                   : t(reading?.state === 'unstable' ? 'tuner.unstable' : 'tuner.silent')}
               </AppText>
               {stable ? (

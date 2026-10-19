@@ -44,6 +44,9 @@ export function isChordItem(item: ExerciseItem): item is ChordItem {
 export function isAuralExercise(item: ExerciseItem): boolean {
   return (
     item.type === 'LISTENING_CHOICE' ||
+    item.type === 'PLAY_BACK' ||
+    item.type === 'SING_INTERVAL' ||
+    item.type === 'SIGHT_SING' ||
     item.type === 'INTERVAL_IDENTIFY_AURAL' ||
     item.type === 'RHYTHM_TAP' ||
     (item.type === 'CHORD_IDENTIFY' && item.presentation === 'aural')
