@@ -13,13 +13,13 @@ const invalid = (input: unknown, pattern: RegExp) => {
   expect(() => parseCurriculum(input, catalogue)).toThrow(pattern);
 };
 
-describe('Fähigkeitsplan für Stufen 1–3', () => {
+describe('Fähigkeitsplan für Stufen 1–4', () => {
   it('deckt alle MVP-Bereiche ab und ordnet jede Fähigkeit genau einer Einheit und Stufe zu', () => {
     const ordered = curriculumSkills(catalogue, curriculumPlan);
     expect(ordered).toHaveLength(catalogue.skills.length);
     expect(new Set(ordered.map((entry) => entry.skill.id)).size).toBe(catalogue.skills.length);
     expect(new Set(ordered.map((entry) => entry.unit.id)).size).toBe(catalogue.units.length);
-    expect(new Set(ordered.map((entry) => entry.level.number))).toEqual(new Set([1, 2, 3]));
+    expect(new Set(ordered.map((entry) => entry.level.number))).toEqual(new Set([1, 2, 3, 4]));
     for (const area of ['notation', 'rhythm', 'intervals', 'scales', 'chords', 'aural', 'history'])
       expect(ordered.some((entry) => entry.area.id === `area.${area}`)).toBe(true);
     for (const entry of ordered) {
@@ -156,7 +156,7 @@ describe('Fähigkeitsplan für Stufen 1–3', () => {
   });
 
   it('weist nicht abgedeckte, doppelte und zu kleine Stufenumfänge zurück', () => {
-    invalid({ ...fresh(), scopeLevels: [1, 2, 3, 4] }, /ohne Katalogeintrag/);
+    invalid({ ...fresh(), scopeLevels: [1, 2, 3, 4, 5] }, /ohne Katalogeintrag/);
     invalid({ ...fresh(), scopeLevels: [1, 1, 2] }, /Doppelte Stufe/);
     invalid({ ...fresh(), scopeLevels: [1] }, /außerhalb des Planumfangs/);
     invalid({ ...fresh(), scopeLevels: [] }, /scopeLevels/);

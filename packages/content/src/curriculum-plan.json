@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "contentVersion": 15,
-  "scopeLevels": [1, 2, 3],
+  "contentVersion": 16,
+  "scopeLevels": [1, 2, 3, 4],
   "units": [
     {
       "unitId": "fundament.reading-and-listening",
@@ -207,6 +207,70 @@
     {
       "unitId": "history.l3.methods",
       "skillIds": ["history.l3.methods.s1", "history.l3.methods.s2", "history.l3.methods.s3"]
+    },
+    {
+      "unitId": "notation.l4.multivoice",
+      "skillIds": [
+        "notation.l4.multivoice.s1",
+        "notation.l4.multivoice.s2",
+        "notation.l4.multivoice.s3"
+      ]
+    },
+    {
+      "unitId": "rhythm.l4.complex",
+      "skillIds": ["rhythm.l4.complex.s1", "rhythm.l4.complex.s2", "rhythm.l4.complex.s3"]
+    },
+    {
+      "unitId": "chords.l4.extensions",
+      "skillIds": ["chords.l4.extensions.s1", "chords.l4.extensions.s2", "chords.l4.extensions.s3"]
+    },
+    {
+      "unitId": "harmony.l4.applied",
+      "skillIds": ["harmony.l4.applied.s1", "harmony.l4.applied.s2", "harmony.l4.applied.s3"]
+    },
+    {
+      "unitId": "satz.l4.voice-leading",
+      "skillIds": [
+        "satz.l4.voice-leading.s1",
+        "satz.l4.voice-leading.s2",
+        "satz.l4.voice-leading.s3"
+      ]
+    },
+    {
+      "unitId": "satz.l4.figured-bass",
+      "skillIds": ["satz.l4.figured-bass.s1", "satz.l4.figured-bass.s2", "satz.l4.figured-bass.s3"]
+    },
+    {
+      "unitId": "forms.l4.sonata",
+      "skillIds": ["forms.l4.sonata.s1", "forms.l4.sonata.s2", "forms.l4.sonata.s3"]
+    },
+    {
+      "unitId": "analysis.l4.score",
+      "skillIds": ["analysis.l4.score.s1", "analysis.l4.score.s2", "analysis.l4.score.s3"]
+    },
+    {
+      "unitId": "jazzpop.l4.voicings",
+      "skillIds": ["jazzpop.l4.voicings.s1", "jazzpop.l4.voicings.s2", "jazzpop.l4.voicings.s3"]
+    },
+    {
+      "unitId": "instruments.l4.orchestration",
+      "skillIds": [
+        "instruments.l4.orchestration.s1",
+        "instruments.l4.orchestration.s2",
+        "instruments.l4.orchestration.s3"
+      ]
+    },
+    {
+      "unitId": "acoustics.l4.tuning",
+      "skillIds": ["acoustics.l4.tuning.s1", "acoustics.l4.tuning.s2", "acoustics.l4.tuning.s3"]
+    },
+    {
+      "unitId": "aural.l4.preparation",
+      "skillIds": ["aural.l4.preparation.s1", "aural.l4.preparation.s2", "aural.l4.preparation.s3"]
+    },
+    {
+      "unitId": "history.l4.survey",
+      "skillIds": ["history.l4.survey.s1", "history.l4.survey.s2", "history.l4.survey.s3"]
     }
   ]
 }

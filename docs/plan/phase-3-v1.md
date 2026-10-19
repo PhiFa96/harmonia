@@ -216,6 +216,8 @@ Die fachliche Prüfung nach ADR 0005, F03 und echte Geräteabnahme bleiben offen
 - **Umfang:** XL
 - **Aufgaben und Abnahme:** wie P2.07.
 
+**Stand 19.10.2026:** 13 Stufe-4-Einheiten mit 39 Fähigkeiten/Lektionen, 390 Aufgaben, 52 Karten/Beispielen und 13 Artikeln liegen als DE/EN-Entwurf auf `codex/p3-16-level-four-content`. C-Schlüssel, Rhythmus, erweiterte Harmonik, Stimmführung, Generalbass, Sonatenform, Analyse, Orchestrierung, Akustik, Gehörbildung und Quellenarbeit sind intern zugeordnet; [Übergabe und praktische Grenzen](stufe-4-vollstaendig.md). Öffentliche Freigabe, getrennte fachliche Prüfung nach ADR 0005 und Geräteabnahme sind offen. **P3.16 ist fachlich nicht abgeschlossen.**
+
 ### P3.17 – Prüfungsmodus
 
 - **Ziel:** Simulation von Aufnahmeprüfungen (Theorie und Gehörbildung).

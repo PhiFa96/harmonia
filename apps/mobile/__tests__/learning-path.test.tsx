@@ -99,6 +99,15 @@ describe('Lernpfad und gesicherte Lektionszugänge', () => {
     fireEvent.press(screen.getByTestId('path-area-area.jazzpop'));
     expect(screen.getByTestId('lesson-group-jazzpop.l3.harmony')).toBeTruthy();
   });
+  it('zeigt die internen Stufe-4-Einheiten nur als gesperrte Entwürfe', () => {
+    renderRouter('./src/app', { initialUrl: '/' });
+    fireEvent.press(screen.getByRole('button', { name: 'Stufe 4' }));
+    expect(useLearningState.getState().level).toBe(4);
+    const unit = within(screen.getByTestId('lesson-group-satz.l4.voice-leading'));
+    expect(unit.getByText('Vierstimmiger Satz')).toBeTruthy();
+    fireEvent.press(unit.getByRole('button', { name: 'Lektionen in Vierstimmiger Satz anzeigen' }));
+    expect(unit.getByRole('button', { name: 'Begriffe verstehen öffnen' })).toBeDisabled();
+  });
   it('bietet bei Speicherfehler Wiederholung oder ausdrücklich temporäres Lernen', () => {
     useLearningState.setState({ phase: 'error' });
     renderRouter('./src/app', { initialUrl: '/' });

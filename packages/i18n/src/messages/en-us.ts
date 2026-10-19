@@ -1,5 +1,6 @@
 import { contentMessages } from '@harmonia/i18n/content-messages';
 import levelThreeExercise from './level-three-exercise.json' with { type: 'json' };
+import levelFourExercise from './level-four-exercise.json' with { type: 'json' };
 // Texte der Oberfläche auf Englisch (US). Muss alle Schlüssel aus de.ts haben.
 
 import type { Messages } from './types.ts';
@@ -969,6 +970,7 @@ export const enUS = {
   },
   exercise: {
     ...levelThreeExercise['en-US'],
+    ...levelFourExercise['en-US'],
     type_SIGHT_SING: 'Sight singing',
     type_SING_INTERVAL: 'Sing an interval',
     type_PLAY_BACK: 'Sing back a melody',

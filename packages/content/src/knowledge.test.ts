@@ -22,14 +22,14 @@ describe('Wissensbasis und Quellenidentität', () => {
     expect(publicIndex.chunks).toHaveLength(0);
     expect(publicIndex.articleCount).toBe(0);
   });
-  it('erzeugt alle 41 Artikel und 286 Abschnitte in drei getrennten Sprachfassungen', async () => {
+  it('erzeugt alle 54 Artikel und 338 Abschnitte in drei getrennten Sprachfassungen', async () => {
     const preview = await buildKnowledgeSnapshot(catalogue, 'preview', text, digest);
-    expect(preview.articleCount).toBe(41);
-    expect(preview.chunks).toHaveLength(858);
-    expect(new Set(preview.chunks.map((c) => c.id)).size).toBe(858);
+    expect(preview.articleCount).toBe(54);
+    expect(preview.chunks).toHaveLength(1014);
+    expect(new Set(preview.chunks.map((c) => c.id)).size).toBe(1014);
     for (const locale of ['de', 'en-US', 'en-GB'])
-      expect(preview.chunks.filter((c) => c.locale === locale)).toHaveLength(286);
-    expect(preview.chunks.every((c) => [1, 2, 3].includes(c.stage))).toBe(true);
+      expect(preview.chunks.filter((c) => c.locale === locale)).toHaveLength(338);
+    expect(preview.chunks.every((c) => [1, 2, 3, 4].includes(c.stage))).toBe(true);
   });
   it('ändert die Identität auch bei einer Textänderung ohne Versionsanhebung', async () => {
     const a = await buildKnowledgeSnapshot(catalogue, 'preview', text, digest),
@@ -52,8 +52,8 @@ describe('Wissensbasis und Quellenidentität', () => {
     };
     await expect(buildKnowledgeSnapshot(invalid, 'published', text, digest)).rejects.toThrow();
   });
-  it('begrenzt die Wissensbasis auf nachweislich trainierte Stufen 1 bis 3', () => {
-    const future = { ...catalogue, levels: catalogue.levels.map((l) => ({ ...l, number: 4 })) };
+  it('begrenzt die Wissensbasis auf nachweislich trainierte Stufen 1 bis 4', () => {
+    const future = { ...catalogue, levels: catalogue.levels.map((l) => ({ ...l, number: 5 })) };
     expect(knowledgeArticles(future, 'preview')).toHaveLength(0);
   });
   it('teilt lange Texte ohne beschädigte Unicode-Zeichen und mit exakten Originalbereichen', () => {
@@ -129,6 +129,6 @@ describe('Wissensbasis und Quellenidentität', () => {
     expect(released.lessons).toHaveLength(0);
     expect(
       (await buildKnowledgeSnapshot(released, 'published', text, digest, stages)).articleCount,
-    ).toBe(41);
+    ).toBe(54);
   });
 });

@@ -131,6 +131,9 @@ export function contextChoiceLabel(item: ContextItem, answer: string, locale: Te
     'period:since1900': 'exercise.knowledgeHistory_periods_since1900',
     'form:aba': 'exercise.contextOption_form-aba',
     'form:abc': 'exercise.contextOption_form-abc',
+    'figure:5-3': 'exercise.contextOption_figure-5-3',
+    'figure:6-3': 'exercise.contextOption_figure-6-3',
+    'figure:6-4': 'exercise.contextOption_figure-6-4',
     ...(Object.fromEntries(
       [
         'recorded-performance',
@@ -173,7 +176,15 @@ export function contextNotationDescription(item: ContextItem, locale: TextLocale
     staff = score.staves[0];
   if (!staff) throw new RangeError('System fehlt');
   const layout = layoutScore(score),
-    bottom = parsePitch(staff.clef === 'bass' ? 'G2' : 'E4');
+    bottom = parsePitch(
+      staff.clef === 'bass'
+        ? 'G2'
+        : staff.clef === 'alto'
+          ? 'F3'
+          : staff.clef === 'tenor'
+            ? 'D3'
+            : 'E4',
+    );
   const notes = staff.measures
     .flatMap((m, measure) =>
       m.voices.flatMap((v) =>

@@ -107,8 +107,8 @@ describe('Erste Notationseinheit in Stufe 1', () => {
       contentVersion: 1,
     });
     expect(firstLesson.exercises).toHaveLength(10);
-    expect(catalogue.contentVersion).toBe(15);
-    expect(curriculumPlan.contentVersion).toBe(15);
+    expect(catalogue.contentVersion).toBe(16);
+    expect(curriculumPlan.contentVersion).toBe(16);
     expect(resolveLesson(catalogue, 'unknown.lesson')).toBeUndefined();
   });
 });

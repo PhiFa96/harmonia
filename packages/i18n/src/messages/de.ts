@@ -1,5 +1,6 @@
 import { contentMessages } from '@harmonia/i18n/content-messages';
 import levelThreeExercise from './level-three-exercise.json' with { type: 'json' };
+import levelFourExercise from './level-four-exercise.json' with { type: 'json' };
 // Texte der Oberfläche auf Deutsch. Diese Datei gibt die Schlüssel vor; en-US muss dieselben haben.
 // Fachbegriffe kommen aus dem Glossar: $t(glossary:…).
 
@@ -993,6 +994,7 @@ export const de = {
   },
   exercise: {
     ...levelThreeExercise.de,
+    ...levelFourExercise.de,
     type_SIGHT_SING: 'Vom Blatt singen',
     type_SING_INTERVAL: 'Intervall singen',
     type_PLAY_BACK: 'Melodie nachsingen',
