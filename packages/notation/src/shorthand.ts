@@ -7,7 +7,9 @@
 // - Vorzeichnung: key:Eb (Es-Dur), key:c (c-Moll, kleiner Grundton = Moll), key:3b, key:2#, key:0
 // - Note: Tonhöhe + Dauer, z. B. C4/4, F#5/8., Bb3/2.. – Dauer 1, 2, 4 … 64 oder breve, Punkte mit "."
 // - Pause: r/4 · Akkord: (C4 E4 G4)/2 · Haltebogen: "~" hinter Note oder Akkordton, (C4 E4)/2~ bindet alle Töne
-// - Mehrere Stimmen in einem Takt mit "&" trennen, mehrere Systeme in eigenen Zeilen (ab Phase 3)
+// - Phrasierungsbogen: [ am Anfang, ] am Ende eines Notenereignisses, z. B. C4/4[ D4/4]
+// - Harmoniklabel: @ch:Cmaj7 und @fn:T7 an einem Notenereignis
+// - Mehrere Stimmen in einem Takt mit "&" trennen, mehrere Systeme in eigenen Zeilen
 // Unpunktierte Achteltriolen: /8{3:2}; weitere N-tolen bleiben Phase 3.
 
 import type { Duration, Key, NoteValue, Pitch, TimeSignature } from '@harmonia/theory';
@@ -209,22 +211,35 @@ function parseEvents(text: string, where: string): VoiceEvent[] {
   return tokens.map((token) => parseEvent(token, where));
 }
 
-const DURATION_PATTERN = /^\/(breve|\d+)(\.*)(?:\{(3):(2)\})?(~?)$/;
+const DURATION_PATTERN = /^\/(breve|\d+)(\.*)(?:\{(3):(2)\})?(~?)(\[|\])?$/;
 
 function parseEvent(token: string, where: string): VoiceEvent {
   const fail = (reason: string): never => {
     throw new SyntaxError(`${where}: ${reason} in „${token}“`);
   };
-  const durationStart = token.lastIndexOf('/');
+  const [body = '', ...labels] = token.split('@');
+  const harmony: { chordSymbol?: string; functionSymbol?: string } = {};
+  for (const label of labels) {
+    const match = /^(ch|fn):([^\s@]{1,32})$/.exec(label);
+    if (!match) return fail('ungültiges Harmoniklabel');
+    const field = match[1] === 'ch' ? 'chordSymbol' : 'functionSymbol';
+    if (harmony[field]) return fail('Harmoniklabel doppelt');
+    const value = match[2];
+    if (!value) return fail('leeres Harmoniklabel');
+    harmony[field] = value;
+  }
+  const annotation = labels.length > 0 ? harmony : undefined;
+  const durationStart = body.lastIndexOf('/');
   if (durationStart <= 0) {
     return fail('Dauer fehlt (z. B. /4)');
   }
-  const head = token.slice(0, durationStart);
-  const match = DURATION_PATTERN.exec(token.slice(durationStart));
+  const head = body.slice(0, durationStart);
+  const match = DURATION_PATTERN.exec(body.slice(durationStart));
   if (!match) {
     return fail('ungültige Dauer');
   }
-  const [, valueText = '', dots = '', actual, normal, tie = ''] = match;
+  const [, valueText = '', dots = '', actual, normal, tie = '', slurMark = ''] = match;
+  const slur = slurMark === '[' ? 'start' : slurMark === ']' ? 'end' : undefined;
   const value = VALUE_BY_TEXT[valueText];
   if (value === undefined) {
     return fail(`unbekannter Notenwert /${valueText}`);
@@ -242,7 +257,9 @@ function parseEvent(token: string, where: string): VoiceEvent {
     token,
   );
   if (head === 'r') {
-    return tie ? fail('Pausen haben keinen Haltebogen') : rest(d);
+    return tie || slur || annotation
+      ? fail('Pausen haben keinen Bogen und kein Harmoniklabel')
+      : rest(d);
   }
   if (head.startsWith('(') && head.endsWith(')')) {
     const notes = head
@@ -255,9 +272,9 @@ function parseEvent(token: string, where: string): VoiceEvent {
         const pitch = readPitch(tied ? part.slice(0, -1) : part, where, token);
         return { pitch, tie: tied || tie === '~' };
       });
-    return withSyntaxError(() => chord(notes, d), where, token);
+    return withSyntaxError(() => chord(notes, d, slur, annotation), where, token);
   }
-  return note(readPitch(head, where, token), d, tie === '~');
+  return note(readPitch(head, where, token), d, tie === '~', slur, annotation);
 }
 
 function readPitch(text: string, where: string, token: string): Pitch {
@@ -347,13 +364,19 @@ function formatVoice(v: Voice): string {
 
 function formatEvent(event: VoiceEvent): string {
   const tie = (tied: boolean): string => (tied ? '~' : '');
+  const slur =
+    event.kind !== 'rest' ? (event.slur === 'start' ? '[' : event.slur === 'end' ? ']' : '') : '';
+  const labels =
+    event.kind === 'rest'
+      ? ''
+      : `${event.harmony?.chordSymbol ? `@ch:${event.harmony.chordSymbol}` : ''}${event.harmony?.functionSymbol ? `@fn:${event.harmony.functionSymbol}` : ''}`;
   switch (event.kind) {
     case 'note':
-      return `${formatPitch(event.pitch)}${formatDuration(event.duration)}${tie(event.tie)}`;
+      return `${formatPitch(event.pitch)}${formatDuration(event.duration)}${tie(event.tie)}${slur}${labels}`;
     case 'rest':
       return `r${formatDuration(event.duration)}`;
     case 'chord':
-      return `(${event.notes.map((n) => formatPitch(n.pitch) + tie(n.tie)).join(' ')})${formatDuration(event.duration)}`;
+      return `(${event.notes.map((n) => formatPitch(n.pitch) + tie(n.tie)).join(' ')})${formatDuration(event.duration)}${slur}${labels}`;
   }
 }
 

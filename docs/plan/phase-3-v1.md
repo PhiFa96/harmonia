@@ -182,17 +182,10 @@ Technische Übergabe: `freunde-und-quests.md`, ADR 0035. Einmal-Einladungen, bei
 - **Abhängig von:** Phase 1
 - **Umfang:** XL
 - **Aufgaben:**
-  - [ ] Engine:
-    - Septakkorde und erweiterte Akkorde
-    - Harmonik (Stufen und Funktionen vollständig nach Konvention F03)
-    - Kadenzen
-    - Modulation (Grundlagen)
-  - [ ] Notation:
-    - Klaviersystem
-    - Mehrstimmigkeit
-    - Bindebögen, Triolen
-    - Alt- und Tenorschlüssel
-    - Akkord- und Funktionssymbole
+  - [x] Engine-Grundlage: Septakkorde, Non-/Undezim-/Tredezimakkorde, diatonische Stufen, vorläufige Funktionen, einfache Kadenzen und Pivotmodulation ([Übergabe](engine-und-notation-v2.md))
+  - [x] Notationsgrundlage: Klaviersystem, zwei Stimmen je System, Phrasierungsbögen, Triolen, Alt-/Tenorschlüssel und Harmoniklabels
+  - [ ] Vollständige Funktionstheorie und Symbolschreibweise nach der noch offenen Konvention F03 fachlich festlegen und prüfen
+  - [ ] Referenzbeispiele gegen Literatur und durch Claude nach ADR 0005 abnehmen
 - **Fertig, wenn:** Referenzbeispiele für Stufe 3–4 werden korrekt analysiert und dargestellt (geprüft gegen Literatur).
 
 ### P3.14 – Übungstypen Stufe 3–4

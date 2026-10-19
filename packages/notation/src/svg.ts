@@ -36,6 +36,7 @@ export type SvgElement = (
       readonly y: number;
       readonly text: string;
       readonly fontSize: number;
+      readonly literal?: boolean;
     }
   | {
       readonly kind: 'line';
@@ -111,6 +112,15 @@ function element(
   scale: number,
 ): SvgElement {
   switch (item.kind) {
+    case 'label':
+      return {
+        kind: 'text',
+        x: x(item.x),
+        y: y(item.y),
+        text: item.text,
+        fontSize: 1.4 * scale,
+        literal: true,
+      };
     case 'glyph':
       return {
         kind: 'text',
@@ -142,10 +152,14 @@ function element(
           .join(' '),
       };
     }
-    case 'tie': {
+    case 'tie':
+    case 'slur': {
       const dir = item.direction === 'up' ? -1 : 1;
       const length = item.x2 - item.x1;
-      const height = Math.min(1.2, 0.3 + 0.15 * length);
+      const height =
+        item.kind === 'slur'
+          ? Math.min(2, 0.5 + 0.12 * length)
+          : Math.min(1.2, 0.3 + 0.15 * length);
       const mid = (item.x1 + item.x2) / 2;
       const inner = height - ENGRAVING_DEFAULTS.tieMidpointThickness;
       const n = (value: number): string => String(value);
@@ -207,7 +221,9 @@ export function layoutToSvg(layout: ScoreLayout, options: SvgOptions = {}): stri
       const c = e.highlight ? colors[e.highlight] : color;
       switch (e.kind) {
         case 'text':
-          return `<text x="${n(e.x)}" y="${n(e.y)}" font-family="${font}" font-size="${n(e.fontSize)}" fill="${c}">&#x${(e.text.codePointAt(0) ?? 0).toString(16).toUpperCase()};</text>`;
+          return e.literal
+            ? `<text x="${n(e.x)}" y="${n(e.y)}" font-family="sans-serif" font-size="${n(e.fontSize)}" fill="${c}">${escapeXml(e.text)}</text>`
+            : `<text x="${n(e.x)}" y="${n(e.y)}" font-family="${font}" font-size="${n(e.fontSize)}" fill="${c}">&#x${(e.text.codePointAt(0) ?? 0).toString(16).toUpperCase()};</text>`;
         case 'line':
           return `<line x1="${n(e.x1)}" y1="${n(e.y1)}" x2="${n(e.x2)}" y2="${n(e.y2)}" stroke="${c}" stroke-width="${n(e.strokeWidth)}"${e.lineCap ? ` stroke-linecap="${e.lineCap}"` : ''}/>`;
         case 'polygon':
@@ -220,4 +236,13 @@ export function layoutToSvg(layout: ScoreLayout, options: SvgOptions = {}): stri
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${n(scene.width)} ${n(scene.height)}" width="${n(scene.width)}" height="${n(scene.height)}">
   ${body}
 </svg>`;
+}
+
+function escapeXml(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
 }

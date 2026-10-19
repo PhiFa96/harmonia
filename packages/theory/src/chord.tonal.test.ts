@@ -4,12 +4,12 @@
 import { Chord as TonalChord } from 'tonal';
 import { describe, expect, it } from 'vitest';
 
-import type { ChordType } from './chord.ts';
-import { CHORD_TYPES, chordTones } from './chord.ts';
+import type { TriadType } from './chord.ts';
+import { chordTones } from './chord.ts';
 import type { NoteName } from './pitch.ts';
 import { formatNoteName, LETTERS, noteName } from './pitch.ts';
 
-const TONAL_TYPES: Readonly<Record<ChordType, string>> = {
+const TONAL_TYPES: Readonly<Record<TriadType, string>> = {
   major: 'M',
   minor: 'm',
   diminished: 'dim',
@@ -24,7 +24,7 @@ describe('Vergleich mit tonal', () => {
   it('gleiche Akkordtöne für alle vier Dreiklangstypen auf allen 35 Grundtönen', () => {
     let compared = 0;
     for (const root of ROOTS) {
-      for (const type of CHORD_TYPES) {
+      for (const type of Object.keys(TONAL_TYPES) as TriadType[]) {
         const name = formatNoteName(root);
         const expected = TonalChord.getChord(TONAL_TYPES[type], name).notes;
         let ours: string[];

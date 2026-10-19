@@ -22,6 +22,15 @@ export interface Note {
   readonly duration: Duration;
   /** Haltebogen zum nächsten Ereignis derselben Stimme, das dieselbe Tonhöhe enthält. */
   readonly tie: boolean;
+  /** Beginn oder Ende eines Phrasierungsbogens, unabhängig vom Haltebogen. */
+  readonly slur?: 'start' | 'end';
+  readonly harmony?: HarmonyAnnotation;
+}
+
+/** Geschriebene Labels. Analyse und Wahl der Konvention kommen aus der Theorie-Engine. */
+export interface HarmonyAnnotation {
+  readonly chordSymbol?: string;
+  readonly functionSymbol?: string;
 }
 
 export interface ChordNote {
@@ -34,6 +43,8 @@ export interface Chord {
   readonly kind: 'chord';
   readonly notes: readonly ChordNote[];
   readonly duration: Duration;
+  readonly slur?: 'start' | 'end';
+  readonly harmony?: HarmonyAnnotation;
 }
 
 export interface Rest {
@@ -73,8 +84,21 @@ export interface Score {
 // ---------------------------------------------------------------------------
 // Bausteine
 
-export function note(pitch: Pitch, duration: Duration, tie = false): Note {
-  return { kind: 'note', pitch, duration, tie };
+export function note(
+  pitch: Pitch,
+  duration: Duration,
+  tie = false,
+  slur?: 'start' | 'end',
+  harmony?: HarmonyAnnotation,
+): Note {
+  return {
+    kind: 'note',
+    pitch,
+    duration,
+    tie,
+    ...(slur ? { slur } : {}),
+    ...(harmony ? { harmony } : {}),
+  };
 }
 
 export function rest(duration: Duration): Rest {
@@ -82,7 +106,12 @@ export function rest(duration: Duration): Rest {
 }
 
 /** Wirft einen RangeError bei weniger als zwei Tönen oder doppelten Tonhöhen. */
-export function chord(notes: readonly ChordNote[], duration: Duration): Chord {
+export function chord(
+  notes: readonly ChordNote[],
+  duration: Duration,
+  slur?: 'start' | 'end',
+  harmony?: HarmonyAnnotation,
+): Chord {
   if (notes.length < 2) {
     throw new RangeError('Ein Akkord braucht mindestens zwei Töne');
   }
@@ -90,7 +119,13 @@ export function chord(notes: readonly ChordNote[], duration: Duration): Chord {
   if (duplicate) {
     throw new RangeError(`Ton doppelt im Akkord: ${formatPitch(duplicate.pitch)}`);
   }
-  return { kind: 'chord', notes: [...notes], duration };
+  return {
+    kind: 'chord',
+    notes: [...notes],
+    duration,
+    ...(slur ? { slur } : {}),
+    ...(harmony ? { harmony } : {}),
+  };
 }
 
 /** Vorzeichnung aus einer Tonart (Es-Dur → −3) oder direkt aus der Vorzeichenzahl. */
@@ -164,6 +199,44 @@ export function ties(score: Score): Tie[] {
   return collectTies(score).filter((t): t is Tie => t.to !== undefined);
 }
 
+export interface Slur {
+  readonly from: EventPosition;
+  readonly to: EventPosition;
+}
+
+/** Verbindet Beginn und Ende eines Phrasierungsbogens innerhalb derselben Stimme. */
+export function slurs(score: Score): Slur[] {
+  return collectSlurs(score).pairs;
+}
+
+function collectSlurs(score: Score): { pairs: Slur[]; issues: ScoreIssue[] } {
+  const pairs: Slur[] = [];
+  const issues: ScoreIssue[] = [];
+  score.staves.forEach((staff, staffIndex) => {
+    const voiceCount = Math.max(0, ...staff.measures.map((m) => m.voices.length));
+    for (let voice = 0; voice < voiceCount; voice++) {
+      let start: EventPosition | undefined;
+      staff.measures.forEach((measure, measureIndex) => {
+        measure.voices[voice]?.events.forEach((event, eventIndex) => {
+          if (event.kind === 'rest' || !event.slur) return;
+          const position = { staff: staffIndex, measure: measureIndex, voice, event: eventIndex };
+          if (event.slur === 'start') {
+            if (start) issues.push({ type: 'slur-without-end', from: start });
+            start = position;
+          } else if (start) {
+            pairs.push({ from: start, to: position });
+            start = undefined;
+          } else {
+            issues.push({ type: 'slur-without-start', to: position });
+          }
+        });
+      });
+      if (start) issues.push({ type: 'slur-without-end', from: start });
+    }
+  });
+  return { pairs, issues };
+}
+
 function collectTies(score: Score): { pitch: Pitch; from: EventPosition; to?: EventPosition }[] {
   const result: { pitch: Pitch; from: EventPosition; to?: EventPosition }[] = [];
   score.staves.forEach((staff, staffIndex) => {
@@ -212,7 +285,9 @@ export type ScoreIssue =
       readonly measure: number;
       readonly voice: number;
     }
-  | { readonly type: 'tie-without-target'; readonly from: EventPosition; readonly pitch: Pitch };
+  | { readonly type: 'tie-without-target'; readonly from: EventPosition; readonly pitch: Pitch }
+  | { readonly type: 'slur-without-end'; readonly from: EventPosition }
+  | { readonly type: 'slur-without-start'; readonly to: EventPosition };
 
 export interface ValidateOptions {
   /** Ersten Takt als Auftakt erlauben, wenn er zu kurz ist. Standard: ja. */
@@ -249,5 +324,6 @@ export function validateScore(score: Score, options: ValidateOptions = {}): Scor
       issues.push({ type: 'tie-without-target', from: t.from, pitch: t.pitch });
     }
   }
+  issues.push(...collectSlurs(score).issues);
   return issues;
 }

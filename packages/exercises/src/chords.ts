@@ -189,7 +189,7 @@ export function generateChord(
       {
         ...params,
         diatonic: false,
-        types: [context.chord.type],
+        types: [context.chord.type as TriadType],
         roots: [formatNoteName(context.chord.root)],
         inversions: [0],
       },

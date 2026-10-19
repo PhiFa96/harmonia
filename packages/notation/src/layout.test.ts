@@ -36,8 +36,11 @@ describe('Position im System', () => {
     expect(staffY(parsePitch(pitch), clef)).toBe(y);
   });
 
-  it('Alt- und Tenorschlüssel erst ab Phase 3', () => {
-    expect(() => staffY(parsePitch('C4'), 'alto')).toThrow(RangeError);
+  it('Alt- und Tenorschlüssel setzen c¹ auf dritte bzw. vierte Linie', () => {
+    expect(staffY(parsePitch('C4'), 'alto')).toBe(2);
+    expect(staffY(parsePitch('C4'), 'tenor')).toBe(3);
+    expect(glyphs(layout('alto | C4/1'), 'clef')[0]?.glyph).toBe('cClef');
+    expect(glyphs(layout('tenor | C4/1'), 'clef')[0]?.y).toBe(3);
   });
 });
 
@@ -372,14 +375,31 @@ describe('Abschluss und Ausdehnung', () => {
 });
 
 describe('Grenzen von Layout v1', () => {
-  it.each([
-    ['alto | C4/1', 'Schlüssel'],
-    ['C5/1 & E4/1', 'Stimme'],
-    ['C4/1 | 3/4 | C4/2.', 'Wechsel'],
-    ['C4/1\nC3/1', 'System'],
-  ])('%s', (text, reason) => {
+  it.each([['C4/1 | 3/4 | C4/2.', 'Wechsel']])('%s', (text, reason) => {
     expect(() => layout(text)).toThrow(RangeError);
     expect(() => layout(text)).toThrow(new RegExp(reason));
+  });
+  it('setzt zwei Stimmen an gemeinsamen Einsätzen in getrennte Halsrichtungen', () => {
+    const result = layout('treble | C5/2 D5/2 & E4/4 F4/4 G4/2');
+    const heads = glyphs(result, 'notehead');
+    expect(heads.map((item) => item.ref?.voice)).toEqual([0, 1, 1, 0, 1]);
+    expect(heads[0]?.x).toBe(heads[1]?.x);
+    expect(
+      lines(result, 'stem')
+        .filter((item) => item.ref?.voice === 0)
+        .every((item) => item.y2 < item.y1),
+    ).toBe(true);
+    expect(
+      lines(result, 'stem')
+        .filter((item) => item.ref?.voice === 1)
+        .every((item) => item.y2 > item.y1),
+    ).toBe(true);
+  });
+  it('stellt zwei Systeme mit verbundenen Taktstrichen dar', () => {
+    const result = layout('treble | C4/1 | D4/1\nbass | C3/1 | D3/1');
+    expect(glyphs(result, 'notehead')).toHaveLength(4);
+    expect(glyphs(result, 'notehead').map((item) => item.ref?.staff)).toEqual([0, 0, 1, 1]);
+    expect(lines(result, 'barline').some((line) => line.y1 === 4 && line.y2 === 10)).toBe(true);
   });
 });
 

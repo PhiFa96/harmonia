@@ -193,9 +193,12 @@ export function diatonicTriads(
     if (match === undefined || match.omitted.length > 0) {
       throw new RangeError(`Kein Dreiklang auf Stufe ${String(index + 1)} von ${keyName(k)}`);
     }
+    if (!['major', 'minor', 'diminished', 'augmented'].includes(match.chord.type)) {
+      throw new RangeError(`Kein Dreiklang auf Stufe ${String(index + 1)}`);
+    }
     return {
       degree: index + 1,
-      quality: match.chord.type,
+      quality: match.chord.type as TriadType,
       chord: match.chord,
       notes: [withoutOctave(root), withoutOctave(third), withoutOctave(fifth)],
     };

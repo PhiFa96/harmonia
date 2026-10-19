@@ -103,19 +103,26 @@ export function ScoreView({
     [layout, staffSpace, highlights, interactive],
   );
   const regions = useMemo(() => {
+    const id = (staff: number, measure: number, voice: number, event: number) =>
+      `${String(staff)}:${String(measure)}:${String(voice)}:${String(event)}`;
     const texts = new Map(
       describeScore(score, describeOptions).map((d) => [
-        `${String(d.measure)}:${String(d.event)}`,
+        id(d.staff, d.measure, d.voice, d.event),
         d.text,
       ]),
     );
     return eventBounds(layout).map((b) => {
-      const ref = { measure: b.measure, event: b.event };
+      const ref = {
+        measure: b.measure,
+        event: b.event,
+        ...(b.staff !== undefined ? { staff: b.staff } : {}),
+        ...(b.voice !== undefined ? { voice: b.voice } : {}),
+      };
       const kind = highlights ? highlightFor(highlights, ref) : undefined;
       const status = kind ? highlightLabels?.[kind] : undefined;
-      const text = texts.get(`${String(b.measure)}:${String(b.event)}`) ?? '';
+      const text = texts.get(id(b.staff ?? 0, b.measure, b.voice ?? 0, b.event)) ?? '';
       return {
-        key: `${String(b.measure)}:${String(b.event)}`,
+        key: id(b.staff ?? 0, b.measure, b.voice ?? 0, b.event),
         text: status ? `${text}, ${status}` : text,
         editable: findEditable(editable, ref),
         left: (b.x1 + PADDING) * staffSpace,
@@ -270,7 +277,12 @@ function webArrowKeys(adjust: (steps: 1 | -1) => void): object {
 }
 
 function sameEvent(a: EventRef, b: EventRef): boolean {
-  return a.measure === b.measure && a.event === b.event;
+  return (
+    a.measure === b.measure &&
+    a.event === b.event &&
+    (a.staff ?? 0) === (b.staff ?? 0) &&
+    (a.voice ?? 0) === (b.voice ?? 0)
+  );
 }
 
 /** Bearbeitbarer Ton eines Ereignisses (ohne Tonangabe: der erste). */
@@ -293,7 +305,10 @@ function draggableAt(
   score: Score,
 ): EventRef | undefined {
   const isNote = (ref: EventRef): boolean => {
-    const event = score.staves[0]?.measures[ref.measure]?.voices[0]?.events[ref.event];
+    const event =
+      score.staves[ref.staff ?? 0]?.measures[ref.measure]?.voices[ref.voice ?? 0]?.events[
+        ref.event
+      ];
     return event !== undefined && event.kind !== 'rest';
   };
   const head = hit.head;
@@ -326,7 +341,7 @@ export function draw(element: SvgElement, index: number, color: ColorValue, font
           x={element.x}
           // eslint-disable-next-line @typescript-eslint/no-deprecated
           y={element.y}
-          fontFamily={fontFamily}
+          fontFamily={element.literal ? 'sans-serif' : fontFamily}
           fontSize={element.fontSize}
           fill={color}
         >

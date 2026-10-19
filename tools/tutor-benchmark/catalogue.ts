@@ -325,6 +325,10 @@ export function buildBenchmarkCatalogue(): BenchmarkCatalogue {
       });
   }
   for (const { source, item } of entries) {
+    // P2.18 ist ein eingefrorener, bereits redaktionell entworfener 19-Typen-Katalog.
+    // Die späteren Mikrofontypen erhalten erst mit einer eigenen Kalibrierung neue Fälle.
+    if (item.type === 'SING_INTERVAL' || item.type === 'SIGHT_SING' || item.type === 'PLAY_BACK')
+      continue;
     if (seen.has(item.type)) continue;
     seen.add(item.type);
     const wrong = wrongAnswer(item),
