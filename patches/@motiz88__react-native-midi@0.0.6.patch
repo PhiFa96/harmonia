@@ -1,0 +1,41 @@
+diff --git a/android/src/main/java/com/motiz88/reactnativemidi/ReactNativeMidiModule.kt b/android/src/main/java/com/motiz88/reactnativemidi/ReactNativeMidiModule.kt
+index 90222d24719263e5d64edc9bbef511d33f1fffcb..992110667ffcb8b0fe516659b5f0a2b2b877cf59 100644
+--- a/android/src/main/java/com/motiz88/reactnativemidi/ReactNativeMidiModule.kt
++++ b/android/src/main/java/com/motiz88/reactnativemidi/ReactNativeMidiModule.kt
+@@ -147,7 +147,7 @@ class ReactNativeMidiModule : Module() {
+                 openDevices[id] = it
+                 promise.resolve(it)
+             }
+-        }, Handler(Looper.myLooper()!!))
++        }, Handler(Looper.getMainLooper()))
+     }
+ 
+     private fun serializeDeviceInfo(device: MidiDeviceInfo) = bundleOf(
+diff --git a/build/MIDIPortImpl.js b/build/MIDIPortImpl.js
+index 2d1268642147519fd018ce32eab9861cac89ac52..de343092ba8fd2971bda195409dbfa85fba26786 100644
+--- a/build/MIDIPortImpl.js
++++ b/build/MIDIPortImpl.js
+@@ -82,6 +82,9 @@ export class MIDIPortImpl extends SimpleEventTargetImpl {
+                 this.#openPromise = null;
+             }
+         }
++        if (this.connection === "open") {
++            this.closePort();
++        }
+         // TODO: Refcount and close the device too
+         this.connection = "closed";
+     }
+diff --git a/src/MIDIPortImpl.ts b/src/MIDIPortImpl.ts
+index dd6f3a947f8cc06318e0ccb65fdd138c0ce4fe80..69d2c648b6f6f506b4e0762e0cdc5ee9816425c1 100644
+--- a/src/MIDIPortImpl.ts
++++ b/src/MIDIPortImpl.ts
+@@ -102,6 +102,9 @@ export abstract class MIDIPortImpl
+       }
+     }
+ 
++    if (this.connection === "open") {
++      this.closePort();
++    }
+     // TODO: Refcount and close the device too
+     this.connection = "closed";
+   }

@@ -1986,6 +1986,18 @@ export const de = {
   piano: {
     settings: 'Anpassen',
     title: 'Klaviatur',
+    midiDevice: 'MIDI-Keyboard',
+    midiConnect: 'MIDI verbinden',
+    midiIntro:
+      'USB- oder bereits gekoppeltes Bluetooth-MIDI-Keyboard verbinden. Die Töne werden nur auf diesem Gerät verarbeitet.',
+    midiNoDevice:
+      'Noch kein MIDI-Eingabegerät gefunden. Verbinde ein Keyboard und prüfe die Kopplung.',
+    midiUnavailable:
+      'MIDI ist hier nicht verfügbar oder der Zugriff wurde abgelehnt. Prüfe Browser, Gerät und Berechtigungen.',
+    midiConnected: 'MIDI: {{device}}',
+    midiDisconnected: 'MIDI-Keyboard getrennt. Verbinde es erneut oder wähle ein anderes Gerät.',
+    midiVelocity: 'Anschlag {{velocity}}/127',
+    midiSustain: 'Sustain an',
     labels: 'Tonnamen',
     labels_none: 'Keine Beschriftung',
     labels_de: 'Deutsch (H/B)',

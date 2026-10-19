@@ -1945,6 +1945,17 @@ export const enUS = {
   piano: {
     settings: 'Customize',
     title: 'Piano keyboard',
+    midiDevice: 'MIDI keyboard',
+    midiConnect: 'Connect MIDI',
+    midiIntro:
+      'Connect a USB or already paired Bluetooth MIDI keyboard. Notes are processed only on this device.',
+    midiNoDevice: 'No MIDI input found yet. Connect a keyboard and check pairing.',
+    midiUnavailable:
+      'MIDI is unavailable here or access was denied. Check your browser, device and permissions.',
+    midiConnected: 'MIDI: {{device}}',
+    midiDisconnected: 'MIDI keyboard disconnected. Reconnect it or choose another device.',
+    midiVelocity: 'Velocity {{velocity}}/127',
+    midiSustain: 'Sustain on',
     labels: 'Note names',
     labels_none: 'No labels',
     labels_de: 'German (H/B)',

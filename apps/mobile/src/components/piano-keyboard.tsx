@@ -27,6 +27,7 @@ import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanima
 
 import { usePianoStatus } from '@/audio';
 import { useLocale } from '@/i18n';
+import { useMidiInput } from '@/midi/use-midi-input';
 import { OptionSheet } from './option-sheet';
 import { usePianoInput } from './use-piano-input';
 import { useWebPianoInput } from './use-web-piano-input';
@@ -71,7 +72,7 @@ export function PianoKeyboard({
   const [rangeName, setRangeName] = useState<RangeName>(initialRange);
   const [zoom, setZoom] = useState(0);
   const [scrollMode, setScrollMode] = useState(false);
-  const [sheet, setSheet] = useState<'settings' | 'labels' | 'range' | null>(null);
+  const [sheet, setSheet] = useState<'settings' | 'labels' | 'range' | 'midi' | null>(null);
   const canvas = useRef<View>(null);
   const scroller = useRef<ScrollView>(null);
   const scrollX = useRef(0);
@@ -88,6 +89,9 @@ export function PianoKeyboard({
     enabled: enabled && !scrollMode,
     ...(spellPitch ? { spellPitch } : {}),
   });
+  const midi = useMidiInput((number) => {
+    onPitch(keyboardPitch(number, spellPitch?.(number)));
+  }, enabled);
   useWebPianoInput(canvas, { changeSource, stop, enabled, scrollMode, layout });
   const selectedNote = useRef(selectedMidi);
   selectedNote.current = selectedMidi;
@@ -174,7 +178,7 @@ export function PianoKeyboard({
                 key={key.midi}
                 pianoKey={key}
                 height={key.black ? layout.blackHeight : layout.height}
-                held={held.has(key.midi)}
+                held={held.has(key.midi) || midi.held.has(key.midi)}
                 selected={selectedMidi === key.midi}
                 status={status}
                 label={keyboardLabel(pitch, labels)}
@@ -245,6 +249,19 @@ export function PianoKeyboard({
           {t(`audioTest.piano_${pianoStatus}`)}
         </AppText>
       ) : null}
+      {midi.status === 'ready' ? (
+        <AppText variant="footnote" tone="muted" aria-live="polite" testID="midi-status">
+          {midi.connected
+            ? t('piano.midiConnected', {
+                device: midi.devices.find((device) => device.id === midi.selected)?.name ?? '',
+              })
+            : t('piano.midiDisconnected')}
+          {midi.velocity === null
+            ? ''
+            : ` · ${t('piano.midiVelocity', { velocity: midi.velocity })}`}
+          {midi.sustain ? ` · ${t('piano.midiSustain')}` : ''}
+        </AppText>
+      ) : null}
       <BottomSheet
         visible={sheet === 'settings'}
         onClose={() => {
@@ -269,6 +286,15 @@ export function PianoKeyboard({
               : t(`piano.range_${rangeName}`)}
           </AppText>
           <View style={styles.controls}>
+            <Button
+              style={styles.compactButton}
+              size="medium"
+              variant="secondary"
+              label={t('piano.midiDevice')}
+              onPress={() => {
+                setSheet('midi');
+              }}
+            />
             <Button
               style={styles.compactButton}
               size="medium"
@@ -320,6 +346,42 @@ export function PianoKeyboard({
               {t(fixedRange ? 'piano.shortcutFixedHint' : 'piano.shortcutHint')}
             </AppText>
           ) : null}
+        </View>
+      </BottomSheet>
+      <OptionSheet
+        visible={sheet === 'midi' && midi.status === 'ready' && midi.devices.length > 0}
+        onClose={() => {
+          setSheet(null);
+        }}
+        title={t('piano.midiDevice')}
+        selected={midi.selected ?? ''}
+        options={midi.devices.map((device) => ({ value: device.id, label: device.name }))}
+        onSelect={midi.select}
+      />
+      <BottomSheet
+        visible={sheet === 'midi' && (midi.status !== 'ready' || midi.devices.length === 0)}
+        onClose={() => {
+          setSheet(null);
+        }}
+        title={t('piano.midiDevice')}
+        closeLabel={t('common.close')}
+      >
+        <View style={styles.settings}>
+          <AppText variant="small" tone="muted" aria-live="polite">
+            {midi.status === 'unavailable'
+              ? t('piano.midiUnavailable')
+              : midi.status === 'ready'
+                ? t('piano.midiNoDevice')
+                : t('piano.midiIntro')}
+          </AppText>
+          <Button
+            size="medium"
+            label={t('piano.midiConnect')}
+            disabled={midi.status === 'connecting'}
+            onPress={() => {
+              void midi.connect();
+            }}
+          />
         </View>
       </BottomSheet>
       <OptionSheet

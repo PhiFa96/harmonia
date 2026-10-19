@@ -160,9 +160,9 @@ Technische Übergabe: `freunde-und-quests.md`, ADR 0035. Einmal-Einladungen, bei
 - **Abhängig von:** P1.18
 - **Umfang:** L
 - **Aufgaben:**
-  - [ ] Web MIDI (unterstützte Browser), natives Modul für iOS/Android (Bibliothek oder eigenes Expo-Modul)
-  - [ ] Geräteauswahl, Anschlagstärke, Sustain
-  - [ ] Alle Klaviatur-Übungen auch per MIDI
+  - [x] Web MIDI (unterstützte Browser), natives Modul für iOS/Android technisch eingebunden; native Geräteabnahme offen ([MIDI-Eingabe](midi-eingabe.md))
+  - [x] Geräteauswahl, Anschlagstärke, Sustain technisch umgesetzt
+  - [x] Alle vorhandenen Klaviatur-Übungen auch per MIDI-Eingang
 - **Fertig, wenn:** USB- und Bluetooth-Keyboards funktionieren auf allen Plattformen, auf denen MIDI verfügbar ist.
 
 ### P3.12 – Übungsmodus Rhythmus
