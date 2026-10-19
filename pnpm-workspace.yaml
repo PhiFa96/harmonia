@@ -21,8 +21,8 @@ catalog:
   eslint: ^10.12.0
   fast-check: ^4.10.2
   # Übersetzungen (P1.05)
-  i18next: ^26.4.6
-  react-i18next: ^17.0.18
+  i18next: ^26.4.7
+  react-i18next: ^17.0.19
   globals: ^17.0.0
   # Kontrast-Orakel im Test des Design-Systems (P1.06)
   culori: ^4.0.2
