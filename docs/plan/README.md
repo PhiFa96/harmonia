@@ -14,6 +14,7 @@ Dieser Plan beschreibt, wie wir Harmonia Schritt für Schritt bauen: vom leeren 
 | [Freunde und Quests P3.08](freunde-und-quests.md) | Einmal-Einladungen, private Freundesliste und gemeinsame Wochenquest |
 | [Mikrofon und Stimmgerät P3.09](mikrofon-und-stimmgeraet.md) | Lokale Tonhöhenerkennung, Berechtigungen und Geräte-Messreihe |
 | [MIDI-Eingabe P3.11](midi-eingabe.md) | MIDI-Keyboard auf Web/iOS/Android, Geräteauswahl, Sustain und offene Geräteabnahme |
+| [Rhythmus-Übungsmodus P3.12](rhythmus-uebungsmodus.md) | Langsames Üben mit Schleife und Metronom vor dem bewerteten Durchlauf |
 | [Theorie-Engine](theorie-engine.md) | Fachlicher Kern: Tonhöhen, Intervalle, Akkorde, Harmonik, Stimmführung |
 | [Notation, Audio, Eingabe](notation-audio-eingabe.md) | Notendarstellung, Klang, Klaviatur, Mikrofon, MIDI |
 | [Übersetzungen und Glossar](i18n-und-glossar.md) | Texte DE/EN (US/UK), Fachglossar, Prüfungen, Sprachwahl |

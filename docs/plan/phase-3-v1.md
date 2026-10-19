@@ -171,7 +171,7 @@ Technische Übergabe: `freunde-und-quests.md`, ADR 0035. Einmal-Einladungen, bei
 - **Abhängig von:** P2.06
 - **Umfang:** S
 - **Aufgaben:**
-  - [ ] Tempo-Regler, Schleifen, Metronom-Optionen für `RHYTHM_TAP`
+  - [x] Tempo-Regler, Schleifen, Metronom-Optionen für `RHYTHM_TAP` technisch umgesetzt ([Rhythmus-Übungsmodus](rhythmus-uebungsmodus.md))
 - **Fertig, wenn:** Übungs- und Prüfungsdurchlauf sind klar getrennt.
 
 ## Block D – Inhalte und Prüfungen

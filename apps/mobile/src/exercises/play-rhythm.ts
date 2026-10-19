@@ -6,11 +6,13 @@ export interface RhythmPlayback extends Playback {
   readonly countInAt: number;
   readonly latencySeconds: number;
 }
+export type RhythmMetronome = 'off' | 'count-in' | 'through';
 /** Einzähltakt und Grundschlag vorplanen; keine globalen Sequenz-/Stop-All-Aufrufe. */
 export function playRhythm(
   engine: AudioEngine,
   item: RhythmItem,
   mode: 'record' | 'demo',
+  metronome: RhythmMetronome = 'through',
 ): RhythmPlayback {
   const count = rhythmBeatCount(item),
     period = 60 / item.bpm;
@@ -21,7 +23,8 @@ export function playRhythm(
   const latencySeconds = Number.isFinite(sum) && sum >= 0 && sum <= 0.25 ? sum : 0;
   const voices: Playback[] = [];
   try {
-    for (let index = 0; index < count * 2; index++)
+    const clicks = metronome === 'through' ? count * 2 : metronome === 'count-in' ? count : 0;
+    for (let index = 0; index < clicks; index++)
       voices.push(
         engine.playPitch(
           {

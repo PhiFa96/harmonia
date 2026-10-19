@@ -12,6 +12,8 @@ P3.10 liegt technisch auf `codex/p3-10-microphone-exercises`, basierend auf P3.0
 
 P3.11 liegt technisch auf `codex/p3-11-midi-input`, basierend auf P3.10: Web MIDI und natives Expo-Modul `@motiz88/react-native-midi`, Geräteauswahl, Velocity-Anzeige, Sustain und MIDI-Eingang an der gemeinsamen Klaviatur. Ein pnpm-Patch korrigiert Android-Looper und Port-Schließen. Übergabe `docs/plan/midi-eingabe.md`. Native Builds sowie echte USB-/Bluetooth- und Browserabnahme sind offen; insbesondere Android-BLE-MIDI-Kopplung prüfen. Keine PR/Merges durch Codex.
 
+P3.12 liegt technisch auf `codex/p3-12-rhythm-practice`, basierend auf P3.11: `RHYTHM_TAP` trennt unbewertetes Üben mit 5-BPM-Tempoänderung, Schleifen und drei Metronommodi vom bewerteten Prüfungstake im Originaltempo. Üben zählt im Lernpfad als Hilfe und ist bei gesperrten Hinweisen ausgeblendet. Übergabe `docs/plan/rhythmus-uebungsmodus.md`. Echte Geräte- und Klanglatenzabnahme offen. Keine PR/Merges durch Codex.
+
 P3.04 ist technisch auf `codex/p3-04-leagues` vorbereitet, aufbauend auf P3.03/P3.02: wöchentliche Ligen pp–fff aus neuen kanonischen XP, Montag 00:00 UTC, anonyme Gruppenrangliste, atomarer Abschluss, Ergebnisanzeige und eigenes freiwilliges Push-Opt-in. Übergabe: `docs/plan/ligen.md`, ADR 0031. Drei additive Liga-Migrationen vor aktualisierten Functions/Client; `supabase/ops/schedule-leagues.sql` erst nach Prüfung im Zielbetrieb aktivieren. Codex erstellt weiterhin keine PRs oder Merges; Claude übernimmt den Prüfablauf. Keine Remote-, fachliche oder Geräte-/Pushabnahme behaupten. P3.03-Übergabe und Backfill-/Retention-Reihenfolge bleiben unter `docs/plan/fsrs-wiederholung.md`, ADR 0030 verbindlich.
 
 Hinweise für Claude Code in diesem Repository.

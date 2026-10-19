@@ -393,6 +393,10 @@ export function ExerciseTask({
           showSolution={!!result || session.hintLevel === 3}
           onSelect={onSelect}
           beforeStart={audio.stop}
+          practiceAllowed={hintsAllowed}
+          onPracticeStart={() => {
+            if (session.hintLevel === 0) onHint();
+          }}
           onPreview={() => {
             void audio.play();
           }}
