@@ -299,7 +299,8 @@ export function buildBenchmarkCatalogue(): BenchmarkCatalogue {
   });
   const seen = new Set<string>();
   const entries: { source: ReportSource; item: ExerciseItem }[] = [];
-  for (const record of course.lessons) {
+  // P2.18 is a frozen comparison. Stage-three cases get their own calibration in P3.18.
+  for (const record of course.lessons.filter((lesson) => lesson.contentVersion < 15)) {
     const lesson = resolveLesson(course, record.id);
     if (!lesson) throw new Error('Lektion fehlt');
     const seed = 'tutor-catalogue-v1',

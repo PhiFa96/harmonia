@@ -52,6 +52,18 @@ function wrongAnswer(item: ExerciseItem): string {
         (_, first: string) => `voice:${String(Number(first) + 1200)}`,
       ),
     );
+  if (expected.startsWith('dictation:')) {
+    const values = expected.slice('dictation:'.length).split(',');
+    values[0] =
+      item.type === 'MELODY_DICTATION'
+        ? values[0] === 'C4'
+          ? 'D4'
+          : 'C4'
+        : values[0] === 'quarter'
+          ? 'half'
+          : 'quarter';
+    candidates.push(`dictation:${values.join(',')}`);
+  }
   const wrong = candidates.find((answer) => {
     const evaluation = evaluateExercise(item, answer);
     return evaluation.validAnswer && !evaluation.correct;
@@ -221,8 +233,8 @@ describe('Erstversuch als geprüfter Lernnachweis', () => {
 describe('Lernpfad aus Fähigkeiten und bestandenen Versuchen', () => {
   it('ordnet alle Einheiten nach ihren Voraussetzungen und öffnet nur den Einstieg', () => {
     const path = learningPath(catalogue, []);
-    expect(path).toHaveLength(29);
-    expect(path.flatMap((u) => u.lessons)).toHaveLength(85);
+    expect(path).toHaveLength(41);
+    expect(path.flatMap((u) => u.lessons)).toHaveLength(121);
     expect(lessonStatus(path, firstLesson.id)).toBe('open');
     expect(path.some((u) => u.status === 'locked')).toBe(true);
     expect(path.some((u) => u.status === 'completed' || u.status === 'tested')).toBe(false);

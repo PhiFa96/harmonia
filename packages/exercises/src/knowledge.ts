@@ -45,6 +45,14 @@ export const HISTORY_FACTS: Readonly<Record<HistoryTopic, readonly HistoryKind[]
   periods: ['medieval', 'renaissance', 'baroque', 'classical', 'romantic', 'since1900'],
   genreContext: ['genre', 'forces', 'occasion', 'function'],
   evidence: ['observation', 'metadata', 'inference', 'uncertainty'],
+  modes: ['ionian', 'dorian', 'mixolydian', 'aeolian'],
+  modulation: ['pivot', 'tonicization', 'newTonic', 'commonTone'],
+  phrases: ['motive', 'phrase', 'antecedent', 'consequent'],
+  forms: ['binary', 'ternary', 'rondo', 'variation'],
+  instrumentFamilies: ['strings', 'woodwinds', 'brass', 'percussion'],
+  instrumentScores: ['concertPitch', 'writtenPitch', 'transposition', 'scoreOrder'],
+  jazzHarmony: ['leadSheet', 'twoFiveOne', 'backbeat', 'loop'],
+  historyMethods: ['manuscript', 'edition', 'recordingDate', 'oralHistory'],
 };
 export const HISTORY_PERIODS = [
   'medieval',
@@ -76,6 +84,14 @@ export const KNOWLEDGE_TOPICS = [
   'pulse',
   'tempo',
   'beatGroup',
+  'modes',
+  'modulation',
+  'phrases',
+  'forms',
+  'instrumentFamilies',
+  'instrumentScores',
+  'jazzHarmony',
+  'historyMethods',
 ] as const;
 export const ORDER_TOPICS = ['noteValues', 'pitches', 'periods'] as const;
 const VALUES = ['whole', 'half', 'quarter', 'eighth', 'sixteenth'] as const;

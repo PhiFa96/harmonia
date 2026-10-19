@@ -155,7 +155,7 @@ export function LearningPath() {
             {t('path.areaHint')}
           </AppText>
           <View style={[styles.tabs, styles.levels]}>
-            {([null, 1, 2] as const).map((level) => (
+            {([null, 1, 2, 3] as const).map((level) => (
               <Button
                 key={level ?? 'all'}
                 variant={state.level === level ? 'primary' : 'secondary'}
@@ -226,7 +226,9 @@ export function LearningPath() {
                           label={t('path.prerequisite', { title: text(prerequisite.titleKey) })}
                           onPress={() => {
                             selectLearningArea(prerequisite.areaId);
-                            selectLearningLevel(prerequisite.level === 2 ? 2 : 1);
+                            selectLearningLevel(
+                              prerequisite.level === 3 ? 3 : prerequisite.level === 2 ? 2 : 1,
+                            );
                             if (!state.expanded.includes(id)) toggleLearningUnit(id);
                           }}
                         />

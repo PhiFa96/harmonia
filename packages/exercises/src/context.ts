@@ -25,6 +25,7 @@ import {
   relativeKey,
   simplify,
   transposeBy,
+  transpose,
   ZERO,
 } from '@harmonia/theory';
 import type { Score } from '@harmonia/notation';
@@ -61,6 +62,8 @@ export const CONTEXT_TOPICS = [
   'jazz-roots',
   'popular-source',
   'source-comparison',
+  'form-return',
+  'clarinet-transposition',
 ] as const;
 export type ContextTopic = (typeof CONTEXT_TOPICS)[number];
 export interface ContextParams {
@@ -270,6 +273,24 @@ export function contextAnswer(item: ContextItem): string {
       const c = required(diatonicTriads(source.key)[(source.degree ?? 1) - 1]);
       return `triad:${c.quality}`;
     }
+    case 'form-return': {
+      const measures = sourceScore(item).staves[0]?.measures;
+      if (measures?.length !== 3) throw new RangeError('Drei Formabschnitte erwartet');
+      const pitches = measures.map((measure) =>
+        measure.voices[0]?.events
+          .flatMap(eventPitches)
+          .map((pitch) => formatPitch(pitch))
+          .join(','),
+      );
+      if (!pitches[0] || !pitches[1] || !pitches[2] || pitches[0] === pitches[1])
+        throw new RangeError('Kontrastierende Anfangsabschnitte erwartet');
+      return pitches[0] === pitches[2] ? 'form:aba' : 'form:abc';
+    }
+    case 'clarinet-transposition': {
+      const pitches = sourcePitches(item);
+      if (pitches.length !== 1) throw new RangeError('Ein notierter Ton erwartet');
+      return written(transpose(required(pitches[0]), -1, -2));
+    }
     case 'period-context': {
       if (
         source.kind !== 'document' ||
@@ -361,7 +382,28 @@ export function generateContext(params: ContextParams, rng: Rng): ContextItem {
   const fractionChoices = ['1/2', '1/1', '3/2', '2/1', '5/2', '3/1', '4/1'].map(
     (n) => `quarters:${n}`,
   );
-  if (topic === 'accidental-scope') {
+  if (topic === 'form-return') {
+    const motifs = [
+      'C4/4 D4/4 E4/4 G4/4',
+      'G4/4 F4/4 E4/4 D4/4',
+      'E4/4 G4/4 A4/4 G4/4',
+      'D4/4 F4/4 A4/4 F4/4',
+    ];
+    const first = rng.pick(motifs),
+      second = rng.pick(motifs.filter((value) => value !== first)),
+      third = rng.pick([first, ...motifs.filter((value) => value !== first && value !== second)]);
+    source = { kind: 'score', score: parseScore(`treble | 4/4 | ${first} | ${second} | ${third}`) };
+    available = ['form:aba', 'form:abc'];
+  } else if (topic === 'clarinet-transposition') {
+    const pitch = parsePitch(rng.pick(['C5', 'D5', 'E5', 'F5', 'G5']));
+    source = { kind: 'score', score: singleStaffScore([[note(pitch, duration('whole'))]]) };
+    available = [
+      pitch,
+      transpose(pitch, -1, -2),
+      transpose(pitch, -1, -1),
+      transpose(pitch, 1, 2),
+    ].map(written);
+  } else if (topic === 'accidental-scope') {
     const pitch = { ...p(), alter: rng.pick([-1, 1]) },
       mode = rng.pick(['same', 'reset', 'cancel', 'octave']);
     const target =

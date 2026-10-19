@@ -2,7 +2,7 @@
 
 <!-- Erzeugt mit pnpm curriculum:render; Änderungen an Katalog, Plan oder Übersetzungen vornehmen. -->
 
-Katalog-/Planversion 14. 8 Bereiche, 13 Bereichsstufen, 29 Einheiten und 90 Fähigkeiten.
+Katalog-/Planversion 15. 12 Bereiche, 21 Bereichsstufen, 41 Einheiten und 126 Fähigkeiten.
 
 Pfeile zeigen von der Voraussetzung zum folgenden Lernziel. Die Reihenfolge ist eine mögliche Reihenfolge für die Planung; unabhängige Zweige bleiben im Graphen unabhängig. Die Tabellen zeigen alle direkten Voraussetzungen, auch über Bereichsgrenzen hinweg.
 
@@ -41,6 +41,18 @@ Die Einheiten haben noch keine vollständigen Lektionen. Technische Prüfungen e
 | 27 | 2 | Gehörbildung | Dreiklänge hören · `aural.l2.triads` | 3 |
 | 28 | 2 | Musikgeschichte und Quellen | Europäische Kunstmusik im Kontext · `history.l2.period-contexts` | 3 |
 | 29 | 2 | Musikgeschichte und Quellen | Jazz, Pop und Quellenvergleich · `history.l2.jazz-pop-sources` | 3 |
+| 30 | 3 | Tonleitern und Tonarten | Modale Tonleitern · `scales.l3.modes` | 3 |
+| 31 | 3 | Dreiklänge | Septakkorde · `chords.l3.sevenths` | 3 |
+| 32 | 3 | Harmonielehre | Stufen und Funktionen · `harmony.l3.functions` | 3 |
+| 33 | 3 | Harmonielehre | Einfache Kadenzen · `harmony.l3.cadences` | 3 |
+| 34 | 3 | Harmonielehre | Tonartwechsel als Einstieg · `harmony.l3.modulation` | 3 |
+| 35 | 3 | Gehörbildung | Diktat und Blattsingen · `aural.l3.dictation` | 3 |
+| 36 | 3 | Formenlehre | Motiv und Phrase · `forms.l3.phrases` | 3 |
+| 37 | 3 | Formenlehre | Kleine Formen · `forms.l3.designs` | 3 |
+| 38 | 3 | Instrumentenkunde | Instrumentenfamilien · `instruments.l3.families` | 3 |
+| 39 | 3 | Instrumentenkunde | Partitur und Transposition · `instruments.l3.scores` | 3 |
+| 40 | 3 | Jazz und Pop | Jazz- und Pop-Grundlagen · `jazzpop.l3.harmony` | 3 |
+| 41 | 3 | Musikgeschichte und Quellen | Musikgeschichte aus Quellen · `history.l3.methods` | 3 |
 
 ```mermaid
 flowchart TD
@@ -76,6 +88,20 @@ flowchart TD
     u26["Dreiklänge hören"]
     u27["Europäische Kunstmusik im Kontext"]
     u28["Jazz, Pop und Quellenvergleich"]
+  end
+  subgraph level3["Stufe 3"]
+    u29["Modale Tonleitern"]
+    u30["Septakkorde"]
+    u31["Stufen und Funktionen"]
+    u32["Einfache Kadenzen"]
+    u33["Tonartwechsel als Einstieg"]
+    u34["Diktat und Blattsingen"]
+    u35["Motiv und Phrase"]
+    u36["Kleine Formen"]
+    u37["Instrumentenfamilien"]
+    u38["Partitur und Transposition"]
+    u39["Jazz- und Pop-Grundlagen"]
+    u40["Musikgeschichte aus Quellen"]
   end
   u1 --> u2
   u1 --> u3
@@ -127,6 +153,25 @@ flowchart TD
   u23 --> u26
   u12 --> u27
   u11 --> u28
+  u20 --> u29
+  u23 --> u30
+  u23 --> u31
+  u21 --> u31
+  u31 --> u32
+  u32 --> u33
+  u21 --> u33
+  u25 --> u34
+  u24 --> u34
+  u12 --> u35
+  u6 --> u35
+  u35 --> u36
+  u11 --> u37
+  u37 --> u38
+  u13 --> u38
+  u30 --> u39
+  u28 --> u39
+  u28 --> u40
+  u27 --> u40
 ```
 
 ## Grundlagen · `fundament`
@@ -364,6 +409,11 @@ flowchart TD
     s67["Moll-Tonarten mit bis zu drei Vorzeichen zuordnen"]
     s68["Paralleltonarten unterscheiden und zuordnen"]
   end
+  subgraph level3["Stufe 3"]
+    s90["Ionisch und Äolisch vergleichen"]
+    s91["Dorisch und Mixolydisch erklären"]
+    s92["Modi über den Grundton unterscheiden"]
+  end
   s7["Halbton und Ganzton auf der Klaviatur unterscheiden · anderer Bereich"]
   s22["Intervallnummern von Prime bis Oktave abzählen · anderer Bereich"]
   s45["Töne in Violin- und Bassschlüssel mit einfachen Versetzungszeichen setzen · anderer Bereich"]
@@ -385,6 +435,9 @@ flowchart TD
   s66 --> s67
   s67 --> s68
   s62 --> s68
+  s64 --> s90
+  s90 --> s91
+  s91 --> s92
 ```
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
@@ -399,6 +452,9 @@ flowchart TD
 | 2 · Tonartvorzeichnungen und verwandte Tonarten | Benachbarte Tonarten im Quintenzirkel finden | `key.fifths` | Find neighboring keys in the circle of fifths / Find neighbouring keys in the circle of fifths | `key.signature-major` | entwurf |
 | 2 · Tonartvorzeichnungen und verwandte Tonarten | Moll-Tonarten mit bis zu drei Vorzeichen zuordnen | `key.signature-minor` | Identify minor keys with up to three sharps or flats | `scale.natural-minor`, `key.fifths` | entwurf |
 | 2 · Tonartvorzeichnungen und verwandte Tonarten | Paralleltonarten unterscheiden und zuordnen | `key.relative` | Distinguish and match relative keys | `key.signature-minor`, `scale.natural-minor` | entwurf |
+| 3 · Modale Tonleitern | Ionisch und Äolisch vergleichen | `scales.l3.modes.s1` | Compare Ionian and Aeolian | `scale.melodic-minor` | entwurf |
+| 3 · Modale Tonleitern | Dorisch und Mixolydisch erklären | `scales.l3.modes.s2` | Explain Dorian and Mixolydian | `scales.l3.modes.s1` | entwurf |
+| 3 · Modale Tonleitern | Modi über den Grundton unterscheiden | `scales.l3.modes.s3` | Distinguish modes by tonic | `scales.l3.modes.s2` | entwurf |
 
 ## Dreiklänge · `area.chords`
 
@@ -411,6 +467,11 @@ flowchart TD
     s72["Akkordgrundton und Basston auseinanderhalten"]
     s73["Grundstellung, erste und zweite Umkehrung bestimmen und bauen"]
     s74["Leitereigene Dreiklänge in Dur und natürlichem Moll bauen"]
+  end
+  subgraph level3["Stufe 3"]
+    s93["Septakkordtypen erkennen"]
+    s94["Septakkorde schreiben"]
+    s95["Vierklänge im Kontext vergleichen"]
   end
   s54["Intervalle bis zur Oktave von einem Ton aufwärts bilden · anderer Bereich"]
   s26["Kleine und große Terzen im Notenbild unterscheiden · anderer Bereich"]
@@ -428,6 +489,9 @@ flowchart TD
   s60 -.-> s74
   s62 -.-> s74
   s69 --> s74
+  s74 --> s93
+  s93 --> s94
+  s94 --> s95
 ```
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
@@ -438,6 +502,9 @@ flowchart TD
 | 2 · Basston, Umkehrungen und leitereigene Dreiklänge | Akkordgrundton und Basston auseinanderhalten | `chord.root-and-bass` | Distinguish chord root from bass note | `chord.triad-structure` | entwurf |
 | 2 · Basston, Umkehrungen und leitereigene Dreiklänge | Grundstellung, erste und zweite Umkehrung bestimmen und bauen | `chord.inversions` | Identify and build root-position, first-inversion and second-inversion triads | `chord.root-and-bass`, `chord.major-minor` | entwurf |
 | 2 · Basston, Umkehrungen und leitereigene Dreiklänge | Leitereigene Dreiklänge in Dur und natürlichem Moll bauen | `chord.diatonic-triads` | Build diatonic triads in major and natural minor | `scale.major-build`, `scale.natural-minor`, `chord.triad-structure` | entwurf |
+| 3 · Septakkorde | Septakkordtypen erkennen | `chords.l3.sevenths.s1` | Identify seventh-chord types | `chord.diatonic-triads` | entwurf |
+| 3 · Septakkorde | Septakkorde schreiben | `chords.l3.sevenths.s2` | Build seventh chords | `chords.l3.sevenths.s1` | entwurf |
+| 3 · Septakkorde | Vierklänge im Kontext vergleichen | `chords.l3.sevenths.s3` | Compare seventh chords in context | `chords.l3.sevenths.s2` | entwurf |
 
 ## Gehörbildung · `area.aural`
 
@@ -461,6 +528,11 @@ flowchart TD
     s81["Dur- und Moll-Dreiklänge nach Gehör unterscheiden"]
     s82["Dur-, Moll-, verminderte und übermäßige Dreiklänge nach Gehör zuordnen"]
     s83["Dreiklangsumkehrungen in enger Lage nach Gehör zuordnen"]
+  end
+  subgraph level3["Stufe 3"]
+    s105["Kurze Melodien notieren"]
+    s106["Kurze Rhythmen notieren"]
+    s107["Tonhöhen singend oder spielend prüfen"]
   end
   s21["Kurze Rhythmen mit Viertelnoten, Achtelnoten und Pausen lesen · anderer Bereich"]
   s46["Einfach punktierte Notenwerte zusammensetzen · anderer Bereich"]
@@ -486,6 +558,10 @@ flowchart TD
   s78 --> s82
   s82 --> s83
   s73 -.-> s83
+  s80 --> s105
+  s77 --> s105
+  s105 --> s106
+  s106 --> s107
 ```
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
@@ -505,6 +581,9 @@ flowchart TD
 | 2 · Dreiklänge hören | Dur- und Moll-Dreiklänge nach Gehör unterscheiden | `aural.triad-major-minor` | Distinguish major and minor triads by ear | `aural.major-minor-scale` | entwurf |
 | 2 · Dreiklänge hören | Dur-, Moll-, verminderte und übermäßige Dreiklänge nach Gehör zuordnen | `aural.triad-quality` | Recognize major, minor, diminished and augmented triads by ear / Recognise major, minor, diminished and augmented triads by ear | `aural.triad-major-minor`, `aural.simple-intervals` | entwurf |
 | 2 · Dreiklänge hören | Dreiklangsumkehrungen in enger Lage nach Gehör zuordnen | `aural.triad-inversions` | Recognize close-position triad inversions by ear / Recognise close-position triad inversions by ear | `aural.triad-quality`, `chord.inversions` | entwurf |
+| 3 · Diktat und Blattsingen | Kurze Melodien notieren | `aural.l3.dictation.s1` | Notate short melodies | `aural.melodic-memory`, `aural.rhythm-completion` | entwurf |
+| 3 · Diktat und Blattsingen | Kurze Rhythmen notieren | `aural.l3.dictation.s2` | Notate short rhythms | `aural.l3.dictation.s1` | entwurf |
+| 3 · Diktat und Blattsingen | Tonhöhen singend oder spielend prüfen | `aural.l3.dictation.s3` | Check pitches by singing or playing | `aural.l3.dictation.s2` | entwurf |
 
 ## Musikgeschichte und Quellen · `area.history`
 
@@ -526,6 +605,11 @@ flowchart TD
     s88["Aufnahme, Medien und Gesellschaft an Pop-Beispielen verbinden"]
     s89["Zwei Quellen zu einem Musikbeispiel vergleichen und Unsicherheiten benennen"]
   end
+  subgraph level3["Stufe 3"]
+    s123["Handschriften und Editionen unterscheiden"]
+    s124["Werk- und Aufnahmedatum trennen"]
+    s125["Mündliche Geschichte kritisch lesen"]
+  end
   s34 --> s35
   s35 --> s36
   s35 --> s37
@@ -541,6 +625,10 @@ flowchart TD
   s87 --> s88
   s35 --> s89
   s88 --> s89
+  s89 --> s123
+  s86 --> s123
+  s123 --> s124
+  s124 --> s125
 ```
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
@@ -557,3 +645,136 @@ flowchart TD
 | 2 · Jazz, Pop und Quellenvergleich | Quellen zu den Anfängen des Jazz in ihren sozialen Kontext einordnen | `history.jazz-roots` | Place sources about the origins of jazz in their social context | `history.context`, `history.source-types` | entwurf |
 | 2 · Jazz, Pop und Quellenvergleich | Aufnahme, Medien und Gesellschaft an Pop-Beispielen verbinden | `history.popular-contexts` | Relate recording, media and society using examples of popular music | `history.jazz-roots` | entwurf |
 | 2 · Jazz, Pop und Quellenvergleich | Zwei Quellen zu einem Musikbeispiel vergleichen und Unsicherheiten benennen | `history.compare-sources` | Compare two sources about a musical example and identify uncertainties | `history.source-types`, `history.popular-contexts` | entwurf |
+| 3 · Musikgeschichte aus Quellen | Handschriften und Editionen unterscheiden | `history.l3.methods.s1` | Distinguish manuscripts and editions | `history.compare-sources`, `history.romantic-modern` | entwurf |
+| 3 · Musikgeschichte aus Quellen | Werk- und Aufnahmedatum trennen | `history.l3.methods.s2` | Separate work and recording dates | `history.l3.methods.s1` | entwurf |
+| 3 · Musikgeschichte aus Quellen | Mündliche Geschichte kritisch lesen | `history.l3.methods.s3` | Read oral history critically | `history.l3.methods.s2` | entwurf |
+
+## Harmonielehre · `area.harmony`
+
+```mermaid
+flowchart TD
+  subgraph level3["Stufe 3"]
+    s96["Tonika und Dominante bestimmen"]
+    s97["Subdominante und Nebenstufen lesen"]
+    s98["Stufen- und Funktionszeichen vergleichen"]
+    s99["Authentische und plagale Wendung unterscheiden"]
+    s100["Halb- und Trugschluss bestimmen"]
+    s101["Kadenzfolgen im Tonartbezug vergleichen"]
+    s102["Gemeinsame Akkorde erkennen"]
+    s103["Tonikalisierung von Modulation trennen"]
+    s104["Hinweise auf eine neue Tonika prüfen"]
+  end
+  s74["Leitereigene Dreiklänge in Dur und natürlichem Moll bauen · anderer Bereich"]
+  s68["Paralleltonarten unterscheiden und zuordnen · anderer Bereich"]
+  s66["Benachbarte Tonarten im Quintenzirkel finden · anderer Bereich"]
+  s74 -.-> s96
+  s68 -.-> s96
+  s96 --> s97
+  s97 --> s98
+  s98 --> s99
+  s99 --> s100
+  s100 --> s101
+  s101 --> s102
+  s66 -.-> s102
+  s102 --> s103
+  s103 --> s104
+```
+
+| Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
+|---|---|---|---|---|---|
+| 3 · Stufen und Funktionen | Tonika und Dominante bestimmen | `harmony.l3.functions.s1` | Find tonic and dominant | `chord.diatonic-triads`, `key.relative` | entwurf |
+| 3 · Stufen und Funktionen | Subdominante und Nebenstufen lesen | `harmony.l3.functions.s2` | Read subdominant and other degrees | `harmony.l3.functions.s1` | entwurf |
+| 3 · Stufen und Funktionen | Stufen- und Funktionszeichen vergleichen | `harmony.l3.functions.s3` | Compare degree and function symbols | `harmony.l3.functions.s2` | entwurf |
+| 3 · Einfache Kadenzen | Authentische und plagale Wendung unterscheiden | `harmony.l3.cadences.s1` | Distinguish authentic and plagal motion | `harmony.l3.functions.s3` | entwurf |
+| 3 · Einfache Kadenzen | Halb- und Trugschluss bestimmen | `harmony.l3.cadences.s2` | Identify half and deceptive cadences | `harmony.l3.cadences.s1` | entwurf |
+| 3 · Einfache Kadenzen | Kadenzfolgen im Tonartbezug vergleichen | `harmony.l3.cadences.s3` | Compare cadences in a key | `harmony.l3.cadences.s2` | entwurf |
+| 3 · Tonartwechsel als Einstieg | Gemeinsame Akkorde erkennen | `harmony.l3.modulation.s1` | Recognize pivot chords | `harmony.l3.cadences.s3`, `key.fifths` | entwurf |
+| 3 · Tonartwechsel als Einstieg | Tonikalisierung von Modulation trennen | `harmony.l3.modulation.s2` | Separate tonicization from modulation | `harmony.l3.modulation.s1` | entwurf |
+| 3 · Tonartwechsel als Einstieg | Hinweise auf eine neue Tonika prüfen | `harmony.l3.modulation.s3` | Check evidence for a new tonic | `harmony.l3.modulation.s2` | entwurf |
+
+## Formenlehre · `area.forms`
+
+```mermaid
+flowchart TD
+  subgraph level3["Stufe 3"]
+    s108["Motive beschreiben"]
+    s109["Phrasen gliedern"]
+    s110["Vorder- und Nachsatz vergleichen"]
+    s111["Zweiteilige Form erkennen"]
+    s112["Wiederkehr in dreiteiligen Formen erkennen"]
+    s113["Rondo und Variation unterscheiden"]
+  end
+  s38["Gattung, Besetzung und gesellschaftlichen Anlass auseinanderhalten · anderer Bereich"]
+  s21["Kurze Rhythmen mit Viertelnoten, Achtelnoten und Pausen lesen · anderer Bereich"]
+  s38 -.-> s108
+  s21 -.-> s108
+  s108 --> s109
+  s109 --> s110
+  s110 --> s111
+  s111 --> s112
+  s112 --> s113
+```
+
+| Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
+|---|---|---|---|---|---|
+| 3 · Motiv und Phrase | Motive beschreiben | `forms.l3.phrases.s1` | Describe motives | `history.genre-function`, `rhythm.read-basic` | entwurf |
+| 3 · Motiv und Phrase | Phrasen gliedern | `forms.l3.phrases.s2` | Segment phrases | `forms.l3.phrases.s1` | entwurf |
+| 3 · Motiv und Phrase | Vorder- und Nachsatz vergleichen | `forms.l3.phrases.s3` | Compare antecedent and consequent | `forms.l3.phrases.s2` | entwurf |
+| 3 · Kleine Formen | Zweiteilige Form erkennen | `forms.l3.designs.s1` | Recognize binary form | `forms.l3.phrases.s3` | entwurf |
+| 3 · Kleine Formen | Wiederkehr in dreiteiligen Formen erkennen | `forms.l3.designs.s2` | Recognize return in ternary form | `forms.l3.designs.s1` | entwurf |
+| 3 · Kleine Formen | Rondo und Variation unterscheiden | `forms.l3.designs.s3` | Distinguish rondo and variation | `forms.l3.designs.s2` | entwurf |
+
+## Instrumentenkunde · `area.instruments`
+
+```mermaid
+flowchart TD
+  subgraph level3["Stufe 3"]
+    s114["Streicher und Holzbläser zuordnen"]
+    s115["Blechbläser und Schlaginstrumente zuordnen"]
+    s116["Familiengrenzen und Klangquellen erklären"]
+    s117["Notierte und klingende Höhe unterscheiden"]
+    s118["Einfache B-Transposition erklären"]
+    s119["Partiturlese-Hinweise erklären"]
+  end
+  s34["Stimme, Instrument und Aufnahme als Klangquellen unterscheiden · anderer Bereich"]
+  s41["Töne zwischen Violin- und Bassschlüssel zuordnen · anderer Bereich"]
+  s34 -.-> s114
+  s114 --> s115
+  s115 --> s116
+  s116 --> s117
+  s41 -.-> s117
+  s117 --> s118
+  s118 --> s119
+```
+
+| Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
+|---|---|---|---|---|---|
+| 3 · Instrumentenfamilien | Streicher und Holzbläser zuordnen | `instruments.l3.families.s1` | Classify strings and woodwinds | `history.sound-source` | entwurf |
+| 3 · Instrumentenfamilien | Blechbläser und Schlaginstrumente zuordnen | `instruments.l3.families.s2` | Classify brass and percussion | `instruments.l3.families.s1` | entwurf |
+| 3 · Instrumentenfamilien | Familiengrenzen und Klangquellen erklären | `instruments.l3.families.s3` | Explain family boundaries and sound sources | `instruments.l3.families.s2` | entwurf |
+| 3 · Partitur und Transposition | Notierte und klingende Höhe unterscheiden | `instruments.l3.scores.s1` | Distinguish written and sounding pitch | `instruments.l3.families.s3`, `notation.grand-staff` | entwurf |
+| 3 · Partitur und Transposition | Einfache B-Transposition erklären | `instruments.l3.scores.s2` | Explain simple B-flat transposition | `instruments.l3.scores.s1` | entwurf |
+| 3 · Partitur und Transposition | Partiturlese-Hinweise erklären | `instruments.l3.scores.s3` | Explain score-reading cues | `instruments.l3.scores.s2` | entwurf |
+
+## Jazz und Pop · `area.jazzpop`
+
+```mermaid
+flowchart TD
+  subgraph level3["Stufe 3"]
+    s120["Lead-Sheet-Symbole lesen"]
+    s121["II–V–I mit Septakkorden vergleichen"]
+    s122["Backbeat und Loops einordnen"]
+  end
+  s95["Vierklänge im Kontext vergleichen · anderer Bereich"]
+  s87["Quellen zu den Anfängen des Jazz in ihren sozialen Kontext einordnen · anderer Bereich"]
+  s95 -.-> s120
+  s87 -.-> s120
+  s120 --> s121
+  s121 --> s122
+```
+
+| Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
+|---|---|---|---|---|---|
+| 3 · Jazz- und Pop-Grundlagen | Lead-Sheet-Symbole lesen | `jazzpop.l3.harmony.s1` | Read lead-sheet symbols | `chords.l3.sevenths.s3`, `history.jazz-roots` | entwurf |
+| 3 · Jazz- und Pop-Grundlagen | II–V–I mit Septakkorden vergleichen | `jazzpop.l3.harmony.s2` | Compare ii–V–I with seventh chords | `jazzpop.l3.harmony.s1` | entwurf |
+| 3 · Jazz- und Pop-Grundlagen | Backbeat und Loops einordnen | `jazzpop.l3.harmony.s3` | Contextualize backbeats and loops | `jazzpop.l3.harmony.s2` | entwurf |

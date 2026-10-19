@@ -658,6 +658,20 @@ test('Bundleprüfung erlaubt bereits öffentliche Glossarbegriffe bei gleichnami
     assert.equal(result.status, 0, result.stderr);
   });
 });
+test('Öffentliche Septakkordnamen erlauben keine Stufe-3-Artikeltexte oder IDs', () => {
+  const body = contentMessages.de.levelThree.units.chordsSevenths.minorSeventhBody;
+  bundleFixture('export const labels = ["Mollseptakkord", "Dominantseptakkord"];', (result) => {
+    assert.equal(result.status, 0, result.stderr);
+  });
+  bundleFixture(`export const body = ${JSON.stringify(body)};`, (result) => {
+    assert.equal(result.status, 1);
+    assert.match(result.stderr, /content.levelThree.units.chordsSevenths.minorSeventhBody/);
+  });
+  bundleFixture('export const id = "chords.l3.sevenths.lesson1";', (result) => {
+    assert.equal(result.status, 1);
+    assert.match(result.stderr, /chords.l3.sevenths.lesson1/);
+  });
+});
 test('Ein öffentlicher Glossarbegriff erlaubt keine dazugehörige Entwurfs-Bereichs-ID', () => {
   bundleFixture('export const area = { title: "Dreiklänge", id: "area.chords" };', (result) => {
     assert.equal(result.status, 1);

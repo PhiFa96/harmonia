@@ -88,6 +88,17 @@ describe('Lernpfad und gesicherte Lektionszugänge', () => {
     fireEvent.press(screen.getByTestId('path-area-all'));
     expect(useLearningState.getState().level).toBeNull();
   });
+  it('zeigt die internen Stufe-3-Einheiten und ihre gesperrten Lektionen', () => {
+    renderRouter('./src/app', { initialUrl: '/' });
+    fireEvent.press(screen.getByRole('button', { name: 'Stufe 3' }));
+    expect(useLearningState.getState().level).toBe(3);
+    const unit = within(screen.getByTestId('lesson-group-scales.l3.modes'));
+    expect(unit.getByText('Modale Tonleitern')).toBeTruthy();
+    fireEvent.press(unit.getByRole('button', { name: 'Lektionen in Modale Tonleitern anzeigen' }));
+    expect(unit.getByRole('button', { name: 'Begriffe und Beispiele öffnen' })).toBeDisabled();
+    fireEvent.press(screen.getByTestId('path-area-area.jazzpop'));
+    expect(screen.getByTestId('lesson-group-jazzpop.l3.harmony')).toBeTruthy();
+  });
   it('bietet bei Speicherfehler Wiederholung oder ausdrücklich temporäres Lernen', () => {
     useLearningState.setState({ phase: 'error' });
     renderRouter('./src/app', { initialUrl: '/' });

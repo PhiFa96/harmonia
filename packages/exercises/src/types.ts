@@ -179,7 +179,15 @@ export type KnowledgeTopic =
   | 'keyboard'
   | 'pulse'
   | 'tempo'
-  | 'beatGroup';
+  | 'beatGroup'
+  | 'modes'
+  | 'modulation'
+  | 'phrases'
+  | 'forms'
+  | 'instrumentFamilies'
+  | 'instrumentScores'
+  | 'jazzHarmony'
+  | 'historyMethods';
 export interface DurationLimits {
   /** 0: nur unpunktierte Werte; Standard 1 bewahrt bestehende Aufgaben. */
   readonly maxDots?: 0 | 1;
@@ -202,7 +210,20 @@ export interface OrderParams extends DurationLimits {
   readonly direction?: ScaleDirection | 'both';
 }
 export type HistoryTopic =
-  'soundSources' | 'sourceTypes' | 'context' | 'periods' | 'genreContext' | 'evidence';
+  | 'soundSources'
+  | 'sourceTypes'
+  | 'context'
+  | 'periods'
+  | 'genreContext'
+  | 'evidence'
+  | 'modes'
+  | 'modulation'
+  | 'phrases'
+  | 'forms'
+  | 'instrumentFamilies'
+  | 'instrumentScores'
+  | 'jazzHarmony'
+  | 'historyMethods';
 export type HistoryKind =
   | 'voice'
   | 'instrument'
@@ -227,7 +248,39 @@ export type HistoryKind =
   | 'observation'
   | 'metadata'
   | 'inference'
-  | 'uncertainty';
+  | 'uncertainty'
+  | 'ionian'
+  | 'dorian'
+  | 'mixolydian'
+  | 'aeolian'
+  | 'pivot'
+  | 'tonicization'
+  | 'newTonic'
+  | 'commonTone'
+  | 'motive'
+  | 'phrase'
+  | 'antecedent'
+  | 'consequent'
+  | 'binary'
+  | 'ternary'
+  | 'rondo'
+  | 'variation'
+  | 'strings'
+  | 'woodwinds'
+  | 'brass'
+  | 'percussion'
+  | 'concertPitch'
+  | 'writtenPitch'
+  | 'transposition'
+  | 'scoreOrder'
+  | 'leadSheet'
+  | 'twoFiveOne'
+  | 'backbeat'
+  | 'loop'
+  | 'manuscript'
+  | 'edition'
+  | 'recordingDate'
+  | 'oralHistory';
 export type KnowledgeFact =
   | { readonly topic: HistoryTopic; readonly kind: HistoryKind }
   | { readonly topic: 'pulse'; readonly kind: 'pulse' | 'rhythm' | 'metronome' | 'countIn' }

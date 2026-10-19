@@ -59,7 +59,7 @@ interface LearningState {
   readonly memory: boolean;
   readonly sync: 'guest' | 'idle' | 'syncing' | 'error';
   readonly areaId: string | null;
-  readonly level: 1 | 2 | null;
+  readonly level: 1 | 2 | 3 | null;
   readonly expanded: readonly string[];
 }
 export const useLearningState = create<LearningState>()(() => ({
@@ -418,7 +418,7 @@ export function selectLearningArea(areaId: string | null) {
   useLearningState.setState({ areaId, level: null });
   saveView();
 }
-export function selectLearningLevel(level: 1 | 2 | null) {
+export function selectLearningLevel(level: 1 | 2 | 3 | null) {
   useLearningState.setState({ level });
   saveView();
 }

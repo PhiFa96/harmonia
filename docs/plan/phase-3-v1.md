@@ -207,6 +207,8 @@ Die fachliche Prüfung nach ADR 0005, F03 und echte Geräteabnahme bleiben offen
 - **Umfang:** XL
 - **Aufgaben und Abnahme:** wie P2.07.
 
+**Stand 19.10.2026:** Zwölf Stufe-3-Einheiten, 36 Fähigkeiten und Lektionen, 360 Aufgaben, 48 Karten/Beispiele und zwölf Artikel liegen als DE/EN-Entwurf auf `codex/p3-15-level-three-content`. Formenlehre, Instrumentenkunde, Jazz/Pop, Musikgeschichte sowie modale Tonleitern, Septakkorde, Harmonik und Diktat sind intern zugeordnet; [Übergabe und Grenzen](stufe-3-vollstaendig.md). Öffentliche Freigabe, getrennte fachliche Prüfung nach ADR 0005 und Geräteabnahme sind offen. **P3.15 ist fachlich nicht abgeschlossen.**
+
 ### P3.16 – Inhalte Stufe 4 (DE + EN)
 
 - **Ziel:** Vollständige Stufe 4 (Studienvorbereitung).

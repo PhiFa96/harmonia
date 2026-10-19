@@ -331,7 +331,7 @@ for (const set of PRACTICE_SETS.filter((value) => value !== 'harmony')) {
 }
 // Die drei Mikrofontypen werden bereits in Entwurfslektionen rekonstruiert;
 // der eingefrorene 19-Typen-Katalog für P2.18 bleibt davon getrennt.
-equal(seenTypes.size, 22, 'Every current pre-P3.14 exercise type reconstructed');
+equal(seenTypes.size, 26, 'Every current course exercise type reconstructed');
 for (const locale of ['de', 'en-US', 'en-GB'] as const) {
   const prompt = tutorSystemPrompt({ ...request, locale });
   check(prompt[0]?.text.includes(locale) === true, 'Requested language');

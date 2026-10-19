@@ -129,6 +129,8 @@ export function contextChoiceLabel(item: ContextItem, answer: string, locale: Te
     'period:classical': 'exercise.knowledgeHistory_periods_classical',
     'period:romantic': 'exercise.knowledgeHistory_periods_romantic',
     'period:since1900': 'exercise.knowledgeHistory_periods_since1900',
+    'form:aba': 'exercise.contextOption_form-aba',
+    'form:abc': 'exercise.contextOption_form-abc',
     ...(Object.fromEntries(
       [
         'recorded-performance',

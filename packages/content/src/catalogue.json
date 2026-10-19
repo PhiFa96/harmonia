@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": 14,
+  "contentVersion": 15,
   "areas": [
     {
       "id": "fundament",
@@ -49,6 +49,30 @@
       "contentVersion": 2,
       "status": "entwurf",
       "titleKey": "content.curriculum.areas.history"
+    },
+    {
+      "id": "area.harmony",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.areas.harmony"
+    },
+    {
+      "id": "area.forms",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.areas.forms"
+    },
+    {
+      "id": "area.instruments",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.areas.instruments"
+    },
+    {
+      "id": "area.jazzpop",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.areas.jazzpop"
     }
   ],
   "levels": [
@@ -155,6 +179,70 @@
       "titleKey": "content.curriculum.levels.foundation",
       "areaId": "area.history",
       "number": 2
+    },
+    {
+      "id": "scales.level-3",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.levelTitle",
+      "areaId": "area.scales",
+      "number": 3
+    },
+    {
+      "id": "chords.level-3",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.levelTitle",
+      "areaId": "area.chords",
+      "number": 3
+    },
+    {
+      "id": "harmony.level-3",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.levelTitle",
+      "areaId": "area.harmony",
+      "number": 3
+    },
+    {
+      "id": "aural.level-3",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.levelTitle",
+      "areaId": "area.aural",
+      "number": 3
+    },
+    {
+      "id": "forms.level-3",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.levelTitle",
+      "areaId": "area.forms",
+      "number": 3
+    },
+    {
+      "id": "instruments.level-3",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.levelTitle",
+      "areaId": "area.instruments",
+      "number": 3
+    },
+    {
+      "id": "jazzpop.level-3",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.levelTitle",
+      "areaId": "area.jazzpop",
+      "number": 3
+    },
+    {
+      "id": "history.level-3",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.levelTitle",
+      "areaId": "area.history",
+      "number": 3
     }
   ],
   "units": [
@@ -360,6 +448,90 @@
       "status": "entwurf",
       "titleKey": "content.curriculum.units.historyJazzPop",
       "levelId": "history.level-2"
+    },
+    {
+      "id": "scales.l3.modes",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.scalesModes.unitTitle",
+      "levelId": "scales.level-3"
+    },
+    {
+      "id": "chords.l3.sevenths",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.chordsSevenths.unitTitle",
+      "levelId": "chords.level-3"
+    },
+    {
+      "id": "harmony.l3.functions",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyFunctions.unitTitle",
+      "levelId": "harmony.level-3"
+    },
+    {
+      "id": "harmony.l3.cadences",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyCadences.unitTitle",
+      "levelId": "harmony.level-3"
+    },
+    {
+      "id": "harmony.l3.modulation",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyModulation.unitTitle",
+      "levelId": "harmony.level-3"
+    },
+    {
+      "id": "aural.l3.dictation",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.auralDictation.unitTitle",
+      "levelId": "aural.level-3"
+    },
+    {
+      "id": "forms.l3.phrases",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.formsPhrases.unitTitle",
+      "levelId": "forms.level-3"
+    },
+    {
+      "id": "forms.l3.designs",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.formsDesigns.unitTitle",
+      "levelId": "forms.level-3"
+    },
+    {
+      "id": "instruments.l3.families",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.instrumentsFamilies.unitTitle",
+      "levelId": "instruments.level-3"
+    },
+    {
+      "id": "instruments.l3.scores",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.instrumentsScores.unitTitle",
+      "levelId": "instruments.level-3"
+    },
+    {
+      "id": "jazzpop.l3.harmony",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.jazzPopHarmony.unitTitle",
+      "levelId": "jazzpop.level-3"
+    },
+    {
+      "id": "history.l3.methods",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.historyMethods.unitTitle",
+      "levelId": "history.level-3"
     }
   ],
   "skills": [
@@ -1094,6 +1266,294 @@
       "titleKey": "content.curriculum.skills.compareSources",
       "areaId": "area.history",
       "prerequisites": ["history.source-types", "history.popular-contexts"]
+    },
+    {
+      "id": "scales.l3.modes.s1",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.scalesModes.skill1",
+      "areaId": "area.scales",
+      "prerequisites": ["scale.melodic-minor"]
+    },
+    {
+      "id": "scales.l3.modes.s2",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.scalesModes.skill2",
+      "areaId": "area.scales",
+      "prerequisites": ["scales.l3.modes.s1"]
+    },
+    {
+      "id": "scales.l3.modes.s3",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.scalesModes.skill3",
+      "areaId": "area.scales",
+      "prerequisites": ["scales.l3.modes.s2"]
+    },
+    {
+      "id": "chords.l3.sevenths.s1",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.chordsSevenths.skill1",
+      "areaId": "area.chords",
+      "prerequisites": ["chord.diatonic-triads"]
+    },
+    {
+      "id": "chords.l3.sevenths.s2",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.chordsSevenths.skill2",
+      "areaId": "area.chords",
+      "prerequisites": ["chords.l3.sevenths.s1"]
+    },
+    {
+      "id": "chords.l3.sevenths.s3",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.chordsSevenths.skill3",
+      "areaId": "area.chords",
+      "prerequisites": ["chords.l3.sevenths.s2"]
+    },
+    {
+      "id": "harmony.l3.functions.s1",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyFunctions.skill1",
+      "areaId": "area.harmony",
+      "prerequisites": ["chord.diatonic-triads", "key.relative"]
+    },
+    {
+      "id": "harmony.l3.functions.s2",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyFunctions.skill2",
+      "areaId": "area.harmony",
+      "prerequisites": ["harmony.l3.functions.s1"]
+    },
+    {
+      "id": "harmony.l3.functions.s3",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyFunctions.skill3",
+      "areaId": "area.harmony",
+      "prerequisites": ["harmony.l3.functions.s2"]
+    },
+    {
+      "id": "harmony.l3.cadences.s1",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyCadences.skill1",
+      "areaId": "area.harmony",
+      "prerequisites": ["harmony.l3.functions.s3"]
+    },
+    {
+      "id": "harmony.l3.cadences.s2",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyCadences.skill2",
+      "areaId": "area.harmony",
+      "prerequisites": ["harmony.l3.cadences.s1"]
+    },
+    {
+      "id": "harmony.l3.cadences.s3",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyCadences.skill3",
+      "areaId": "area.harmony",
+      "prerequisites": ["harmony.l3.cadences.s2"]
+    },
+    {
+      "id": "harmony.l3.modulation.s1",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyModulation.skill1",
+      "areaId": "area.harmony",
+      "prerequisites": ["harmony.l3.cadences.s3", "key.fifths"]
+    },
+    {
+      "id": "harmony.l3.modulation.s2",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyModulation.skill2",
+      "areaId": "area.harmony",
+      "prerequisites": ["harmony.l3.modulation.s1"]
+    },
+    {
+      "id": "harmony.l3.modulation.s3",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyModulation.skill3",
+      "areaId": "area.harmony",
+      "prerequisites": ["harmony.l3.modulation.s2"]
+    },
+    {
+      "id": "aural.l3.dictation.s1",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.auralDictation.skill1",
+      "areaId": "area.aural",
+      "prerequisites": ["aural.melodic-memory", "aural.rhythm-completion"]
+    },
+    {
+      "id": "aural.l3.dictation.s2",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.auralDictation.skill2",
+      "areaId": "area.aural",
+      "prerequisites": ["aural.l3.dictation.s1"]
+    },
+    {
+      "id": "aural.l3.dictation.s3",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.auralDictation.skill3",
+      "areaId": "area.aural",
+      "prerequisites": ["aural.l3.dictation.s2"]
+    },
+    {
+      "id": "forms.l3.phrases.s1",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.formsPhrases.skill1",
+      "areaId": "area.forms",
+      "prerequisites": ["history.genre-function", "rhythm.read-basic"]
+    },
+    {
+      "id": "forms.l3.phrases.s2",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.formsPhrases.skill2",
+      "areaId": "area.forms",
+      "prerequisites": ["forms.l3.phrases.s1"]
+    },
+    {
+      "id": "forms.l3.phrases.s3",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.formsPhrases.skill3",
+      "areaId": "area.forms",
+      "prerequisites": ["forms.l3.phrases.s2"]
+    },
+    {
+      "id": "forms.l3.designs.s1",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.formsDesigns.skill1",
+      "areaId": "area.forms",
+      "prerequisites": ["forms.l3.phrases.s3"]
+    },
+    {
+      "id": "forms.l3.designs.s2",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.formsDesigns.skill2",
+      "areaId": "area.forms",
+      "prerequisites": ["forms.l3.designs.s1"]
+    },
+    {
+      "id": "forms.l3.designs.s3",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.formsDesigns.skill3",
+      "areaId": "area.forms",
+      "prerequisites": ["forms.l3.designs.s2"]
+    },
+    {
+      "id": "instruments.l3.families.s1",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.instrumentsFamilies.skill1",
+      "areaId": "area.instruments",
+      "prerequisites": ["history.sound-source"]
+    },
+    {
+      "id": "instruments.l3.families.s2",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.instrumentsFamilies.skill2",
+      "areaId": "area.instruments",
+      "prerequisites": ["instruments.l3.families.s1"]
+    },
+    {
+      "id": "instruments.l3.families.s3",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.instrumentsFamilies.skill3",
+      "areaId": "area.instruments",
+      "prerequisites": ["instruments.l3.families.s2"]
+    },
+    {
+      "id": "instruments.l3.scores.s1",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.instrumentsScores.skill1",
+      "areaId": "area.instruments",
+      "prerequisites": ["instruments.l3.families.s3", "notation.grand-staff"]
+    },
+    {
+      "id": "instruments.l3.scores.s2",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.instrumentsScores.skill2",
+      "areaId": "area.instruments",
+      "prerequisites": ["instruments.l3.scores.s1"]
+    },
+    {
+      "id": "instruments.l3.scores.s3",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.instrumentsScores.skill3",
+      "areaId": "area.instruments",
+      "prerequisites": ["instruments.l3.scores.s2"]
+    },
+    {
+      "id": "jazzpop.l3.harmony.s1",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.jazzPopHarmony.skill1",
+      "areaId": "area.jazzpop",
+      "prerequisites": ["chords.l3.sevenths.s3", "history.jazz-roots"]
+    },
+    {
+      "id": "jazzpop.l3.harmony.s2",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.jazzPopHarmony.skill2",
+      "areaId": "area.jazzpop",
+      "prerequisites": ["jazzpop.l3.harmony.s1"]
+    },
+    {
+      "id": "jazzpop.l3.harmony.s3",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.jazzPopHarmony.skill3",
+      "areaId": "area.jazzpop",
+      "prerequisites": ["jazzpop.l3.harmony.s2"]
+    },
+    {
+      "id": "history.l3.methods.s1",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.historyMethods.skill1",
+      "areaId": "area.history",
+      "prerequisites": ["history.compare-sources", "history.romantic-modern"]
+    },
+    {
+      "id": "history.l3.methods.s2",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.historyMethods.skill2",
+      "areaId": "area.history",
+      "prerequisites": ["history.l3.methods.s1"]
+    },
+    {
+      "id": "history.l3.methods.s3",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.historyMethods.skill3",
+      "areaId": "area.history",
+      "prerequisites": ["history.l3.methods.s2"]
     }
   ],
   "exerciseSets": [
@@ -2244,7 +2704,10 @@
               "intervals": ["m3", "M3", "P4", "P5"],
               "clefs": ["treble"],
               "maxAccidentals": 0,
-              "range": { "minMidi": 60, "maxMidi": 76 }
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 76
+              }
             }
           },
           "count": 2
@@ -2256,7 +2719,10 @@
               "level": 1,
               "clefs": ["treble"],
               "maxAccidentals": 0,
-              "range": { "minMidi": 60, "maxMidi": 76 }
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 76
+              }
             }
           },
           "count": 2
@@ -3367,7 +3833,10 @@
               "level": 2,
               "clefs": ["treble"],
               "maxAccidentals": 0,
-              "range": { "minMidi": 60, "maxMidi": 76 }
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 76
+              }
             }
           },
           "count": 2
@@ -3418,7 +3887,10 @@
               "intervals": ["M2", "m3", "M3", "P4"],
               "clefs": ["treble"],
               "maxAccidentals": 0,
-              "range": { "minMidi": 60, "maxMidi": 76 }
+              "range": {
+                "minMidi": 60,
+                "maxMidi": 76
+              }
             }
           },
           "count": 2
@@ -3620,6 +4092,906 @@
             }
           },
           "count": 12
+        }
+      ]
+    },
+    {
+      "id": "scales.l3.modes.lesson1.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.scalesModes.lesson1",
+      "skillIds": ["scales.l3.modes.s1", "scales.l3.modes.s2", "scales.l3.modes.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["modes"]
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "id": "scales.l3.modes.lesson2.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.scalesModes.lesson2",
+      "skillIds": ["scales.l3.modes.s1", "scales.l3.modes.s2", "scales.l3.modes.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["modes"],
+              "count": 3
+            }
+          },
+          "count": 10
+        }
+      ]
+    },
+    {
+      "id": "scales.l3.modes.lesson3.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.scalesModes.lesson3",
+      "skillIds": ["scales.l3.modes.s1", "scales.l3.modes.s2", "scales.l3.modes.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["modes"]
+            }
+          },
+          "count": 6
+        },
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["modes"],
+              "count": 3
+            }
+          },
+          "count": 6
+        }
+      ]
+    },
+    {
+      "id": "chords.l3.sevenths.lesson1.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.chordsSevenths.lesson1",
+      "skillIds": ["chords.l3.sevenths.s1", "chords.l3.sevenths.s2", "chords.l3.sevenths.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CHORD_IDENTIFY",
+            "params": {
+              "types": ["major7", "dominant7", "minor7", "halfDiminished7"],
+              "roots": ["C", "D", "G", "A"],
+              "presentation": "visual"
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "id": "chords.l3.sevenths.lesson2.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.chordsSevenths.lesson2",
+      "skillIds": ["chords.l3.sevenths.s1", "chords.l3.sevenths.s2", "chords.l3.sevenths.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CHORD_BUILD",
+            "params": {
+              "types": ["major7", "dominant7", "minor7", "halfDiminished7"],
+              "roots": ["C", "D", "G", "A"]
+            }
+          },
+          "count": 10
+        }
+      ]
+    },
+    {
+      "id": "chords.l3.sevenths.lesson3.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.chordsSevenths.lesson3",
+      "skillIds": ["chords.l3.sevenths.s1", "chords.l3.sevenths.s2", "chords.l3.sevenths.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CHORD_IDENTIFY",
+            "params": {
+              "types": ["major7", "dominant7", "minor7", "halfDiminished7"],
+              "roots": ["C", "D", "G", "A"],
+              "presentation": "aural"
+            }
+          },
+          "count": 6
+        },
+        {
+          "spec": {
+            "type": "CHORD_BUILD",
+            "params": {
+              "types": ["major7", "dominant7", "minor7", "halfDiminished7"],
+              "roots": ["C", "D", "G", "A"]
+            }
+          },
+          "count": 6
+        }
+      ]
+    },
+    {
+      "id": "harmony.l3.functions.lesson1.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyFunctions.lesson1",
+      "skillIds": ["harmony.l3.functions.s1", "harmony.l3.functions.s2", "harmony.l3.functions.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "FUNCTION_ANALYSIS",
+            "params": {
+              "notation": "roman",
+              "degrees": [1, 4, 5]
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "id": "harmony.l3.functions.lesson2.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyFunctions.lesson2",
+      "skillIds": ["harmony.l3.functions.s1", "harmony.l3.functions.s2", "harmony.l3.functions.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "FUNCTION_ANALYSIS",
+            "params": {
+              "notation": "function",
+              "degrees": [1, 2, 4, 5, 6]
+            }
+          },
+          "count": 10
+        }
+      ]
+    },
+    {
+      "id": "harmony.l3.functions.lesson3.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyFunctions.lesson3",
+      "skillIds": ["harmony.l3.functions.s1", "harmony.l3.functions.s2", "harmony.l3.functions.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "FUNCTION_ANALYSIS",
+            "params": {
+              "notation": "roman"
+            }
+          },
+          "count": 6
+        },
+        {
+          "spec": {
+            "type": "FUNCTION_ANALYSIS",
+            "params": {
+              "notation": "function"
+            }
+          },
+          "count": 6
+        }
+      ]
+    },
+    {
+      "id": "harmony.l3.cadences.lesson1.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyCadences.lesson1",
+      "skillIds": ["harmony.l3.cadences.s1", "harmony.l3.cadences.s2", "harmony.l3.cadences.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CADENCE_IDENTIFY",
+            "params": {
+              "types": ["authentic", "plagal"]
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "id": "harmony.l3.cadences.lesson2.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyCadences.lesson2",
+      "skillIds": ["harmony.l3.cadences.s1", "harmony.l3.cadences.s2", "harmony.l3.cadences.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CADENCE_IDENTIFY",
+            "params": {
+              "types": ["half", "deceptive"]
+            }
+          },
+          "count": 10
+        }
+      ]
+    },
+    {
+      "id": "harmony.l3.cadences.lesson3.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyCadences.lesson3",
+      "skillIds": ["harmony.l3.cadences.s1", "harmony.l3.cadences.s2", "harmony.l3.cadences.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CADENCE_IDENTIFY",
+            "params": {}
+          },
+          "count": 12
+        }
+      ]
+    },
+    {
+      "id": "harmony.l3.modulation.lesson1.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyModulation.lesson1",
+      "skillIds": [
+        "harmony.l3.modulation.s1",
+        "harmony.l3.modulation.s2",
+        "harmony.l3.modulation.s3"
+      ],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["modulation"]
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "id": "harmony.l3.modulation.lesson2.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyModulation.lesson2",
+      "skillIds": [
+        "harmony.l3.modulation.s1",
+        "harmony.l3.modulation.s2",
+        "harmony.l3.modulation.s3"
+      ],
+      "exercises": [
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["modulation"],
+              "count": 3
+            }
+          },
+          "count": 10
+        }
+      ]
+    },
+    {
+      "id": "harmony.l3.modulation.lesson3.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyModulation.lesson3",
+      "skillIds": [
+        "harmony.l3.modulation.s1",
+        "harmony.l3.modulation.s2",
+        "harmony.l3.modulation.s3"
+      ],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["modulation"]
+            }
+          },
+          "count": 6
+        },
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["modulation"],
+              "count": 3
+            }
+          },
+          "count": 6
+        }
+      ]
+    },
+    {
+      "id": "aural.l3.dictation.lesson1.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.auralDictation.lesson1",
+      "skillIds": ["aural.l3.dictation.s1", "aural.l3.dictation.s2", "aural.l3.dictation.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "MELODY_DICTATION",
+            "params": {
+              "level": 2
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "id": "aural.l3.dictation.lesson2.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.auralDictation.lesson2",
+      "skillIds": ["aural.l3.dictation.s1", "aural.l3.dictation.s2", "aural.l3.dictation.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "RHYTHM_DICTATION",
+            "params": {
+              "level": 2
+            }
+          },
+          "count": 10
+        }
+      ]
+    },
+    {
+      "id": "aural.l3.dictation.lesson3.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.auralDictation.lesson3",
+      "skillIds": ["aural.l3.dictation.s1", "aural.l3.dictation.s2", "aural.l3.dictation.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "MELODY_DICTATION",
+            "params": {
+              "level": 2
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "RHYTHM_DICTATION",
+            "params": {
+              "level": 2
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "SIGHT_SING",
+            "params": {
+              "level": 3
+            }
+          },
+          "count": 2
+        },
+        {
+          "spec": {
+            "type": "PLAY_BACK",
+            "params": {
+              "level": 3,
+              "intervals": ["M2", "m3", "P4"]
+            }
+          },
+          "count": 2
+        }
+      ]
+    },
+    {
+      "id": "forms.l3.phrases.lesson1.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.formsPhrases.lesson1",
+      "skillIds": ["forms.l3.phrases.s1", "forms.l3.phrases.s2", "forms.l3.phrases.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["phrases"]
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "id": "forms.l3.phrases.lesson2.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.formsPhrases.lesson2",
+      "skillIds": ["forms.l3.phrases.s1", "forms.l3.phrases.s2", "forms.l3.phrases.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["phrases"],
+              "count": 3
+            }
+          },
+          "count": 10
+        }
+      ]
+    },
+    {
+      "id": "forms.l3.phrases.lesson3.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.formsPhrases.lesson3",
+      "skillIds": ["forms.l3.phrases.s1", "forms.l3.phrases.s2", "forms.l3.phrases.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["phrases"]
+            }
+          },
+          "count": 6
+        },
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["phrases"],
+              "count": 3
+            }
+          },
+          "count": 6
+        }
+      ]
+    },
+    {
+      "id": "forms.l3.designs.lesson1.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.formsDesigns.lesson1",
+      "skillIds": ["forms.l3.designs.s1", "forms.l3.designs.s2", "forms.l3.designs.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["forms"]
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "id": "forms.l3.designs.lesson2.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.formsDesigns.lesson2",
+      "skillIds": ["forms.l3.designs.s1", "forms.l3.designs.s2", "forms.l3.designs.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["forms"],
+              "count": 3
+            }
+          },
+          "count": 5
+        },
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["form-return"]
+            }
+          },
+          "count": 5
+        }
+      ]
+    },
+    {
+      "id": "forms.l3.designs.lesson3.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.formsDesigns.lesson3",
+      "skillIds": ["forms.l3.designs.s1", "forms.l3.designs.s2", "forms.l3.designs.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["forms"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["forms"],
+              "count": 3
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["form-return"]
+            }
+          },
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": "instruments.l3.families.lesson1.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.instrumentsFamilies.lesson1",
+      "skillIds": [
+        "instruments.l3.families.s1",
+        "instruments.l3.families.s2",
+        "instruments.l3.families.s3"
+      ],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["instrumentFamilies"]
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "id": "instruments.l3.families.lesson2.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.instrumentsFamilies.lesson2",
+      "skillIds": [
+        "instruments.l3.families.s1",
+        "instruments.l3.families.s2",
+        "instruments.l3.families.s3"
+      ],
+      "exercises": [
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["instrumentFamilies"],
+              "count": 3
+            }
+          },
+          "count": 10
+        }
+      ]
+    },
+    {
+      "id": "instruments.l3.families.lesson3.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.instrumentsFamilies.lesson3",
+      "skillIds": [
+        "instruments.l3.families.s1",
+        "instruments.l3.families.s2",
+        "instruments.l3.families.s3"
+      ],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["instrumentFamilies"]
+            }
+          },
+          "count": 6
+        },
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["instrumentFamilies"],
+              "count": 3
+            }
+          },
+          "count": 6
+        }
+      ]
+    },
+    {
+      "id": "instruments.l3.scores.lesson1.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.instrumentsScores.lesson1",
+      "skillIds": [
+        "instruments.l3.scores.s1",
+        "instruments.l3.scores.s2",
+        "instruments.l3.scores.s3"
+      ],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["instrumentScores"]
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "id": "instruments.l3.scores.lesson2.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.instrumentsScores.lesson2",
+      "skillIds": [
+        "instruments.l3.scores.s1",
+        "instruments.l3.scores.s2",
+        "instruments.l3.scores.s3"
+      ],
+      "exercises": [
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["instrumentScores"],
+              "count": 3
+            }
+          },
+          "count": 5
+        },
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["clarinet-transposition"]
+            }
+          },
+          "count": 5
+        }
+      ]
+    },
+    {
+      "id": "instruments.l3.scores.lesson3.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.instrumentsScores.lesson3",
+      "skillIds": [
+        "instruments.l3.scores.s1",
+        "instruments.l3.scores.s2",
+        "instruments.l3.scores.s3"
+      ],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["instrumentScores"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["instrumentScores"],
+              "count": 3
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["clarinet-transposition"]
+            }
+          },
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": "jazzpop.l3.harmony.lesson1.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.jazzPopHarmony.lesson1",
+      "skillIds": ["jazzpop.l3.harmony.s1", "jazzpop.l3.harmony.s2", "jazzpop.l3.harmony.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["jazzHarmony"]
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "id": "jazzpop.l3.harmony.lesson2.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.jazzPopHarmony.lesson2",
+      "skillIds": ["jazzpop.l3.harmony.s1", "jazzpop.l3.harmony.s2", "jazzpop.l3.harmony.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["jazzHarmony"],
+              "count": 3
+            }
+          },
+          "count": 5
+        },
+        {
+          "spec": {
+            "type": "CHORD_IDENTIFY",
+            "params": {
+              "types": ["major7", "dominant7", "minor7", "halfDiminished7"],
+              "roots": ["C", "D", "G", "A"],
+              "presentation": "visual"
+            }
+          },
+          "count": 5
+        }
+      ]
+    },
+    {
+      "id": "jazzpop.l3.harmony.lesson3.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.jazzPopHarmony.lesson3",
+      "skillIds": ["jazzpop.l3.harmony.s1", "jazzpop.l3.harmony.s2", "jazzpop.l3.harmony.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["jazzHarmony"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["jazzHarmony"],
+              "count": 3
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "CHORD_IDENTIFY",
+            "params": {
+              "types": ["major7", "dominant7", "minor7", "halfDiminished7"],
+              "roots": ["C", "D", "G", "A"],
+              "presentation": "aural"
+            }
+          },
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": "history.l3.methods.lesson1.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.historyMethods.lesson1",
+      "skillIds": ["history.l3.methods.s1", "history.l3.methods.s2", "history.l3.methods.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["historyMethods"]
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "id": "history.l3.methods.lesson2.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.historyMethods.lesson2",
+      "skillIds": ["history.l3.methods.s1", "history.l3.methods.s2", "history.l3.methods.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["historyMethods"],
+              "count": 3
+            }
+          },
+          "count": 6
+        },
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["source-comparison"]
+            }
+          },
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": "history.l3.methods.lesson3.exercises",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.historyMethods.lesson3",
+      "skillIds": ["history.l3.methods.s1", "history.l3.methods.s2", "history.l3.methods.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["historyMethods"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["historyMethods"],
+              "count": 3
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["source-comparison"]
+            }
+          },
+          "count": 4
         }
       ]
     }
@@ -7652,6 +9024,678 @@
           "captionKey": "content.levelTwoJazzPopSources.uncertaintyCaption"
         }
       ]
+    },
+    {
+      "id": "scales.l3.modes.card-ionian",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.scalesModes.ionianTitle",
+      "skillIds": ["scales.l3.modes.s1"],
+      "bodyKey": "content.levelThree.units.scalesModes.ionianBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 D4/4 E4/4 F4/4 | G4/4 A4/4 B4/4 C5/4",
+          "captionKey": "content.levelThree.units.scalesModes.ionianCaption"
+        }
+      ]
+    },
+    {
+      "id": "scales.l3.modes.card-dorian",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.scalesModes.dorianTitle",
+      "skillIds": ["scales.l3.modes.s2"],
+      "bodyKey": "content.levelThree.units.scalesModes.dorianBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | D4/4 E4/4 F4/4 G4/4 | A4/4 B4/4 C5/4 D5/4",
+          "captionKey": "content.levelThree.units.scalesModes.dorianCaption"
+        }
+      ]
+    },
+    {
+      "id": "scales.l3.modes.card-mixolydian",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.scalesModes.mixolydianTitle",
+      "skillIds": ["scales.l3.modes.s3"],
+      "bodyKey": "content.levelThree.units.scalesModes.mixolydianBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 A4/4 B4/4 C5/4 | D5/4 E5/4 F5/4 G5/4",
+          "captionKey": "content.levelThree.units.scalesModes.mixolydianCaption"
+        }
+      ]
+    },
+    {
+      "id": "scales.l3.modes.card-aeolian",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.scalesModes.aeolianTitle",
+      "skillIds": ["scales.l3.modes.s3"],
+      "bodyKey": "content.levelThree.units.scalesModes.aeolianBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | A4/4 B4/4 C5/4 D5/4 | E5/4 F5/4 G5/4 A5/4",
+          "captionKey": "content.levelThree.units.scalesModes.aeolianCaption"
+        }
+      ]
+    },
+    {
+      "id": "chords.l3.sevenths.card-majorseventh",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.chordsSevenths.majorSeventhTitle",
+      "skillIds": ["chords.l3.sevenths.s1"],
+      "bodyKey": "content.levelThree.units.chordsSevenths.majorSeventhBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | (C4 E4 G4 B4)/1",
+          "captionKey": "content.levelThree.units.chordsSevenths.majorSeventhCaption"
+        }
+      ]
+    },
+    {
+      "id": "chords.l3.sevenths.card-dominantseventh",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.chordsSevenths.dominantSeventhTitle",
+      "skillIds": ["chords.l3.sevenths.s2"],
+      "bodyKey": "content.levelThree.units.chordsSevenths.dominantSeventhBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | (G4 B4 D5 F5)/1",
+          "captionKey": "content.levelThree.units.chordsSevenths.dominantSeventhCaption"
+        }
+      ]
+    },
+    {
+      "id": "chords.l3.sevenths.card-minorseventh",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.chordsSevenths.minorSeventhTitle",
+      "skillIds": ["chords.l3.sevenths.s3"],
+      "bodyKey": "content.levelThree.units.chordsSevenths.minorSeventhBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | (D4 F4 A4 C5)/1",
+          "captionKey": "content.levelThree.units.chordsSevenths.minorSeventhCaption"
+        }
+      ]
+    },
+    {
+      "id": "chords.l3.sevenths.card-halfdiminished",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.chordsSevenths.halfDiminishedTitle",
+      "skillIds": ["chords.l3.sevenths.s3"],
+      "bodyKey": "content.levelThree.units.chordsSevenths.halfDiminishedBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | (B3 D4 F4 A4)/1",
+          "captionKey": "content.levelThree.units.chordsSevenths.halfDiminishedCaption"
+        }
+      ]
+    },
+    {
+      "id": "harmony.l3.functions.card-tonic",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyFunctions.tonicTitle",
+      "skillIds": ["harmony.l3.functions.s1"],
+      "bodyKey": "content.levelThree.units.harmonyFunctions.tonicBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | (C4 E4 G4)/1",
+          "captionKey": "content.levelThree.units.harmonyFunctions.tonicCaption"
+        }
+      ]
+    },
+    {
+      "id": "harmony.l3.functions.card-subdominant",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyFunctions.subdominantTitle",
+      "skillIds": ["harmony.l3.functions.s2"],
+      "bodyKey": "content.levelThree.units.harmonyFunctions.subdominantBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | (F4 A4 C5)/1",
+          "captionKey": "content.levelThree.units.harmonyFunctions.subdominantCaption"
+        }
+      ]
+    },
+    {
+      "id": "harmony.l3.functions.card-dominant",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyFunctions.dominantTitle",
+      "skillIds": ["harmony.l3.functions.s3"],
+      "bodyKey": "content.levelThree.units.harmonyFunctions.dominantBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | (G4 B4 D5)/1",
+          "captionKey": "content.levelThree.units.harmonyFunctions.dominantCaption"
+        }
+      ]
+    },
+    {
+      "id": "harmony.l3.functions.card-degreecontext",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyFunctions.degreeContextTitle",
+      "skillIds": ["harmony.l3.functions.s3"],
+      "bodyKey": "content.levelThree.units.harmonyFunctions.degreeContextBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | (C4 E4 G4)/2 (G4 B4 D5)/2",
+          "captionKey": "content.levelThree.units.harmonyFunctions.degreeContextCaption"
+        }
+      ]
+    },
+    {
+      "id": "harmony.l3.cadences.card-authentic",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyCadences.authenticTitle",
+      "skillIds": ["harmony.l3.cadences.s1"],
+      "bodyKey": "content.levelThree.units.harmonyCadences.authenticBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | (G4 B4 D5)/2 (C4 E4 G4)/2",
+          "captionKey": "content.levelThree.units.harmonyCadences.authenticCaption"
+        }
+      ]
+    },
+    {
+      "id": "harmony.l3.cadences.card-plagal",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyCadences.plagalTitle",
+      "skillIds": ["harmony.l3.cadences.s2"],
+      "bodyKey": "content.levelThree.units.harmonyCadences.plagalBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | (F4 A4 C5)/2 (C4 E4 G4)/2",
+          "captionKey": "content.levelThree.units.harmonyCadences.plagalCaption"
+        }
+      ]
+    },
+    {
+      "id": "harmony.l3.cadences.card-half",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyCadences.halfTitle",
+      "skillIds": ["harmony.l3.cadences.s3"],
+      "bodyKey": "content.levelThree.units.harmonyCadences.halfBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | (C4 E4 G4)/2 (G4 B4 D5)/2",
+          "captionKey": "content.levelThree.units.harmonyCadences.halfCaption"
+        }
+      ]
+    },
+    {
+      "id": "harmony.l3.cadences.card-deceptive",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyCadences.deceptiveTitle",
+      "skillIds": ["harmony.l3.cadences.s3"],
+      "bodyKey": "content.levelThree.units.harmonyCadences.deceptiveBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | (G4 B4 D5)/2 (A4 C5 E5)/2",
+          "captionKey": "content.levelThree.units.harmonyCadences.deceptiveCaption"
+        }
+      ]
+    },
+    {
+      "id": "harmony.l3.modulation.card-pivot",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyModulation.pivotTitle",
+      "skillIds": ["harmony.l3.modulation.s1"],
+      "bodyKey": "content.levelThree.units.harmonyModulation.pivotBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | (A4 C5 E5)/2 (D4 F#4 A4)/2",
+          "captionKey": "content.levelThree.units.harmonyModulation.pivotCaption"
+        }
+      ]
+    },
+    {
+      "id": "harmony.l3.modulation.card-tonicization",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyModulation.tonicizationTitle",
+      "skillIds": ["harmony.l3.modulation.s2"],
+      "bodyKey": "content.levelThree.units.harmonyModulation.tonicizationBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | (A4 C#5 E5)/2 (D4 F4 A4)/2",
+          "captionKey": "content.levelThree.units.harmonyModulation.tonicizationCaption"
+        }
+      ]
+    },
+    {
+      "id": "harmony.l3.modulation.card-newtonic",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyModulation.newTonicTitle",
+      "skillIds": ["harmony.l3.modulation.s3"],
+      "bodyKey": "content.levelThree.units.harmonyModulation.newTonicBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | (D4 F#4 A4)/2 (G4 B4 D5)/2",
+          "captionKey": "content.levelThree.units.harmonyModulation.newTonicCaption"
+        }
+      ]
+    },
+    {
+      "id": "harmony.l3.modulation.card-commontone",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyModulation.commonToneTitle",
+      "skillIds": ["harmony.l3.modulation.s3"],
+      "bodyKey": "content.levelThree.units.harmonyModulation.commonToneBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | (C4 E4 G4)/2 (A4 C5 E5)/2",
+          "captionKey": "content.levelThree.units.harmonyModulation.commonToneCaption"
+        }
+      ]
+    },
+    {
+      "id": "aural.l3.dictation.card-contour",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.auralDictation.contourTitle",
+      "skillIds": ["aural.l3.dictation.s1"],
+      "bodyKey": "content.levelThree.units.auralDictation.contourBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 D4/4 E4/4 D4/4",
+          "captionKey": "content.levelThree.units.auralDictation.contourCaption"
+        }
+      ]
+    },
+    {
+      "id": "aural.l3.dictation.card-rhythm",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.auralDictation.rhythmTitle",
+      "skillIds": ["aural.l3.dictation.s2"],
+      "bodyKey": "content.levelThree.units.auralDictation.rhythmBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/8 D4/8 E4/4 G4/2",
+          "captionKey": "content.levelThree.units.auralDictation.rhythmCaption"
+        }
+      ]
+    },
+    {
+      "id": "aural.l3.dictation.card-pitchcheck",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.auralDictation.pitchCheckTitle",
+      "skillIds": ["aural.l3.dictation.s3"],
+      "bodyKey": "content.levelThree.units.auralDictation.pitchCheckBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 E4/4 G4/4 E4/4",
+          "captionKey": "content.levelThree.units.auralDictation.pitchCheckCaption"
+        }
+      ]
+    },
+    {
+      "id": "aural.l3.dictation.card-errorcheck",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.auralDictation.errorCheckTitle",
+      "skillIds": ["aural.l3.dictation.s3"],
+      "bodyKey": "content.levelThree.units.auralDictation.errorCheckBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 E4/4 D4/4 G4/4",
+          "captionKey": "content.levelThree.units.auralDictation.errorCheckCaption"
+        }
+      ]
+    },
+    {
+      "id": "forms.l3.phrases.card-motive",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.formsPhrases.motiveTitle",
+      "skillIds": ["forms.l3.phrases.s1"],
+      "bodyKey": "content.levelThree.units.formsPhrases.motiveBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 D4/4 E4/2 | C4/4 D4/4 G4/2",
+          "captionKey": "content.levelThree.units.formsPhrases.motiveCaption"
+        }
+      ]
+    },
+    {
+      "id": "forms.l3.phrases.card-phrase",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.formsPhrases.phraseTitle",
+      "skillIds": ["forms.l3.phrases.s2"],
+      "bodyKey": "content.levelThree.units.formsPhrases.phraseBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 D4/4 E4/4 G4/4 | A4/4 G4/4 E4/2",
+          "captionKey": "content.levelThree.units.formsPhrases.phraseCaption"
+        }
+      ]
+    },
+    {
+      "id": "forms.l3.phrases.card-antecedent",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.formsPhrases.antecedentTitle",
+      "skillIds": ["forms.l3.phrases.s3"],
+      "bodyKey": "content.levelThree.units.formsPhrases.antecedentBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 E4/4 G4/4 D5/4 | C5/2 B4/2",
+          "captionKey": "content.levelThree.units.formsPhrases.antecedentCaption"
+        }
+      ]
+    },
+    {
+      "id": "forms.l3.phrases.card-consequent",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.formsPhrases.consequentTitle",
+      "skillIds": ["forms.l3.phrases.s3"],
+      "bodyKey": "content.levelThree.units.formsPhrases.consequentBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 E4/4 G4/4 D5/4 | B4/4 G4/4 C5/2",
+          "captionKey": "content.levelThree.units.formsPhrases.consequentCaption"
+        }
+      ]
+    },
+    {
+      "id": "forms.l3.designs.card-binary",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.formsDesigns.binaryTitle",
+      "skillIds": ["forms.l3.designs.s1"],
+      "bodyKey": "content.levelThree.units.formsDesigns.binaryBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 D4/4 E4/4 G4/4 | F4/4 E4/4 D4/4 C4/4",
+          "captionKey": "content.levelThree.units.formsDesigns.binaryCaption"
+        }
+      ]
+    },
+    {
+      "id": "forms.l3.designs.card-ternary",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.formsDesigns.ternaryTitle",
+      "skillIds": ["forms.l3.designs.s2"],
+      "bodyKey": "content.levelThree.units.formsDesigns.ternaryBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 E4/4 G4/4 E4/4 | D4/4 F4/4 A4/4 F4/4 | C4/4 E4/4 G4/4 E4/4",
+          "captionKey": "content.levelThree.units.formsDesigns.ternaryCaption"
+        }
+      ]
+    },
+    {
+      "id": "forms.l3.designs.card-rondo",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.formsDesigns.rondoTitle",
+      "skillIds": ["forms.l3.designs.s3"],
+      "bodyKey": "content.levelThree.units.formsDesigns.rondoBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 E4/4 G4/4 E4/4 | D4/4 F4/4 A4/4 F4/4 | C4/4 E4/4 G4/4 E4/4",
+          "captionKey": "content.levelThree.units.formsDesigns.rondoCaption"
+        }
+      ]
+    },
+    {
+      "id": "forms.l3.designs.card-variation",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.formsDesigns.variationTitle",
+      "skillIds": ["forms.l3.designs.s3"],
+      "bodyKey": "content.levelThree.units.formsDesigns.variationBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 D4/4 E4/2 | C5/8 D5/8 E5/2 r/4",
+          "captionKey": "content.levelThree.units.formsDesigns.variationCaption"
+        }
+      ]
+    },
+    {
+      "id": "instruments.l3.families.card-strings",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.instrumentsFamilies.stringsTitle",
+      "skillIds": ["instruments.l3.families.s1"],
+      "bodyKey": "content.levelThree.units.instrumentsFamilies.stringsBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 A4/4 B4/4 C5/4",
+          "captionKey": "content.levelThree.units.instrumentsFamilies.stringsCaption"
+        }
+      ]
+    },
+    {
+      "id": "instruments.l3.families.card-woodwinds",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.instrumentsFamilies.woodwindsTitle",
+      "skillIds": ["instruments.l3.families.s2"],
+      "bodyKey": "content.levelThree.units.instrumentsFamilies.woodwindsBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C5/4 B4/4 A4/4 G4/4",
+          "captionKey": "content.levelThree.units.instrumentsFamilies.woodwindsCaption"
+        }
+      ]
+    },
+    {
+      "id": "instruments.l3.families.card-brass",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.instrumentsFamilies.brassTitle",
+      "skillIds": ["instruments.l3.families.s3"],
+      "bodyKey": "content.levelThree.units.instrumentsFamilies.brassBody",
+      "examples": [
+        {
+          "score": "bass | 4/4 | C3/4 E3/4 G3/4 C4/4",
+          "captionKey": "content.levelThree.units.instrumentsFamilies.brassCaption"
+        }
+      ]
+    },
+    {
+      "id": "instruments.l3.families.card-percussion",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.instrumentsFamilies.percussionTitle",
+      "skillIds": ["instruments.l3.families.s3"],
+      "bodyKey": "content.levelThree.units.instrumentsFamilies.percussionBody",
+      "examples": [
+        {
+          "score": "bass | 4/4 | C3/4 r/4 C3/4 r/4",
+          "captionKey": "content.levelThree.units.instrumentsFamilies.percussionCaption"
+        }
+      ]
+    },
+    {
+      "id": "instruments.l3.scores.card-concertpitch",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.instrumentsScores.concertPitchTitle",
+      "skillIds": ["instruments.l3.scores.s1"],
+      "bodyKey": "content.levelThree.units.instrumentsScores.concertPitchBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | Bb4/1",
+          "captionKey": "content.levelThree.units.instrumentsScores.concertPitchCaption"
+        }
+      ]
+    },
+    {
+      "id": "instruments.l3.scores.card-writtenpitch",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.instrumentsScores.writtenPitchTitle",
+      "skillIds": ["instruments.l3.scores.s2"],
+      "bodyKey": "content.levelThree.units.instrumentsScores.writtenPitchBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C5/1",
+          "captionKey": "content.levelThree.units.instrumentsScores.writtenPitchCaption"
+        }
+      ]
+    },
+    {
+      "id": "instruments.l3.scores.card-transposition",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.instrumentsScores.transpositionTitle",
+      "skillIds": ["instruments.l3.scores.s3"],
+      "bodyKey": "content.levelThree.units.instrumentsScores.transpositionBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C5/2 Bb4/2",
+          "captionKey": "content.levelThree.units.instrumentsScores.transpositionCaption"
+        }
+      ]
+    },
+    {
+      "id": "instruments.l3.scores.card-scoreorder",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.instrumentsScores.scoreOrderTitle",
+      "skillIds": ["instruments.l3.scores.s3"],
+      "bodyKey": "content.levelThree.units.instrumentsScores.scoreOrderBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C5/2 D5/2",
+          "captionKey": "content.levelThree.units.instrumentsScores.scoreOrderCaption"
+        }
+      ]
+    },
+    {
+      "id": "jazzpop.l3.harmony.card-leadsheet",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.jazzPopHarmony.leadSheetTitle",
+      "skillIds": ["jazzpop.l3.harmony.s1"],
+      "bodyKey": "content.levelThree.units.jazzPopHarmony.leadSheetBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 B4/4 D5/4 F5/4",
+          "captionKey": "content.levelThree.units.jazzPopHarmony.leadSheetCaption"
+        }
+      ]
+    },
+    {
+      "id": "jazzpop.l3.harmony.card-twofiveone",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.jazzPopHarmony.twoFiveOneTitle",
+      "skillIds": ["jazzpop.l3.harmony.s2"],
+      "bodyKey": "content.levelThree.units.jazzPopHarmony.twoFiveOneBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | (D4 F4 A4 C5)/4 (G4 B4 D5 F5)/4 (C4 E4 G4 B4)/2",
+          "captionKey": "content.levelThree.units.jazzPopHarmony.twoFiveOneCaption"
+        }
+      ]
+    },
+    {
+      "id": "jazzpop.l3.harmony.card-backbeat",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.jazzPopHarmony.backbeatTitle",
+      "skillIds": ["jazzpop.l3.harmony.s3"],
+      "bodyKey": "content.levelThree.units.jazzPopHarmony.backbeatBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 E4/4 G4/4 E4/4",
+          "captionKey": "content.levelThree.units.jazzPopHarmony.backbeatCaption"
+        }
+      ]
+    },
+    {
+      "id": "jazzpop.l3.harmony.card-loop",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.jazzPopHarmony.loopTitle",
+      "skillIds": ["jazzpop.l3.harmony.s3"],
+      "bodyKey": "content.levelThree.units.jazzPopHarmony.loopBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | (C4 E4 G4)/2 (A4 C5 E5)/2 | (F4 A4 C5)/2 (G4 B4 D5)/2",
+          "captionKey": "content.levelThree.units.jazzPopHarmony.loopCaption"
+        }
+      ]
+    },
+    {
+      "id": "history.l3.methods.card-manuscript",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.historyMethods.manuscriptTitle",
+      "skillIds": ["history.l3.methods.s1"],
+      "bodyKey": "content.levelThree.units.historyMethods.manuscriptBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 D4/4 E4/4 F4/4",
+          "captionKey": "content.levelThree.units.historyMethods.manuscriptCaption"
+        }
+      ]
+    },
+    {
+      "id": "history.l3.methods.card-edition",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.historyMethods.editionTitle",
+      "skillIds": ["history.l3.methods.s2"],
+      "bodyKey": "content.levelThree.units.historyMethods.editionBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 Eb4/4 G4/4 C5/4",
+          "captionKey": "content.levelThree.units.historyMethods.editionCaption"
+        }
+      ]
+    },
+    {
+      "id": "history.l3.methods.card-recordingdate",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.historyMethods.recordingDateTitle",
+      "skillIds": ["history.l3.methods.s3"],
+      "bodyKey": "content.levelThree.units.historyMethods.recordingDateBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 F4/4 E4/4 C4/4",
+          "captionKey": "content.levelThree.units.historyMethods.recordingDateCaption"
+        }
+      ]
+    },
+    {
+      "id": "history.l3.methods.card-oralhistory",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.historyMethods.oralHistoryTitle",
+      "skillIds": ["history.l3.methods.s3"],
+      "bodyKey": "content.levelThree.units.historyMethods.oralHistoryBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 E4/4 G4/4 E4/4",
+          "captionKey": "content.levelThree.units.historyMethods.oralHistoryCaption"
+        }
+      ]
     }
   ],
   "knowledgeArticles": [
@@ -10796,6 +12840,606 @@
           ]
         }
       ]
+    },
+    {
+      "id": "scales.l3.modes.article",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.scalesModes.articleTitle",
+      "skillIds": ["scales.l3.modes.s1", "scales.l3.modes.s2", "scales.l3.modes.s3"],
+      "sections": [
+        {
+          "headingKey": "content.levelThree.units.scalesModes.ionianTitle",
+          "bodyKey": "content.levelThree.units.scalesModes.ionianBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 D4/4 E4/4 F4/4 | G4/4 A4/4 B4/4 C5/4",
+              "captionKey": "content.levelThree.units.scalesModes.ionianCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.scalesModes.dorianTitle",
+          "bodyKey": "content.levelThree.units.scalesModes.dorianBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | D4/4 E4/4 F4/4 G4/4 | A4/4 B4/4 C5/4 D5/4",
+              "captionKey": "content.levelThree.units.scalesModes.dorianCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.scalesModes.mixolydianTitle",
+          "bodyKey": "content.levelThree.units.scalesModes.mixolydianBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 A4/4 B4/4 C5/4 | D5/4 E5/4 F5/4 G5/4",
+              "captionKey": "content.levelThree.units.scalesModes.mixolydianCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.scalesModes.aeolianTitle",
+          "bodyKey": "content.levelThree.units.scalesModes.aeolianBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | A4/4 B4/4 C5/4 D5/4 | E5/4 F5/4 G5/4 A5/4",
+              "captionKey": "content.levelThree.units.scalesModes.aeolianCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "chords.l3.sevenths.article",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.chordsSevenths.articleTitle",
+      "skillIds": ["chords.l3.sevenths.s1", "chords.l3.sevenths.s2", "chords.l3.sevenths.s3"],
+      "sections": [
+        {
+          "headingKey": "content.levelThree.units.chordsSevenths.majorSeventhTitle",
+          "bodyKey": "content.levelThree.units.chordsSevenths.majorSeventhBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (C4 E4 G4 B4)/1",
+              "captionKey": "content.levelThree.units.chordsSevenths.majorSeventhCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.chordsSevenths.dominantSeventhTitle",
+          "bodyKey": "content.levelThree.units.chordsSevenths.dominantSeventhBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (G4 B4 D5 F5)/1",
+              "captionKey": "content.levelThree.units.chordsSevenths.dominantSeventhCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.chordsSevenths.minorSeventhTitle",
+          "bodyKey": "content.levelThree.units.chordsSevenths.minorSeventhBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (D4 F4 A4 C5)/1",
+              "captionKey": "content.levelThree.units.chordsSevenths.minorSeventhCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.chordsSevenths.halfDiminishedTitle",
+          "bodyKey": "content.levelThree.units.chordsSevenths.halfDiminishedBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (B3 D4 F4 A4)/1",
+              "captionKey": "content.levelThree.units.chordsSevenths.halfDiminishedCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "harmony.l3.functions.article",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyFunctions.articleTitle",
+      "skillIds": ["harmony.l3.functions.s1", "harmony.l3.functions.s2", "harmony.l3.functions.s3"],
+      "sections": [
+        {
+          "headingKey": "content.levelThree.units.harmonyFunctions.tonicTitle",
+          "bodyKey": "content.levelThree.units.harmonyFunctions.tonicBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (C4 E4 G4)/1",
+              "captionKey": "content.levelThree.units.harmonyFunctions.tonicCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.harmonyFunctions.subdominantTitle",
+          "bodyKey": "content.levelThree.units.harmonyFunctions.subdominantBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (F4 A4 C5)/1",
+              "captionKey": "content.levelThree.units.harmonyFunctions.subdominantCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.harmonyFunctions.dominantTitle",
+          "bodyKey": "content.levelThree.units.harmonyFunctions.dominantBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (G4 B4 D5)/1",
+              "captionKey": "content.levelThree.units.harmonyFunctions.dominantCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.harmonyFunctions.degreeContextTitle",
+          "bodyKey": "content.levelThree.units.harmonyFunctions.degreeContextBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (C4 E4 G4)/2 (G4 B4 D5)/2",
+              "captionKey": "content.levelThree.units.harmonyFunctions.degreeContextCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "harmony.l3.cadences.article",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyCadences.articleTitle",
+      "skillIds": ["harmony.l3.cadences.s1", "harmony.l3.cadences.s2", "harmony.l3.cadences.s3"],
+      "sections": [
+        {
+          "headingKey": "content.levelThree.units.harmonyCadences.authenticTitle",
+          "bodyKey": "content.levelThree.units.harmonyCadences.authenticBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (G4 B4 D5)/2 (C4 E4 G4)/2",
+              "captionKey": "content.levelThree.units.harmonyCadences.authenticCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.harmonyCadences.plagalTitle",
+          "bodyKey": "content.levelThree.units.harmonyCadences.plagalBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (F4 A4 C5)/2 (C4 E4 G4)/2",
+              "captionKey": "content.levelThree.units.harmonyCadences.plagalCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.harmonyCadences.halfTitle",
+          "bodyKey": "content.levelThree.units.harmonyCadences.halfBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (C4 E4 G4)/2 (G4 B4 D5)/2",
+              "captionKey": "content.levelThree.units.harmonyCadences.halfCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.harmonyCadences.deceptiveTitle",
+          "bodyKey": "content.levelThree.units.harmonyCadences.deceptiveBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (G4 B4 D5)/2 (A4 C5 E5)/2",
+              "captionKey": "content.levelThree.units.harmonyCadences.deceptiveCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "harmony.l3.modulation.article",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyModulation.articleTitle",
+      "skillIds": [
+        "harmony.l3.modulation.s1",
+        "harmony.l3.modulation.s2",
+        "harmony.l3.modulation.s3"
+      ],
+      "sections": [
+        {
+          "headingKey": "content.levelThree.units.harmonyModulation.pivotTitle",
+          "bodyKey": "content.levelThree.units.harmonyModulation.pivotBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (A4 C5 E5)/2 (D4 F#4 A4)/2",
+              "captionKey": "content.levelThree.units.harmonyModulation.pivotCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.harmonyModulation.tonicizationTitle",
+          "bodyKey": "content.levelThree.units.harmonyModulation.tonicizationBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (A4 C#5 E5)/2 (D4 F4 A4)/2",
+              "captionKey": "content.levelThree.units.harmonyModulation.tonicizationCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.harmonyModulation.newTonicTitle",
+          "bodyKey": "content.levelThree.units.harmonyModulation.newTonicBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (D4 F#4 A4)/2 (G4 B4 D5)/2",
+              "captionKey": "content.levelThree.units.harmonyModulation.newTonicCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.harmonyModulation.commonToneTitle",
+          "bodyKey": "content.levelThree.units.harmonyModulation.commonToneBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (C4 E4 G4)/2 (A4 C5 E5)/2",
+              "captionKey": "content.levelThree.units.harmonyModulation.commonToneCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "aural.l3.dictation.article",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.auralDictation.articleTitle",
+      "skillIds": ["aural.l3.dictation.s1", "aural.l3.dictation.s2", "aural.l3.dictation.s3"],
+      "sections": [
+        {
+          "headingKey": "content.levelThree.units.auralDictation.contourTitle",
+          "bodyKey": "content.levelThree.units.auralDictation.contourBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 D4/4 E4/4 D4/4",
+              "captionKey": "content.levelThree.units.auralDictation.contourCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.auralDictation.rhythmTitle",
+          "bodyKey": "content.levelThree.units.auralDictation.rhythmBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/8 D4/8 E4/4 G4/2",
+              "captionKey": "content.levelThree.units.auralDictation.rhythmCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.auralDictation.pitchCheckTitle",
+          "bodyKey": "content.levelThree.units.auralDictation.pitchCheckBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 E4/4 G4/4 E4/4",
+              "captionKey": "content.levelThree.units.auralDictation.pitchCheckCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.auralDictation.errorCheckTitle",
+          "bodyKey": "content.levelThree.units.auralDictation.errorCheckBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 E4/4 D4/4 G4/4",
+              "captionKey": "content.levelThree.units.auralDictation.errorCheckCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "forms.l3.phrases.article",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.formsPhrases.articleTitle",
+      "skillIds": ["forms.l3.phrases.s1", "forms.l3.phrases.s2", "forms.l3.phrases.s3"],
+      "sections": [
+        {
+          "headingKey": "content.levelThree.units.formsPhrases.motiveTitle",
+          "bodyKey": "content.levelThree.units.formsPhrases.motiveBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 D4/4 E4/2 | C4/4 D4/4 G4/2",
+              "captionKey": "content.levelThree.units.formsPhrases.motiveCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.formsPhrases.phraseTitle",
+          "bodyKey": "content.levelThree.units.formsPhrases.phraseBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 D4/4 E4/4 G4/4 | A4/4 G4/4 E4/2",
+              "captionKey": "content.levelThree.units.formsPhrases.phraseCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.formsPhrases.antecedentTitle",
+          "bodyKey": "content.levelThree.units.formsPhrases.antecedentBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 E4/4 G4/4 D5/4 | C5/2 B4/2",
+              "captionKey": "content.levelThree.units.formsPhrases.antecedentCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.formsPhrases.consequentTitle",
+          "bodyKey": "content.levelThree.units.formsPhrases.consequentBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 E4/4 G4/4 D5/4 | B4/4 G4/4 C5/2",
+              "captionKey": "content.levelThree.units.formsPhrases.consequentCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "forms.l3.designs.article",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.formsDesigns.articleTitle",
+      "skillIds": ["forms.l3.designs.s1", "forms.l3.designs.s2", "forms.l3.designs.s3"],
+      "sections": [
+        {
+          "headingKey": "content.levelThree.units.formsDesigns.binaryTitle",
+          "bodyKey": "content.levelThree.units.formsDesigns.binaryBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 D4/4 E4/4 G4/4 | F4/4 E4/4 D4/4 C4/4",
+              "captionKey": "content.levelThree.units.formsDesigns.binaryCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.formsDesigns.ternaryTitle",
+          "bodyKey": "content.levelThree.units.formsDesigns.ternaryBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 E4/4 G4/4 E4/4 | D4/4 F4/4 A4/4 F4/4 | C4/4 E4/4 G4/4 E4/4",
+              "captionKey": "content.levelThree.units.formsDesigns.ternaryCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.formsDesigns.rondoTitle",
+          "bodyKey": "content.levelThree.units.formsDesigns.rondoBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 E4/4 G4/4 E4/4 | D4/4 F4/4 A4/4 F4/4 | C4/4 E4/4 G4/4 E4/4",
+              "captionKey": "content.levelThree.units.formsDesigns.rondoCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.formsDesigns.variationTitle",
+          "bodyKey": "content.levelThree.units.formsDesigns.variationBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 D4/4 E4/2 | C5/8 D5/8 E5/2 r/4",
+              "captionKey": "content.levelThree.units.formsDesigns.variationCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "instruments.l3.families.article",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.instrumentsFamilies.articleTitle",
+      "skillIds": [
+        "instruments.l3.families.s1",
+        "instruments.l3.families.s2",
+        "instruments.l3.families.s3"
+      ],
+      "sections": [
+        {
+          "headingKey": "content.levelThree.units.instrumentsFamilies.stringsTitle",
+          "bodyKey": "content.levelThree.units.instrumentsFamilies.stringsBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 A4/4 B4/4 C5/4",
+              "captionKey": "content.levelThree.units.instrumentsFamilies.stringsCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.instrumentsFamilies.woodwindsTitle",
+          "bodyKey": "content.levelThree.units.instrumentsFamilies.woodwindsBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C5/4 B4/4 A4/4 G4/4",
+              "captionKey": "content.levelThree.units.instrumentsFamilies.woodwindsCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.instrumentsFamilies.brassTitle",
+          "bodyKey": "content.levelThree.units.instrumentsFamilies.brassBody",
+          "examples": [
+            {
+              "score": "bass | 4/4 | C3/4 E3/4 G3/4 C4/4",
+              "captionKey": "content.levelThree.units.instrumentsFamilies.brassCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.instrumentsFamilies.percussionTitle",
+          "bodyKey": "content.levelThree.units.instrumentsFamilies.percussionBody",
+          "examples": [
+            {
+              "score": "bass | 4/4 | C3/4 r/4 C3/4 r/4",
+              "captionKey": "content.levelThree.units.instrumentsFamilies.percussionCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "instruments.l3.scores.article",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.instrumentsScores.articleTitle",
+      "skillIds": [
+        "instruments.l3.scores.s1",
+        "instruments.l3.scores.s2",
+        "instruments.l3.scores.s3"
+      ],
+      "sections": [
+        {
+          "headingKey": "content.levelThree.units.instrumentsScores.concertPitchTitle",
+          "bodyKey": "content.levelThree.units.instrumentsScores.concertPitchBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | Bb4/1",
+              "captionKey": "content.levelThree.units.instrumentsScores.concertPitchCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.instrumentsScores.writtenPitchTitle",
+          "bodyKey": "content.levelThree.units.instrumentsScores.writtenPitchBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C5/1",
+              "captionKey": "content.levelThree.units.instrumentsScores.writtenPitchCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.instrumentsScores.transpositionTitle",
+          "bodyKey": "content.levelThree.units.instrumentsScores.transpositionBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C5/2 Bb4/2",
+              "captionKey": "content.levelThree.units.instrumentsScores.transpositionCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.instrumentsScores.scoreOrderTitle",
+          "bodyKey": "content.levelThree.units.instrumentsScores.scoreOrderBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C5/2 D5/2",
+              "captionKey": "content.levelThree.units.instrumentsScores.scoreOrderCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "jazzpop.l3.harmony.article",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.jazzPopHarmony.articleTitle",
+      "skillIds": ["jazzpop.l3.harmony.s1", "jazzpop.l3.harmony.s2", "jazzpop.l3.harmony.s3"],
+      "sections": [
+        {
+          "headingKey": "content.levelThree.units.jazzPopHarmony.leadSheetTitle",
+          "bodyKey": "content.levelThree.units.jazzPopHarmony.leadSheetBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 B4/4 D5/4 F5/4",
+              "captionKey": "content.levelThree.units.jazzPopHarmony.leadSheetCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.jazzPopHarmony.twoFiveOneTitle",
+          "bodyKey": "content.levelThree.units.jazzPopHarmony.twoFiveOneBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (D4 F4 A4 C5)/4 (G4 B4 D5 F5)/4 (C4 E4 G4 B4)/2",
+              "captionKey": "content.levelThree.units.jazzPopHarmony.twoFiveOneCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.jazzPopHarmony.backbeatTitle",
+          "bodyKey": "content.levelThree.units.jazzPopHarmony.backbeatBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 E4/4 G4/4 E4/4",
+              "captionKey": "content.levelThree.units.jazzPopHarmony.backbeatCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.jazzPopHarmony.loopTitle",
+          "bodyKey": "content.levelThree.units.jazzPopHarmony.loopBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (C4 E4 G4)/2 (A4 C5 E5)/2 | (F4 A4 C5)/2 (G4 B4 D5)/2",
+              "captionKey": "content.levelThree.units.jazzPopHarmony.loopCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "history.l3.methods.article",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.historyMethods.articleTitle",
+      "skillIds": ["history.l3.methods.s1", "history.l3.methods.s2", "history.l3.methods.s3"],
+      "sections": [
+        {
+          "headingKey": "content.levelThree.units.historyMethods.manuscriptTitle",
+          "bodyKey": "content.levelThree.units.historyMethods.manuscriptBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 D4/4 E4/4 F4/4",
+              "captionKey": "content.levelThree.units.historyMethods.manuscriptCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.historyMethods.editionTitle",
+          "bodyKey": "content.levelThree.units.historyMethods.editionBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 Eb4/4 G4/4 C5/4",
+              "captionKey": "content.levelThree.units.historyMethods.editionCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.historyMethods.recordingDateTitle",
+          "bodyKey": "content.levelThree.units.historyMethods.recordingDateBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 F4/4 E4/4 C4/4",
+              "captionKey": "content.levelThree.units.historyMethods.recordingDateCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelThree.units.historyMethods.oralHistoryTitle",
+          "bodyKey": "content.levelThree.units.historyMethods.oralHistoryBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 E4/4 G4/4 E4/4",
+              "captionKey": "content.levelThree.units.historyMethods.oralHistoryCaption"
+            }
+          ]
+        }
+      ]
     }
   ],
   "lessons": [
@@ -11974,6 +14618,582 @@
         "history.l2.jazz-pop-sources.card-uncertainty"
       ],
       "exerciseSetIds": ["history.l2.jazz-pop-sources.apply.exercises"]
+    },
+    {
+      "id": "scales.l3.modes.lesson1",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.scalesModes.lesson1",
+      "unitId": "scales.l3.modes",
+      "skillIds": ["scales.l3.modes.s1", "scales.l3.modes.s2", "scales.l3.modes.s3"],
+      "introductionCardIds": [
+        "scales.l3.modes.card-ionian",
+        "scales.l3.modes.card-dorian",
+        "scales.l3.modes.card-mixolydian",
+        "scales.l3.modes.card-aeolian"
+      ],
+      "exerciseSetIds": ["scales.l3.modes.lesson1.exercises"]
+    },
+    {
+      "id": "scales.l3.modes.lesson2",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.scalesModes.lesson2",
+      "unitId": "scales.l3.modes",
+      "skillIds": ["scales.l3.modes.s1", "scales.l3.modes.s2", "scales.l3.modes.s3"],
+      "introductionCardIds": [
+        "scales.l3.modes.card-ionian",
+        "scales.l3.modes.card-dorian",
+        "scales.l3.modes.card-mixolydian",
+        "scales.l3.modes.card-aeolian"
+      ],
+      "exerciseSetIds": ["scales.l3.modes.lesson2.exercises"]
+    },
+    {
+      "id": "scales.l3.modes.lesson3",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.scalesModes.lesson3",
+      "unitId": "scales.l3.modes",
+      "skillIds": ["scales.l3.modes.s1", "scales.l3.modes.s2", "scales.l3.modes.s3"],
+      "introductionCardIds": [
+        "scales.l3.modes.card-ionian",
+        "scales.l3.modes.card-dorian",
+        "scales.l3.modes.card-mixolydian",
+        "scales.l3.modes.card-aeolian"
+      ],
+      "exerciseSetIds": ["scales.l3.modes.lesson3.exercises"]
+    },
+    {
+      "id": "chords.l3.sevenths.lesson1",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.chordsSevenths.lesson1",
+      "unitId": "chords.l3.sevenths",
+      "skillIds": ["chords.l3.sevenths.s1", "chords.l3.sevenths.s2", "chords.l3.sevenths.s3"],
+      "introductionCardIds": [
+        "chords.l3.sevenths.card-majorseventh",
+        "chords.l3.sevenths.card-dominantseventh",
+        "chords.l3.sevenths.card-minorseventh",
+        "chords.l3.sevenths.card-halfdiminished"
+      ],
+      "exerciseSetIds": ["chords.l3.sevenths.lesson1.exercises"]
+    },
+    {
+      "id": "chords.l3.sevenths.lesson2",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.chordsSevenths.lesson2",
+      "unitId": "chords.l3.sevenths",
+      "skillIds": ["chords.l3.sevenths.s1", "chords.l3.sevenths.s2", "chords.l3.sevenths.s3"],
+      "introductionCardIds": [
+        "chords.l3.sevenths.card-majorseventh",
+        "chords.l3.sevenths.card-dominantseventh",
+        "chords.l3.sevenths.card-minorseventh",
+        "chords.l3.sevenths.card-halfdiminished"
+      ],
+      "exerciseSetIds": ["chords.l3.sevenths.lesson2.exercises"]
+    },
+    {
+      "id": "chords.l3.sevenths.lesson3",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.chordsSevenths.lesson3",
+      "unitId": "chords.l3.sevenths",
+      "skillIds": ["chords.l3.sevenths.s1", "chords.l3.sevenths.s2", "chords.l3.sevenths.s3"],
+      "introductionCardIds": [
+        "chords.l3.sevenths.card-majorseventh",
+        "chords.l3.sevenths.card-dominantseventh",
+        "chords.l3.sevenths.card-minorseventh",
+        "chords.l3.sevenths.card-halfdiminished"
+      ],
+      "exerciseSetIds": ["chords.l3.sevenths.lesson3.exercises"]
+    },
+    {
+      "id": "harmony.l3.functions.lesson1",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyFunctions.lesson1",
+      "unitId": "harmony.l3.functions",
+      "skillIds": ["harmony.l3.functions.s1", "harmony.l3.functions.s2", "harmony.l3.functions.s3"],
+      "introductionCardIds": [
+        "harmony.l3.functions.card-tonic",
+        "harmony.l3.functions.card-subdominant",
+        "harmony.l3.functions.card-dominant",
+        "harmony.l3.functions.card-degreecontext"
+      ],
+      "exerciseSetIds": ["harmony.l3.functions.lesson1.exercises"]
+    },
+    {
+      "id": "harmony.l3.functions.lesson2",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyFunctions.lesson2",
+      "unitId": "harmony.l3.functions",
+      "skillIds": ["harmony.l3.functions.s1", "harmony.l3.functions.s2", "harmony.l3.functions.s3"],
+      "introductionCardIds": [
+        "harmony.l3.functions.card-tonic",
+        "harmony.l3.functions.card-subdominant",
+        "harmony.l3.functions.card-dominant",
+        "harmony.l3.functions.card-degreecontext"
+      ],
+      "exerciseSetIds": ["harmony.l3.functions.lesson2.exercises"]
+    },
+    {
+      "id": "harmony.l3.functions.lesson3",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyFunctions.lesson3",
+      "unitId": "harmony.l3.functions",
+      "skillIds": ["harmony.l3.functions.s1", "harmony.l3.functions.s2", "harmony.l3.functions.s3"],
+      "introductionCardIds": [
+        "harmony.l3.functions.card-tonic",
+        "harmony.l3.functions.card-subdominant",
+        "harmony.l3.functions.card-dominant",
+        "harmony.l3.functions.card-degreecontext"
+      ],
+      "exerciseSetIds": ["harmony.l3.functions.lesson3.exercises"]
+    },
+    {
+      "id": "harmony.l3.cadences.lesson1",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyCadences.lesson1",
+      "unitId": "harmony.l3.cadences",
+      "skillIds": ["harmony.l3.cadences.s1", "harmony.l3.cadences.s2", "harmony.l3.cadences.s3"],
+      "introductionCardIds": [
+        "harmony.l3.cadences.card-authentic",
+        "harmony.l3.cadences.card-plagal",
+        "harmony.l3.cadences.card-half",
+        "harmony.l3.cadences.card-deceptive"
+      ],
+      "exerciseSetIds": ["harmony.l3.cadences.lesson1.exercises"]
+    },
+    {
+      "id": "harmony.l3.cadences.lesson2",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyCadences.lesson2",
+      "unitId": "harmony.l3.cadences",
+      "skillIds": ["harmony.l3.cadences.s1", "harmony.l3.cadences.s2", "harmony.l3.cadences.s3"],
+      "introductionCardIds": [
+        "harmony.l3.cadences.card-authentic",
+        "harmony.l3.cadences.card-plagal",
+        "harmony.l3.cadences.card-half",
+        "harmony.l3.cadences.card-deceptive"
+      ],
+      "exerciseSetIds": ["harmony.l3.cadences.lesson2.exercises"]
+    },
+    {
+      "id": "harmony.l3.cadences.lesson3",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyCadences.lesson3",
+      "unitId": "harmony.l3.cadences",
+      "skillIds": ["harmony.l3.cadences.s1", "harmony.l3.cadences.s2", "harmony.l3.cadences.s3"],
+      "introductionCardIds": [
+        "harmony.l3.cadences.card-authentic",
+        "harmony.l3.cadences.card-plagal",
+        "harmony.l3.cadences.card-half",
+        "harmony.l3.cadences.card-deceptive"
+      ],
+      "exerciseSetIds": ["harmony.l3.cadences.lesson3.exercises"]
+    },
+    {
+      "id": "harmony.l3.modulation.lesson1",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyModulation.lesson1",
+      "unitId": "harmony.l3.modulation",
+      "skillIds": [
+        "harmony.l3.modulation.s1",
+        "harmony.l3.modulation.s2",
+        "harmony.l3.modulation.s3"
+      ],
+      "introductionCardIds": [
+        "harmony.l3.modulation.card-pivot",
+        "harmony.l3.modulation.card-tonicization",
+        "harmony.l3.modulation.card-newtonic",
+        "harmony.l3.modulation.card-commontone"
+      ],
+      "exerciseSetIds": ["harmony.l3.modulation.lesson1.exercises"]
+    },
+    {
+      "id": "harmony.l3.modulation.lesson2",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyModulation.lesson2",
+      "unitId": "harmony.l3.modulation",
+      "skillIds": [
+        "harmony.l3.modulation.s1",
+        "harmony.l3.modulation.s2",
+        "harmony.l3.modulation.s3"
+      ],
+      "introductionCardIds": [
+        "harmony.l3.modulation.card-pivot",
+        "harmony.l3.modulation.card-tonicization",
+        "harmony.l3.modulation.card-newtonic",
+        "harmony.l3.modulation.card-commontone"
+      ],
+      "exerciseSetIds": ["harmony.l3.modulation.lesson2.exercises"]
+    },
+    {
+      "id": "harmony.l3.modulation.lesson3",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.harmonyModulation.lesson3",
+      "unitId": "harmony.l3.modulation",
+      "skillIds": [
+        "harmony.l3.modulation.s1",
+        "harmony.l3.modulation.s2",
+        "harmony.l3.modulation.s3"
+      ],
+      "introductionCardIds": [
+        "harmony.l3.modulation.card-pivot",
+        "harmony.l3.modulation.card-tonicization",
+        "harmony.l3.modulation.card-newtonic",
+        "harmony.l3.modulation.card-commontone"
+      ],
+      "exerciseSetIds": ["harmony.l3.modulation.lesson3.exercises"]
+    },
+    {
+      "id": "aural.l3.dictation.lesson1",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.auralDictation.lesson1",
+      "unitId": "aural.l3.dictation",
+      "skillIds": ["aural.l3.dictation.s1", "aural.l3.dictation.s2", "aural.l3.dictation.s3"],
+      "introductionCardIds": [
+        "aural.l3.dictation.card-contour",
+        "aural.l3.dictation.card-rhythm",
+        "aural.l3.dictation.card-pitchcheck",
+        "aural.l3.dictation.card-errorcheck"
+      ],
+      "exerciseSetIds": ["aural.l3.dictation.lesson1.exercises"]
+    },
+    {
+      "id": "aural.l3.dictation.lesson2",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.auralDictation.lesson2",
+      "unitId": "aural.l3.dictation",
+      "skillIds": ["aural.l3.dictation.s1", "aural.l3.dictation.s2", "aural.l3.dictation.s3"],
+      "introductionCardIds": [
+        "aural.l3.dictation.card-contour",
+        "aural.l3.dictation.card-rhythm",
+        "aural.l3.dictation.card-pitchcheck",
+        "aural.l3.dictation.card-errorcheck"
+      ],
+      "exerciseSetIds": ["aural.l3.dictation.lesson2.exercises"]
+    },
+    {
+      "id": "aural.l3.dictation.lesson3",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.auralDictation.lesson3",
+      "unitId": "aural.l3.dictation",
+      "skillIds": ["aural.l3.dictation.s1", "aural.l3.dictation.s2", "aural.l3.dictation.s3"],
+      "introductionCardIds": [
+        "aural.l3.dictation.card-contour",
+        "aural.l3.dictation.card-rhythm",
+        "aural.l3.dictation.card-pitchcheck",
+        "aural.l3.dictation.card-errorcheck"
+      ],
+      "exerciseSetIds": ["aural.l3.dictation.lesson3.exercises"]
+    },
+    {
+      "id": "forms.l3.phrases.lesson1",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.formsPhrases.lesson1",
+      "unitId": "forms.l3.phrases",
+      "skillIds": ["forms.l3.phrases.s1", "forms.l3.phrases.s2", "forms.l3.phrases.s3"],
+      "introductionCardIds": [
+        "forms.l3.phrases.card-motive",
+        "forms.l3.phrases.card-phrase",
+        "forms.l3.phrases.card-antecedent",
+        "forms.l3.phrases.card-consequent"
+      ],
+      "exerciseSetIds": ["forms.l3.phrases.lesson1.exercises"]
+    },
+    {
+      "id": "forms.l3.phrases.lesson2",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.formsPhrases.lesson2",
+      "unitId": "forms.l3.phrases",
+      "skillIds": ["forms.l3.phrases.s1", "forms.l3.phrases.s2", "forms.l3.phrases.s3"],
+      "introductionCardIds": [
+        "forms.l3.phrases.card-motive",
+        "forms.l3.phrases.card-phrase",
+        "forms.l3.phrases.card-antecedent",
+        "forms.l3.phrases.card-consequent"
+      ],
+      "exerciseSetIds": ["forms.l3.phrases.lesson2.exercises"]
+    },
+    {
+      "id": "forms.l3.phrases.lesson3",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.formsPhrases.lesson3",
+      "unitId": "forms.l3.phrases",
+      "skillIds": ["forms.l3.phrases.s1", "forms.l3.phrases.s2", "forms.l3.phrases.s3"],
+      "introductionCardIds": [
+        "forms.l3.phrases.card-motive",
+        "forms.l3.phrases.card-phrase",
+        "forms.l3.phrases.card-antecedent",
+        "forms.l3.phrases.card-consequent"
+      ],
+      "exerciseSetIds": ["forms.l3.phrases.lesson3.exercises"]
+    },
+    {
+      "id": "forms.l3.designs.lesson1",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.formsDesigns.lesson1",
+      "unitId": "forms.l3.designs",
+      "skillIds": ["forms.l3.designs.s1", "forms.l3.designs.s2", "forms.l3.designs.s3"],
+      "introductionCardIds": [
+        "forms.l3.designs.card-binary",
+        "forms.l3.designs.card-ternary",
+        "forms.l3.designs.card-rondo",
+        "forms.l3.designs.card-variation"
+      ],
+      "exerciseSetIds": ["forms.l3.designs.lesson1.exercises"]
+    },
+    {
+      "id": "forms.l3.designs.lesson2",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.formsDesigns.lesson2",
+      "unitId": "forms.l3.designs",
+      "skillIds": ["forms.l3.designs.s1", "forms.l3.designs.s2", "forms.l3.designs.s3"],
+      "introductionCardIds": [
+        "forms.l3.designs.card-binary",
+        "forms.l3.designs.card-ternary",
+        "forms.l3.designs.card-rondo",
+        "forms.l3.designs.card-variation"
+      ],
+      "exerciseSetIds": ["forms.l3.designs.lesson2.exercises"]
+    },
+    {
+      "id": "forms.l3.designs.lesson3",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.formsDesigns.lesson3",
+      "unitId": "forms.l3.designs",
+      "skillIds": ["forms.l3.designs.s1", "forms.l3.designs.s2", "forms.l3.designs.s3"],
+      "introductionCardIds": [
+        "forms.l3.designs.card-binary",
+        "forms.l3.designs.card-ternary",
+        "forms.l3.designs.card-rondo",
+        "forms.l3.designs.card-variation"
+      ],
+      "exerciseSetIds": ["forms.l3.designs.lesson3.exercises"]
+    },
+    {
+      "id": "instruments.l3.families.lesson1",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.instrumentsFamilies.lesson1",
+      "unitId": "instruments.l3.families",
+      "skillIds": [
+        "instruments.l3.families.s1",
+        "instruments.l3.families.s2",
+        "instruments.l3.families.s3"
+      ],
+      "introductionCardIds": [
+        "instruments.l3.families.card-strings",
+        "instruments.l3.families.card-woodwinds",
+        "instruments.l3.families.card-brass",
+        "instruments.l3.families.card-percussion"
+      ],
+      "exerciseSetIds": ["instruments.l3.families.lesson1.exercises"]
+    },
+    {
+      "id": "instruments.l3.families.lesson2",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.instrumentsFamilies.lesson2",
+      "unitId": "instruments.l3.families",
+      "skillIds": [
+        "instruments.l3.families.s1",
+        "instruments.l3.families.s2",
+        "instruments.l3.families.s3"
+      ],
+      "introductionCardIds": [
+        "instruments.l3.families.card-strings",
+        "instruments.l3.families.card-woodwinds",
+        "instruments.l3.families.card-brass",
+        "instruments.l3.families.card-percussion"
+      ],
+      "exerciseSetIds": ["instruments.l3.families.lesson2.exercises"]
+    },
+    {
+      "id": "instruments.l3.families.lesson3",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.instrumentsFamilies.lesson3",
+      "unitId": "instruments.l3.families",
+      "skillIds": [
+        "instruments.l3.families.s1",
+        "instruments.l3.families.s2",
+        "instruments.l3.families.s3"
+      ],
+      "introductionCardIds": [
+        "instruments.l3.families.card-strings",
+        "instruments.l3.families.card-woodwinds",
+        "instruments.l3.families.card-brass",
+        "instruments.l3.families.card-percussion"
+      ],
+      "exerciseSetIds": ["instruments.l3.families.lesson3.exercises"]
+    },
+    {
+      "id": "instruments.l3.scores.lesson1",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.instrumentsScores.lesson1",
+      "unitId": "instruments.l3.scores",
+      "skillIds": [
+        "instruments.l3.scores.s1",
+        "instruments.l3.scores.s2",
+        "instruments.l3.scores.s3"
+      ],
+      "introductionCardIds": [
+        "instruments.l3.scores.card-concertpitch",
+        "instruments.l3.scores.card-writtenpitch",
+        "instruments.l3.scores.card-transposition",
+        "instruments.l3.scores.card-scoreorder"
+      ],
+      "exerciseSetIds": ["instruments.l3.scores.lesson1.exercises"]
+    },
+    {
+      "id": "instruments.l3.scores.lesson2",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.instrumentsScores.lesson2",
+      "unitId": "instruments.l3.scores",
+      "skillIds": [
+        "instruments.l3.scores.s1",
+        "instruments.l3.scores.s2",
+        "instruments.l3.scores.s3"
+      ],
+      "introductionCardIds": [
+        "instruments.l3.scores.card-concertpitch",
+        "instruments.l3.scores.card-writtenpitch",
+        "instruments.l3.scores.card-transposition",
+        "instruments.l3.scores.card-scoreorder"
+      ],
+      "exerciseSetIds": ["instruments.l3.scores.lesson2.exercises"]
+    },
+    {
+      "id": "instruments.l3.scores.lesson3",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.instrumentsScores.lesson3",
+      "unitId": "instruments.l3.scores",
+      "skillIds": [
+        "instruments.l3.scores.s1",
+        "instruments.l3.scores.s2",
+        "instruments.l3.scores.s3"
+      ],
+      "introductionCardIds": [
+        "instruments.l3.scores.card-concertpitch",
+        "instruments.l3.scores.card-writtenpitch",
+        "instruments.l3.scores.card-transposition",
+        "instruments.l3.scores.card-scoreorder"
+      ],
+      "exerciseSetIds": ["instruments.l3.scores.lesson3.exercises"]
+    },
+    {
+      "id": "jazzpop.l3.harmony.lesson1",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.jazzPopHarmony.lesson1",
+      "unitId": "jazzpop.l3.harmony",
+      "skillIds": ["jazzpop.l3.harmony.s1", "jazzpop.l3.harmony.s2", "jazzpop.l3.harmony.s3"],
+      "introductionCardIds": [
+        "jazzpop.l3.harmony.card-leadsheet",
+        "jazzpop.l3.harmony.card-twofiveone",
+        "jazzpop.l3.harmony.card-backbeat",
+        "jazzpop.l3.harmony.card-loop"
+      ],
+      "exerciseSetIds": ["jazzpop.l3.harmony.lesson1.exercises"]
+    },
+    {
+      "id": "jazzpop.l3.harmony.lesson2",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.jazzPopHarmony.lesson2",
+      "unitId": "jazzpop.l3.harmony",
+      "skillIds": ["jazzpop.l3.harmony.s1", "jazzpop.l3.harmony.s2", "jazzpop.l3.harmony.s3"],
+      "introductionCardIds": [
+        "jazzpop.l3.harmony.card-leadsheet",
+        "jazzpop.l3.harmony.card-twofiveone",
+        "jazzpop.l3.harmony.card-backbeat",
+        "jazzpop.l3.harmony.card-loop"
+      ],
+      "exerciseSetIds": ["jazzpop.l3.harmony.lesson2.exercises"]
+    },
+    {
+      "id": "jazzpop.l3.harmony.lesson3",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.jazzPopHarmony.lesson3",
+      "unitId": "jazzpop.l3.harmony",
+      "skillIds": ["jazzpop.l3.harmony.s1", "jazzpop.l3.harmony.s2", "jazzpop.l3.harmony.s3"],
+      "introductionCardIds": [
+        "jazzpop.l3.harmony.card-leadsheet",
+        "jazzpop.l3.harmony.card-twofiveone",
+        "jazzpop.l3.harmony.card-backbeat",
+        "jazzpop.l3.harmony.card-loop"
+      ],
+      "exerciseSetIds": ["jazzpop.l3.harmony.lesson3.exercises"]
+    },
+    {
+      "id": "history.l3.methods.lesson1",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.historyMethods.lesson1",
+      "unitId": "history.l3.methods",
+      "skillIds": ["history.l3.methods.s1", "history.l3.methods.s2", "history.l3.methods.s3"],
+      "introductionCardIds": [
+        "history.l3.methods.card-manuscript",
+        "history.l3.methods.card-edition",
+        "history.l3.methods.card-recordingdate",
+        "history.l3.methods.card-oralhistory"
+      ],
+      "exerciseSetIds": ["history.l3.methods.lesson1.exercises"]
+    },
+    {
+      "id": "history.l3.methods.lesson2",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.historyMethods.lesson2",
+      "unitId": "history.l3.methods",
+      "skillIds": ["history.l3.methods.s1", "history.l3.methods.s2", "history.l3.methods.s3"],
+      "introductionCardIds": [
+        "history.l3.methods.card-manuscript",
+        "history.l3.methods.card-edition",
+        "history.l3.methods.card-recordingdate",
+        "history.l3.methods.card-oralhistory"
+      ],
+      "exerciseSetIds": ["history.l3.methods.lesson2.exercises"]
+    },
+    {
+      "id": "history.l3.methods.lesson3",
+      "contentVersion": 15,
+      "status": "entwurf",
+      "titleKey": "content.levelThree.units.historyMethods.lesson3",
+      "unitId": "history.l3.methods",
+      "skillIds": ["history.l3.methods.s1", "history.l3.methods.s2", "history.l3.methods.s3"],
+      "introductionCardIds": [
+        "history.l3.methods.card-manuscript",
+        "history.l3.methods.card-edition",
+        "history.l3.methods.card-recordingdate",
+        "history.l3.methods.card-oralhistory"
+      ],
+      "exerciseSetIds": ["history.l3.methods.lesson3.exercises"]
     }
   ]
 }
