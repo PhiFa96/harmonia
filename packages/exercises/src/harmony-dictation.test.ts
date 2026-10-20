@@ -22,6 +22,8 @@ import {
   generateChord,
   generateDictation,
   generateFunction,
+  hintText,
+  exerciseHints,
   SEVENTH_TYPES,
 } from './index.ts';
 
@@ -66,6 +68,26 @@ describe('P3.14: Harmonik und Diktat', () => {
         expect(text).not.toContain('G-Dur');
       }
     }
+  });
+  it('gibt jeder Harmonie- und Diktataufgabe eigene Hinweise ohne Lösungsleck', () => {
+    const items = [
+      generateCadence({ fifths: [0], types: ['authentic'] }, createRng(5)),
+      generateFunction({ fifths: [0], degrees: [1, 4, 5] }, createRng(5)),
+      generateDictation({ level: 1 }, createRng(5), 'MELODY_DICTATION'),
+      generateDictation({ level: 1 }, createRng(5), 'RHYTHM_DICTATION'),
+    ];
+    for (const locale of ['de', 'en-US', 'en-GB'] as const) {
+      const texts = items.map((item) =>
+        ([1, 2] as const).map((level) => hintText(item, exerciseHints(item, level), locale)),
+      );
+      expect(new Set(texts.map((entry) => entry.join('|'))).size, locale).toBe(items.length);
+      for (const entry of texts) expect(entry[0]).not.toBe(entry[1]);
+    }
+    const cadence = items[0];
+    if (!cadence) throw new Error('Kadenz fehlt');
+    // Britische Kadenznamen im Hinweis, kein Lösungsleck (die Antwort ist hier ein Ganzschluss).
+    expect(hintText(cadence, exerciseHints(cadence, 2), 'en-GB')).toContain('perfect cadence');
+    expect(hintText(cadence, exerciseHints(cadence, 2), 'en-US')).toContain('authentic cadence');
   });
   it('bestimmt die Stufe aus dem Akkord statt einer gespeicherten Auswahl', () => {
     for (const degree of [1, 2, 4, 5, 6] as const) {

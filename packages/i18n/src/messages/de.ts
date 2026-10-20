@@ -1780,9 +1780,22 @@ export const de = {
     cadenceExplanation: 'In {{key}} endet die Folge mit {{answer}}.',
     functionExplanation: 'Der Akkord gehört in {{key}} zu {{answer}}.',
     dictationExplanation: 'Gehörte Folge: {{answer}}.',
-    harmonyHint1: 'Höre oder prüfe zuerst die Anfangs- und Schlusspunkte.',
-    harmonyHint2:
-      'Vergleiche die Folge Schritt für Schritt mit den angebotenen Tönen oder Funktionen.',
+    harmonyHint1_CADENCE_IDENTIFY:
+      'Zuerst erklingt der Grundakkord der Tonart als Bezug. Achte danach auf den letzten Akkord der Folge: Klingt er abgeschlossen oder offen?',
+    harmonyHint2_CADENCE_IDENTIFY:
+      'Ein $t(glossary:cadenceAuthentic) geht von V nach I, ein $t(glossary:cadencePlagal) von IV nach I, ein $t(glossary:cadenceHalf) endet auf V und ein $t(glossary:cadenceDeceptive) führt von V nach vi.',
+    harmonyHint1_FUNCTION_ANALYSIS:
+      'Bestimme zuerst den $t(glossary:root_one) des Akkords im Notenbild und nenne seinen Namen.',
+    harmonyHint2_FUNCTION_ANALYSIS:
+      'Zähle von der Tonika der genannten Tonart die Stufen der Tonleiter bis zum Grundton des Akkords; die Tonika ist Stufe I.',
+    harmonyHint1_MELODY_DICTATION:
+      'Höre die Melodie in kleinen Stücken und achte bei jedem Ton, ob er steigt, fällt oder gleich bleibt.',
+    harmonyHint2_MELODY_DICTATION:
+      'Bestimme jeden Ton als Schritt oder Sprung vom vorigen Ton. Der erste Ton ist C.',
+    harmonyHint1_RHYTHM_DICTATION:
+      'Zähle beim Hören einen gleichmäßigen Grundschlag mit und achte darauf, wie viele Anschläge zwischen den Schlägen liegen.',
+    harmonyHint2_RHYTHM_DICTATION:
+      'Die Notenwerte füllen zusammen genau einen $t(glossary:measure_one); vergleiche lange und kurze Töne.',
     dictationProgress: '{{count}} von {{total}} Eingaben gesetzt',
     dictationUndo: 'Letzte Eingabe entfernen',
     chordIntro:

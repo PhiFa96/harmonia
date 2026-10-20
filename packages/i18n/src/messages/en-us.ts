@@ -1746,8 +1746,22 @@ export const enUS = {
     cadenceExplanation: 'In {{key}}, the progression ends with {{answer}}.',
     functionExplanation: 'In {{key}}, the chord belongs to {{answer}}.',
     dictationExplanation: 'Heard sequence: {{answer}}.',
-    harmonyHint1: 'Listen or look for the starting and ending points first.',
-    harmonyHint2: 'Compare the sequence step by step with the offered notes or functions.',
+    harmonyHint1_CADENCE_IDENTIFY:
+      'The tonic chord of the key sounds first as a reference. Then listen to the last chord of the progression: does it sound closed or open?',
+    harmonyHint2_CADENCE_IDENTIFY:
+      'The $t(glossary:cadenceAuthentic) moves from V to I, the $t(glossary:cadencePlagal) from IV to I, the $t(glossary:cadenceHalf) ends on V and the $t(glossary:cadenceDeceptive) moves from V to vi.',
+    harmonyHint1_FUNCTION_ANALYSIS:
+      'First find the $t(glossary:root_one) of the chord on the staff and name it.',
+    harmonyHint2_FUNCTION_ANALYSIS:
+      'Count the scale degrees from the tonic of the stated key up to the chord root; the tonic is degree I.',
+    harmonyHint1_MELODY_DICTATION:
+      'Listen to the melody in small pieces and notice for each note whether it rises, falls or repeats.',
+    harmonyHint2_MELODY_DICTATION:
+      'Decide for each note whether it is a step or a leap from the previous one. The first note is C.',
+    harmonyHint1_RHYTHM_DICTATION:
+      'Count a steady beat while you listen and notice how many onsets fall between the beats.',
+    harmonyHint2_RHYTHM_DICTATION:
+      'The note values together fill exactly one $t(glossary:measure_one); compare long and short notes.',
     dictationProgress: '{{count}} of {{total}} entries placed',
     dictationUndo: 'Remove last entry',
     chordIntro:

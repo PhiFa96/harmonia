@@ -631,7 +631,8 @@ export function exerciseHints(item: ExerciseItem, level: 1 | 2 | 3): ExerciseHin
   )
     return {
       level,
-      key: level === 1 ? 'exercise.harmonyHint1' : 'exercise.harmonyHint2',
+      key:
+        level === 1 ? `exercise.harmonyHint1_${item.type}` : `exercise.harmonyHint2_${item.type}`,
       values: {},
     };
   if (isVoiceItem(item))
