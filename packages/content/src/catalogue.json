@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": 16,
+  "contentVersion": 17,
   "areas": [
     {
       "id": "fundament",
@@ -766,7 +766,7 @@
     },
     {
       "id": "notation.staff",
-      "contentVersion": 2,
+      "contentVersion": 3,
       "status": "entwurf",
       "titleKey": "content.curriculum.skills.staff",
       "areaId": "area.notation",
@@ -774,7 +774,7 @@
     },
     {
       "id": "notation.treble-clef",
-      "contentVersion": 2,
+      "contentVersion": 3,
       "status": "entwurf",
       "titleKey": "content.curriculum.skills.trebleClef",
       "areaId": "area.notation",
@@ -782,7 +782,7 @@
     },
     {
       "id": "notation.treble-natural",
-      "contentVersion": 2,
+      "contentVersion": 3,
       "status": "entwurf",
       "titleKey": "content.curriculum.skills.trebleNatural",
       "areaId": "area.notation",
@@ -866,7 +866,7 @@
     },
     {
       "id": "rhythm.note-values",
-      "contentVersion": 2,
+      "contentVersion": 3,
       "status": "entwurf",
       "titleKey": "content.curriculum.skills.noteValues",
       "areaId": "area.rhythm",
@@ -874,7 +874,7 @@
     },
     {
       "id": "rhythm.rests",
-      "contentVersion": 2,
+      "contentVersion": 3,
       "status": "entwurf",
       "titleKey": "content.curriculum.skills.rests",
       "areaId": "area.rhythm",
@@ -890,7 +890,7 @@
     },
     {
       "id": "rhythm.barlines",
-      "contentVersion": 2,
+      "contentVersion": 3,
       "status": "entwurf",
       "titleKey": "content.curriculum.skills.barlines",
       "areaId": "area.rhythm",
@@ -898,19 +898,19 @@
     },
     {
       "id": "rhythm.meter-simple",
-      "contentVersion": 2,
+      "contentVersion": 3,
       "status": "entwurf",
       "titleKey": "content.curriculum.skills.meterSimple",
       "areaId": "area.rhythm",
-      "prerequisites": ["rhythm.beat-group", "rhythm.note-values"]
+      "prerequisites": ["rhythm.beat-group", "rhythm.note-values", "rhythm.measure-fill"]
     },
     {
       "id": "rhythm.count-in",
-      "contentVersion": 2,
+      "contentVersion": 3,
       "status": "entwurf",
       "titleKey": "content.curriculum.skills.countIn",
       "areaId": "area.rhythm",
-      "prerequisites": ["rhythm.meter-simple"]
+      "prerequisites": ["rhythm.meter-simple", "rhythm.barlines"]
     },
     {
       "id": "rhythm.read-basic",
@@ -946,11 +946,11 @@
     },
     {
       "id": "interval.semitone-distance",
-      "contentVersion": 2,
+      "contentVersion": 3,
       "status": "entwurf",
       "titleKey": "content.curriculum.skills.semitoneDistance",
       "areaId": "area.intervals",
-      "prerequisites": ["notation.semitone"]
+      "prerequisites": ["notation.semitone", "notation.treble-natural"]
     },
     {
       "id": "interval.thirds",
@@ -970,7 +970,7 @@
     },
     {
       "id": "aural.pulse",
-      "contentVersion": 2,
+      "contentVersion": 3,
       "status": "entwurf",
       "titleKey": "content.curriculum.skills.hearPulse",
       "areaId": "area.aural",
@@ -986,7 +986,7 @@
     },
     {
       "id": "aural.rhythm-choice-basic",
-      "contentVersion": 2,
+      "contentVersion": 3,
       "status": "entwurf",
       "titleKey": "content.curriculum.skills.rhythmChoiceBasic",
       "areaId": "area.aural",
@@ -994,7 +994,7 @@
     },
     {
       "id": "aural.pitch-direction",
-      "contentVersion": 2,
+      "contentVersion": 3,
       "status": "entwurf",
       "titleKey": "content.curriculum.skills.hearPitchDirection",
       "areaId": "area.aural",
@@ -1018,7 +1018,7 @@
     },
     {
       "id": "history.sound-source",
-      "contentVersion": 2,
+      "contentVersion": 3,
       "status": "entwurf",
       "titleKey": "content.curriculum.skills.soundSource",
       "areaId": "area.history",
@@ -1026,7 +1026,7 @@
     },
     {
       "id": "history.source-types",
-      "contentVersion": 2,
+      "contentVersion": 3,
       "status": "entwurf",
       "titleKey": "content.curriculum.skills.sourceTypes",
       "areaId": "area.history",
@@ -1042,15 +1042,15 @@
     },
     {
       "id": "history.european-timeline",
-      "contentVersion": 2,
+      "contentVersion": 3,
       "status": "entwurf",
       "titleKey": "content.curriculum.skills.europeanTimeline",
       "areaId": "area.history",
-      "prerequisites": ["history.source-types"]
+      "prerequisites": ["history.context"]
     },
     {
       "id": "history.genre-function",
-      "contentVersion": 2,
+      "contentVersion": 3,
       "status": "entwurf",
       "titleKey": "content.curriculum.skills.genreFunction",
       "areaId": "area.history",
@@ -1058,27 +1058,31 @@
     },
     {
       "id": "history.listening-observation",
-      "contentVersion": 2,
+      "contentVersion": 3,
       "status": "entwurf",
       "titleKey": "content.curriculum.skills.listeningObservation",
       "areaId": "area.history",
-      "prerequisites": ["history.source-types", "history.genre-function"]
+      "prerequisites": ["history.source-types", "history.context"]
     },
     {
       "id": "notation.bass-natural",
-      "contentVersion": 2,
+      "contentVersion": 3,
       "status": "entwurf",
       "titleKey": "content.curriculum.skills.bassNatural",
       "areaId": "area.notation",
-      "prerequisites": ["notation.treble-natural"]
+      "prerequisites": [
+        "notation.treble-natural",
+        "notation.ledger-lines",
+        "notation.octave-register"
+      ]
     },
     {
       "id": "notation.grand-staff",
-      "contentVersion": 2,
+      "contentVersion": 3,
       "status": "entwurf",
       "titleKey": "content.curriculum.skills.grandStaff",
       "areaId": "area.notation",
-      "prerequisites": ["notation.treble-natural", "notation.bass-natural"]
+      "prerequisites": ["notation.treble-natural", "notation.bass-natural", "notation.pitch-match"]
     },
     {
       "id": "notation.octave-systems",
@@ -1090,11 +1094,11 @@
     },
     {
       "id": "notation.accidental-scope",
-      "contentVersion": 2,
+      "contentVersion": 3,
       "status": "entwurf",
       "titleKey": "content.curriculum.skills.accidentalScope",
       "areaId": "area.notation",
-      "prerequisites": ["notation.accidentals", "rhythm.barlines"]
+      "prerequisites": ["notation.accidentals", "rhythm.barlines", "notation.octave-register"]
     },
     {
       "id": "notation.enharmonic-spelling",
@@ -1150,11 +1154,11 @@
     },
     {
       "id": "rhythm.triplet",
-      "contentVersion": 2,
+      "contentVersion": 3,
       "status": "entwurf",
       "titleKey": "content.curriculum.skills.triplet",
       "areaId": "area.rhythm",
-      "prerequisites": ["rhythm.note-values"]
+      "prerequisites": ["rhythm.note-values", "rhythm.read-basic"]
     },
     {
       "id": "rhythm.compound-meter",
@@ -1174,14 +1178,16 @@
     },
     {
       "id": "interval.simple-qualities",
-      "contentVersion": 2,
+      "contentVersion": 3,
       "status": "entwurf",
       "titleKey": "content.curriculum.skills.simpleQualities",
       "areaId": "area.intervals",
       "prerequisites": [
         "interval.generic-size",
         "interval.semitone-distance",
-        "notation.accidental-scope"
+        "notation.accidentals",
+        "interval.thirds",
+        "interval.perfect-fourth-fifth-octave"
       ]
     },
     {
@@ -1234,7 +1240,7 @@
     },
     {
       "id": "scale.major-build",
-      "contentVersion": 2,
+      "contentVersion": 3,
       "status": "entwurf",
       "titleKey": "content.curriculum.skills.majorBuild",
       "areaId": "area.scales",
@@ -1338,7 +1344,7 @@
     },
     {
       "id": "chord.inversions",
-      "contentVersion": 2,
+      "contentVersion": 3,
       "status": "entwurf",
       "titleKey": "content.curriculum.skills.triadInversions",
       "areaId": "area.chords",
@@ -1346,11 +1352,16 @@
     },
     {
       "id": "chord.diatonic-triads",
-      "contentVersion": 2,
+      "contentVersion": 3,
       "status": "entwurf",
       "titleKey": "content.curriculum.skills.diatonicTriads",
       "areaId": "area.chords",
-      "prerequisites": ["scale.major-build", "scale.natural-minor", "chord.triad-structure"]
+      "prerequisites": [
+        "scale.major-build",
+        "scale.natural-minor",
+        "chord.triad-structure",
+        "chord.diminished-augmented"
+      ]
     },
     {
       "id": "aural.rhythm-choice-dotted",

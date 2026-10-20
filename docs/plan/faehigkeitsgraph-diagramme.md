@@ -2,7 +2,7 @@
 
 <!-- Erzeugt mit pnpm curriculum:render; Änderungen an Katalog, Plan oder Übersetzungen vornehmen. -->
 
-Katalog-/Planversion 16. 15 Bereiche, 33 Bereichsstufen, 54 Einheiten und 165 Fähigkeiten.
+Katalog-/Planversion 17. 15 Bereiche, 33 Bereichsstufen, 54 Einheiten und 165 Fähigkeiten.
 
 Pfeile zeigen von der Voraussetzung zum folgenden Lernziel. Die Reihenfolge ist eine mögliche Reihenfolge für die Planung; unabhängige Zweige bleiben im Graphen unabhängig. Die Tabellen zeigen alle direkten Voraussetzungen, auch über Bereichsgrenzen hinweg.
 
@@ -139,6 +139,7 @@ flowchart TD
   u5 --> u6
   u1 --> u7
   u2 --> u8
+  u1 --> u8
   u7 --> u8
   u6 --> u9
   u11 --> u12
@@ -155,6 +156,7 @@ flowchart TD
   u15 --> u16
   u7 --> u17
   u8 --> u17
+  u2 --> u17
   u14 --> u17
   u17 --> u18
   u7 --> u18
@@ -243,9 +245,9 @@ flowchart TD
 ```mermaid
 flowchart TD
   subgraph level1["Stufe 1"]
-    s3["Linien, Zwischenräume und Notenköpfe zuordnen"]
-    s4["Den Bezugston im Violinschlüssel finden"]
-    s5["Stammtöne von c¹ bis c² im Violinschlüssel lesen"]
+    s3["Notenköpfe auf Linien und in Zwischenräumen lokalisieren"]
+    s4["Im Violinschlüssel g¹ auf der zweiten Linie als Orientierung nutzen"]
+    s5["Stammtöne von e¹ bis f² im Violinschlüssel lesen"]
     s6["Stammtöne auf der Klaviatur finden"]
     s7["Halbton und Ganzton auf der Klaviatur unterscheiden"]
     s8["Einfaches Kreuz, b und Auflösungszeichen lesen"]
@@ -257,7 +259,7 @@ flowchart TD
     s40["Stammtöne von c bis c¹ im Bassschlüssel lesen"]
     s41["Töne zwischen Violin- und Bassschlüssel zuordnen"]
     s42["Helmholtz- und wissenschaftliche Oktavbezeichnung zuordnen"]
-    s43["Geltung von Versetzungszeichen innerhalb des Takt beachten"]
+    s43["Geltung von Versetzungszeichen im selben Takt beachten (gleicher Ton, gleiche Oktavlage)"]
     s44["Gleich klingende, verschieden geschriebene Töne zuordnen"]
     s45["Töne in Violin- und Bassschlüssel mit einfachen Versetzungszeichen setzen"]
   end
@@ -266,7 +268,7 @@ flowchart TD
     s127["Alt- und Tenorschlüssel lesen"]
     s128["Systeme im Partiturverlauf verfolgen"]
   end
-  s18["Taktstriche, Schluss und Wiederholung lesen · anderer Bereich"]
+  s18["Taktstriche und Schlussstrich lesen · anderer Bereich"]
   s119["Partiturlese-Hinweise erklären · anderer Bereich"]
   s3 --> s4
   s4 --> s5
@@ -280,11 +282,15 @@ flowchart TD
   s9 --> s11
   s10 --> s11
   s5 --> s40
+  s10 --> s40
+  s9 --> s40
   s5 --> s41
   s40 --> s41
+  s11 --> s41
   s9 --> s42
   s8 --> s43
   s18 -.-> s43
+  s9 --> s43
   s8 --> s44
   s7 --> s44
   s10 --> s45
@@ -297,19 +303,19 @@ flowchart TD
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
 |---|---|---|---|---|---|
-| 1 · Das Notensystem lesen | Linien, Zwischenräume und Notenköpfe zuordnen | `notation.staff` | Locate lines, spaces and noteheads | — | entwurf |
-| 1 · Das Notensystem lesen | Den Bezugston im Violinschlüssel finden | `notation.treble-clef` | Find the reference pitch in the treble clef | `notation.staff` | entwurf |
-| 1 · Das Notensystem lesen | Stammtöne von c¹ bis c² im Violinschlüssel lesen | `notation.treble-natural` | Read natural notes from C4 to C5 in the treble clef | `notation.treble-clef` | entwurf |
+| 1 · Das Notensystem lesen | Notenköpfe auf Linien und in Zwischenräumen lokalisieren | `notation.staff` | Locate noteheads on lines and in spaces | — | entwurf |
+| 1 · Das Notensystem lesen | Im Violinschlüssel g¹ auf der zweiten Linie als Orientierung nutzen | `notation.treble-clef` | Use G4 on the second line as the anchor note in the treble clef | `notation.staff` | entwurf |
+| 1 · Das Notensystem lesen | Stammtöne von e¹ bis f² im Violinschlüssel lesen | `notation.treble-natural` | Read natural notes from E4 to F5 in the treble clef | `notation.treble-clef` | entwurf |
 | 1 · Klaviatur und Versetzungszeichen | Stammtöne auf der Klaviatur finden | `notation.keyboard-layout` | Find natural notes on the keyboard | — | entwurf |
 | 1 · Klaviatur und Versetzungszeichen | Halbton und Ganzton auf der Klaviatur unterscheiden | `notation.semitone` | Distinguish a half step from a whole step on the keyboard / Distinguish a semitone from a tone on the keyboard | `notation.keyboard-layout` | entwurf |
 | 1 · Klaviatur und Versetzungszeichen | Einfaches Kreuz, b und Auflösungszeichen lesen | `notation.accidentals` | Read a single sharp, flat and natural | `notation.treble-natural`, `notation.semitone` | entwurf |
 | 1 · Oktaven und Hilfslinien | Benachbarte Oktavlagen unterscheiden | `notation.octave-register` | Distinguish adjacent octave registers | `notation.treble-natural` | entwurf |
 | 1 · Oktaven und Hilfslinien | Töne mit bis zu zwei Hilfslinien lesen | `notation.ledger-lines` | Read notes with up to two ledger lines | `notation.staff`, `notation.octave-register` | entwurf |
 | 1 · Oktaven und Hilfslinien | Geschriebenen Ton und Klaviertaste samt Oktavlage zuordnen | `notation.pitch-match` | Match a written pitch to a piano key in the correct register | `notation.keyboard-layout`, `notation.octave-register`, `notation.ledger-lines` | entwurf |
-| 2 · Weitere Notenschlüssel und Oktavlagen | Stammtöne von c bis c¹ im Bassschlüssel lesen | `notation.bass-natural` | Read natural notes from C3 to C4 in the bass clef | `notation.treble-natural` | entwurf |
-| 2 · Weitere Notenschlüssel und Oktavlagen | Töne zwischen Violin- und Bassschlüssel zuordnen | `notation.grand-staff` | Match pitches between treble and bass clef | `notation.treble-natural`, `notation.bass-natural` | entwurf |
+| 2 · Weitere Notenschlüssel und Oktavlagen | Stammtöne von c bis c¹ im Bassschlüssel lesen | `notation.bass-natural` | Read natural notes from C3 to C4 in the bass clef | `notation.treble-natural`, `notation.ledger-lines`, `notation.octave-register` | entwurf |
+| 2 · Weitere Notenschlüssel und Oktavlagen | Töne zwischen Violin- und Bassschlüssel zuordnen | `notation.grand-staff` | Match pitches between treble and bass clef | `notation.treble-natural`, `notation.bass-natural`, `notation.pitch-match` | entwurf |
 | 2 · Weitere Notenschlüssel und Oktavlagen | Helmholtz- und wissenschaftliche Oktavbezeichnung zuordnen | `notation.octave-systems` | Match Helmholtz and scientific octave notation | `notation.octave-register` | entwurf |
-| 2 · Tonhöhe richtig schreiben | Geltung von Versetzungszeichen innerhalb des Takt beachten | `notation.accidental-scope` | Apply accidentals within a measure / Apply accidentals within a bar | `notation.accidentals`, `rhythm.barlines` | entwurf |
+| 2 · Tonhöhe richtig schreiben | Geltung von Versetzungszeichen im selben Takt beachten (gleicher Ton, gleiche Oktavlage) | `notation.accidental-scope` | Apply accidentals within a measure (same note, same octave) / Apply accidentals within a bar (same note, same octave) | `notation.accidentals`, `rhythm.barlines`, `notation.octave-register` | entwurf |
 | 2 · Tonhöhe richtig schreiben | Gleich klingende, verschieden geschriebene Töne zuordnen | `notation.enharmonic-spelling` | Match pitches with the same sound but different spellings | `notation.accidentals`, `notation.semitone` | entwurf |
 | 2 · Tonhöhe richtig schreiben | Töne in Violin- und Bassschlüssel mit einfachen Versetzungszeichen setzen | `notation.write-pitch` | Place notes in treble and bass clef with single accidentals | `notation.ledger-lines`, `notation.bass-natural`, `notation.accidental-scope` | entwurf |
 | 4 · Mehrstimmige Partitur | Stimmen zeitlich zuordnen | `notation.l4.multivoice.s1` | Align voices in time | `instruments.l3.scores.s3` | entwurf |
@@ -324,10 +330,10 @@ flowchart TD
     s12["Gleichmäßigen Puls mitklopfen"]
     s13["Puls in langsamem und schnellem Tempo halten"]
     s14["Betonte und unbetonte Zählzeiten unterscheiden"]
-    s15["ganze Noten, halbe Noten, Viertelnoten und Achtelnoten zuordnen"]
-    s16["Ganze bis Achtelpausen den Notenwerten zuordnen"]
+    s15["Ganze, halbe, Viertel-, Achtel- und Sechzehntelnoten erkennen und nach Dauer ordnen"]
+    s16["Ganze bis Sechzehntelpausen den Notenwerten zuordnen"]
     s17["Einen vollständigen Takt mit Notenwerten und Pausen füllen"]
-    s18["Taktstriche, Schluss und Wiederholung lesen"]
+    s18["Taktstriche und Schlussstrich lesen"]
     s19["2/4, 3/4 und 4/4 mit Zählzeiten verbinden"]
     s20["Vollständigen Takt einzählen und einen Auftakt erkennen"]
     s21["Kurze Rhythmen mit Viertelnoten, Achtelnoten und Pausen lesen"]
@@ -356,7 +362,9 @@ flowchart TD
   s17 --> s18
   s14 --> s19
   s15 --> s19
+  s17 --> s19
   s19 --> s20
+  s18 --> s20
   s19 --> s21
   s16 --> s21
   s15 --> s46
@@ -367,6 +375,7 @@ flowchart TD
   s48 --> s49
   s19 --> s49
   s15 --> s50
+  s21 --> s50
   s19 --> s51
   s46 --> s51
   s51 --> s52
@@ -381,18 +390,18 @@ flowchart TD
 | 1 · Puls, Tempo und Zählzeiten | Gleichmäßigen Puls mitklopfen | `rhythm.pulse` | Tap a steady pulse | — | entwurf |
 | 1 · Puls, Tempo und Zählzeiten | Puls in langsamem und schnellem Tempo halten | `rhythm.tempo` | Maintain a pulse at slow and fast tempos | `rhythm.pulse` | entwurf |
 | 1 · Puls, Tempo und Zählzeiten | Betonte und unbetonte Zählzeiten unterscheiden | `rhythm.beat-group` | Distinguish accented and unaccented beats | `rhythm.pulse` | entwurf |
-| 1 · Notenwerte und Pausen | ganze Noten, halbe Noten, Viertelnoten und Achtelnoten zuordnen | `rhythm.note-values` | Match whole notes, half notes, quarter notes and eighth notes / Match semibreves, minims, crotchets and quavers | `rhythm.pulse` | entwurf |
-| 1 · Notenwerte und Pausen | Ganze bis Achtelpausen den Notenwerten zuordnen | `rhythm.rests` | Match whole notes through eighth notes to their rests / Match semibreves through quavers to their rests | `rhythm.note-values` | entwurf |
+| 1 · Notenwerte und Pausen | Ganze, halbe, Viertel-, Achtel- und Sechzehntelnoten erkennen und nach Dauer ordnen | `rhythm.note-values` | Recognize and order whole notes, half notes, quarter notes, eighth notes and sixteenth notes by duration / Recognise and order semibreves, minims, crotchets, quavers and semiquavers by duration | `rhythm.pulse` | entwurf |
+| 1 · Notenwerte und Pausen | Ganze bis Sechzehntelpausen den Notenwerten zuordnen | `rhythm.rests` | Match whole notes through sixteenth notes to their rests / Match semibreves through semiquavers to their rests | `rhythm.note-values` | entwurf |
 | 1 · Notenwerte und Pausen | Einen vollständigen Takt mit Notenwerten und Pausen füllen | `rhythm.measure-fill` | Complete a measure with note values and rests / Complete a bar with note values and rests | `rhythm.note-values`, `rhythm.rests` | entwurf |
-| 1 · Notenwerte und Pausen | Taktstriche, Schluss und Wiederholung lesen | `rhythm.barlines` | Read bar lines, endings and repeats | `rhythm.measure-fill` | entwurf |
-| 1 · Einfache Takte lesen und zählen | 2/4, 3/4 und 4/4 mit Zählzeiten verbinden | `rhythm.meter-simple` | Relate 2/4, 3/4 and 4/4 to their beats | `rhythm.beat-group`, `rhythm.note-values` | entwurf |
-| 1 · Einfache Takte lesen und zählen | Vollständigen Takt einzählen und einen Auftakt erkennen | `rhythm.count-in` | Count in a full measure and recognize an upbeat / Count in a full bar and recognise an upbeat | `rhythm.meter-simple` | entwurf |
+| 1 · Notenwerte und Pausen | Taktstriche und Schlussstrich lesen | `rhythm.barlines` | Read bar lines and the final bar line | `rhythm.measure-fill` | entwurf |
+| 1 · Einfache Takte lesen und zählen | 2/4, 3/4 und 4/4 mit Zählzeiten verbinden | `rhythm.meter-simple` | Relate 2/4, 3/4 and 4/4 to their beats | `rhythm.beat-group`, `rhythm.note-values`, `rhythm.measure-fill` | entwurf |
+| 1 · Einfache Takte lesen und zählen | Vollständigen Takt einzählen und einen Auftakt erkennen | `rhythm.count-in` | Count in a full measure and recognize a pickup / Count in a full bar and recognise an upbeat | `rhythm.meter-simple`, `rhythm.barlines` | entwurf |
 | 1 · Einfache Takte lesen und zählen | Kurze Rhythmen mit Viertelnoten, Achtelnoten und Pausen lesen | `rhythm.read-basic` | Read short rhythms with quarter notes, eighth notes and rests / Read short rhythms with crotchets, quavers and rests | `rhythm.meter-simple`, `rhythm.rests` | entwurf |
 | 2 · Punktierung und Haltebogen | Einfach punktierte Notenwerte zusammensetzen | `rhythm.dotted-values` | Construct singly dotted note values | `rhythm.note-values` | entwurf |
 | 2 · Punktierung und Haltebogen | Notenwerte mit Haltebogen addieren | `rhythm.ties` | Add note values joined by a tie | `rhythm.note-values` | entwurf |
 | 2 · Punktierung und Haltebogen | Punktierte und gebundene Dauern über Taktstriche vergleichen | `rhythm.dotted-and-tied` | Compare dotted and tied durations across bar lines | `rhythm.dotted-values`, `rhythm.ties`, `rhythm.barlines` | entwurf |
 | 2 · Punktierung und Haltebogen | Einfache Synkopen lesen und zählen | `rhythm.syncopation-basic` | Read and count simple syncopations | `rhythm.dotted-and-tied`, `rhythm.meter-simple` | entwurf |
-| 2 · Zwei- und Dreiteilung der Zählzeit | Drei Achtel in einer Achteltriole zählen | `rhythm.triplet` | Count three notes in a eighth note triplet / Count three notes in a quaver triplet | `rhythm.note-values` | entwurf |
+| 2 · Zwei- und Dreiteilung der Zählzeit | Drei Achtel in einer Achteltriole zählen | `rhythm.triplet` | Count triplet eighth notes / Count triplet quavers | `rhythm.note-values`, `rhythm.read-basic` | entwurf |
 | 2 · Zwei- und Dreiteilung der Zählzeit | Zweiteilige und dreiteilige Zählzeiten in 3/4 und 6/8 unterscheiden | `rhythm.compound-meter` | Distinguish duple and triple beat subdivisions in 3/4 and 6/8 | `rhythm.meter-simple`, `rhythm.dotted-values` | entwurf |
 | 2 · Zwei- und Dreiteilung der Zählzeit | Achtel in 6/8 nach Zählzeiten gruppieren | `rhythm.group-6-8` | Group eighth notes by beat in 6/8 / Group quavers by beat in 6/8 | `rhythm.compound-meter`, `rhythm.read-basic` | entwurf |
 | 4 · Komplexere Rhythmik | Unterteilungen zählen | `rhythm.l4.complex.s1` | Count subdivisions | `aural.l3.dictation.s2` | entwurf |
@@ -407,21 +416,21 @@ flowchart TD
     s22["Intervallnummern von Prime bis Oktave abzählen"]
     s23["Geschriebene Intervalle aufwärts und abwärts unterscheiden"]
     s24["Wiederholung, Tonschritt und Sprung unterscheiden"]
-    s25["Anzahl der Halbtöne eines Klangabstands bestimmen"]
+    s25["Anzahl der Halbtöne zwischen zwei notierten Tönen bestimmen"]
     s26["Kleine und große Terzen im Notenbild unterscheiden"]
     s27["Reine Quarte, Quinte und Oktave im Notenbild bestimmen"]
   end
   subgraph level2["Stufe 2"]
-    s53["Intervallnummer und Qualität bis zur Oktave bestimmen"]
+    s53["Intervallnummer und Qualität (rein, klein, groß; Tritonus) bis zur Oktave bestimmen"]
     s54["Intervalle bis zur Oktave von einem Ton aufwärts bilden"]
     s55["Gleich klingende Intervalle nach Schreibweise unterscheiden"]
     s56["Einfache Intervalle umkehren"]
     s57["Intervalle von einem Ton abwärts bilden"]
     s58["Einfache und zusammengesetzte Intervalle zuordnen"]
   end
-  s5["Stammtöne von c¹ bis c² im Violinschlüssel lesen · anderer Bereich"]
+  s5["Stammtöne von e¹ bis f² im Violinschlüssel lesen · anderer Bereich"]
   s7["Halbton und Ganzton auf der Klaviatur unterscheiden · anderer Bereich"]
-  s43["Geltung von Versetzungszeichen innerhalb des Takt beachten · anderer Bereich"]
+  s8["Einfaches Kreuz, b und Auflösungszeichen lesen · anderer Bereich"]
   s45["Töne in Violin- und Bassschlüssel mit einfachen Versetzungszeichen setzen · anderer Bereich"]
   s44["Gleich klingende, verschieden geschriebene Töne zuordnen · anderer Bereich"]
   s9["Benachbarte Oktavlagen unterscheiden · anderer Bereich"]
@@ -429,13 +438,16 @@ flowchart TD
   s22 --> s23
   s23 --> s24
   s7 -.-> s25
+  s5 -.-> s25
   s22 --> s26
   s25 --> s26
   s22 --> s27
   s25 --> s27
   s22 --> s53
   s25 --> s53
-  s43 -.-> s53
+  s8 -.-> s53
+  s26 --> s53
+  s27 --> s53
   s53 --> s54
   s45 -.-> s54
   s53 --> s55
@@ -452,10 +464,10 @@ flowchart TD
 | 1 · Abstand und Richtung | Intervallnummern von Prime bis Oktave abzählen | `interval.generic-size` | Count interval numbers from unison to octave | `notation.treble-natural` | entwurf |
 | 1 · Abstand und Richtung | Geschriebene Intervalle aufwärts und abwärts unterscheiden | `interval.direction` | Distinguish written ascending and descending intervals | `interval.generic-size` | entwurf |
 | 1 · Abstand und Richtung | Wiederholung, Tonschritt und Sprung unterscheiden | `interval.steps-leaps` | Distinguish repeated notes, steps and leaps | `interval.direction` | entwurf |
-| 1 · Erste Intervallqualitäten | Anzahl der Halbtöne eines Klangabstands bestimmen | `interval.semitone-distance` | Count sounding distances in half steps / Count sounding distances in semitones | `notation.semitone` | entwurf |
+| 1 · Erste Intervallqualitäten | Anzahl der Halbtöne zwischen zwei notierten Tönen bestimmen | `interval.semitone-distance` | Count the half steps between two written notes / Count the semitones between two written notes | `notation.semitone`, `notation.treble-natural` | entwurf |
 | 1 · Erste Intervallqualitäten | Kleine und große Terzen im Notenbild unterscheiden | `interval.thirds` | Distinguish written minor and major thirds | `interval.generic-size`, `interval.semitone-distance` | entwurf |
 | 1 · Erste Intervallqualitäten | Reine Quarte, Quinte und Oktave im Notenbild bestimmen | `interval.perfect-fourth-fifth-octave` | Identify written perfect fourths, fifths and octaves | `interval.generic-size`, `interval.semitone-distance` | entwurf |
-| 2 · Intervalle bestimmen und bilden | Intervallnummer und Qualität bis zur Oktave bestimmen | `interval.simple-qualities` | Identify interval number and quality up to the octave | `interval.generic-size`, `interval.semitone-distance`, `notation.accidental-scope` | entwurf |
+| 2 · Intervalle bestimmen und bilden | Intervallnummer und Qualität (rein, klein, groß; Tritonus) bis zur Oktave bestimmen | `interval.simple-qualities` | Identify interval number and quality (perfect, minor, major; tritone) up to the octave | `interval.generic-size`, `interval.semitone-distance`, `notation.accidentals`, `interval.thirds`, `interval.perfect-fourth-fifth-octave` | entwurf |
 | 2 · Intervalle bestimmen und bilden | Intervalle bis zur Oktave von einem Ton aufwärts bilden | `interval.build` | Build ascending intervals up to the octave from a given pitch | `interval.simple-qualities`, `notation.write-pitch` | entwurf |
 | 2 · Intervalle bestimmen und bilden | Gleich klingende Intervalle nach Schreibweise unterscheiden | `interval.enharmonic-distinction` | Distinguish equal-sounding intervals by spelling | `interval.simple-qualities`, `notation.enharmonic-spelling` | entwurf |
 | 2 · Umkehrung, Richtung und Erweiterung | Einfache Intervalle umkehren | `interval.inversion` | Invert simple intervals | `interval.simple-qualities` | entwurf |
@@ -468,7 +480,7 @@ flowchart TD
 flowchart TD
   subgraph level2["Stufe 2"]
     s59["Ganz- und Halbtonfolge einer Dur-Tonleiter zuordnen"]
-    s60["Dur-Tonleitern mit bis zu drei Kreuze oder b schreiben"]
+    s60["Dur-Tonleitern mit bis zu drei Vorzeichen (Kreuzen oder b) schreiben"]
     s61["Grundton und Tonleiterstufen einer Dur-Tonleiter zuordnen"]
     s62["Natürliches Moll aufbauen"]
     s63["Harmonisches Moll aus natürlichem Moll bilden"]
@@ -486,7 +498,7 @@ flowchart TD
   s7["Halbton und Ganzton auf der Klaviatur unterscheiden · anderer Bereich"]
   s22["Intervallnummern von Prime bis Oktave abzählen · anderer Bereich"]
   s45["Töne in Violin- und Bassschlüssel mit einfachen Versetzungszeichen setzen · anderer Bereich"]
-  s43["Geltung von Versetzungszeichen innerhalb des Takt beachten · anderer Bereich"]
+  s43["Geltung von Versetzungszeichen im selben Takt beachten (gleicher Ton, gleiche Oktavlage) · anderer Bereich"]
   s7 -.-> s59
   s22 -.-> s59
   s59 --> s60
@@ -512,7 +524,7 @@ flowchart TD
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
 |---|---|---|---|---|---|
 | 2 · Dur aufbauen | Ganz- und Halbtonfolge einer Dur-Tonleiter zuordnen | `scale.major-pattern` | Identify the whole step and half step pattern of a major scale / Identify the tone and semitone pattern of a major scale | `notation.semitone`, `interval.generic-size` | entwurf |
-| 2 · Dur aufbauen | Dur-Tonleitern mit bis zu drei Kreuze oder b schreiben | `scale.major-build` | Write major scales with up to three sharps or flats | `scale.major-pattern`, `notation.write-pitch` | entwurf |
+| 2 · Dur aufbauen | Dur-Tonleitern mit bis zu drei Vorzeichen (Kreuzen oder b) schreiben | `scale.major-build` | Write major scales with up to three sharps or flats | `scale.major-pattern`, `notation.write-pitch` | entwurf |
 | 2 · Dur aufbauen | Grundton und Tonleiterstufen einer Dur-Tonleiter zuordnen | `scale.tonic` | Identify the tonic and scale degrees of a major scale | `scale.major-build` | entwurf |
 | 2 · Die Mollformen | Natürliches Moll aufbauen | `scale.natural-minor` | Build natural minor scales | `scale.major-pattern`, `scale.tonic` | entwurf |
 | 2 · Die Mollformen | Harmonisches Moll aus natürlichem Moll bilden | `scale.harmonic-minor` | Build harmonic minor from natural minor | `scale.natural-minor`, `notation.write-pitch` | entwurf |
@@ -534,7 +546,7 @@ flowchart TD
     s70["Dur- und Moll-Dreiklänge bestimmen und bauen"]
     s71["Verminderte und übermäßige Dreiklänge bestimmen und bauen"]
     s72["Akkordgrundton und Basston auseinanderhalten"]
-    s73["Grundstellung, erste und zweite Umkehrung bestimmen und bauen"]
+    s73["Grundstellung, erste und zweite Umkehrung bestimmen"]
     s74["Leitereigene Dreiklänge in Dur und natürlichem Moll bauen"]
   end
   subgraph level3["Stufe 3"]
@@ -549,8 +561,8 @@ flowchart TD
   end
   s54["Intervalle bis zur Oktave von einem Ton aufwärts bilden · anderer Bereich"]
   s26["Kleine und große Terzen im Notenbild unterscheiden · anderer Bereich"]
-  s53["Intervallnummer und Qualität bis zur Oktave bestimmen · anderer Bereich"]
-  s60["Dur-Tonleitern mit bis zu drei Kreuze oder b schreiben · anderer Bereich"]
+  s53["Intervallnummer und Qualität (rein, klein, groß; Tritonus) bis zur Oktave bestimmen · anderer Bereich"]
+  s60["Dur-Tonleitern mit bis zu drei Vorzeichen (Kreuzen oder b) schreiben · anderer Bereich"]
   s62["Natürliches Moll aufbauen · anderer Bereich"]
   s54 -.-> s69
   s69 --> s70
@@ -563,6 +575,7 @@ flowchart TD
   s60 -.-> s74
   s62 -.-> s74
   s69 --> s74
+  s71 --> s74
   s74 --> s93
   s93 --> s94
   s94 --> s95
@@ -577,8 +590,8 @@ flowchart TD
 | 2 · Dreiklangsaufbau und Qualitäten | Dur- und Moll-Dreiklänge bestimmen und bauen | `chord.major-minor` | Identify and build major and minor triads | `chord.triad-structure`, `interval.thirds` | entwurf |
 | 2 · Dreiklangsaufbau und Qualitäten | Verminderte und übermäßige Dreiklänge bestimmen und bauen | `chord.diminished-augmented` | Identify and build diminished and augmented triads | `chord.major-minor`, `interval.simple-qualities` | entwurf |
 | 2 · Basston, Umkehrungen und leitereigene Dreiklänge | Akkordgrundton und Basston auseinanderhalten | `chord.root-and-bass` | Distinguish chord root from bass note | `chord.triad-structure` | entwurf |
-| 2 · Basston, Umkehrungen und leitereigene Dreiklänge | Grundstellung, erste und zweite Umkehrung bestimmen und bauen | `chord.inversions` | Identify and build root-position, first-inversion and second-inversion triads | `chord.root-and-bass`, `chord.major-minor` | entwurf |
-| 2 · Basston, Umkehrungen und leitereigene Dreiklänge | Leitereigene Dreiklänge in Dur und natürlichem Moll bauen | `chord.diatonic-triads` | Build diatonic triads in major and natural minor | `scale.major-build`, `scale.natural-minor`, `chord.triad-structure` | entwurf |
+| 2 · Basston, Umkehrungen und leitereigene Dreiklänge | Grundstellung, erste und zweite Umkehrung bestimmen | `chord.inversions` | Identify root-position, first-inversion and second-inversion triads | `chord.root-and-bass`, `chord.major-minor` | entwurf |
+| 2 · Basston, Umkehrungen und leitereigene Dreiklänge | Leitereigene Dreiklänge in Dur und natürlichem Moll bauen | `chord.diatonic-triads` | Build diatonic triads in major and natural minor | `scale.major-build`, `scale.natural-minor`, `chord.triad-structure`, `chord.diminished-augmented` | entwurf |
 | 3 · Septakkorde | Septakkordtypen erkennen | `chords.l3.sevenths.s1` | Identify seventh-chord types | `chord.diatonic-triads` | entwurf |
 | 3 · Septakkorde | Septakkorde schreiben | `chords.l3.sevenths.s2` | Build seventh chords | `chords.l3.sevenths.s1` | entwurf |
 | 3 · Septakkorde | Vierklänge im Kontext vergleichen | `chords.l3.sevenths.s3` | Compare seventh chords in context | `chords.l3.sevenths.s2` | entwurf |
@@ -591,10 +604,10 @@ flowchart TD
 ```mermaid
 flowchart TD
   subgraph level1["Stufe 1"]
-    s28["Den Puls eines kurzen Hörbeispiels finden"]
+    s28["Gruppen aus zwei, drei oder vier Schlägen im Hörbeispiel erkennen"]
     s29["Gleiche und verschiedene kurze Rhythmen hören"]
-    s30["Gehörten Viertel-Achtel-Rhythmus einem Notenbild zuordnen"]
-    s31["Höher, tiefer und gleicher Ton nach Gehör unterscheiden"]
+    s30["Gehörten Rhythmus aus Vierteln, Achteln und Pausen einem Notenbild zuordnen"]
+    s31["Höher, tiefer oder gleich: Tonrichtung nach Gehör unterscheiden"]
     s32["Gleiche und verschiedene kurze Tonfolgen hören"]
     s33["Kleine und große Terz sowie reine Quarte und Quinte aufwärts hören"]
   end
@@ -622,7 +635,7 @@ flowchart TD
   s21["Kurze Rhythmen mit Viertelnoten, Achtelnoten und Pausen lesen · anderer Bereich"]
   s46["Einfach punktierte Notenwerte zusammensetzen · anderer Bereich"]
   s51["Zweiteilige und dreiteilige Zählzeiten in 3/4 und 6/8 unterscheiden · anderer Bereich"]
-  s73["Grundstellung, erste und zweite Umkehrung bestimmen und bauen · anderer Bereich"]
+  s73["Grundstellung, erste und zweite Umkehrung bestimmen · anderer Bereich"]
   s133["Septakkordumkehrungen schreiben · anderer Bereich"]
   s28 --> s29
   s29 --> s30
@@ -656,10 +669,10 @@ flowchart TD
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
 |---|---|---|---|---|---|
-| 1 · Puls und Rhythmus hören | Den Puls eines kurzen Hörbeispiels finden | `aural.pulse` | Find the pulse in a short listening example | — | entwurf |
+| 1 · Puls und Rhythmus hören | Gruppen aus zwei, drei oder vier Schlägen im Hörbeispiel erkennen | `aural.pulse` | Identify groups of two, three or four beats by ear | — | entwurf |
 | 1 · Puls und Rhythmus hören | Gleiche und verschiedene kurze Rhythmen hören | `aural.same-different-rhythm` | Hear whether two short rhythms are the same or different | `aural.pulse` | entwurf |
-| 1 · Puls und Rhythmus hören | Gehörten Viertel-Achtel-Rhythmus einem Notenbild zuordnen | `aural.rhythm-choice-basic` | Match a heard rhythm of quarter notes and eighth notes to notation / Match a heard rhythm of crotchets and quavers to notation | `aural.same-different-rhythm`, `rhythm.read-basic` | entwurf |
-| 1 · Tonhöhen und erste Intervalle hören | Höher, tiefer und gleicher Ton nach Gehör unterscheiden | `aural.pitch-direction` | Distinguish higher, lower and repeated pitches by ear | — | entwurf |
+| 1 · Puls und Rhythmus hören | Gehörten Rhythmus aus Vierteln, Achteln und Pausen einem Notenbild zuordnen | `aural.rhythm-choice-basic` | Match a heard rhythm of quarter notes, eighth notes and rests to notation / Match a heard rhythm of crotchets, quavers and rests to notation | `aural.same-different-rhythm`, `rhythm.read-basic` | entwurf |
+| 1 · Tonhöhen und erste Intervalle hören | Höher, tiefer oder gleich: Tonrichtung nach Gehör unterscheiden | `aural.pitch-direction` | Distinguish higher, lower and repeated pitches by ear | — | entwurf |
 | 1 · Tonhöhen und erste Intervalle hören | Gleiche und verschiedene kurze Tonfolgen hören | `aural.same-different-melody` | Hear whether two short melodies are the same or different | `aural.pitch-direction` | entwurf |
 | 1 · Tonhöhen und erste Intervalle hören | Kleine und große Terz sowie reine Quarte und Quinte aufwärts hören | `aural.third-fourth-fifth` | Recognize ascending minor and major thirds, perfect fourths and fifths / Recognise ascending minor and major thirds, perfect fourths and fifths | `aural.pitch-direction` | entwurf |
 | 2 · Rhythmus genauer hören | Gehörte punktierte Rhythmen einem Notenbild zuordnen | `aural.rhythm-choice-dotted` | Match heard dotted rhythms to notation | `aural.rhythm-choice-basic`, `rhythm.dotted-values` | entwurf |
@@ -683,11 +696,11 @@ flowchart TD
 ```mermaid
 flowchart TD
   subgraph level1["Stufe 1"]
-    s34["Stimme, Instrument und Aufnahme als Klangquellen unterscheiden"]
-    s35["Notentext, Aufnahme und Bericht als unterschiedliche Quellen erkennen"]
+    s34["Klangerzeuger (Stimme, Instrument, Elektronik) von der Aufnahme als Wiedergabemedium unterscheiden"]
+    s35["Notentext, Aufnahme, Bericht und Programmzettel als unterschiedliche Quellen erkennen"]
     s36["Ort, Zeit und Anlass zu einem Musikbeispiel zuordnen"]
     s37["Epochen der europäischen Kunstmusik vom Mittelalter bis heute grob ordnen"]
-    s38["Gattung, Besetzung und gesellschaftlichen Anlass auseinanderhalten"]
+    s38["Gattung, Besetzung und Funktion der Musik unterscheiden"]
     s39["Hörbeobachtung von historischer Schlussfolgerung unterscheiden"]
   end
   subgraph level2["Stufe 2"]
@@ -711,10 +724,10 @@ flowchart TD
   s149["Analyse am Notenbild belegen · anderer Bereich"]
   s34 --> s35
   s35 --> s36
-  s35 --> s37
+  s36 --> s37
   s36 --> s38
   s35 --> s39
-  s38 --> s39
+  s36 --> s39
   s37 --> s84
   s38 --> s84
   s84 --> s85
@@ -736,12 +749,12 @@ flowchart TD
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
 |---|---|---|---|---|---|
-| 1 · Klänge, Quellen und Kontext | Stimme, Instrument und Aufnahme als Klangquellen unterscheiden | `history.sound-source` | Distinguish voices, instruments and recordings as sound sources | — | entwurf |
-| 1 · Klänge, Quellen und Kontext | Notentext, Aufnahme und Bericht als unterschiedliche Quellen erkennen | `history.source-types` | Recognize scores, recordings and reports as different kinds of source / Recognise scores, recordings and reports as different kinds of source | `history.sound-source` | entwurf |
+| 1 · Klänge, Quellen und Kontext | Klangerzeuger (Stimme, Instrument, Elektronik) von der Aufnahme als Wiedergabemedium unterscheiden | `history.sound-source` | Tell sound producers (voice, instruments, electronics) from recordings as a playback medium | — | entwurf |
+| 1 · Klänge, Quellen und Kontext | Notentext, Aufnahme, Bericht und Programmzettel als unterschiedliche Quellen erkennen | `history.source-types` | Recognize scores, recordings, reports and programs as different kinds of source / Recognise scores, recordings, reports and programmes as different kinds of source | `history.sound-source` | entwurf |
 | 1 · Klänge, Quellen und Kontext | Ort, Zeit und Anlass zu einem Musikbeispiel zuordnen | `history.context` | Relate place, time and occasion to a musical example | `history.source-types` | entwurf |
-| 1 · Erster historischer Überblick | Epochen der europäischen Kunstmusik vom Mittelalter bis heute grob ordnen | `history.european-timeline` | Place periods of European art music from the Middle Ages to the present in broad order | `history.source-types` | entwurf |
-| 1 · Erster historischer Überblick | Gattung, Besetzung und gesellschaftlichen Anlass auseinanderhalten | `history.genre-function` | Distinguish genre, performing forces and social occasion | `history.context` | entwurf |
-| 1 · Erster historischer Überblick | Hörbeobachtung von historischer Schlussfolgerung unterscheiden | `history.listening-observation` | Distinguish a listening observation from a historical inference | `history.source-types`, `history.genre-function` | entwurf |
+| 1 · Erster historischer Überblick | Epochen der europäischen Kunstmusik vom Mittelalter bis heute grob ordnen | `history.european-timeline` | Place periods of European art music from the Middle Ages to the present in broad order | `history.context` | entwurf |
+| 1 · Erster historischer Überblick | Gattung, Besetzung und Funktion der Musik unterscheiden | `history.genre-function` | Distinguish genre, performing forces and the function of music | `history.context` | entwurf |
+| 1 · Erster historischer Überblick | Hörbeobachtung von historischer Schlussfolgerung unterscheiden | `history.listening-observation` | Distinguish a listening observation from a historical inference | `history.source-types`, `history.context` | entwurf |
 | 2 · Europäische Kunstmusik im Kontext | Beispiele aus Mittelalter und Renaissance anhand von Kontext und Merkmalen einordnen | `history.medieval-renaissance` | Place medieval and Renaissance examples using context and musical features | `history.european-timeline`, `history.genre-function` | entwurf |
 | 2 · Europäische Kunstmusik im Kontext | Beispiele aus Barock und Klassik anhand von Kontext und Merkmalen einordnen | `history.baroque-classical` | Place Baroque and Classical examples using context and musical features | `history.medieval-renaissance` | entwurf |
 | 2 · Europäische Kunstmusik im Kontext | Beispiele aus Romantik und neuerer Musik anhand von Kontext und Merkmalen einordnen | `history.romantic-modern` | Place Romantic and more recent examples using context and musical features | `history.baroque-classical` | entwurf |
@@ -826,7 +839,7 @@ flowchart TD
     s145["Durchführung und Reprise unterscheiden"]
     s146["Formbehauptungen belegen"]
   end
-  s38["Gattung, Besetzung und gesellschaftlichen Anlass auseinanderhalten · anderer Bereich"]
+  s38["Gattung, Besetzung und Funktion der Musik unterscheiden · anderer Bereich"]
   s21["Kurze Rhythmen mit Viertelnoten, Achtelnoten und Pausen lesen · anderer Bereich"]
   s137["Neue Tonika mit Kadenz begründen · anderer Bereich"]
   s38 -.-> s108
@@ -871,7 +884,7 @@ flowchart TD
     s154["Verdopplungen vergleichen"]
     s155["Transponierende Stimmen kontrollieren"]
   end
-  s34["Stimme, Instrument und Aufnahme als Klangquellen unterscheiden · anderer Bereich"]
+  s34["Klangerzeuger (Stimme, Instrument, Elektronik) von der Aufnahme als Wiedergabemedium unterscheiden · anderer Bereich"]
   s41["Töne zwischen Violin- und Bassschlüssel zuordnen · anderer Bereich"]
   s34 -.-> s114
   s114 --> s115
@@ -993,7 +1006,7 @@ flowchart TD
     s157["Reine und gleichstufige Quinten vergleichen"]
     s158["Stimmungssysteme einordnen"]
   end
-  s53["Intervallnummer und Qualität bis zur Oktave bestimmen · anderer Bereich"]
+  s53["Intervallnummer und Qualität (rein, klein, groß; Tritonus) bis zur Oktave bestimmen · anderer Bereich"]
   s53 -.-> s156
   s156 --> s157
   s157 --> s158

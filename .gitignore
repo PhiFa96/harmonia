@@ -38,3 +38,4 @@ coverage/
 /artifacts/beta/
 /playwright-report/
 /test-results/
+.claude/worktrees/
