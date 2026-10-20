@@ -102,7 +102,12 @@ export function RhythmAnswerInput({
       {!result ? (
         <>
           {practiceAllowed ? (
-            <View style={styles.modes} aria-label={t('exercise.rhythmMode')}>
+            <View
+              style={styles.modes}
+              role="group"
+              aria-label={t('exercise.rhythmMode')}
+              testID="rhythm-modes"
+            >
               {(['practice', 'test'] as const).map((value) => (
                 <Button
                   key={value}
@@ -137,7 +142,7 @@ export function RhythmAnswerInput({
                       setTempo(Math.max(40, tempo - 5));
                     }}
                   />
-                  <AppText testID="rhythm-practice-tempo">
+                  <AppText testID="rhythm-practice-tempo" aria-live="polite">
                     {t('exercise.rhythmPracticeTempo', {
                       bpm: tempo,
                       percent: Math.round((tempo / item.bpm) * 100),
@@ -180,7 +185,10 @@ export function RhythmAnswerInput({
                 </View>
                 {recording.practiceResult ? (
                   <AppText testID="rhythm-practice-feedback" aria-live="polite">
-                    {t('exercise.rhythmPracticeFeedback', recording.practiceResult)}
+                    {t('exercise.rhythmPracticeFeedback', {
+                      ...recording.practiceResult,
+                      count: recording.practiceResult.extras,
+                    })}
                   </AppText>
                 ) : null}
               </View>

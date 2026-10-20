@@ -44,6 +44,38 @@ describe('i18next-Instanz', () => {
     expect(gb.t('glossary:interval', { count: 2 })).toBe('intervals');
   });
 
+  it('Rhythmus-Übungsmodus: Plural, Glossar und britische Schreibung', () => {
+    const feedback = { round: 2, matched: 3, total: 4 };
+    const de = createI18n('de');
+    expect(de.t('exercise.rhythmPracticeFeedback', { ...feedback, extras: 1, count: 1 })).toBe(
+      'Runde 2: 3 von 4 Einsätzen getroffen, 1 zusätzlicher Anschlag. Ohne Wertung.',
+    );
+    expect(de.t('exercise.rhythmPracticeFeedback', { ...feedback, extras: 2, count: 2 })).toContain(
+      '2 zusätzliche Anschläge',
+    );
+    expect(de.t('exercise.rhythmPracticeFeedback', { ...feedback, extras: 0, count: 0 })).toContain(
+      '0 zusätzliche Anschläge',
+    );
+    for (const locale of ['en-US', 'en-GB'] as const) {
+      const en = createI18n(locale);
+      expect(en.t('exercise.rhythmPracticeFeedback', { ...feedback, extras: 1, count: 1 })).toBe(
+        'Round 2: 3 of 4 onsets matched, 1 extra tap. Not graded.',
+      );
+      expect(
+        en.t('exercise.rhythmPracticeFeedback', { ...feedback, extras: 3, count: 3 }),
+      ).toContain('3 extra taps');
+    }
+    expect(createI18n('en-US').t('piano.settings')).toBe('Customize');
+    expect(createI18n('en-GB').t('piano.settings')).toBe('Customise');
+    expect(createI18n('de').t('exercise.rhythmPracticeIntro')).toContain('denselben Takt');
+    expect(createI18n('en-US').t('exercise.rhythmPracticeIntro')).toMatch(
+      /^Practice the same measure without being graded\./,
+    );
+    expect(createI18n('en-GB').t('exercise.rhythmPracticeIntro')).toMatch(
+      /^Practise the same bar without being graded\./,
+    );
+  });
+
   it('typsichere Schlüssel', () => {
     const i18n = createI18n('de');
     // @ts-expect-error: unbekannter Schlüssel ist ein Compilerfehler

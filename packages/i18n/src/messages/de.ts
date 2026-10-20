@@ -1709,7 +1709,7 @@ export const de = {
     rhythmMode_practice: 'Üben',
     rhythmMode_test: 'Prüfungsdurchlauf',
     rhythmPracticeIntro:
-      'Übe denselben Takt ohne Wertung. Danach beginnt die Prüfung im Originaltempo. Üben zählt als Hilfe für diese Aufgabe.',
+      'Übe denselben $t(glossary:measure_one) ohne Wertung. Danach beginnt die Prüfung im Originaltempo. Üben zählt als Hilfe für diese Aufgabe. Bei langsamerem Tempo kann das Zeitfenster größer sein als in der Prüfung.',
     rhythmPracticeTempo: '{{bpm}} BPM ({{percent}} %)',
     rhythmSlower: 'Langsamer −5',
     rhythmFaster: 'Schneller +5',
@@ -1723,7 +1723,9 @@ export const de = {
     rhythmPracticeBegin: 'Übung starten',
     rhythmPracticeStop: 'Übung stoppen',
     rhythmPracticeFinished: 'Übungsrunde beendet. Du kannst erneut üben oder zur Prüfung wechseln.',
-    rhythmPracticeFeedback:
+    rhythmPracticeFeedback_one:
+      'Runde {{round}}: {{matched}} von {{total}} Einsätzen getroffen, {{extras}} zusätzlicher Anschlag. Ohne Wertung.',
+    rhythmPracticeFeedback_other:
       'Runde {{round}}: {{matched}} von {{total}} Einsätzen getroffen, {{extras}} zusätzliche Anschläge. Ohne Wertung.',
     rhythmPreparing: 'Klang wird vorbereitet …',
     rhythmCountIn: 'Einzählen: {{current}} von {{count}}',

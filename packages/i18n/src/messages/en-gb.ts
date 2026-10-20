@@ -43,7 +43,12 @@ export const enGB = {
   profile: {
     licenses: 'Licences',
   },
+  piano: {
+    settings: 'Customise',
+  },
   exercise: {
+    rhythmPracticeIntro:
+      'Practise the same $t(glossary:measure_one) without being graded. The test run then starts at the original tempo. Practice counts as help for this question. At a slower tempo the timing window can be wider than in the test run.',
     // Stufe 2: britische Fachwörter in neuen Quellenaufgaben.
     'contextQuestion_crossbar-duration':
       'How many crotchet values does the first pitch last across the bar line?',

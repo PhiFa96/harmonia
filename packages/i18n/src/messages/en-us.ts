@@ -1676,7 +1676,7 @@ export const enUS = {
     rhythmMode_practice: 'Practice',
     rhythmMode_test: 'Test run',
     rhythmPracticeIntro:
-      'Practice the same measure without a score. The test run then starts at the original tempo. Practice counts as help for this question.',
+      'Practice the same $t(glossary:measure_one) without being graded. The test run then starts at the original tempo. Practice counts as help for this question. At a slower tempo the timing window can be wider than in the test run.',
     rhythmPracticeTempo: '{{bpm}} BPM ({{percent}}%)',
     rhythmSlower: 'Slower −5',
     rhythmFaster: 'Faster +5',
@@ -1690,8 +1690,10 @@ export const enUS = {
     rhythmPracticeBegin: 'Start practice',
     rhythmPracticeStop: 'Stop practice',
     rhythmPracticeFinished: 'Practice round complete. Practice again or switch to the test run.',
-    rhythmPracticeFeedback:
-      'Round {{round}}: {{matched}} of {{total}} onsets matched, {{extras}} extra taps. No score.',
+    rhythmPracticeFeedback_one:
+      'Round {{round}}: {{matched}} of {{total}} onsets matched, {{extras}} extra tap. Not graded.',
+    rhythmPracticeFeedback_other:
+      'Round {{round}}: {{matched}} of {{total}} onsets matched, {{extras}} extra taps. Not graded.',
     rhythmPreparing: 'Preparing sound …',
     rhythmCountIn: 'Count-in: {{current}} of {{count}}',
     rhythmRecording: 'Recording: {{current}} of {{count}} beats',
