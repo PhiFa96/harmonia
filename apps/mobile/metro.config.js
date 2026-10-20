@@ -26,9 +26,14 @@ config.resolver.resolveRequest = (context, moduleName, platform) => {
       'Interne Inhaltsdaten dürfen nicht in einen Produktions-Build importiert werden.',
     );
   }
+  if (moduleName === '@harmonia/content/history-journey-draft' && published) {
+    throw new Error('Interne Geschichtsinhalte dürfen nicht in einen Produktions-Build.');
+  }
   const files = {
     '@harmonia/content/catalogue': `../../packages/content/src/${published ? 'published' : 'authoring'}.ts`,
     '@harmonia/i18n/content-messages': `../../packages/i18n/src/${published ? 'published-content-messages' : 'authoring-content-messages'}.ts`,
+    '@harmonia/content/history-journey': `../../packages/content/src/history-journey-${published ? 'published' : 'draft'}.ts`,
+    '@harmonia/i18n/history-journey': `../../packages/i18n/src/history-journey-${published ? 'published' : 'draft'}.ts`,
   };
   const file = files[moduleName];
   if (file) return { type: 'sourceFile', filePath: resolve(__dirname, file) };

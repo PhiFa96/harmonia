@@ -6,6 +6,7 @@ import { catalogue } from '../packages/content/src/authoring.ts';
 import { publicCatalogue, textAt, textKeys, COLLECTIONS } from '../packages/content/src/index.ts';
 import { contentMessages } from '../packages/i18n/src/authoring-content-messages.ts';
 import { RESOURCES } from '../packages/i18n/src/index.ts';
+import historyDraft from '../packages/i18n/src/history-journey-draft.json' with { type: 'json' };
 
 const directory = resolve(process.argv[2] ?? 'apps/mobile/dist');
 const published = publicCatalogue(catalogue);
@@ -34,6 +35,12 @@ for (const key of textKeys(catalogue))
       const text = textAt({ content }, key);
       if (text && !allowedTexts.has(text)) forbidden.set(text, key);
     }
+for (const [locale, stories] of Object.entries(historyDraft))
+  for (const [era, copy] of Object.entries(stories))
+    for (const [field, value] of Object.entries(copy))
+      for (const text of Array.isArray(value) ? value : [value])
+        if (typeof text === 'string' && text.length > 24 && !allowedTexts.has(text))
+          forbidden.set(text, `P4.12 ${locale}.${era}.${field}`);
 const files = [];
 function visit(path) {
   for (const entry of readdirSync(path, { withFileTypes: true })) {

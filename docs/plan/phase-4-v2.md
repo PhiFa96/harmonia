@@ -13,6 +13,8 @@
 - Die Nutzerbasis ist groß genug, um Coaches Buchungen zu versprechen.
 - Die offenen Phase-3-Abnahmen aus dem [technischen Rückblick](phase-3-rueckblick.md) sind abgeschlossen: Stufen 3–4 fachlich freigegeben und live, echte Geräte-/Realtime-/DB-Tests sowie Tutor-Quellenreview bestanden. P4.06 braucht zusätzlich eine eigene widerrufbare Lernstand-Freigabe; Harmonik-Korrekturen warten auf F03.
 
+**Technische Vorarbeit vor der formalen Freigabe:** P4.12 wird auf einem Arbeitsbranch als interne Vorschau entwickelt, weil P3.19 technisch integriert ist. Diese Ausnahme ändert keine Phase-4-Start-, Fach-, Rechts- oder Veröffentlichungsvoraussetzung. Der Produktions-Build enthält keine P4.12-Entwurfstexte oder Stationen. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
+
 **Blöcke:**
 
 - A: Coach-Marktplatz
@@ -160,13 +162,16 @@
 
 ### P4.12 – Zeitreise durch die Musikgeschichte
 
+**Technischer Entwurf:** Vier europäische Stationen mit eigenen Klangmodellen, redaktionell geschriebenen fiktiven Interviews, Wissens- und Hörfrage und präzisem Link auf den P3.19-Quellenabschnitt. Der Ablauf ist intern spielbar; es werden keine XP oder Fortschritte vergeben. Details und offene Freigaben: [Zeitreise P4.12](zeitreise-musikgeschichte.md).
+
 - **Ziel:** Geschichte erleben statt auswendig lernen.
 - **Abhängig von:** P3.19
 - **Umfang:** L
 - **Aufgaben:**
-  - [ ] Story-Modus durch die Epochen mit Klangbeispielen (eigene Einspielungen oder MIDI-Wiedergabe)
-  - [ ] „Interview“ mit historischen Personas. Deutlich als KI-Fiktion gekennzeichnet, nur auf Basis der Wissensbasis, mit Quellen
-  - [ ] Wissensfragen und Hörquiz je Epoche
+  - [x] Story-Modus als interne Vorschau durch vier Epochen mit eigenen, synthetisch gespielten Klangmodellen
+  - [x] Redaktionell geschriebenes fiktives Interview je Station, als KI-Fiktion und ohne Live-Gespräch gekennzeichnet, mit Quellenabschnitt
+  - [x] Wissensfrage und Hörquiz je Station als Entwurf
+  - [ ] Unabhängige Fach- und Quellenprüfung; echte Geräte-/Audioabnahme und Freigabe von mindestens vier Epochen
 - **Fertig, wenn:** Mindestens vier Epochen sind fachlich freigegeben.
 
 ## Block D – Schule

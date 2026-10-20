@@ -93,6 +93,8 @@
       "^react-native-worklets$": "<rootDir>/node_modules/react-native-worklets/lib/module/mock.js",
       "^@harmonia/i18n/content-messages$": "<rootDir>/../../packages/i18n/src/authoring-content-messages.ts",
       "^@harmonia/content/catalogue$": "<rootDir>/../../packages/content/src/authoring.ts",
+      "^@harmonia/content/history-journey$": "<rootDir>/../../packages/content/src/history-journey-draft.ts",
+      "^@harmonia/i18n/history-journey$": "<rootDir>/../../packages/i18n/src/history-journey-draft.ts",
       "\\.(otf|ttf|mp3)$": "<rootDir>/jest/asset-stub.ts"
     },
     "workerIdleMemoryLimit": "1024MB",

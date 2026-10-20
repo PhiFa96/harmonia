@@ -5,6 +5,33 @@ import levelFourExercise from './level-four-exercise.json' with { type: 'json' }
 // Fachbegriffe kommen aus dem Glossar: $t(glossary:…).
 
 export const de = {
+  historyJourney: {
+    title: 'Zeitreise durch die Musikgeschichte',
+    intro:
+      'Vier Stationen mit Quellen, eigenen Klangmodellen und Fragen. Dies ist eine interne Vorschau.',
+    draft: 'Inhaltlicher Entwurf: noch nicht fachlich freigegeben.',
+    fictional:
+      'KI-Fiktion als redaktionelles Rollenspiel: Diese Person und ihre Aussagen sind erfunden. Kein Live-Gespräch.',
+    source: 'Quellenabschnitt lesen',
+    sourceError: 'Der Quellenabschnitt ist momentan nicht verfügbar.',
+    scene: 'Szene',
+    interview: 'Fiktives Interview',
+    knowledge: 'Wissensfrage',
+    listening: 'Hörfrage',
+    play: 'Klangmodell abspielen',
+    stop: 'Wiedergabe stoppen',
+    audioError: 'Das Klangmodell konnte nicht abgespielt werden.',
+    skipListening: 'Gerade nicht hören – Frage überspringen',
+    check: 'Antwort prüfen',
+    correct: 'Richtig.',
+    incorrect: 'Noch nicht richtig.',
+    next: 'Weiter',
+    back: 'Zurück',
+    finish: 'Zur Übersicht',
+    complete:
+      'Station beendet. Diese Vorschau speichert keinen Lernfortschritt und vergibt keine XP.',
+    unavailable: 'Für die öffentliche Version sind noch keine Zeitreise-Stationen freigegeben.',
+  },
   voice: {
     privacy:
       'Das Mikrofon verarbeitet den Ton auf deinem Gerät. Die übernommenen Tonhöhen werden als Übungsantwort gespeichert; es wird keine Audioaufnahme gespeichert oder hochgeladen. Beim Verlassen oder im Hintergrund stoppt das Mikrofon.',

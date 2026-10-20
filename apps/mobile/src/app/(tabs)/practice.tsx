@@ -23,6 +23,7 @@ import {
   skipVoiceExercise,
 } from '@harmonia/exercises';
 import { LAYOUT, SPACE } from '@harmonia/ui';
+import { historyStops } from '@harmonia/content/history-journey';
 import { AppText, Button, Card } from '@harmonia/ui/native';
 import { router, useFocusEffect } from 'expo-router';
 import { useCallback, useRef, useState } from 'react';
@@ -132,6 +133,17 @@ export default function PracticeScreen() {
             <FriendsEntry />
             <TunerEntry />
             <ReviewEntry />
+            {historyStops.length ? (
+              <Card>
+                <Button
+                  variant="secondary"
+                  label={t('historyJourney.title')}
+                  onPress={() => {
+                    router.push('/history-journey');
+                  }}
+                />
+              </Card>
+            ) : null}
             <WeaknessEntry />
             <Card>
               <View style={styles.types}>

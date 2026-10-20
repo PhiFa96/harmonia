@@ -7,7 +7,8 @@
   "exports": {
     ".": "./src/index.ts",
     "./eslint": "./eslint/no-hardcoded-text.js",
-    "./content-messages": "./src/published-content-messages.ts"
+    "./content-messages": "./src/published-content-messages.ts",
+    "./history-journey": "./src/history-journey-published.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
