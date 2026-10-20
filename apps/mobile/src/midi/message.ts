@@ -5,8 +5,15 @@ export class MidiNotes {
   private readonly pedals = new Set<number>();
   private readonly sounding = new Set<string>();
   velocity: number | null = null;
+  /** Wird nur erhöht, wenn sich gehaltene Töne oder das Pedal ändern (nicht bei Rad, Bend oder Aftertouch). */
+  version = 0;
+
+  private signature(): string {
+    return `${[...this.sounding].sort().join(',')}|${String(this.pedals.size > 0)}`;
+  }
 
   clear() {
+    this.version++;
     this.down.clear();
     this.sustained.clear();
     this.pedals.clear();
@@ -24,6 +31,13 @@ export class MidiNotes {
 
   /** Returns every fresh strike, including a retriggered note held by the pedal. */
   receive(data: ArrayLike<number>): { note: number; velocity: number } | null {
+    const before = this.signature();
+    const strike = this.apply(data);
+    if (this.signature() !== before) this.version++;
+    return strike;
+  }
+
+  private apply(data: ArrayLike<number>): { note: number; velocity: number } | null {
     if (data.length < 3) return null;
     const status = data[0] ?? 0;
     const channel = status & 15;

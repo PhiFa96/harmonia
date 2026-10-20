@@ -106,9 +106,13 @@ export function useMidiInput(onNote: (note: number) => void, enabled: boolean) {
       if (!foreground.current) return;
       const data = (event as Event & { data?: Uint8Array }).data;
       if (!data) return;
+      const version = notes.current.version;
       const strike = notes.current.receive(data);
-      setHeld(notes.current.held);
-      setSustain(notes.current.sustain);
+      // Rad-, Bend- und Aftertouch-Ströme lösen keinen React-Commit aus.
+      if (notes.current.version !== version) {
+        setHeld(notes.current.held);
+        setSustain(notes.current.sustain);
+      }
       if (strike) {
         setVelocity(strike.velocity);
         onNoteRef.current(strike.note);
