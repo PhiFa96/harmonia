@@ -4,7 +4,8 @@ import { describe, expect, it } from 'vitest';
 import { evaluateExercise, expectedAnswer } from './evaluate.ts';
 import { generateExercise } from './generate.ts';
 import { createLessonSession, skipLessonVoice, lessonSummary } from './lesson.ts';
-import { voiceAnswerValues, voiceOctaveShifted, voiceTargets } from './voice.ts';
+import { exerciseFeedback, exerciseHints, hintText } from './index.ts';
+import { voiceAnswerValues, voiceDeviations, voiceOctaveShifted, voiceTargets } from './voice.ts';
 import type { ExerciseSpec, VoiceItem } from './types.ts';
 
 const common = {
@@ -86,5 +87,43 @@ describe('Mikrofonübungen', () => {
     const skipped = skipLessonVoice(lesson);
     expect(skipped.initial.index).toBe(1);
     expect(lessonSummary(skipped)).toMatchObject({ skipped: 1, answered: 0, reviewTotal: 0 });
+  });
+
+  it('nennt die gemessene Abweichung je Ton in Cent, auch bei verfehlter Toleranz', () => {
+    const item = generateExercise(
+      { type: 'SIGHT_SING', params: { ...common, level: 2 } },
+      createRng(4),
+    ) as VoiceItem;
+    const target = midi(required(voiceTargets(item)[0])) * 100;
+    expect(voiceDeviations(item, answer(target + 40))).toEqual([40]);
+    expect(voiceDeviations(item, answer(target - 12))).toEqual([-12]);
+    // Oktavverschiebung wird herausgerechnet, nur die Cent-Abweichung bleibt.
+    expect(voiceDeviations(item, answer(target + 1200 + 7))).toEqual([7]);
+    expect(voiceDeviations(item, 'voice:garbage')).toBeUndefined();
+    const missed = evaluateExercise(item, answer(target + 40));
+    expect(missed.correct).toBe(false);
+    for (const [locale, text] of [
+      ['de', 'Gemessene Abweichung: +40 Cent'],
+      ['en-US', 'Measured difference: +40 cents'],
+      ['en-GB', 'Measured difference: +40 cents'],
+    ] as const)
+      expect(exerciseFeedback(item, missed, locale).message).toContain(text);
+    const hit = evaluateExercise(item, answer(target - 5));
+    expect(exerciseFeedback(item, hit, 'de').message).toContain('−5 Cent');
+  });
+
+  it('liefert für jeden Mikrofontyp eigene, passende Hinweise', () => {
+    const [sight, sing, play] = specs.map(
+      (spec) => generateExercise(spec, createRng(3)) as VoiceItem,
+    ) as [VoiceItem, VoiceItem, VoiceItem];
+    const texts = (item: VoiceItem, locale: 'de' | 'en-US' | 'en-GB') =>
+      ([1, 2] as const).map((level) => hintText(item, exerciseHints(item, level), locale));
+    for (const locale of ['de', 'en-US', 'en-GB'] as const) {
+      const all = [sing, sight, play].map((item) => texts(item, locale).join('|'));
+      expect(new Set(all).size).toBe(3);
+    }
+    expect(texts(sight, 'de').join(' ')).not.toMatch(/Ausgangston/);
+    expect(texts(sight, 'en-US').join(' ')).not.toMatch(/starting pitch/i);
+    expect(texts(play, 'de').join(' ')).not.toMatch(/Ausgangston/);
   });
 });

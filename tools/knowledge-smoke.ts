@@ -76,6 +76,18 @@ for (const locale of ['de', 'en-US', 'en-GB'] as const) {
     ),
     'Article diversity',
   );
+  // Ein hoch gerankter Artikel mit vielen Abschnitten verdrängt zwei weitere Artikel nicht.
+  const byArticle = new Map<string, { id: string }[]>();
+  for (const c of preview.chunks.filter((entry) => entry.locale === locale))
+    byArticle.set(c.articleId, [...(byArticle.get(c.articleId) ?? []), { id: c.id }]);
+  const crowded = [...byArticle.values()].filter((chunks) => chunks.length >= 3).slice(0, 3);
+  check(crowded.length === 3, 'Fixture: three articles with at least three sections');
+  const diverse = selectKnowledgeChunks(preview, locale, crowded.flat());
+  const leading = diverse.chunks.slice(0, 3).map((c) => c.articleId);
+  check(
+    new Set(leading).size === 3 && new Set(diverse.chunks.map((c) => c.articleId)).size === 3,
+    'First round secures three distinct articles before filling by rank',
+  );
   const text = contentTranslator(locale, contentMessages);
   for (const chunk of preview.chunks.filter((c) => c.locale === locale)) {
     const source = await resolveKnowledgeArticle(

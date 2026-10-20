@@ -8,7 +8,7 @@ import {
   keyFromFifths,
   keyFifths,
 } from '@harmonia/theory';
-import type { Chord, Rng } from '@harmonia/theory';
+import type { Chord, Pitch, Rng } from '@harmonia/theory';
 import { options } from './parameters.ts';
 import type {
   CadenceItem,
@@ -33,6 +33,12 @@ export function cadenceAnswer(item: CadenceItem): string {
   const type = classifyCadence(item.progression, item.key);
   if (!type) throw new RangeError('Kadenz nicht bestimmbar');
   return `cadence:${type}`;
+}
+/** Tonika-Dreiklang der Tonart als Bezug für die Hörfrage (Oktave 4). */
+export function cadenceTonicPitches(item: CadenceItem): Pitch[] {
+  const tonic = diatonicTriads(item.key)[0];
+  if (!tonic) throw new RangeError('Tonika fehlt');
+  return chordPitches(tonic.chord, { octave: 4 });
 }
 export function functionAnswer(item: FunctionItem): string {
   const findings = analyzeHarmony(item.chord, item.key).filter(
@@ -83,6 +89,20 @@ export function generateCadence(params: CadenceParams, rng: Rng): CadenceItem {
     throw new RangeError('Kadenzgenerator widerspricht Analyse');
   return item;
 }
+/**
+ * Das Funktionskürzel ist nicht für jede Stufe eindeutig (in Dur tragen V und vii° beide „D“).
+ * Aufgaben mit Kürzeln als Auswahl dürfen solche Stufen nicht zusammen anbieten.
+ */
+export function ambiguousFunctionDegrees(degrees: readonly number[]): boolean {
+  const labels = [...new Set(degrees)].map((degree) => {
+    const value = diatonicTriads(keyFromFifths(0))[degree - 1];
+    const analysis = value
+      ? analyzeHarmony(value.chord, keyFromFifths(0)).find((entry) => entry.degree === degree)
+      : undefined;
+    return analysis?.functionSymbol ?? `?${String(degree)}`;
+  });
+  return new Set(labels).size !== labels.length;
+}
 export function generateFunction(params: FunctionParams, rng: Rng): FunctionItem {
   const degrees = params.degrees ?? [1, 2, 4, 5, 6];
   if (
@@ -92,6 +112,8 @@ export function generateFunction(params: FunctionParams, rng: Rng): FunctionItem
     throw new RangeError('Ungültige Stufe');
   if (params.notation && !['roman', 'function'].includes(params.notation))
     throw new RangeError('Ungültige Analysekonvention');
+  if (params.notation === 'function' && ambiguousFunctionDegrees(degrees))
+    throw new RangeError('Mehrdeutige Funktionskürzel: Stufen mit gleichem Kürzel nicht mischen');
   const key = keyFromFifths(rng.pick(fifths(params.fifths)));
   const degree = rng.pick([...new Set(degrees)]);
   const value = diatonicTriads(key)[degree - 1];

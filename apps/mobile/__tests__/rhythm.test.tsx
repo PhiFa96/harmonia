@@ -130,6 +130,8 @@ describe('Rhythmusaufnahme und Taktgliederung in der App', () => {
     fireEvent.press(screen.getByText('Langsamer −5'));
     const practiceBpm = item.bpm - 5;
     expect(screen.getByText(new RegExp(`${String(practiceBpm)} BPM`))).toBeTruthy();
+    expect(screen.getByTestId('rhythm-practice-tempo').props['aria-live']).toBe('polite');
+    expect(screen.getByTestId('rhythm-modes').props['role']).toBe('group');
     fireEvent.press(screen.getByText('Metronom: Durchgehend'));
     fireEvent.press(screen.getByText('Aus'));
     await act(() => {
@@ -144,7 +146,7 @@ describe('Rhythmusaufnahme und Taktgliederung in der App', () => {
       fireEvent(screen.getByTestId('rhythm-tap-pad'), 'pressIn');
     }
     advance(beginAt + rhythmMeasureMs(source) / 1000 + 0.051);
-    expect(screen.getByText(/Runde 1:.*Ohne Wertung/)).toBeTruthy();
+    expect(screen.getByText(/Runde 1:.*0 zusätzliche Anschläge\. Ohne Wertung/)).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Prüfen' })).toBeDisabled();
     expect(screen.getByText(/Einzählen: 1 von/)).toBeTruthy();
     fireEvent.press(screen.getByText('Übung stoppen'));

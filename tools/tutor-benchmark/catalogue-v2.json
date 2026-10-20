@@ -11585,7 +11585,7 @@
         },
         "strengths": [],
         "needsPractice": [],
-        "limits": "Strengths and practice needs are relative only to measured skills, not proficiency grades. Ratings require at least 3 attempts and deviation at most 150. Suggestions do not change course access. New offline activity may not be synced."
+        "limits": "Strengths and practice needs are relative only to measured skills, not proficiency grades, and are named only when at least 75 rating points separate them from the opposite end. Ratings require at least 3 attempts and deviation at most 150. Suggestions do not change course access. New offline activity may not be synced."
       },
       "learnerFixture": {
         "available": true,
@@ -11650,7 +11650,7 @@
             }
           ]
         },
-        "limits": "Strengths and practice needs are relative only to measured skills, not proficiency grades. Ratings require at least 3 attempts and deviation at most 150. Suggestions do not change course access. New offline activity may not be synced."
+        "limits": "Strengths and practice needs are relative only to measured skills, not proficiency grades, and are named only when at least 75 rating points separate them from the opposite end. Ratings require at least 3 attempts and deviation at most 150. Suggestions do not change course access. New offline activity may not be synced."
       },
       "sourceArticles": [],
       "exampleRequired": false,
@@ -11738,7 +11738,7 @@
             "level": 1
           }
         ],
-        "limits": "Strengths and practice needs are relative only to measured skills, not proficiency grades. Ratings require at least 3 attempts and deviation at most 150. Suggestions do not change course access. New offline activity may not be synced."
+        "limits": "Strengths and practice needs are relative only to measured skills, not proficiency grades, and are named only when at least 75 rating points separate them from the opposite end. Ratings require at least 3 attempts and deviation at most 150. Suggestions do not change course access. New offline activity may not be synced."
       },
       "learnerFixture": {
         "available": true,
@@ -11803,7 +11803,7 @@
             }
           ]
         },
-        "limits": "Strengths and practice needs are relative only to measured skills, not proficiency grades. Ratings require at least 3 attempts and deviation at most 150. Suggestions do not change course access. New offline activity may not be synced."
+        "limits": "Strengths and practice needs are relative only to measured skills, not proficiency grades, and are named only when at least 75 rating points separate them from the opposite end. Ratings require at least 3 attempts and deviation at most 150. Suggestions do not change course access. New offline activity may not be synced."
       },
       "sourceArticles": [],
       "exampleRequired": false,

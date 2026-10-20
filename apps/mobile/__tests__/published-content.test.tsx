@@ -49,7 +49,7 @@ it('ein direkter Lektionslink umgeht die Freigabe nicht; Rückweg und Englisch f
   useSettings.setState({ locale: 'en-US' });
   const router = renderRouter('./src/app', { initialUrl: '/lesson' });
   expect(
-    screen.getByText('New lessons are being prepared. You can already practise freely.'),
+    screen.getByText('New lessons are being prepared. You can already practice freely.'),
   ).toBeTruthy();
   expect(screen.queryByText(/Introduction 1/)).toBeNull();
   expect(screen.queryByText('Start 10 questions')).toBeNull();

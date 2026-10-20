@@ -12,7 +12,13 @@ import { octaveName, octaveNamePitch } from './octave-names.ts';
 import { grandStaffTarget } from '@harmonia/notation';
 import { inputTarget } from './pitch-input.ts';
 import { listeningAnswer } from './listening.ts';
-import { isVoiceItem, voiceIntervalName, voiceOctaveShifted, voiceTargets } from './voice.ts';
+import {
+  isVoiceItem,
+  voiceDeviations,
+  voiceIntervalName,
+  voiceOctaveShifted,
+  voiceTargets,
+} from './voice.ts';
 import { isHistoryTopic } from './knowledge.ts';
 import { cadenceAnswer, functionAnswer, functionChoiceLabel } from './harmony-exercises.ts';
 import { isDictationItem } from './dictation.ts';
@@ -33,6 +39,7 @@ import {
   FLAT_ORDER,
   chordName,
   chordIntervals,
+  chordPitches,
   inversionName,
   durationName,
   formatTimeSignature,
@@ -440,7 +447,7 @@ export function exerciseFeedback(
   locale: TextLocale,
 ): ExerciseFeedback {
   let message: string;
-  if (isVoiceItem(item))
+  if (isVoiceItem(item)) {
     message = translate(
       locale,
       result.correct && voiceOctaveShifted(item, result.answer)
@@ -453,7 +460,17 @@ export function exerciseFeedback(
         tolerance: item.toleranceCents,
       },
     );
-  else if (item.type === 'CADENCE_IDENTIFY')
+    const deviations = voiceDeviations(item, result.answer);
+    if (deviations)
+      message = `${message} ${translate(locale, 'exercise.voiceDeviation', {
+        deviations: deviations
+          .map(
+            (cents) =>
+              `${cents > 0 ? '+' : cents < 0 ? '\u2212' : '\u00b1'}${String(Math.abs(cents))}`,
+          )
+          .join(', '),
+      })}`;
+  } else if (item.type === 'CADENCE_IDENTIFY')
     message = translate(locale, 'exercise.cadenceExplanation', {
       answer: choiceLabel(item, cadenceAnswer(item), locale),
       key: keyName(item.key, engineLanguage(locale)),
@@ -614,11 +631,16 @@ export function exerciseHints(item: ExerciseItem, level: 1 | 2 | 3): ExerciseHin
   )
     return {
       level,
-      key: level === 1 ? 'exercise.harmonyHint1' : 'exercise.harmonyHint2',
+      key:
+        level === 1 ? `exercise.harmonyHint1_${item.type}` : `exercise.harmonyHint2_${item.type}`,
       values: {},
     };
   if (isVoiceItem(item))
-    return { level, key: level === 1 ? 'exercise.voiceHint1' : 'exercise.voiceHint2', values: {} };
+    return {
+      level,
+      key: level === 1 ? `exercise.voiceHint1_${item.type}` : `exercise.voiceHint2_${item.type}`,
+      values: {},
+    };
   if (item.type === 'LISTENING_CHOICE')
     return {
       level,
@@ -850,7 +872,6 @@ function alterationText(pitch: Pitch, locale: TextLocale): string {
 export function exerciseDescription(item: ExerciseItem, locale: TextLocale): string {
   if (item.type === 'CADENCE_IDENTIFY' || isDictationItem(item))
     return exercisePrompt(item, locale);
-  if (item.type === 'FUNCTION_ANALYSIS') return exercisePrompt(item, locale);
   if (isVoiceItem(item)) return exercisePrompt(item, locale);
   if (item.type === 'CONTEXT_CHOICE') return contextPrompt(item, locale);
   if (item.type === 'LISTENING_CHOICE') return exercisePrompt(item, locale);
@@ -921,21 +942,24 @@ export function exerciseDescription(item: ExerciseItem, locale: TextLocale): str
     ? [grand.pitch]
     : isIntervalReadingItem(item)
       ? intervalReadingPitches(item)
-      : isChordItem(item)
-        ? item.type === 'CHORD_BUILD'
-          ? [item.bass]
-          : item.pitches
-        : isScaleItem(item)
-          ? item.type === 'SCALE_BUILD'
-            ? [item.tonic]
+      : item.type === 'FUNCTION_ANALYSIS'
+        ? // Wie bei der Akkorderkennung: nur Positionen, kein Stufen- oder Tonname vor der Antwort.
+          chordPitches(item.chord, { octave: 4 })
+        : isChordItem(item)
+          ? item.type === 'CHORD_BUILD'
+            ? [item.bass]
             : item.pitches
-          : item.type === 'NOTE_PLACE'
-            ? []
-            : 'pitch' in item
-              ? [item.pitch]
-              : item.type === 'INTERVAL_BUILD'
-                ? [item.from]
-                : [item.from, item.to];
+          : isScaleItem(item)
+            ? item.type === 'SCALE_BUILD'
+              ? [item.tonic]
+              : item.pitches
+            : item.type === 'NOTE_PLACE'
+              ? []
+              : 'pitch' in item
+                ? [item.pitch]
+                : item.type === 'INTERVAL_BUILD'
+                  ? [item.from]
+                  : [item.from, item.to];
   const notes = pitches
     .map((pitch, index) => {
       const steps = diatonicIndex(pitch) - diatonicIndex(bottom);

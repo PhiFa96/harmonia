@@ -1,11 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import { currentItem, expectedAnswer, isAuralExercise } from '@harmonia/exercises';
 import { catalogue, examTemplates } from './authoring.ts';
+import { lessonExerciseSources } from './catalogue.ts';
 import { catalogue as published, examTemplates as publishedTemplates } from './published.ts';
 import {
   answerExam,
   availableExamTemplates,
   createExamRun,
+  examEndKey,
   examResult,
   finishExam,
   skipExamAural,
@@ -93,6 +95,29 @@ describe('Prüfungssimulation', () => {
     expect(run.endReason).toBe('completed');
     expect(examResult(run).areas.map((area) => area.points)).toEqual([30, 0]);
     expect(run.session.skipped).toHaveLength(6);
+    // Der Abschluss darf nicht „alle bearbeitet“ behaupten: Auswertung nennt die übersprungenen Fragen.
+    const result = examResult(run);
+    expect(result.skipped).toBe(6);
+    expect(result.unanswered).toBe(6);
+    expect(examEndKey(run, result)).toBe('skippedAural');
+  });
+
+  it('wählt den Abschlusstext nach dem tatsächlichen Verlauf', () => {
+    let full = createExamRun(catalogue, examTemplates, 'foundation', 'complete', 1000);
+    for (let now = 1001; full.endedAt === undefined; now++) {
+      const item = currentItem(full.session);
+      if (!item) throw new Error('Aufgabe fehlt');
+      full = answerExam(full, expectedAnswer(item), now);
+    }
+    expect(examResult(full)).toMatchObject({ skipped: 0, unanswered: 0 });
+    expect(examEndKey(full, examResult(full))).toBe('completed');
+    const early = finishExam(createExamRun(catalogue, examTemplates, 'advanced', 3, 1000), 2000);
+    expect(examEndKey(early, examResult(early))).toBe('submitted');
+    expect(examResult(early).unanswered).toBe(16);
+    const late = finishExam(early, 5_000_000);
+    expect(late).toBe(early);
+    const timeout = finishExam(createExamRun(catalogue, examTemplates, 'advanced', 3, 1000), 1e9);
+    expect(examEndKey(timeout, examResult(timeout))).toBe('timeout');
   });
 });
 
@@ -111,5 +136,59 @@ describe('Prüfungsbereiche', () => {
         });
       }
     }
+  });
+
+  it('schreibt pro Frage die erwartete Aufgabenart fest, damit Umsortierungen auffallen', () => {
+    const expected = {
+      foundation: [
+        'theory:KNOWLEDGE_MC',
+        'theory:KNOWLEDGE_MC',
+        'theory:CHORD_IDENTIFY',
+        'theory:FUNCTION_ANALYSIS',
+        'theory:KNOWLEDGE_MC',
+        'theory:KNOWLEDGE_MC',
+        'aural:INTERVAL_IDENTIFY_AURAL',
+        'aural:CHORD_IDENTIFY',
+        'aural:MELODY_DICTATION',
+        'aural:RHYTHM_DICTATION',
+        'aural:MELODY_DICTATION',
+        'aural:RHYTHM_DICTATION',
+      ],
+      advanced: [
+        'theory:CONTEXT_CHOICE',
+        'theory:KNOWLEDGE_MC',
+        'theory:CHORD_IDENTIFY',
+        'theory:FUNCTION_ANALYSIS',
+        'theory:CONTEXT_CHOICE',
+        'theory:CONTEXT_CHOICE',
+        'theory:KNOWLEDGE_MC',
+        'theory:KNOWLEDGE_MC',
+        'aural:INTERVAL_IDENTIFY_AURAL',
+        'aural:CHORD_IDENTIFY',
+        'aural:MELODY_DICTATION',
+        'aural:RHYTHM_DICTATION',
+        'aural:MELODY_DICTATION',
+        'aural:RHYTHM_DICTATION',
+        'aural:MELODY_DICTATION',
+        'aural:RHYTHM_DICTATION',
+      ],
+    } as const;
+    for (const template of availableExamTemplates(catalogue, examTemplates))
+      expect(
+        template.questions.map(
+          (question) =>
+            `${question.area}:${lessonExerciseSources(catalogue, question.lessonId)?.[question.sourceIndex]?.spec.type ?? '?'}`,
+        ),
+        template.id,
+      ).toEqual(expected[template.id]);
+  });
+
+  it('erzeugt innerhalb eines Durchgangs keine zwei identischen Aufgaben', () => {
+    for (const template of availableExamTemplates(catalogue, examTemplates))
+      for (let seed = 0; seed < 25; seed++) {
+        const run = createExamRun(catalogue, examTemplates, template.id, seed, 1000);
+        const keys = run.session.items.map((item) => JSON.stringify(item));
+        expect(new Set(keys).size, `${template.id} Seed ${String(seed)}`).toBe(keys.length);
+      }
   });
 });

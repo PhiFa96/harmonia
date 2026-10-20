@@ -184,6 +184,17 @@ export const de = {
     end_completed: 'Alle Aufgaben wurden bearbeitet.',
     end_submitted: 'Du hast vorzeitig abgegeben.',
     end_timeout: 'Die Zeit ist abgelaufen.',
+    end_skippedAural: 'Die Prüfung ist beendet. Übersprungene Hörfragen zählen null Punkte.',
+    unanswered_one: '{{count}} Aufgabe blieb unbeantwortet und zählt null Punkte.',
+    unanswered_other: '{{count}} Aufgaben blieben unbeantwortet und zählen null Punkte.',
+    resultAnnouncement: 'Prüfung beendet. {{reason}} {{points}} von {{maximum}} Punkten.',
+    timeWarning_5: 'Noch fünf Minuten.',
+    timeWarning_1: 'Noch eine Minute.',
+    leaveTitle: 'Prüfung abbrechen?',
+    leaveHint:
+      'Die Zeit läuft weiter. Ein abgebrochener Durchgang wird nicht gespeichert und kann nicht fortgesetzt werden.',
+    leaveContinue: 'Hier weiter bearbeiten',
+    leaveConfirm: 'Prüfung abbrechen und verlassen',
     points: '{{points}} von {{maximum}} Punkten',
     area_theory: 'Musiktheorie',
     area_aural: 'Gehörbildung',
@@ -1049,8 +1060,19 @@ export const de = {
       'Zieltöne: {{notes}}. Zulässige Abweichung je Ton: ±{{tolerance}} Cent; die Oktavlage ist frei wählbar, wenn alle Töne gleich verschoben sind.',
     voiceOctaveShift:
       'Richtig – du hast in einer anderen Oktavlage gesungen, das zählt. Zieltöne: {{notes}}. Zulässige Abweichung: ±{{tolerance}} Cent.',
-    voiceHint1: 'Höre auf den Ausgangston und halte jeden gesungenen Ton ruhig.',
-    voiceHint2: 'Singe die Töne einzeln und lasse dazwischen eine kurze Pause.',
+    voiceDeviation: 'Gemessene Abweichung: {{deviations}} Cent.',
+    voiceHint1_SIGHT_SING:
+      'Bestimme zuerst den Namen der notierten Note und summe sie leise, bevor du sie aufnimmst.',
+    voiceHint2_SIGHT_SING:
+      'Der Hilfeton zeigt dir die richtige Tonhöhe; halte deinen Ton dann etwa eine Sekunde ruhig.',
+    voiceHint1_SING_INTERVAL:
+      'Höre den Ausgangston und summe ihn mit. Die Zahl im $t(glossary:interval_one)-Namen sagt, wie viele Tonnamen du nach oben zählst.',
+    voiceHint2_SING_INTERVAL:
+      'Zähle die $t(glossary:semitone_other) zwischen Ausgangs- und Zielton und singe den Zielton ruhig und gehalten.',
+    voiceHint1_PLAY_BACK:
+      'Höre die Melodie noch einmal und achte darauf, ob die Töne steigen oder fallen.',
+    voiceHint2_PLAY_BACK:
+      'Singe die drei Töne einzeln, übernimm jeden Ton und lasse dazwischen eine kurze Pause.',
     solutionImage: 'L\u00f6sungsbild',
     sourceReplay: 'Quellenbeispiel anh\u00f6ren',
     keyReplay:
@@ -1698,7 +1720,7 @@ export const de = {
     rhythmMode_practice: 'Üben',
     rhythmMode_test: 'Prüfungsdurchlauf',
     rhythmPracticeIntro:
-      'Übe denselben Takt ohne Wertung. Danach beginnt die Prüfung im Originaltempo. Üben zählt als Hilfe für diese Aufgabe.',
+      'Übe denselben $t(glossary:measure_one) ohne Wertung. Danach beginnt die Prüfung im Originaltempo. Üben zählt als Hilfe für diese Aufgabe. Bei langsamerem Tempo kann das Zeitfenster größer sein als in der Prüfung.',
     rhythmPracticeTempo: '{{bpm}} BPM ({{percent}} %)',
     rhythmSlower: 'Langsamer −5',
     rhythmFaster: 'Schneller +5',
@@ -1712,7 +1734,9 @@ export const de = {
     rhythmPracticeBegin: 'Übung starten',
     rhythmPracticeStop: 'Übung stoppen',
     rhythmPracticeFinished: 'Übungsrunde beendet. Du kannst erneut üben oder zur Prüfung wechseln.',
-    rhythmPracticeFeedback:
+    rhythmPracticeFeedback_one:
+      'Runde {{round}}: {{matched}} von {{total}} Einsätzen getroffen, {{extras}} zusätzlicher Anschlag. Ohne Wertung.',
+    rhythmPracticeFeedback_other:
       'Runde {{round}}: {{matched}} von {{total}} Einsätzen getroffen, {{extras}} zusätzliche Anschläge. Ohne Wertung.',
     rhythmPreparing: 'Klang wird vorbereitet …',
     rhythmCountIn: 'Einzählen: {{current}} von {{count}}',
@@ -1756,9 +1780,22 @@ export const de = {
     cadenceExplanation: 'In {{key}} endet die Folge mit {{answer}}.',
     functionExplanation: 'Der Akkord gehört in {{key}} zu {{answer}}.',
     dictationExplanation: 'Gehörte Folge: {{answer}}.',
-    harmonyHint1: 'Höre oder prüfe zuerst die Anfangs- und Schlusspunkte.',
-    harmonyHint2:
-      'Vergleiche die Folge Schritt für Schritt mit den angebotenen Tönen oder Funktionen.',
+    harmonyHint1_CADENCE_IDENTIFY:
+      'Zuerst erklingt der Grundakkord der Tonart als Bezug. Achte danach auf den letzten Akkord der Folge: Klingt er abgeschlossen oder offen?',
+    harmonyHint2_CADENCE_IDENTIFY:
+      'Ein $t(glossary:cadenceAuthentic) geht von V nach I, ein $t(glossary:cadencePlagal) von IV nach I, ein $t(glossary:cadenceHalf) endet auf V und ein $t(glossary:cadenceDeceptive) führt von V nach vi.',
+    harmonyHint1_FUNCTION_ANALYSIS:
+      'Bestimme zuerst den $t(glossary:root_one) des Akkords im Notenbild und nenne seinen Namen.',
+    harmonyHint2_FUNCTION_ANALYSIS:
+      'Zähle von der Tonika der genannten Tonart die Stufen der Tonleiter bis zum Grundton des Akkords; die Tonika ist Stufe I.',
+    harmonyHint1_MELODY_DICTATION:
+      'Höre die Melodie in kleinen Stücken und achte bei jedem Ton, ob er steigt, fällt oder gleich bleibt.',
+    harmonyHint2_MELODY_DICTATION:
+      'Bestimme jeden Ton als Schritt oder Sprung vom vorigen Ton. Der erste Ton ist C.',
+    harmonyHint1_RHYTHM_DICTATION:
+      'Zähle beim Hören einen gleichmäßigen Grundschlag mit und achte darauf, wie viele Anschläge zwischen den Schlägen liegen.',
+    harmonyHint2_RHYTHM_DICTATION:
+      'Die Notenwerte füllen zusammen genau einen $t(glossary:measure_one); vergleiche lange und kurze Töne.',
     dictationProgress: '{{count}} von {{total}} Eingaben gesetzt',
     dictationUndo: 'Letzte Eingabe entfernen',
     chordIntro:
@@ -1800,7 +1837,7 @@ export const de = {
     chordInputHint:
       'Wähle Ton 2 oder 3 und setze ihn im rechten $t(glossary:measure_one). Links bleibt der $t(glossary:bassNote_one) fest. Das gemeinsame Notenbild zeigt deinen $t(glossary:chord_one). Die oberen Töne kannst du in beliebiger Reihenfolge eingeben.',
     chordInputHintSeventh:
-      'Wähle Ton 2, 3 oder 4 und setze ihn im rechten Takt. Der Basston bleibt fest. Die übrigen Töne kannst du in beliebiger Reihenfolge eingeben.',
+      'Wähle Ton 2, 3 oder 4 und setze ihn im rechten $t(glossary:measure_one). Der $t(glossary:bassNote_one) bleibt fest. Die übrigen Töne kannst du in beliebiger Reihenfolge eingeben.',
     tonalityStart: 'Tonleitern und Tonarten üben',
     tonalityIntro:
       'Zwölf Aufgaben: Dur- und Molltonleitern erkennen und schreiben, Tonartvorzeichnungen bestimmen und selbst aufbauen.',
@@ -2102,6 +2139,8 @@ export const de = {
     midiUnavailable:
       'MIDI ist hier nicht verfügbar oder der Zugriff wurde abgelehnt. Prüfe Browser, Gerät und Berechtigungen.',
     midiConnected: 'MIDI: {{device}}',
+    midiOutOfRange:
+      'Diese Taste liegt außerhalb des angezeigten Ausschnitts und wurde nicht übernommen.',
     midiDisconnected: 'MIDI-Keyboard getrennt. Verbinde es erneut oder wähle ein anderes Gerät.',
     midiVelocity: 'Anschlag {{velocity}}/127',
     midiSustain: 'Sustain an',

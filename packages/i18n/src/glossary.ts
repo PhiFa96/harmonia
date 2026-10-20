@@ -630,6 +630,33 @@ export const GLOSSARY = {
     de: { term: 'Dreiklang', gender: 'm', plural: 'Dreiklänge' },
     en: { term: 'triad', plural: 'triads' },
   },
+  cadenceAuthentic: {
+    category: 'chords',
+    de: { term: 'Ganzschluss', gender: 'm' },
+    en: { term: 'authentic cadence' },
+    enGB: { term: 'perfect cadence' },
+    note: 'V–I. In britischen Lehrwerken „perfect cadence“; der Ausdruck „authentic“ ist dort seltener.',
+  },
+  cadencePlagal: {
+    category: 'chords',
+    de: { term: 'Plagalschluss', gender: 'm' },
+    en: { term: 'plagal cadence' },
+    note: 'IV–I; in US und UK gleich.',
+  },
+  cadenceHalf: {
+    category: 'chords',
+    de: { term: 'Halbschluss', gender: 'm' },
+    en: { term: 'half cadence' },
+    enGB: { term: 'imperfect cadence' },
+    note: 'Endet auf der Dominante. Britisch auch „half close“; „imperfect cadence“ ist dort der verbreitete Oberbegriff für Schlüsse auf V.',
+  },
+  cadenceDeceptive: {
+    category: 'chords',
+    de: { term: 'Trugschluss', gender: 'm' },
+    en: { term: 'deceptive cadence' },
+    enGB: { term: 'interrupted cadence' },
+    note: 'V–vi. Britisch üblich „interrupted cadence“, „deceptive“ wird auch dort verstanden.',
+  },
   root: {
     category: 'chords',
     de: { term: 'Grundton', gender: 'm', plural: 'Grundtöne' },

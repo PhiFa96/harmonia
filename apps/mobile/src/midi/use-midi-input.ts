@@ -10,6 +10,21 @@ export interface MidiDevice {
 }
 
 let preferredInput: string | null = null;
+let preferredName: string | null = null;
+
+/**
+ * Nach dem Wiedereinstecken kann derselbe Controller mit neuer Port-ID erscheinen (native
+ * Bibliothek: `deviceId-portNumber`). Dann zählt der Name; bleibt genau ein Eingang übrig,
+ * wird dieser gewählt.
+ */
+function successorOf(available: readonly MidiDevice[]): MidiDevice | undefined {
+  if (!preferredInput) return available[0];
+  const sameId = available.find((port) => port.id === preferredInput);
+  if (sameId) return sameId;
+  const sameName = preferredName ? available.filter((port) => port.name === preferredName) : [];
+  if (sameName.length === 1) return sameName[0];
+  return available.length === 1 ? available[0] : undefined;
+}
 
 export function useMidiInput(onNote: (note: number) => void, enabled: boolean) {
   const [access, setAccess] = useState<MIDIAccess | null>(null);
@@ -63,11 +78,15 @@ export function useMidiInput(onNote: (note: number) => void, enabled: boolean) {
         .filter((port) => port.state === 'connected')
         .map((port) => ({ id: port.id, name: port.name || port.manufacturer || port.id }));
       setDevices(available);
-      if (!preferredInput && available[0]) {
-        preferredInput = available[0].id;
-        setSelected(preferredInput);
+      const successor = successorOf(available);
+      if (successor && successor.id !== preferredInput) {
+        preferredInput = successor.id;
+        preferredName = successor.name;
+        setSelected(successor.id);
+      } else if (successor) {
+        preferredName = successor.name;
       }
-      if (!available.some((port) => port.id === preferredInput)) clear();
+      if (!successor) clear();
     };
     refresh();
     access.addEventListener('statechange', refresh);
@@ -87,9 +106,13 @@ export function useMidiInput(onNote: (note: number) => void, enabled: boolean) {
       if (!foreground.current) return;
       const data = (event as Event & { data?: Uint8Array }).data;
       if (!data) return;
+      const version = notes.current.version;
       const strike = notes.current.receive(data);
-      setHeld(notes.current.held);
-      setSustain(notes.current.sustain);
+      // Rad-, Bend- und Aftertouch-Ströme lösen keinen React-Commit aus.
+      if (notes.current.version !== version) {
+        setHeld(notes.current.held);
+        setSustain(notes.current.sustain);
+      }
       if (strike) {
         setVelocity(strike.velocity);
         onNoteRef.current(strike.note);
@@ -98,7 +121,7 @@ export function useMidiInput(onNote: (note: number) => void, enabled: boolean) {
     chosen.addEventListener('midimessage', message);
     return () => {
       chosen.removeEventListener('midimessage', message);
-      void chosen.close();
+      chosen.close().catch(() => undefined);
       clear();
     };
   }, [chosen, connected, enabled, clear]);
@@ -123,6 +146,7 @@ export function useMidiInput(onNote: (note: number) => void, enabled: boolean) {
   const select = (id: string | null) => {
     clear();
     preferredInput = id;
+    preferredName = devices.find((device) => device.id === id)?.name ?? null;
     setSelected(id);
   };
 

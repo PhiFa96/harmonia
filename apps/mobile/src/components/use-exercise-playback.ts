@@ -8,6 +8,7 @@ import {
   isRhythmItem,
   isKnowledgeItem,
   isVoiceItem,
+  isDictationItem,
 } from '@harmonia/exercises';
 import { useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -18,6 +19,7 @@ import { playScale } from '@/exercises/play-scale';
 import { playChordExercise } from '@/exercises/play-chord';
 import { playRhythm } from '@/exercises/play-rhythm';
 import { playListening } from '@/exercises/play-listening';
+import { playCadence } from '@/exercises/play-cadence';
 import { playExample, EXAMPLE_BPM } from '@/exercises/play-example';
 
 /** Keine automatische Wiedergabe. Ein verspätetes resume() darf nach dem Verlassen nicht klingen. */
@@ -91,24 +93,26 @@ export function useExercisePlayback(item: ExerciseItem | Score | undefined, bpm 
           ? playExample(engine, item, bpm)
           : item.type === 'LISTENING_CHOICE'
             ? playListening(engine, item)
-            : isRhythmItem(item)
-              ? playRhythm(engine, item, 'demo')
-              : isChordItem(item)
-                ? playChordExercise(engine, item)
-                : isScaleItem(item)
-                  ? playScale(engine, item)
-                  : isVoiceItem(item)
-                    ? playExample(engine, item.score, bpm)
-                    : 'pitch' in item
-                      ? engine.playPitch(item.pitch, { duration: 0.8 })
-                      : 'from' in item
-                        ? engine.playInterval(
-                            item.from,
-                            item.to,
-                            item.playback === 'harmonic' ? 'harmonic' : 'melodic',
-                            { duration: 0.8 },
-                          )
-                        : playExample(engine, item.score, bpm);
+            : item.type === 'CADENCE_IDENTIFY'
+              ? playCadence(engine, item, bpm)
+              : isRhythmItem(item)
+                ? playRhythm(engine, item, 'demo')
+                : isChordItem(item)
+                  ? playChordExercise(engine, item)
+                  : isScaleItem(item)
+                    ? playScale(engine, item)
+                    : isVoiceItem(item)
+                      ? playExample(engine, item.score, bpm)
+                      : 'pitch' in item
+                        ? engine.playPitch(item.pitch, { duration: 0.8 })
+                        : 'from' in item
+                          ? engine.playInterval(
+                              item.from,
+                              item.to,
+                              item.playback === 'harmonic' ? 'harmonic' : 'melodic',
+                              { duration: 0.8 },
+                            )
+                          : playExample(engine, item.score, bpm);
       setPlaying(true);
       setHeard(true);
       timer.current = setTimeout(
@@ -123,6 +127,8 @@ export function useExercisePlayback(item: ExerciseItem | Score | undefined, bpm 
           isChordItem(item) ||
           isScaleItem(item) ||
           item.type === 'FUNCTION_ANALYSIS' ||
+          item.type === 'CADENCE_IDENTIFY' ||
+          isDictationItem(item) ||
           isVoiceItem(item)
           ? Math.max(0, playback.current.endTime - engine.context.currentTime) * 1000 + 50
           : 'pitch' in item || !('from' in item) || item.playback === 'harmonic'

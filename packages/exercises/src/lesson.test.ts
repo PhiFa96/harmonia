@@ -94,6 +94,43 @@ describe('Lektion und Wiederholungsrunde', () => {
       { numRuns: 300 },
     );
   });
+  it('Kadenz- und Stufenaufgaben wechseln beim Fehlerdurchgang die fachliche Antwort', () => {
+    const harmony: LessonDefinition = {
+      id: 'harmony',
+      contentVersion: 1,
+      exercises: [
+        { type: 'CADENCE_IDENTIFY', params: { types: ['authentic', 'plagal'] } },
+        { type: 'CADENCE_IDENTIFY', params: {} },
+        { type: 'FUNCTION_ANALYSIS', params: { degrees: [1, 4, 5], notation: 'roman' } },
+        { type: 'FUNCTION_ANALYSIS', params: { notation: 'function' } },
+      ],
+    };
+    for (let seed = 0; seed < 150; seed++) {
+      const first = finishInitial(createLessonSession(harmony, seed), [0, 1, 2, 3]);
+      expect(first.review?.items).toHaveLength(4);
+      first.review?.items.forEach((item, index) => {
+        expect(expectedAnswer(item), `Seed ${String(seed)} Aufgabe ${String(index)}`).not.toBe(
+          expectedAnswer(required(first.initial.items[index])),
+        );
+      });
+    }
+  });
+  it('Aufgaben mit nur einer möglichen Antwort bleiben wiederholbar', () => {
+    const single: LessonDefinition = {
+      id: 'single',
+      contentVersion: 1,
+      exercises: [
+        { type: 'CADENCE_IDENTIFY', params: { types: ['authentic'] } },
+        { type: 'FUNCTION_ANALYSIS', params: { degrees: [5] } },
+      ],
+    };
+    const state = finishInitial(createLessonSession(single, 3), [0]);
+    expect(state.phase).toBe('review-intro');
+    expect(state.review?.items).toHaveLength(1);
+    // Die Stufenaufgabe hat nur eine Antwort; ein Fehlerdurchgang ist hier nicht möglich,
+    // die Lektion darf dafür aber nicht scheitern.
+    expect(createLessonSession(single, 4).initial.items).toHaveLength(2);
+  });
   it('Hör-Pause schließt künftige Hörfragen einschließlich früherer Hörfehler in der Wiederholung aus', () => {
     const expanded = {
       ...definition,

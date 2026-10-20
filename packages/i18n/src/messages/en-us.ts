@@ -183,6 +183,16 @@ export const enUS = {
     end_completed: 'You completed every question.',
     end_submitted: 'You submitted early.',
     end_timeout: 'Time is up.',
+    end_skippedAural: 'The exam is over. Skipped listening questions earn zero points.',
+    unanswered_one: '{{count}} question was left unanswered and earns zero points.',
+    unanswered_other: '{{count}} questions were left unanswered and earn zero points.',
+    resultAnnouncement: 'Exam finished. {{reason}} {{points}} of {{maximum}} points.',
+    timeWarning_5: 'Five minutes left.',
+    timeWarning_1: 'One minute left.',
+    leaveTitle: 'Cancel the exam?',
+    leaveHint: 'The clock keeps running. A cancelled attempt is not saved and cannot be resumed.',
+    leaveContinue: 'Keep working here',
+    leaveConfirm: 'Cancel exam and leave',
     points: '{{points}} of {{maximum}} points',
     area_theory: 'Music theory',
     area_aural: 'Ear training',
@@ -989,7 +999,7 @@ export const enUS = {
   },
   placeholder: 'Something is being built here.',
   learn: {
-    unavailable: 'New lessons are being prepared. You can already practise freely.',
+    unavailable: 'New lessons are being prepared. You can already practice freely.',
     exampleScale: 'Example: C major scale in $t(glossary:notes.quarter_other)',
   },
   practice: {
@@ -1024,8 +1034,19 @@ export const enUS = {
       'Target notes: {{notes}}. Allowed difference per note: ±{{tolerance}} cents; any octave is fine if all notes are shifted equally.',
     voiceOctaveShift:
       'Correct – you sang in a different octave, and that counts. Target notes: {{notes}}. Allowed difference: ±{{tolerance}} cents.',
-    voiceHint1: 'Listen to the starting pitch and hold each sung note steadily.',
-    voiceHint2: 'Sing each note separately with a short pause between them.',
+    voiceDeviation: 'Measured difference: {{deviations}} cents.',
+    voiceHint1_SIGHT_SING:
+      'First work out the name of the written note and hum it quietly before you record it.',
+    voiceHint2_SIGHT_SING:
+      'The help tone shows you the right pitch; then hold your note steadily for about a second.',
+    voiceHint1_SING_INTERVAL:
+      'Listen to the starting pitch and hum along. The number in the $t(glossary:interval_one) name tells you how many note names to count upwards.',
+    voiceHint2_SING_INTERVAL:
+      'Count the $t(glossary:semitone_other) between the starting and target pitch, then sing the target pitch calmly and hold it.',
+    voiceHint1_PLAY_BACK:
+      'Listen to the melody once more and notice whether the notes rise or fall.',
+    voiceHint2_PLAY_BACK:
+      'Sing the three notes one at a time, capture each note and leave a short pause between them.',
     solutionImage: 'Solution score',
     sourceReplay: 'Play the source example',
     keyReplay: 'Example: $t(glossary:major) or natural $t(glossary:minor) $t(glossary:scale_one)',
@@ -1665,7 +1686,7 @@ export const enUS = {
     rhythmMode_practice: 'Practice',
     rhythmMode_test: 'Test run',
     rhythmPracticeIntro:
-      'Practice the same measure without a score. The test run then starts at the original tempo. Practice counts as help for this question.',
+      'Practice the same $t(glossary:measure_one) without being graded. The test run then starts at the original tempo. Practice counts as help for this question. At a slower tempo the timing window can be wider than in the test run.',
     rhythmPracticeTempo: '{{bpm}} BPM ({{percent}}%)',
     rhythmSlower: 'Slower −5',
     rhythmFaster: 'Faster +5',
@@ -1679,8 +1700,10 @@ export const enUS = {
     rhythmPracticeBegin: 'Start practice',
     rhythmPracticeStop: 'Stop practice',
     rhythmPracticeFinished: 'Practice round complete. Practice again or switch to the test run.',
-    rhythmPracticeFeedback:
-      'Round {{round}}: {{matched}} of {{total}} onsets matched, {{extras}} extra taps. No score.',
+    rhythmPracticeFeedback_one:
+      'Round {{round}}: {{matched}} of {{total}} onsets matched, {{extras}} extra tap. Not graded.',
+    rhythmPracticeFeedback_other:
+      'Round {{round}}: {{matched}} of {{total}} onsets matched, {{extras}} extra taps. Not graded.',
     rhythmPreparing: 'Preparing sound …',
     rhythmCountIn: 'Count-in: {{current}} of {{count}}',
     rhythmRecording: 'Recording: {{current}} of {{count}} beats',
@@ -1703,7 +1726,7 @@ export const enUS = {
     rhythmLatency:
       'Reported audio delay: {{latency}} ms; taken into account when measuring your taps.',
     chordStart: 'Recognize and write chords',
-    harmonyStart: 'Practise harmony and dictation',
+    harmonyStart: 'Practice harmony and dictation',
     harmonyIntro:
       'Hear cadences, identify scale degrees, and enter short melodies and rhythms by ear.',
     type_CADENCE_IDENTIFY: 'Identify cadence',
@@ -1723,8 +1746,22 @@ export const enUS = {
     cadenceExplanation: 'In {{key}}, the progression ends with {{answer}}.',
     functionExplanation: 'In {{key}}, the chord belongs to {{answer}}.',
     dictationExplanation: 'Heard sequence: {{answer}}.',
-    harmonyHint1: 'Listen or look for the starting and ending points first.',
-    harmonyHint2: 'Compare the sequence step by step with the offered notes or functions.',
+    harmonyHint1_CADENCE_IDENTIFY:
+      'The tonic chord of the key sounds first as a reference. Then listen to the last chord of the progression: does it sound closed or open?',
+    harmonyHint2_CADENCE_IDENTIFY:
+      'The $t(glossary:cadenceAuthentic) moves from V to I, the $t(glossary:cadencePlagal) from IV to I, the $t(glossary:cadenceHalf) ends on V and the $t(glossary:cadenceDeceptive) moves from V to vi.',
+    harmonyHint1_FUNCTION_ANALYSIS:
+      'First find the $t(glossary:root_one) of the chord on the staff and name it.',
+    harmonyHint2_FUNCTION_ANALYSIS:
+      'Count the scale degrees from the tonic of the stated key up to the chord root; the tonic is degree I.',
+    harmonyHint1_MELODY_DICTATION:
+      'Listen to the melody in small pieces and notice for each note whether it rises, falls or repeats.',
+    harmonyHint2_MELODY_DICTATION:
+      'Decide for each note whether it is a step or a leap from the previous one. The first note is C.',
+    harmonyHint1_RHYTHM_DICTATION:
+      'Count a steady beat while you listen and notice how many onsets fall between the beats.',
+    harmonyHint2_RHYTHM_DICTATION:
+      'The note values together fill exactly one $t(glossary:measure_one); compare long and short notes.',
     dictationProgress: '{{count}} of {{total}} entries placed',
     dictationUndo: 'Remove last entry',
     chordIntro:
@@ -1766,10 +1803,10 @@ export const enUS = {
     chordInputHint:
       'Choose note 2 or 3 and place it in the right $t(glossary:measure_one). The $t(glossary:bassNote_one) stays fixed on the left. The combined notation shows your $t(glossary:chord_one). You may enter the upper notes in either order.',
     chordInputHintSeventh:
-      'Choose note 2, 3 or 4 and place it in the right measure. The bass stays fixed. You may enter the remaining notes in any order.',
-    tonalityStart: 'Practise scales and key signatures',
+      'Choose note 2, 3 or 4 and place it in the right $t(glossary:measure_one). The $t(glossary:bassNote_one) stays fixed. You may enter the remaining notes in any order.',
+    tonalityStart: 'Practice scales and key signatures',
     tonalityIntro:
-      'Twelve questions: identify and write major and minor scales, recognise key signatures and build them yourself.',
+      'Twelve questions: identify and write major and minor scales, recognize key signatures and build them yourself.',
     type_SCALE_BUILD: 'Write $t(glossary:scale_other)',
     type_SCALE_IDENTIFY: 'Identify $t(glossary:scale_other)',
     type_KEYSIG_BUILD: 'Build $t(glossary:keySignature_other)',
@@ -2059,6 +2096,7 @@ export const enUS = {
     midiUnavailable:
       'MIDI is unavailable here or access was denied. Check your browser, device and permissions.',
     midiConnected: 'MIDI: {{device}}',
+    midiOutOfRange: 'That key is outside the displayed range and was not used.',
     midiDisconnected: 'MIDI keyboard disconnected. Reconnect it or choose another device.',
     midiVelocity: 'Velocity {{velocity}}/127',
     midiSustain: 'Sustain on',
@@ -2190,7 +2228,7 @@ export const enUS = {
     unitProgress: 'Passed lessons',
     lessonProgress: '{{completed}} of {{total}} lessons passed',
     testedHint:
-      'Available through your placement estimate. You can practise these lessons at any time; they count as passed only after a passing attempt.',
+      'Available through your placement estimate. You can practice these lessons at any time; they count as passed only after a passing attempt.',
     prerequisite: 'Prerequisite: {{title}}',
     showLessons: 'Show lessons',
     hideLessons: 'Hide lessons',

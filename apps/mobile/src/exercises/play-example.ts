@@ -5,9 +5,14 @@ import { scoreTimeline } from '@harmonia/notation';
 export const EXAMPLE_BPM = 90;
 
 /** Ganze Notenbeispiele planen; Pausen, Akkorde und Haltebögen gehören zum tatsächlichen Score. */
-export function playExample(engine: AudioEngine, score: Score, bpm = EXAMPLE_BPM): Playback {
+export function playExample(
+  engine: AudioEngine,
+  score: Score,
+  bpm = EXAMPLE_BPM,
+  delaySeconds = 0,
+): Playback {
   const timeline = scoreTimeline(score, { bpm }),
-    startTime = engine.context.currentTime + 0.05,
+    startTime = engine.context.currentTime + 0.05 + delaySeconds,
     voices: Playback[] = [];
   try {
     for (const tone of timeline.tones)

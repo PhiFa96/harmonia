@@ -38,4 +38,32 @@ describe('MIDI keyboard state', () => {
     expect(notes.velocity).toBeNull();
     expect(notes.sustain).toBe(false);
   });
+
+  it('reports a state change only for held notes and pedal, not for wheels or aftertouch', () => {
+    const notes = new MidiNotes();
+    const before = notes.version;
+    for (const packet of [
+      [0xb0, 1, 64], // modulation wheel
+      [0xe0, 0, 80], // pitch bend
+      [0xa0, 60, 50], // polyphonic aftertouch
+      [0xb0, 7, 100], // volume
+      [0x80, 60, 0], // release of a note that never sounded
+      [0xb0, 64, 0], // pedal stays up
+    ])
+      notes.receive(packet);
+    expect(notes.version).toBe(before);
+    notes.receive([0x90, 60, 80]);
+    const afterStrike = notes.version;
+    expect(afterStrike).toBeGreaterThan(before);
+    notes.receive([0xb0, 1, 90]);
+    expect(notes.version).toBe(afterStrike);
+    notes.receive([0xb0, 64, 127]);
+    expect(notes.version).toBeGreaterThan(afterStrike);
+    const pedalDown = notes.version;
+    notes.receive([0xb0, 64, 127]);
+    expect(notes.version).toBe(pedalDown);
+    notes.receive([0x80, 60, 0]);
+    notes.receive([0xb0, 64, 0]);
+    expect(notes.version).toBeGreaterThan(pedalDown);
+  });
 });

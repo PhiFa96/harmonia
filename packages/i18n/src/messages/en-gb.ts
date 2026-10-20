@@ -34,6 +34,13 @@ export const enGB = {
     mix: '{{newCount}} questions on the current material and {{repeatCount}} revision questions.',
     errorPractice: 'Practise mistakes with a new variation',
   },
+  learn: {
+    unavailable: 'New lessons are being prepared. You can already practise freely.',
+  },
+  path: {
+    testedHint:
+      'Available through your placement estimate. You can practise these lessons at any time; they count as passed only after a passing attempt.',
+  },
   placement: {
     unavailable:
       'The placement test needs reviewed course exercises. None are available in this app version yet. You can practise freely meanwhile.',
@@ -43,7 +50,20 @@ export const enGB = {
   profile: {
     licenses: 'Licences',
   },
+  piano: {
+    settings: 'Customise',
+  },
   exercise: {
+    harmonyStart: 'Practise harmony and dictation',
+    tonalityStart: 'Practise scales and key signatures',
+    tonalityIntro:
+      'Twelve questions: identify and write major and minor scales, recognise key signatures and build them yourself.',
+    // Britische Kadenznamen, siehe Glossar (cadenceAuthentic usw.).
+    cadence_authentic: 'Perfect cadence (V–I)',
+    cadence_half: 'Imperfect cadence (I–V)',
+    cadence_deceptive: 'Interrupted cadence (V–vi)',
+    rhythmPracticeIntro:
+      'Practise the same $t(glossary:measure_one) without being graded. The test run then starts at the original tempo. Practice counts as help for this question. At a slower tempo the timing window can be wider than in the test run.',
     // Stufe 2: britische Fachwörter in neuen Quellenaufgaben.
     'contextQuestion_crossbar-duration':
       'How many crotchet values does the first pitch last across the bar line?',

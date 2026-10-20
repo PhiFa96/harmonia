@@ -89,7 +89,14 @@ export function PianoKeyboard({
     enabled: enabled && !scrollMode,
     ...(spellPitch ? { spellPitch } : {}),
   });
+  const [midiOutOfRange, setMidiOutOfRange] = useState(false);
   const midi = useMidiInput((number) => {
+    // Der feste Ausschnitt ist Teil des Aufgabenvertrags: MIDI darf ihn nicht umgehen.
+    if (fixedRange && (number < fixedRange.first || number > fixedRange.last)) {
+      setMidiOutOfRange(true);
+      return;
+    }
+    setMidiOutOfRange(false);
     onPitch(keyboardPitch(number, spellPitch?.(number)));
   }, enabled);
   useWebPianoInput(canvas, { changeSource, stop, enabled, scrollMode, layout });
@@ -260,6 +267,11 @@ export function PianoKeyboard({
             ? ''
             : ` · ${t('piano.midiVelocity', { velocity: midi.velocity })}`}
           {midi.sustain ? ` · ${t('piano.midiSustain')}` : ''}
+        </AppText>
+      ) : null}
+      {midiOutOfRange ? (
+        <AppText variant="footnote" tone="muted" role="status" aria-live="polite">
+          {t('piano.midiOutOfRange')}
         </AppText>
       ) : null}
       <BottomSheet

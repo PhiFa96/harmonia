@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AccessibilityInfo, Platform, ScrollView, StyleSheet, View } from 'react-native';
-import { router, Stack, useFocusEffect } from 'expo-router';
+import { router, Stack, useFocusEffect, useNavigation } from 'expo-router';
+import { usePreventRemove } from 'expo-router/react-navigation';
 import { useTranslation } from 'react-i18next';
 import {
   answerExam,
   availableExamTemplates,
   createExamRun,
+  examEndKey,
   examResult,
   finishExam,
   skipExamAural,
@@ -35,8 +37,13 @@ export default function ExamScreen() {
   const [now, setNow] = useState(Date.now);
   const [error, setError] = useState(false);
   const [confirmSubmit, setConfirmSubmit] = useState(false);
+  const [paused, setPaused] = useState(false);
+  const [leaving, setLeaving] = useState(false);
+  const navigation = useNavigation();
+  const exitAction = useRef<Parameters<typeof navigation.dispatch>[0] | null>(null);
   const scroll = useRef<ScrollView>(null);
   const question = useRef<View>(null);
+  const resultHeading = useRef<View>(null);
   const templates = availableExamTemplates(catalogue, examTemplates);
   const item = run ? currentItem(run.session) : undefined;
   const index = run?.session.index;
@@ -65,6 +72,45 @@ export default function ExamScreen() {
     }, [active, index, item, locale]),
   );
 
+  // Zurück-Geste, Android-Zurücktaste, Tab- und Browserwechsel verwerfen einen laufenden Durchgang
+  // nicht ohne Rückfrage (wie in der Lektion). Nach dem Ende gibt es nichts mehr zu schützen.
+  usePreventRemove(!!active && !leaving, ({ data }) => {
+    exitAction.current = data.action;
+    setPaused(true);
+  });
+  useEffect(() => {
+    if (Platform.OS !== 'web' || typeof window === 'undefined' || !active) return;
+    const href = window.location.href;
+    const historyState: unknown = window.history.state;
+    const onPop = (event: PopStateEvent) => {
+      if (leaving || window.location.href === href) return;
+      event.stopImmediatePropagation();
+      window.history.pushState(historyState, '', href);
+      exitAction.current = null;
+      setPaused(true);
+    };
+    window.addEventListener('popstate', onPop, true);
+    return () => {
+      window.removeEventListener('popstate', onPop, true);
+    };
+  }, [active, leaving]);
+  useEffect(() => {
+    if (!leaving) return;
+    if (exitAction.current) navigation.dispatch(exitAction.current);
+    else if (router.canGoBack()) router.back();
+    else router.replace('/');
+  }, [leaving, navigation]);
+
+  const remaining = run && active ? run.deadlineAt - now : undefined;
+  const warning =
+    remaining === undefined || remaining <= 0
+      ? undefined
+      : remaining <= 60_000
+        ? 1
+        : remaining <= 300_000
+          ? 5
+          : undefined;
+
   function start(id: ExamTemplateId) {
     try {
       const instant = Date.now();
@@ -73,6 +119,7 @@ export default function ExamScreen() {
       setAnswer(null);
       setError(false);
       setConfirmSubmit(false);
+      setPaused(false);
       scroll.current?.scrollTo({ y: 0, animated: false });
     } catch {
       setError(true);
@@ -80,6 +127,24 @@ export default function ExamScreen() {
   }
 
   const result = run?.endedAt !== undefined ? examResult(run) : undefined;
+  const endKey = run && result ? examEndKey(run, result) : undefined;
+  const ended = !!result;
+  // Beim Ende ersetzt die Auswertung die Aufgabe: Fokus auf die Überschrift und eine Ansage,
+  // damit besonders ein Fristablauf mitten in der Antwort nicht unbemerkt bleibt.
+  useEffect(() => {
+    if (!result || !endKey) return;
+    if (Platform.OS === 'web')
+      (resultHeading.current as unknown as HTMLElement | null)?.focus({ preventScroll: true });
+    else
+      AccessibilityInfo.announceForAccessibility(
+        t('exam.resultAnnouncement', {
+          reason: t(`exam.end_${endKey}`),
+          points: result.points,
+          maximum: result.maxPoints,
+        }),
+      );
+    // Nur beim Übergang in den Endzustand; Sprachwechsel ändert die Ansage nicht erneut.
+  }, [ended]);
   return (
     <ScrollView ref={scroll} contentContainerStyle={styles.container}>
       <Stack.Screen options={{ headerShown: true, title: t('exam.title') }} />
@@ -113,16 +178,13 @@ export default function ExamScreen() {
           </>
         ) : result ? (
           <>
-            <AppText variant="title1">{t('exam.result')}</AppText>
-            <AppText>
-              {t(
-                run.endReason === 'timeout'
-                  ? 'exam.end_timeout'
-                  : run.endReason === 'completed'
-                    ? 'exam.end_completed'
-                    : 'exam.end_submitted',
-              )}
-            </AppText>
+            <View ref={resultHeading} tabIndex={-1} accessible>
+              <AppText variant="title1">{t('exam.result')}</AppText>
+            </View>
+            <AppText>{t(`exam.end_${endKey ?? 'submitted'}`)}</AppText>
+            {result.unanswered > 0 ? (
+              <AppText>{t('exam.unanswered', { count: result.unanswered })}</AppText>
+            ) : null}
             <Card>
               <View style={styles.card}>
                 <AppText variant="title2">
@@ -187,11 +249,40 @@ export default function ExamScreen() {
               }}
             />
           </>
+        ) : item && paused ? (
+          <Card>
+            <View style={styles.card}>
+              <AppText variant="title2" role="heading">
+                {t('exam.leaveTitle')}
+              </AppText>
+              <AppText>{t('exam.leaveHint')}</AppText>
+              <AppText>{t('exam.remaining', { time: timeLabel(run.deadlineAt - now) })}</AppText>
+              <Button
+                label={t('exam.leaveContinue')}
+                onPress={() => {
+                  setPaused(false);
+                  exitAction.current = null;
+                }}
+              />
+              <Button
+                variant="secondary"
+                label={t('exam.leaveConfirm')}
+                onPress={() => {
+                  setLeaving(true);
+                }}
+              />
+            </View>
+          </Card>
         ) : item ? (
           <>
             <AppText variant="title2">
               {t('exam.remaining', { time: timeLabel(run.deadlineAt - now) })}
             </AppText>
+            {warning ? (
+              <AppText role="status" aria-live="polite">
+                {t(`exam.timeWarning_${String(warning)}` as 'exam.timeWarning_1')}
+              </AppText>
+            ) : null}
             <AppText tone="muted">{t('exam.noHints')}</AppText>
             <AppText variant="title3">
               {t(`exam.area_${run.template.questions[run.session.index]?.area ?? 'theory'}`)}
