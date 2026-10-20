@@ -148,6 +148,9 @@ describe('Glossar als i18next-Namensraum', () => {
     const { notes, rests, ...terms } = glossaryResource('en-GB');
     const ids = new Set(Object.keys(terms).map((k) => k.replace(/_(one|other)$/, '')));
     expect([...ids].sort()).toEqual([
+      'cadenceAuthentic',
+      'cadenceDeceptive',
+      'cadenceHalf',
       'grandStaff',
       'measure',
       'meter',
@@ -158,6 +161,9 @@ describe('Glossar als i18next-Namensraum', () => {
       'wholeTone',
     ]);
     expect(terms['pickup_one']).toBe('upbeat');
+    expect(terms['cadenceAuthentic']).toBe('perfect cadence');
+    expect(terms['cadenceHalf']).toBe('imperfect cadence');
+    expect(terms['cadenceDeceptive']).toBe('interrupted cadence');
     expect(notes).toMatchObject({ quarter: 'crotchet', quarter_other: 'crotchets' });
     expect(rests).toMatchObject({ half: 'minim rest' });
   });

@@ -989,7 +989,7 @@ export const enUS = {
   },
   placeholder: 'Something is being built here.',
   learn: {
-    unavailable: 'New lessons are being prepared. You can already practise freely.',
+    unavailable: 'New lessons are being prepared. You can already practice freely.',
     exampleScale: 'Example: C major scale in $t(glossary:notes.quarter_other)',
   },
   practice: {
@@ -1716,7 +1716,7 @@ export const enUS = {
     rhythmLatency:
       'Reported audio delay: {{latency}} ms; taken into account when measuring your taps.',
     chordStart: 'Recognize and write chords',
-    harmonyStart: 'Practise harmony and dictation',
+    harmonyStart: 'Practice harmony and dictation',
     harmonyIntro:
       'Hear cadences, identify scale degrees, and enter short melodies and rhythms by ear.',
     type_CADENCE_IDENTIFY: 'Identify cadence',
@@ -1779,10 +1779,10 @@ export const enUS = {
     chordInputHint:
       'Choose note 2 or 3 and place it in the right $t(glossary:measure_one). The $t(glossary:bassNote_one) stays fixed on the left. The combined notation shows your $t(glossary:chord_one). You may enter the upper notes in either order.',
     chordInputHintSeventh:
-      'Choose note 2, 3 or 4 and place it in the right measure. The bass stays fixed. You may enter the remaining notes in any order.',
-    tonalityStart: 'Practise scales and key signatures',
+      'Choose note 2, 3 or 4 and place it in the right $t(glossary:measure_one). The $t(glossary:bassNote_one) stays fixed. You may enter the remaining notes in any order.',
+    tonalityStart: 'Practice scales and key signatures',
     tonalityIntro:
-      'Twelve questions: identify and write major and minor scales, recognise key signatures and build them yourself.',
+      'Twelve questions: identify and write major and minor scales, recognize key signatures and build them yourself.',
     type_SCALE_BUILD: 'Write $t(glossary:scale_other)',
     type_SCALE_IDENTIFY: 'Identify $t(glossary:scale_other)',
     type_KEYSIG_BUILD: 'Build $t(glossary:keySignature_other)',
@@ -2204,7 +2204,7 @@ export const enUS = {
     unitProgress: 'Passed lessons',
     lessonProgress: '{{completed}} of {{total}} lessons passed',
     testedHint:
-      'Available through your placement estimate. You can practise these lessons at any time; they count as passed only after a passing attempt.',
+      'Available through your placement estimate. You can practice these lessons at any time; they count as passed only after a passing attempt.',
     prerequisite: 'Prerequisite: {{title}}',
     showLessons: 'Show lessons',
     hideLessons: 'Hide lessons',

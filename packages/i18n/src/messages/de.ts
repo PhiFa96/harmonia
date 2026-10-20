@@ -1813,7 +1813,7 @@ export const de = {
     chordInputHint:
       'Wähle Ton 2 oder 3 und setze ihn im rechten $t(glossary:measure_one). Links bleibt der $t(glossary:bassNote_one) fest. Das gemeinsame Notenbild zeigt deinen $t(glossary:chord_one). Die oberen Töne kannst du in beliebiger Reihenfolge eingeben.',
     chordInputHintSeventh:
-      'Wähle Ton 2, 3 oder 4 und setze ihn im rechten Takt. Der Basston bleibt fest. Die übrigen Töne kannst du in beliebiger Reihenfolge eingeben.',
+      'Wähle Ton 2, 3 oder 4 und setze ihn im rechten $t(glossary:measure_one). Der $t(glossary:bassNote_one) bleibt fest. Die übrigen Töne kannst du in beliebiger Reihenfolge eingeben.',
     tonalityStart: 'Tonleitern und Tonarten üben',
     tonalityIntro:
       'Zwölf Aufgaben: Dur- und Molltonleitern erkennen und schreiben, Tonartvorzeichnungen bestimmen und selbst aufbauen.',

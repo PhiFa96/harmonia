@@ -76,6 +76,52 @@ describe('i18next-Instanz', () => {
     );
   });
 
+  it('Kadenznamen: US-Begriffe in en-US, britische Namen in en-GB, Glossar stimmt überein', () => {
+    const us = createI18n('en-US'),
+      gb = createI18n('en-GB');
+    expect(us.t('exercise.cadence_authentic')).toBe('Authentic cadence (V–I)');
+    expect(gb.t('exercise.cadence_authentic')).toBe('Perfect cadence (V–I)');
+    expect(gb.t('exercise.cadence_plagal')).toBe('Plagal cadence (IV–I)');
+    expect(gb.t('exercise.cadence_half')).toBe('Imperfect cadence (I–V)');
+    expect(gb.t('exercise.cadence_deceptive')).toBe('Interrupted cadence (V–vi)');
+    for (const [id, label, usTerm, gbTerm] of [
+      ['cadenceAuthentic', 'exercise.cadence_authentic', 'authentic cadence', 'perfect cadence'],
+      ['cadencePlagal', 'exercise.cadence_plagal', 'plagal cadence', 'plagal cadence'],
+      ['cadenceHalf', 'exercise.cadence_half', 'half cadence', 'imperfect cadence'],
+      [
+        'cadenceDeceptive',
+        'exercise.cadence_deceptive',
+        'deceptive cadence',
+        'interrupted cadence',
+      ],
+    ] as const) {
+      expect(us.t(`glossary:${id}`)).toBe(usTerm);
+      expect(gb.t(`glossary:${id}`)).toBe(gbTerm);
+      // Die Beschriftung der Antwort enthält den Glossarbegriff der Variante.
+      expect(us.t(label).toLowerCase()).toContain(usTerm);
+      expect(gb.t(label).toLowerCase()).toContain(gbTerm);
+    }
+  });
+
+  it('Septakkord-Eingabehinweis verwendet Glossarbegriffe (measure/bar)', () => {
+    expect(createI18n('en-US').t('exercise.chordInputHintSeventh')).toContain('right measure');
+    expect(createI18n('en-GB').t('exercise.chordInputHintSeventh')).toContain('right bar');
+    expect(createI18n('de').t('exercise.chordInputHintSeventh')).toContain('rechten Takt');
+  });
+
+  it('en-US verwendet amerikanische, en-GB britische Schreibung (practice/practise)', () => {
+    for (const key of [
+      'learn.unavailable',
+      'exercise.harmonyStart',
+      'exercise.tonalityStart',
+      'exercise.tonalityIntro',
+      'path.testedHint',
+    ] as const) {
+      expect(createI18n('en-US').t(key), key).not.toMatch(/practis|recognis/i);
+      expect(createI18n('en-GB').t(key), key).toMatch(/practise|recognise/i);
+    }
+  });
+
   it('typsichere Schlüssel', () => {
     const i18n = createI18n('de');
     // @ts-expect-error: unbekannter Schlüssel ist ein Compilerfehler
