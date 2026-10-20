@@ -11068,7 +11068,7 @@
       "bodyKey": "content.levelThree.units.formsDesigns.rondoBody",
       "examples": [
         {
-          "score": "treble | 4/4 | C4/4 E4/4 G4/4 E4/4 | D4/4 F4/4 A4/4 F4/4 | C4/4 E4/4 G4/4 E4/4",
+          "score": "treble | 4/4 | C4/4 E4/4 G4/4 E4/4 | D4/4 F4/4 A4/4 F4/4 | C4/4 E4/4 G4/4 E4/4 | E4/4 G4/4 C5/4 G4/4 | C4/4 E4/4 G4/4 E4/4",
           "captionKey": "content.levelThree.units.formsDesigns.rondoCaption"
         }
       ]
@@ -11544,7 +11544,7 @@
       "bodyKey": "content.levelFour.units.voiceLeading.commonBody",
       "examples": [
         {
-          "score": "treble | 4/4 | (C4 E4 G4)/2 (G4 B4 D5)/2",
+          "score": "treble | 4/4 | (C4 E4 G4)/2 (B3 D4 G4)/2",
           "captionKey": "content.levelFour.units.voiceLeading.commonCaption"
         }
       ]
@@ -15562,7 +15562,7 @@
           "bodyKey": "content.levelThree.units.formsDesigns.rondoBody",
           "examples": [
             {
-              "score": "treble | 4/4 | C4/4 E4/4 G4/4 E4/4 | D4/4 F4/4 A4/4 F4/4 | C4/4 E4/4 G4/4 E4/4",
+              "score": "treble | 4/4 | C4/4 E4/4 G4/4 E4/4 | D4/4 F4/4 A4/4 F4/4 | C4/4 E4/4 G4/4 E4/4 | E4/4 G4/4 C5/4 G4/4 | C4/4 E4/4 G4/4 E4/4",
               "captionKey": "content.levelThree.units.formsDesigns.rondoCaption"
             }
           ]
@@ -15999,7 +15999,7 @@
           "bodyKey": "content.levelFour.units.voiceLeading.commonBody",
           "examples": [
             {
-              "score": "treble | 4/4 | (C4 E4 G4)/2 (G4 B4 D5)/2",
+              "score": "treble | 4/4 | (C4 E4 G4)/2 (B3 D4 G4)/2",
               "captionKey": "content.levelFour.units.voiceLeading.commonCaption"
             }
           ]
