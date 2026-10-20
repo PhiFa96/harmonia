@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": 17,
+  "contentVersion": 18,
   "areas": [
     {
       "id": "fundament",
@@ -1485,7 +1485,7 @@
     },
     {
       "id": "scales.l3.modes.s1",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.scalesModes.skill1",
       "areaId": "area.scales",
@@ -1509,7 +1509,7 @@
     },
     {
       "id": "chords.l3.sevenths.s1",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.chordsSevenths.skill1",
       "areaId": "area.chords",
@@ -1562,7 +1562,7 @@
     },
     {
       "id": "harmony.l3.cadences.s1",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.harmonyCadences.skill1",
       "areaId": "area.harmony",
@@ -1586,7 +1586,7 @@
     },
     {
       "id": "harmony.l3.modulation.s1",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.harmonyModulation.skill1",
       "areaId": "area.harmony",
@@ -1594,7 +1594,7 @@
     },
     {
       "id": "harmony.l3.modulation.s2",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.harmonyModulation.skill2",
       "areaId": "area.harmony",
@@ -1634,7 +1634,7 @@
     },
     {
       "id": "forms.l3.phrases.s1",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.formsPhrases.skill1",
       "areaId": "area.forms",
@@ -1658,7 +1658,7 @@
     },
     {
       "id": "forms.l3.designs.s1",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.formsDesigns.skill1",
       "areaId": "area.forms",
@@ -1666,7 +1666,7 @@
     },
     {
       "id": "forms.l3.designs.s2",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.formsDesigns.skill2",
       "areaId": "area.forms",
@@ -1714,7 +1714,7 @@
     },
     {
       "id": "instruments.l3.scores.s2",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.instrumentsScores.skill2",
       "areaId": "area.instruments",
@@ -1746,7 +1746,7 @@
     },
     {
       "id": "jazzpop.l3.harmony.s3",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.jazzPopHarmony.skill3",
       "areaId": "area.jazzpop",
@@ -1802,7 +1802,7 @@
     },
     {
       "id": "rhythm.l4.complex.s1",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.complexRhythm.skill1",
       "areaId": "area.rhythm",
@@ -1810,7 +1810,7 @@
     },
     {
       "id": "rhythm.l4.complex.s2",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.complexRhythm.skill2",
       "areaId": "area.rhythm",
@@ -1818,7 +1818,7 @@
     },
     {
       "id": "rhythm.l4.complex.s3",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.complexRhythm.skill3",
       "areaId": "area.rhythm",
@@ -1826,7 +1826,7 @@
     },
     {
       "id": "chords.l4.extensions.s1",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.extendedChords.skill1",
       "areaId": "area.chords",
@@ -1834,7 +1834,7 @@
     },
     {
       "id": "chords.l4.extensions.s2",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.extendedChords.skill2",
       "areaId": "area.chords",
@@ -1850,7 +1850,7 @@
     },
     {
       "id": "harmony.l4.applied.s1",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.appliedHarmony.skill1",
       "areaId": "area.harmony",
@@ -1874,7 +1874,7 @@
     },
     {
       "id": "satz.l4.voice-leading.s1",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.voiceLeading.skill1",
       "areaId": "area.satz",
@@ -1882,7 +1882,7 @@
     },
     {
       "id": "satz.l4.voice-leading.s2",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.voiceLeading.skill2",
       "areaId": "area.satz",
@@ -1898,7 +1898,7 @@
     },
     {
       "id": "satz.l4.figured-bass.s1",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.figuredBass.skill1",
       "areaId": "area.satz",
@@ -1914,7 +1914,7 @@
     },
     {
       "id": "satz.l4.figured-bass.s3",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.figuredBass.skill3",
       "areaId": "area.satz",
@@ -1978,7 +1978,7 @@
     },
     {
       "id": "jazzpop.l4.voicings.s2",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.jazzVoicings.skill2",
       "areaId": "area.jazzpop",
@@ -2034,7 +2034,7 @@
     },
     {
       "id": "acoustics.l4.tuning.s3",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.tuning.skill3",
       "areaId": "area.acoustics",
@@ -4630,7 +4630,7 @@
     },
     {
       "id": "scales.l3.modes.lesson1.exercises",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.scalesModes.lesson1",
       "skillIds": ["scales.l3.modes.s1", "scales.l3.modes.s2", "scales.l3.modes.s3"],
@@ -4648,7 +4648,7 @@
     },
     {
       "id": "scales.l3.modes.lesson2.exercises",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.scalesModes.lesson2",
       "skillIds": ["scales.l3.modes.s1", "scales.l3.modes.s2", "scales.l3.modes.s3"],
@@ -4667,7 +4667,7 @@
     },
     {
       "id": "scales.l3.modes.lesson3.exercises",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.scalesModes.lesson3",
       "skillIds": ["scales.l3.modes.s1", "scales.l3.modes.s2", "scales.l3.modes.s3"],
@@ -4829,7 +4829,7 @@
     },
     {
       "id": "harmony.l3.cadences.lesson1.exercises",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.harmonyCadences.lesson1",
       "skillIds": ["harmony.l3.cadences.s1", "harmony.l3.cadences.s2", "harmony.l3.cadences.s3"],
@@ -4847,7 +4847,7 @@
     },
     {
       "id": "harmony.l3.cadences.lesson2.exercises",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.harmonyCadences.lesson2",
       "skillIds": ["harmony.l3.cadences.s1", "harmony.l3.cadences.s2", "harmony.l3.cadences.s3"],
@@ -4865,7 +4865,7 @@
     },
     {
       "id": "harmony.l3.cadences.lesson3.exercises",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.harmonyCadences.lesson3",
       "skillIds": ["harmony.l3.cadences.s1", "harmony.l3.cadences.s2", "harmony.l3.cadences.s3"],
@@ -4881,7 +4881,7 @@
     },
     {
       "id": "harmony.l3.modulation.lesson1.exercises",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.harmonyModulation.lesson1",
       "skillIds": [
@@ -4903,7 +4903,7 @@
     },
     {
       "id": "harmony.l3.modulation.lesson2.exercises",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.harmonyModulation.lesson2",
       "skillIds": [
@@ -4926,7 +4926,7 @@
     },
     {
       "id": "harmony.l3.modulation.lesson3.exercises",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.harmonyModulation.lesson3",
       "skillIds": [
@@ -5040,7 +5040,7 @@
     },
     {
       "id": "forms.l3.phrases.lesson1.exercises",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.formsPhrases.lesson1",
       "skillIds": ["forms.l3.phrases.s1", "forms.l3.phrases.s2", "forms.l3.phrases.s3"],
@@ -5058,7 +5058,7 @@
     },
     {
       "id": "forms.l3.phrases.lesson2.exercises",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.formsPhrases.lesson2",
       "skillIds": ["forms.l3.phrases.s1", "forms.l3.phrases.s2", "forms.l3.phrases.s3"],
@@ -5077,7 +5077,7 @@
     },
     {
       "id": "forms.l3.phrases.lesson3.exercises",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.formsPhrases.lesson3",
       "skillIds": ["forms.l3.phrases.s1", "forms.l3.phrases.s2", "forms.l3.phrases.s3"],
@@ -5105,7 +5105,7 @@
     },
     {
       "id": "forms.l3.designs.lesson1.exercises",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.formsDesigns.lesson1",
       "skillIds": ["forms.l3.designs.s1", "forms.l3.designs.s2", "forms.l3.designs.s3"],
@@ -5123,7 +5123,7 @@
     },
     {
       "id": "forms.l3.designs.lesson2.exercises",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.formsDesigns.lesson2",
       "skillIds": ["forms.l3.designs.s1", "forms.l3.designs.s2", "forms.l3.designs.s3"],
@@ -5151,7 +5151,7 @@
     },
     {
       "id": "forms.l3.designs.lesson3.exercises",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.formsDesigns.lesson3",
       "skillIds": ["forms.l3.designs.s1", "forms.l3.designs.s2", "forms.l3.designs.s3"],
@@ -5188,7 +5188,7 @@
     },
     {
       "id": "instruments.l3.families.lesson1.exercises",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.instrumentsFamilies.lesson1",
       "skillIds": [
@@ -5210,7 +5210,7 @@
     },
     {
       "id": "instruments.l3.families.lesson2.exercises",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.instrumentsFamilies.lesson2",
       "skillIds": [
@@ -5233,7 +5233,7 @@
     },
     {
       "id": "instruments.l3.families.lesson3.exercises",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.instrumentsFamilies.lesson3",
       "skillIds": [
@@ -5265,7 +5265,7 @@
     },
     {
       "id": "instruments.l3.scores.lesson1.exercises",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.instrumentsScores.lesson1",
       "skillIds": [
@@ -5287,7 +5287,7 @@
     },
     {
       "id": "instruments.l3.scores.lesson2.exercises",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.instrumentsScores.lesson2",
       "skillIds": [
@@ -5319,7 +5319,7 @@
     },
     {
       "id": "instruments.l3.scores.lesson3.exercises",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.instrumentsScores.lesson3",
       "skillIds": [
@@ -5360,7 +5360,7 @@
     },
     {
       "id": "jazzpop.l3.harmony.lesson1.exercises",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.jazzPopHarmony.lesson1",
       "skillIds": ["jazzpop.l3.harmony.s1", "jazzpop.l3.harmony.s2", "jazzpop.l3.harmony.s3"],
@@ -5378,7 +5378,7 @@
     },
     {
       "id": "jazzpop.l3.harmony.lesson2.exercises",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.jazzPopHarmony.lesson2",
       "skillIds": ["jazzpop.l3.harmony.s1", "jazzpop.l3.harmony.s2", "jazzpop.l3.harmony.s3"],
@@ -5408,7 +5408,7 @@
     },
     {
       "id": "jazzpop.l3.harmony.lesson3.exercises",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.jazzPopHarmony.lesson3",
       "skillIds": ["jazzpop.l3.harmony.s1", "jazzpop.l3.harmony.s2", "jazzpop.l3.harmony.s3"],
@@ -5447,7 +5447,7 @@
     },
     {
       "id": "history.l3.methods.lesson1.exercises",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.historyMethods.lesson1",
       "skillIds": ["history.l3.methods.s1", "history.l3.methods.s2", "history.l3.methods.s3"],
@@ -5465,7 +5465,7 @@
     },
     {
       "id": "history.l3.methods.lesson2.exercises",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.historyMethods.lesson2",
       "skillIds": ["history.l3.methods.s1", "history.l3.methods.s2", "history.l3.methods.s3"],
@@ -5493,7 +5493,7 @@
     },
     {
       "id": "history.l3.methods.lesson3.exercises",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.historyMethods.lesson3",
       "skillIds": ["history.l3.methods.s1", "history.l3.methods.s2", "history.l3.methods.s3"],
@@ -5530,7 +5530,7 @@
     },
     {
       "id": "notation.l4.multivoice.lesson1.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.multivoice.lesson1",
       "skillIds": [
@@ -5561,7 +5561,7 @@
     },
     {
       "id": "notation.l4.multivoice.lesson2.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.multivoice.lesson2",
       "skillIds": [
@@ -5593,7 +5593,7 @@
     },
     {
       "id": "notation.l4.multivoice.lesson3.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.multivoice.lesson3",
       "skillIds": [
@@ -5624,7 +5624,7 @@
     },
     {
       "id": "rhythm.l4.complex.lesson1.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.complexRhythm.lesson1",
       "skillIds": ["rhythm.l4.complex.s1", "rhythm.l4.complex.s2", "rhythm.l4.complex.s3"],
@@ -5653,7 +5653,7 @@
     },
     {
       "id": "rhythm.l4.complex.lesson2.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.complexRhythm.lesson2",
       "skillIds": ["rhythm.l4.complex.s1", "rhythm.l4.complex.s2", "rhythm.l4.complex.s3"],
@@ -5683,7 +5683,7 @@
     },
     {
       "id": "rhythm.l4.complex.lesson3.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.complexRhythm.lesson3",
       "skillIds": ["rhythm.l4.complex.s1", "rhythm.l4.complex.s2", "rhythm.l4.complex.s3"],
@@ -5712,7 +5712,7 @@
     },
     {
       "id": "chords.l4.extensions.lesson1.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.extendedChords.lesson1",
       "skillIds": ["chords.l4.extensions.s1", "chords.l4.extensions.s2", "chords.l4.extensions.s3"],
@@ -5741,7 +5741,7 @@
     },
     {
       "id": "chords.l4.extensions.lesson2.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.extendedChords.lesson2",
       "skillIds": ["chords.l4.extensions.s1", "chords.l4.extensions.s2", "chords.l4.extensions.s3"],
@@ -5771,7 +5771,7 @@
     },
     {
       "id": "chords.l4.extensions.lesson3.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.extendedChords.lesson3",
       "skillIds": ["chords.l4.extensions.s1", "chords.l4.extensions.s2", "chords.l4.extensions.s3"],
@@ -5800,7 +5800,7 @@
     },
     {
       "id": "harmony.l4.applied.lesson1.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.appliedHarmony.lesson1",
       "skillIds": ["harmony.l4.applied.s1", "harmony.l4.applied.s2", "harmony.l4.applied.s3"],
@@ -5827,7 +5827,7 @@
     },
     {
       "id": "harmony.l4.applied.lesson2.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.appliedHarmony.lesson2",
       "skillIds": ["harmony.l4.applied.s1", "harmony.l4.applied.s2", "harmony.l4.applied.s3"],
@@ -5853,7 +5853,7 @@
     },
     {
       "id": "harmony.l4.applied.lesson3.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.appliedHarmony.lesson3",
       "skillIds": ["harmony.l4.applied.s1", "harmony.l4.applied.s2", "harmony.l4.applied.s3"],
@@ -5887,7 +5887,7 @@
     },
     {
       "id": "satz.l4.voice-leading.lesson1.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.voiceLeading.lesson1",
       "skillIds": [
@@ -5918,7 +5918,7 @@
     },
     {
       "id": "satz.l4.voice-leading.lesson2.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.voiceLeading.lesson2",
       "skillIds": [
@@ -5950,7 +5950,7 @@
     },
     {
       "id": "satz.l4.voice-leading.lesson3.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.voiceLeading.lesson3",
       "skillIds": [
@@ -5981,7 +5981,7 @@
     },
     {
       "id": "satz.l4.figured-bass.lesson1.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.figuredBass.lesson1",
       "skillIds": ["satz.l4.figured-bass.s1", "satz.l4.figured-bass.s2", "satz.l4.figured-bass.s3"],
@@ -6008,7 +6008,7 @@
     },
     {
       "id": "satz.l4.figured-bass.lesson2.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.figuredBass.lesson2",
       "skillIds": ["satz.l4.figured-bass.s1", "satz.l4.figured-bass.s2", "satz.l4.figured-bass.s3"],
@@ -6036,7 +6036,7 @@
     },
     {
       "id": "satz.l4.figured-bass.lesson3.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.figuredBass.lesson3",
       "skillIds": ["satz.l4.figured-bass.s1", "satz.l4.figured-bass.s2", "satz.l4.figured-bass.s3"],
@@ -6063,7 +6063,7 @@
     },
     {
       "id": "forms.l4.sonata.lesson1.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.sonata.lesson1",
       "skillIds": ["forms.l4.sonata.s1", "forms.l4.sonata.s2", "forms.l4.sonata.s3"],
@@ -6081,7 +6081,7 @@
     },
     {
       "id": "forms.l4.sonata.lesson2.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.sonata.lesson2",
       "skillIds": ["forms.l4.sonata.s1", "forms.l4.sonata.s2", "forms.l4.sonata.s3"],
@@ -6100,7 +6100,7 @@
     },
     {
       "id": "forms.l4.sonata.lesson3.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.sonata.lesson3",
       "skillIds": ["forms.l4.sonata.s1", "forms.l4.sonata.s2", "forms.l4.sonata.s3"],
@@ -6128,7 +6128,7 @@
     },
     {
       "id": "analysis.l4.score.lesson1.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.analysis.lesson1",
       "skillIds": ["analysis.l4.score.s1", "analysis.l4.score.s2", "analysis.l4.score.s3"],
@@ -6146,7 +6146,7 @@
     },
     {
       "id": "analysis.l4.score.lesson2.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.analysis.lesson2",
       "skillIds": ["analysis.l4.score.s1", "analysis.l4.score.s2", "analysis.l4.score.s3"],
@@ -6165,7 +6165,7 @@
     },
     {
       "id": "analysis.l4.score.lesson3.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.analysis.lesson3",
       "skillIds": ["analysis.l4.score.s1", "analysis.l4.score.s2", "analysis.l4.score.s3"],
@@ -6193,7 +6193,7 @@
     },
     {
       "id": "jazzpop.l4.voicings.lesson1.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.jazzVoicings.lesson1",
       "skillIds": ["jazzpop.l4.voicings.s1", "jazzpop.l4.voicings.s2", "jazzpop.l4.voicings.s3"],
@@ -6222,7 +6222,7 @@
     },
     {
       "id": "jazzpop.l4.voicings.lesson2.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.jazzVoicings.lesson2",
       "skillIds": ["jazzpop.l4.voicings.s1", "jazzpop.l4.voicings.s2", "jazzpop.l4.voicings.s3"],
@@ -6251,7 +6251,7 @@
     },
     {
       "id": "jazzpop.l4.voicings.lesson3.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.jazzVoicings.lesson3",
       "skillIds": ["jazzpop.l4.voicings.s1", "jazzpop.l4.voicings.s2", "jazzpop.l4.voicings.s3"],
@@ -6280,7 +6280,7 @@
     },
     {
       "id": "instruments.l4.orchestration.lesson1.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.orchestration.lesson1",
       "skillIds": [
@@ -6302,7 +6302,7 @@
     },
     {
       "id": "instruments.l4.orchestration.lesson2.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.orchestration.lesson2",
       "skillIds": [
@@ -6334,7 +6334,7 @@
     },
     {
       "id": "instruments.l4.orchestration.lesson3.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.orchestration.lesson3",
       "skillIds": [
@@ -6375,7 +6375,7 @@
     },
     {
       "id": "acoustics.l4.tuning.lesson1.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.tuning.lesson1",
       "skillIds": ["acoustics.l4.tuning.s1", "acoustics.l4.tuning.s2", "acoustics.l4.tuning.s3"],
@@ -6393,7 +6393,7 @@
     },
     {
       "id": "acoustics.l4.tuning.lesson2.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.tuning.lesson2",
       "skillIds": ["acoustics.l4.tuning.s1", "acoustics.l4.tuning.s2", "acoustics.l4.tuning.s3"],
@@ -6412,7 +6412,7 @@
     },
     {
       "id": "acoustics.l4.tuning.lesson3.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.tuning.lesson3",
       "skillIds": ["acoustics.l4.tuning.s1", "acoustics.l4.tuning.s2", "acoustics.l4.tuning.s3"],
@@ -6496,7 +6496,7 @@
     },
     {
       "id": "aural.l4.preparation.lesson3.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.examAural.lesson3",
       "skillIds": ["aural.l4.preparation.s1", "aural.l4.preparation.s2", "aural.l4.preparation.s3"],
@@ -6533,7 +6533,7 @@
     },
     {
       "id": "history.l4.survey.lesson1.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.historySurvey.lesson1",
       "skillIds": ["history.l4.survey.s1", "history.l4.survey.s2", "history.l4.survey.s3"],
@@ -6551,7 +6551,7 @@
     },
     {
       "id": "history.l4.survey.lesson2.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.historySurvey.lesson2",
       "skillIds": ["history.l4.survey.s1", "history.l4.survey.s2", "history.l4.survey.s3"],
@@ -6579,7 +6579,7 @@
     },
     {
       "id": "history.l4.survey.lesson3.exercises",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.historySurvey.lesson3",
       "skillIds": ["history.l4.survey.s1", "history.l4.survey.s2", "history.l4.survey.s3"],
@@ -10646,7 +10646,7 @@
     },
     {
       "id": "scales.l3.modes.card-ionian",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.scalesModes.ionianTitle",
       "skillIds": ["scales.l3.modes.s1"],
@@ -10674,7 +10674,7 @@
     },
     {
       "id": "scales.l3.modes.card-mixolydian",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.scalesModes.mixolydianTitle",
       "skillIds": ["scales.l3.modes.s3"],
@@ -10688,7 +10688,7 @@
     },
     {
       "id": "scales.l3.modes.card-aeolian",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.scalesModes.aeolianTitle",
       "skillIds": ["scales.l3.modes.s3"],
@@ -10702,7 +10702,7 @@
     },
     {
       "id": "chords.l3.sevenths.card-majorseventh",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.chordsSevenths.majorSeventhTitle",
       "skillIds": ["chords.l3.sevenths.s1"],
@@ -10744,7 +10744,7 @@
     },
     {
       "id": "chords.l3.sevenths.card-halfdiminished",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.chordsSevenths.halfDiminishedTitle",
       "skillIds": ["chords.l3.sevenths.s3"],
@@ -10758,7 +10758,7 @@
     },
     {
       "id": "harmony.l3.functions.card-tonic",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.harmonyFunctions.tonicTitle",
       "skillIds": ["harmony.l3.functions.s1"],
@@ -10772,7 +10772,7 @@
     },
     {
       "id": "harmony.l3.functions.card-subdominant",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.harmonyFunctions.subdominantTitle",
       "skillIds": ["harmony.l3.functions.s2"],
@@ -10814,7 +10814,7 @@
     },
     {
       "id": "harmony.l3.cadences.card-authentic",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.harmonyCadences.authenticTitle",
       "skillIds": ["harmony.l3.cadences.s1"],
@@ -10828,7 +10828,7 @@
     },
     {
       "id": "harmony.l3.cadences.card-plagal",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.harmonyCadences.plagalTitle",
       "skillIds": ["harmony.l3.cadences.s2"],
@@ -10842,7 +10842,7 @@
     },
     {
       "id": "harmony.l3.cadences.card-half",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.harmonyCadences.halfTitle",
       "skillIds": ["harmony.l3.cadences.s3"],
@@ -10856,7 +10856,7 @@
     },
     {
       "id": "harmony.l3.cadences.card-deceptive",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.harmonyCadences.deceptiveTitle",
       "skillIds": ["harmony.l3.cadences.s3"],
@@ -10870,7 +10870,7 @@
     },
     {
       "id": "harmony.l3.modulation.card-pivot",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.harmonyModulation.pivotTitle",
       "skillIds": ["harmony.l3.modulation.s1"],
@@ -10884,7 +10884,7 @@
     },
     {
       "id": "harmony.l3.modulation.card-tonicization",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.harmonyModulation.tonicizationTitle",
       "skillIds": ["harmony.l3.modulation.s2"],
@@ -10898,7 +10898,7 @@
     },
     {
       "id": "harmony.l3.modulation.card-newtonic",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.harmonyModulation.newTonicTitle",
       "skillIds": ["harmony.l3.modulation.s3"],
@@ -10940,7 +10940,7 @@
     },
     {
       "id": "aural.l3.dictation.card-rhythm",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.auralDictation.rhythmTitle",
       "skillIds": ["aural.l3.dictation.s2"],
@@ -10954,7 +10954,7 @@
     },
     {
       "id": "aural.l3.dictation.card-pitchcheck",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.auralDictation.pitchCheckTitle",
       "skillIds": ["aural.l3.dictation.s3"],
@@ -10968,7 +10968,7 @@
     },
     {
       "id": "aural.l3.dictation.card-errorcheck",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.auralDictation.errorCheckTitle",
       "skillIds": ["aural.l3.dictation.s3"],
@@ -10982,7 +10982,7 @@
     },
     {
       "id": "forms.l3.phrases.card-motive",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.formsPhrases.motiveTitle",
       "skillIds": ["forms.l3.phrases.s1"],
@@ -11038,7 +11038,7 @@
     },
     {
       "id": "forms.l3.designs.card-binary",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.formsDesigns.binaryTitle",
       "skillIds": ["forms.l3.designs.s1"],
@@ -11066,7 +11066,7 @@
     },
     {
       "id": "forms.l3.designs.card-rondo",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.formsDesigns.rondoTitle",
       "skillIds": ["forms.l3.designs.s3"],
@@ -11080,7 +11080,7 @@
     },
     {
       "id": "forms.l3.designs.card-variation",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.formsDesigns.variationTitle",
       "skillIds": ["forms.l3.designs.s3"],
@@ -11150,7 +11150,7 @@
     },
     {
       "id": "instruments.l3.scores.card-concertpitch",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.instrumentsScores.concertPitchTitle",
       "skillIds": ["instruments.l3.scores.s1"],
@@ -11164,7 +11164,7 @@
     },
     {
       "id": "instruments.l3.scores.card-writtenpitch",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.instrumentsScores.writtenPitchTitle",
       "skillIds": ["instruments.l3.scores.s2"],
@@ -11178,7 +11178,7 @@
     },
     {
       "id": "instruments.l3.scores.card-transposition",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.instrumentsScores.transpositionTitle",
       "skillIds": ["instruments.l3.scores.s3"],
@@ -11192,7 +11192,7 @@
     },
     {
       "id": "instruments.l3.scores.card-scoreorder",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.instrumentsScores.scoreOrderTitle",
       "skillIds": ["instruments.l3.scores.s3"],
@@ -11234,7 +11234,7 @@
     },
     {
       "id": "jazzpop.l3.harmony.card-backbeat",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.jazzPopHarmony.backbeatTitle",
       "skillIds": ["jazzpop.l3.harmony.s3"],
@@ -11318,7 +11318,7 @@
     },
     {
       "id": "notation.l4.multivoice.card-voices",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.multivoice.voicesTitle",
       "skillIds": ["notation.l4.multivoice.s1"],
@@ -11332,7 +11332,7 @@
     },
     {
       "id": "notation.l4.multivoice.card-alignment",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.multivoice.alignmentTitle",
       "skillIds": ["notation.l4.multivoice.s2"],
@@ -11346,7 +11346,7 @@
     },
     {
       "id": "notation.l4.multivoice.card-clefs",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.multivoice.clefsTitle",
       "skillIds": ["notation.l4.multivoice.s3"],
@@ -11360,7 +11360,7 @@
     },
     {
       "id": "notation.l4.multivoice.card-systems",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.multivoice.systemsTitle",
       "skillIds": ["notation.l4.multivoice.s3"],
@@ -11374,7 +11374,7 @@
     },
     {
       "id": "rhythm.l4.complex.card-subdivision",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.complexRhythm.subdivisionTitle",
       "skillIds": ["rhythm.l4.complex.s1"],
@@ -11388,7 +11388,7 @@
     },
     {
       "id": "rhythm.l4.complex.card-tuplet",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.complexRhythm.tupletTitle",
       "skillIds": ["rhythm.l4.complex.s2"],
@@ -11402,7 +11402,7 @@
     },
     {
       "id": "rhythm.l4.complex.card-syncopation",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.complexRhythm.syncopationTitle",
       "skillIds": ["rhythm.l4.complex.s3"],
@@ -11416,7 +11416,7 @@
     },
     {
       "id": "rhythm.l4.complex.card-hemiola",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.complexRhythm.hemiolaTitle",
       "skillIds": ["rhythm.l4.complex.s3"],
@@ -11430,7 +11430,7 @@
     },
     {
       "id": "chords.l4.extensions.card-ninth",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.extendedChords.ninthTitle",
       "skillIds": ["chords.l4.extensions.s1"],
@@ -11444,7 +11444,7 @@
     },
     {
       "id": "chords.l4.extensions.card-inversions",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.extendedChords.inversionsTitle",
       "skillIds": ["chords.l4.extensions.s2"],
@@ -11458,7 +11458,7 @@
     },
     {
       "id": "chords.l4.extensions.card-altered",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.extendedChords.alteredTitle",
       "skillIds": ["chords.l4.extensions.s3"],
@@ -11472,7 +11472,7 @@
     },
     {
       "id": "chords.l4.extensions.card-spacing",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.extendedChords.spacingTitle",
       "skillIds": ["chords.l4.extensions.s3"],
@@ -11486,7 +11486,7 @@
     },
     {
       "id": "harmony.l4.applied.card-secondary",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.appliedHarmony.secondaryTitle",
       "skillIds": ["harmony.l4.applied.s1"],
@@ -11500,7 +11500,7 @@
     },
     {
       "id": "harmony.l4.applied.card-pivot",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.appliedHarmony.pivotTitle",
       "skillIds": ["harmony.l4.applied.s2"],
@@ -11514,7 +11514,7 @@
     },
     {
       "id": "harmony.l4.applied.card-confirmation",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.appliedHarmony.confirmationTitle",
       "skillIds": ["harmony.l4.applied.s3"],
@@ -11528,7 +11528,7 @@
     },
     {
       "id": "harmony.l4.applied.card-cadence",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.appliedHarmony.cadenceTitle",
       "skillIds": ["harmony.l4.applied.s3"],
@@ -11542,7 +11542,7 @@
     },
     {
       "id": "satz.l4.voice-leading.card-common",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.voiceLeading.commonTitle",
       "skillIds": ["satz.l4.voice-leading.s1"],
@@ -11556,7 +11556,7 @@
     },
     {
       "id": "satz.l4.voice-leading.card-leading",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.voiceLeading.leadingTitle",
       "skillIds": ["satz.l4.voice-leading.s2"],
@@ -11570,7 +11570,7 @@
     },
     {
       "id": "satz.l4.voice-leading.card-parallels",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.voiceLeading.parallelsTitle",
       "skillIds": ["satz.l4.voice-leading.s3"],
@@ -11584,7 +11584,7 @@
     },
     {
       "id": "satz.l4.voice-leading.card-range",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.voiceLeading.rangeTitle",
       "skillIds": ["satz.l4.voice-leading.s3"],
@@ -11598,7 +11598,7 @@
     },
     {
       "id": "satz.l4.figured-bass.card-bass",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.figuredBass.bassTitle",
       "skillIds": ["satz.l4.figured-bass.s1"],
@@ -11612,7 +11612,7 @@
     },
     {
       "id": "satz.l4.figured-bass.card-six",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.figuredBass.sixTitle",
       "skillIds": ["satz.l4.figured-bass.s2"],
@@ -11626,7 +11626,7 @@
     },
     {
       "id": "satz.l4.figured-bass.card-sixfour",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.figuredBass.sixFourTitle",
       "skillIds": ["satz.l4.figured-bass.s3"],
@@ -11640,7 +11640,7 @@
     },
     {
       "id": "satz.l4.figured-bass.card-realisation",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.figuredBass.realisationTitle",
       "skillIds": ["satz.l4.figured-bass.s3"],
@@ -11654,7 +11654,7 @@
     },
     {
       "id": "forms.l4.sonata.card-exposition",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.sonata.expositionTitle",
       "skillIds": ["forms.l4.sonata.s1"],
@@ -11668,7 +11668,7 @@
     },
     {
       "id": "forms.l4.sonata.card-development",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.sonata.developmentTitle",
       "skillIds": ["forms.l4.sonata.s2"],
@@ -11682,7 +11682,7 @@
     },
     {
       "id": "forms.l4.sonata.card-recapitulation",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.sonata.recapitulationTitle",
       "skillIds": ["forms.l4.sonata.s3"],
@@ -11696,7 +11696,7 @@
     },
     {
       "id": "forms.l4.sonata.card-coda",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.sonata.codaTitle",
       "skillIds": ["forms.l4.sonata.s3"],
@@ -11710,7 +11710,7 @@
     },
     {
       "id": "analysis.l4.score.card-motivic",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.analysis.motivicTitle",
       "skillIds": ["analysis.l4.score.s1"],
@@ -11724,7 +11724,7 @@
     },
     {
       "id": "analysis.l4.score.card-phrase",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.analysis.phraseTitle",
       "skillIds": ["analysis.l4.score.s2"],
@@ -11738,7 +11738,7 @@
     },
     {
       "id": "analysis.l4.score.card-harmonic",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.analysis.harmonicTitle",
       "skillIds": ["analysis.l4.score.s3"],
@@ -11752,7 +11752,7 @@
     },
     {
       "id": "analysis.l4.score.card-evidence",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.analysis.evidenceTitle",
       "skillIds": ["analysis.l4.score.s3"],
@@ -11766,7 +11766,7 @@
     },
     {
       "id": "jazzpop.l4.voicings.card-guidetones",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.jazzVoicings.guideTonesTitle",
       "skillIds": ["jazzpop.l4.voicings.s1"],
@@ -11780,7 +11780,7 @@
     },
     {
       "id": "jazzpop.l4.voicings.card-extensions",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.jazzVoicings.extensionsTitle",
       "skillIds": ["jazzpop.l4.voicings.s2"],
@@ -11794,7 +11794,7 @@
     },
     {
       "id": "jazzpop.l4.voicings.card-twofiveone",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.jazzVoicings.twoFiveOneTitle",
       "skillIds": ["jazzpop.l4.voicings.s3"],
@@ -11808,7 +11808,7 @@
     },
     {
       "id": "jazzpop.l4.voicings.card-leadsheet",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.jazzVoicings.leadSheetTitle",
       "skillIds": ["jazzpop.l4.voicings.s3"],
@@ -11822,7 +11822,7 @@
     },
     {
       "id": "instruments.l4.orchestration.card-range",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.orchestration.rangeTitle",
       "skillIds": ["instruments.l4.orchestration.s1"],
@@ -11836,7 +11836,7 @@
     },
     {
       "id": "instruments.l4.orchestration.card-doubling",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.orchestration.doublingTitle",
       "skillIds": ["instruments.l4.orchestration.s2"],
@@ -11850,7 +11850,7 @@
     },
     {
       "id": "instruments.l4.orchestration.card-transposing",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.orchestration.transposingTitle",
       "skillIds": ["instruments.l4.orchestration.s3"],
@@ -11864,7 +11864,7 @@
     },
     {
       "id": "instruments.l4.orchestration.card-score",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.orchestration.scoreTitle",
       "skillIds": ["instruments.l4.orchestration.s3"],
@@ -11878,7 +11878,7 @@
     },
     {
       "id": "acoustics.l4.tuning.card-harmonics",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.tuning.harmonicsTitle",
       "skillIds": ["acoustics.l4.tuning.s1"],
@@ -11892,7 +11892,7 @@
     },
     {
       "id": "acoustics.l4.tuning.card-purefifth",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.tuning.pureFifthTitle",
       "skillIds": ["acoustics.l4.tuning.s2"],
@@ -11906,7 +11906,7 @@
     },
     {
       "id": "acoustics.l4.tuning.card-equal",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.tuning.equalTitle",
       "skillIds": ["acoustics.l4.tuning.s3"],
@@ -11920,7 +11920,7 @@
     },
     {
       "id": "acoustics.l4.tuning.card-meantone",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.tuning.meantoneTitle",
       "skillIds": ["acoustics.l4.tuning.s3"],
@@ -11934,7 +11934,7 @@
     },
     {
       "id": "aural.l4.preparation.card-intervals",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.examAural.intervalsTitle",
       "skillIds": ["aural.l4.preparation.s1"],
@@ -11948,7 +11948,7 @@
     },
     {
       "id": "aural.l4.preparation.card-chords",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.examAural.chordsTitle",
       "skillIds": ["aural.l4.preparation.s2"],
@@ -11962,7 +11962,7 @@
     },
     {
       "id": "aural.l4.preparation.card-dictation",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.examAural.dictationTitle",
       "skillIds": ["aural.l4.preparation.s3"],
@@ -11976,7 +11976,7 @@
     },
     {
       "id": "aural.l4.preparation.card-sight",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.examAural.sightTitle",
       "skillIds": ["aural.l4.preparation.s3"],
@@ -11990,7 +11990,7 @@
     },
     {
       "id": "history.l4.survey.card-context",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.historySurvey.contextTitle",
       "skillIds": ["history.l4.survey.s1"],
@@ -12004,7 +12004,7 @@
     },
     {
       "id": "history.l4.survey.card-edition",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.historySurvey.editionTitle",
       "skillIds": ["history.l4.survey.s2"],
@@ -12018,7 +12018,7 @@
     },
     {
       "id": "history.l4.survey.card-recording",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.historySurvey.recordingTitle",
       "skillIds": ["history.l4.survey.s3"],
@@ -12032,7 +12032,7 @@
     },
     {
       "id": "history.l4.survey.card-uncertainty",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.historySurvey.uncertaintyTitle",
       "skillIds": ["history.l4.survey.s3"],
@@ -15190,7 +15190,7 @@
     },
     {
       "id": "scales.l3.modes.article",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.scalesModes.articleTitle",
       "skillIds": ["scales.l3.modes.s1", "scales.l3.modes.s2", "scales.l3.modes.s3"],
@@ -15239,7 +15239,7 @@
     },
     {
       "id": "chords.l3.sevenths.article",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.chordsSevenths.articleTitle",
       "skillIds": ["chords.l3.sevenths.s1", "chords.l3.sevenths.s2", "chords.l3.sevenths.s3"],
@@ -15288,7 +15288,7 @@
     },
     {
       "id": "harmony.l3.functions.article",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.harmonyFunctions.articleTitle",
       "skillIds": ["harmony.l3.functions.s1", "harmony.l3.functions.s2", "harmony.l3.functions.s3"],
@@ -15337,7 +15337,7 @@
     },
     {
       "id": "harmony.l3.cadences.article",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.harmonyCadences.articleTitle",
       "skillIds": ["harmony.l3.cadences.s1", "harmony.l3.cadences.s2", "harmony.l3.cadences.s3"],
@@ -15386,7 +15386,7 @@
     },
     {
       "id": "harmony.l3.modulation.article",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.harmonyModulation.articleTitle",
       "skillIds": [
@@ -15439,7 +15439,7 @@
     },
     {
       "id": "aural.l3.dictation.article",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.auralDictation.articleTitle",
       "skillIds": ["aural.l3.dictation.s1", "aural.l3.dictation.s2", "aural.l3.dictation.s3"],
@@ -15488,7 +15488,7 @@
     },
     {
       "id": "forms.l3.phrases.article",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.formsPhrases.articleTitle",
       "skillIds": ["forms.l3.phrases.s1", "forms.l3.phrases.s2", "forms.l3.phrases.s3"],
@@ -15537,7 +15537,7 @@
     },
     {
       "id": "forms.l3.designs.article",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.formsDesigns.articleTitle",
       "skillIds": ["forms.l3.designs.s1", "forms.l3.designs.s2", "forms.l3.designs.s3"],
@@ -15639,7 +15639,7 @@
     },
     {
       "id": "instruments.l3.scores.article",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.instrumentsScores.articleTitle",
       "skillIds": [
@@ -15692,7 +15692,7 @@
     },
     {
       "id": "jazzpop.l3.harmony.article",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.jazzPopHarmony.articleTitle",
       "skillIds": ["jazzpop.l3.harmony.s1", "jazzpop.l3.harmony.s2", "jazzpop.l3.harmony.s3"],
@@ -15790,7 +15790,7 @@
     },
     {
       "id": "notation.l4.multivoice.article",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.multivoice.articleTitle",
       "skillIds": [
@@ -15843,7 +15843,7 @@
     },
     {
       "id": "rhythm.l4.complex.article",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.complexRhythm.articleTitle",
       "skillIds": ["rhythm.l4.complex.s1", "rhythm.l4.complex.s2", "rhythm.l4.complex.s3"],
@@ -15892,7 +15892,7 @@
     },
     {
       "id": "chords.l4.extensions.article",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.extendedChords.articleTitle",
       "skillIds": ["chords.l4.extensions.s1", "chords.l4.extensions.s2", "chords.l4.extensions.s3"],
@@ -15941,7 +15941,7 @@
     },
     {
       "id": "harmony.l4.applied.article",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.appliedHarmony.articleTitle",
       "skillIds": ["harmony.l4.applied.s1", "harmony.l4.applied.s2", "harmony.l4.applied.s3"],
@@ -15990,7 +15990,7 @@
     },
     {
       "id": "satz.l4.voice-leading.article",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.voiceLeading.articleTitle",
       "skillIds": [
@@ -16043,7 +16043,7 @@
     },
     {
       "id": "satz.l4.figured-bass.article",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.figuredBass.articleTitle",
       "skillIds": ["satz.l4.figured-bass.s1", "satz.l4.figured-bass.s2", "satz.l4.figured-bass.s3"],
@@ -16092,7 +16092,7 @@
     },
     {
       "id": "forms.l4.sonata.article",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.sonata.articleTitle",
       "skillIds": ["forms.l4.sonata.s1", "forms.l4.sonata.s2", "forms.l4.sonata.s3"],
@@ -16141,7 +16141,7 @@
     },
     {
       "id": "analysis.l4.score.article",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.analysis.articleTitle",
       "skillIds": ["analysis.l4.score.s1", "analysis.l4.score.s2", "analysis.l4.score.s3"],
@@ -16190,7 +16190,7 @@
     },
     {
       "id": "jazzpop.l4.voicings.article",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.jazzVoicings.articleTitle",
       "skillIds": ["jazzpop.l4.voicings.s1", "jazzpop.l4.voicings.s2", "jazzpop.l4.voicings.s3"],
@@ -16239,7 +16239,7 @@
     },
     {
       "id": "instruments.l4.orchestration.article",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.orchestration.articleTitle",
       "skillIds": [
@@ -16292,7 +16292,7 @@
     },
     {
       "id": "acoustics.l4.tuning.article",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.tuning.articleTitle",
       "skillIds": ["acoustics.l4.tuning.s1", "acoustics.l4.tuning.s2", "acoustics.l4.tuning.s3"],
@@ -16341,7 +16341,7 @@
     },
     {
       "id": "aural.l4.preparation.article",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.examAural.articleTitle",
       "skillIds": ["aural.l4.preparation.s1", "aural.l4.preparation.s2", "aural.l4.preparation.s3"],
@@ -16390,7 +16390,7 @@
     },
     {
       "id": "history.l4.survey.article",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.historySurvey.articleTitle",
       "skillIds": ["history.l4.survey.s1", "history.l4.survey.s2", "history.l4.survey.s3"],
@@ -17617,7 +17617,7 @@
     },
     {
       "id": "scales.l3.modes.lesson1",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.scalesModes.lesson1",
       "unitId": "scales.l3.modes",
@@ -17632,7 +17632,7 @@
     },
     {
       "id": "scales.l3.modes.lesson2",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.scalesModes.lesson2",
       "unitId": "scales.l3.modes",
@@ -17647,7 +17647,7 @@
     },
     {
       "id": "scales.l3.modes.lesson3",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.scalesModes.lesson3",
       "unitId": "scales.l3.modes",
@@ -17662,7 +17662,7 @@
     },
     {
       "id": "chords.l3.sevenths.lesson1",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.chordsSevenths.lesson1",
       "unitId": "chords.l3.sevenths",
@@ -17677,7 +17677,7 @@
     },
     {
       "id": "chords.l3.sevenths.lesson2",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.chordsSevenths.lesson2",
       "unitId": "chords.l3.sevenths",
@@ -17692,7 +17692,7 @@
     },
     {
       "id": "chords.l3.sevenths.lesson3",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.chordsSevenths.lesson3",
       "unitId": "chords.l3.sevenths",
@@ -17707,7 +17707,7 @@
     },
     {
       "id": "harmony.l3.functions.lesson1",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.harmonyFunctions.lesson1",
       "unitId": "harmony.l3.functions",
@@ -17722,7 +17722,7 @@
     },
     {
       "id": "harmony.l3.functions.lesson2",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.harmonyFunctions.lesson2",
       "unitId": "harmony.l3.functions",
@@ -17737,7 +17737,7 @@
     },
     {
       "id": "harmony.l3.functions.lesson3",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.harmonyFunctions.lesson3",
       "unitId": "harmony.l3.functions",
@@ -17752,7 +17752,7 @@
     },
     {
       "id": "harmony.l3.cadences.lesson1",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.harmonyCadences.lesson1",
       "unitId": "harmony.l3.cadences",
@@ -17767,7 +17767,7 @@
     },
     {
       "id": "harmony.l3.cadences.lesson2",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.harmonyCadences.lesson2",
       "unitId": "harmony.l3.cadences",
@@ -17782,7 +17782,7 @@
     },
     {
       "id": "harmony.l3.cadences.lesson3",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.harmonyCadences.lesson3",
       "unitId": "harmony.l3.cadences",
@@ -17797,7 +17797,7 @@
     },
     {
       "id": "harmony.l3.modulation.lesson1",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.harmonyModulation.lesson1",
       "unitId": "harmony.l3.modulation",
@@ -17816,7 +17816,7 @@
     },
     {
       "id": "harmony.l3.modulation.lesson2",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.harmonyModulation.lesson2",
       "unitId": "harmony.l3.modulation",
@@ -17835,7 +17835,7 @@
     },
     {
       "id": "harmony.l3.modulation.lesson3",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.harmonyModulation.lesson3",
       "unitId": "harmony.l3.modulation",
@@ -17854,7 +17854,7 @@
     },
     {
       "id": "aural.l3.dictation.lesson1",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.auralDictation.lesson1",
       "unitId": "aural.l3.dictation",
@@ -17869,7 +17869,7 @@
     },
     {
       "id": "aural.l3.dictation.lesson2",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.auralDictation.lesson2",
       "unitId": "aural.l3.dictation",
@@ -17884,7 +17884,7 @@
     },
     {
       "id": "aural.l3.dictation.lesson3",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.auralDictation.lesson3",
       "unitId": "aural.l3.dictation",
@@ -17899,7 +17899,7 @@
     },
     {
       "id": "forms.l3.phrases.lesson1",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.formsPhrases.lesson1",
       "unitId": "forms.l3.phrases",
@@ -17914,7 +17914,7 @@
     },
     {
       "id": "forms.l3.phrases.lesson2",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.formsPhrases.lesson2",
       "unitId": "forms.l3.phrases",
@@ -17929,7 +17929,7 @@
     },
     {
       "id": "forms.l3.phrases.lesson3",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.formsPhrases.lesson3",
       "unitId": "forms.l3.phrases",
@@ -17944,7 +17944,7 @@
     },
     {
       "id": "forms.l3.designs.lesson1",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.formsDesigns.lesson1",
       "unitId": "forms.l3.designs",
@@ -17959,7 +17959,7 @@
     },
     {
       "id": "forms.l3.designs.lesson2",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.formsDesigns.lesson2",
       "unitId": "forms.l3.designs",
@@ -17974,7 +17974,7 @@
     },
     {
       "id": "forms.l3.designs.lesson3",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.formsDesigns.lesson3",
       "unitId": "forms.l3.designs",
@@ -17989,7 +17989,7 @@
     },
     {
       "id": "instruments.l3.families.lesson1",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.instrumentsFamilies.lesson1",
       "unitId": "instruments.l3.families",
@@ -18008,7 +18008,7 @@
     },
     {
       "id": "instruments.l3.families.lesson2",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.instrumentsFamilies.lesson2",
       "unitId": "instruments.l3.families",
@@ -18027,7 +18027,7 @@
     },
     {
       "id": "instruments.l3.families.lesson3",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.instrumentsFamilies.lesson3",
       "unitId": "instruments.l3.families",
@@ -18046,7 +18046,7 @@
     },
     {
       "id": "instruments.l3.scores.lesson1",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.instrumentsScores.lesson1",
       "unitId": "instruments.l3.scores",
@@ -18065,7 +18065,7 @@
     },
     {
       "id": "instruments.l3.scores.lesson2",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.instrumentsScores.lesson2",
       "unitId": "instruments.l3.scores",
@@ -18084,7 +18084,7 @@
     },
     {
       "id": "instruments.l3.scores.lesson3",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.instrumentsScores.lesson3",
       "unitId": "instruments.l3.scores",
@@ -18103,7 +18103,7 @@
     },
     {
       "id": "jazzpop.l3.harmony.lesson1",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.jazzPopHarmony.lesson1",
       "unitId": "jazzpop.l3.harmony",
@@ -18118,7 +18118,7 @@
     },
     {
       "id": "jazzpop.l3.harmony.lesson2",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.jazzPopHarmony.lesson2",
       "unitId": "jazzpop.l3.harmony",
@@ -18133,7 +18133,7 @@
     },
     {
       "id": "jazzpop.l3.harmony.lesson3",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.jazzPopHarmony.lesson3",
       "unitId": "jazzpop.l3.harmony",
@@ -18148,7 +18148,7 @@
     },
     {
       "id": "history.l3.methods.lesson1",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.historyMethods.lesson1",
       "unitId": "history.l3.methods",
@@ -18163,7 +18163,7 @@
     },
     {
       "id": "history.l3.methods.lesson2",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.historyMethods.lesson2",
       "unitId": "history.l3.methods",
@@ -18178,7 +18178,7 @@
     },
     {
       "id": "history.l3.methods.lesson3",
-      "contentVersion": 15,
+      "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelThree.units.historyMethods.lesson3",
       "unitId": "history.l3.methods",
@@ -18193,7 +18193,7 @@
     },
     {
       "id": "notation.l4.multivoice.lesson1",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.multivoice.lesson1",
       "unitId": "notation.l4.multivoice",
@@ -18212,7 +18212,7 @@
     },
     {
       "id": "notation.l4.multivoice.lesson2",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.multivoice.lesson2",
       "unitId": "notation.l4.multivoice",
@@ -18231,7 +18231,7 @@
     },
     {
       "id": "notation.l4.multivoice.lesson3",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.multivoice.lesson3",
       "unitId": "notation.l4.multivoice",
@@ -18250,7 +18250,7 @@
     },
     {
       "id": "rhythm.l4.complex.lesson1",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.complexRhythm.lesson1",
       "unitId": "rhythm.l4.complex",
@@ -18265,7 +18265,7 @@
     },
     {
       "id": "rhythm.l4.complex.lesson2",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.complexRhythm.lesson2",
       "unitId": "rhythm.l4.complex",
@@ -18280,7 +18280,7 @@
     },
     {
       "id": "rhythm.l4.complex.lesson3",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.complexRhythm.lesson3",
       "unitId": "rhythm.l4.complex",
@@ -18295,7 +18295,7 @@
     },
     {
       "id": "chords.l4.extensions.lesson1",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.extendedChords.lesson1",
       "unitId": "chords.l4.extensions",
@@ -18310,7 +18310,7 @@
     },
     {
       "id": "chords.l4.extensions.lesson2",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.extendedChords.lesson2",
       "unitId": "chords.l4.extensions",
@@ -18325,7 +18325,7 @@
     },
     {
       "id": "chords.l4.extensions.lesson3",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.extendedChords.lesson3",
       "unitId": "chords.l4.extensions",
@@ -18340,7 +18340,7 @@
     },
     {
       "id": "harmony.l4.applied.lesson1",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.appliedHarmony.lesson1",
       "unitId": "harmony.l4.applied",
@@ -18355,7 +18355,7 @@
     },
     {
       "id": "harmony.l4.applied.lesson2",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.appliedHarmony.lesson2",
       "unitId": "harmony.l4.applied",
@@ -18370,7 +18370,7 @@
     },
     {
       "id": "harmony.l4.applied.lesson3",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.appliedHarmony.lesson3",
       "unitId": "harmony.l4.applied",
@@ -18385,7 +18385,7 @@
     },
     {
       "id": "satz.l4.voice-leading.lesson1",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.voiceLeading.lesson1",
       "unitId": "satz.l4.voice-leading",
@@ -18404,7 +18404,7 @@
     },
     {
       "id": "satz.l4.voice-leading.lesson2",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.voiceLeading.lesson2",
       "unitId": "satz.l4.voice-leading",
@@ -18423,7 +18423,7 @@
     },
     {
       "id": "satz.l4.voice-leading.lesson3",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.voiceLeading.lesson3",
       "unitId": "satz.l4.voice-leading",
@@ -18442,7 +18442,7 @@
     },
     {
       "id": "satz.l4.figured-bass.lesson1",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.figuredBass.lesson1",
       "unitId": "satz.l4.figured-bass",
@@ -18457,7 +18457,7 @@
     },
     {
       "id": "satz.l4.figured-bass.lesson2",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.figuredBass.lesson2",
       "unitId": "satz.l4.figured-bass",
@@ -18472,7 +18472,7 @@
     },
     {
       "id": "satz.l4.figured-bass.lesson3",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.figuredBass.lesson3",
       "unitId": "satz.l4.figured-bass",
@@ -18487,7 +18487,7 @@
     },
     {
       "id": "forms.l4.sonata.lesson1",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.sonata.lesson1",
       "unitId": "forms.l4.sonata",
@@ -18502,7 +18502,7 @@
     },
     {
       "id": "forms.l4.sonata.lesson2",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.sonata.lesson2",
       "unitId": "forms.l4.sonata",
@@ -18517,7 +18517,7 @@
     },
     {
       "id": "forms.l4.sonata.lesson3",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.sonata.lesson3",
       "unitId": "forms.l4.sonata",
@@ -18532,7 +18532,7 @@
     },
     {
       "id": "analysis.l4.score.lesson1",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.analysis.lesson1",
       "unitId": "analysis.l4.score",
@@ -18547,7 +18547,7 @@
     },
     {
       "id": "analysis.l4.score.lesson2",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.analysis.lesson2",
       "unitId": "analysis.l4.score",
@@ -18562,7 +18562,7 @@
     },
     {
       "id": "analysis.l4.score.lesson3",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.analysis.lesson3",
       "unitId": "analysis.l4.score",
@@ -18577,7 +18577,7 @@
     },
     {
       "id": "jazzpop.l4.voicings.lesson1",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.jazzVoicings.lesson1",
       "unitId": "jazzpop.l4.voicings",
@@ -18592,7 +18592,7 @@
     },
     {
       "id": "jazzpop.l4.voicings.lesson2",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.jazzVoicings.lesson2",
       "unitId": "jazzpop.l4.voicings",
@@ -18607,7 +18607,7 @@
     },
     {
       "id": "jazzpop.l4.voicings.lesson3",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.jazzVoicings.lesson3",
       "unitId": "jazzpop.l4.voicings",
@@ -18622,7 +18622,7 @@
     },
     {
       "id": "instruments.l4.orchestration.lesson1",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.orchestration.lesson1",
       "unitId": "instruments.l4.orchestration",
@@ -18641,7 +18641,7 @@
     },
     {
       "id": "instruments.l4.orchestration.lesson2",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.orchestration.lesson2",
       "unitId": "instruments.l4.orchestration",
@@ -18660,7 +18660,7 @@
     },
     {
       "id": "instruments.l4.orchestration.lesson3",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.orchestration.lesson3",
       "unitId": "instruments.l4.orchestration",
@@ -18679,7 +18679,7 @@
     },
     {
       "id": "acoustics.l4.tuning.lesson1",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.tuning.lesson1",
       "unitId": "acoustics.l4.tuning",
@@ -18694,7 +18694,7 @@
     },
     {
       "id": "acoustics.l4.tuning.lesson2",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.tuning.lesson2",
       "unitId": "acoustics.l4.tuning",
@@ -18709,7 +18709,7 @@
     },
     {
       "id": "acoustics.l4.tuning.lesson3",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.tuning.lesson3",
       "unitId": "acoustics.l4.tuning",
@@ -18724,7 +18724,7 @@
     },
     {
       "id": "aural.l4.preparation.lesson1",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.examAural.lesson1",
       "unitId": "aural.l4.preparation",
@@ -18739,7 +18739,7 @@
     },
     {
       "id": "aural.l4.preparation.lesson2",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.examAural.lesson2",
       "unitId": "aural.l4.preparation",
@@ -18754,7 +18754,7 @@
     },
     {
       "id": "aural.l4.preparation.lesson3",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.examAural.lesson3",
       "unitId": "aural.l4.preparation",
@@ -18769,7 +18769,7 @@
     },
     {
       "id": "history.l4.survey.lesson1",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.historySurvey.lesson1",
       "unitId": "history.l4.survey",
@@ -18784,7 +18784,7 @@
     },
     {
       "id": "history.l4.survey.lesson2",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.historySurvey.lesson2",
       "unitId": "history.l4.survey",
@@ -18799,7 +18799,7 @@
     },
     {
       "id": "history.l4.survey.lesson3",
-      "contentVersion": 16,
+      "contentVersion": 17,
       "status": "entwurf",
       "titleKey": "content.levelFour.units.historySurvey.lesson3",
       "unitId": "history.l4.survey",

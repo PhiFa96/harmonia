@@ -11814,9 +11814,9 @@
       "status": "entwurf",
       "category": "task",
       "questions": {
-        "de": "Welcher Begriff passt zu dieser Erklärung? Mixolydisch hat gegenüber Dur eine erniedrigte siebte Stufe. Gib einen Hinweis ohne die Antwort zu verraten.",
-        "en-US": "Which concept matches this explanation? Mixolydian differs from major by its lowered seventh degree. Give one hint without the answer.",
-        "en-GB": "Which concept matches this explanation? Mixolydian differs from major by its lowered seventh degree. Give one hint without the answer."
+        "de": "Welcher Begriff passt zu dieser Erklärung? Siebenstufige Tonleiter wie Dur, aber mit erniedrigter siebter Stufe; auf G lautet sie G–A–H–C–D–E–F. Gib einen Hinweis ohne die Antwort zu verraten.",
+        "en-US": "Which concept matches this explanation? Seven-note scale like major but with a lowered seventh degree; on G it reads G–A–B–C–D–E–F. Give one hint without the answer.",
+        "en-GB": "Which concept matches this explanation? Seven-note scale like major but with a lowered seventh degree; on G it reads G–A–B–C–D–E–F. Give one hint without the answer."
       },
       "scope": {
         "locale": "de",
@@ -11827,7 +11827,7 @@
           "source": {
             "kind": "lesson",
             "lessonId": "scales.l3.modes.lesson1",
-            "contentVersion": 15,
+            "contentVersion": 16,
             "seed": "tutor-catalogue-v2",
             "round": "initial",
             "index": 0
@@ -11862,9 +11862,9 @@
       "status": "entwurf",
       "category": "task",
       "questions": {
-        "de": "Welcher Begriff passt zu dieser Erklärung? Mixolydisch hat gegenüber Dur eine erniedrigte siebte Stufe. Meine bewertete Antwort war modes:ionian. Erkläre den konkreten Fehler.",
-        "en-US": "Which concept matches this explanation? Mixolydian differs from major by its lowered seventh degree. My checked answer was modes:ionian. Explain the specific error.",
-        "en-GB": "Which concept matches this explanation? Mixolydian differs from major by its lowered seventh degree. My checked answer was modes:ionian. Explain the specific error."
+        "de": "Welcher Begriff passt zu dieser Erklärung? Siebenstufige Tonleiter wie Dur, aber mit erniedrigter siebter Stufe; auf G lautet sie G–A–H–C–D–E–F. Meine bewertete Antwort war modes:ionian. Erkläre den konkreten Fehler.",
+        "en-US": "Which concept matches this explanation? Seven-note scale like major but with a lowered seventh degree; on G it reads G–A–B–C–D–E–F. My checked answer was modes:ionian. Explain the specific error.",
+        "en-GB": "Which concept matches this explanation? Seven-note scale like major but with a lowered seventh degree; on G it reads G–A–B–C–D–E–F. My checked answer was modes:ionian. Explain the specific error."
       },
       "scope": {
         "locale": "de",
@@ -11875,7 +11875,7 @@
           "source": {
             "kind": "lesson",
             "lessonId": "scales.l3.modes.lesson1",
-            "contentVersion": 15,
+            "contentVersion": 16,
             "seed": "tutor-catalogue-v2",
             "round": "initial",
             "index": 0
@@ -11910,9 +11910,9 @@
       "status": "entwurf",
       "category": "task",
       "questions": {
-        "de": "Welcher Begriff passt zu dieser Erklärung? Mixolydisch hat gegenüber Dur eine erniedrigte siebte Stufe. Erkläre die geprüfte Lösung.",
-        "en-US": "Which concept matches this explanation? Mixolydian differs from major by its lowered seventh degree. Explain the verified solution.",
-        "en-GB": "Which concept matches this explanation? Mixolydian differs from major by its lowered seventh degree. Explain the verified solution."
+        "de": "Welcher Begriff passt zu dieser Erklärung? Siebenstufige Tonleiter wie Dur, aber mit erniedrigter siebter Stufe; auf G lautet sie G–A–H–C–D–E–F. Erkläre die geprüfte Lösung.",
+        "en-US": "Which concept matches this explanation? Seven-note scale like major but with a lowered seventh degree; on G it reads G–A–B–C–D–E–F. Explain the verified solution.",
+        "en-GB": "Which concept matches this explanation? Seven-note scale like major but with a lowered seventh degree; on G it reads G–A–B–C–D–E–F. Explain the verified solution."
       },
       "scope": {
         "locale": "de",
@@ -11923,7 +11923,7 @@
           "source": {
             "kind": "lesson",
             "lessonId": "scales.l3.modes.lesson1",
-            "contentVersion": 15,
+            "contentVersion": 16,
             "seed": "tutor-catalogue-v2",
             "round": "initial",
             "index": 0
@@ -11971,7 +11971,7 @@
           "source": {
             "kind": "lesson",
             "lessonId": "scales.l3.modes.lesson2",
-            "contentVersion": 15,
+            "contentVersion": 16,
             "seed": "tutor-catalogue-v2",
             "round": "initial",
             "index": 0
@@ -12019,7 +12019,7 @@
           "source": {
             "kind": "lesson",
             "lessonId": "scales.l3.modes.lesson2",
-            "contentVersion": 15,
+            "contentVersion": 16,
             "seed": "tutor-catalogue-v2",
             "round": "initial",
             "index": 0
@@ -12067,7 +12067,7 @@
           "source": {
             "kind": "lesson",
             "lessonId": "scales.l3.modes.lesson2",
-            "contentVersion": 15,
+            "contentVersion": 16,
             "seed": "tutor-catalogue-v2",
             "round": "initial",
             "index": 0
@@ -12102,9 +12102,9 @@
       "status": "entwurf",
       "category": "task",
       "questions": {
-        "de": "Welcher Begriff passt zu dieser Erklärung? Mixolydisch hat gegenüber Dur eine erniedrigte siebte Stufe. Gib einen Hinweis ohne die Antwort zu verraten.",
-        "en-US": "Which concept matches this explanation? Mixolydian differs from major by its lowered seventh degree. Give one hint without the answer.",
-        "en-GB": "Which concept matches this explanation? Mixolydian differs from major by its lowered seventh degree. Give one hint without the answer."
+        "de": "Welcher Begriff passt zu dieser Erklärung? Siebenstufige Tonleiter wie Dur, aber mit erniedrigter siebter Stufe; auf G lautet sie G–A–H–C–D–E–F. Gib einen Hinweis ohne die Antwort zu verraten.",
+        "en-US": "Which concept matches this explanation? Seven-note scale like major but with a lowered seventh degree; on G it reads G–A–B–C–D–E–F. Give one hint without the answer.",
+        "en-GB": "Which concept matches this explanation? Seven-note scale like major but with a lowered seventh degree; on G it reads G–A–B–C–D–E–F. Give one hint without the answer."
       },
       "scope": {
         "locale": "de",
@@ -12115,7 +12115,7 @@
           "source": {
             "kind": "lesson",
             "lessonId": "scales.l3.modes.lesson3",
-            "contentVersion": 15,
+            "contentVersion": 16,
             "seed": "tutor-catalogue-v2",
             "round": "initial",
             "index": 0
@@ -12150,9 +12150,9 @@
       "status": "entwurf",
       "category": "task",
       "questions": {
-        "de": "Welcher Begriff passt zu dieser Erklärung? Mixolydisch hat gegenüber Dur eine erniedrigte siebte Stufe. Meine bewertete Antwort war modes:ionian. Erkläre den konkreten Fehler.",
-        "en-US": "Which concept matches this explanation? Mixolydian differs from major by its lowered seventh degree. My checked answer was modes:ionian. Explain the specific error.",
-        "en-GB": "Which concept matches this explanation? Mixolydian differs from major by its lowered seventh degree. My checked answer was modes:ionian. Explain the specific error."
+        "de": "Welcher Begriff passt zu dieser Erklärung? Siebenstufige Tonleiter wie Dur, aber mit erniedrigter siebter Stufe; auf G lautet sie G–A–H–C–D–E–F. Meine bewertete Antwort war modes:ionian. Erkläre den konkreten Fehler.",
+        "en-US": "Which concept matches this explanation? Seven-note scale like major but with a lowered seventh degree; on G it reads G–A–B–C–D–E–F. My checked answer was modes:ionian. Explain the specific error.",
+        "en-GB": "Which concept matches this explanation? Seven-note scale like major but with a lowered seventh degree; on G it reads G–A–B–C–D–E–F. My checked answer was modes:ionian. Explain the specific error."
       },
       "scope": {
         "locale": "de",
@@ -12163,7 +12163,7 @@
           "source": {
             "kind": "lesson",
             "lessonId": "scales.l3.modes.lesson3",
-            "contentVersion": 15,
+            "contentVersion": 16,
             "seed": "tutor-catalogue-v2",
             "round": "initial",
             "index": 0
@@ -12198,9 +12198,9 @@
       "status": "entwurf",
       "category": "task",
       "questions": {
-        "de": "Welcher Begriff passt zu dieser Erklärung? Mixolydisch hat gegenüber Dur eine erniedrigte siebte Stufe. Erkläre die geprüfte Lösung.",
-        "en-US": "Which concept matches this explanation? Mixolydian differs from major by its lowered seventh degree. Explain the verified solution.",
-        "en-GB": "Which concept matches this explanation? Mixolydian differs from major by its lowered seventh degree. Explain the verified solution."
+        "de": "Welcher Begriff passt zu dieser Erklärung? Siebenstufige Tonleiter wie Dur, aber mit erniedrigter siebter Stufe; auf G lautet sie G–A–H–C–D–E–F. Erkläre die geprüfte Lösung.",
+        "en-US": "Which concept matches this explanation? Seven-note scale like major but with a lowered seventh degree; on G it reads G–A–B–C–D–E–F. Explain the verified solution.",
+        "en-GB": "Which concept matches this explanation? Seven-note scale like major but with a lowered seventh degree; on G it reads G–A–B–C–D–E–F. Explain the verified solution."
       },
       "scope": {
         "locale": "de",
@@ -12211,7 +12211,7 @@
           "source": {
             "kind": "lesson",
             "lessonId": "scales.l3.modes.lesson3",
-            "contentVersion": 15,
+            "contentVersion": 16,
             "seed": "tutor-catalogue-v2",
             "round": "initial",
             "index": 0
@@ -12246,9 +12246,9 @@
       "status": "entwurf",
       "category": "task",
       "questions": {
-        "de": "Welcher Begriff passt zu dieser Erklärung? Im Altschlüssel liegt c¹ auf der mittleren, im Tenorschlüssel auf der vierten Linie. Gib einen Hinweis ohne die Antwort zu verraten.",
-        "en-US": "Which concept matches this explanation? Middle C lies on the middle line in alto clef and the fourth line in tenor clef. Give one hint without the answer.",
-        "en-GB": "Which concept matches this explanation? Middle C lies on the middle line in alto clef and the fourth line in tenor clef. Give one hint without the answer."
+        "de": "Welcher Begriff passt zu dieser Erklärung? Notenschlüssel, die c¹ auf die mittlere beziehungsweise die vierte Linie legen und dieselben Linien so als andere Töne lesen lassen. Gib einen Hinweis ohne die Antwort zu verraten.",
+        "en-US": "Which concept matches this explanation? Two signs of the C family that place middle C on the middle line or on the fourth line, so the same lines are read as different pitches. Give one hint without the answer.",
+        "en-GB": "Which concept matches this explanation? Two signs of the C family that place middle C on the middle line or on the fourth line, so the same lines are read as different pitches. Give one hint without the answer."
       },
       "scope": {
         "locale": "de",
@@ -12259,7 +12259,7 @@
           "source": {
             "kind": "lesson",
             "lessonId": "notation.l4.multivoice.lesson1",
-            "contentVersion": 16,
+            "contentVersion": 17,
             "seed": "tutor-catalogue-v2",
             "round": "initial",
             "index": 0
@@ -12294,9 +12294,9 @@
       "status": "entwurf",
       "category": "task",
       "questions": {
-        "de": "Welcher Begriff passt zu dieser Erklärung? Im Altschlüssel liegt c¹ auf der mittleren, im Tenorschlüssel auf der vierten Linie. Meine bewertete Antwort war multivoice:voices. Erkläre den konkreten Fehler.",
-        "en-US": "Which concept matches this explanation? Middle C lies on the middle line in alto clef and the fourth line in tenor clef. My checked answer was multivoice:voices. Explain the specific error.",
-        "en-GB": "Which concept matches this explanation? Middle C lies on the middle line in alto clef and the fourth line in tenor clef. My checked answer was multivoice:voices. Explain the specific error."
+        "de": "Welcher Begriff passt zu dieser Erklärung? Notenschlüssel, die c¹ auf die mittlere beziehungsweise die vierte Linie legen und dieselben Linien so als andere Töne lesen lassen. Meine bewertete Antwort war multivoice:voices. Erkläre den konkreten Fehler.",
+        "en-US": "Which concept matches this explanation? Two signs of the C family that place middle C on the middle line or on the fourth line, so the same lines are read as different pitches. My checked answer was multivoice:voices. Explain the specific error.",
+        "en-GB": "Which concept matches this explanation? Two signs of the C family that place middle C on the middle line or on the fourth line, so the same lines are read as different pitches. My checked answer was multivoice:voices. Explain the specific error."
       },
       "scope": {
         "locale": "de",
@@ -12307,7 +12307,7 @@
           "source": {
             "kind": "lesson",
             "lessonId": "notation.l4.multivoice.lesson1",
-            "contentVersion": 16,
+            "contentVersion": 17,
             "seed": "tutor-catalogue-v2",
             "round": "initial",
             "index": 0
@@ -12342,9 +12342,9 @@
       "status": "entwurf",
       "category": "task",
       "questions": {
-        "de": "Welcher Begriff passt zu dieser Erklärung? Im Altschlüssel liegt c¹ auf der mittleren, im Tenorschlüssel auf der vierten Linie. Erkläre die geprüfte Lösung.",
-        "en-US": "Which concept matches this explanation? Middle C lies on the middle line in alto clef and the fourth line in tenor clef. Explain the verified solution.",
-        "en-GB": "Which concept matches this explanation? Middle C lies on the middle line in alto clef and the fourth line in tenor clef. Explain the verified solution."
+        "de": "Welcher Begriff passt zu dieser Erklärung? Notenschlüssel, die c¹ auf die mittlere beziehungsweise die vierte Linie legen und dieselben Linien so als andere Töne lesen lassen. Erkläre die geprüfte Lösung.",
+        "en-US": "Which concept matches this explanation? Two signs of the C family that place middle C on the middle line or on the fourth line, so the same lines are read as different pitches. Explain the verified solution.",
+        "en-GB": "Which concept matches this explanation? Two signs of the C family that place middle C on the middle line or on the fourth line, so the same lines are read as different pitches. Explain the verified solution."
       },
       "scope": {
         "locale": "de",
@@ -12355,7 +12355,7 @@
           "source": {
             "kind": "lesson",
             "lessonId": "notation.l4.multivoice.lesson1",
-            "contentVersion": 16,
+            "contentVersion": 17,
             "seed": "tutor-catalogue-v2",
             "round": "initial",
             "index": 0
@@ -12403,7 +12403,7 @@
           "source": {
             "kind": "lesson",
             "lessonId": "notation.l4.multivoice.lesson2",
-            "contentVersion": 16,
+            "contentVersion": 17,
             "seed": "tutor-catalogue-v2",
             "round": "initial",
             "index": 0
@@ -12451,7 +12451,7 @@
           "source": {
             "kind": "lesson",
             "lessonId": "notation.l4.multivoice.lesson2",
-            "contentVersion": 16,
+            "contentVersion": 17,
             "seed": "tutor-catalogue-v2",
             "round": "initial",
             "index": 0
@@ -12499,7 +12499,7 @@
           "source": {
             "kind": "lesson",
             "lessonId": "notation.l4.multivoice.lesson2",
-            "contentVersion": 16,
+            "contentVersion": 17,
             "seed": "tutor-catalogue-v2",
             "round": "initial",
             "index": 0
@@ -12534,9 +12534,9 @@
       "status": "entwurf",
       "category": "task",
       "questions": {
-        "de": "Welcher Begriff passt zu dieser Erklärung? Im Altschlüssel liegt c¹ auf der mittleren, im Tenorschlüssel auf der vierten Linie. Gib einen Hinweis ohne die Antwort zu verraten.",
-        "en-US": "Which concept matches this explanation? Middle C lies on the middle line in alto clef and the fourth line in tenor clef. Give one hint without the answer.",
-        "en-GB": "Which concept matches this explanation? Middle C lies on the middle line in alto clef and the fourth line in tenor clef. Give one hint without the answer."
+        "de": "Welcher Begriff passt zu dieser Erklärung? Notenschlüssel, die c¹ auf die mittlere beziehungsweise die vierte Linie legen und dieselben Linien so als andere Töne lesen lassen. Gib einen Hinweis ohne die Antwort zu verraten.",
+        "en-US": "Which concept matches this explanation? Two signs of the C family that place middle C on the middle line or on the fourth line, so the same lines are read as different pitches. Give one hint without the answer.",
+        "en-GB": "Which concept matches this explanation? Two signs of the C family that place middle C on the middle line or on the fourth line, so the same lines are read as different pitches. Give one hint without the answer."
       },
       "scope": {
         "locale": "de",
@@ -12547,7 +12547,7 @@
           "source": {
             "kind": "lesson",
             "lessonId": "notation.l4.multivoice.lesson3",
-            "contentVersion": 16,
+            "contentVersion": 17,
             "seed": "tutor-catalogue-v2",
             "round": "initial",
             "index": 0
@@ -12582,9 +12582,9 @@
       "status": "entwurf",
       "category": "task",
       "questions": {
-        "de": "Welcher Begriff passt zu dieser Erklärung? Im Altschlüssel liegt c¹ auf der mittleren, im Tenorschlüssel auf der vierten Linie. Meine bewertete Antwort war multivoice:voices. Erkläre den konkreten Fehler.",
-        "en-US": "Which concept matches this explanation? Middle C lies on the middle line in alto clef and the fourth line in tenor clef. My checked answer was multivoice:voices. Explain the specific error.",
-        "en-GB": "Which concept matches this explanation? Middle C lies on the middle line in alto clef and the fourth line in tenor clef. My checked answer was multivoice:voices. Explain the specific error."
+        "de": "Welcher Begriff passt zu dieser Erklärung? Notenschlüssel, die c¹ auf die mittlere beziehungsweise die vierte Linie legen und dieselben Linien so als andere Töne lesen lassen. Meine bewertete Antwort war multivoice:voices. Erkläre den konkreten Fehler.",
+        "en-US": "Which concept matches this explanation? Two signs of the C family that place middle C on the middle line or on the fourth line, so the same lines are read as different pitches. My checked answer was multivoice:voices. Explain the specific error.",
+        "en-GB": "Which concept matches this explanation? Two signs of the C family that place middle C on the middle line or on the fourth line, so the same lines are read as different pitches. My checked answer was multivoice:voices. Explain the specific error."
       },
       "scope": {
         "locale": "de",
@@ -12595,7 +12595,7 @@
           "source": {
             "kind": "lesson",
             "lessonId": "notation.l4.multivoice.lesson3",
-            "contentVersion": 16,
+            "contentVersion": 17,
             "seed": "tutor-catalogue-v2",
             "round": "initial",
             "index": 0
@@ -12630,9 +12630,9 @@
       "status": "entwurf",
       "category": "task",
       "questions": {
-        "de": "Welcher Begriff passt zu dieser Erklärung? Im Altschlüssel liegt c¹ auf der mittleren, im Tenorschlüssel auf der vierten Linie. Erkläre die geprüfte Lösung.",
-        "en-US": "Which concept matches this explanation? Middle C lies on the middle line in alto clef and the fourth line in tenor clef. Explain the verified solution.",
-        "en-GB": "Which concept matches this explanation? Middle C lies on the middle line in alto clef and the fourth line in tenor clef. Explain the verified solution."
+        "de": "Welcher Begriff passt zu dieser Erklärung? Notenschlüssel, die c¹ auf die mittlere beziehungsweise die vierte Linie legen und dieselben Linien so als andere Töne lesen lassen. Erkläre die geprüfte Lösung.",
+        "en-US": "Which concept matches this explanation? Two signs of the C family that place middle C on the middle line or on the fourth line, so the same lines are read as different pitches. Explain the verified solution.",
+        "en-GB": "Which concept matches this explanation? Two signs of the C family that place middle C on the middle line or on the fourth line, so the same lines are read as different pitches. Explain the verified solution."
       },
       "scope": {
         "locale": "de",
@@ -12643,7 +12643,7 @@
           "source": {
             "kind": "lesson",
             "lessonId": "notation.l4.multivoice.lesson3",
-            "contentVersion": 16,
+            "contentVersion": 17,
             "seed": "tutor-catalogue-v2",
             "round": "initial",
             "index": 0
