@@ -29,3 +29,16 @@ Grenzen: Literatur nur über Suchauszüge, kein Primärtext. DB-Prüfung mit Att
 ## Fähigkeiten und Graph
 
 Stufe 1: 4 Fehler, 18 Zweifel; Stufe 2: 8 Fehler, 15 Zweifel; Graph ohne Zyklen und ohne Stufenverstoß (Berichte unter [`docs/quality/fachpruefung-stufe-1/`](../quality/fachpruefung-stufe-1/)). Korrekturen folgen in einem eigenen PR.
+
+## P3.17–P3.19 (zweite Runde, 20.10.2026)
+
+Berichte: [`P3.17`](../quality/fachpruefung-phase-3/p3-17-pruefungsmodus.md), [`P3.18`](../quality/fachpruefung-phase-3/p3-18-tutor-planer.md), [`P3.19`](../quality/fachpruefung-phase-3/p3-19-wissensbasis-v2.md). Die Prüfer konnten keine Datenbank-/pgTAP-Läufe ausführen (kein Docker); diese Abnahme bleibt offen. Nichts wird freigegeben, der öffentliche Index bleibt leer.
+
+**Behoben:**
+- P3.17: Kadenzfrage der Vorlage `foundation` war als Theorie etikettiert, ist aber immer eine Hörfrage (`CADENCE_IDENTIFY`); ersetzt durch eine Modulationsfrage, neuer Test prüft den Bereich gegen `isAuralExercise`.
+- P3.18: `knowledge.test.sql` erwartete Prompt-Version 3 (Migration setzt 4); Testkatalog v2 nach den Helmholtz-Namen neu erzeugt und als CI-Schritt ergänzt (`check:tutor:catalogue-v2`); Prompt-Zeile „user profiles“ zu „account fields or raw answers“ präzisiert. **Prompt v4 verlangt eine neue echte Kalibrierung; es wird nichts als live gemessen behauptet.**
+
+**Nacharbeit (nicht blockierend):**
+- **P3.17:** Abschlusstext bei übersprungenen Hörfragen, keine Abbruchbestätigung, keine Fokus-/Zeitansage am Ende, keine App-Tests für `exam.tsx`, serverseitige Frist bei gespeicherten Ergebnissen, Fachprüfung der Vorlagen.
+- **P3.18:** Stärken/Übungsfeld ohne Mindestabstand (Ratings 1500/1500 ergeben beides), kein Alterszerfall, Wochenplan ignoriert Übungsfelder, Datenschutzdokumente (VVT, DSFA-Vorprüfung, Store) ergänzen, Lernstand erst beim Werkzeugaufruf laden, Testlücken (DB-Pfad, Stärken-Zweig, Fixture ruft Werkzeuge nicht auf), Stufe-3/4-Fälle sind nur 4 verschiedene Aufgaben, Doku „8 statt 10 Werkzeuge“, `p2-abschluss.md` nennt noch Prompt v3.
+- **P3.19:** Trigramm-Schwelle 0,25 liefert themenfremde Treffer („Coda“, „Motiv“), `db:test:knowledge:v2` läuft nicht in der CI, en-GB ist Kopie von en-US mit gemischter Schreibung, Entwicklerhinweise als Lerntext, „direkte parallele Quinten“ und Hemiole-Definition fachlich unscharf, ADR-0016-Nachtrag zu `pg_trgm`.
