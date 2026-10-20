@@ -19,8 +19,8 @@ function required<T>(v: T | undefined): T {
 const unit = 'notation.l2.clefs-registers';
 describe('Erste Stufe-2-Einheit', () => {
   it('160 Lektionen mit 1600 Aufgaben, neue 9 Karten/15 Beispiele/Artikel und drei Fähigkeiten', () => {
-    expect(catalogue.contentVersion).toBe(16);
-    expect(curriculumPlan.contentVersion).toBe(16);
+    expect(catalogue.contentVersion).toBe(17);
+    expect(curriculumPlan.contentVersion).toBe(17);
     expect(catalogue.lessons).toHaveLength(160);
     expect(
       catalogue.lessons.reduce(

@@ -46,3 +46,18 @@ Freigabefähig nach Kartenstand (Prüferempfehlung, vorbehaltlich 1 und 2): die 
 - Literaturzugang oder zugängliche Ausgaben beschaffen; danach Literaturabgleich der Kernaussagen.
 - Verbleibende Zweifel entscheiden und einarbeiten; dann Status setzen, `pnpm content:publish` und alle Tests.
 - Stufe 2 getrennt prüfen.
+
+## Graphkorrekturen (20.10.2026, Katalogversion 17)
+
+Berichte: [Stufe 1](../quality/fachpruefung-stufe-1/graph-stufe-1.md), [Stufe 2](../quality/fachpruefung-stufe-1/graph-stufe-2.md). Alle Inhalte bleiben `entwurf`; geändert wurden Titel, Voraussetzungen und Versionen (26 Fähigkeiten, Katalog und Plan Version 17), `published.json` und Planungsdiagramme sind neu erzeugt.
+
+**Behoben (Fehler):**
+- Stufe 1: Titel von `notation.treble-natural` (e¹–f² statt c¹–c²), `rhythm.note-values` und `rhythm.rests` (mit Sechzehnteln), `rhythm.barlines` (Taktstriche und Schlussstrich; Wiederholungszeichen sind nicht Inhalt).
+- Stufe 2: Kanten `notation.bass-natural` (+ Hilfslinien, Oktavlage), `notation.grand-staff` (+ `pitch-match`), `interval.simple-qualities` (+ `thirds`, `perfect-fourth-fifth-octave`; statt `accidental-scope` nun `accidentals`), `chord.diatonic-triads` (+ `diminished-augmented`); Titel `notation.accidental-scope` (DE-Grammatik, Oktavlage), `scale.major-build` (DE), `rhythm.triplet` (US-Artikel), `chord.inversions` (nur „bestimmen“, da keine Umkehrungs-Bauaufgabe existiert); Kanten `notation.accidental-scope` (+ Oktavlage) und `rhythm.triplet` (+ `read-basic`).
+
+**Behoben (Zweifel mit klarer Lösung):** Titel von `notation.staff`, `notation.treble-clef`, `rhythm.count-in` (US „pickup“), `interval.semitone-distance`, `aural.pulse`, `aural.rhythm-choice-basic`, `aural.pitch-direction`, `history.sound-source`, `history.source-types`, `history.genre-function`; Kanten `rhythm.measure-fill → meter-simple`, `rhythm.barlines → count-in`, `notation.treble-natural → semitone-distance`; Geschichte: `european-timeline` und `listening-observation` hängen an `history.context`.
+
+**Bewusst nicht geändert (offen):**
+- `aural.third-fourth-fifth` ← Intervallnummer/Halbtonabstand: Der Test `curriculum.test.ts` hält fest, dass elementare Gehörbildung ohne Notationsvoraussetzungen beginnt. Entscheidung offen: Kante ergänzen und Test anpassen oder Karte so umschreiben, dass sie Namen und Halbtonzahl selbst einführt.
+- Fehlende Aufgaben: „Linie oder Zwischenraum“ (`notation.staff`), Abstand zweier Tasten (`notation.semitone`), Auflösungszeichen im Notenbild (`notation.accidentals`), Wiederholungszeichen als Inhalt (`rhythm.barlines`), `CHORD_BUILD` mit Umkehrungen (`chord.inversions`).
+- `interval.identify.visual`/`interval.identify.aural` (Prototyp, Duplikat von `aural.third-fourth-fifth`), 18 Zweifel mit nur einem Mittel, Redundanzen (G6), zweites Mittel für 10 Fähigkeiten, Literaturabgleich mit Primärtexten.
