@@ -44,6 +44,7 @@ export const caseSchema = z
       .array()
       .max(8),
     expectedFacts: json,
+    learnerFixture: json.optional(),
     sourceArticles: z.string().array().max(3),
     exampleRequired: z.boolean(),
     reviewNotes: z.string().min(1),

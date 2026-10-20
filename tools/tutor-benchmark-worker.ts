@@ -1,5 +1,6 @@
 // Reiner lokaler Dialoglauf. Der Node-CLI führt ausschließlich ausdrücklich gestartete SDK-Batches aus.
 import { runTutor } from '../supabase/functions/_shared/tutor-runtime.ts';
+import type { LearnerContext } from '../supabase/functions/_shared/tutor-learner.ts';
 import { exerciseContext } from '../supabase/functions/_shared/tutor-tools.ts';
 import { catalogue as preview } from '../packages/content/src/authoring.ts';
 import { catalogue as published } from '../packages/content/src/published.ts';
@@ -80,6 +81,7 @@ for (const episode of preparation.episodes) {
     context: exerciseContext(config.lane === 'preview' ? preview : published, request),
     history: [],
     knowledge: episode.knowledge,
+    ...(c.learnerFixture ? { learner: c.learnerFixture as LearnerContext } : {}),
     signal: new AbortController().signal,
     emit: (event) => {
       if (event.type === 'tool') provider.markTool(event.id, event.ok);

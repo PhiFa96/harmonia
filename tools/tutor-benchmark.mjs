@@ -39,6 +39,12 @@ import { validateReceipts, receiptCosts } from './tutor-benchmark/batch.ts';
 import { officialEvidence } from './tutor-benchmark/binding.ts';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
+function currentCatalogue(version) {
+  if (version !== 1 && version !== 2) throw Error('Unknown tutor catalogue version');
+  return catalogueSchema.parse(
+    readJson(join(root, `tools/tutor-benchmark/catalogue${version === 2 ? '-v2' : ''}.json`)),
+  );
+}
 export const readJson = (path) => {
   if (statSync(path).size > 512_000_000) throw Error('Datei überschreitet 512 MB');
   return JSON.parse(readFileSync(path, 'utf8'));
@@ -242,9 +248,7 @@ export async function runWorker(journal) {
     journal.preparation.configHash !== (await fingerprint(journal.config)) ||
     journal.preparation.catalogueHash !== (await fingerprint(journal.catalogue)) ||
     journal.preparation.catalogueHash !==
-      (await fingerprint(
-        catalogueSchema.parse(readJson(join(root, 'tools/tutor-benchmark/catalogue.json'))),
-      ))
+      (await fingerprint(currentCatalogue(journal.catalogue.version)))
   )
     throw Error('Laufkonfiguration oder Katalog wurde verändert');
   const dir = mkdtempSync(join(tmpdir(), 'harmonia-tutor-benchmark-')),
@@ -425,7 +429,13 @@ async function collect(journal, client) {
 export async function main(args = process.argv.slice(2)) {
   const accepted = {
     prepare: {
-      value: ['--run', '--config', '--catalogue-review', '--budget-nano-usd'],
+      value: [
+        '--run',
+        '--config',
+        '--catalogue-review',
+        '--budget-nano-usd',
+        '--catalogue-version',
+      ],
       boolean: ['--simulate', '--allow-draft'],
     },
     inspect: { value: ['--run'], boolean: [] },
@@ -471,9 +481,7 @@ export async function main(args = process.argv.slice(2)) {
       'Befehle: prepare, inspect, simulate, submit, collect, reconcile, cancel, review-template, evaluate. Details docs/plan/tutor-testkatalog.md.',
     );
   if (command === 'prepare') {
-    const catalogue = catalogueSchema.parse(
-        readJson(join(root, 'tools/tutor-benchmark/catalogue.json')),
-      ),
+    const catalogue = currentCatalogue(Number(flag(args, '--catalogue-version', '1'))),
       config = configSchema.parse(
         readJson(
           resolve(flag(args, '--config', join(root, 'tools/tutor-benchmark/config.example.json'))),
@@ -654,10 +662,7 @@ export async function main(args = process.argv.slice(2)) {
     }
     if (
       j.report.receiptsHash !== (await fingerprint(j.cache)) ||
-      j.preparation.catalogueHash !==
-        (await fingerprint(
-          catalogueSchema.parse(readJson(join(root, 'tools/tutor-benchmark/catalogue.json'))),
-        ))
+      j.preparation.catalogueHash !== (await fingerprint(currentCatalogue(j.catalogue.version)))
     )
       throw Error('Quittungen oder aktueller Katalog passen nicht zum bewerteten Lauf');
     if (command === 'review-template') {

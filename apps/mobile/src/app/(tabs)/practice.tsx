@@ -1,4 +1,5 @@
 import { RushEntry } from '@/components/rush-entry';
+import { ExamEntry } from '@/components/exam-entry';
 import { DuelEntry } from '@/components/duel-entry';
 import { DailyPuzzleEntry } from '@/components/daily-puzzle-entry';
 import { FriendsEntry } from '@/components/friends-entry';
@@ -125,6 +126,7 @@ export default function PracticeScreen() {
             <AppText tone="muted">{t('exercise.intro')}</AppText>
             <EnergyCard />
             <RushEntry />
+            <ExamEntry />
             <DuelEntry />
             <DailyPuzzleEntry />
             <FriendsEntry />

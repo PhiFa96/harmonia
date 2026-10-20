@@ -32,6 +32,7 @@ import {
 } from '../_shared/tutor-local-fixture.ts';
 import type { TutorModelMessage } from '../_shared/tutor-provider.ts';
 import { retrieveKnowledge } from '../_shared/knowledge.ts';
+import { loadLearnerContext } from '../_shared/tutor-learner.ts';
 
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const codes: Record<string, number> = {
@@ -484,6 +485,7 @@ async function handler(request: Request): Promise<Response> {
     reserved = { client, actor, id: input.id, lease: claim.lease };
     const history = await conversationHistory(client, actor, input.conversationId),
       knowledge = await retrieveKnowledge(client, input, context),
+      learner = await loadLearnerContext(client, actor, await content(), input),
       provider = new AnthropicTutorProvider(
         test ? 'local-fixture-no-secret' : (key ?? ''),
         test ? localTutorFetch : undefined,
@@ -530,6 +532,7 @@ async function handler(request: Request): Promise<Response> {
             context,
             history,
             knowledge,
+            learner,
             signal: AbortSignal.any([abort.signal, request.signal]),
             emit: send,
           });

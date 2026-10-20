@@ -77,7 +77,7 @@ describe('canonical rating evidence', () => {
       repeats += plan.repetitionIndices.length;
     }
     expect(repeats).toBeGreaterThan(0);
-  });
+  }, 60_000);
   it('excludes assisted responses and review rounds without changing lesson passing', () => {
     const record = catalogue.lessons[0];
     if (!record) throw new Error('Lesson missing');

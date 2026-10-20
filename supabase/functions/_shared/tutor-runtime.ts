@@ -21,6 +21,7 @@ import {
   tutorReservation,
 } from './tutor-provider.ts';
 import { knowledgeDocuments, validateTutorCitation } from './tutor-citations.ts';
+import type { LearnerContext } from './tutor-learner.ts';
 
 export type TutorStatus = 'complete' | 'refused' | 'partial' | 'failed' | 'cancelled';
 export interface TutorResult {
@@ -53,6 +54,7 @@ export async function runTutor(input: {
   context: unknown;
   history: MessageParam[];
   knowledge?: KnowledgeBundle;
+  learner?: LearnerContext;
   signal: AbortSignal;
   emit: (event: TutorEvent) => void;
 }): Promise<{ result: TutorResult; usage: TutorUsage }> {
@@ -228,7 +230,13 @@ export async function runTutor(input: {
       const outputs: ToolResultBlockParam[] = [];
       for (const call of calls) {
         usedIds.add(call.id);
-        const output = executeTutorTool(call.name, call.input, request, input.context);
+        const output = executeTutorTool(
+          call.name,
+          call.input,
+          request,
+          input.context,
+          input.learner,
+        );
         emit({ type: 'tool', name: call.name, id: call.id, ok: output.ok });
         if (!output.ok) notice('tool_error');
         if ('example' in output) {

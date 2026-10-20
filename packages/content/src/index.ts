@@ -29,4 +29,5 @@ export * from './rush.ts';
 export * from './duel.ts';
 export * from './friends.ts';
 export * from './daily-puzzle.ts';
+export * from './exam.ts';
 export { lessonDay } from './calendar.ts';

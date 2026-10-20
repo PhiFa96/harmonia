@@ -80,6 +80,9 @@ jobs:
       - name: Tutor-Testkatalog, Sprachfassungen und Abdeckung
         run: pnpm check:tutor:catalogue
 
+      - name: Tutor-Testkatalog v2 (Stufe 3/4, Quellen, Lernstand)
+        run: pnpm check:tutor:catalogue-v2
+
   tutor_benchmark:
     name: Tutor-Batchmechanik ohne Modellkosten
     runs-on: ubuntu-latest
