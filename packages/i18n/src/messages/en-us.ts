@@ -1150,7 +1150,8 @@ export const enUS = {
     'contextOption_mediated-distribution': 'Distribution through a media channel',
     'contextOption_invented-origin': 'Proof of the musical style’s very first origin',
     'contextOption_universal-style': 'Proof about every musician and work in this tradition',
-    'contextOption_different-date-roles': 'Composition and recording date different events',
+    'contextOption_different-date-roles':
+      'Composition and recording dates refer to different events',
     'contextOption_intention-performance':
       'Announcement and actual performance are different claims',
     'contextOption_unresolved-conflict': 'Unresolved conflict; additional evidence is needed',
@@ -1743,7 +1744,7 @@ export const enUS = {
     cadence_plagal: 'Plagal cadence (IV–I)',
     cadence_half: 'Half cadence (I–V)',
     cadence_deceptive: 'Deceptive cadence (V–vi)',
-    cadenceExplanation: 'In {{key}}, the progression ends with {{answer}}.',
+    cadenceExplanation: 'In {{key}}, the progression ends as follows: {{answer}}.',
     functionExplanation: 'In {{key}}, the chord belongs to {{answer}}.',
     dictationExplanation: 'Heard sequence: {{answer}}.',
     harmonyHint1_CADENCE_IDENTIFY:

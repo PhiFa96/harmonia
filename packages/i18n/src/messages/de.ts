@@ -1140,7 +1140,7 @@ export const de = {
     contextSign_natural: 'Auflösungszeichen',
     contextSign_doubleSharp: 'Doppelkreuz',
     contextSign_doubleFlat: 'Doppel-b',
-    contextResult: ' {{explanation}} Antwort: {{answer}}.',
+    contextResult: '{{explanation}} Antwort: {{answer}}.',
     contextFraction: '{{fraction}} × Viertelnotenwert',
     contextDegree: 'Stufe {{count}}',
     contextPattern: 'Halbtonschritte: {{pattern}}',

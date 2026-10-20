@@ -2,7 +2,7 @@
 
 <!-- Erzeugt mit pnpm curriculum:render; Änderungen an Katalog, Plan oder Übersetzungen vornehmen. -->
 
-Katalog-/Planversion 17. 15 Bereiche, 33 Bereichsstufen, 54 Einheiten und 165 Fähigkeiten.
+Katalog-/Planversion 18. 15 Bereiche, 33 Bereichsstufen, 54 Einheiten und 165 Fähigkeiten.
 
 Pfeile zeigen von der Voraussetzung zum folgenden Lernziel. Die Reihenfolge ist eine mögliche Reihenfolge für die Planung; unabhängige Zweige bleiben im Graphen unabhängig. Die Tabellen zeigen alle direkten Voraussetzungen, auch über Bereichsgrenzen hinweg.
 
@@ -184,7 +184,10 @@ flowchart TD
   u12 --> u27
   u11 --> u28
   u20 --> u29
+  u19 --> u29
   u23 --> u30
+  u22 --> u30
+  u17 --> u30
   u23 --> u31
   u21 --> u31
   u31 --> u32
@@ -192,23 +195,30 @@ flowchart TD
   u21 --> u33
   u25 --> u34
   u24 --> u34
-  u12 --> u35
+  u1 --> u35
   u6 --> u35
   u35 --> u36
   u11 --> u37
   u37 --> u38
   u13 --> u38
+  u18 --> u38
   u30 --> u39
   u28 --> u39
   u28 --> u40
   u27 --> u40
   u38 --> u41
   u34 --> u42
+  u15 --> u42
+  u16 --> u42
   u30 --> u43
+  u18 --> u43
+  u23 --> u43
   u33 --> u44
-  u44 --> u45
-  u41 --> u45
+  u30 --> u44
+  u23 --> u45
+  u32 --> u45
   u45 --> u46
+  u23 --> u46
   u36 --> u47
   u44 --> u47
   u47 --> u48
@@ -381,8 +391,12 @@ flowchart TD
   s51 --> s52
   s21 --> s52
   s106 -.-> s129
+  s48 --> s129
   s129 --> s130
+  s50 --> s130
+  s49 --> s130
   s130 --> s131
+  s51 --> s131
 ```
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
@@ -404,9 +418,9 @@ flowchart TD
 | 2 · Zwei- und Dreiteilung der Zählzeit | Drei Achtel in einer Achteltriole zählen | `rhythm.triplet` | Count triplet eighth notes / Count triplet quavers | `rhythm.note-values`, `rhythm.read-basic` | entwurf |
 | 2 · Zwei- und Dreiteilung der Zählzeit | Zweiteilige und dreiteilige Zählzeiten in 3/4 und 6/8 unterscheiden | `rhythm.compound-meter` | Distinguish duple and triple beat subdivisions in 3/4 and 6/8 | `rhythm.meter-simple`, `rhythm.dotted-values` | entwurf |
 | 2 · Zwei- und Dreiteilung der Zählzeit | Achtel in 6/8 nach Zählzeiten gruppieren | `rhythm.group-6-8` | Group eighth notes by beat in 6/8 / Group quavers by beat in 6/8 | `rhythm.compound-meter`, `rhythm.read-basic` | entwurf |
-| 4 · Komplexere Rhythmik | Unterteilungen zählen | `rhythm.l4.complex.s1` | Count subdivisions | `aural.l3.dictation.s2` | entwurf |
-| 4 · Komplexere Rhythmik | Triolen und Synkopen ausführen | `rhythm.l4.complex.s2` | Perform triplets and syncopations | `rhythm.l4.complex.s1` | entwurf |
-| 4 · Komplexere Rhythmik | Akzentgruppen vergleichen | `rhythm.l4.complex.s3` | Compare accent groups | `rhythm.l4.complex.s2` | entwurf |
+| 4 · Komplexere Rhythmik | Unterteilungen zählen | `rhythm.l4.complex.s1` | Count subdivisions | `aural.l3.dictation.s2`, `rhythm.dotted-and-tied` | entwurf |
+| 4 · Komplexere Rhythmik | Triolen und Synkopen ausführen | `rhythm.l4.complex.s2` | Perform triplets and syncopations | `rhythm.l4.complex.s1`, `rhythm.triplet`, `rhythm.syncopation-basic` | entwurf |
+| 4 · Komplexere Rhythmik | Akzentgruppen vergleichen | `rhythm.l4.complex.s3` | Compare accent groups | `rhythm.l4.complex.s2`, `rhythm.compound-meter` | entwurf |
 
 ## Intervalle · `area.intervals`
 
@@ -517,6 +531,8 @@ flowchart TD
   s67 --> s68
   s62 --> s68
   s64 --> s90
+  s62 --> s90
+  s61 --> s90
   s90 --> s91
   s91 --> s92
 ```
@@ -533,7 +549,7 @@ flowchart TD
 | 2 · Tonartvorzeichnungen und verwandte Tonarten | Benachbarte Tonarten im Quintenzirkel finden | `key.fifths` | Find neighboring keys in the circle of fifths / Find neighbouring keys in the circle of fifths | `key.signature-major` | entwurf |
 | 2 · Tonartvorzeichnungen und verwandte Tonarten | Moll-Tonarten mit bis zu drei Vorzeichen zuordnen | `key.signature-minor` | Identify minor keys with up to three sharps or flats | `scale.natural-minor`, `key.fifths` | entwurf |
 | 2 · Tonartvorzeichnungen und verwandte Tonarten | Paralleltonarten unterscheiden und zuordnen | `key.relative` | Distinguish and match relative keys | `key.signature-minor`, `scale.natural-minor` | entwurf |
-| 3 · Modale Tonleitern | Ionisch und Äolisch vergleichen | `scales.l3.modes.s1` | Compare Ionian and Aeolian | `scale.melodic-minor` | entwurf |
+| 3 · Modale Tonleitern | Ionisch und Äolisch vergleichen | `scales.l3.modes.s1` | Compare Ionian and Aeolian | `scale.melodic-minor`, `scale.natural-minor`, `scale.tonic` | entwurf |
 | 3 · Modale Tonleitern | Dorisch und Mixolydisch erklären | `scales.l3.modes.s2` | Explain Dorian and Mixolydian | `scales.l3.modes.s1` | entwurf |
 | 3 · Modale Tonleitern | Modi über den Grundton unterscheiden | `scales.l3.modes.s3` | Distinguish modes by tonic | `scales.l3.modes.s2` | entwurf |
 
@@ -564,6 +580,7 @@ flowchart TD
   s53["Intervallnummer und Qualität (rein, klein, groß; Tritonus) bis zur Oktave bestimmen · anderer Bereich"]
   s60["Dur-Tonleitern mit bis zu drei Vorzeichen (Kreuzen oder b) schreiben · anderer Bereich"]
   s62["Natürliches Moll aufbauen · anderer Bereich"]
+  s58["Einfache und zusammengesetzte Intervalle zuordnen · anderer Bereich"]
   s54 -.-> s69
   s69 --> s70
   s26 -.-> s70
@@ -577,10 +594,15 @@ flowchart TD
   s69 --> s74
   s71 --> s74
   s74 --> s93
+  s71 --> s93
+  s73 --> s93
+  s53 -.-> s93
   s93 --> s94
   s94 --> s95
   s95 --> s132
+  s58 -.-> s132
   s132 --> s133
+  s73 --> s133
   s133 --> s134
 ```
 
@@ -592,11 +614,11 @@ flowchart TD
 | 2 · Basston, Umkehrungen und leitereigene Dreiklänge | Akkordgrundton und Basston auseinanderhalten | `chord.root-and-bass` | Distinguish chord root from bass note | `chord.triad-structure` | entwurf |
 | 2 · Basston, Umkehrungen und leitereigene Dreiklänge | Grundstellung, erste und zweite Umkehrung bestimmen | `chord.inversions` | Identify root-position, first-inversion and second-inversion triads | `chord.root-and-bass`, `chord.major-minor` | entwurf |
 | 2 · Basston, Umkehrungen und leitereigene Dreiklänge | Leitereigene Dreiklänge in Dur und natürlichem Moll bauen | `chord.diatonic-triads` | Build diatonic triads in major and natural minor | `scale.major-build`, `scale.natural-minor`, `chord.triad-structure`, `chord.diminished-augmented` | entwurf |
-| 3 · Septakkorde | Septakkordtypen erkennen | `chords.l3.sevenths.s1` | Identify seventh-chord types | `chord.diatonic-triads` | entwurf |
+| 3 · Septakkorde | Septakkordtypen erkennen | `chords.l3.sevenths.s1` | Identify seventh-chord types | `chord.diatonic-triads`, `chord.diminished-augmented`, `chord.inversions`, `interval.simple-qualities` | entwurf |
 | 3 · Septakkorde | Septakkorde schreiben | `chords.l3.sevenths.s2` | Build seventh chords | `chords.l3.sevenths.s1` | entwurf |
 | 3 · Septakkorde | Vierklänge im Kontext vergleichen | `chords.l3.sevenths.s3` | Compare seventh chords in context | `chords.l3.sevenths.s2` | entwurf |
-| 4 · Erweiterte Akkorde | Nonen und Alterationen erklären | `chords.l4.extensions.s1` | Explain ninths and alterations | `chords.l3.sevenths.s3` | entwurf |
-| 4 · Erweiterte Akkorde | Septakkordumkehrungen schreiben | `chords.l4.extensions.s2` | Write seventh-chord inversions | `chords.l4.extensions.s1` | entwurf |
+| 4 · Erweiterte Akkorde | Nonen und Alterationen erklären | `chords.l4.extensions.s1` | Explain ninths and alterations | `chords.l3.sevenths.s3`, `interval.simple-compound` | entwurf |
+| 4 · Erweiterte Akkorde | Septakkordumkehrungen schreiben | `chords.l4.extensions.s2` | Write seventh-chord inversions | `chords.l4.extensions.s1`, `chord.inversions` | entwurf |
 | 4 · Erweiterte Akkorde | Lagen und Verdopplungen vergleichen | `chords.l4.extensions.s3` | Compare voicings and doublings | `chords.l4.extensions.s2` | entwurf |
 
 ## Gehörbildung · `area.aural`
@@ -776,7 +798,7 @@ flowchart TD
     s96["Tonika und Dominante bestimmen"]
     s97["Subdominante und Nebenstufen lesen"]
     s98["Stufen- und Funktionszeichen vergleichen"]
-    s99["Authentische und plagale Wendung unterscheiden"]
+    s99["Ganzschluss und Plagalschluss unterscheiden"]
     s100["Halb- und Trugschluss bestimmen"]
     s101["Kadenzfolgen im Tonartbezug vergleichen"]
     s102["Gemeinsame Akkorde erkennen"]
@@ -791,6 +813,7 @@ flowchart TD
   s74["Leitereigene Dreiklänge in Dur und natürlichem Moll bauen · anderer Bereich"]
   s68["Paralleltonarten unterscheiden und zuordnen · anderer Bereich"]
   s66["Benachbarte Tonarten im Quintenzirkel finden · anderer Bereich"]
+  s93["Septakkordtypen erkennen · anderer Bereich"]
   s74 -.-> s96
   s68 -.-> s96
   s96 --> s97
@@ -803,6 +826,7 @@ flowchart TD
   s102 --> s103
   s103 --> s104
   s104 --> s135
+  s93 -.-> s135
   s135 --> s136
   s136 --> s137
 ```
@@ -812,13 +836,13 @@ flowchart TD
 | 3 · Stufen und Funktionen | Tonika und Dominante bestimmen | `harmony.l3.functions.s1` | Find tonic and dominant | `chord.diatonic-triads`, `key.relative` | entwurf |
 | 3 · Stufen und Funktionen | Subdominante und Nebenstufen lesen | `harmony.l3.functions.s2` | Read subdominant and other degrees | `harmony.l3.functions.s1` | entwurf |
 | 3 · Stufen und Funktionen | Stufen- und Funktionszeichen vergleichen | `harmony.l3.functions.s3` | Compare degree and function symbols | `harmony.l3.functions.s2` | entwurf |
-| 3 · Einfache Kadenzen | Authentische und plagale Wendung unterscheiden | `harmony.l3.cadences.s1` | Distinguish authentic and plagal motion | `harmony.l3.functions.s3` | entwurf |
+| 3 · Einfache Kadenzen | Ganzschluss und Plagalschluss unterscheiden | `harmony.l3.cadences.s1` | Distinguish authentic and plagal cadences | `harmony.l3.functions.s3` | entwurf |
 | 3 · Einfache Kadenzen | Halb- und Trugschluss bestimmen | `harmony.l3.cadences.s2` | Identify half and deceptive cadences | `harmony.l3.cadences.s1` | entwurf |
 | 3 · Einfache Kadenzen | Kadenzfolgen im Tonartbezug vergleichen | `harmony.l3.cadences.s3` | Compare cadences in a key | `harmony.l3.cadences.s2` | entwurf |
-| 3 · Tonartwechsel als Einstieg | Gemeinsame Akkorde erkennen | `harmony.l3.modulation.s1` | Recognize pivot chords | `harmony.l3.cadences.s3`, `key.fifths` | entwurf |
-| 3 · Tonartwechsel als Einstieg | Tonikalisierung von Modulation trennen | `harmony.l3.modulation.s2` | Separate tonicization from modulation | `harmony.l3.modulation.s1` | entwurf |
+| 3 · Tonartwechsel als Einstieg | Gemeinsame Akkorde erkennen | `harmony.l3.modulation.s1` | Recognize pivot chords / Recognise pivot chords | `harmony.l3.cadences.s3`, `key.fifths` | entwurf |
+| 3 · Tonartwechsel als Einstieg | Tonikalisierung von Modulation trennen | `harmony.l3.modulation.s2` | Separate tonicization from modulation / Separate tonicisation from modulation | `harmony.l3.modulation.s1` | entwurf |
 | 3 · Tonartwechsel als Einstieg | Hinweise auf eine neue Tonika prüfen | `harmony.l3.modulation.s3` | Check evidence for a new tonic | `harmony.l3.modulation.s2` | entwurf |
-| 4 · Angewandte Harmonik | Zwischendominanten erkennen | `harmony.l4.applied.s1` | Identify secondary dominants | `harmony.l3.modulation.s3` | entwurf |
+| 4 · Angewandte Harmonik | Zwischendominanten erkennen | `harmony.l4.applied.s1` | Identify secondary dominants | `harmony.l3.modulation.s3`, `chords.l3.sevenths.s1` | entwurf |
 | 4 · Angewandte Harmonik | Gemeinsame Akkorde in zwei Tonarten lesen | `harmony.l4.applied.s2` | Read pivot chords in two keys | `harmony.l4.applied.s1` | entwurf |
 | 4 · Angewandte Harmonik | Neue Tonika mit Kadenz begründen | `harmony.l4.applied.s3` | Support a new tonic with a cadence | `harmony.l4.applied.s2` | entwurf |
 
@@ -839,10 +863,10 @@ flowchart TD
     s145["Durchführung und Reprise unterscheiden"]
     s146["Formbehauptungen belegen"]
   end
-  s38["Gattung, Besetzung und Funktion der Musik unterscheiden · anderer Bereich"]
+  s5["Stammtöne von e¹ bis f² im Violinschlüssel lesen · anderer Bereich"]
   s21["Kurze Rhythmen mit Viertelnoten, Achtelnoten und Pausen lesen · anderer Bereich"]
   s137["Neue Tonika mit Kadenz begründen · anderer Bereich"]
-  s38 -.-> s108
+  s5 -.-> s108
   s21 -.-> s108
   s108 --> s109
   s109 --> s110
@@ -857,11 +881,11 @@ flowchart TD
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
 |---|---|---|---|---|---|
-| 3 · Motiv und Phrase | Motive beschreiben | `forms.l3.phrases.s1` | Describe motives | `history.genre-function`, `rhythm.read-basic` | entwurf |
+| 3 · Motiv und Phrase | Motive beschreiben | `forms.l3.phrases.s1` | Describe motives | `notation.treble-natural`, `rhythm.read-basic` | entwurf |
 | 3 · Motiv und Phrase | Phrasen gliedern | `forms.l3.phrases.s2` | Segment phrases | `forms.l3.phrases.s1` | entwurf |
 | 3 · Motiv und Phrase | Vorder- und Nachsatz vergleichen | `forms.l3.phrases.s3` | Compare antecedent and consequent | `forms.l3.phrases.s2` | entwurf |
-| 3 · Kleine Formen | Zweiteilige Form erkennen | `forms.l3.designs.s1` | Recognize binary form | `forms.l3.phrases.s3` | entwurf |
-| 3 · Kleine Formen | Wiederkehr in dreiteiligen Formen erkennen | `forms.l3.designs.s2` | Recognize return in ternary form | `forms.l3.designs.s1` | entwurf |
+| 3 · Kleine Formen | Zweiteilige Form erkennen | `forms.l3.designs.s1` | Recognize binary form / Recognise binary form | `forms.l3.phrases.s3` | entwurf |
+| 3 · Kleine Formen | Wiederkehr in dreiteiligen Formen erkennen | `forms.l3.designs.s2` | Recognize return in ternary form / Recognise return in ternary form | `forms.l3.designs.s1` | entwurf |
 | 3 · Kleine Formen | Rondo und Variation unterscheiden | `forms.l3.designs.s3` | Distinguish rondo and variation | `forms.l3.designs.s2` | entwurf |
 | 4 · Sonatenform als Modell | Exposition einordnen | `forms.l4.sonata.s1` | Place an exposition | `forms.l3.designs.s3`, `harmony.l4.applied.s3` | entwurf |
 | 4 · Sonatenform als Modell | Durchführung und Reprise unterscheiden | `forms.l4.sonata.s2` | Distinguish development and recapitulation | `forms.l4.sonata.s1` | entwurf |
@@ -886,12 +910,14 @@ flowchart TD
   end
   s34["Klangerzeuger (Stimme, Instrument, Elektronik) von der Aufnahme als Wiedergabemedium unterscheiden · anderer Bereich"]
   s41["Töne zwischen Violin- und Bassschlüssel zuordnen · anderer Bereich"]
+  s57["Intervalle von einem Ton abwärts bilden · anderer Bereich"]
   s34 -.-> s114
   s114 --> s115
   s115 --> s116
   s116 --> s117
   s41 -.-> s117
   s117 --> s118
+  s57 -.-> s118
   s118 --> s119
   s119 --> s153
   s153 --> s154
@@ -904,7 +930,7 @@ flowchart TD
 | 3 · Instrumentenfamilien | Blechbläser und Schlaginstrumente zuordnen | `instruments.l3.families.s2` | Classify brass and percussion | `instruments.l3.families.s1` | entwurf |
 | 3 · Instrumentenfamilien | Familiengrenzen und Klangquellen erklären | `instruments.l3.families.s3` | Explain family boundaries and sound sources | `instruments.l3.families.s2` | entwurf |
 | 3 · Partitur und Transposition | Notierte und klingende Höhe unterscheiden | `instruments.l3.scores.s1` | Distinguish written and sounding pitch | `instruments.l3.families.s3`, `notation.grand-staff` | entwurf |
-| 3 · Partitur und Transposition | Einfache B-Transposition erklären | `instruments.l3.scores.s2` | Explain simple B-flat transposition | `instruments.l3.scores.s1` | entwurf |
+| 3 · Partitur und Transposition | Einfache B-Transposition erklären | `instruments.l3.scores.s2` | Explain simple B-flat transposition | `instruments.l3.scores.s1`, `interval.descending` | entwurf |
 | 3 · Partitur und Transposition | Partiturlese-Hinweise erklären | `instruments.l3.scores.s3` | Explain score-reading cues | `instruments.l3.scores.s2` | entwurf |
 | 4 · Instrumentieren und Partitur | Tonumfänge prüfen | `instruments.l4.orchestration.s1` | Check instrument ranges | `instruments.l3.scores.s3` | entwurf |
 | 4 · Instrumentieren und Partitur | Verdopplungen vergleichen | `instruments.l4.orchestration.s2` | Compare doublings | `instruments.l4.orchestration.s1` | entwurf |
@@ -939,9 +965,9 @@ flowchart TD
 |---|---|---|---|---|---|
 | 3 · Jazz- und Pop-Grundlagen | Lead-Sheet-Symbole lesen | `jazzpop.l3.harmony.s1` | Read lead-sheet symbols | `chords.l3.sevenths.s3`, `history.jazz-roots` | entwurf |
 | 3 · Jazz- und Pop-Grundlagen | II–V–I mit Septakkorden vergleichen | `jazzpop.l3.harmony.s2` | Compare ii–V–I with seventh chords | `jazzpop.l3.harmony.s1` | entwurf |
-| 3 · Jazz- und Pop-Grundlagen | Backbeat und Loops einordnen | `jazzpop.l3.harmony.s3` | Contextualize backbeats and loops | `jazzpop.l3.harmony.s2` | entwurf |
+| 3 · Jazz- und Pop-Grundlagen | Backbeat und Loops einordnen | `jazzpop.l3.harmony.s3` | Contextualize backbeats and loops / Contextualise backbeats and loops | `jazzpop.l3.harmony.s2` | entwurf |
 | 4 · Jazz-Voicings und Lead Sheets | Terz und Septime führen | `jazzpop.l4.voicings.s1` | Lead thirds and sevenths | `jazzpop.l3.harmony.s3` | entwurf |
-| 4 · Jazz-Voicings und Lead Sheets | Optionstöne einordnen | `jazzpop.l4.voicings.s2` | Contextualise extensions | `jazzpop.l4.voicings.s1` | entwurf |
+| 4 · Jazz-Voicings und Lead Sheets | Optionstöne einordnen | `jazzpop.l4.voicings.s2` | Contextualize extensions / Contextualise extensions | `jazzpop.l4.voicings.s1` | entwurf |
 | 4 · Jazz-Voicings und Lead Sheets | II–V–I in Tonarten prüfen | `jazzpop.l4.voicings.s3` | Check ii–V–I in keys | `jazzpop.l4.voicings.s2` | entwurf |
 
 ## Tonsatz und Stimmführung · `area.satz`
@@ -956,25 +982,26 @@ flowchart TD
     s142["Sext- und Quartsextlagen erklären"]
     s143["Eine einfache Aussetzung prüfen"]
   end
-  s135["Zwischendominanten erkennen · anderer Bereich"]
-  s127["Alt- und Tenorschlüssel lesen · anderer Bereich"]
-  s135 -.-> s138
-  s127 -.-> s138
+  s73["Grundstellung, erste und zweite Umkehrung bestimmen · anderer Bereich"]
+  s101["Kadenzfolgen im Tonartbezug vergleichen · anderer Bereich"]
+  s73 -.-> s138
+  s101 -.-> s138
   s138 --> s139
   s139 --> s140
   s140 --> s141
+  s73 -.-> s141
   s141 --> s142
   s142 --> s143
 ```
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
 |---|---|---|---|---|---|
-| 4 · Vierstimmiger Satz | Gemeinsame Töne führen | `satz.l4.voice-leading.s1` | Lead common tones | `harmony.l4.applied.s1`, `notation.l4.multivoice.s2` | entwurf |
-| 4 · Vierstimmiger Satz | Leittöne und Parallelen prüfen | `satz.l4.voice-leading.s2` | Check leading tones and parallels | `satz.l4.voice-leading.s1` | entwurf |
+| 4 · Vierstimmiger Satz | Gemeinsame Töne führen | `satz.l4.voice-leading.s1` | Lead common tones | `chord.inversions`, `harmony.l3.cadences.s3` | entwurf |
+| 4 · Vierstimmiger Satz | Leittöne und Parallelen prüfen | `satz.l4.voice-leading.s2` | Check leading tones and parallels / Check leading notes and parallels | `satz.l4.voice-leading.s1` | entwurf |
 | 4 · Vierstimmiger Satz | Stimmumfänge kontrollieren | `satz.l4.voice-leading.s3` | Check voice ranges | `satz.l4.voice-leading.s2` | entwurf |
-| 4 · Generalbass-Grundlagen | Ziffern über dem Bass lesen | `satz.l4.figured-bass.s1` | Read figures above a bass | `satz.l4.voice-leading.s3` | entwurf |
+| 4 · Generalbass-Grundlagen | Ziffern über dem Bass lesen | `satz.l4.figured-bass.s1` | Read figures above a bass | `satz.l4.voice-leading.s3`, `chord.inversions` | entwurf |
 | 4 · Generalbass-Grundlagen | Sext- und Quartsextlagen erklären | `satz.l4.figured-bass.s2` | Explain six and six-four positions | `satz.l4.figured-bass.s1` | entwurf |
-| 4 · Generalbass-Grundlagen | Eine einfache Aussetzung prüfen | `satz.l4.figured-bass.s3` | Check a simple realisation | `satz.l4.figured-bass.s2` | entwurf |
+| 4 · Generalbass-Grundlagen | Eine einfache Aussetzung prüfen | `satz.l4.figured-bass.s3` | Check a simple realization / Check a simple realisation | `satz.l4.figured-bass.s2` | entwurf |
 
 ## Werkanalyse · `area.analysis`
 
@@ -1016,4 +1043,4 @@ flowchart TD
 |---|---|---|---|---|---|
 | 4 · Akustik und Stimmungen | Obertonverhältnisse erklären | `acoustics.l4.tuning.s1` | Explain harmonic ratios | `interval.simple-qualities` | entwurf |
 | 4 · Akustik und Stimmungen | Reine und gleichstufige Quinten vergleichen | `acoustics.l4.tuning.s2` | Compare just and equal fifths | `acoustics.l4.tuning.s1` | entwurf |
-| 4 · Akustik und Stimmungen | Stimmungssysteme einordnen | `acoustics.l4.tuning.s3` | Contextualise tuning systems | `acoustics.l4.tuning.s2` | entwurf |
+| 4 · Akustik und Stimmungen | Stimmungssysteme einordnen | `acoustics.l4.tuning.s3` | Contextualize tuning systems / Contextualise tuning systems | `acoustics.l4.tuning.s2` | entwurf |
