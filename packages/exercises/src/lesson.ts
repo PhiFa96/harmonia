@@ -8,6 +8,7 @@ import { chordReferencePitch, chordTargets, isChordItem } from './chords.ts';
 import { isRhythmItem, pickupAnswer, rhythmMeter } from './rhythm.ts';
 import { knowledgeFactId, orderValueId } from './knowledge.ts';
 import { generateExercise } from './generate.ts';
+import { cadenceAnswer, functionAnswer } from './harmony-exercises.ts';
 import {
   answerSession,
   createSession,
@@ -131,6 +132,19 @@ export function itemVariantKey(item: ExerciseItem): string {
       : [item.type, item.clef, item.from, item.to, item.playback],
   );
 }
+/** Kadenz- und Stufenaufgaben wechseln die Antwort, sofern die Parameter mehrere zulassen. */
+function harmonyAnswerMustChange(spec: ExerciseSpec, item: ExerciseItem): boolean {
+  if (spec.type === 'CADENCE_IDENTIFY' && item.type === 'CADENCE_IDENTIFY')
+    return (spec.params.types?.length ?? 2) > 1;
+  if (spec.type === 'FUNCTION_ANALYSIS' && item.type === 'FUNCTION_ANALYSIS')
+    return new Set(spec.params.degrees ?? [1, 2, 4, 5, 6]).size > 1;
+  return false;
+}
+function harmonyAnswer(item: ExerciseItem): string | undefined {
+  if (item.type === 'CADENCE_IDENTIFY') return cadenceAnswer(item);
+  if (item.type === 'FUNCTION_ANALYSIS') return functionAnswer(item);
+  return undefined;
+}
 function newVariant(lesson: LessonSession, index: number): ExerciseItem {
   const spec = lesson.lesson.exercises[index];
   const original = lesson.initial.items[index];
@@ -146,7 +160,8 @@ function newVariant(lesson: LessonSession, index: number): ExerciseItem {
         contextAnswer(item) !== contextAnswer(original)) &&
       (item.type !== 'LISTENING_CHOICE' ||
         original.type !== 'LISTENING_CHOICE' ||
-        listeningAnswer(item) !== listeningAnswer(original))
+        listeningAnswer(item) !== listeningAnswer(original)) &&
+      (!harmonyAnswerMustChange(spec, item) || harmonyAnswer(item) !== harmonyAnswer(original))
     )
       return item;
   }
