@@ -1,17 +1,15 @@
-import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { eventPitches, parseScore } from '@harmonia/notation';
 import { checkMeasure, midi } from '@harmonia/theory';
 import { Chord } from 'tonal';
+import catalogueJson from '../../content/src/catalogue.json' with { type: 'json' };
 
 // Korrekturen aus der Fachprüfung Stufe 3/4: Kartenbeispiele müssen ihre Aussage tragen.
 interface CardRecord {
   readonly id: string;
   readonly examples: readonly { readonly score: string }[];
 }
-const catalogue = JSON.parse(
-  readFileSync(new URL('../../content/src/catalogue.json', import.meta.url), 'utf8'),
-) as { readonly knowledgeCards: readonly CardRecord[] };
+const catalogue = catalogueJson as { readonly knowledgeCards: readonly CardRecord[] };
 
 function card(id: string): CardRecord {
   const found = catalogue.knowledgeCards.find((entry) => entry.id === id);
@@ -75,7 +73,10 @@ describe('Karte „Gemeinsame Töne halten“ (Stufe 4)', () => {
           Math.sign((to[low] ?? 0) - (from[low] ?? 0)) ===
             Math.sign((to[high] ?? 0) - (from[high] ?? 0)) && (to[low] ?? 0) !== (from[low] ?? 0);
         const perfect = (span: number) => [0, 7, 12].includes(span % 12);
-        expect(sameDirection && perfect(before) && perfect(after), `${low}/${high}`).toBe(false);
+        expect(
+          sameDirection && perfect(before) && perfect(after),
+          `${String(low)}/${String(high)}`,
+        ).toBe(false);
       }
   });
   it('bestätigt mit tonal: C-Dur geht nach G-Dur in erster Umkehrung', () => {
