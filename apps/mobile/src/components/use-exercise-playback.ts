@@ -8,6 +8,7 @@ import {
   isRhythmItem,
   isKnowledgeItem,
   isVoiceItem,
+  isDictationItem,
 } from '@harmonia/exercises';
 import { useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -123,6 +124,8 @@ export function useExercisePlayback(item: ExerciseItem | Score | undefined, bpm 
           isChordItem(item) ||
           isScaleItem(item) ||
           item.type === 'FUNCTION_ANALYSIS' ||
+          item.type === 'CADENCE_IDENTIFY' ||
+          isDictationItem(item) ||
           isVoiceItem(item)
           ? Math.max(0, playback.current.endTime - engine.context.currentTime) * 1000 + 50
           : 'pitch' in item || !('from' in item) || item.playback === 'harmonic'
