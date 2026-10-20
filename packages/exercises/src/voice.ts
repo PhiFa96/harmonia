@@ -48,6 +48,19 @@ export function voiceOctaveShift(item: VoiceItem, answer: string): number | unde
     : undefined;
 }
 
+/**
+ * Gemessene Abweichung je Ton in Cent (positiv = zu hoch). Eine gemeinsame Oktavverschiebung
+ * (ADR 0037) wird herausgerechnet, damit die Anzeige zur Toleranz passt.
+ */
+export function voiceDeviations(item: VoiceItem, answer: string): number[] | undefined {
+  const targets = voiceTargets(item);
+  const values = voiceAnswerValues(answer, targets.length);
+  if (!values) return undefined;
+  const differences = values.map((value, index) => value - midi(pitchAt(targets, index)) * 100);
+  const shift = Math.round((differences[0] ?? 0) / 1200);
+  return differences.map((value) => value - shift * 1200);
+}
+
 export function evaluateVoice(item: VoiceItem, answer: string) {
   const targets = voiceTargets(item);
   const expected = voiceAnswerId(targets);

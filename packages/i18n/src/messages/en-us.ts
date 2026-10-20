@@ -1024,8 +1024,19 @@ export const enUS = {
       'Target notes: {{notes}}. Allowed difference per note: ±{{tolerance}} cents; any octave is fine if all notes are shifted equally.',
     voiceOctaveShift:
       'Correct – you sang in a different octave, and that counts. Target notes: {{notes}}. Allowed difference: ±{{tolerance}} cents.',
-    voiceHint1: 'Listen to the starting pitch and hold each sung note steadily.',
-    voiceHint2: 'Sing each note separately with a short pause between them.',
+    voiceDeviation: 'Measured difference: {{deviations}} cents.',
+    voiceHint1_SIGHT_SING:
+      'First work out the name of the written note and hum it quietly before you record it.',
+    voiceHint2_SIGHT_SING:
+      'The help tone shows you the right pitch; then hold your note steadily for about a second.',
+    voiceHint1_SING_INTERVAL:
+      'Listen to the starting pitch and hum along. The number in the $t(glossary:interval_one) name tells you how many note names to count upwards.',
+    voiceHint2_SING_INTERVAL:
+      'Count the $t(glossary:semitone_other) between the starting and target pitch, then sing the target pitch calmly and hold it.',
+    voiceHint1_PLAY_BACK:
+      'Listen to the melody once more and notice whether the notes rise or fall.',
+    voiceHint2_PLAY_BACK:
+      'Sing the three notes one at a time, capture each note and leave a short pause between them.',
     solutionImage: 'Solution score',
     sourceReplay: 'Play the source example',
     keyReplay: 'Example: $t(glossary:major) or natural $t(glossary:minor) $t(glossary:scale_one)',

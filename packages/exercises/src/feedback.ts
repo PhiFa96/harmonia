@@ -12,7 +12,13 @@ import { octaveName, octaveNamePitch } from './octave-names.ts';
 import { grandStaffTarget } from '@harmonia/notation';
 import { inputTarget } from './pitch-input.ts';
 import { listeningAnswer } from './listening.ts';
-import { isVoiceItem, voiceIntervalName, voiceOctaveShifted, voiceTargets } from './voice.ts';
+import {
+  isVoiceItem,
+  voiceDeviations,
+  voiceIntervalName,
+  voiceOctaveShifted,
+  voiceTargets,
+} from './voice.ts';
 import { isHistoryTopic } from './knowledge.ts';
 import { cadenceAnswer, functionAnswer, functionChoiceLabel } from './harmony-exercises.ts';
 import { isDictationItem } from './dictation.ts';
@@ -440,7 +446,7 @@ export function exerciseFeedback(
   locale: TextLocale,
 ): ExerciseFeedback {
   let message: string;
-  if (isVoiceItem(item))
+  if (isVoiceItem(item)) {
     message = translate(
       locale,
       result.correct && voiceOctaveShifted(item, result.answer)
@@ -453,7 +459,17 @@ export function exerciseFeedback(
         tolerance: item.toleranceCents,
       },
     );
-  else if (item.type === 'CADENCE_IDENTIFY')
+    const deviations = voiceDeviations(item, result.answer);
+    if (deviations)
+      message = `${message} ${translate(locale, 'exercise.voiceDeviation', {
+        deviations: deviations
+          .map(
+            (cents) =>
+              `${cents > 0 ? '+' : cents < 0 ? '\u2212' : '\u00b1'}${String(Math.abs(cents))}`,
+          )
+          .join(', '),
+      })}`;
+  } else if (item.type === 'CADENCE_IDENTIFY')
     message = translate(locale, 'exercise.cadenceExplanation', {
       answer: choiceLabel(item, cadenceAnswer(item), locale),
       key: keyName(item.key, engineLanguage(locale)),
@@ -618,7 +634,11 @@ export function exerciseHints(item: ExerciseItem, level: 1 | 2 | 3): ExerciseHin
       values: {},
     };
   if (isVoiceItem(item))
-    return { level, key: level === 1 ? 'exercise.voiceHint1' : 'exercise.voiceHint2', values: {} };
+    return {
+      level,
+      key: level === 1 ? `exercise.voiceHint1_${item.type}` : `exercise.voiceHint2_${item.type}`,
+      values: {},
+    };
   if (item.type === 'LISTENING_CHOICE')
     return {
       level,

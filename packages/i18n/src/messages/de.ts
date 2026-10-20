@@ -1049,8 +1049,19 @@ export const de = {
       'Zieltöne: {{notes}}. Zulässige Abweichung je Ton: ±{{tolerance}} Cent; die Oktavlage ist frei wählbar, wenn alle Töne gleich verschoben sind.',
     voiceOctaveShift:
       'Richtig – du hast in einer anderen Oktavlage gesungen, das zählt. Zieltöne: {{notes}}. Zulässige Abweichung: ±{{tolerance}} Cent.',
-    voiceHint1: 'Höre auf den Ausgangston und halte jeden gesungenen Ton ruhig.',
-    voiceHint2: 'Singe die Töne einzeln und lasse dazwischen eine kurze Pause.',
+    voiceDeviation: 'Gemessene Abweichung: {{deviations}} Cent.',
+    voiceHint1_SIGHT_SING:
+      'Bestimme zuerst den Namen der notierten Note und summe sie leise, bevor du sie aufnimmst.',
+    voiceHint2_SIGHT_SING:
+      'Der Hilfeton zeigt dir die richtige Tonhöhe; halte deinen Ton dann etwa eine Sekunde ruhig.',
+    voiceHint1_SING_INTERVAL:
+      'Höre den Ausgangston und summe ihn mit. Die Zahl im $t(glossary:interval_one)-Namen sagt, wie viele Tonnamen du nach oben zählst.',
+    voiceHint2_SING_INTERVAL:
+      'Zähle die $t(glossary:semitone_other) zwischen Ausgangs- und Zielton und singe den Zielton ruhig und gehalten.',
+    voiceHint1_PLAY_BACK:
+      'Höre die Melodie noch einmal und achte darauf, ob die Töne steigen oder fallen.',
+    voiceHint2_PLAY_BACK:
+      'Singe die drei Töne einzeln, übernimm jeden Ton und lasse dazwischen eine kurze Pause.',
     solutionImage: 'L\u00f6sungsbild',
     sourceReplay: 'Quellenbeispiel anh\u00f6ren',
     keyReplay:
