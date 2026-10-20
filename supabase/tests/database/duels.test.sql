@@ -18,9 +18,9 @@ select is((duel_answer('a3060000-0000-4000-8000-000000000001','c3060000-0000-400
 select is((duel_answer('a3060000-0000-4000-8000-000000000001','c3060000-0000-4000-8000-000000000002',0,'C',true,10)->'player'->>'ordinal')::integer,1,'Identical retry is idempotent');
 select throws_ok($$select duel_answer('a3060000-0000-4000-8000-000000000001','c3060000-0000-4000-8000-000000000002',0,'D',false,0)$$,'P0001','duel_conflict','Different retry rejected');
 select throws_ok($$select duel_answer('a3060000-0000-4000-8000-000000000001','c3060000-0000-4000-8000-000000000002',1,'C',true,10)$$,'P0001','duel_fast','Implausibly fast next step rejected');
-update duel_players set mistakes=3 where game_id='c3060000-0000-4000-8000-000000000002' and user_id='a3060000-0000-4000-8000-000000000001';
-select throws_ok($$select duel_answer('a3060000-0000-4000-8000-000000000001','c3060000-0000-4000-8000-000000000002',1,'C',false,0)$$,'P0001','duel_conflict','Three mistakes end the answers like Theory Rush');
-update duel_players set mistakes=0 where game_id='c3060000-0000-4000-8000-000000000002' and user_id='a3060000-0000-4000-8000-000000000001';
+update duel_players set ordinal=3,correct=0,mistakes=3 where game_id='c3060000-0000-4000-8000-000000000002' and user_id='a3060000-0000-4000-8000-000000000001';
+select throws_ok($$select duel_answer('a3060000-0000-4000-8000-000000000001','c3060000-0000-4000-8000-000000000002',3,'C',false,0)$$,'P0001','duel_conflict','Three mistakes end the answers like Theory Rush');
+update duel_players set ordinal=1,correct=1,mistakes=0 where game_id='c3060000-0000-4000-8000-000000000002' and user_id='a3060000-0000-4000-8000-000000000001';
 update duel_games set deadline=now()-interval '1 second' where id='c3060000-0000-4000-8000-000000000002';
 select is(duel_settle('c3060000-0000-4000-8000-000000000002','[{"userId":"a3060000-0000-4000-8000-000000000001","rating":1600,"deviation":300,"volatility":0.06,"attempts":1,"updatedAt":1000},{"userId":"a3060000-0000-4000-8000-000000000002","rating":1400,"deviation":300,"volatility":0.06,"attempts":1,"updatedAt":1000}]'),true,'Live game settles once');
 select is(duel_settle('c3060000-0000-4000-8000-000000000002','[]'),false,'Repeated settlement has no effect');

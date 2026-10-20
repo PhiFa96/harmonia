@@ -14,7 +14,7 @@ Stand 16.10.2026. Technische Umsetzung auf `codex/p3-02-adaptive-selection`. PR-
 
 Reine Auswahl: `packages/exercises/src/adaptive.ts`; Diagnose: `placement.ts`. Quellenplan und seine Prüfung: `packages/content/src/lesson-flow.ts`. Kanonische Antworten und lokale Schätzungen: `learning-ratings.ts` / `local-ratings.ts`. App: `use-learning-ratings.ts`, `use-lesson-flow.ts`, `WeaknessEntry` und der bestehende Lektionsspieler.
 
-Die additive Migration `20261016040000_adaptive_selection.sql` ergänzt den ausschließlich eigenen Rating-Leseweg und den privaten Beta-Bericht. Sie löscht keine Antworten und verändert keine XP. Bei einem späteren Remote-Deployment zuerst die aktualisierten Functions/Worker mit dem passenden freigegebenen Katalog bereitstellen und alte Worker auslaufen lassen, dann die Migration anwenden und nachrechnen. Sonst könnte ein alter Worker die erneut eingereihten Einstufungen noch einmal ausschließen. Die neue App erst danach ausrollen. Vor Freigabe alter Roh-Einstufungen mit dem vorhandenen resumierbaren Worker nachrechnen:
+Die additive Migration `20261016040500_adaptive_selection.sql` ergänzt den ausschließlich eigenen Rating-Leseweg und den privaten Beta-Bericht. Sie löscht keine Antworten und verändert keine XP. Bei einem späteren Remote-Deployment zuerst die aktualisierten Functions/Worker mit dem passenden freigegebenen Katalog bereitstellen und alte Worker auslaufen lassen, dann die Migration anwenden und nachrechnen. Sonst könnte ein alter Worker die erneut eingereihten Einstufungen noch einmal ausschließen. Die neue App erst danach ausrollen. Vor Freigabe alter Roh-Einstufungen mit dem vorhandenen resumierbaren Worker nachrechnen:
 
 ```sh
 pnpm ratings:backfill --local --preview
