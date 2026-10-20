@@ -8,7 +8,7 @@ Technische Umsetzung auf `codex/p3-06-duels`, aufbauend auf `codex/p3-05-theory-
 - Live-Suche legt eine private Warteschlange an. Ein zweiter passender Suchender startet dasselbe drei Minuten lange Spiel; das Ratingfenster weitet sich mit der Wartezeit. Nach etwa zehn Sekunden kann ein bestätigter dreiminütiger Rush-Lauf als klar markierter Ghost dienen. Ohne geeigneten Lauf wird kein Ghost erfunden.
 - Einladungsduelle starten über einen zehn Minuten gültigen Link oder einen manuell eingegebenen UUID-Code. Link und Code enthalten keine Profilnamen oder E-Mail-Adressen.
 - Alle Antworten werden gegen die eingefrorene Rush-Bank serverseitig bewertet. Die Antwortzeit, Deadline, Reihenfolge und Idempotenz liegen in Postgres. Ein nicht bestätigter Offline-Schritt zählt nicht. Beim Wiederöffnen wird der bestätigte Spielstand geladen. Broadcast löst nur einen erneuten Abruf aus; Polling deckt Realtime-Ausfall ab.
-- Nur Live-Duelle verändern Glicko-2 und buchen bis zu 10/3 XP bei Sieg/Niederlage oder Unentschieden, mit 50 XP Tagesdeckel. Ghosts und Einladungen sind ohne Rating und XP.
+- Nur Live-Duelle verändern Glicko-2 und buchen bis zu 10/3 XP bei Sieg/Niederlage oder Unentschieden, mit 50 XP Tagesdeckel. Ghosts und Einladungen sind ohne Rating und XP. Seit `20261020030000_duel_participation_xp.sql` erhält nur XP, wer mindestens eine richtige Antwort gegeben hat; ein Unentschieden ohne Antworten bringt niemandem XP. Rating und Paarung sind unverändert (Mindestbeteiligung fürs Rating und Gegnerwiederholungssperre bleiben offen, Fachprüfung Phase 3, P3.06 Befund 4).
 
 ## Bereitstellung
 
