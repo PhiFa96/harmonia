@@ -39,6 +39,7 @@ import {
   FLAT_ORDER,
   chordName,
   chordIntervals,
+  chordPitches,
   inversionName,
   durationName,
   formatTimeSignature,
@@ -870,7 +871,6 @@ function alterationText(pitch: Pitch, locale: TextLocale): string {
 export function exerciseDescription(item: ExerciseItem, locale: TextLocale): string {
   if (item.type === 'CADENCE_IDENTIFY' || isDictationItem(item))
     return exercisePrompt(item, locale);
-  if (item.type === 'FUNCTION_ANALYSIS') return exercisePrompt(item, locale);
   if (isVoiceItem(item)) return exercisePrompt(item, locale);
   if (item.type === 'CONTEXT_CHOICE') return contextPrompt(item, locale);
   if (item.type === 'LISTENING_CHOICE') return exercisePrompt(item, locale);
@@ -941,21 +941,24 @@ export function exerciseDescription(item: ExerciseItem, locale: TextLocale): str
     ? [grand.pitch]
     : isIntervalReadingItem(item)
       ? intervalReadingPitches(item)
-      : isChordItem(item)
-        ? item.type === 'CHORD_BUILD'
-          ? [item.bass]
-          : item.pitches
-        : isScaleItem(item)
-          ? item.type === 'SCALE_BUILD'
-            ? [item.tonic]
+      : item.type === 'FUNCTION_ANALYSIS'
+        ? // Wie bei der Akkorderkennung: nur Positionen, kein Stufen- oder Tonname vor der Antwort.
+          chordPitches(item.chord, { octave: 4 })
+        : isChordItem(item)
+          ? item.type === 'CHORD_BUILD'
+            ? [item.bass]
             : item.pitches
-          : item.type === 'NOTE_PLACE'
-            ? []
-            : 'pitch' in item
-              ? [item.pitch]
-              : item.type === 'INTERVAL_BUILD'
-                ? [item.from]
-                : [item.from, item.to];
+          : isScaleItem(item)
+            ? item.type === 'SCALE_BUILD'
+              ? [item.tonic]
+              : item.pitches
+            : item.type === 'NOTE_PLACE'
+              ? []
+              : 'pitch' in item
+                ? [item.pitch]
+                : item.type === 'INTERVAL_BUILD'
+                  ? [item.from]
+                  : [item.from, item.to];
   const notes = pitches
     .map((pitch, index) => {
       const steps = diatonicIndex(pitch) - diatonicIndex(bottom);

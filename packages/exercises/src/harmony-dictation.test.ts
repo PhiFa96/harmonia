@@ -12,6 +12,7 @@ import {
   dictationAnswerId,
   dictationInputValues,
   evaluateExercise,
+  exerciseDescription,
   exerciseFeedback,
   exercisePrompt,
   expectedAnswer,
@@ -49,6 +50,22 @@ describe('P3.14: Harmonik und Diktat', () => {
     expect(() =>
       generateFunction({ fifths: [0], degrees: [5, 7], notation: 'roman' }, createRng(1)),
     ).not.toThrow();
+  });
+  it('beschreibt die Stufenaufgabe für Screenreader über Positionen statt Tonnamen', () => {
+    for (const locale of ['de', 'en-US', 'en-GB'] as const) {
+      for (const degree of [1, 4, 5] as const) {
+        const item = generateFunction({ fifths: [0], degrees: [degree] }, createRng(2));
+        const text = exerciseDescription(item, locale);
+        // Drei Akkordtöne, jeweils mit Position auf dem Liniensystem.
+        expect(text, `${locale} ${String(degree)}`).toMatch(/1/);
+        expect(text).toMatch(/3/);
+        expect(text).toMatch(locale === 'de' ? /Violinschlüssel/ : /treble clef/i);
+        expect(text).toMatch(locale === 'de' ? /unterste/ : /bottom/i);
+        // Kein Lösungsleck: weder Stufe noch Tonname des Akkords.
+        expect(text).not.toMatch(/\bI\b|\bIV\b|\bV\b/);
+        expect(text).not.toContain('G-Dur');
+      }
+    }
   });
   it('bestimmt die Stufe aus dem Akkord statt einer gespeicherten Auswahl', () => {
     for (const degree of [1, 2, 4, 5, 6] as const) {
