@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { evaluateExercise, expectedAnswer } from './evaluate.ts';
 import { generateExercise } from './generate.ts';
 import { createLessonSession, skipLessonVoice, lessonSummary } from './lesson.ts';
-import { voiceAnswerValues, voiceOctaveError, voiceTargets } from './voice.ts';
+import { voiceAnswerValues, voiceOctaveShifted, voiceTargets } from './voice.ts';
 import type { ExerciseSpec, VoiceItem } from './types.ts';
 
 const common = {
@@ -44,7 +44,7 @@ describe('Mikrofonübungen', () => {
     }
   });
 
-  it('wendet die Toleranz je Stufe an und akzeptiert keine Oktavverwechslung', () => {
+  it('wendet die Toleranz je Stufe an und lässt die Oktavlage frei, aber keinen falschen Ton', () => {
     for (const level of [1, 2, 3] as const) {
       const item = generateExercise(
         { type: 'SIGHT_SING', params: { ...common, level } },
@@ -56,8 +56,11 @@ describe('Mikrofonübungen', () => {
       expect(evaluateExercise(item, answer(target + tolerance)).correct).toBe(true);
       expect(evaluateExercise(item, answer(target + tolerance + 1)).correct).toBe(false);
       expect(evaluateExercise(item, answer(target - tolerance)).correct).toBe(true);
-      expect(evaluateExercise(item, answer(target + 1200)).correct).toBe(false);
-      expect(voiceOctaveError(item, answer(target + 1200))).toBe(true);
+      expect(evaluateExercise(item, answer(target + 600)).correct).toBe(false);
+      expect(evaluateExercise(item, answer(target + 1200)).correct).toBe(true);
+      expect(evaluateExercise(item, answer(target + 1200 + tolerance + 1)).correct).toBe(false);
+      expect(voiceOctaveShifted(item, answer(target + 1200))).toBe(true);
+      expect(voiceOctaveShifted(item, answer(target))).toBe(false);
     }
   });
 
@@ -74,6 +77,8 @@ describe('Mikrofonübungen', () => {
         `voice:${[values[0], values[1], required(values[2]) + 1200].join(',')}`,
       ).correct,
     ).toBe(false);
+    const shifted = values.map((value) => value + 1200).join(',');
+    expect(evaluateExercise(item, `voice:${shifted}`).correct).toBe(true);
   });
 
   it('überspringt eine Mikrofonaufgabe ohne Fehler oder Wiederholung', () => {

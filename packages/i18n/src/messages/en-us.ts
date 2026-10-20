@@ -978,9 +978,9 @@ export const enUS = {
     question_SING_INTERVAL: 'Listen to the starting pitch, then sing the ascending {{interval}}.',
     question_PLAY_BACK: 'Listen to the short melody, then sing its three notes in order.',
     voiceExplanation:
-      'Target notes: {{notes}}. Allowed difference per note: ±{{tolerance}} cents; the octave matters.',
-    voiceOctaveError:
-      'The pitch class matches, but the octave does not. Target notes: {{notes}}. Allowed difference: ±{{tolerance}} cents.',
+      'Target notes: {{notes}}. Allowed difference per note: ±{{tolerance}} cents; any octave is fine if all notes are shifted equally.',
+    voiceOctaveShift:
+      'Correct – you sang in a different octave, and that counts. Target notes: {{notes}}. Allowed difference: ±{{tolerance}} cents.',
     voiceHint1: 'Listen to the starting pitch and hold each sung note steadily.',
     voiceHint2: 'Sing each note separately with a short pause between them.',
     solutionImage: 'Solution score',

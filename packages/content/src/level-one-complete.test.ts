@@ -33,7 +33,7 @@ function wrong(item: ExerciseItem) {
   if (item.type === 'SIGHT_SING' || item.type === 'SING_INTERVAL' || item.type === 'PLAY_BACK')
     return expectedAnswer(item).replace(
       /^voice:(\d+)/,
-      (_, first: string) => `voice:${String(Number(first) + 1200)}`,
+      (_, first: string) => `voice:${String(Number(first) + 600)}`,
     );
   if (item.type === 'MATCH') {
     const ids = item.facts.map(knowledgeFactId);

@@ -1003,9 +1003,9 @@ export const de = {
       'Höre den Ausgangston und singe von dort das Intervall {{interval}} aufwärts.',
     question_PLAY_BACK: 'Höre die kurze Melodie und singe ihre drei Töne nacheinander nach.',
     voiceExplanation:
-      'Zieltöne: {{notes}}. Zulässige Abweichung je Ton: ±{{tolerance}} Cent; die Oktave zählt mit.',
-    voiceOctaveError:
-      'Die Tonklasse stimmt, aber die Oktave nicht. Zieltöne: {{notes}}. Zulässige Abweichung: ±{{tolerance}} Cent.',
+      'Zieltöne: {{notes}}. Zulässige Abweichung je Ton: ±{{tolerance}} Cent; die Oktavlage ist frei wählbar, wenn alle Töne gleich verschoben sind.',
+    voiceOctaveShift:
+      'Richtig – du hast in einer anderen Oktavlage gesungen, das zählt. Zieltöne: {{notes}}. Zulässige Abweichung: ±{{tolerance}} Cent.',
     voiceHint1: 'Höre auf den Ausgangston und halte jeden gesungenen Ton ruhig.',
     voiceHint2: 'Singe die Töne einzeln und lasse dazwischen eine kurze Pause.',
     solutionImage: 'L\u00f6sungsbild',

@@ -60,10 +60,12 @@ describe('Mikrofon-Aufgabenschema', () => {
     expect(state.initial.skipped).toHaveLength(4);
     expect(state.initial.records).toHaveLength(8);
     const event = lessonEvent(id, state, 1, 2);
+    // ADR 0037: übersprungene Mikrofonaufgaben stehen nicht im Nenner (8 von 8 gezählten).
     expect(validateLearningEvent(catalogue, event).lesson).toMatchObject({
       eligibleCorrect: 8,
       total: 12,
-      passed: false,
+      voiceSkipped: 4,
+      passed: true,
     });
   });
 });

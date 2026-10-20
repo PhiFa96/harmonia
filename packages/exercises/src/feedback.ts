@@ -12,7 +12,7 @@ import { octaveName, octaveNamePitch } from './octave-names.ts';
 import { grandStaffTarget } from '@harmonia/notation';
 import { inputTarget } from './pitch-input.ts';
 import { listeningAnswer } from './listening.ts';
-import { isVoiceItem, voiceIntervalName, voiceOctaveError, voiceTargets } from './voice.ts';
+import { isVoiceItem, voiceIntervalName, voiceOctaveShifted, voiceTargets } from './voice.ts';
 import { isHistoryTopic } from './knowledge.ts';
 import { cadenceAnswer, functionAnswer, functionChoiceLabel } from './harmony-exercises.ts';
 import { isDictationItem } from './dictation.ts';
@@ -303,7 +303,7 @@ export function exercisePrompt(item: ExerciseItem, locale: TextLocale): string {
     return translate(locale, `exercise.question_${item.type}`, { count: item.pitches.length });
   if (isVoiceItem(item))
     return translate(locale, `exercise.question_${item.type}`, {
-      interval: voiceIntervalName(item),
+      interval: voiceIntervalName(item, engineLanguage(locale)),
     });
   if (item.type === 'CONTEXT_CHOICE') return contextPrompt(item, locale);
   if (item.type === 'NOTE_NAME' && item.presentation === 'octave-name')
@@ -443,8 +443,8 @@ export function exerciseFeedback(
   if (isVoiceItem(item))
     message = translate(
       locale,
-      voiceOctaveError(item, result.answer)
-        ? 'exercise.voiceOctaveError'
+      result.correct && voiceOctaveShifted(item, result.answer)
+        ? 'exercise.voiceOctaveShift'
         : 'exercise.voiceExplanation',
       {
         notes: voiceTargets(item)

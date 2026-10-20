@@ -1,6 +1,6 @@
 import { note, singleStaffScore } from '@harmonia/notation';
-import { duration, midi, formatInterval, intervalBetween } from '@harmonia/theory';
-import type { Pitch, Rng } from '@harmonia/theory';
+import { duration, midi, intervalBetween, intervalName } from '@harmonia/theory';
+import type { IntervalNameOptions, Pitch, Rng } from '@harmonia/theory';
 import { generateNote, generateVisualInterval } from './generate.ts';
 import { accidentalLimit, pitchPool, rangeFor } from './parameters.ts';
 import type { ExerciseItem, VoiceItem, VoiceParams, VoiceSequenceParams } from './types.ts';
@@ -32,6 +32,22 @@ export function voiceAnswerValues(answer: string, count: number): number[] | und
     : undefined;
 }
 
+/**
+ * Oktaväquivalenz (ADR 0037): Eine Folge gilt als richtig, wenn alle Töne innerhalb der Toleranz
+ * um dieselbe ganze Zahl von Oktaven vom Ziel abweichen. Gibt die gemeinsame Verschiebung in
+ * Oktaven zurück (0 = genau die notierte Lage), sonst `undefined`.
+ */
+export function voiceOctaveShift(item: VoiceItem, answer: string): number | undefined {
+  const targets = voiceTargets(item);
+  const values = voiceAnswerValues(answer, targets.length);
+  if (!values) return undefined;
+  const differences = values.map((value, index) => value - midi(pitchAt(targets, index)) * 100);
+  const shift = Math.round((differences[0] ?? 0) / 1200);
+  return differences.every((value) => Math.abs(value - shift * 1200) <= item.toleranceCents)
+    ? shift
+    : undefined;
+}
+
 export function evaluateVoice(item: VoiceItem, answer: string) {
   const targets = voiceTargets(item);
   const expected = voiceAnswerId(targets);
@@ -40,27 +56,14 @@ export function evaluateVoice(item: VoiceItem, answer: string) {
     answer,
     expected,
     validAnswer: values !== undefined,
-    correct:
-      values?.every(
-        (value, index) =>
-          Math.abs(value - midi(pitchAt(targets, index)) * 100) <= item.toleranceCents,
-      ) ?? false,
+    correct: voiceOctaveShift(item, answer) !== undefined,
   };
 }
 
-/** Richtiges Tonmaterial im falschen Register bleibt falsch, erhält aber gezieltes Feedback. */
-export function voiceOctaveError(item: VoiceItem, answer: string): boolean {
-  const targets = voiceTargets(item);
-  const values = voiceAnswerValues(answer, targets.length);
-  if (!values) return false;
-  const differences = values.map((value, index) => value - midi(pitchAt(targets, index)) * 100);
-  return (
-    differences.some((value) => Math.abs(value) > item.toleranceCents) &&
-    differences.every((value) => {
-      const octaves = Math.round(value / 1200);
-      return Math.abs(value - octaves * 1200) <= item.toleranceCents;
-    })
-  );
+/** Richtig, aber in einer anderen Oktavlage gesungen: nur ein freundlicher Hinweis. */
+export function voiceOctaveShifted(item: VoiceItem, answer: string): boolean {
+  const shift = voiceOctaveShift(item, answer);
+  return shift !== undefined && shift !== 0;
 }
 
 export function generateSightSing(params: VoiceParams, rng: Rng): VoiceItem {
@@ -114,8 +117,11 @@ export function generateVoiceSequence(
   };
 }
 
-export function voiceIntervalName(item: VoiceItem): string {
+export function voiceIntervalName(item: VoiceItem, options: IntervalNameOptions = {}): string {
   return item.type === 'SING_INTERVAL'
-    ? formatInterval(intervalBetween(pitchAt(item.pitches, 0), pitchAt(item.pitches, 1)))
+    ? intervalName(intervalBetween(pitchAt(item.pitches, 0), pitchAt(item.pitches, 1)), {
+        ...options,
+        showDirection: false,
+      })
     : '';
 }

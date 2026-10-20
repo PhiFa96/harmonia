@@ -2,6 +2,7 @@ import { currentMotivation, useMotivation } from '@/state/motivation';
 import { catalogue } from '@harmonia/content/catalogue';
 import {
   lessonProgress,
+  countedTotal,
   lessonPlan,
   lessonReward,
   DEFAULT_REWARD_RULE,
@@ -546,7 +547,7 @@ function LessonPlayer({
                       <AppText tone={lessonProgress(lesson).passed ? 'success' : 'default'}>
                         {t(lessonProgress(lesson).passed ? 'path.passed' : 'path.failed', {
                           correct: lessonProgress(lesson).eligibleCorrect,
-                          total: lessonProgress(lesson).total,
+                          total: countedTotal(lessonProgress(lesson)),
                           percent: PASS_PERCENT,
                         })}
                       </AppText>

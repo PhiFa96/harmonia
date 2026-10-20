@@ -99,6 +99,7 @@ export const retainedLearningEventSchema = z.discriminatedUnion('sourceKind', [
           passed: z.boolean(),
           eligibleCorrect: z.number().int().nonnegative(),
           total: z.number().int().positive().max(200),
+          voiceSkipped: z.number().int().nonnegative().max(200).optional(),
         })
         .strict(),
     })
@@ -177,20 +178,32 @@ export interface LessonProgress {
   readonly passed: boolean;
   readonly eligibleCorrect: number;
   readonly total: number;
+  /** Übersprungene Mikrofonaufgaben zählen weder als richtig noch im Nenner der Quote. */
+  readonly voiceSkipped?: number | undefined;
+}
+export function countedTotal(progress: Pick<LessonProgress, 'total' | 'voiceSkipped'>): number {
+  return progress.total - (progress.voiceSkipped ?? 0);
 }
 /** Die Wiederholungsrunde verändert niemals die Bestehensquote des Erstversuchs. */
 export function lessonProgress(session: LessonSession): LessonProgress {
   const eligibleCorrect = session.initial.records.filter(
     (r) => r.result.correct && r.hintLevel < 3,
   ).length;
+  const voiceSkipped = session.initial.skipped.filter((index) => {
+    const item = session.initial.items[index];
+    return item !== undefined && isVoiceItem(item);
+  }).length;
+  const counted = session.initial.items.length - voiceSkipped;
   return {
     lessonId: session.lesson.id,
     contentVersion: session.lesson.contentVersion,
     passed:
       session.phase === 'complete' &&
-      eligibleCorrect * 100 >= PASS_PERCENT * session.initial.items.length,
+      counted > 0 &&
+      eligibleCorrect * 100 >= PASS_PERCENT * counted,
     eligibleCorrect,
     total: session.initial.items.length,
+    ...(voiceSkipped > 0 ? { voiceSkipped } : {}),
   };
 }
 function restoreRound(
@@ -250,12 +263,18 @@ export function validateLearningEvent(catalogue: ContentCatalogue, input: unknow
     )
       throw new EvidenceError('changed');
     const p = event.progress;
+    const voiceItems = lesson.exercises.filter((spec) =>
+      ['SING_INTERVAL', 'SIGHT_SING', 'PLAY_BACK'].includes(spec.type),
+    ).length;
+    const counted = countedTotal(p);
     if (
       p.lessonId !== event.lessonId ||
       p.contentVersion !== event.contentVersion ||
       p.total !== lesson.exercises.length ||
-      p.eligibleCorrect > p.total ||
-      p.passed !== p.eligibleCorrect * 100 >= p.total * PASS_PERCENT
+      (p.voiceSkipped ?? 0) > voiceItems ||
+      counted <= 0 ||
+      p.eligibleCorrect > counted ||
+      p.passed !== p.eligibleCorrect * 100 >= counted * PASS_PERCENT
     )
       throw new EvidenceError('invalid');
     return { event, lesson: p, testedUnitIds: [] as string[] };

@@ -42,7 +42,7 @@ function wrongAnswer(item: ExerciseItem): string {
     candidates.push(
       expected.replace(
         /^voice:(\d+)/,
-        (_, first: string) => `voice:${String(Number(first) + 1200)}`,
+        (_, first: string) => `voice:${String(Number(first) + 600)}`,
       ),
     );
   const wrong = candidates.find((answer) => {
