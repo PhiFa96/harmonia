@@ -3402,9 +3402,7 @@
         "ok": true,
         "name": "G-Dur",
         "fifths": 1,
-        "accidentals": [
-          "F#"
-        ]
+        "accidentals": ["F#"]
       },
       "sourceArticles": [],
       "exampleRequired": false,
@@ -3440,10 +3438,7 @@
         "ok": true,
         "name": "D-Dur",
         "fifths": 2,
-        "accidentals": [
-          "F#",
-          "C#"
-        ]
+        "accidentals": ["F#", "C#"]
       },
       "sourceArticles": [],
       "exampleRequired": false,
@@ -3479,11 +3474,7 @@
         "ok": true,
         "name": "A-Dur",
         "fifths": 3,
-        "accidentals": [
-          "F#",
-          "C#",
-          "G#"
-        ]
+        "accidentals": ["F#", "C#", "G#"]
       },
       "sourceArticles": [],
       "exampleRequired": false,
@@ -3519,12 +3510,7 @@
         "ok": true,
         "name": "E-Dur",
         "fifths": 4,
-        "accidentals": [
-          "F#",
-          "C#",
-          "G#",
-          "D#"
-        ]
+        "accidentals": ["F#", "C#", "G#", "D#"]
       },
       "sourceArticles": [],
       "exampleRequired": false,
@@ -3560,13 +3546,7 @@
         "ok": true,
         "name": "H-Dur",
         "fifths": 5,
-        "accidentals": [
-          "F#",
-          "C#",
-          "G#",
-          "D#",
-          "A#"
-        ]
+        "accidentals": ["F#", "C#", "G#", "D#", "A#"]
       },
       "sourceArticles": [],
       "exampleRequired": false,
@@ -3602,14 +3582,7 @@
         "ok": true,
         "name": "Fis-Dur",
         "fifths": 6,
-        "accidentals": [
-          "F#",
-          "C#",
-          "G#",
-          "D#",
-          "A#",
-          "E#"
-        ]
+        "accidentals": ["F#", "C#", "G#", "D#", "A#", "E#"]
       },
       "sourceArticles": [],
       "exampleRequired": false,
@@ -3645,15 +3618,7 @@
         "ok": true,
         "name": "Cis-Dur",
         "fifths": 7,
-        "accidentals": [
-          "F#",
-          "C#",
-          "G#",
-          "D#",
-          "A#",
-          "E#",
-          "B#"
-        ]
+        "accidentals": ["F#", "C#", "G#", "D#", "A#", "E#", "B#"]
       },
       "sourceArticles": [],
       "exampleRequired": false,
@@ -3689,9 +3654,7 @@
         "ok": true,
         "name": "F-Dur",
         "fifths": -1,
-        "accidentals": [
-          "Bb"
-        ]
+        "accidentals": ["Bb"]
       },
       "sourceArticles": [],
       "exampleRequired": false,
@@ -3727,10 +3690,7 @@
         "ok": true,
         "name": "B-Dur",
         "fifths": -2,
-        "accidentals": [
-          "Bb",
-          "Eb"
-        ]
+        "accidentals": ["Bb", "Eb"]
       },
       "sourceArticles": [],
       "exampleRequired": false,
@@ -3766,11 +3726,7 @@
         "ok": true,
         "name": "Es-Dur",
         "fifths": -3,
-        "accidentals": [
-          "Bb",
-          "Eb",
-          "Ab"
-        ]
+        "accidentals": ["Bb", "Eb", "Ab"]
       },
       "sourceArticles": [],
       "exampleRequired": false,
@@ -3806,12 +3762,7 @@
         "ok": true,
         "name": "As-Dur",
         "fifths": -4,
-        "accidentals": [
-          "Bb",
-          "Eb",
-          "Ab",
-          "Db"
-        ]
+        "accidentals": ["Bb", "Eb", "Ab", "Db"]
       },
       "sourceArticles": [],
       "exampleRequired": false,
@@ -3883,9 +3834,7 @@
         "ok": true,
         "name": "e-Moll",
         "fifths": 1,
-        "accidentals": [
-          "F#"
-        ]
+        "accidentals": ["F#"]
       },
       "sourceArticles": [],
       "exampleRequired": false,
@@ -3921,9 +3870,7 @@
         "ok": true,
         "name": "d-Moll",
         "fifths": -1,
-        "accidentals": [
-          "Bb"
-        ]
+        "accidentals": ["Bb"]
       },
       "sourceArticles": [],
       "exampleRequired": false,
@@ -3959,11 +3906,7 @@
         "ok": true,
         "name": "c-Moll",
         "fifths": -3,
-        "accidentals": [
-          "Bb",
-          "Eb",
-          "Ab"
-        ]
+        "accidentals": ["Bb", "Eb", "Ab"]
       },
       "sourceArticles": [],
       "exampleRequired": false,
@@ -3990,11 +3933,7 @@
         {
           "name": "identify_chord",
           "input": {
-            "pitches": [
-              "C4",
-              "E4",
-              "G4"
-            ]
+            "pitches": ["C4", "E4", "G4"]
           }
         }
       ],
@@ -4094,11 +4033,7 @@
         {
           "name": "identify_chord",
           "input": {
-            "pitches": [
-              "F#4",
-              "A4",
-              "D5"
-            ]
+            "pitches": ["F#4", "A4", "D5"]
           }
         }
       ],
@@ -4198,11 +4133,7 @@
         {
           "name": "identify_chord",
           "input": {
-            "pitches": [
-              "C#4",
-              "F#4",
-              "A#4"
-            ]
+            "pitches": ["C#4", "F#4", "A#4"]
           }
         }
       ],
@@ -4302,11 +4233,7 @@
         {
           "name": "identify_chord",
           "input": {
-            "pitches": [
-              "Bb4",
-              "D5",
-              "F5"
-            ]
+            "pitches": ["Bb4", "D5", "F5"]
           }
         }
       ],
@@ -4406,11 +4333,7 @@
         {
           "name": "identify_chord",
           "input": {
-            "pitches": [
-              "Eb4",
-              "G4",
-              "C5"
-            ]
+            "pitches": ["Eb4", "G4", "C5"]
           }
         }
       ],
@@ -4510,11 +4433,7 @@
         {
           "name": "identify_chord",
           "input": {
-            "pitches": [
-              "A4",
-              "D5",
-              "F5"
-            ]
+            "pitches": ["A4", "D5", "F5"]
           }
         }
       ],
@@ -4614,11 +4533,7 @@
         {
           "name": "identify_chord",
           "input": {
-            "pitches": [
-              "F#4",
-              "A4",
-              "C#5"
-            ]
+            "pitches": ["F#4", "A4", "C#5"]
           }
         }
       ],
@@ -4718,11 +4633,7 @@
         {
           "name": "identify_chord",
           "input": {
-            "pitches": [
-              "Db4",
-              "F4",
-              "Bb4"
-            ]
+            "pitches": ["Db4", "F4", "Bb4"]
           }
         }
       ],
@@ -4822,11 +4733,7 @@
         {
           "name": "identify_chord",
           "input": {
-            "pitches": [
-              "Gb4",
-              "C5",
-              "Eb5"
-            ]
+            "pitches": ["Gb4", "C5", "Eb5"]
           }
         }
       ],
@@ -4926,11 +4833,7 @@
         {
           "name": "identify_chord",
           "input": {
-            "pitches": [
-              "D4",
-              "F4",
-              "Ab4"
-            ]
+            "pitches": ["D4", "F4", "Ab4"]
           }
         }
       ],
@@ -5030,11 +4933,7 @@
         {
           "name": "identify_chord",
           "input": {
-            "pitches": [
-              "A4",
-              "C5",
-              "F#5"
-            ]
+            "pitches": ["A4", "C5", "F#5"]
           }
         }
       ],
@@ -5134,11 +5033,7 @@
         {
           "name": "identify_chord",
           "input": {
-            "pitches": [
-              "Fb4",
-              "Bb4",
-              "Db5"
-            ]
+            "pitches": ["Fb4", "Bb4", "Db5"]
           }
         }
       ],
@@ -5238,11 +5133,7 @@
         {
           "name": "identify_chord",
           "input": {
-            "pitches": [
-              "C4",
-              "E4",
-              "G#4"
-            ]
+            "pitches": ["C4", "E4", "G#4"]
           }
         }
       ],
@@ -5342,11 +5233,7 @@
         {
           "name": "identify_chord",
           "input": {
-            "pitches": [
-              "F#4",
-              "A#4",
-              "D5"
-            ]
+            "pitches": ["F#4", "A#4", "D5"]
           }
         }
       ],
@@ -5446,11 +5333,7 @@
         {
           "name": "identify_chord",
           "input": {
-            "pitches": [
-              "C##4",
-              "F#4",
-              "A#4"
-            ]
+            "pitches": ["C##4", "F#4", "A#4"]
           }
         }
       ],
@@ -5550,11 +5433,7 @@
         {
           "name": "identify_chord",
           "input": {
-            "pitches": [
-              "Bb4",
-              "D5",
-              "F#5"
-            ]
+            "pitches": ["Bb4", "D5", "F#5"]
           }
         }
       ],
@@ -5674,12 +5553,7 @@
                 "timeSignature": {
                   "numerator": 4,
                   "denominator": 4,
-                  "grouping": [
-                    1,
-                    1,
-                    1,
-                    1
-                  ]
+                  "grouping": [1, 1, 1, 1]
                 },
                 "measures": [
                   {
@@ -5819,12 +5693,7 @@
                 "timeSignature": {
                   "numerator": 4,
                   "denominator": 4,
-                  "grouping": [
-                    1,
-                    1,
-                    1,
-                    1
-                  ]
+                  "grouping": [1, 1, 1, 1]
                 },
                 "measures": [
                   {
@@ -5935,11 +5804,7 @@
                 "timeSignature": {
                   "numerator": 3,
                   "denominator": 4,
-                  "grouping": [
-                    1,
-                    1,
-                    1
-                  ]
+                  "grouping": [1, 1, 1]
                 },
                 "measures": [
                   {
@@ -6072,12 +5937,7 @@
                 "timeSignature": {
                   "numerator": 4,
                   "denominator": 4,
-                  "grouping": [
-                    1,
-                    1,
-                    1,
-                    1
-                  ]
+                  "grouping": [1, 1, 1, 1]
                 },
                 "measures": [
                   {
@@ -6204,12 +6064,7 @@
                 "timeSignature": {
                   "numerator": 4,
                   "denominator": 4,
-                  "grouping": [
-                    1,
-                    1,
-                    1,
-                    1
-                  ]
+                  "grouping": [1, 1, 1, 1]
                 },
                 "measures": [
                   {
@@ -6305,12 +6160,7 @@
                 "timeSignature": {
                   "numerator": 4,
                   "denominator": 4,
-                  "grouping": [
-                    1,
-                    1,
-                    1,
-                    1
-                  ]
+                  "grouping": [1, 1, 1, 1]
                 },
                 "measures": [
                   {
@@ -6420,12 +6270,7 @@
                 "timeSignature": {
                   "numerator": 4,
                   "denominator": 4,
-                  "grouping": [
-                    1,
-                    1,
-                    1,
-                    1
-                  ]
+                  "grouping": [1, 1, 1, 1]
                 },
                 "measures": [
                   {
@@ -6584,12 +6429,7 @@
                 "timeSignature": {
                   "numerator": 4,
                   "denominator": 4,
-                  "grouping": [
-                    1,
-                    1,
-                    1,
-                    1
-                  ]
+                  "grouping": [1, 1, 1, 1]
                 },
                 "measures": [
                   {
@@ -10349,9 +10189,7 @@
       "expectedFacts": {
         "article": "notation.l1.staff.article"
       },
-      "sourceArticles": [
-        "notation.l1.staff.article"
-      ],
+      "sourceArticles": ["notation.l1.staff.article"],
       "exampleRequired": false,
       "reviewNotes": "Originalartikel fachlich unabhängig prüfen, Antwortbehauptung muss durch das konkrete Zitat gestützt sein; Überschriften- oder Worttreffer reichen nicht. Bei fehlender Quelle Unsicherheit transparent benennen."
     },
@@ -10376,9 +10214,7 @@
       "expectedFacts": {
         "article": "notation.l1.keyboard.article"
       },
-      "sourceArticles": [
-        "notation.l1.keyboard.article"
-      ],
+      "sourceArticles": ["notation.l1.keyboard.article"],
       "exampleRequired": false,
       "reviewNotes": "Originalartikel fachlich unabhängig prüfen, Antwortbehauptung muss durch das konkrete Zitat gestützt sein; Überschriften- oder Worttreffer reichen nicht. Bei fehlender Quelle Unsicherheit transparent benennen."
     },
@@ -10403,9 +10239,7 @@
       "expectedFacts": {
         "article": "notation.l1.register.article"
       },
-      "sourceArticles": [
-        "notation.l1.register.article"
-      ],
+      "sourceArticles": ["notation.l1.register.article"],
       "exampleRequired": false,
       "reviewNotes": "Originalartikel fachlich unabhängig prüfen, Antwortbehauptung muss durch das konkrete Zitat gestützt sein; Überschriften- oder Worttreffer reichen nicht. Bei fehlender Quelle Unsicherheit transparent benennen."
     },
@@ -10430,9 +10264,7 @@
       "expectedFacts": {
         "article": "rhythm.l1.pulse.article"
       },
-      "sourceArticles": [
-        "rhythm.l1.pulse.article"
-      ],
+      "sourceArticles": ["rhythm.l1.pulse.article"],
       "exampleRequired": false,
       "reviewNotes": "Originalartikel fachlich unabhängig prüfen, Antwortbehauptung muss durch das konkrete Zitat gestützt sein; Überschriften- oder Worttreffer reichen nicht. Bei fehlender Quelle Unsicherheit transparent benennen."
     },
@@ -10457,9 +10289,7 @@
       "expectedFacts": {
         "article": "rhythm.l1.values.article"
       },
-      "sourceArticles": [
-        "rhythm.l1.values.article"
-      ],
+      "sourceArticles": ["rhythm.l1.values.article"],
       "exampleRequired": false,
       "reviewNotes": "Originalartikel fachlich unabhängig prüfen, Antwortbehauptung muss durch das konkrete Zitat gestützt sein; Überschriften- oder Worttreffer reichen nicht. Bei fehlender Quelle Unsicherheit transparent benennen."
     },
@@ -10484,9 +10314,7 @@
       "expectedFacts": {
         "article": "rhythm.l1.simple-meter.article"
       },
-      "sourceArticles": [
-        "rhythm.l1.simple-meter.article"
-      ],
+      "sourceArticles": ["rhythm.l1.simple-meter.article"],
       "exampleRequired": false,
       "reviewNotes": "Originalartikel fachlich unabhängig prüfen, Antwortbehauptung muss durch das konkrete Zitat gestützt sein; Überschriften- oder Worttreffer reichen nicht. Bei fehlender Quelle Unsicherheit transparent benennen."
     },
@@ -10511,9 +10339,7 @@
       "expectedFacts": {
         "article": "intervals.l1.size.article"
       },
-      "sourceArticles": [
-        "intervals.l1.size.article"
-      ],
+      "sourceArticles": ["intervals.l1.size.article"],
       "exampleRequired": false,
       "reviewNotes": "Originalartikel fachlich unabhängig prüfen, Antwortbehauptung muss durch das konkrete Zitat gestützt sein; Überschriften- oder Worttreffer reichen nicht. Bei fehlender Quelle Unsicherheit transparent benennen."
     },
@@ -10538,9 +10364,7 @@
       "expectedFacts": {
         "article": "intervals.l1.first-qualities.article"
       },
-      "sourceArticles": [
-        "intervals.l1.first-qualities.article"
-      ],
+      "sourceArticles": ["intervals.l1.first-qualities.article"],
       "exampleRequired": false,
       "reviewNotes": "Originalartikel fachlich unabhängig prüfen, Antwortbehauptung muss durch das konkrete Zitat gestützt sein; Überschriften- oder Worttreffer reichen nicht. Bei fehlender Quelle Unsicherheit transparent benennen."
     },
@@ -10565,9 +10389,7 @@
       "expectedFacts": {
         "article": "aural.l1.pulse-rhythm.article"
       },
-      "sourceArticles": [
-        "aural.l1.pulse-rhythm.article"
-      ],
+      "sourceArticles": ["aural.l1.pulse-rhythm.article"],
       "exampleRequired": false,
       "reviewNotes": "Originalartikel fachlich unabhängig prüfen, Antwortbehauptung muss durch das konkrete Zitat gestützt sein; Überschriften- oder Worttreffer reichen nicht. Bei fehlender Quelle Unsicherheit transparent benennen."
     },
@@ -10592,9 +10414,7 @@
       "expectedFacts": {
         "article": "aural.l1.pitch-intervals.article"
       },
-      "sourceArticles": [
-        "aural.l1.pitch-intervals.article"
-      ],
+      "sourceArticles": ["aural.l1.pitch-intervals.article"],
       "exampleRequired": false,
       "reviewNotes": "Originalartikel fachlich unabhängig prüfen, Antwortbehauptung muss durch das konkrete Zitat gestützt sein; Überschriften- oder Worttreffer reichen nicht. Bei fehlender Quelle Unsicherheit transparent benennen."
     },
@@ -10619,9 +10439,7 @@
       "expectedFacts": {
         "article": "history.l1.sources.article"
       },
-      "sourceArticles": [
-        "history.l1.sources.article"
-      ],
+      "sourceArticles": ["history.l1.sources.article"],
       "exampleRequired": false,
       "reviewNotes": "Originalartikel fachlich unabhängig prüfen, Antwortbehauptung muss durch das konkrete Zitat gestützt sein; Überschriften- oder Worttreffer reichen nicht. Bei fehlender Quelle Unsicherheit transparent benennen."
     },
@@ -10646,9 +10464,7 @@
       "expectedFacts": {
         "article": "history.l1.overview.article"
       },
-      "sourceArticles": [
-        "history.l1.overview.article"
-      ],
+      "sourceArticles": ["history.l1.overview.article"],
       "exampleRequired": false,
       "reviewNotes": "Originalartikel fachlich unabhängig prüfen, Antwortbehauptung muss durch das konkrete Zitat gestützt sein; Überschriften- oder Worttreffer reichen nicht. Bei fehlender Quelle Unsicherheit transparent benennen."
     },
@@ -10673,9 +10489,7 @@
       "expectedFacts": {
         "article": "fundament.reading-and-listening.article"
       },
-      "sourceArticles": [
-        "fundament.reading-and-listening.article"
-      ],
+      "sourceArticles": ["fundament.reading-and-listening.article"],
       "exampleRequired": false,
       "reviewNotes": "Originalartikel fachlich unabhängig prüfen, Antwortbehauptung muss durch das konkrete Zitat gestützt sein; Überschriften- oder Worttreffer reichen nicht. Bei fehlender Quelle Unsicherheit transparent benennen."
     },
@@ -10700,9 +10514,7 @@
       "expectedFacts": {
         "article": "notation.l2.clefs-registers.article"
       },
-      "sourceArticles": [
-        "notation.l2.clefs-registers.article"
-      ],
+      "sourceArticles": ["notation.l2.clefs-registers.article"],
       "exampleRequired": false,
       "reviewNotes": "Originalartikel fachlich unabhängig prüfen, Antwortbehauptung muss durch das konkrete Zitat gestützt sein; Überschriften- oder Worttreffer reichen nicht. Bei fehlender Quelle Unsicherheit transparent benennen."
     },
@@ -10727,9 +10539,7 @@
       "expectedFacts": {
         "article": "notation.l2.spelling.article"
       },
-      "sourceArticles": [
-        "notation.l2.spelling.article"
-      ],
+      "sourceArticles": ["notation.l2.spelling.article"],
       "exampleRequired": false,
       "reviewNotes": "Originalartikel fachlich unabhängig prüfen, Antwortbehauptung muss durch das konkrete Zitat gestützt sein; Überschriften- oder Worttreffer reichen nicht. Bei fehlender Quelle Unsicherheit transparent benennen."
     },
@@ -10754,9 +10564,7 @@
       "expectedFacts": {
         "article": "rhythm.l2.dotted-tied.article"
       },
-      "sourceArticles": [
-        "rhythm.l2.dotted-tied.article"
-      ],
+      "sourceArticles": ["rhythm.l2.dotted-tied.article"],
       "exampleRequired": false,
       "reviewNotes": "Originalartikel fachlich unabhängig prüfen, Antwortbehauptung muss durch das konkrete Zitat gestützt sein; Überschriften- oder Worttreffer reichen nicht. Bei fehlender Quelle Unsicherheit transparent benennen."
     },
@@ -10781,9 +10589,7 @@
       "expectedFacts": {
         "article": "rhythm.l2.subdivision.article"
       },
-      "sourceArticles": [
-        "rhythm.l2.subdivision.article"
-      ],
+      "sourceArticles": ["rhythm.l2.subdivision.article"],
       "exampleRequired": false,
       "reviewNotes": "Originalartikel fachlich unabhängig prüfen, Antwortbehauptung muss durch das konkrete Zitat gestützt sein; Überschriften- oder Worttreffer reichen nicht. Bei fehlender Quelle Unsicherheit transparent benennen."
     },
@@ -10808,9 +10614,7 @@
       "expectedFacts": {
         "article": "intervals.l2.qualities-build.article"
       },
-      "sourceArticles": [
-        "intervals.l2.qualities-build.article"
-      ],
+      "sourceArticles": ["intervals.l2.qualities-build.article"],
       "exampleRequired": false,
       "reviewNotes": "Originalartikel fachlich unabhängig prüfen, Antwortbehauptung muss durch das konkrete Zitat gestützt sein; Überschriften- oder Worttreffer reichen nicht. Bei fehlender Quelle Unsicherheit transparent benennen."
     },
@@ -10835,9 +10639,7 @@
       "expectedFacts": {
         "article": "intervals.l2.inversion.article"
       },
-      "sourceArticles": [
-        "intervals.l2.inversion.article"
-      ],
+      "sourceArticles": ["intervals.l2.inversion.article"],
       "exampleRequired": false,
       "reviewNotes": "Originalartikel fachlich unabhängig prüfen, Antwortbehauptung muss durch das konkrete Zitat gestützt sein; Überschriften- oder Worttreffer reichen nicht. Bei fehlender Quelle Unsicherheit transparent benennen."
     },
@@ -10862,9 +10664,7 @@
       "expectedFacts": {
         "article": "scales.l2.major.article"
       },
-      "sourceArticles": [
-        "scales.l2.major.article"
-      ],
+      "sourceArticles": ["scales.l2.major.article"],
       "exampleRequired": false,
       "reviewNotes": "Originalartikel fachlich unabhängig prüfen, Antwortbehauptung muss durch das konkrete Zitat gestützt sein; Überschriften- oder Worttreffer reichen nicht. Bei fehlender Quelle Unsicherheit transparent benennen."
     },
@@ -10889,9 +10689,7 @@
       "expectedFacts": {
         "article": "scales.l2.minor.article"
       },
-      "sourceArticles": [
-        "scales.l2.minor.article"
-      ],
+      "sourceArticles": ["scales.l2.minor.article"],
       "exampleRequired": false,
       "reviewNotes": "Originalartikel fachlich unabhängig prüfen, Antwortbehauptung muss durch das konkrete Zitat gestützt sein; Überschriften- oder Worttreffer reichen nicht. Bei fehlender Quelle Unsicherheit transparent benennen."
     },
@@ -10916,9 +10714,7 @@
       "expectedFacts": {
         "article": "scales.l2.keys.article"
       },
-      "sourceArticles": [
-        "scales.l2.keys.article"
-      ],
+      "sourceArticles": ["scales.l2.keys.article"],
       "exampleRequired": false,
       "reviewNotes": "Originalartikel fachlich unabhängig prüfen, Antwortbehauptung muss durch das konkrete Zitat gestützt sein; Überschriften- oder Worttreffer reichen nicht. Bei fehlender Quelle Unsicherheit transparent benennen."
     },
@@ -10943,9 +10739,7 @@
       "expectedFacts": {
         "article": "chords.l2.qualities.article"
       },
-      "sourceArticles": [
-        "chords.l2.qualities.article"
-      ],
+      "sourceArticles": ["chords.l2.qualities.article"],
       "exampleRequired": false,
       "reviewNotes": "Originalartikel fachlich unabhängig prüfen, Antwortbehauptung muss durch das konkrete Zitat gestützt sein; Überschriften- oder Worttreffer reichen nicht. Bei fehlender Quelle Unsicherheit transparent benennen."
     },
@@ -10970,9 +10764,7 @@
       "expectedFacts": {
         "article": "chords.l2.inversions.article"
       },
-      "sourceArticles": [
-        "chords.l2.inversions.article"
-      ],
+      "sourceArticles": ["chords.l2.inversions.article"],
       "exampleRequired": false,
       "reviewNotes": "Originalartikel fachlich unabhängig prüfen, Antwortbehauptung muss durch das konkrete Zitat gestützt sein; Überschriften- oder Worttreffer reichen nicht. Bei fehlender Quelle Unsicherheit transparent benennen."
     },
@@ -10997,9 +10789,7 @@
       "expectedFacts": {
         "article": "aural.l2.rhythm-detail.article"
       },
-      "sourceArticles": [
-        "aural.l2.rhythm-detail.article"
-      ],
+      "sourceArticles": ["aural.l2.rhythm-detail.article"],
       "exampleRequired": false,
       "reviewNotes": "Originalartikel fachlich unabhängig prüfen, Antwortbehauptung muss durch das konkrete Zitat gestützt sein; Überschriften- oder Worttreffer reichen nicht. Bei fehlender Quelle Unsicherheit transparent benennen."
     },
@@ -11024,9 +10814,7 @@
       "expectedFacts": {
         "article": "aural.l2.melody.article"
       },
-      "sourceArticles": [
-        "aural.l2.melody.article"
-      ],
+      "sourceArticles": ["aural.l2.melody.article"],
       "exampleRequired": false,
       "reviewNotes": "Originalartikel fachlich unabhängig prüfen, Antwortbehauptung muss durch das konkrete Zitat gestützt sein; Überschriften- oder Worttreffer reichen nicht. Bei fehlender Quelle Unsicherheit transparent benennen."
     },
@@ -11051,9 +10839,7 @@
       "expectedFacts": {
         "article": "aural.l2.triads.article"
       },
-      "sourceArticles": [
-        "aural.l2.triads.article"
-      ],
+      "sourceArticles": ["aural.l2.triads.article"],
       "exampleRequired": false,
       "reviewNotes": "Originalartikel fachlich unabhängig prüfen, Antwortbehauptung muss durch das konkrete Zitat gestützt sein; Überschriften- oder Worttreffer reichen nicht. Bei fehlender Quelle Unsicherheit transparent benennen."
     },
@@ -11078,9 +10864,7 @@
       "expectedFacts": {
         "article": "history.l2.period-contexts.article"
       },
-      "sourceArticles": [
-        "history.l2.period-contexts.article"
-      ],
+      "sourceArticles": ["history.l2.period-contexts.article"],
       "exampleRequired": false,
       "reviewNotes": "Originalartikel fachlich unabhängig prüfen, Antwortbehauptung muss durch das konkrete Zitat gestützt sein; Überschriften- oder Worttreffer reichen nicht. Bei fehlender Quelle Unsicherheit transparent benennen."
     },
@@ -11105,9 +10889,7 @@
       "expectedFacts": {
         "article": "history.l2.jazz-pop-sources.article"
       },
-      "sourceArticles": [
-        "history.l2.jazz-pop-sources.article"
-      ],
+      "sourceArticles": ["history.l2.jazz-pop-sources.article"],
       "exampleRequired": false,
       "reviewNotes": "Originalartikel fachlich unabhängig prüfen, Antwortbehauptung muss durch das konkrete Zitat gestützt sein; Überschriften- oder Worttreffer reichen nicht. Bei fehlender Quelle Unsicherheit transparent benennen."
     },
