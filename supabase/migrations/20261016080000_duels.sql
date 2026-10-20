@@ -125,7 +125,7 @@ end $$;
 
 create function public.duel_find(actor uuid,bank_version text,task_pool jsonb,rules jsonb,server_seed uuid,new_game uuid)
 returns jsonb language plpgsql security definer set search_path='' as $$
-declare q public.duel_queue; peer public.duel_queue; clock timestamptz:=clock_timestamp(); own_rating double precision; peer_rating double precision; waited double precision; ghost public.rush_runs;
+declare q public.duel_queue; peer public.duel_queue; clock timestamptz:=clock_timestamp(); own_rating double precision; ghost public.rush_runs;
 begin
  if actor is null or bank_version !~ '^[a-f0-9]{64}$' or jsonb_typeof(task_pool) is distinct from 'array' or jsonb_array_length(task_pool) not between 1 and 256 or server_seed is null or new_game is null then raise exception 'duel_source';end if;
  perform pg_advisory_xact_lock(hashtextextended(actor::text,0));
