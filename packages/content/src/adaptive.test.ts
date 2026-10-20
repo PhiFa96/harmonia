@@ -153,6 +153,38 @@ describe('canonical adaptive plans', () => {
     expect(restored.plan).toEqual(plan);
     expect(restored.session?.initial.items).toHaveLength(plan.exercises.length);
   });
+  it('adapts the repetitions on a first run when only earlier material has ratings', () => {
+    let adaptive = 0;
+    let withRepetitions = 0;
+    for (const lesson of catalogue.lessons) {
+      const fixed = required(lessonPlan(catalogue, lesson.id));
+      if (!fixed.repetitionCount) continue;
+      withRepetitions++;
+      // Realistic first run: this lesson's own skills are still new, everything else is rated.
+      const own = new Set(
+        (lessonExerciseSources(catalogue, lesson.id) ?? []).flatMap((s) => s.skillIds),
+      );
+      const earlier: RatingSnapshot = {
+        buckets: snapshot.buckets,
+        skills: Object.fromEntries(Object.entries(snapshot.skills).filter(([id]) => !own.has(id))),
+      };
+      const plan = required(adaptiveLessonPlan(catalogue, lesson.id, earlier, at));
+      expect(plan.newCount).toBe(fixed.newCount);
+      expect(plan.repetitionCount).toBe(fixed.repetitionCount);
+      if (plan.planKey.startsWith('["flow:2"')) {
+        adaptive++;
+        expect(lessonPlan(catalogue, lesson.id, plan.planKey)).toEqual(plan);
+        // Mandatory questions keep their authored order while none of their skills is rated.
+        const order = (JSON.parse(plan.planKey) as [string, string, number, number[]])[3];
+        const unrated = (lessonExerciseSources(catalogue, lesson.id) ?? []).every((s) =>
+          s.skillIds.every((id) => own.has(id)),
+        );
+        if (unrated) expect(order).toEqual(order.map((_, i) => i));
+      }
+    }
+    expect(withRepetitions).toBeGreaterThan(60);
+    expect(adaptive).toBeGreaterThan(withRepetitions * 0.8);
+  }, 60_000);
   it('does not deliver draft sources from a public catalogue', () => {
     const published = publicCatalogue(catalogue);
     expect(
