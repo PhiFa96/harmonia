@@ -93,7 +93,11 @@ async function intro(id: string) {
 function answer(item: ExerciseItem, wrong = false) {
   expect(screen.getByRole('button', { name: 'Prüfen' })).toBeDisabled();
   if (item.type === 'KEY_FIND') {
-    expect(screen.getByTestId('grand-staff-example', { includeHiddenElements: true })).toBeTruthy();
+    // Eingemischte Wiederholungsaufgaben früherer Lektionen (z. B. pitch-match) zeigen kein großes System.
+    if (item.presentation === 'grand-staff')
+      expect(
+        screen.getByTestId('grand-staff-example', { includeHiddenElements: true }),
+      ).toBeTruthy();
     const target = Number(expectedAnswer(item).slice(4));
     fireEvent.press(
       screen.getByTestId(`piano-key-${String(wrong ? (target === 60 ? 59 : 60) : target)}`),
