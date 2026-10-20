@@ -132,7 +132,7 @@ it('behält eine fehlgeschlagene Einschätzung mit derselben ID für den erneute
     renderRouter('./src/app', { initialUrl: '/review' });
     fireEvent.press(required(screen.getAllByRole('button', { name: /^Karte öffnen:/ })[0]));
     fireEvent.press(screen.getByRole('button', { name: 'Erklärung aufdecken' }));
-    fireEvent.press(screen.getByRole('button', { name: 'Schwer' }));
+    fireEvent.press(screen.getByRole('button', { name: 'Mit Mühe gewusst' }));
     await waitFor(() => {
       expect(screen.getByRole('button', { name: 'Erneut speichern' })).toBeTruthy();
     });

@@ -164,7 +164,7 @@ export default function FriendsScreen() {
                   <View key={friend.id} style={styles.group}>
                     <AppText variant="title3">{t('friends.friend', { count: index + 1 })}</AppText>
                     <AppText>
-                      {t('friends.stats', { streak: friend.streak, tier: friend.leagueTier })}
+                      {t('friends.stats', { count: friend.streak, tier: friend.leagueTier })}
                     </AppText>
                     {!view.questUsed ? (
                       <Button
