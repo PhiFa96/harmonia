@@ -2,6 +2,7 @@ import { validateScore } from '@harmonia/notation';
 import { chord, parseNoteName } from '@harmonia/theory';
 import { describe, expect, it } from 'vitest';
 import {
+  ambiguousFunctionDegrees,
   cadenceAnswer,
   chordAnswerId,
   chordChoiceId,
@@ -15,6 +16,7 @@ import {
   exercisePrompt,
   expectedAnswer,
   functionAnswer,
+  functionChoiceLabel,
   generateCadence,
   generateChord,
   generateDictation,
@@ -31,6 +33,22 @@ describe('P3.14: Harmonik und Diktat', () => {
       expect(evaluateExercise(item, expectedAnswer(item)).correct).toBe(true);
       expect(evaluateExercise(item, 'cadence:unknown').validAnswer).toBe(false);
     }
+  });
+  it('erzeugt keine Funktionsaufgabe mit zwei gleich beschrifteten Auswahlknöpfen', () => {
+    expect(ambiguousFunctionDegrees([5, 7])).toBe(true);
+    expect(ambiguousFunctionDegrees([1, 2, 4, 5, 6])).toBe(false);
+    expect(() =>
+      generateFunction({ fifths: [0], degrees: [5, 7], notation: 'function' }, createRng(1)),
+    ).toThrow(/Funktionskürzel/);
+    for (let seed = 0; seed < 60; seed++) {
+      const item = generateFunction({ notation: 'function' }, createRng(seed));
+      const labels = item.choices.map((choice) => functionChoiceLabel(item, choice));
+      expect(new Set(labels).size).toBe(labels.length);
+    }
+    // Römische Stufen sind immer eindeutig.
+    expect(() =>
+      generateFunction({ fifths: [0], degrees: [5, 7], notation: 'roman' }, createRng(1)),
+    ).not.toThrow();
   });
   it('bestimmt die Stufe aus dem Akkord statt einer gespeicherten Auswahl', () => {
     for (const degree of [1, 2, 4, 5, 6] as const) {

@@ -6,6 +6,7 @@ import {
   MVP_SCALE_TYPES,
   MVP_TRIAD_TYPES,
   SEVENTH_TYPES,
+  ambiguousFunctionDegrees,
   CADENCE_TYPES,
   MVP_METERS,
   KNOWLEDGE_TOPICS,
@@ -175,7 +176,13 @@ export const exerciseSpecSchema = z
               .optional(),
             notation: z.enum(['roman', 'function']).optional(),
           })
-          .strict(),
+          .strict()
+          .refine(
+            (params) =>
+              params.notation !== 'function' ||
+              !ambiguousFunctionDegrees(params.degrees ?? [1, 2, 4, 5, 6]),
+            { message: 'Funktionskürzel der gewählten Stufen sind nicht eindeutig' },
+          ),
       })
       .strict(),
     z

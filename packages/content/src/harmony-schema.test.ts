@@ -21,4 +21,21 @@ describe('P3.14 Inhaltsschema', () => {
     ])
       expect(exerciseSpecSchema.safeParse(spec).success).toBe(false);
   });
+  it('weist Funktionsaufgaben ab, deren Auswahlknöpfe dasselbe Kürzel zeigen', () => {
+    // In Dur tragen V und vii° beide „D“.
+    expect(
+      exerciseSpecSchema.safeParse({
+        type: 'FUNCTION_ANALYSIS',
+        params: { degrees: [5, 7], notation: 'function' },
+      }).success,
+    ).toBe(false);
+    for (const params of [
+      { degrees: [5, 7], notation: 'roman' },
+      { degrees: [1, 2, 4, 5, 6], notation: 'function' },
+      { notation: 'function' },
+    ])
+      expect(exerciseSpecSchema.safeParse({ type: 'FUNCTION_ANALYSIS', params }).success).toBe(
+        true,
+      );
+  });
 });
