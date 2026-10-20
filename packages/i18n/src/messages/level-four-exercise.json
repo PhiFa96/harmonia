@@ -1,7 +1,7 @@
 {
   "de": {
     "contextQuestion_clef-reading": "Welcher Ton steht im Alt- oder Tenorschlüssel an der gezeigten Position?",
-    "contextHint1_clef-reading": "Suche die Linie des eingeklammerten c¹ im jeweiligen C-Schlüssel.",
+    "contextHint1_clef-reading": "Suche die Linie, auf die der C-Schlüssel c¹ legt.",
     "contextHint2_clef-reading": "Im Altschlüssel liegt c¹ auf der dritten, im Tenorschlüssel auf der vierten Linie.",
     "contextExplain_clef-reading": "Die C-Schlüssel markieren die Linie für c¹; der gesuchte Ton wird aus der notierten Position und dem tatsächlichen Schlüssel bestimmt.",
     "contextQuestion_parallel-fifths": "Bewegen sich die beiden Stimmen in parallelen reinen Quinten?",
@@ -135,7 +135,7 @@
   },
   "en-US": {
     "contextQuestion_clef-reading": "Which pitch is written at this position in alto or tenor clef?",
-    "contextHint1_clef-reading": "Find the line marked as middle C by the C clef.",
+    "contextHint1_clef-reading": "Find the line on which the C clef places middle C.",
     "contextHint2_clef-reading": "Middle C is on the third line in alto clef and the fourth line in tenor clef.",
     "contextExplain_clef-reading": "A C clef marks the line for middle C; the answer follows from the displayed staff position and the actual clef.",
     "contextQuestion_parallel-fifths": "Do the two voices move in parallel perfect fifths?",
@@ -269,7 +269,7 @@
   },
   "en-GB": {
     "contextQuestion_clef-reading": "Which pitch is written at this position in alto or tenor clef?",
-    "contextHint1_clef-reading": "Find the line marked as middle C by the C clef.",
+    "contextHint1_clef-reading": "Find the line on which the C clef places middle C.",
     "contextHint2_clef-reading": "Middle C is on the third line in alto clef and the fourth line in tenor clef.",
     "contextExplain_clef-reading": "A C clef marks the line for middle C; the answer follows from the displayed staff position and the actual clef.",
     "contextQuestion_parallel-fifths": "Do the two voices move in parallel perfect fifths?",
