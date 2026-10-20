@@ -2113,6 +2113,8 @@ export const de = {
     midiUnavailable:
       'MIDI ist hier nicht verfügbar oder der Zugriff wurde abgelehnt. Prüfe Browser, Gerät und Berechtigungen.',
     midiConnected: 'MIDI: {{device}}',
+    midiOutOfRange:
+      'Diese Taste liegt außerhalb des angezeigten Ausschnitts und wurde nicht übernommen.',
     midiDisconnected: 'MIDI-Keyboard getrennt. Verbinde es erneut oder wähle ein anderes Gerät.',
     midiVelocity: 'Anschlag {{velocity}}/127',
     midiSustain: 'Sustain an',

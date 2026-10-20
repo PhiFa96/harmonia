@@ -2070,6 +2070,7 @@ export const enUS = {
     midiUnavailable:
       'MIDI is unavailable here or access was denied. Check your browser, device and permissions.',
     midiConnected: 'MIDI: {{device}}',
+    midiOutOfRange: 'That key is outside the displayed range and was not used.',
     midiDisconnected: 'MIDI keyboard disconnected. Reconnect it or choose another device.',
     midiVelocity: 'Velocity {{velocity}}/127',
     midiSustain: 'Sustain on',
