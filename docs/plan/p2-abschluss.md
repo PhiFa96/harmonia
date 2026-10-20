@@ -23,7 +23,7 @@ Phillip möchte den Namen **Harmonia**, wenn verfügbar. Betreiber/Rechtsform, A
 | P2.15 | Tutor-Backend, Engine-Werkzeuge, reservierte Kosten | Modell-/Tarif-/Secretbindung und tatsächliche Kosten |
 | P2.16 | 714 interne Abschnitte, Quellen und getrennte Indexe | Fachfreigabe und echte Quellenantworten |
 | P2.17 | Streaming-Tutor und Aufgaben-/Musikpräferenzen | Echtes Modell und native Streaming-/Audioprüfung |
-| P2.18 | 245 Fälle/735 Sprachfassungen, technische Simulation | Getrennte Claude-Urteile, aktueller echter Lauf ≥98 %, Prompt v3 |
+| P2.18 | 245 Fälle/735 Sprachfassungen, technische Simulation | Getrennte Claude-Urteile, aktueller echter Lauf ≥98 % mit der jeweils aktuellen Prompt-Version (seit P3.18 Prompt v4/Werkzeuge v2; die v3-Kalibrierung ist hinfällig) |
 | P2.19 | RevenueCat-SDK/Webhook und Pakete | Produkte/Preise, reale Sandboxkäufe/-wiederherstellung, Small-Business-Antrag |
 | P2.20 | Lernenergie, Paywall und Kündigungseingang | Reale Käufe/Kündigungsbearbeitung, Rechtsfreigabe |
 | P2.21 | Consent, Export/Löschung und zwölfmonatige Kürzung | Betreiber, geprüfte Texte, Verträge und Storeformulare |

@@ -45,7 +45,7 @@ Fehler vor SSE: `400` Form/JSON, `401` Anmeldung, `403 subscription`, `409` Konf
 
 ## Fachliche und betriebliche Grenzen
 
-Werkzeuge: `analyze_interval`, `build_interval`, `build_scale`, `key_signature`, `identify_chord`, `build_chord`, `get_exercise_context`, `render_example`. Sie unterstützen den tatsächlichen Engine-Stand, insbesondere vier Dreiklangarten und deren drei Lagen. Kein Septakkord-/Stimmführungs-/achtstimmiger Satzprüfer wird vorgetäuscht. Allgemeine Musikfragen bleiben möglich, aber Quellen und Modellprosa sind ohne P2.16/P2.18 noch nicht fachlich abgenommen.
+Werkzeuge (Stand P2.15; seit P3.18 kommen `get_learner_summary` und `analyze_progression` hinzu, insgesamt zehn, siehe [tutor-lernplaner.md](tutor-lernplaner.md)): `analyze_interval`, `build_interval`, `build_scale`, `key_signature`, `identify_chord`, `build_chord`, `get_exercise_context`, `render_example`. Sie unterstützen den tatsächlichen Engine-Stand, insbesondere vier Dreiklangarten und deren drei Lagen. Kein Septakkord-/Stimmführungs-/achtstimmiger Satzprüfer wird vorgetäuscht. Allgemeine Musikfragen bleiben möglich, aber Quellen und Modellprosa sind ohne P2.16/P2.18 noch nicht fachlich abgenommen.
 
 Notenbeispiele sind höchstens acht Takte, 128 Klänge und 60 Sekunden lang, einstimmig auf einem System. Zwei Systeme erlauben nur den bestehenden einfachen Violin-/Bassschlüssel-Einstieg. Taktfüllung, Haltebögen und MIDI-Umfang sind geprüft. Inhaltliche Aussagen über Intervalle/Akkorde müssen zusätzlich auf den entsprechenden Werkzeugdaten beruhen; ein strukturell gültiges Notenbild allein belegt keine solche Aussage.
 

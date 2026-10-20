@@ -32,7 +32,10 @@ import {
   tutorReservation,
 } from '../supabase/functions/_shared/tutor-provider.ts';
 import { runTutor } from '../supabase/functions/_shared/tutor-runtime.ts';
-import { summarizeLearner } from '../supabase/functions/_shared/tutor-learner.ts';
+import {
+  loadLearnerContext,
+  summarizeLearner,
+} from '../supabase/functions/_shared/tutor-learner.ts';
 import { contentMessages as authoringMessages } from '../packages/i18n/src/authoring-content-messages.ts';
 import type { TutorEvent } from '../supabase/functions/_shared/tutor-runtime.ts';
 import {
@@ -97,6 +100,87 @@ check(
   learner.progression.weeklyPlan.every((item) => item.minutes === 15),
   'Bounded study sessions',
 );
+const skillIds = catalogue.skills.slice(0, 4).map((skill) => skill.id);
+const rate = (ratings: readonly number[]) =>
+  summarizeLearner(
+    catalogue,
+    authoringMessages,
+    request,
+    ratings.map((rating, index) => ({
+      skill_id: skillIds[index] ?? '',
+      rating,
+      rating_deviation: 80,
+      attempts: 8,
+    })),
+    { passed: [], testedUnitIds: [] },
+  );
+for (const [name, ratings] of [
+  ['Equal ratings', [1500, 1500]],
+  ['One-point difference', [1501, 1500]],
+  ['Ratings within the minimum gap', [1650, 1649, 1648]],
+] as const) {
+  const flat = rate(ratings);
+  check(
+    flat.strengths.length === 0 && flat.needsPractice.length === 0,
+    `${name} name no strength or practice need`,
+  );
+}
+const spread = rate([1700, 1500, 1500, 1490]);
+check(
+  spread.strengths.map((row) => row.rating).join() === '1700',
+  'A clear outlier is the only named strength',
+);
+check(
+  spread.needsPractice.every((row) => row.rating <= 1500) && spread.needsPractice.length === 2,
+  'Practice needs are at least the minimum gap below the strongest skill',
+);
+check(
+  spread.strengths.every((row) =>
+    spread.needsPractice.every((need) => row.rating - need.rating >= 75),
+  ),
+  'Every strength is at least 75 points above every practice need',
+);
+type LearnerClient = Parameters<typeof loadLearnerContext>[0];
+const fakeLearnerClient = (
+  ratings: { data?: unknown; error?: unknown },
+  snapshot: { data?: unknown; error?: unknown },
+  calls: string[],
+) =>
+  ({
+    from: (table: string) => ({
+      select: () => ({
+        eq: (column: string, value: string) => {
+          calls.push(`${table}.${column}=${value}`);
+          return Promise.resolve(ratings);
+        },
+      }),
+    }),
+    rpc: (name: string, args: { actor: string }) => {
+      calls.push(`${name}:${args.actor}`);
+      return Promise.resolve(snapshot);
+    },
+  }) as unknown as LearnerClient;
+const okSnapshot = { data: { passed: [], testedUnitIds: [] } };
+for (const [name, ratings, snapshot] of [
+  ['Rating query error', { error: { message: 'x' } }, okSnapshot],
+  ['Snapshot query error', { data: [] }, { error: { message: 'x' } }],
+  ['Malformed ratings', { data: [{ skill_id: 1 }] }, okSnapshot],
+  ['Malformed snapshot', { data: [] }, { data: { passed: 'no' } }],
+] as const) {
+  const calls: string[] = [];
+  const result = await loadLearnerContext(
+    fakeLearnerClient(ratings, snapshot, calls),
+    'actor-1',
+    catalogue,
+    request,
+  );
+  check(!result.available, `${name} fails closed as unavailable`);
+  check(
+    calls.includes('skill_progress.user_id=actor-1') &&
+      calls.includes('tutor_learner_snapshot:actor-1'),
+    `${name} reads only the verified actor`,
+  );
+}
 check(!JSON.stringify(learner).includes('user_id'), 'No account identifier in model context');
 check(!tool('get_learner_summary', {}).ok, 'Learner tool fails closed without server context');
 check(

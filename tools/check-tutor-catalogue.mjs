@@ -45,5 +45,5 @@ if (reviewIndex !== -1) {
     throw Error('Getrennte fachliche Freigabe durch Claude ist noch unvollständig.');
 }
 console.log(
-  `${catalogue.cases.length} eigene Testfälle / ${catalogue.cases.length * 3} Sprachfassungen, ${types.size} Übungstypen und ${tools.size} Werkzeuge geprüft. Fachliche Freigabe ${reviewIndex === -1 ? 'nicht behauptet (Entwurf)' : 'vollständig belegt'}.`,
+  `${catalogue.cases.length} eigene Testfälle / ${catalogue.cases.length * 3} Sprachfassungen, ${types.size} Übungstypen und ${tools.size} Engine-Werkzeuge (Katalog v1) geprüft. Fachliche Freigabe ${reviewIndex === -1 ? 'nicht behauptet (Entwurf)' : 'vollständig belegt'}.`,
 );

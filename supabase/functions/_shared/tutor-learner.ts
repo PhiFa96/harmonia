@@ -7,6 +7,8 @@ import { contentMessages as releasedMessages } from '../../../packages/i18n/src/
 import type { MessageTree } from '../../../packages/i18n/src/messages/types.ts';
 import { knowledgeLane } from './knowledge.ts';
 
+/** Strengths and practice needs are only named when this many rating points separate them. */
+export const MIN_RATING_GAP = 75;
 const ratingSchema = z
   .object({
     skill_id: z.string().max(128),
@@ -78,8 +80,18 @@ export function summarizeLearner(
       (a, b) => a.rating - b.rating || a.skillId.localeCompare(b.skillId),
     ),
     comparisonSize = Math.min(3, Math.floor(ordered.length / 2)),
-    strengths = comparisonSize ? ordered.slice(-comparisonSize).reverse() : [],
-    needsPractice = ordered.slice(0, comparisonSize),
+    lowest = ordered[0]?.rating ?? 0,
+    highest = ordered.at(-1)?.rating ?? 0,
+    // Without a clear gap every ranking would be invented: equal ratings make no strength.
+    strengths = comparisonSize
+      ? ordered
+          .slice(-comparisonSize)
+          .reverse()
+          .filter((row) => row.rating - lowest >= MIN_RATING_GAP)
+      : [],
+    needsPractice = ordered
+      .slice(0, comparisonSize)
+      .filter((row) => highest - row.rating >= MIN_RATING_GAP),
     path = learningPath(
       catalogue,
       snapshot.passed.map((row) => ({ ...row, passed: true, eligibleCorrect: 0, total: 1 })),
@@ -109,6 +121,6 @@ export function summarizeLearner(
     needsPractice,
     progression: { nextLessons: available.slice(0, 5), weeklyPlan },
     limits:
-      'Strengths and practice needs are relative only to measured skills, not proficiency grades. Ratings require at least 3 attempts and deviation at most 150. Suggestions do not change course access. New offline activity may not be synced.',
+      'Strengths and practice needs are relative only to measured skills, not proficiency grades, and are named only when at least 75 rating points separate them from the opposite end. Ratings require at least 3 attempts and deviation at most 150. Suggestions do not change course access. New offline activity may not be synced.',
   };
 }
