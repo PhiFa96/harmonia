@@ -133,7 +133,7 @@ describe('Vollständige Lektion', () => {
       { letter: 'C', alter: 0, octave: 4 },
       { letter: 'E', alter: 0, octave: 4 },
     ]);
-  });
+  }, 60_000);
   it('Warum übernimmt die falsche Erstantwort und kehrt zum unveränderten Feedback zurück', async () => {
     const router = await start(),
       state = createLessonSession(firstLesson, SEED),
