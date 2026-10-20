@@ -71,20 +71,29 @@ export function selectKnowledgeChunks(
     chunks: KnowledgeBundle['chunks'] = [],
     perArticle = new Map<string, number>();
   let used = 0;
-  for (const hit of hits) {
+  const include = (hit: { id: string }, distinctOnly: boolean) => {
     const chunk = known.get(hit.id);
     if (
       !chunk ||
       chunks.some((c) => c.id === chunk.id) ||
+      (distinctOnly && perArticle.has(chunk.articleId)) ||
       (perArticle.get(chunk.articleId) ?? 0) >= 3
     )
-      continue;
+      return;
     const size = new TextEncoder().encode(JSON.stringify(chunk)).length;
-    if (used + size > KNOWLEDGE_DOCUMENT_BUDGET) continue;
+    if (used + size > KNOWLEDGE_DOCUMENT_BUDGET) return;
     used += size;
     chunks.push(chunk);
     perArticle.set(chunk.articleId, (perArticle.get(chunk.articleId) ?? 0) + 1);
+  };
+  // Erste Treffer aus mehreren Artikeln sichern, bevor Abschnitte eines Titels das Budget füllen.
+  for (const hit of hits) {
+    if (perArticle.size >= 3 || chunks.length >= KNOWLEDGE_MAX_DOCUMENTS) break;
+    include(hit, true);
+  }
+  for (const hit of hits) {
     if (chunks.length >= KNOWLEDGE_MAX_DOCUMENTS) break;
+    include(hit, false);
   }
   return {
     lane: snapshot.lane,

@@ -11,6 +11,7 @@ import { summarizeLearner } from '../../supabase/functions/_shared/tutor-learner
 import { executeTutorTool } from '../../supabase/functions/_shared/tutor-tools.ts';
 import { contentMessages } from '../../packages/i18n/src/authoring-content-messages.ts';
 import { tutorRequestSchema } from '../../packages/content/src/index.ts';
+import { upperLevelKnowledgeQueries } from '../knowledge-queries-v2.ts';
 import { catalogueSchema, LOCALES } from './schema.ts';
 import type { BenchmarkCase, BenchmarkCatalogue } from './schema.ts';
 
@@ -154,6 +155,34 @@ export function buildBenchmarkCatalogueV2(): BenchmarkCatalogue {
             'Stage 3/4 draft: separately verify the prompt, valid wrong answer, hint boundary and musical explanation in all three locales.',
         });
       }
+    }
+  }
+  for (const [index, query] of upperLevelKnowledgeQueries.entries()) {
+    for (const [kind, questions] of [
+      ['direct', { de: query.de, 'en-US': query.us, 'en-GB': query.uk ?? query.us }],
+      [
+        'reworded',
+        {
+          de: query.deAlternate,
+          'en-US': query.usAlternate,
+          'en-GB': query.ukAlternate ?? query.usAlternate,
+        },
+      ],
+    ] as const) {
+      cases.push({
+        id: `p3_library_${String(index + 1).padStart(2, '0')}_${kind}`,
+        status: 'entwurf',
+        category: 'library',
+        questions,
+        scope: first.scope,
+        exerciseType: null,
+        calls: [],
+        expectedFacts: { article: query.article },
+        sourceArticles: [query.article],
+        exampleRequired: false,
+        reviewNotes:
+          'Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim.',
+      });
     }
   }
   return catalogueSchema.parse({ schemaVersion: 1, version: 2, cases });

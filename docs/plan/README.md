@@ -44,6 +44,8 @@ Dieser Plan beschreibt, wie wir Harmonia Schritt für Schritt bauen: vom leeren 
 | [Stufe 4 als interner Entwurf P3.16](stufe-4-vollstaendig.md) | 13 Einheiten mit Studienvorbereitung und 390 Aufgaben; getrennte fachliche Freigabe offen |
 | [Prüfungsmodus P3.17](pruefungsmodus.md) | Zwei interne Vorlagen mit Theorie/Gehörbildung, Zeitlimit, Punkten und Lernpfad-Empfehlungen; fachliche Abnahme offen |
 | [Tutor-Lernplaner P3.18](tutor-lernplaner.md) | Servergeprüfte Lernübersicht, kurze Wochenvorschläge und separater Stufe-3/4-Testkatalog; fachliche Abnahme offen |
+| [Wissensbasis v2 P3.19](wissensbasis-v2.md) | 25 Entwurfsartikel für Stufen 3–4, erweiterte Quellensuche und 150 Suchfragen; fachliche Abnahme offen |
+| [Rückblick Phase 3](phase-3-rueckblick.md) | Technischer Übergabestand, offene Freigaben und angepasste Startbedingungen für Phase 4 |
 | [Onboarding P2.09](onboarding.md) | Gespeicherter Erststart, Mini-Aufgabe, Gast-/E-Mail-Anmeldung und offene Testpersonen-/Geräteabnahme |
 | [Einstufungstest P2.10](einstufungstest.md) | Adaptive Aufgaben, getrennte Bereichsniveaus, Startpunkte, Wiederholung und SQLite-Wiederaufnahme |
 | [Lernpfad P2.11](lernpfad.md) | Graphbasierte Freischaltung, 80-%-Regel, freiwillige Wiederholung, Offline-Nachweise und Kontosynchronisation |

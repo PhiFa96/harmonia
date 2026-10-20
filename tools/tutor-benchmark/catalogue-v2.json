@@ -12672,6 +12672,1256 @@
       "sourceArticles": [],
       "exampleRequired": false,
       "reviewNotes": "Stage 3/4 draft: separately verify the prompt, valid wrong answer, hint boundary and musical explanation in all three locales."
+    },
+    {
+      "id": "p3_library_01_direct",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Wodurch unterscheiden sich dorisch und mixolydisch?",
+        "en-US": "How do Dorian and Mixolydian modes differ?",
+        "en-GB": "How do Dorian and Mixolydian modes differ?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "scales.l3.modes.article"
+      },
+      "sourceArticles": ["scales.l3.modes.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_01_reworded",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Welche modalen Tonleitern haben andere Stufen als Dur und natürlich Moll?",
+        "en-US": "Which modal scales change degrees compared with major and natural minor?",
+        "en-GB": "Which modal scales change degrees compared with major and natural minor?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "scales.l3.modes.article"
+      },
+      "sourceArticles": ["scales.l3.modes.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_02_direct",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Wie unterscheiden sich Dominantseptakkord und halbverminderter Septakkord?",
+        "en-US": "How do dominant and half-diminished seventh chords differ?",
+        "en-GB": "How do dominant and half-diminished seventh chords differ?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "chords.l3.sevenths.article"
+      },
+      "sourceArticles": ["chords.l3.sevenths.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_02_reworded",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Welche Töne gehören zu einem Mollseptakkord?",
+        "en-US": "Which notes belong to a minor seventh chord?",
+        "en-GB": "Which notes belong to a minor seventh chord?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "chords.l3.sevenths.article"
+      },
+      "sourceArticles": ["chords.l3.sevenths.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_03_direct",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Was bedeuten Tonika, Subdominante und Dominante?",
+        "en-US": "What are tonic, subdominant and dominant functions?",
+        "en-GB": "What are tonic, subdominant and dominant functions?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "harmony.l3.functions.article"
+      },
+      "sourceArticles": ["harmony.l3.functions.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_03_reworded",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Wie hängt eine Stufe von der Tonart und ihrem Kontext ab?",
+        "en-US": "How does a scale degree depend on key and context?",
+        "en-GB": "How does a scale degree depend on key and context?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "harmony.l3.functions.article"
+      },
+      "sourceArticles": ["harmony.l3.functions.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_04_direct",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Was unterscheidet Halbschluss und Trugschluss?",
+        "en-US": "How do half and deceptive cadences differ?",
+        "en-GB": "How do half and deceptive cadences differ?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "harmony.l3.cadences.article"
+      },
+      "sourceArticles": ["harmony.l3.cadences.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_04_reworded",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Welche Akkordfolge klingt wie eine plagale Schlusswendung?",
+        "en-US": "What chord progression makes a plagal close?",
+        "en-GB": "What chord progression makes a plagal close?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "harmony.l3.cadences.article"
+      },
+      "sourceArticles": ["harmony.l3.cadences.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_05_direct",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Woran erkenne ich eine neue Tonika statt bloßer Tonikalisierung?",
+        "en-US": "How can I distinguish a new tonic from tonicization?",
+        "en-GB": "How can I distinguish a new tonic from tonicization?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "harmony.l3.modulation.article"
+      },
+      "sourceArticles": ["harmony.l3.modulation.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_05_reworded",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Was ist ein gemeinsamer Akkord beim Tonartwechsel?",
+        "en-US": "What is a common chord in a key change?",
+        "en-GB": "What is a common chord in a key change?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "harmony.l3.modulation.article"
+      },
+      "sourceArticles": ["harmony.l3.modulation.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_06_direct",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Wie kontrolliere ich eine notierte Melodie im Diktat?",
+        "en-US": "How do I check a notated melody in dictation?",
+        "en-GB": "How do I check a notated melody in dictation?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "aural.l3.dictation.article"
+      },
+      "sourceArticles": ["aural.l3.dictation.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_06_reworded",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Wie schreibe ich gehörten Rhythmus und Tonhöhen auf?",
+        "en-US": "How can I write down heard rhythm and pitches?",
+        "en-GB": "How can I write down heard rhythm and pitches?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "aural.l3.dictation.article"
+      },
+      "sourceArticles": ["aural.l3.dictation.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_07_direct",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Wie unterscheiden sich Motiv, Phrase, Vorder- und Nachsatz?",
+        "en-US": "How do motif, phrase, antecedent and consequent differ?",
+        "en-GB": "How do motif, phrase, antecedent and consequent differ?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "forms.l3.phrases.article"
+      },
+      "sourceArticles": ["forms.l3.phrases.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_07_reworded",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Wann wirkt ein Nachsatz wie eine Antwort auf den Vordersatz?",
+        "en-US": "When does a consequent sound like a response to an antecedent?",
+        "en-GB": "When does a consequent sound like a response to an antecedent?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "forms.l3.phrases.article"
+      },
+      "sourceArticles": ["forms.l3.phrases.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_08_direct",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Was unterscheidet zweiteilige Form, Rondo und Variation?",
+        "en-US": "How do binary form, rondo and variation differ?",
+        "en-GB": "How do binary form, rondo and variation differ?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "forms.l3.designs.article"
+      },
+      "sourceArticles": ["forms.l3.designs.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_08_reworded",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Welche Wiederkehr hat eine dreiteilige Form?",
+        "en-US": "What kind of return occurs in ternary form?",
+        "en-GB": "What kind of return occurs in ternary form?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "forms.l3.designs.article"
+      },
+      "sourceArticles": ["forms.l3.designs.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_09_direct",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Welche Instrumente zählen zu Holz- und Blechbläsern?",
+        "en-US": "Which instruments belong to woodwind and brass families?",
+        "en-GB": "Which instruments belong to woodwind and brass families?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "instruments.l3.families.article"
+      },
+      "sourceArticles": ["instruments.l3.families.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_09_reworded",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Warum beschreibt die Instrumentenfamilie nicht einfach das Material?",
+        "en-US": "Why is an instrument family not just its material?",
+        "en-GB": "Why is an instrument family not just its material?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "instruments.l3.families.article"
+      },
+      "sourceArticles": ["instruments.l3.families.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_10_direct",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Wie lese ich eine transponierende Stimme in der Partitur?",
+        "en-US": "How do I read a transposing part in a score?",
+        "en-GB": "How do I read a transposing part in a score?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "instruments.l3.scores.article"
+      },
+      "sourceArticles": ["instruments.l3.scores.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_10_reworded",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Was ist bei einer B-Klarinette der Unterschied zwischen notierter und klingender Tonhöhe?",
+        "en-US": "How do written and sounding pitches differ for a B-flat clarinet?",
+        "en-GB": "How do written and sounding pitches differ for a B-flat clarinet?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "instruments.l3.scores.article"
+      },
+      "sourceArticles": ["instruments.l3.scores.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_11_direct",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Wie funktionieren Lead Sheet, II–V–I und Backbeat?",
+        "en-US": "How do lead sheets, II-V-I and backbeats work?",
+        "en-GB": "How do lead sheets, II-V-I and backbeats work?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "jazzpop.l3.harmony.article"
+      },
+      "sourceArticles": ["jazzpop.l3.harmony.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_11_reworded",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Was bedeutet ein harmonischer Loop in Popmusik?",
+        "en-US": "What does a harmonic loop mean in pop music?",
+        "en-GB": "What does a harmonic loop mean in pop music?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "jazzpop.l3.harmony.article"
+      },
+      "sourceArticles": ["jazzpop.l3.harmony.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_12_direct",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Wie vergleiche ich Handschrift, Edition und historische Aufnahme?",
+        "en-US": "How do I compare a manuscript, edition and historical recording?",
+        "en-GB": "How do I compare a manuscript, edition and historical recording?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "history.l3.methods.article"
+      },
+      "sourceArticles": ["history.l3.methods.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_12_reworded",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Warum sind Aufnahmedatum und Werkdatum unterschiedliche Quellenangaben?",
+        "en-US": "Why are a recording date and a work date different source facts?",
+        "en-GB": "Why are a recording date and a work date different source facts?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "history.l3.methods.article"
+      },
+      "sourceArticles": ["history.l3.methods.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_13_direct",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Wie lese ich Alt- und Tenorschlüssel in einer mehrstimmigen Partitur?",
+        "en-US": "How do I read alto and tenor clefs in a multi-voice score?",
+        "en-GB": "How do I read alto and tenor clefs in a multi-voice score?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "notation.l4.multivoice.article"
+      },
+      "sourceArticles": ["notation.l4.multivoice.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_13_reworded",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Wie richte ich selbstständige Stimmen über mehrere Systeme vertikal aus?",
+        "en-US": "How do I align independent voices across staves?",
+        "en-GB": "How do I align independent voices across staves?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "notation.l4.multivoice.article"
+      },
+      "sourceArticles": ["notation.l4.multivoice.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_14_direct",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Wie unterscheiden sich Triole, Synkope und Hemiole?",
+        "en-US": "How do triplet, syncopation and hemiola differ?",
+        "en-GB": "How do triplet, syncopation and hemiola differ?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "rhythm.l4.complex.article"
+      },
+      "sourceArticles": ["rhythm.l4.complex.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_14_reworded",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Wie funktioniert die rhythmische Unterteilung bei einer Dreiergruppe?",
+        "en-US": "How does rhythmic subdivision work in a group of three?",
+        "en-GB": "How does rhythmic subdivision work in a group of three?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "rhythm.l4.complex.article"
+      },
+      "sourceArticles": ["rhythm.l4.complex.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_15_direct",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Was sind Nonakkord und alterierte Akkordtöne?",
+        "en-US": "What are ninth chords and altered chord tones?",
+        "en-GB": "What are ninth chords and altered chord tones?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "chords.l4.extensions.article"
+      },
+      "sourceArticles": ["chords.l4.extensions.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_15_reworded",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Wie erkenne ich eine Umkehrung eines Septakkords?",
+        "en-US": "How do I recognize an inversion of a seventh chord?",
+        "en-GB": "How do I recognize an inversion of a seventh chord?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "chords.l4.extensions.article"
+      },
+      "sourceArticles": ["chords.l4.extensions.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_16_direct",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Wie hängen Zwischendominante, gemeinsamer Akkord und neue Tonika zusammen?",
+        "en-US": "How do applied dominants, common chords and a new tonic relate?",
+        "en-GB": "How do applied dominants, common chords and a new tonic relate?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "harmony.l4.applied.article"
+      },
+      "sourceArticles": ["harmony.l4.applied.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_16_reworded",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Wann bestätigt eine Kadenz tatsächlich eine neue Tonart?",
+        "en-US": "When does a cadence establish a new key?",
+        "en-GB": "When does a cadence establish a new key?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "harmony.l4.applied.article"
+      },
+      "sourceArticles": ["harmony.l4.applied.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_17_direct",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Warum vermeidet man parallele Quinten in vierstimmigem Satz?",
+        "en-US": "Why are parallel fifths avoided in four-part writing?",
+        "en-GB": "Why are parallel fifths avoided in four-part writing?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "satz.l4.voice-leading.article"
+      },
+      "sourceArticles": ["satz.l4.voice-leading.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_17_reworded",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Wie führe ich den Leitton und halte gemeinsame Töne?",
+        "en-US": "How should I resolve a leading tone and retain common tones?",
+        "en-GB": "How should I resolve a leading tone and retain common tones?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "satz.l4.voice-leading.article"
+      },
+      "sourceArticles": ["satz.l4.voice-leading.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_18_direct",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Was bedeuten 5/3, 6/3 und 6/4 im Generalbass?",
+        "en-US": "What do 5/3, 6/3 and 6/4 mean in figured bass?",
+        "en-GB": "What do 5/3, 6/3 and 6/4 mean in figured bass?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "satz.l4.figured-bass.article"
+      },
+      "sourceArticles": ["satz.l4.figured-bass.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_18_reworded",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Wie erkenne ich einen Sextakkord über dem bezifferten Bass?",
+        "en-US": "How do I recognize a six-three chord over a figured bass?",
+        "en-GB": "How do I recognize a six-three chord over a figured bass?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "satz.l4.figured-bass.article"
+      },
+      "sourceArticles": ["satz.l4.figured-bass.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_19_direct",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Was geschieht in Exposition, Durchführung und Reprise?",
+        "en-US": "What happens in exposition, development and recapitulation?",
+        "en-GB": "What happens in exposition, development and recapitulation?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "forms.l4.sonata.article"
+      },
+      "sourceArticles": ["forms.l4.sonata.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_19_reworded",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Welche Rolle kann eine Coda in einer Sonatenform spielen?",
+        "en-US": "What role can a coda play in sonata form?",
+        "en-GB": "What role can a coda play in sonata form?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "forms.l4.sonata.article"
+      },
+      "sourceArticles": ["forms.l4.sonata.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_20_direct",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Wie belege ich eine motivische oder harmonische Analyse an der Partitur?",
+        "en-US": "How do I support motivic or harmonic analysis with score evidence?",
+        "en-GB": "How do I support motivic or harmonic analysis with score evidence?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "analysis.l4.score.article"
+      },
+      "sourceArticles": ["analysis.l4.score.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_20_reworded",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Wo kann ich Phrasengrenzen in einem Werk begründen?",
+        "en-US": "How can I justify phrase boundaries in a work?",
+        "en-GB": "How can I justify phrase boundaries in a work?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "analysis.l4.score.article"
+      },
+      "sourceArticles": ["analysis.l4.score.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_21_direct",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Welche Rolle haben Terz, Septime und Optionstöne beim Jazz-Voicing?",
+        "en-US": "What roles do third, seventh and extensions play in a jazz voicing?",
+        "en-GB": "What roles do third, seventh and extensions play in a jazz voicing?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "jazzpop.l4.voicings.article"
+      },
+      "sourceArticles": ["jazzpop.l4.voicings.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_21_reworded",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Was steht in einem Lead Sheet und was muss beim II–V–I ergänzt werden?",
+        "en-US": "What does a lead sheet leave open in a II-V-I progression?",
+        "en-GB": "What does a lead sheet leave open in a II-V-I progression?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "jazzpop.l4.voicings.article"
+      },
+      "sourceArticles": ["jazzpop.l4.voicings.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_22_direct",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Wie berücksichtige ich Tonumfang und transponierende Stimmen beim Instrumentieren?",
+        "en-US": "How do range and transposing parts affect orchestration?",
+        "en-GB": "How do range and transposing parts affect orchestration?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "instruments.l4.orchestration.article"
+      },
+      "sourceArticles": ["instruments.l4.orchestration.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_22_reworded",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Wann ist eine Verdopplung in der Partitur sinnvoll?",
+        "en-US": "When is doubling useful in a score?",
+        "en-GB": "When is doubling useful in a score?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "instruments.l4.orchestration.article"
+      },
+      "sourceArticles": ["instruments.l4.orchestration.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_23_direct",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Wie unterscheiden sich reine Quinte, gleichstufige und mitteltönige Stimmung?",
+        "en-US": "How do a pure fifth, equal temperament and meantone tuning differ?",
+        "en-GB": "How do a pure fifth, equal temperament and meantone tuning differ?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "acoustics.l4.tuning.article"
+      },
+      "sourceArticles": ["acoustics.l4.tuning.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_23_reworded",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Was erklärt die Obertonreihe über die reine Quinte?",
+        "en-US": "What does the overtone series explain about a pure fifth?",
+        "en-GB": "What does the overtone series explain about a pure fifth?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "acoustics.l4.tuning.article"
+      },
+      "sourceArticles": ["acoustics.l4.tuning.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_24_direct",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Wie übe ich Vierklänge, Diktat und Blattsingen für die Aufnahmeprüfung?",
+        "en-US": "How do I practice seventh chords, dictation and sight-singing for an entrance exam?",
+        "en-GB": "How do I practice seventh chords, dictation and sight-singing for an entrance exam?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "aural.l4.preparation.article"
+      },
+      "sourceArticles": ["aural.l4.preparation.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_24_reworded",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Wie kontrolliere ich gehörte Intervalle im musikalischen Kontext?",
+        "en-US": "How can I check heard intervals in musical context?",
+        "en-GB": "How can I check heard intervals in musical context?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "aural.l4.preparation.article"
+      },
+      "sourceArticles": ["aural.l4.preparation.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_25_direct",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Wie vergleiche ich Editionen und Aufnahmen eines historischen Werks?",
+        "en-US": "How do I compare editions and recordings of a historical work?",
+        "en-GB": "How do I compare editions and recordings of a historical work?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "history.l4.survey.article"
+      },
+      "sourceArticles": ["history.l4.survey.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
+    },
+    {
+      "id": "p3_library_25_reworded",
+      "status": "entwurf",
+      "category": "library",
+      "questions": {
+        "de": "Wie benenne ich historische Unsicherheit bei Werk und Kontext?",
+        "en-US": "How do I describe historical uncertainty about a work and its context?",
+        "en-GB": "How do I describe historical uncertainty about a work and its context?"
+      },
+      "scope": {
+        "locale": "de",
+        "noteNaming": "de",
+        "mode": "chat",
+        "hintLevel": null,
+        "context": null
+      },
+      "exerciseType": null,
+      "calls": [],
+      "expectedFacts": {
+        "article": "history.l4.survey.article"
+      },
+      "sourceArticles": ["history.l4.survey.article"],
+      "exampleRequired": false,
+      "reviewNotes": "Stage 3/4 draft. Verify the original article independently and check that the model cites a passage supporting each substantive claim."
     }
   ]
 }

@@ -7,14 +7,15 @@ const catalogue = buildBenchmarkCatalogueV2();
 if (process.argv.includes('--write'))
   writeFileSync(path, JSON.stringify(catalogue, null, 2) + '\n');
 else if (canonical(JSON.parse(readFileSync(path, 'utf8'))) !== canonical(catalogue))
-  throw Error('P3.18 catalogue is stale');
+  throw Error('Tutor v2 catalogue is stale');
 const extra = catalogue.cases.filter((row) => row.id.startsWith('p3_level'));
 if (
   extra.length !== 18 ||
   new Set(extra.map((row) => row.id)).size !== 18 ||
-  catalogue.cases.filter((row) => row.learnerFixture).length !== 2
+  catalogue.cases.filter((row) => row.learnerFixture).length !== 2 ||
+  catalogue.cases.filter((row) => row.id.startsWith('p3_library_')).length !== 50
 )
   throw Error('Stage 3/4 or learner probes missing');
 console.log(
-  `${catalogue.cases.length} P3.18 catalogue cases checked, including ${extra.length} stage-3/4 task cases.`,
+  `${catalogue.cases.length} v2 cases checked: ${extra.length} stage-3/4 tasks, 50 source questions and 2 learner fixtures.`,
 );
