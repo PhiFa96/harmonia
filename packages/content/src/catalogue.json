@@ -1489,7 +1489,7 @@
       "status": "entwurf",
       "titleKey": "content.levelThree.units.scalesModes.skill1",
       "areaId": "area.scales",
-      "prerequisites": ["scale.melodic-minor"]
+      "prerequisites": ["scale.melodic-minor", "scale.natural-minor", "scale.tonic"]
     },
     {
       "id": "scales.l3.modes.s2",
@@ -1513,7 +1513,12 @@
       "status": "entwurf",
       "titleKey": "content.levelThree.units.chordsSevenths.skill1",
       "areaId": "area.chords",
-      "prerequisites": ["chord.diatonic-triads"]
+      "prerequisites": [
+        "chord.diatonic-triads",
+        "chord.diminished-augmented",
+        "chord.inversions",
+        "interval.simple-qualities"
+      ]
     },
     {
       "id": "chords.l3.sevenths.s2",
@@ -1633,7 +1638,7 @@
       "status": "entwurf",
       "titleKey": "content.levelThree.units.formsPhrases.skill1",
       "areaId": "area.forms",
-      "prerequisites": ["history.genre-function", "rhythm.read-basic"]
+      "prerequisites": ["notation.treble-natural", "rhythm.read-basic"]
     },
     {
       "id": "forms.l3.phrases.s2",
@@ -1713,7 +1718,7 @@
       "status": "entwurf",
       "titleKey": "content.levelThree.units.instrumentsScores.skill2",
       "areaId": "area.instruments",
-      "prerequisites": ["instruments.l3.scores.s1"]
+      "prerequisites": ["instruments.l3.scores.s1", "interval.descending"]
     },
     {
       "id": "instruments.l3.scores.s3",
@@ -1801,7 +1806,7 @@
       "status": "entwurf",
       "titleKey": "content.levelFour.units.complexRhythm.skill1",
       "areaId": "area.rhythm",
-      "prerequisites": ["aural.l3.dictation.s2"]
+      "prerequisites": ["aural.l3.dictation.s2", "rhythm.dotted-and-tied"]
     },
     {
       "id": "rhythm.l4.complex.s2",
@@ -1809,7 +1814,7 @@
       "status": "entwurf",
       "titleKey": "content.levelFour.units.complexRhythm.skill2",
       "areaId": "area.rhythm",
-      "prerequisites": ["rhythm.l4.complex.s1"]
+      "prerequisites": ["rhythm.l4.complex.s1", "rhythm.triplet", "rhythm.syncopation-basic"]
     },
     {
       "id": "rhythm.l4.complex.s3",
@@ -1817,7 +1822,7 @@
       "status": "entwurf",
       "titleKey": "content.levelFour.units.complexRhythm.skill3",
       "areaId": "area.rhythm",
-      "prerequisites": ["rhythm.l4.complex.s2"]
+      "prerequisites": ["rhythm.l4.complex.s2", "rhythm.compound-meter"]
     },
     {
       "id": "chords.l4.extensions.s1",
@@ -1825,7 +1830,7 @@
       "status": "entwurf",
       "titleKey": "content.levelFour.units.extendedChords.skill1",
       "areaId": "area.chords",
-      "prerequisites": ["chords.l3.sevenths.s3"]
+      "prerequisites": ["chords.l3.sevenths.s3", "interval.simple-compound"]
     },
     {
       "id": "chords.l4.extensions.s2",
@@ -1833,7 +1838,7 @@
       "status": "entwurf",
       "titleKey": "content.levelFour.units.extendedChords.skill2",
       "areaId": "area.chords",
-      "prerequisites": ["chords.l4.extensions.s1"]
+      "prerequisites": ["chords.l4.extensions.s1", "chord.inversions"]
     },
     {
       "id": "chords.l4.extensions.s3",
@@ -1849,7 +1854,7 @@
       "status": "entwurf",
       "titleKey": "content.levelFour.units.appliedHarmony.skill1",
       "areaId": "area.harmony",
-      "prerequisites": ["harmony.l3.modulation.s3"]
+      "prerequisites": ["harmony.l3.modulation.s3", "chords.l3.sevenths.s1"]
     },
     {
       "id": "harmony.l4.applied.s2",
@@ -1873,7 +1878,7 @@
       "status": "entwurf",
       "titleKey": "content.levelFour.units.voiceLeading.skill1",
       "areaId": "area.satz",
-      "prerequisites": ["harmony.l4.applied.s1", "notation.l4.multivoice.s2"]
+      "prerequisites": ["chord.inversions", "harmony.l3.cadences.s3"]
     },
     {
       "id": "satz.l4.voice-leading.s2",
@@ -1897,7 +1902,7 @@
       "status": "entwurf",
       "titleKey": "content.levelFour.units.figuredBass.skill1",
       "areaId": "area.satz",
-      "prerequisites": ["satz.l4.voice-leading.s3"]
+      "prerequisites": ["satz.l4.voice-leading.s3", "chord.inversions"]
     },
     {
       "id": "satz.l4.figured-bass.s2",
