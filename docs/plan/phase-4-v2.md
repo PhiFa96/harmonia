@@ -11,6 +11,7 @@
 
 - Alle Punkte „Vor Phase 4“ aus [recht-und-compliance.md](recht-und-compliance.md) sind geklärt.
 - Die Nutzerbasis ist groß genug, um Coaches Buchungen zu versprechen.
+- Die offenen Phase-3-Abnahmen aus dem [technischen Rückblick](phase-3-rueckblick.md) sind abgeschlossen: Stufen 3–4 fachlich freigegeben und live, echte Geräte-/Realtime-/DB-Tests sowie Tutor-Quellenreview bestanden. P4.06 braucht zusätzlich eine eigene widerrufbare Lernstand-Freigabe; Harmonik-Korrekturen warten auf F03.
 
 **Blöcke:**
 

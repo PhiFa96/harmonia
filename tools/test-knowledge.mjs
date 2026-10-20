@@ -4,6 +4,7 @@ import { execFileSync } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
 import { DEFAULT_TUTOR_POLICY } from '../packages/content/src/index.ts';
 import { knowledgeQueries } from './knowledge-queries.ts';
+import { upperLevelKnowledgeQueries } from './knowledge-queries-v2.ts';
 import {
   currentKnowledgeSnapshot,
   selectKnowledgeChunks,
@@ -20,6 +21,7 @@ assert.ok(
   'Nur lokale API',
 );
 const publicMode = process.argv.includes('--published');
+const upperLevel = process.argv.includes('--upper-level');
 const lane = publicMode ? 'published' : 'preview';
 const snapshots = {
   published: await currentKnowledgeSnapshot('published'),
@@ -106,8 +108,19 @@ try {
   }
   const failures = [],
     durations = [];
+  const questions = upperLevel
+    ? upperLevelKnowledgeQueries.flatMap((query) => [
+        { article: query.article, de: query.de, us: query.us, uk: query.uk },
+        {
+          article: query.article,
+          de: query.deAlternate,
+          us: query.usAlternate,
+          uk: query.ukAlternate,
+        },
+      ])
+    : knowledgeQueries;
   for (const locale of ['de', 'en-US', 'en-GB'])
-    for (const query of knowledgeQueries) {
+    for (const query of questions) {
       const question =
         locale === 'de' ? query.de : locale === 'en-GB' ? (query.uk ?? query.us) : query.us;
       const started = performance.now(),
@@ -123,10 +136,16 @@ try {
           found: [...new Set(bundle.chunks.map((c) => c.articleId))],
         });
     }
-  equal(failures, [], 'Alle 29 Themen in DE/US/UK innerhalb des Dokumentbudgets');
+  equal(
+    failures,
+    [],
+    `Alle ${questions.length} Themenfragen in DE/US/UK innerhalb des Dokumentbudgets`,
+  );
   durations.sort((a, b) => a - b);
+  const middle = Math.floor(durations.length / 2),
+    p95 = Math.ceil(durations.length * 0.95) - 1;
   console.log(
-    `Suchabnahme: 87/87 Themenfragen mit passendem Artikel. Lokale REST-/Postgres-Latenz: Median ${durations[43].toFixed(1)} ms, P95 ${durations[82].toFixed(1)} ms. Kein KI-Qualitätsmaß.`,
+    `Suchabnahme: ${durations.length}/${durations.length} Themenfragen mit passendem Artikel. Lokale REST-/Postgres-Latenz: Median ${durations[middle].toFixed(1)} ms, P95 ${durations[p95].toFixed(1)} ms. Kein KI-Qualitätsmaß.`,
   );
   if (process.argv.includes('--search-only')) process.exit(0);
   equal(

@@ -41,9 +41,9 @@ const base = {
   checked: false,
 };
 describe('Reproduzierbare Inhaltsmeldungen und Feedback', () => {
-  it('prüft alle Aufgaben und Mischpläne mit Feedback und drei Hinweisen in DE/US/UK', () => {
-    const types = new Set<string>();
-    for (const lesson of catalogue.lessons) {
+  it.each(catalogue.lessons)(
+    'prüft $id samt Mischplan, Feedback und drei Hinweisen in DE/US/UK',
+    (lesson) => {
       const plan = lessonPlan(catalogue, lesson.id);
       if (!plan) throw new Error('Plan fehlt');
       const session = createLessonSession(plan, 'report-all');
@@ -65,7 +65,6 @@ describe('Reproduzierbare Inhaltsmeldungen und Feedback', () => {
         });
         expect(resolved.item).toEqual(item);
         expect(resolved.evaluation?.correct).toBe(true);
-        types.add(item.type);
         for (const locale of ['de', 'en-US', 'en-GB'] as const) {
           const text = exerciseFeedback(item, evaluateExercise(item, expectedAnswer(item)), locale);
           expect(text.message.length).toBeGreaterThan(10);
@@ -81,7 +80,12 @@ describe('Reproduzierbare Inhaltsmeldungen und Feedback', () => {
         if (item.type === 'CONTEXT_CHOICE' && item.source.kind === 'document')
           expect(media).toEqual({});
       });
-    }
+    },
+  );
+  it('prüft freie Sätze und die Abdeckung aller Aufgabentypen', () => {
+    const types = new Set(
+      catalogue.exerciseSets.flatMap((set) => set.exercises.map((e) => e.spec.type)),
+    );
     for (const set of PRACTICE_SETS)
       for (const item of createFreePracticeSession(set, 'report-free').items) {
         types.add(item.type);
@@ -94,7 +98,7 @@ describe('Reproduzierbare Inhaltsmeldungen und Feedback', () => {
         }
       }
     expect(types.size).toBe(26);
-  }, 30000);
+  });
   it.each(PRACTICE_SETS)(
     'reproduziert den öffentlichen freien Satz %s ohne freigegebenen Kurs',
     (set) => {

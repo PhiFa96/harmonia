@@ -32,6 +32,7 @@ import {
   pitchName,
 } from '../../../packages/theory/src/index.ts';
 import type { Pitch } from '../../../packages/theory/src/index.ts';
+import type { LearnerContext } from './tutor-learner.ts';
 import {
   parseScore,
   validateScore,
@@ -63,6 +64,10 @@ const descriptions: Record<TutorToolName, string> = {
     'Build a major/minor/diminished/augmented triad in close position. bassOctave is the bass octave, not root octave.',
   get_exercise_context:
     'Read the server-reconstructed CURRENT task and allowed hint or verified feedback. No task ID or user ID parameter.',
+  get_learner_summary:
+    'Read aggregate strengths and practice needs from verified skill ratings for the current authenticated learner. No account identifier parameter.',
+  analyze_progression:
+    'Read completed lesson count, currently open lessons and a short weekly study suggestion from the current authenticated learner. No account identifier parameter.',
   render_example:
     'Validate a short Harmonia score for notation and playback; only this result can be rendered. BPM counts quarter-note beats. Syntax: treble | key:G | 4/4 | C4/4 D4/4 E4/4 r/4. Chord: (C4 E4 G4)/1. Durations 1,2,4,8,16,32,64,breve; dot: /4.; tie: ~; undotted triplet: /8{3:2}. Max 8 bars, one staff/voice. Two staves only the current simple treble/bass whole-note example.',
 };
@@ -136,6 +141,7 @@ export function executeTutorTool(
   input: unknown,
   request: TutorRequest,
   context: unknown,
+  learner?: LearnerContext,
 ) {
   const language = request.locale === 'de' ? 'de' : 'en',
     // Deutsche Anzeige wie in der App mit Helmholtz-Oktaven (h¹ = B4), sonst wissenschaftlich.
@@ -200,6 +206,22 @@ export function executeTutorTool(
       case 'get_exercise_context':
         tutorToolSchemas.get_exercise_context.parse(input);
         return { ok: true, context };
+      case 'get_learner_summary':
+        tutorToolSchemas.get_learner_summary.parse(input);
+        return learner?.available
+          ? {
+              ok: true,
+              evidence: learner.evidence,
+              strengths: learner.strengths,
+              needsPractice: learner.needsPractice,
+              limits: learner.limits,
+            }
+          : { ok: false, error: 'learner_unavailable' };
+      case 'analyze_progression':
+        tutorToolSchemas.analyze_progression.parse(input);
+        return learner?.available
+          ? { ok: true, evidence: learner.evidence, ...learner.progression, limits: learner.limits }
+          : { ok: false, error: 'learner_unavailable' };
       case 'render_example': {
         const v = tutorToolSchemas.render_example.parse(input),
           score = parseScore(v.source);

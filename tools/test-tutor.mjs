@@ -148,6 +148,67 @@ try {
     users.at(-1).token = signed.data.access_token;
   }
   const [a, b] = users;
+  const sourceLesson = catalogue.lessons[0];
+  assert.ok(sourceLesson);
+  const evidenceId = randomUUID();
+  const retained = {
+    kind: 'retained',
+    sourceKind: 'lesson',
+    id: evidenceId,
+    finishedAt: Date.now(),
+    lessonId: sourceLesson.id,
+    contentVersion: sourceLesson.contentVersion,
+    progress: {
+      lessonId: sourceLesson.id,
+      contentVersion: sourceLesson.contentVersion,
+      passed: true,
+      eligibleCorrect: 1,
+      total: 1,
+    },
+  };
+  expect(
+    (
+      await raw('/rest/v1/learning_events', {
+        admin: true,
+        body: {
+          user_id: a.id,
+          client_id: evidenceId,
+          event: retained,
+        },
+      })
+    ).status,
+    201,
+    'Bestätigte private Lernzusammenfassung angelegt',
+  );
+  const ownLearning = await call('/rest/v1/rpc/tutor_learner_snapshot', {
+    admin: true,
+    body: { actor: a.id },
+  });
+  expect(
+    ownLearning.data.passed,
+    [{ lessonId: sourceLesson.id, contentVersion: sourceLesson.contentVersion }],
+    'Tutor erhält nur verdichtete Lernnachweise',
+  );
+  expect(
+    (
+      await call('/rest/v1/rpc/tutor_learner_snapshot', {
+        admin: true,
+        body: { actor: b.id },
+      })
+    ).data.passed,
+    [],
+    'Anderes Konto hat getrennten Lernstand',
+  );
+  expect(
+    (
+      await call('/rest/v1/rpc/tutor_learner_snapshot', {
+        token: a.token,
+        body: { actor: b.id },
+      })
+    ).status,
+    403,
+    'Kontotoken darf fremde Tutor-Projektion nicht aufrufen',
+  );
   const ready = await call(endpoint, { token: a.token, method: 'GET' });
   expect(
     ready.headers.get('X-Harmonia-Tutor-Simulation'),

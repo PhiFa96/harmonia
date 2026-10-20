@@ -98,11 +98,11 @@ Technische Übergabe: `theorie-rush.md`, ADR 0032. Freundesfilter auf gegenseiti
 - **Abhängig von:** P3.05
 - **Umfang:** XL
 - **Aufgaben:**
-  - [ ] Matchmaking (Edge Function + Warteschlange), Paarung nach Duell-Rating
-  - [ ] Supabase Realtime (Broadcast) für Fortschritt; Umgang mit Verbindungsabbrüchen
-  - [ ] Serverseitige Auswertung, Glicko-2 für `duel_ratings`
-  - [ ] Ghost-Duelle aus aufgezeichneten Läufen; klare Kennzeichnung
-  - [ ] Freundes-Duelle per Link
+  - [x] Matchmaking (Edge Function + Warteschlange), Paarung nach Duell-Rating technisch vorbereitet
+  - [x] Supabase Realtime (Broadcast) für Fortschritt; Umgang mit Verbindungsabbrüchen technisch vorbereitet
+  - [x] Serverseitige Auswertung, Glicko-2 für `duel_ratings` technisch vorbereitet
+  - [x] Ghost-Duelle aus aufgezeichneten Läufen; klare Kennzeichnung technisch vorbereitet
+  - [x] Freundes-Duelle per Link technisch vorbereitet
 - **Fertig, wenn:** Duelle funktionieren zwischen allen Plattform-Kombinationen und bei schwachem Netz.
 
 ### P3.07 – Tägliches Rätsel
@@ -113,8 +113,8 @@ Technische Übergabe: `theorie-rush.md`, ADR 0032. Freundesfilter auf gegenseiti
 - **Abhängig von:** Phase 2
 - **Umfang:** M
 - **Aufgaben:**
-  - [ ] Rätselgenerator plus Kuratierung (Vorrat für mehrere Wochen), Schwierigkeit Montag → Sonntag
-  - [ ] Ergebnis teilen (ohne Lösung), eigene Rätsel-Serie
+  - [x] Rätselgenerator aus redaktionell freigegebenem Katalog (Vorrat für mehrere Wochen), Schwierigkeit Montag → Sonntag technisch vorbereitet; Inhaltsfreigabe offen
+  - [x] Ergebnis teilen (ohne Lösung), eigene Rätsel-Serie technisch vorbereitet
 - **Fertig, wenn:** Rätsel erscheinen zuverlässig um Mitternacht in der Zeitzone des Nutzers.
 
 ### P3.08 – Freunde und Freundes-Quests
@@ -125,9 +125,9 @@ Technische Übergabe: `freunde-und-quests.md`, ADR 0035. Einmal-Einladungen, bei
 - **Abhängig von:** Phase 2
 - **Umfang:** M
 - **Aufgaben:**
-  - [ ] Freundschaft per Einladungslink oder Code; Freundesliste mit Streak und Liga
-  - [ ] Wöchentliche Freundes-Quest (Paarung, Ziel, Belohnung)
-  - [ ] Blockieren und Entfernen
+  - [x] Freundschaft per Einladungslink oder Code; Freundesliste mit Streak und Liga technisch vorbereitet
+  - [x] Wöchentliche Freundes-Quest (Paarung, Ziel, Belohnung) technisch vorbereitet
+  - [x] Blockieren und Entfernen technisch vorbereitet
 - **Fertig, wenn:** Datenschutz geprüft (keine Kontaktabgleiche, keine Suche nach Klarnamen).
 
 ## Block C – Eingabe
@@ -220,36 +220,42 @@ Die fachliche Prüfung nach ADR 0005, F03 und echte Geräteabnahme bleiben offen
 
 ### P3.17 – Prüfungsmodus
 
+**Technischer Stand (19.10.2026):** Zwei interne Theorie-/Gehörbildungsvorlagen mit Frist, Bereichspunkten und Lernpfad-Empfehlungen vorbereitet; [Recherche, Umfang und offene Abnahme](pruefungsmodus.md). Beide Vorlagen und ihre Inhalte benötigen die getrennte fachliche Prüfung. Der öffentliche Katalog hat noch keine Prüfungsvorlagen. **P3.17 ist fachlich nicht abgeschlossen.**
+
 - **Ziel:** Simulation von Aufnahmeprüfungen (Theorie und Gehörbildung).
 - **Abhängig von:** P3.14
 - **Umfang:** L
 - **Aufgaben:**
-  - [ ] Recherche zu typischen Prüfungsformaten (öffentliche Informationen der Hochschulen; keine Übernahme fremder Prüfungsaufgaben)
-  - [ ] Prüfungsvorlagen mit Zeitlimit, Punktewertung, Auswertung je Bereich
-  - [ ] Empfehlungen nach der Prüfung (verknüpft mit Lernpfad)
+  - [x] Recherche zu typischen Prüfungsformaten (öffentliche Informationen der Hochschulen; keine Übernahme fremder Prüfungsaufgaben)
+  - [x] Prüfungsvorlagen mit Zeitlimit, Punktewertung, Auswertung je Bereich
+  - [x] Empfehlungen nach der Prüfung (verknüpft mit Lernpfad)
 - **Fertig, wenn:** Mindestens zwei Prüfungsvorlagen sind fachlich geprüft.
 
 ## Block E – Tutor
 
 ### P3.18 – Tutor v2: Lernplaner und Gedächtnis
 
+**Technischer Stand (20.10.2026):** Zwei kontogebundene Werkzeuge, verdichtete Ratings/Lernnachweise, kurze Wochenvorschläge und ein separater Stufe-3/4-Testkatalog sind vorbereitet. [Umsetzung und offene Abnahme](tutor-lernplaner.md). Fachlicher Katalog-/Planreview und echte Modellmessung stehen aus.
+
 - **Ziel:** Der Tutor kennt Stärken und Schwächen und plant mit.
 - **Abhängig von:** P3.01
 - **Umfang:** M
 - **Aufgaben:**
-  - [ ] Werkzeuge `get_learner_summary`, `analyze_progression`
-  - [ ] Wochenplan-Vorschlag; Zusammenfassung von Stärken und Schwächen (ohne personenbezogene Daten)
-  - [ ] Testkatalog erweitern (Stufen 3–4)
+  - [x] Werkzeuge `get_learner_summary`, `analyze_progression`
+  - [x] Wochenplan-Vorschlag; Zusammenfassung von Stärken und Schwächen (ohne personenbezogene Daten)
+  - [x] Testkatalog erweitern (Stufen 3–4)
 - **Fertig, wenn:** Testkatalog erfüllt; Lernpläne stichprobenartig fachlich geprüft.
 
 ### P3.19 – Wissensbasis v2
+
+**Technischer Stand (20.10.2026):** Die 25 bereits angelegten Stufe-3/4-Artikel sind mit einem 150-Fragen-Suchkorpus und 50 zusätzlichen Tutor-Quellenfällen verbunden. FTS plus Trigramm schloss die gemessene Suchlücke im isolierten PostgreSQL-Test; [Umsetzung und offene Abnahme](wissensbasis-v2.md). Artikelreview, echter Tutor-Lauf und vollständige Supabase-Prüfung bleiben offen.
 
 - **Ziel:** Artikel für Stufen 3–4 und Musikgeschichte.
 - **Abhängig von:** P3.15
 - **Umfang:** L
 - **Aufgaben:**
-  - [ ] Artikel nach Inhaltsprozess
-  - [ ] Semantische Suche (`pgvector`) evaluieren, falls die Volltextsuche nicht reicht
+  - [x] Artikel als interne Entwürfe nach Inhaltsprozess angelegt; fachliche Freigabe offen
+  - [x] Suchlücke gemessen und FTS mit Trigramm verbessert; `pgvector` bei erneutem Bedarf prüfen
 - **Fertig, wenn:** Antworten zu Stufe-3–4-Themen sind quellenbasiert.
 
 ---
@@ -258,4 +264,4 @@ Die fachliche Prüfung nach ADR 0005, F03 und echte Geräteabnahme bleiben offen
 
 - [ ] P3.01–P3.19 fertig
 - [ ] Stufen 3–4 live in DE und EN
-- [ ] Rückblick durchgeführt, Plan für Phase 4 angepasst
+- [x] Technischen [Rückblick](phase-3-rueckblick.md) durchgeführt, Startbedingungen im Phase-4-Plan angepasst
