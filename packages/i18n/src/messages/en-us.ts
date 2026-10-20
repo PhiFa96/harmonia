@@ -87,6 +87,12 @@ export const enUS = {
     blockedTitle: 'Blocked people',
     blocked: 'Blocked person {{count}}',
     unblock: 'Unblock',
+    removeFriend: 'Remove friend {{count}}',
+    blockFriend: 'Block friend {{count}}',
+    startQuestWith: 'Start a weekly quest together with friend {{count}}',
+    unblockPerson: 'Unblock blocked person {{count}}',
+    shared: 'Invitation shared or copied.',
+    shareFailed: 'Sharing or copying failed.',
   },
   puzzle: {
     title: 'Daily puzzle',

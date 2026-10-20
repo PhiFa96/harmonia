@@ -87,6 +87,12 @@ export const de = {
     blockedTitle: 'Blockierte Personen',
     blocked: 'Blockierte Person {{count}}',
     unblock: 'Blockierung aufheben',
+    removeFriend: 'Freund {{count}} entfernen',
+    blockFriend: 'Freund {{count}} blockieren',
+    startQuestWith: 'Wochenquest zusammen starten mit Freund {{count}}',
+    unblockPerson: 'Blockierung aufheben für blockierte Person {{count}}',
+    shared: 'Einladung wurde geteilt oder kopiert.',
+    shareFailed: 'Teilen oder Kopieren hat nicht geklappt.',
   },
   puzzle: {
     title: 'Tägliches Rätsel',
