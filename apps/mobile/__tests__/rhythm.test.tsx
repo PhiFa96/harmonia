@@ -131,7 +131,7 @@ describe('Rhythmusaufnahme und Taktgliederung in der App', () => {
     const practiceBpm = item.bpm - 5;
     expect(screen.getByText(new RegExp(`${String(practiceBpm)} BPM`))).toBeTruthy();
     expect(screen.getByTestId('rhythm-practice-tempo').props['aria-live']).toBe('polite');
-    expect(screen.getByTestId('rhythm-modes').props.role).toBe('group');
+    expect(screen.getByTestId('rhythm-modes').props['role']).toBe('group');
     fireEvent.press(screen.getByText('Metronom: Durchgehend'));
     fireEvent.press(screen.getByText('Aus'));
     await act(() => {

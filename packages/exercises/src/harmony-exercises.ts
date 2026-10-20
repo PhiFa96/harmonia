@@ -8,7 +8,7 @@ import {
   keyFromFifths,
   keyFifths,
 } from '@harmonia/theory';
-import type { Chord, Rng } from '@harmonia/theory';
+import type { Chord, Pitch, Rng } from '@harmonia/theory';
 import { options } from './parameters.ts';
 import type {
   CadenceItem,
@@ -33,6 +33,12 @@ export function cadenceAnswer(item: CadenceItem): string {
   const type = classifyCadence(item.progression, item.key);
   if (!type) throw new RangeError('Kadenz nicht bestimmbar');
   return `cadence:${type}`;
+}
+/** Tonika-Dreiklang der Tonart als Bezug für die Hörfrage (Oktave 4). */
+export function cadenceTonicPitches(item: CadenceItem): Pitch[] {
+  const tonic = diatonicTriads(item.key)[0];
+  if (!tonic) throw new RangeError('Tonika fehlt');
+  return chordPitches(tonic.chord, { octave: 4 });
 }
 export function functionAnswer(item: FunctionItem): string {
   const findings = analyzeHarmony(item.chord, item.key).filter(

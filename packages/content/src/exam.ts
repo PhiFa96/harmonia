@@ -102,6 +102,16 @@ export function skipExamAural(run: ExamRun, now: number): ExamRun {
   return currentItem(next.session) ? next : finishExam(next, now);
 }
 
+/** Abschlusstext nach tatsächlichem Verlauf: „alle bearbeitet“ nur ohne übersprungene Fragen. */
+export function examEndKey(
+  run: ExamRun,
+  result: Pick<ReturnType<typeof examResult>, 'skipped'>,
+): 'completed' | 'skippedAural' | 'submitted' | 'timeout' {
+  if (run.endReason === 'timeout') return 'timeout';
+  if (run.endReason === 'completed') return result.skipped > 0 ? 'skippedAural' : 'completed';
+  return 'submitted';
+}
+
 export function examResult(run: ExamRun) {
   const areas = (['theory', 'aural'] as const).map((area) => {
     const indices = run.template.questions.flatMap((question, index) =>
@@ -125,6 +135,10 @@ export function examResult(run: ExamRun) {
       misses.set(question.lessonId, (misses.get(question.lessonId) ?? 0) + 1);
   return {
     areas,
+    /** Wegen Hörproblemen übersprungene Fragen (ohne Antwort, null Punkte). */
+    skipped: run.session.skipped.length,
+    /** Fragen ohne Antwort: übersprungen, nicht erreicht oder bei Abgabe offen. */
+    unanswered: run.template.questions.length - run.session.records.length,
     points: areas.reduce((sum, area) => sum + area.points, 0),
     maxPoints: areas.reduce((sum, area) => sum + area.maxPoints, 0),
     recommendations: [...misses]

@@ -1,6 +1,6 @@
 import type { AudioEngine, Playback } from '@harmonia/audio';
+import { cadenceTonicPitches } from '@harmonia/exercises';
 import type { CadenceItem } from '@harmonia/exercises';
-import { chordPitches, diatonicTriads } from '@harmonia/theory';
 import { EXAMPLE_BPM, playExample } from './play-example';
 
 const TONIC_SECONDS = 1.2;
@@ -11,13 +11,11 @@ const GAP_SECONDS = 0.3;
  * Akkorde allein sind ohne Tonartbezug mehrdeutig (C–G ist I–V in C und IV–I in G).
  */
 export function playCadence(engine: AudioEngine, item: CadenceItem, bpm = EXAMPLE_BPM): Playback {
-  const tonic = diatonicTriads(item.key)[0];
-  if (!tonic) throw new RangeError('Tonika fehlt');
   const startTime = engine.context.currentTime + 0.05;
   const voices: Playback[] = [];
   try {
     voices.push(
-      engine.playChord(chordPitches(tonic.chord, { octave: 4 }), {
+      engine.playChord(cadenceTonicPitches(item), {
         when: startTime,
         duration: TONIC_SECONDS,
       }),

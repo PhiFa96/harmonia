@@ -1,8 +1,10 @@
 import type { AudioEngine, PlayOptions } from '@harmonia/audio';
 import { createRng, generateCadence } from '@harmonia/exercises';
-import { formatNoteName } from '@harmonia/theory';
-import type { Pitch } from '@harmonia/theory';
+import type { Pitch } from '@harmonia/notation';
 import { playCadence } from '@/exercises/play-cadence';
+
+const formatNoteName = (pitch: Pitch) =>
+  `${pitch.letter}${pitch.alter > 0 ? '#'.repeat(pitch.alter) : 'b'.repeat(-pitch.alter)}${String(pitch.octave)}`;
 
 function setup() {
   const calls: { names: string[]; when: number }[] = [];

@@ -6,6 +6,7 @@ import {
   answerExam,
   availableExamTemplates,
   createExamRun,
+  examEndKey,
   examResult,
   finishExam,
   skipExamAural,
@@ -93,6 +94,29 @@ describe('Prüfungssimulation', () => {
     expect(run.endReason).toBe('completed');
     expect(examResult(run).areas.map((area) => area.points)).toEqual([30, 0]);
     expect(run.session.skipped).toHaveLength(6);
+    // Der Abschluss darf nicht „alle bearbeitet“ behaupten: Auswertung nennt die übersprungenen Fragen.
+    const result = examResult(run);
+    expect(result.skipped).toBe(6);
+    expect(result.unanswered).toBe(6);
+    expect(examEndKey(run, result)).toBe('skippedAural');
+  });
+
+  it('wählt den Abschlusstext nach dem tatsächlichen Verlauf', () => {
+    let full = createExamRun(catalogue, examTemplates, 'foundation', 'complete', 1000);
+    for (let now = 1001; full.endedAt === undefined; now++) {
+      const item = currentItem(full.session);
+      if (!item) throw new Error('Aufgabe fehlt');
+      full = answerExam(full, expectedAnswer(item), now);
+    }
+    expect(examResult(full)).toMatchObject({ skipped: 0, unanswered: 0 });
+    expect(examEndKey(full, examResult(full))).toBe('completed');
+    const early = finishExam(createExamRun(catalogue, examTemplates, 'advanced', 3, 1000), 2000);
+    expect(examEndKey(early, examResult(early))).toBe('submitted');
+    expect(examResult(early).unanswered).toBe(16);
+    const late = finishExam(early, 5_000_000);
+    expect(late).toBe(early);
+    const timeout = finishExam(createExamRun(catalogue, examTemplates, 'advanced', 3, 1000), 1e9);
+    expect(examEndKey(timeout, examResult(timeout))).toBe('timeout');
   });
 });
 
