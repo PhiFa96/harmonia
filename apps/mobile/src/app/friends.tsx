@@ -26,6 +26,7 @@ export default function FriendsScreen() {
   const state = useFriends();
   const view = actor && state.owner === actor ? state.view : null;
   const [input, setInput] = useState(typeof params.invite === 'string' ? params.invite : '');
+  const [shared, setShared] = useState<'done' | 'failed' | null>(null);
   const [pending, setPending] = useState<{ action: 'remove' | 'block'; id: string } | null>(null);
   const code = codeFrom(input);
   const load = useCallback(() => {
@@ -38,6 +39,7 @@ export default function FriendsScreen() {
   );
   useEffect(() => {
     setPending(null);
+    setShared(null);
     setInput(typeof params.invite === 'string' ? params.invite : '');
   }, [actor, params.invite]);
   useEffect(() => {
@@ -128,8 +130,24 @@ export default function FriendsScreen() {
                     <Button
                       label={t('friends.share')}
                       variant="secondary"
-                      onPress={() => void share().catch(() => undefined)}
+                      onPress={() => {
+                        setShared(null);
+                        share().then(
+                          () => {
+                            setShared('done');
+                          },
+                          () => {
+                            setShared('failed');
+                          },
+                        );
+                      }}
                     />
+                    {shared === 'done' ? (
+                      <AppText role="status">{t('friends.shared')}</AppText>
+                    ) : null}
+                    {shared === 'failed' ? (
+                      <AppText role="alert">{t('friends.shareFailed')}</AppText>
+                    ) : null}
                   </>
                 ) : null}
                 <TextInput
@@ -164,11 +182,12 @@ export default function FriendsScreen() {
                   <View key={friend.id} style={styles.group}>
                     <AppText variant="title3">{t('friends.friend', { count: index + 1 })}</AppText>
                     <AppText>
-                      {t('friends.stats', { streak: friend.streak, tier: friend.leagueTier })}
+                      {t('friends.stats', { count: friend.streak, tier: friend.leagueTier })}
                     </AppText>
                     {!view.questUsed ? (
                       <Button
                         label={t('friends.startQuest')}
+                        accessibilityLabel={t('friends.startQuestWith', { count: index + 1 })}
                         disabled={state.loading}
                         onPress={() => void changeFriends({ action: 'quest', friendId: friend.id })}
                       />
@@ -176,6 +195,7 @@ export default function FriendsScreen() {
                     <View style={styles.actions}>
                       <Button
                         label={t('friends.remove')}
+                        accessibilityLabel={t('friends.removeFriend', { count: index + 1 })}
                         variant="ghost"
                         disabled={state.loading}
                         onPress={() => {
@@ -184,6 +204,7 @@ export default function FriendsScreen() {
                       />
                       <Button
                         label={t('friends.block')}
+                        accessibilityLabel={t('friends.blockFriend', { count: index + 1 })}
                         variant="ghost"
                         disabled={state.loading}
                         onPress={() => {
@@ -261,6 +282,7 @@ export default function FriendsScreen() {
                       <AppText>{t('friends.blocked', { count: index + 1 })}</AppText>
                       <Button
                         label={t('friends.unblock')}
+                        accessibilityLabel={t('friends.unblockPerson', { count: index + 1 })}
                         variant="ghost"
                         disabled={state.loading}
                         onPress={() => void changeFriends({ action: 'unblock', friendId: id })}

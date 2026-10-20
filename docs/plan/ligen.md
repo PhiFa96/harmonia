@@ -22,7 +22,7 @@ Technischer Stand: 16.10.2026 auf `codex/p3-04-leagues`, aufbauend auf `codex/p3
 
 Aufbewahrung: laufende und letzte 52 abgeschlossene Wochen, bereinigt durch den Liga-Job; aktuelle Stufe und Kategorieentscheidung bis Kontolöschung. `leagueAccount` und `leagueMemberships` im eigenen Export. Alle eigenen Mitgliedschaften, Ergebnisse und Marker werden bei Kontolöschung kaskadierend entfernt. Leere Gruppen haben keine privaten Mitgliederdaten und werden mit der Wochenbereinigung entfernt.
 
-Die Liga-Transaktionen verwenden eine gemeinsame kurze Sperre für Aufnahme und Abschluss. Die Simulation belegt das definierte Verhalten bei mehreren Tausend Konten; höhere produktive Schreiblast muss mit dem tatsächlichen Betriebsprofil gemessen werden. Eine Regeländerung betrifft neu angelegte Gruppen; bestehende Gruppen behalten ihre gespeicherten Werte.
+Die Liga-Transaktionen verwenden eine gemeinsame kurze Sperre für Aufnahme und Abschluss. Der Leseweg `learner_league` nimmt diese Sperre nur noch, wenn tatsächlich eine alte Gruppe abzuschließen ist (Migration `20261020030200_league_read_lock.sql`). Die Simulation belegt das definierte Verhalten bei mehreren Tausend Konten; höhere produktive Schreiblast muss mit dem tatsächlichen Betriebsprofil gemessen werden. Eine Regeländerung betrifft neu angelegte Gruppen; bestehende Gruppen behalten ihre gespeicherten Werte.
 
 ## Reproduzierbare Prüfung
 

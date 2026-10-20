@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { createEmptyCard, fsrs, Rating } from 'ts-fsrs';
 import type { Card, Grade } from 'ts-fsrs';
 import { catalogue } from './authoring.ts';
+import { lessonExerciseSources } from './catalogue.ts';
 import {
   lessonPlan,
   reviewSkillPlan,
@@ -213,6 +214,31 @@ describe('canonical review evidence', () => {
     const changed = structuredClone(catalogue);
     for (const c of changed.knowledgeCards) c.contentVersion++;
     expect(dueReviews(changed, state, at, [definition.id]).cards).toHaveLength(0);
+  });
+  it('plans due skills without duplicate sources and prefers sources limited to due skills', () => {
+    const reached = catalogue.lessons.slice(0, 30);
+    const reachedIds = reached.map((l) => l.id);
+    const skillIds = [...new Set(reached.flatMap((l) => l.skillIds))];
+    for (let start = 0; start + 10 <= skillIds.length; start += 3) {
+      const due = skillIds.slice(start, start + 10);
+      const plan = required(reviewSkillPlan(catalogue, due, reachedIds));
+      const refs = (JSON.parse(plan.planKey) as [string, number, unknown[]])[2].map((ref) =>
+        JSON.stringify(ref),
+      );
+      expect(new Set(refs).size).toBe(refs.length);
+      const covered = new Set(plan.exerciseSources.flatMap((source) => source.skillIds));
+      for (const id of due) expect(covered.has(id)).toBe(true);
+    }
+    // A single due skill is practised with a source that touches as few other skills as possible.
+    for (const id of skillIds.slice(0, 20)) {
+      const options = reachedIds
+        .flatMap((lessonId) => lessonExerciseSources(catalogue, lessonId) ?? [])
+        .filter((source) => source.skillIds.includes(id))
+        .map((source) => source.skillIds.filter((other) => other !== id).length);
+      const plan = required(reviewSkillPlan(catalogue, [id], reachedIds));
+      const chosen = required(plan.exerciseSources[0]).skillIds.filter((other) => other !== id);
+      expect(chosen.length).toBe(Math.min(...options));
+    }
   });
   it('replays a due skill plan from versioned references with normal access and zero course rewards', () => {
     const state = applyReviewEvent(catalogue, emptyReviewState(), lesson());

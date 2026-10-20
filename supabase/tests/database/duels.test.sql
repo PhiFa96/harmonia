@@ -26,7 +26,7 @@ select is(duel_settle('c3060000-0000-4000-8000-000000000002','[{"userId":"a30600
 select is(duel_settle('c3060000-0000-4000-8000-000000000002','[]'),false,'Repeated settlement has no effect');
 select is((select outcome from duel_players where game_id='c3060000-0000-4000-8000-000000000002' and user_id='a3060000-0000-4000-8000-000000000001'),'win','Winner outcome retained');
 select is((select amount from xp_ledger where user_id='a3060000-0000-4000-8000-000000000001' and source_kind='duel'),10,'Live win awards canonical XP');
-select is((select amount from xp_ledger where user_id='a3060000-0000-4000-8000-000000000002' and source_kind='duel'),3,'Live loss awards canonical XP');
+select is((select count(*)::integer from xp_ledger where user_id='a3060000-0000-4000-8000-000000000002' and source_kind='duel'),0,'Live loss without any answer awards no XP');
 select is((select rating from duel_ratings where user_id='a3060000-0000-4000-8000-000000000001'),1600::double precision,'Rating committed with result');
 select is(duel_invite_create('a3060000-0000-4000-8000-000000000001',repeat('a',64),'d3060000-0000-4000-8000-000000000001')->>'phase','invite','Friend link created');
 select is(duel_invite_accept('a3060000-0000-4000-8000-000000000003','d3060000-0000-4000-8000-000000000001',repeat('a',64),'[{"spec":{"type":"NOTE_NAME","params":{}},"difficulty":1}]','{"version":1,"freeDaily":1,"paidDaily":100,"xpCap":30,"minAnswerMs":350,"difficultyEvery":5}','b3060000-0000-4000-8000-000000000003','c3060000-0000-4000-8000-000000000003')->'game'->>'kind','friend','Invite joins host');

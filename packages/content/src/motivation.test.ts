@@ -7,6 +7,7 @@ import {
   rewardRuleAt,
   rewardRuleSchema,
   motivationRequestSchema,
+  serverBookedActivity,
 } from './motivation.ts';
 import type { MotivationActivity, FreezePurchase, MotivationPreferences } from './motivation.ts';
 import { reminderTimes, reminderDue, reminderTTL } from './reminders.ts';
@@ -225,5 +226,12 @@ describe('Einwilligung, Ortszeit und Ruhezeit der Erinnerungen', () => {
     expect(reminderDue(at('2026-10-14T19:00Z'), prefs, false)).toBe(false);
     expect(reminderDue(at('2026-10-14T16:00Z'), prefs, false)).toBe(true);
     expect(reminderDue(at('2026-10-14T16:00Z'), prefs, true)).toBe(false);
+  });
+});
+
+describe('serverseitig gebuchte Aktivitäten ohne Lektion', () => {
+  it('liefert Rush- und Duell-XP an Clients mit rushFormat 1, aber keine Lektionsbelege', () => {
+    const activities = ['rush:run-1', 'duel:game-1', 'lesson-1', 'duelist', 'x:duel:1'];
+    expect(activities.filter(serverBookedActivity)).toEqual(['rush:run-1', 'duel:game-1']);
   });
 });

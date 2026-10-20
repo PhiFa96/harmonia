@@ -242,7 +242,6 @@ export function adaptiveLessonPlan(
   const fixed = fixedLessonPlan(catalogue, id);
   if (!fixed || !Object.keys(snapshot.skills).length) return fixed;
   const authored = candidates(catalogue, [id]);
-  if (!authored.some((source) => candidateProbability(snapshot, source, at) !== null)) return fixed;
   const ordered = adaptiveOrder(authored, snapshot, at);
   const pool = adaptiveOrder(
     candidates(
@@ -252,6 +251,11 @@ export function adaptiveLessonPlan(
     snapshot,
     at,
   );
+  // Beim Erststart sind die eigenen Fähigkeiten meist neu, die Wiederholungen stammen aber aus
+  // bewertetem Stoff: Es genügt, wenn irgendeine eigene Aufgabe oder eine Wiederholungsaufgabe
+  // bekannte Fähigkeiten hat. Unbekannte Pflichtaufgaben behalten ihre Reihenfolge (stabile Sortierung).
+  if (![...authored, ...pool].some((source) => candidateProbability(snapshot, source, at) !== null))
+    return fixed;
   // Distinct profiles before duplicate source positions; a lesson must not become five copies of one question.
   const profiles = new Set<string>();
   const diverse = pool.filter((candidate) => {
@@ -316,9 +320,24 @@ export function reviewSkillPlan(
   lessonIds: readonly string[],
 ) {
   const pool = candidates(catalogue, lessonIds);
-  const refs = [...new Set(skillIds)].slice(0, 10).flatMap((id) => {
-    const candidate = pool.find((c) => c.skillIds.includes(id));
-    return candidate ? [candidate.ref] : [];
+  const due = [...new Set(skillIds)].slice(0, 10);
+  const dueSet = new Set(due);
+  const used = new Set<string>();
+  // Je fälliger Fähigkeit eine noch nicht gewählte Quelle, die möglichst wenige andere,
+  // nicht fällige Fähigkeiten mitübt (deren Wiederholungszustand ändert sich mit).
+  // Ist jede passende Quelle schon gewählt, ist die Fähigkeit bereits abgedeckt.
+  const refs = due.flatMap((id) => {
+    const candidate = pool
+      .filter((c) => c.skillIds.includes(id) && !used.has(JSON.stringify(c.ref)))
+      .map((c, index) => ({
+        c,
+        index,
+        outside: new Set(c.skillIds.filter((other) => !dueSet.has(other))).size,
+      }))
+      .sort((a, b) => a.outside - b.outside || a.index - b.index)[0]?.c;
+    if (!candidate) return [];
+    used.add(JSON.stringify(candidate.ref));
+    return [candidate.ref];
   });
   return refs.length
     ? lessonPlan(
