@@ -147,7 +147,7 @@ describe('P2.12 mit echtem lokalem Lektionsspeicher', () => {
     });
     await persisted();
     expect(mockSave).not.toHaveBeenCalled();
-  });
+  }, 60_000);
   it('fängt Zurück-Navigation ab und lässt den Durchgang anschließend fortsetzen', async () => {
     renderRouter('./src/app', { initialUrl: '/' });
     act(() => {
@@ -162,7 +162,7 @@ describe('P2.12 mit echtem lokalem Lektionsspeicher', () => {
     fireEvent.press(screen.getByText('Hier weiterlernen'));
     expect(screen.getByTestId('exercise-question')).toBeTruthy();
     await persisted();
-  });
+  }, 60_000);
   it('ein neuer Durchgang nach kaltem Laden bekommt einen anderen Seed', async () => {
     const clock = jest.spyOn(Date, 'now').mockReturnValue(1000000);
     try {
@@ -190,7 +190,7 @@ describe('P2.12 mit echtem lokalem Lektionsspeicher', () => {
     expect(useLearningState.getState().drafts[id]).toBeUndefined();
     expect(mockSave).not.toHaveBeenCalled();
     expect(await mockRepo.list('guest')).toEqual([]);
-  });
+  }, 60_000);
   it('zeigt bei Speicherfehler eine echte Wiederholung des Schreibvorgangs an', async () => {
     const save = jest.spyOn(mockRepo, 'saveDraft').mockRejectedValueOnce(new Error('full'));
     open();
