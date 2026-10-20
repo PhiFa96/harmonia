@@ -14,6 +14,9 @@ jest.mock('@/audio', () => ({
     context: { currentTime: 0 },
   }),
 }));
+jest.mock('@/exercises/play-cadence', () => ({
+  playCadence: () => ({ startTime: 0, endTime: 3, stop: mockStop }),
+}));
 jest.mock('@/exercises/play-example', () => ({
   EXAMPLE_BPM: 90,
   playExample: () => ({ startTime: 0, endTime: 3, stop: mockStop }),
