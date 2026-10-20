@@ -70,7 +70,7 @@ beforeEach(() => {
     mockStateListeners.push(callback);
     return { remove: jest.fn() };
   });
-  useSettings.setState({ locale: null });
+  useSettings.setState({ locale: null, sound: true });
   void i18n.changeLanguage('de');
 });
 afterEach(() => {
@@ -123,6 +123,71 @@ function first(): RhythmItem {
   return item;
 }
 describe('Rhythmusaufnahme und Taktgliederung in der App', () => {
+  it('übt langsamer in Schleifen ohne Antwort und prüft danach im Originaltempo', async () => {
+    await start();
+    const item = first();
+    fireEvent.press(screen.getByTestId('rhythm-mode-practice'));
+    fireEvent.press(screen.getByText('Langsamer −5'));
+    const practiceBpm = item.bpm - 5;
+    expect(screen.getByText(new RegExp(`${String(practiceBpm)} BPM`))).toBeTruthy();
+    fireEvent.press(screen.getByText('Metronom: Durchgehend'));
+    fireEvent.press(screen.getByText('Aus'));
+    await act(() => {
+      fireEvent.press(screen.getByText('Übung starten'));
+      return Promise.resolve();
+    });
+    expect(mockPlay).not.toHaveBeenCalled();
+    const source = { ...item, bpm: practiceBpm },
+      beginAt = mockNow + 0.35 + (rhythmBeatCount(item) * 60) / practiceBpm;
+    for (const time of rhythmOnsets(source)) {
+      advance(beginAt + time / 1000 + 0.05);
+      fireEvent(screen.getByTestId('rhythm-tap-pad'), 'pressIn');
+    }
+    advance(beginAt + rhythmMeasureMs(source) / 1000 + 0.051);
+    expect(screen.getByText(/Runde 1:.*Ohne Wertung/)).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Prüfen' })).toBeDisabled();
+    expect(screen.getByText(/Einzählen: 1 von/)).toBeTruthy();
+    fireEvent.press(screen.getByText('Übung stoppen'));
+    expect(screen.getByRole('button', { name: 'Prüfen' })).toBeDisabled();
+    fireEvent.press(screen.getByTestId('rhythm-mode-test'));
+    await take(item);
+    const clicks = mockPlay.mock.calls.filter((call) => call[0].octave >= 5);
+    expect((clicks[1]?.[1].when ?? 0) - (clicks[0]?.[1].when ?? 0)).toBeCloseTo(60 / item.bpm);
+    fireEvent.press(screen.getByText('Prüfen'));
+    expect(screen.getByText('Mit Hinweis beantwortet')).toBeTruthy();
+  });
+  it('kann einen einzelnen Übungsdurchlauf nur einzählen und danach lautlos üben', async () => {
+    await start();
+    const item = first();
+    fireEvent.press(screen.getByTestId('rhythm-mode-practice'));
+    fireEvent.press(screen.getByText('Schleife an'));
+    fireEvent.press(screen.getByText('Metronom: Durchgehend'));
+    fireEvent.press(screen.getByText('Nur Einzählen'));
+    await act(() => {
+      fireEvent.press(screen.getByText('Übung starten'));
+      return Promise.resolve();
+    });
+    expect(mockPlay).toHaveBeenCalledTimes(rhythmBeatCount(item));
+    const beginAt = 10.35 + (rhythmBeatCount(item) * 60) / item.bpm;
+    advance(beginAt + rhythmMeasureMs(item) / 1000 + 0.051);
+    expect(screen.getByText(/Runde 1:.*Ohne Wertung/)).toBeTruthy();
+    expect(
+      screen.getByText('Übungsrunde beendet. Du kannst erneut üben oder zur Prüfung wechseln.'),
+    ).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Prüfen' })).toBeDisabled();
+    fireEvent.press(screen.getByText('Metronom: Nur Einzählen'));
+    fireEvent.press(screen.getByText('Aus'));
+    act(() => {
+      useSettings.setState({ sound: false });
+    });
+    await act(() => {
+      fireEvent.press(screen.getByText('Übung starten'));
+      return Promise.resolve();
+    });
+    expect(mockPlay).toHaveBeenCalledTimes(rhythmBeatCount(item));
+    expect(screen.getByText(/Einzählen: 1 von/)).toBeTruthy();
+    fireEvent.press(screen.getByText('Übung stoppen'));
+  });
   it('sechs Aufgaben lassen sich mit Audio-Uhr und Latenzbezug korrekt abschließen; Neustart leert die Aufnahme', async () => {
     await start();
     expect(mockPlay).not.toHaveBeenCalled();

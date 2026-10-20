@@ -9,6 +9,14 @@ Dieser Plan beschreibt, wie wir Harmonia Schritt für Schritt bauen: vom leeren 
 | Dokument | Inhalt |
 |---|---|
 | [Architektur](architektur.md) | Systemaufbau, Monorepo, Pakete, Umgebungen, Sicherheit |
+| [Duelle P3.06](duelle.md) | Live-Matchmaking, Ghosts, Einladungen, Rating und offene Abnahme |
+| [Tägliches Rätsel P3.07](taegliches-raetsel.md) | 42-Tage-Vorrat, Tageswechsel, Einmalantwort und eigene Serie |
+| [Freunde und Quests P3.08](freunde-und-quests.md) | Einmal-Einladungen, private Freundesliste und gemeinsame Wochenquest |
+| [Mikrofon und Stimmgerät P3.09](mikrofon-und-stimmgeraet.md) | Lokale Tonhöhenerkennung, Berechtigungen und Geräte-Messreihe |
+| [MIDI-Eingabe P3.11](midi-eingabe.md) | MIDI-Keyboard auf Web/iOS/Android, Geräteauswahl, Sustain und offene Geräteabnahme |
+| [Rhythmus-Übungsmodus P3.12](rhythmus-uebungsmodus.md) | Langsames Üben mit Schleife und Metronom vor dem bewerteten Durchlauf |
+| [Engine und Notation v2 P3.13](engine-und-notation-v2.md) | Vierklänge, Harmonikgrundlagen und mehrstimmige Notation; F03 und Literaturabgleich offen |
+| [Harmonik und Diktat P3.14](harmonik-und-diktat-uebungen.md) | Vier neue Aufgabentypen, Septakkorde und freier Übungssatz; Fach- und Geräteabnahme offen |
 | [Theorie-Engine](theorie-engine.md) | Fachlicher Kern: Tonhöhen, Intervalle, Akkorde, Harmonik, Stimmführung |
 | [Notation, Audio, Eingabe](notation-audio-eingabe.md) | Notendarstellung, Klang, Klaviatur, Mikrofon, MIDI |
 | [Übersetzungen und Glossar](i18n-und-glossar.md) | Texte DE/EN (US/UK), Fachglossar, Prüfungen, Sprachwahl |
@@ -32,6 +40,7 @@ Dieser Plan beschreibt, wie wir Harmonia Schritt für Schritt bauen: vom leeren 
 | [Stufe 1 vollständig intern P2.07](stufe-1-vollstaendig.md) | Alle 13 geplanten Einheiten, 40 Fähigkeiten, 37 Lektionen, 370 Aufgaben und die offene getrennte Abnahme |
 | [Bassschlüssel und großes System P2.08](bassschluessel-und-grosses-system.md) | Erste Stufe-2-Einheit: drei Lektionen, Oktavnamensübersetzung, verbundene Systeme und 30 Aufgaben |
 | [Stufe 2 vollständig intern P2.08](stufe-2-vollstaendig.md) | Alle 16 Einheiten, 50 Fähigkeiten, 48 Lektionen und 480 Aufgaben; getrennte fachliche Freigabe offen |
+| [Stufe 3 als interner Entwurf P3.15](stufe-3-vollstaendig.md) | Zwölf Einheiten mit Formen, Instrumenten, Jazz/Pop, Geschichte und 360 Aufgaben; getrennte fachliche Freigabe offen |
 | [Onboarding P2.09](onboarding.md) | Gespeicherter Erststart, Mini-Aufgabe, Gast-/E-Mail-Anmeldung und offene Testpersonen-/Geräteabnahme |
 | [Einstufungstest P2.10](einstufungstest.md) | Adaptive Aufgaben, getrennte Bereichsniveaus, Startpunkte, Wiederholung und SQLite-Wiederaufnahme |
 | [Lernpfad P2.11](lernpfad.md) | Graphbasierte Freischaltung, 80-%-Regel, freiwillige Wiederholung, Offline-Nachweise und Kontosynchronisation |

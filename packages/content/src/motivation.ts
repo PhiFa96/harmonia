@@ -231,6 +231,7 @@ export const motivationPreferencesSchema = z
 export type MotivationPreferences = z.infer<typeof motivationPreferencesSchema>;
 export const motivationRequestSchema = z
   .object({
+    rushFormat: z.literal(1).optional(),
     deviceId: z.uuid(),
     deviceKey: z.uuid(),
     deviceRevision: time,
@@ -248,6 +249,7 @@ export const motivationRequestSchema = z
   .strict();
 export const motivationResponseSchema = z
   .object({
+    rushActivities: activitySchema.array().max(100000).optional(),
     preferences: motivationPreferencesSchema,
     rules: rewardRuleSchema.array().min(1).max(1000),
     summary: motivationSummarySchema,

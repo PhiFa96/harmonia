@@ -55,6 +55,9 @@ import {
   lessonPlan,
   lessonReward,
   lessonDay,
+  localLearningRatings,
+  adaptiveLessonPlan,
+  weaknessPlan,
 } from '../packages/content/src/index.ts';
 import { parseScore, scoreTimeline, layoutGrandStaff } from '../packages/notation/src/index.ts';
 
@@ -117,7 +120,7 @@ const exercise = generateExercise(
   exerciseRng('deno-exercises'),
 );
 const plannedSkills = curriculumSkills(catalogue, curriculumPlan);
-check('85 interne Lektionen in Stufe 1 und 2', catalogue.lessons.length, 85);
+check('160 interne Lektionen in Stufen 1 bis 4', catalogue.lessons.length, 160);
 let internalTasks = 0;
 for (const record of catalogue.lessons) {
   const lesson = resolveLesson(catalogue, record.id);
@@ -131,7 +134,7 @@ for (const record of catalogue.lessons) {
     throw new Error('Lernnachweis nicht unter Deno reproduzierbar');
   internalTasks += lesson.exercises.length;
 }
-check('Alle 850 internen Aufgaben unter Deno durchspielbar', internalTasks, 850);
+check('Alle 1600 internen Aufgaben unter Deno durchspielbar', internalTasks, 1600);
 let mixedTasks = 0;
 for (const record of catalogue.lessons) {
   const plan = lessonPlan(catalogue, record.id);
@@ -148,12 +151,24 @@ for (const record of catalogue.lessons) {
   mixedTasks += plan.exercises.length;
 }
 check('Wiederholungsaufgaben unter Deno', mixedTasks > internalTasks, true);
+const selectedId = 'notation.l1.staff.positions';
+const priorPlan = lessonPlan(catalogue, selectedId);
+if (!priorPlan) throw new Error('Adaptive Quelle fehlt');
+let priorSession = createLessonSession(priorPlan, 'adaptive-deno');
+for (const item of priorSession.initial.items)
+  priorSession = nextLessonExercise(answerLesson(priorSession, expectedAnswer(item)));
+const ratings = localLearningRatings(catalogue, [lessonEvent('deno-prior', priorSession, 1, 2)]);
+const adaptive = adaptiveLessonPlan(catalogue, selectedId, ratings, 2);
+check('Adaptiver Quellenplan unter Deno', adaptive?.planKey.startsWith('["flow:2"'), true);
+const weak = weaknessPlan(catalogue, ratings, [selectedId], 2);
+if (!weak) throw new Error('Schwächenplan fehlt');
+check('Zehn gezielte Fragen unter Deno', weak.exercises.length, 10);
 check(
   'Lokaler Abschlusstag unter Deno',
   lessonDay(Date.parse('2026-03-29T22:30:00Z'), 'Europe/Berlin'),
   '2026-03-30',
 );
-check('29 graphbasierte Einheiten unter Deno', learningPath(catalogue, []).length, 29);
+check('54 graphbasierte Einheiten unter Deno', learningPath(catalogue, []).length, 54);
 const placement = placementBank(catalogue);
 for (const profile of ['assisted', 'advanced']) {
   let state = createPlacement(placement, `deno-${profile}`);
@@ -446,9 +461,9 @@ check(
 );
 check('Vollständiger Fähigkeitsplan', plannedSkills.length, catalogue.skills.length);
 check(
-  'Fähigkeiten den Stufen 1–2 zugeordnet',
+  'Fähigkeiten den Stufen 1–4 zugeordnet',
   [...new Set(plannedSkills.map((entry) => entry.level.number))].join(','),
-  '1,2',
+  '1,2,3,4',
 );
 check(
   'Gehörbildung beginnt ohne Notationsvoraussetzung',

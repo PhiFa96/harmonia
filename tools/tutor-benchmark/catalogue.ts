@@ -308,7 +308,8 @@ export function buildBenchmarkCatalogue(): BenchmarkCatalogue {
   });
   const seen = new Set<string>();
   const entries: { source: ReportSource; item: ExerciseItem }[] = [];
-  for (const record of course.lessons) {
+  // P2.18 is a frozen comparison. Stage-three cases get their own calibration in P3.18.
+  for (const record of course.lessons.filter((lesson) => lesson.contentVersion < 15)) {
     const lesson = resolveLesson(course, record.id);
     if (!lesson) throw new Error('Lektion fehlt');
     const seed = 'tutor-catalogue-v1',
@@ -325,7 +326,7 @@ export function buildBenchmarkCatalogue(): BenchmarkCatalogue {
       entries.push({ source, item });
     }
   }
-  for (const set of PRACTICE_SETS) {
+  for (const set of PRACTICE_SETS.filter((value) => value !== 'harmony')) {
     const seed = 'tutor-catalogue-free-v1';
     for (const [index, item] of createFreePracticeSession(set, seed).items.entries())
       entries.push({
@@ -334,6 +335,10 @@ export function buildBenchmarkCatalogue(): BenchmarkCatalogue {
       });
   }
   for (const { source, item } of entries) {
+    // P2.18 ist ein eingefrorener, bereits redaktionell entworfener 19-Typen-Katalog.
+    // Die späteren Mikrofontypen erhalten erst mit einer eigenen Kalibrierung neue Fälle.
+    if (item.type === 'SING_INTERVAL' || item.type === 'SIGHT_SING' || item.type === 'PLAY_BACK')
+      continue;
     if (seen.has(item.type)) continue;
     seen.add(item.type);
     const wrong = wrongAnswer(item),

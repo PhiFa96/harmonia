@@ -44,14 +44,21 @@ Postgres in Supabase, Region EU. Alle Tabellen mit Row Level Security (RLS). Än
 |---|---|---|
 | `skill_progress` (erweitert) | Rating und Wiederholung | `rating`, `rating_deviation`, `volatility` (Glicko-2), `fsrs_stability`, `fsrs_difficulty`, `fsrs_due`, `fsrs_reps`, `fsrs_lapses`, `fsrs_state` |
 | `item_difficulty` | Schwierigkeit je Parameter-Gruppe | `bucket_id`, `rating`, `rating_deviation`, `attempts` |
-| `league_cohorts` | Ligagruppen pro Woche | `id`, `tier`, `week_start` |
-| `league_members` | Mitglieder und Ergebnis | `cohort_id`, `user_id`, `xp_week`, `final_rank`, `outcome` (aufstieg/bleibt/abstieg) |
-| `rush_runs` | Theorie-Rush | `id`, `user_id`, `mode` (3/5 min), `seed`, `score`, `answers` (jsonb), `validated` |
+| `league_cohorts` (P3.04) | Ligagruppen pro UTC-Woche | `id`, `tier`, `week_start`, `capacity`, `movement`, `closed_at` |
+| `league_members` (P3.04) | Eigene Mitgliedschaft, Wochen-XP und eingefrorenes Resultat | `user_id`, `week_start`, `cohort_id`, `slot`, `xp`, `joined_at`, `final_rank`, `outcome` (promoted/stayed/relegated), `next_tier`, `seen_at`, `push_attempted_at` |
+| `league_accounts`, `league_rules` (P3.04) | Aktuelle Stufe, eigener Ergebnis-Push-Schalter und neue Gruppenregeln | `tier`, `push_consent`; `capacity`, `movement` |
+| `rush_runs` (P3.05) | Eingefrorene Serverläufe und bestätigte Summen | `id`, `user_id`, `mode` (three/five/survival), `bank`, `seed`, `pool`, `policy`, `state`, `started_at`, `deadline`, `last_at`, `finished_at`, `revision`, `correct`, `mistakes`, `score`, `xp`, `retained_at` |
+| `rush_steps` (P3.05) | Von der Edge-Engine geprüfte Schritte, zwölf Monate Rohdaten | `sequence`, `user_id`, `run_id`, `ordinal`, `answer`, `correct`, `points`, `received_at` |
+| `rush_policy`, `rush_daily_usage` (P3.05) | Versionierte Regeln und atomare Starts pro UTC-Tag | `policy`; `user_id`, `day`, `used` |
 | `duels` | Live- und Ghost-Duelle | `id`, `player_a`, `player_b` (oder `ghost_of_run`), `seed`, `status`, `score_a`, `score_b`, `winner`, `rating_delta_a`, `rating_delta_b` |
 | `duel_ratings` | Duell-Wertung | `user_id`, `rating`, `rating_deviation`, `volatility`, `games` |
-| `daily_puzzles` | Tägliches Rätsel | `date`, `puzzle` (jsonb), `difficulty` |
-| `daily_puzzle_results` | Ergebnisse | `date`, `user_id`, `solved`, `attempts`, `time_ms` |
-| `friendships` | Freunde | `user_id`, `friend_id`, `status`, `created_at` |
+| `daily_puzzles` (P3.07) | Global eingefrorenes Rätsel pro Datum | `day`, `bank`, `spec`, `seed`, `difficulty` |
+| `daily_puzzle_results` (P3.07) | Eigene Einmalantwort und Serienbeleg | `user_id`, `day`, `answer`, `correct`, `time_zone`, `answered_at`, `retained_at` |
+| `friendships` (Relationsgrenze P3.05, Verwaltung P3.08) | Gegenseitig bestätigte Freunde; pending/accepted/blocked, Service-only | `user_id`, `friend_id`, `status`, `created_at` |
+| `friend_invites` (P3.08) | Einmalige Zufallscodes mit sieben Tagen Gültigkeit | `token`, `host_id`, `guest_id`, `expires_at`, `used_at` |
+| `friend_quests`, `friend_quest_members` (P3.08) | Eine gemeinsame Quest je Person und UTC-Woche, 300 neue kanonische XP | `week_start`, `user_a`, `user_b`, `target`, `completed_at`, `user_id` |
+| `friend_quest_claims` (P3.08) | Wochenbeleg gegen zweite Quest nach Entfernen oder Blockieren | `user_id`, `week_start` |
+| `friend_quest_awards` (P3.08) | Ein Abzeichen pro Person und Woche; bleibt nach Entfreunden erhalten | `user_id`, `week_start`, `earned_at` |
 | `friend_quests` | Gemeinsame Wochenziele | `id`, `week_start`, `user_a`, `user_b`, `goal_type`, `target`, `progress`, `completed_at` |
 | `push_tokens` | Push-Benachrichtigungen | `user_id`, `token`, `platform`, `created_at` |
 
@@ -106,3 +113,7 @@ sequenceDiagram
 ## Tutor-Oberfläche (P2.17)
 
 `tutor_reports` enthält keine Kopie der KI-Antwort: Der private Service-RPC prüft die eigene Assistentennachricht im eigenen Gespräch und verarbeitet die Meldungs-ID idempotent. Direkte Clients dürfen nur eigene Meldungen lesen. Antworten-/Gesprächs-/Kontolöschung entfernt Meldungen per Fremdschlüssel. Meldungen benötigen kein aktives Modellkontingent; freie Beschreibung ist auf 2000 Zeichen begrenzt und E-Mail-Adressen werden vor Speicherung redigiert. Der Verlauf liefert auf Wunsch die letzten 100 Nachrichten mit exklusivem Cursor für ältere Einträge. Keine lokale Persistenz von Chat oder ungesendeten Fragen; Kontowechsel löscht private App-Sitzungsdaten. Details: [Tutor-Oberfläche](tutor-oberflaeche.md).
+
+P3.04: Öffentliche Ranglisten-RPC liefert nur gruppeninterne Kennung, Rang, Wochen-XP und eigene Markierung. Reale Migrationen, TTL und gemeinsames Push-Tagesbudget: [Ligen](ligen.md), ADR 0031. Die früh geplante separate Tabelle `push_tokens` wird dafür nicht angelegt; das bestehende Reminder-Geräte-/Zustellsystem wird erweitert.
+
+P3.06: `duel_queue` hält Wartende, `duel_invites` zeitlich begrenzte Links, `duel_games` die gemeinsame eingefrorene Rush-Bank, `duel_players` eigene Summen und Ergebnisse, `duel_steps` geprüfte Antworten und `duel_ratings` das separate Glicko-2. Nur Service-RPCs schreiben; private Realtime-Kanäle übertragen unverbindliche Fortschrittssignale. Live-XP hat `source_kind=duel` und `duel_game_id` im bestehenden Ledger. Details: [Duelle](duelle.md), ADR 0033.

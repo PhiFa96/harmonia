@@ -14,7 +14,15 @@ const source = {
 export const analyticsEventSchema = z.discriminatedUnion('name', [
   z.object({ name: z.literal('app_active') }).strict(),
   z.object({ name: z.literal('onboarding_completed') }).strict(),
-  z.object({ name: z.literal('lesson_started'), ...source }).strict(),
+  z
+    .object({
+      name: z.literal('lesson_started'),
+      ...source,
+      selectionGroup: z.enum(['control', 'adaptive']).optional(),
+      selectionExperiment: z.literal('p302-beta-v1').optional(),
+      selectionUsed: z.enum(['fixed', 'adaptive']).optional(),
+    })
+    .strict(),
   z
     .object({
       name: z.literal('paywall_viewed'),

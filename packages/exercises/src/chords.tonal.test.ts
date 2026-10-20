@@ -1,5 +1,6 @@
 // Zweites Orakel für vollständige Schreibweise und Oktavlage; tonal bleibt im Test.
 import { formatNoteName, formatPitch } from '@harmonia/theory';
+import type { TriadType } from '@harmonia/theory';
 import { Chord as TonalChord, Note as TonalNote } from 'tonal';
 import { expect, it } from 'vitest';
 import { chordTargets, createRng, generateChord } from './index.ts';
@@ -17,7 +18,10 @@ it('200 geschriebene Dreiklänge in allen Umkehrungen stimmen mit tonal überein
       rng,
       'CHORD_BUILD',
     );
-    const oracle = TonalChord.getChord(types[item.chord.type], formatNoteName(item.chord.root));
+    const oracle = TonalChord.getChord(
+      types[item.chord.type as TriadType],
+      formatNoteName(item.chord.root),
+    );
     const rootPosition = oracle.intervals.map((interval) =>
       TonalNote.transpose(formatPitch({ ...item.chord.root, octave: 4 }), interval),
     );

@@ -1,5 +1,12 @@
+import { RushEntry } from '@/components/rush-entry';
+import { DuelEntry } from '@/components/duel-entry';
+import { DailyPuzzleEntry } from '@/components/daily-puzzle-entry';
+import { FriendsEntry } from '@/components/friends-entry';
+import { TunerEntry } from '@/components/tuner-entry';
 import { authorizeStart, accessOwner } from '@/access/state';
+import { ReviewEntry } from '@/components/review-entry';
 import { EnergyCard } from '@/components/energy-card';
+import { WeaknessEntry } from '@/components/weakness-entry';
 import { PRACTICE_CONTENT_VERSION } from '@harmonia/exercises';
 import { randomUUID } from 'expo-crypto';
 import { recordPractice } from '@/state/motivation';
@@ -12,6 +19,7 @@ import {
   revealHint,
   sessionSummary,
   skipAuralExercises,
+  skipVoiceExercise,
 } from '@harmonia/exercises';
 import { LAYOUT, SPACE } from '@harmonia/ui';
 import { AppText, Button, Card } from '@harmonia/ui/native';
@@ -28,6 +36,7 @@ import {
   createChordSession,
   createRhythmSession,
   createKnowledgeSession,
+  createHarmonySession,
 } from '@/exercises/practice';
 import { useLocale } from '@/i18n';
 
@@ -38,7 +47,7 @@ export default function PracticeScreen() {
   const [seed, setSeed] = useState(0);
   const [answer, setAnswer] = useState<string | null>(null);
   const [mode, setMode] = useState<
-    'reading' | 'pitch' | 'tonality' | 'chords' | 'rhythm' | 'knowledge'
+    'reading' | 'pitch' | 'tonality' | 'chords' | 'rhythm' | 'knowledge' | 'harmony'
   >('reading');
   const run = useRef(0);
   const scroll = useRef<ScrollView>(null);
@@ -83,6 +92,7 @@ export default function PracticeScreen() {
           chords: createChordSession,
           rhythm: createRhythmSession,
           knowledge: createKnowledgeSession,
+          harmony: createHarmonySession,
         }[selected](nextSeed),
       );
       scroll.current?.scrollTo({ y: 0, animated: false });
@@ -114,6 +124,13 @@ export default function PracticeScreen() {
             <AppText variant="title1">{t('exercise.title')}</AppText>
             <AppText tone="muted">{t('exercise.intro')}</AppText>
             <EnergyCard />
+            <RushEntry />
+            <DuelEntry />
+            <DailyPuzzleEntry />
+            <FriendsEntry />
+            <TunerEntry />
+            <ReviewEntry />
+            <WeaknessEntry />
             <Card>
               <View style={styles.types}>
                 {(
@@ -181,6 +198,18 @@ export default function PracticeScreen() {
               }}
             />
             <Card>
+              <AppText variant="title3">{t('exercise.harmonyStart')}</AppText>
+              <AppText tone="muted">{t('exercise.harmonyIntro')}</AppText>
+            </Card>
+            <Button
+              variant="secondary"
+              label={t('exercise.harmonyStart')}
+              disabled={accessPending}
+              onPress={() => {
+                void start('harmony');
+              }}
+            />
+            <Card>
               <AppText variant="title3">{t('exercise.knowledgeStart')}</AppText>
               <AppText tone="muted">{t('exercise.knowledgeIntro')}</AppText>
             </Card>
@@ -227,6 +256,10 @@ export default function PracticeScreen() {
               onSkip={() => {
                 setAnswer(null);
                 setSession(skipAuralExercises(session));
+              }}
+              onSkipVoice={() => {
+                setAnswer(null);
+                setSession(skipVoiceExercise(session));
               }}
               onNext={() => {
                 setAnswer(null);

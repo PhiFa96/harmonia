@@ -30,6 +30,11 @@ function required<T>(value: T | undefined): T {
   return value;
 }
 function wrong(item: ExerciseItem) {
+  if (item.type === 'SIGHT_SING' || item.type === 'SING_INTERVAL' || item.type === 'PLAY_BACK')
+    return expectedAnswer(item).replace(
+      /^voice:(\d+)/,
+      (_, first: string) => `voice:${String(Number(first) + 600)}`,
+    );
   if (item.type === 'MATCH') {
     const ids = item.facts.map(knowledgeFactId);
     return matchAnswerId([...ids.slice(1), required(ids[0])]);
@@ -79,8 +84,8 @@ describe('Vollständige interne Stufe 1', () => {
     expect(
       catalogue.knowledgeArticles.filter((a) => a.skillIds.some((id) => firstSkills.has(id))),
     ).toHaveLength(13);
-    expect(catalogue.contentVersion).toBe(13);
-    expect(curriculumPlan.contentVersion).toBe(13);
+    expect(catalogue.contentVersion).toBe(16);
+    expect(curriculumPlan.contentVersion).toBe(16);
     expect(publicCatalogue(catalogue)).toMatchObject({
       lessons: [],
       knowledgeCards: [],
@@ -94,7 +99,13 @@ describe('Vollständige interne Stufe 1', () => {
       expect(lessons.map((l) => required(resolveLesson(catalogue, l.id)).exercises.length)).toEqual(
         [8, 10, 12],
       );
-      expect(lessons.every((l) => l.contentVersion === 11 && l.status === 'entwurf')).toBe(true);
+      expect(
+        lessons.every(
+          (l) =>
+            l.contentVersion === (l.id === 'aural.l1.pitch-intervals.intervals' ? 14 : 11) &&
+            l.status === 'entwurf',
+        ),
+      ).toBe(true);
       expect(catalogue.knowledgeCards.filter((c) => c.id.startsWith(unit + '.'))).toHaveLength(9);
       expect(
         catalogue.knowledgeArticles.find((a) => a.id === unit + '.article')?.sections,

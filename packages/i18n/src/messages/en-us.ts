@@ -1,9 +1,342 @@
 import { contentMessages } from '@harmonia/i18n/content-messages';
+import levelThreeExercise from './level-three-exercise.json' with { type: 'json' };
+import levelFourExercise from './level-four-exercise.json' with { type: 'json' };
 // Texte der Oberfläche auf Englisch (US). Muss alle Schlüssel aus de.ts haben.
 
 import type { Messages } from './types.ts';
 
 export const enUS = {
+  voice: {
+    privacy:
+      'The microphone processes sound on your device. Captured pitches are saved as exercise answers; no audio recording is saved or uploaded. The microphone stops when you leave or move to the background.',
+    helpTone: 'Play help tone (counts as a hint)',
+    detected: 'Detected: {{note}}',
+    waiting: 'Waiting for a sustained note…',
+    capture: 'Use this note',
+    progress: '{{count}} of {{total}} notes captured',
+    retry: 'Record notes again',
+    skip: 'Skip this microphone exercise',
+  },
+  tuner: {
+    title: 'Tuner',
+    entry: 'Check your pitch while singing or playing.',
+    open: 'Open tuner',
+    intro: 'Play or sing one sustained note in a quiet place.',
+    privacyTitle: 'Microphone access',
+    privacy:
+      'The microphone starts only when you press the button. Audio is processed on this device, never saved or uploaded. It stops when you leave or move to the background.',
+    reference: 'Reference A: {{hz}} Hz',
+    start: 'Start microphone',
+    stop: 'Stop microphone',
+    requesting: 'Requesting microphone access…',
+    permission: 'Microphone access denied. Allow access in device settings and try again.',
+    interrupted: 'Microphone connection interrupted. Start it again.',
+    unavailable: 'The microphone is unavailable. Check your device and browser permissions.',
+    silent: 'Waiting for a note…',
+    unstable: 'Hold one note a little longer.',
+    frequency: '{{hz}} Hz',
+    cents: '{{cents}} cents',
+    direction_low: 'Too low',
+    direction_center: 'In tune',
+    direction_high: 'Too high',
+    scale: 'Center is in tune; left is low, right is high.',
+  },
+  friends: {
+    title: 'Friends and friend quests',
+    entry: 'Learn with invited friends and reach a weekly goal together.',
+    open: 'Open friends',
+    guest: 'You need an account and an internet connection for friendships.',
+    rules:
+      'Friends join only through an invitation link or code. There is no contact or name search. Friends can see your current learning streak and league tier. A quest counts only newly confirmed XP after it starts; the week ends Monday at 00:00 UTC.',
+    loading: 'Loading friends…',
+    refresh: 'Refresh friends',
+    error_auth: 'Please sign in again.',
+    error_missing: 'This invitation or friendship is no longer available.',
+    error_retry: 'Another change is in progress. Try again.',
+    error_limit: 'A friend list is full (50 friends maximum).',
+    error_quest_active: 'One person already has a quest this week.',
+    error_unavailable: 'Confirmed friend status could not be loaded.',
+    inviteTitle: 'Invitation',
+    createInvite: 'Create invitation link',
+    inviteExpiry: 'Valid until {{date}}',
+    share: 'Share or copy link',
+    shareMessage: 'Harmonia friendship: {{link}}\nInvitation code: {{code}}',
+    code: 'Invitation code or link',
+    accept: 'Accept invitation',
+    listTitle: 'Your friends',
+    empty: 'No confirmed friends yet.',
+    friend: 'Friend {{count}}',
+    stats: 'Learning streak: {{streak}} days · League tier: {{tier}}',
+    startQuest: 'Start a weekly quest together',
+    remove: 'Remove',
+    block: 'Block',
+    confirmRemove: 'Remove this friendship and any active quest together?',
+    confirmBlock: 'Block this person and end any active quest together?',
+    confirm: 'Confirm',
+    cancel: 'Cancel',
+    questTitle: 'Weekly quest',
+    questEmpty: 'Choose a confirmed friend this week. Goal: 300 new XP together.',
+    questUsed:
+      'Your weekly quest has already started or ended. You can start another from Monday (UTC).',
+    questPartner: 'With friend {{number}}',
+    questProgress: 'You: {{own}} XP · Friend: {{friend}} XP · Goal: {{target}} XP',
+    questActive: 'Runs through Sunday (UTC).',
+    questCompleted: 'Complete! You both earned a quest badge.',
+    badges: 'Quest badges: {{count}}',
+    blockedTitle: 'Blocked people',
+    blocked: 'Blocked person {{count}}',
+    unblock: 'Unblock',
+  },
+  puzzle: {
+    title: 'Daily puzzle',
+    entry: 'One shared question every day. Difficulty rises through Sunday.',
+    open: "Open today's puzzle",
+    guest: 'You need an account and an internet connection for your puzzle streak.',
+    loading: 'Loading puzzle…',
+    error: 'The puzzle could not be loaded or confirmed. Try again.',
+    newDay: 'A new puzzle day has begun. Load today’s puzzle.',
+    reload: 'Reload puzzle',
+    day: 'Puzzle for {{day}}',
+    streak_one: 'Puzzle streak: {{count}} day',
+    streak_other: 'Puzzle streak: {{count}} days',
+    reset: 'New puzzle at midnight ({{zone}}).',
+    difficulty: 'Difficulty level {{count}}',
+    unavailable: 'No approved puzzle is available for this day yet.',
+    oneAttempt: "One attempt for today's puzzle",
+    correct: 'Solved!',
+    incorrect: 'Not solved today.',
+    tomorrow: 'The next puzzle arrives tomorrow.',
+    share: 'Share or copy result',
+    shareText: 'Harmonia puzzle {{day}} {{symbol}} · Streak: {{streak}}',
+  },
+  duel: {
+    title: 'Duels',
+    entry: 'Play for three minutes against another person or a real recorded Rush run.',
+    open: 'Open duels',
+    guest: 'You need an account and an internet connection for duels.',
+    loading: 'Loading duel progress…',
+    error: 'Confirmed duel progress could not be loaded. Try again.',
+    reload: 'Reload progress',
+    kind_live: 'Live duel',
+    kind_friend: 'Invitation duel',
+    kind_ghost: 'Ghost duel',
+    ghostDisclosure:
+      'You are playing against a recording of a real Rush run. The ghost is not live, and this duel does not change your rating.',
+    friendDisclosure:
+      'This duel was started through an invitation link and does not change your rating.',
+    time: 'Time remaining: {{time}}',
+    startIn: 'Starts in {{seconds}} seconds',
+    scores: 'You: {{own}} points · Opponent: {{rival}} points',
+    starting: 'Both sides will start shortly.',
+    running: 'The clock keeps running during connection loss. Only confirmed answers count.',
+    question_one: 'Question {{count}} · Difficulty level {{difficulty}}',
+    question_other: 'Question {{count}} · Difficulty level {{difficulty}}',
+    progress: 'Duel time',
+    outcome_win: 'Won',
+    outcome_loss: 'Lost',
+    outcome_draw: 'Draw',
+    finalScore: 'You: {{own}} points · Opponent: {{rival}} points',
+    rating: 'Duel rating: {{before}} → {{after}}',
+    unrated: 'This duel does not affect your rating.',
+    reward:
+      'Live duels award 10 XP for a win and 3 XP for a loss or draw, up to 50 XP per UTC day.',
+    searching: 'Finding an opponent…',
+    ghostWait:
+      'After about ten seconds, a real recorded run may stand in. Without a suitable recording, the search continues.',
+    cancel: 'Stop searching',
+    find: 'Find a live duel',
+    invite: 'Create invitation link',
+    inviteReady: 'Invitation ready',
+    share: 'Share or copy link',
+    shareMessage: 'Harmonia duel: {{link}}\nInvitation code: {{code}}',
+    acceptTitle: 'Accept an invitation',
+    inviteCode: 'Invitation code',
+    accept: 'Accept invitation',
+    rules:
+      'Three minutes, the same questions, and 10–50 points per correct answer. Live opponents are matched by duel rating. Invitations and ghosts are unrated and grant no XP. Answers are checked by the server.',
+  },
+  rush: {
+    title: 'Theory Rush',
+    entry:
+      'How many questions can you answer? Race the clock or keep going until your third mistake.',
+    open: 'Open Theory Rush',
+    guest:
+      'Sign in to start a verified run and join the leaderboards. You can use the free practice exercises without an account.',
+    account: 'Go to account',
+    mode_three: '3 minutes',
+    mode_five: '5 minutes',
+    mode_survival: 'Survival',
+    scope_day: 'Today',
+    scope_week: 'This week',
+    scope_all: 'All time',
+    scope_friends: 'Friends',
+    rules:
+      'Three mistakes end any run. Survival has no time limit. Questions get harder in stages and may include material from later course units. Hints are turned off during a run.',
+    scoring:
+      'A correct answer earns 10 to 50 points, depending on its difficulty level. A completed run earns 1 XP per correct answer, up to 30 XP. Abandoned runs earn no XP. Rush does not unlock lessons, award coins, or add qualifying days to your streak.',
+    running:
+      'An internet connection is required. The timer keeps running when you leave this screen or lose your connection. Answers count once the server confirms them.',
+    loading: 'Loading run data…',
+    source: 'Theory Rush does not have any reviewed questions available yet.',
+    limit: 'You have used today’s run allowance.',
+    fast: 'Please wait a moment and check your answer again.',
+    error:
+      'The connection was interrupted or this run continued on another device. Reload the confirmed progress.',
+    reload: 'Load confirmed progress',
+    time: 'Time remaining: {{time}}',
+    noTimer: 'No time limit · Ends after three mistakes',
+    score: '{{score}} points · Mistakes: {{mistakes}} of 3',
+    question_one: 'Question {{count}} · Difficulty level {{difficulty}}',
+    question_other: 'Question {{count}} · Difficulty level {{difficulty}}',
+    progress: 'Mistakes until the run ends',
+    showResult: 'View result',
+    stop: 'End run',
+    abandon: 'Abandon run',
+    abandonConfirm:
+      'Abandon this run? It will not appear on the leaderboard or earn XP. It will still use one start from your daily allowance.',
+    keepPlaying: 'Keep playing',
+    result: 'Run confirmed',
+    abandoned: 'Run abandoned',
+    resultScore: '{{score}} points · {{correct}} correct · {{mistakes}} mistakes',
+    reward: '{{xp}} XP has been credited.',
+    noReward: 'This abandoned run earns no XP or leaderboard entry.',
+    allowance:
+      'Starts today: {{remaining}} of {{limit}} remaining. Resets at {{date}} (midnight UTC). Every started run counts, including abandoned runs.',
+    start: 'Start run',
+    upgrade: 'View subscriptions',
+    leaderboard: 'Leaderboards',
+    boardRules:
+      'Your best confirmed run counts for each mode and question bank. Days and weeks reset at midnight UTC; weeks start on Monday. Ties are decided by fewer mistakes, then the earlier finish. Other accounts appear without names or profile details.',
+    friendsPending: 'The friends leaderboard is currently unavailable.',
+    friendsIntro:
+      'This shows your best run and the best runs of mutually confirmed friends. Blocked or removed connections do not count.',
+    empty: 'There are no confirmed runs for this selection yet.',
+    ownRank: 'Rank {{rank}} · You · {{score}} points',
+    rank: 'Rank {{rank}} · Learner · {{score}} points',
+    back: 'Back to practice',
+  },
+  leagues: {
+    globalPushTitle: 'Allow system notifications',
+    globalPushBody:
+      'This permission covers learning reminders and league results. You select each category separately. Turning it off deselects both categories. Account changes need confirmation from the server.',
+    title: 'Leagues',
+    intro:
+      'Learn at your own pace and collect confirmed XP in a weekly group. Your league reflects activity, not musical proficiency.',
+    guestTitle: 'Learn together',
+    guest:
+      'With an account, your first confirmed XP each week place you in a group. Your private profile name stays hidden.',
+    account: 'Sign in or create an account',
+    loading: 'Loading your league…',
+    error: 'Your league could not be updated. Check your connection and try again.',
+    stale: 'This leaderboard shows the last update. Positions may change before it refreshes.',
+    refresh: 'Refresh league',
+    empty:
+      'No group yet this week. You will join one when new lesson XP are confirmed by the server.',
+    week: 'Week from {{start}} to {{end}}',
+    boundary:
+      'The week changes on Monday at 00:00 UTC. In your local time, this week ends on {{date}}.',
+    xpRule:
+      'Only XP confirmed by the server this week count. XP earned offline count in the week they are uploaded. Earlier XP are not added retrospectively.',
+    group_one: '{{count}} person in your group',
+    group_other: '{{count}} people in your group',
+    capacity: 'Up to {{count}} people per group.',
+    you: 'You',
+    alias: 'Learner {{number}}',
+    row: 'Rank {{rank}} · {{name}} · {{xp}} XP',
+    row_promoted: 'Provisional promotion place',
+    row_relegated: 'Provisional relegation place',
+    row_stayed: 'Provisionally staying in this league',
+    forecast: 'The highlighted places are provisional. Results become final after the week ends.',
+    rules:
+      'In a full group, the top {{count}} move up and the bottom {{count}} move down. In smaller groups, at most half move in each direction. Ties are decided by who joined the group first. You cannot move down from pp or up from fff.',
+    privacy:
+      'Others see only your identifier within this group and your weekly XP. Your identifier is only valid within this group. Names, email addresses and account identifiers are never shown.',
+    resultTitle: 'Your weekly result',
+    result: 'Week starting {{date}}: rank {{rank}} with {{xp}} XP.',
+    result_promoted: 'Promoted to the {{level}} league.',
+    result_relegated: 'Next week you will learn in the {{level}} league.',
+    result_stayed: 'You stay in the {{level}} league.',
+    ack: 'Mark as read',
+    actionError: 'Your change could not be saved. Please try again.',
+    levelsTitle: 'The seven leagues',
+    levelsBody:
+      'The names come from musical dynamic markings. Here they name your league, not how loudly you should play or sing.',
+    pushTitle: 'League result notifications',
+    pushBody:
+      'You can receive a notification when your weekly result is ready. Learning reminders have a separate setting. Across both categories, at most one delivery attempt per day, at your chosen reminder time and outside quiet hours from 9 PM to 8 AM.',
+    pushWeb:
+      'On the web, results appear here in the app. System notifications are intended for the iOS and Android apps.',
+    pushUnavailable:
+      'System notifications require persistent storage and a configured mobile device. Your result remains available here.',
+    pushPermission:
+      'Notifications are blocked in system settings. Allow them there, then try again.',
+    pushPending:
+      'League notifications are selected. Server registration is not yet confirmed; you can always find your result here.',
+    pushRegistered: 'League notifications are set up on this device.',
+    level_pp: 'pp · $t(glossary:dynamicPianissimo)',
+    meaning_pp: 'very soft',
+    level_p: 'p · $t(glossary:dynamicPiano)',
+    meaning_p: 'soft',
+    level_mp: 'mp · $t(glossary:dynamicMezzoPiano)',
+    meaning_mp: 'moderately soft',
+    level_mf: 'mf · $t(glossary:dynamicMezzoForte)',
+    meaning_mf: 'moderately loud',
+    level_f: 'f · $t(glossary:dynamicForte)',
+    meaning_f: 'loud',
+    level_ff: 'ff · $t(glossary:dynamicFortissimo)',
+    meaning_ff: 'very loud',
+    level_fff: 'fff · $t(glossary:dynamicFortississimo)',
+    meaning_fff: 'extremely loud',
+  },
+
+  review: {
+    title: 'Review',
+    intro: 'Refresh what you have learned. Your answers determine when it comes up again.',
+    empty: 'Nothing is due right now. Keep learning or check back later.',
+    new: 'After your first lessons, learned skills and knowledge cards will appear here.',
+    due: '{{skills}} skills and {{cards}} knowledge cards are due.',
+    open: 'See reviews',
+    skillsTitle: 'Due skills',
+    skillsStart: 'Review skills',
+    cardsTitle: 'Due knowledge cards',
+    cardOpen: 'Open card: {{title}}',
+    recall:
+      'What do you remember about this? Try recalling it yourself first. Then reveal the explanation and example.',
+    reveal: 'Reveal explanation',
+    rate: 'How well did you remember?',
+    again: 'Did not remember',
+    hard: 'Hard',
+    good: 'Remembered',
+    easy: 'Easy',
+    ratingHelp:
+      'Rate your recall before revealing the answer. Choose “Did not remember” if you needed the explanation.',
+    scheduled: 'Next review: {{date}}',
+    saving: 'Saving review …',
+    saved: 'Review saved.',
+    error: 'Could not save. Your rating is kept so you can retry.',
+    retry: 'Try saving again',
+    back: 'Back to reviews',
+    next: 'Next due: {{date}}',
+    noRewards:
+      'This review refreshes what you have learned. It does not unlock lessons or award XP or coins.',
+    backlog: 'Several reviews are waiting. Even a short session helps. You can pause at any time.',
+    memory: 'You are learning without persistent storage. Reviews are kept only for this session.',
+  },
+  adaptive: {
+    weaknessTitle: 'Practice weak skills',
+    weaknessIntro:
+      'Ten questions covering up to three skills you find difficult in material you have already reached. No course unlocks, XP, or coins.',
+    weaknessEmpty:
+      'First answer a few questions independently. Once a skill you have reached has at least two answers, you can practice it here.',
+    weaknessStart: 'Start focused practice',
+    lessonHint:
+      'The order and review questions reflect your learning so far. All new questions are included; suitable questions aim for about 70–85% success.',
+    practiceLabel: 'Focused practice',
+    returnPractice: 'Back to practice',
+    focusSkills: 'Your focus: {{skills}}',
+    practiceResult:
+      'Your independent answers help select future questions. This practice session does not unlock lessons or award XP or coins.',
+  },
   privacy: {
     title: 'Privacy and data',
     body: 'You control optional processing. Learning also works without analytics or marketing.',
@@ -636,6 +969,20 @@ export const enUS = {
     wrongTitle: 'Not quite',
   },
   exercise: {
+    ...levelThreeExercise['en-US'],
+    ...levelFourExercise['en-US'],
+    type_SIGHT_SING: 'Sight singing',
+    type_SING_INTERVAL: 'Sing an interval',
+    type_PLAY_BACK: 'Sing back a melody',
+    question_SIGHT_SING: 'Sing the written pitch.',
+    question_SING_INTERVAL: 'Listen to the starting pitch, then sing the ascending {{interval}}.',
+    question_PLAY_BACK: 'Listen to the short melody, then sing its three notes in order.',
+    voiceExplanation:
+      'Target notes: {{notes}}. Allowed difference per note: ±{{tolerance}} cents; any octave is fine if all notes are shifted equally.',
+    voiceOctaveShift:
+      'Correct – you sang in a different octave, and that counts. Target notes: {{notes}}. Allowed difference: ±{{tolerance}} cents.',
+    voiceHint1: 'Listen to the starting pitch and hold each sung note steadily.',
+    voiceHint2: 'Sing each note separately with a short pause between them.',
     solutionImage: 'Solution score',
     sourceReplay: 'Play the source example',
     keyReplay: 'Example: $t(glossary:major) or natural $t(glossary:minor) $t(glossary:scale_one)',
@@ -1271,6 +1618,26 @@ export const enUS = {
       'The numerator gives the number of units; the denominator gives their note value. In 6/8, 9/8 and 12/8, three eighth notes form one beat.',
     meterHint2: 'Group the units as follows: {{groups}}. Each group forms one beat.',
     rhythmReady: 'Ready for the count-in.',
+    rhythmMode: 'Rhythm mode',
+    rhythmMode_practice: 'Practice',
+    rhythmMode_test: 'Test run',
+    rhythmPracticeIntro:
+      'Practice the same measure without a score. The test run then starts at the original tempo. Practice counts as help for this question.',
+    rhythmPracticeTempo: '{{bpm}} BPM ({{percent}}%)',
+    rhythmSlower: 'Slower −5',
+    rhythmFaster: 'Faster +5',
+    rhythmLoopOn: 'Loop on',
+    rhythmLoopOff: 'Loop off',
+    rhythmMetronomeTitle: 'Practice metronome',
+    rhythmMetronome: 'Metronome: {{mode}}',
+    rhythmMetronome_off: 'Off',
+    'rhythmMetronome_count-in': 'Count-in only',
+    rhythmMetronome_through: 'Throughout',
+    rhythmPracticeBegin: 'Start practice',
+    rhythmPracticeStop: 'Stop practice',
+    rhythmPracticeFinished: 'Practice round complete. Practice again or switch to the test run.',
+    rhythmPracticeFeedback:
+      'Round {{round}}: {{matched}} of {{total}} onsets matched, {{extras}} extra taps. No score.',
     rhythmPreparing: 'Preparing sound …',
     rhythmCountIn: 'Count-in: {{current}} of {{count}}',
     rhythmRecording: 'Recording: {{current}} of {{count}} beats',
@@ -1293,31 +1660,70 @@ export const enUS = {
     rhythmLatency:
       'Reported audio delay: {{latency}} ms; taken into account when measuring your taps.',
     chordStart: 'Recognize and write chords',
+    harmonyStart: 'Practise harmony and dictation',
+    harmonyIntro:
+      'Hear cadences, identify scale degrees, and enter short melodies and rhythms by ear.',
+    type_CADENCE_IDENTIFY: 'Identify cadence',
+    type_FUNCTION_ANALYSIS: 'Identify scale degree',
+    type_MELODY_DICTATION: 'Melodic dictation',
+    type_RHYTHM_DICTATION: 'Rhythmic dictation',
+    question_CADENCE_IDENTIFY: 'Listen to the chord progression in {{key}}. How does it end?',
+    question_FUNCTION_ANALYSIS: 'Which scale degree is this chord in {{key}}?',
+    question_MELODY_DICTATION:
+      'Listen to the melody and enter {{count}} notes in the order heard. The first note is C.',
+    question_RHYTHM_DICTATION:
+      'Listen to the rhythm and enter the {{count}} note values in the order heard.',
+    cadence_authentic: 'Authentic cadence (V–I)',
+    cadence_plagal: 'Plagal cadence (IV–I)',
+    cadence_half: 'Half cadence (I–V)',
+    cadence_deceptive: 'Deceptive cadence (V–vi)',
+    cadenceExplanation: 'In {{key}}, the progression ends with {{answer}}.',
+    functionExplanation: 'In {{key}}, the chord belongs to {{answer}}.',
+    dictationExplanation: 'Heard sequence: {{answer}}.',
+    harmonyHint1: 'Listen or look for the starting and ending points first.',
+    harmonyHint2: 'Compare the sequence step by step with the offered notes or functions.',
+    dictationProgress: '{{count}} of {{total}} entries placed',
+    dictationUndo: 'Remove last entry',
     chordIntro:
       'Nine questions: write major, minor, diminished and augmented triads with inversions, recognize them in notation and identify them by ear.',
     type_CHORD_BUILD: 'Write $t(glossary:chord_other)',
     type_CHORD_IDENTIFY: 'Recognize $t(glossary:chord_other)',
     question_CHORD_BUILD:
       'Write {{name}} in close position above {{bass}}. The $t(glossary:bassNote_one) is given; add the two remaining notes.',
+    question_CHORD_BUILD_SEVENTH:
+      'Write {{name}} in close position above {{bass}}. The bass note is given; add the three remaining notes.',
     question_CHORD_IDENTIFY:
       'Which $t(glossary:chord_one) do you see? Identify its $t(glossary:root_one), quality and $t(glossary:inversion_one).',
     question_CHORD_AURAL:
       'You hear $t(glossary:root_one) {{root}} first, then the $t(glossary:triad_one). Which quality and $t(glossary:inversion_one) do you hear?',
+    question_CHORD_AURAL_SEVENTH:
+      'You hear the root {{root}} first, then the seventh chord. Which quality and inversion do you hear?',
     chordExplanation:
       '{{name}}: {{notes}}. From $t(glossary:root_one) {{root}}, the intervals are {{third}} and {{fifth}}. The $t(glossary:bassNote_one) is {{bass}}, giving {{inversion}}. Written answers require complete notes, including accidentals and octave. Close position places the remaining chord tones in their next higher registers above the bass note.',
+    chordSeventhExplanation:
+      '{{name}}: {{notes}}. From root {{root}}, the intervals are {{third}}, {{fifth}}{{extension}}. The bass is {{bass}}, giving {{inversion}}. Written answers require full pitches, including accidentals and octave.',
     chordHint1:
       'Arrange the three letter names mentally in thirds. The bottom note of that arrangement is the $t(glossary:root_one). Compare it with the actual lowest note: root, third or fifth in the bass determines $t(glossary:rootPosition) or $t(glossary:inversion_one).',
+    chordSeventhHint1:
+      'Arrange four chord notes in thirds. Root, third, fifth or seventh in the bass determines the inversion.',
     chordHint2:
       'The $t(glossary:root_one) is {{root}}. From there you need {{third}} and {{fifth}}. The given or heard $t(glossary:bassNote_one) {{bass}} shows the position; place the other chord tones as close above it as possible.',
+    chordSeventhHint2:
+      'The root is {{root}}. Find {{third}}, {{fifth}}{{extension}}. The bass {{bass}} shows the inversion; place the remaining notes as close above it as possible.',
     chordAuralHint1:
       'Remember the first single note as the $t(glossary:root_one). Then listen for the lowest note of the $t(glossary:chord_one): compare it with the reference note, including across octaves. Root, third or fifth in the bass determines the position. The intervals between the notes determine the triad quality.',
+    chordSeventhAuralHint1:
+      'Remember the first note as the root. Then listen for the bass and seventh. Compare root, third, fifth and seventh to determine the inversion.',
     chordPreview: 'Your $t(glossary:chord_one)',
     chordSelectTone: 'Choose a chord tone to edit',
     chordTone: 'Note {{index}}',
     chordToneEmpty: 'not placed yet',
     chordFilled: '{{count}} of 2 answer notes placed.',
+    chordFilledSeventh: '{{count}} of 3 answer notes placed.',
     chordInputHint:
       'Choose note 2 or 3 and place it in the right $t(glossary:measure_one). The $t(glossary:bassNote_one) stays fixed on the left. The combined notation shows your $t(glossary:chord_one). You may enter the upper notes in either order.',
+    chordInputHintSeventh:
+      'Choose note 2, 3 or 4 and place it in the right measure. The bass stays fixed. You may enter the remaining notes in any order.',
     tonalityStart: 'Practise scales and key signatures',
     tonalityIntro:
       'Twelve questions: identify and write major and minor scales, recognise key signatures and build them yourself.',
@@ -1602,6 +2008,17 @@ export const enUS = {
   piano: {
     settings: 'Customize',
     title: 'Piano keyboard',
+    midiDevice: 'MIDI keyboard',
+    midiConnect: 'Connect MIDI',
+    midiIntro:
+      'Connect a USB or already paired Bluetooth MIDI keyboard. Notes are processed only on this device.',
+    midiNoDevice: 'No MIDI input found yet. Connect a keyboard and check pairing.',
+    midiUnavailable:
+      'MIDI is unavailable here or access was denied. Check your browser, device and permissions.',
+    midiConnected: 'MIDI: {{device}}',
+    midiDisconnected: 'MIDI keyboard disconnected. Reconnect it or choose another device.',
+    midiVelocity: 'Velocity {{velocity}}/127',
+    midiSustain: 'Sustain on',
     labels: 'Note names',
     labels_none: 'No labels',
     labels_de: 'German (H/B)',
@@ -1692,6 +2109,8 @@ export const enUS = {
     gallery: 'Components (development only)',
     licenses: 'Licenses',
     audioTest: 'Audio test (measurements)',
+    fsrsLicense:
+      'Review scheduling: ts-fsrs 5.4.2 © 2026 Open Spaced Repetition, MIT License. Full license text under Legal & information.',
     bravuraLicense:
       'Music font Bravura © Steinberg Media Technologies GmbH, SIL Open Font License 1.1',
     figtreeLicense:

@@ -33,7 +33,7 @@ export function ReminderControls() {
             onValueChange: (value) => {
               if (!value || state.permission === 'unsupported' || state.memory) {
                 updateOnboarding((d) => ({ ...d, reminderConsent: value }));
-                void setPrivacyConsent('push', value)
+                void (!value ? Promise.resolve() : setPrivacyConsent('push', true))
                   .then(() => changeMotivationPreferences({ reminderConsent: value }))
                   .then(() => reconcileReminders())
                   .catch(() => undefined);

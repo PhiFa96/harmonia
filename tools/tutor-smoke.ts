@@ -314,7 +314,7 @@ for (const entry of catalogue.lessons) {
     }
   }
 }
-for (const set of PRACTICE_SETS) {
+for (const set of PRACTICE_SETS.filter((value) => value !== 'harmony')) {
   const items = createFreePracticeSession(set, 'tutor-free-types').items;
   for (const [index, item] of items.entries()) {
     if (seenTypes.has(item.type)) continue;
@@ -353,7 +353,9 @@ for (const set of PRACTICE_SETS) {
     }
   }
 }
-equal(seenTypes.size, 19, 'Every current exercise type reconstructed');
+// Die drei Mikrofontypen werden bereits in Entwurfslektionen rekonstruiert;
+// der eingefrorene 19-Typen-Katalog für P2.18 bleibt davon getrennt.
+equal(seenTypes.size, 26, 'Every current course exercise type reconstructed');
 for (const locale of ['de', 'en-US', 'en-GB'] as const) {
   const prompt = tutorSystemPrompt({ ...request, locale });
   check(prompt[0]?.text.includes(locale) === true, 'Requested language');

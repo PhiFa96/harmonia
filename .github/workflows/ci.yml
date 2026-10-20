@@ -17,7 +17,7 @@ jobs:
   checks:
     name: Lint, Typen, Tests
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v7
 
@@ -282,6 +282,9 @@ jobs:
 
       - name: Rating-Sync, Rückrechnung, Kontentrennung und parallele Aktualisierungen prüfen
         run: pnpm db:test:ratings
+
+      - name: FSRS mit echten lokalen Konten prüfen
+        run: pnpm db:test:reviews
 
       - name: Inhaltsmeldungen, Wiederholungen und Konto-Isolation prüfen
         run: pnpm db:test:reports

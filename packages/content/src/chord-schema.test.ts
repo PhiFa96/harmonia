@@ -41,7 +41,7 @@ describe('Akkordübungen im Inhaltsschema', () => {
   });
   it.each([
     { type: 'CHORD_BUILD', params: { types: [] } },
-    { type: 'CHORD_BUILD', params: { types: ['dominant7'] } },
+    { type: 'CHORD_BUILD', params: { types: ['dominant13'] } },
     { type: 'CHORD_BUILD', params: { types: ['major'], roots: [] } },
     { type: 'CHORD_BUILD', params: { types: ['major'], roots: ['C♯'] } },
     { type: 'CHORD_BUILD', params: { types: ['major'], roots: ['C4'] } },

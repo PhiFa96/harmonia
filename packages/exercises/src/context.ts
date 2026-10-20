@@ -25,6 +25,7 @@ import {
   relativeKey,
   simplify,
   transposeBy,
+  transpose,
   ZERO,
 } from '@harmonia/theory';
 import type { Score } from '@harmonia/notation';
@@ -61,6 +62,11 @@ export const CONTEXT_TOPICS = [
   'jazz-roots',
   'popular-source',
   'source-comparison',
+  'form-return',
+  'clarinet-transposition',
+  'parallel-fifths',
+  'figured-bass',
+  'clef-reading',
 ] as const;
 export type ContextTopic = (typeof CONTEXT_TOPICS)[number];
 export interface ContextParams {
@@ -270,6 +276,69 @@ export function contextAnswer(item: ContextItem): string {
       const c = required(diatonicTriads(source.key)[(source.degree ?? 1) - 1]);
       return `triad:${c.quality}`;
     }
+    case 'form-return': {
+      const measures = sourceScore(item).staves[0]?.measures;
+      if (measures?.length !== 3) throw new RangeError('Drei Formabschnitte erwartet');
+      const pitches = measures.map((measure) =>
+        measure.voices[0]?.events
+          .flatMap(eventPitches)
+          .map((pitch) => formatPitch(pitch))
+          .join(','),
+      );
+      if (!pitches[0] || !pitches[1] || !pitches[2] || pitches[0] === pitches[1])
+        throw new RangeError('Kontrastierende Anfangsabschnitte erwartet');
+      return pitches[0] === pitches[2] ? 'form:aba' : 'form:abc';
+    }
+    case 'clarinet-transposition': {
+      const pitches = sourcePitches(item);
+      if (pitches.length !== 1) throw new RangeError('Ein notierter Ton erwartet');
+      return written(transpose(required(pitches[0]), -1, -2));
+    }
+    case 'parallel-fifths': {
+      const events = sourceEvents(item);
+      if (
+        events.length !== 2 ||
+        events.some((event) => event.kind !== 'chord' || event.notes.length !== 2)
+      )
+        throw new RangeError('Zwei zweistimmige Akkorde erwartet');
+      const first = required(events[0]);
+      const second = required(events[1]);
+      if (first.kind !== 'chord' || second.kind !== 'chord')
+        throw new RangeError('Akkorde erwartet');
+      const [lowA, highA] = first.notes.map((n) => n.pitch).sort((a, b) => midi(a) - midi(b));
+      const [lowB, highB] = second.notes.map((n) => n.pitch).sort((a, b) => midi(a) - midi(b));
+      if (!lowA || !highA || !lowB || !highB) throw new RangeError('Stimmen fehlen');
+      const bothFifths = [intervalBetween(lowA, highA), intervalBetween(lowB, highB)].every(
+        (interval) => interval.number === 5 && interval.quality === 'P',
+      );
+      const lowerMotion = Math.sign(midi(lowB) - midi(lowA));
+      const upperMotion = Math.sign(midi(highB) - midi(highA));
+      return bothFifths && lowerMotion !== 0 && lowerMotion === upperMotion
+        ? 'boolean:yes'
+        : 'boolean:no';
+    }
+    case 'figured-bass': {
+      const events = sourceEvents(item);
+      const first = events[0];
+      if (events.length !== 1 || first?.kind !== 'chord' || first.notes.length !== 3)
+        throw new RangeError('Dreiklang über einem Bass erwartet');
+      const [bass, ...upper] = first.notes.map((n) => n.pitch).sort((a, b) => midi(a) - midi(b));
+      if (!bass) throw new RangeError('Basston fehlt');
+      const figures = upper
+        .map((pitch) => intervalBetween(bass, pitch).number)
+        .sort((a, b) => a - b);
+      const result = figures.join('-');
+      if (!['3-5', '3-6', '4-6'].includes(result))
+        throw new RangeError('Dreiklanglage nicht unterstützt');
+      return `figure:${result === '3-5' ? '5-3' : result === '3-6' ? '6-3' : '6-4'}`;
+    }
+    case 'clef-reading': {
+      const pitches = sourcePitches(item);
+      const clef = source.kind === 'score' ? source.score.staves[0]?.clef : undefined;
+      if (pitches.length !== 1 || (clef !== 'alto' && clef !== 'tenor'))
+        throw new RangeError('Ein Ton im Alt- oder Tenorschlüssel erwartet');
+      return written(required(pitches[0]));
+    }
     case 'period-context': {
       if (
         source.kind !== 'document' ||
@@ -361,7 +430,61 @@ export function generateContext(params: ContextParams, rng: Rng): ContextItem {
   const fractionChoices = ['1/2', '1/1', '3/2', '2/1', '5/2', '3/1', '4/1'].map(
     (n) => `quarters:${n}`,
   );
-  if (topic === 'accidental-scope') {
+  if (topic === 'form-return') {
+    const motifs = [
+      'C4/4 D4/4 E4/4 G4/4',
+      'G4/4 F4/4 E4/4 D4/4',
+      'E4/4 G4/4 A4/4 G4/4',
+      'D4/4 F4/4 A4/4 F4/4',
+    ];
+    const first = rng.pick(motifs),
+      second = rng.pick(motifs.filter((value) => value !== first)),
+      third = rng.pick([first, ...motifs.filter((value) => value !== first && value !== second)]);
+    source = { kind: 'score', score: parseScore(`treble | 4/4 | ${first} | ${second} | ${third}`) };
+    available = ['form:aba', 'form:abc'];
+  } else if (topic === 'clarinet-transposition') {
+    const pitch = parsePitch(rng.pick(['C5', 'D5', 'E5', 'F5', 'G5']));
+    source = { kind: 'score', score: singleStaffScore([[note(pitch, duration('whole'))]]) };
+    available = [
+      pitch,
+      transpose(pitch, -1, -2),
+      transpose(pitch, -1, -1),
+      transpose(pitch, 1, 2),
+    ].map(written);
+  } else if (topic === 'parallel-fifths') {
+    source = {
+      kind: 'score',
+      score: parseScore(
+        rng.pick([
+          'treble | 4/4 | (C4 G4)/2 (D4 A4)/2',
+          'treble | 4/4 | (D4 A4)/2 (C4 G4)/2',
+          'treble | 4/4 | (C4 G4)/2 (C4 A4)/2',
+          'treble | 4/4 | (C4 G4)/2 (D4 G4)/2',
+        ]),
+      ),
+    };
+    available = ['boolean:yes', 'boolean:no'];
+  } else if (topic === 'figured-bass') {
+    source = {
+      kind: 'score',
+      score: parseScore(
+        rng.pick([
+          'bass | 4/4 | (C3 E3 G3)/1',
+          'bass | 4/4 | (E3 G3 C4)/1',
+          'bass | 4/4 | (G2 C3 E3)/1',
+          'bass | 4/4 | (D3 F3 A3)/1',
+          'bass | 4/4 | (F3 A3 D4)/1',
+          'bass | 4/4 | (A2 D3 F3)/1',
+        ]),
+      ),
+    };
+    available = ['figure:5-3', 'figure:6-3', 'figure:6-4'];
+  } else if (topic === 'clef-reading') {
+    const clef = rng.pick(['alto', 'tenor'] as const);
+    const pitch = rng.pick(['C4', 'D4', 'E4', 'F4', 'G4']);
+    source = { kind: 'score', score: parseScore(`${clef} | 4/4 | ${pitch}/1`) };
+    available = ['C4', 'D4', 'E4', 'F4', 'G4'].map((value) => written(parsePitch(value)));
+  } else if (topic === 'accidental-scope') {
     const pitch = { ...p(), alter: rng.pick([-1, 1]) },
       mode = rng.pick(['same', 'reset', 'cancel', 'octave']);
     const target =

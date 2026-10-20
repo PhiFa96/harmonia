@@ -25,6 +25,9 @@ export function feedbackMedia(item: ExerciseItem): {
   audio?: Score;
   label?: 'source' | 'key';
 } {
+  if (item.type === 'CADENCE_IDENTIFY') return { audio: item.score };
+  if (item.type === 'MELODY_DICTATION' || item.type === 'RHYTHM_DICTATION')
+    return { audio: item.score };
   if (isKeySignatureItem(item))
     return { audio: keyExample(signatureKey(item), item.clef === 'bass' ? 3 : 4), label: 'key' };
   if (item.type === 'CONTEXT_CHOICE') {
@@ -33,6 +36,8 @@ export function feedbackMedia(item: ExerciseItem): {
       return { audio: keyExample(item.source.key, 4), label: 'source' };
     return {};
   }
+  if (item.type === 'SING_INTERVAL' || item.type === 'PLAY_BACK' || item.type === 'SIGHT_SING')
+    return { audio: item.score };
   if (
     (item.type === 'NOTE_NAME' && item.presentation === 'octave-name') ||
     (item.type === 'KEY_FIND' && item.presentation === 'name')

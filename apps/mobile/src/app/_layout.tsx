@@ -1,3 +1,7 @@
+import { RushLifecycle } from '@/components/rush-lifecycle';
+import { DuelLifecycle } from '@/components/duel-lifecycle';
+import { DailyPuzzleLifecycle } from '@/components/daily-puzzle-lifecycle';
+import { FriendsLifecycle } from '@/components/friends-lifecycle';
 import bravura from '@vexflow-fonts/bravura/bravura.otf';
 import accidentals from '../../assets/fonts/HarmoniaAccidentals.otf';
 import { Figtree_400Regular } from '@expo-google-fonts/figtree/400Regular';
@@ -23,6 +27,7 @@ import { useSettings } from '@/state/settings';
 import { navigationTheme, useAppColorScheme } from '@/theme';
 import { initializeDeviceState, startTemporarySession, useDeviceState } from '@/state/device';
 import { initializeAuth } from '@/auth';
+import { LeagueLifecycle } from '@/components/league-lifecycle';
 import { MotivationLifecycle } from '@/components/motivation-lifecycle';
 import { ReportLifecycle } from '@/components/report-lifecycle';
 import { LearningLifecycle } from '@/components/learning-lifecycle';
@@ -67,6 +72,11 @@ export default function RootLayout() {
           <ProfileLifecycle />
           <ReportLifecycle />
           <MotivationLifecycle />
+          <LeagueLifecycle />
+          <RushLifecycle />
+          <DuelLifecycle />
+          <DailyPuzzleLifecycle />
+          <FriendsLifecycle />
           <BillingLifecycle />
           <AccessLifecycle />
           <PrivacyLifecycle />
@@ -107,6 +117,11 @@ export default function RootLayout() {
                 <Stack.Protected guard={device.completed}>
                   <Stack.Screen name="(tabs)" />
                   <Stack.Screen name="lesson" />
+                  <Stack.Screen name="rush" />
+                  <Stack.Screen name="duel" />
+                  <Stack.Screen name="daily-puzzle" />
+                  <Stack.Screen name="friends" />
+                  <Stack.Screen name="tuner" />
                   <Stack.Screen name="article" />
                   <Stack.Screen name="tutor-task" />
                   <Stack.Screen name="note-input" />

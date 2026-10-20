@@ -318,3 +318,43 @@ it('sendet einen übernommenen Schutzkauf erst bei vollständig geladenem Lernst
   await settle();
   expect(motivation.useMotivation.getState().data?.purchases[0]?.acked).toBe(true);
 });
+
+it('behält bestätigte Rush-Aggregate bei Offline-Schätzung und Tageswechsel ohne Serienqualifikation', async () => {
+  login('rush-offline');
+  await motivation.initializeMotivation();
+  await settle();
+  const now = Date.now();
+  const state = motivation.useMotivation.getState();
+  if (!state.data) throw Error('Missing motivation fixture');
+  motivation.useMotivation.setState({
+    data: {
+      ...state.data,
+      server: {
+        ...motivationResponse(),
+        rushActivities: [
+          {
+            id: 'rush:verified',
+            at: now - 1000,
+            timeZone: 'UTC',
+            amount: 12,
+            qualified: false,
+            coins: 0,
+          },
+        ],
+      },
+      serverEvidenceKey: null,
+    },
+  });
+  expect(motivation.currentMotivation(now).summary).toMatchObject({
+    totalXP: 12,
+    coins: 0,
+    streak: { current: 0 },
+  });
+  expect(motivation.currentMotivation(now + 86400000).summary).toMatchObject({
+    totalXP: 12,
+    todayXP: 0,
+    streak: { current: 0 },
+  });
+  login('other-rush-owner');
+  expect(motivation.currentMotivation(now).summary.totalXP).toBe(0);
+});

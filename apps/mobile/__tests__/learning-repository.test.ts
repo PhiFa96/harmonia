@@ -3,7 +3,7 @@ import { mkdtempSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { firstLesson, catalogue } from '@harmonia/content/authoring';
-import { lessonEvent, lessonPlan } from '@harmonia/content';
+import { lessonEvent, lessonPlan, localReviewState } from '@harmonia/content';
 import type { LearningEvent } from '@harmonia/content';
 import {
   activeLessonSession,
@@ -52,6 +52,60 @@ async function repository() {
 }
 
 describe('Lernpfad mit echter SQLite', () => {
+  it('bewahrt FSRS-Termine atomar beim Entfernen alter Detailantworten', async () => {
+    const repo = await repository();
+    await repo.save('guest', event());
+    const before = localReviewState(catalogue, await repo.list('guest'));
+    await repo.compact('guest', catalogue, 3000);
+    const cache = await repo.reviews('guest');
+    expect(cache).not.toBeNull();
+    expect((await repo.list('guest'))[0]?.event.kind).toBe('retained');
+    expect(localReviewState(catalogue, await repo.list('guest'), cache)).toEqual(before);
+    expect(await repo.reviews('other')).toBeNull();
+    await repo.compact('guest', catalogue, 3000);
+    expect(
+      localReviewState(catalogue, await repo.list('guest'), await repo.reviews('guest')),
+    ).toEqual(before);
+    await repo.eraseScope('guest');
+    expect(await repo.reviews('guest')).toBeNull();
+  });
+  it('übernimmt verdichtete Gast-Termine genau in das erste gewählte Konto', async () => {
+    const repo = await repository();
+    await repo.save('guest', event());
+    const expected = localReviewState(catalogue, await repo.list('guest'));
+    await repo.compact('guest', catalogue, 3000);
+    await repo.claimGuest('a', catalogue);
+    expect(localReviewState(catalogue, await repo.list('a'), await repo.reviews('a'))).toEqual(
+      expected,
+    );
+    expect(await repo.reviews('guest')).toBeNull();
+    await repo.claimGuest('b', catalogue);
+    expect(await repo.reviews('b')).toBeNull();
+  });
+  it('übernimmt frische Gast-Nachweise ohne doppeltes lokales FSRS-Fortschreiben', async () => {
+    const repo = await repository();
+    await repo.save('guest', event());
+    const expected = localReviewState(catalogue, await repo.list('guest'));
+    await repo.claimGuest('a', catalogue);
+    expect(localReviewState(catalogue, await repo.list('a'), await repo.reviews('a'))).toEqual(
+      expected,
+    );
+  });
+  it('ein beschädigter FSRS-Cache verdeckt keine intakten Antworten', async () => {
+    const repo = await repository();
+    await repo.save('a', event());
+    db.prepare('INSERT INTO learning_meta VALUES (?,?)').run('reviews:a', '{broken');
+    expect(await repo.reviews('a')).toBeNull();
+    expect(await repo.list('a')).toHaveLength(1);
+  });
+  it('ein beschädigter Rating-Cache verdeckt keine intakten Lernnachweise', async () => {
+    const repo = await repository();
+    await repo.save('a', event());
+    db.prepare('INSERT INTO learning_meta VALUES (?,?)').run('ratings:a', '{broken');
+    expect(await repo.ratings('a')).toBeNull();
+    expect(await repo.reviews('a')).toBeNull();
+    expect(await repo.list('a')).toHaveLength(1);
+  });
   it('importiert alte Versuche einmal und überträgt Gastdaten nur in das erste gewählte Konto', async () => {
     const repo = await repository(),
       one = event();
@@ -154,6 +208,20 @@ describe('Lernpfad mit echter SQLite', () => {
         more: false,
       });
       await repo.saveView('a', { areaId: 'rhythm', level: 2, expanded: ['rhythm.l2.compound'] });
+      const ratings = {
+        throughSequence: 9,
+        skills: {
+          read: { rating: 1600, deviation: 100, volatility: 0.06, attempts: 2, updatedAt: 2000 },
+        },
+        buckets: {},
+      };
+      await repo.saveRatings('a', ratings);
+      const reviews = {
+        ...localReviewState(catalogue, await repo.list('a')),
+        throughSequence: 9,
+        throughPosition: 0,
+      };
+      await repo.saveReviews('a', reviews);
       disk.close();
       disk = new DatabaseSync(join(dir, 'learning.db'));
       repo = createLearningRepository(adapter(disk));
@@ -166,6 +234,13 @@ describe('Lernpfad mit echter SQLite', () => {
       });
       expect(await repo.view('b')).toEqual({ areaId: null, level: null, expanded: [] });
       expect(await repo.exists('one')).toBe(true);
+      expect(await repo.ratings('a')).toEqual(ratings);
+      expect(await repo.reviews('a')).toEqual(reviews);
+      expect(await repo.reviews('b')).toBeNull();
+      expect(await repo.ratings('b')).toBeNull();
+      await repo.eraseScope('a');
+      expect(await repo.ratings('a')).toBeNull();
+      expect(await repo.reviews('a')).toBeNull();
       disk.close();
     } finally {
       rmSync(dir, { recursive: true, force: true });

@@ -10,6 +10,8 @@ Das technische Prüfsystem ist umgesetzt: 245 eigene Fälle in DE/US/UK (735 Spr
 
 `tools/tutor-benchmark/catalogue.ts` erzeugt den eingecheckten `catalogue.json`. 120 Fälle prüfen die acht Werkzeugbereiche, 76 Fälle alle 19 Aufgabentypen in vier Abläufen, 29 fragen nach Bibliotheksquellen, zwölf prüfen falsche Prämissen/Enharmonik/Rollengrenzen und acht die Rückführung auf Musik. Soll-Aufrufe haben strenge Schemas und korrekte Engine-Ergebnisse; Aufgaben verwenden ursprüngliche IDs, Versionen, Seeds und gültige falsche Antworten. US/UK-Fassungen unterscheiden Fachbegriffe wie measure/bar, quarter note/crotchet und half step/semitone. Generator und Nodeprüfung erhöhen keine Freigabestatus.
 
+Die späteren Mikrofontypen `SING_INTERVAL`, `SIGHT_SING` und `PLAY_BACK` sind nicht Teil dieses eingefrorenen P2.18-Katalogs. Der Generator überspringt sie ausdrücklich; neue Tutor-Benchmarkfälle brauchen eine eigene Katalogversion und fachliche Kalibrierung. So bleiben die 245 Fälle und ihre bisherigen Nenner bei weiteren Lektionen stabil.
+
 ```bash
 pnpm check:tutor:catalogue
 pnpm tutor:catalogue:write       # nur nach bewusst geändertem Autoreneinstieg; Diff prüfen

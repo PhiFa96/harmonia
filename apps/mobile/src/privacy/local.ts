@@ -1,3 +1,8 @@
+import { clearRush, useRush } from '@/state/rush';
+import { clearDuel, useDuel } from '@/state/duel';
+import { clearDailyPuzzle, useDailyPuzzle } from '@/state/daily-puzzle';
+import { clearFriends, useFriends } from '@/state/friends';
+import { clearLeagues, useLeagues } from '@/state/leagues';
 import { eraseMotivationMemory } from '@/state/motivation';
 import { eraseReportsMemory } from '@/state/reports';
 import { useLearningState } from '@/state/learning';
@@ -20,6 +25,11 @@ import { eraseProfileScope } from '@/state/profile';
 /** Block delayed writes before draining each repository's serialized queue. */
 export async function eraseLocalAccount(scope: string) {
   blockErasedScope(scope, []);
+  if (useRush.getState().owner === scope) clearRush();
+  if (useDuel.getState().owner === scope) clearDuel();
+  if (useDailyPuzzle.getState().owner === scope) clearDailyPuzzle();
+  if (useFriends.getState().owner === scope) clearFriends();
+  if (useLeagues.getState().owner === scope) clearLeagues();
   await eraseProfileScope(scope);
   eraseMotivationMemory(scope);
   eraseReportsMemory(scope);
@@ -41,7 +51,14 @@ export async function eraseLocalAccount(scope: string) {
   await (await getLessonRepository()).eraseIds(ids);
   await learning.eraseScope(scope);
   if (useLearningState.getState().scope === scope)
-    useLearningState.setState({ rows: [], drafts: {}, phase: 'loading', path: [] });
+    useLearningState.setState({
+      rows: [],
+      drafts: {},
+      reviews: null,
+      ratings: null,
+      phase: 'loading',
+      path: [],
+    });
   await (await getReportRepository()).eraseScope(scope);
   await (await getMotivationRepository()).eraseScope(scope);
   await cancelErasedReminders(scope);

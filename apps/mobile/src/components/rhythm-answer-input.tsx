@@ -7,9 +7,11 @@ import {
 } from '@harmonia/exercises';
 import { RADIUS, SPACE, TOUCH } from '@harmonia/ui';
 import { AppText, Button, Card, Icon, useUiTheme } from '@harmonia/ui/native';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, Pressable, StyleSheet, View } from 'react-native';
+import type { RhythmMetronome } from '@/exercises/play-rhythm';
+import { OptionSheet } from './option-sheet';
 import { useRhythmRecording } from './use-rhythm-recording';
 
 interface Props {
@@ -20,6 +22,8 @@ interface Props {
   readonly onSelect: (answer: string | null) => void;
   readonly beforeStart: () => void;
   readonly onPreview: () => void;
+  readonly practiceAllowed: boolean;
+  readonly onPracticeStart: () => void;
 }
 export function RhythmAnswerInput({
   item,
@@ -29,11 +33,24 @@ export function RhythmAnswerInput({
   onSelect,
   beforeStart,
   onPreview,
+  practiceAllowed,
+  onPracticeStart,
 }: Props) {
   const { t } = useTranslation(),
     { colors } = useUiTheme(),
     pad = useRef<View>(null);
-  const recording = useRhythmRecording(item, !!result, onSelect),
+  const [mode, setMode] = useState<'practice' | 'test'>('test'),
+    [tempo, setTempo] = useState(item.bpm),
+    [loop, setLoop] = useState(true),
+    [metronome, setMetronome] = useState<RhythmMetronome>('through'),
+    [metronomeSheet, setMetronomeSheet] = useState(false);
+  const recording = useRhythmRecording(
+      item,
+      !!result,
+      onSelect,
+      { mode, bpm: tempo, loop, metronome },
+      onPracticeStart,
+    ),
     current = useRef(recording);
   current.current = recording;
   useEffect(() => {
@@ -66,6 +83,7 @@ export function RhythmAnswerInput({
   }, []);
   const running = ['preparing', 'count-in', 'recording'].includes(recording.progress.phase),
     enabled = !result && recording.progress.phase === 'recording';
+  const activeItem = mode === 'practice' ? { ...item, bpm: tempo } : item;
   const assessment = result
     ? assessRhythm(item, rhythmAnswerTaps(item, answer ?? 'taps:') ?? [])
     : undefined;
@@ -83,17 +101,111 @@ export function RhythmAnswerInput({
     <View style={styles.container}>
       {!result ? (
         <>
+          {practiceAllowed ? (
+            <View style={styles.modes} aria-label={t('exercise.rhythmMode')}>
+              {(['practice', 'test'] as const).map((value) => (
+                <Button
+                  key={value}
+                  testID={`rhythm-mode-${value}`}
+                  size="medium"
+                  variant={mode === value ? 'primary' : 'secondary'}
+                  selected={mode === value}
+                  label={t(`exercise.rhythmMode_${value}`)}
+                  onPress={() => {
+                    if (mode === value) return;
+                    recording.reset();
+                    setMode(value);
+                  }}
+                />
+              ))}
+            </View>
+          ) : null}
+          {mode === 'practice' ? (
+            <Card>
+              <View style={styles.container}>
+                <AppText variant="small" tone="muted">
+                  {t('exercise.rhythmPracticeIntro')}
+                </AppText>
+                <View style={styles.modes}>
+                  <Button
+                    size="medium"
+                    variant="secondary"
+                    label={t('exercise.rhythmSlower')}
+                    disabled={running || tempo <= 40}
+                    onPress={() => {
+                      recording.reset();
+                      setTempo(Math.max(40, tempo - 5));
+                    }}
+                  />
+                  <AppText testID="rhythm-practice-tempo">
+                    {t('exercise.rhythmPracticeTempo', {
+                      bpm: tempo,
+                      percent: Math.round((tempo / item.bpm) * 100),
+                    })}
+                  </AppText>
+                  <Button
+                    size="medium"
+                    variant="secondary"
+                    label={t('exercise.rhythmFaster')}
+                    disabled={running || tempo >= item.bpm}
+                    onPress={() => {
+                      recording.reset();
+                      setTempo(Math.min(item.bpm, tempo + 5));
+                    }}
+                  />
+                </View>
+                <View style={styles.modes}>
+                  <Button
+                    size="medium"
+                    variant={loop ? 'primary' : 'secondary'}
+                    selected={loop}
+                    label={t(loop ? 'exercise.rhythmLoopOn' : 'exercise.rhythmLoopOff')}
+                    disabled={running}
+                    onPress={() => {
+                      recording.reset();
+                      setLoop(!loop);
+                    }}
+                  />
+                  <Button
+                    size="medium"
+                    variant="secondary"
+                    label={t('exercise.rhythmMetronome', {
+                      mode: t(`exercise.rhythmMetronome_${metronome}`),
+                    })}
+                    disabled={running}
+                    onPress={() => {
+                      setMetronomeSheet(true);
+                    }}
+                  />
+                </View>
+                {recording.practiceResult ? (
+                  <AppText testID="rhythm-practice-feedback" aria-live="polite">
+                    {t('exercise.rhythmPracticeFeedback', recording.practiceResult)}
+                  </AppText>
+                ) : null}
+              </View>
+            </Card>
+          ) : null}
           <AppText testID="rhythm-status" aria-live="polite">
-            {t(`exercise.${phaseKey[recording.progress.phase]}`, {
-              current: recording.progress.current,
-              count: rhythmBeatCount(item),
-            })}
+            {t(
+              `exercise.${
+                mode === 'practice' && recording.progress.phase === 'complete'
+                  ? 'rhythmPracticeFinished'
+                  : phaseKey[recording.progress.phase]
+              }`,
+              {
+                current: recording.progress.current,
+                count: rhythmBeatCount(item),
+              },
+            )}
           </AppText>
           <Button
             label={t(
-              recording.progress.phase === 'complete'
-                ? 'exercise.rhythmRetry'
-                : 'exercise.rhythmBegin',
+              mode === 'practice'
+                ? 'exercise.rhythmPracticeBegin'
+                : recording.progress.phase === 'complete'
+                  ? 'exercise.rhythmRetry'
+                  : 'exercise.rhythmBegin',
             )}
             disabled={running}
             onPress={() => {
@@ -135,18 +247,22 @@ export function RhythmAnswerInput({
       </AppText>
       <AppText variant="small" tone="muted">
         {t(item.presentation === 'pulse' ? 'exercise.pulseWindow' : 'exercise.rhythmWindow', {
-          tolerance: rhythmTolerance(item),
+          tolerance: rhythmTolerance(activeItem),
         })}
       </AppText>
       {running ? (
-        <Button variant="ghost" label={t('exercise.rhythmCancel')} onPress={recording.cancel} />
+        <Button
+          variant="ghost"
+          label={t(mode === 'practice' ? 'exercise.rhythmPracticeStop' : 'exercise.rhythmCancel')}
+          onPress={recording.cancel}
+        />
       ) : null}
       {recording.error ? (
         <AppText tone="danger" aria-live="polite">
           {t('exercise.audioError')}
         </AppText>
       ) : null}
-      {recording.progress.phase === 'complete' ? (
+      {recording.progress.phase === 'complete' && mode === 'test' ? (
         <AppText variant="footnote" tone="muted">
           {t('exercise.rhythmLatency', { latency: recording.latency })}
         </AppText>
@@ -192,11 +308,28 @@ export function RhythmAnswerInput({
           ) : null}
         </Card>
       ) : null}
+      <OptionSheet
+        visible={metronomeSheet}
+        onClose={() => {
+          setMetronomeSheet(false);
+        }}
+        title={t('exercise.rhythmMetronomeTitle')}
+        selected={metronome}
+        options={(['off', 'count-in', 'through'] as const).map((value) => ({
+          value,
+          label: t(`exercise.rhythmMetronome_${value}`),
+        }))}
+        onSelect={(value) => {
+          recording.reset();
+          setMetronome(value);
+        }}
+      />
     </View>
   );
 }
 const styles = StyleSheet.create({
   container: { gap: SPACE.m },
+  modes: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: SPACE.s },
   pad: {
     minHeight: TOUCH.buttonLarge * 2,
     gap: SPACE.s,

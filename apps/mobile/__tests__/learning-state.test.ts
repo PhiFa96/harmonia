@@ -1,7 +1,15 @@
 import { DatabaseSync } from 'node:sqlite';
 import type { Session, SupabaseClient } from '@supabase/supabase-js';
 import { firstLesson, catalogue } from '@harmonia/content/authoring';
-import { lessonEvent, placementBank } from '@harmonia/content';
+import {
+  lessonEvent,
+  placementBank,
+  lessonPlan,
+  weaknessPlan,
+  localLearningRatings,
+  newReviewCard,
+  localReviewState,
+} from '@harmonia/content';
 import type { PlacementAction } from '@harmonia/exercises';
 import type { LearningEvent, LearningSyncResponse } from '@harmonia/content';
 import {
@@ -44,6 +52,8 @@ const mockInvoke = jest.fn<
   Promise<{ data: unknown; error: Error | null }>,
   [string, InvokeOptions]
 >();
+const mockRpc = jest.fn<Promise<{ data: unknown; error: Error | null }>, []>();
+const mockRpcHeader = jest.fn<undefined, [string, string]>();
 jest.mock('@/storage/learning', () => ({
   getLearningRepository: () => Promise.resolve(mockRepository),
 }));
@@ -52,7 +62,16 @@ jest.mock('@/storage/lessons', () => ({
 }));
 jest.mock('@/auth', () => ({
   ...jest.requireActual<object>('@/auth'),
-  getAuthClient: () => ({ functions: { invoke: mockInvoke } }) as unknown as SupabaseClient,
+  getAuthClient: () =>
+    ({
+      functions: { invoke: mockInvoke },
+      rpc: () => ({
+        setHeader: (name: string, value: string) => {
+          mockRpcHeader(name, value);
+          return { abortSignal: () => mockRpc() };
+        },
+      }),
+    }) as unknown as SupabaseClient,
 }));
 let db: DatabaseSync;
 function login(id: string | null) {
@@ -130,6 +149,8 @@ beforeEach(async () => {
   await initializeLearningDatabase(adapter);
   mockRepository = createLearningRepository(adapter);
   mockInvoke.mockReset().mockResolvedValue({ data: null, error: new Error('Offline') });
+  mockRpc.mockReset().mockResolvedValue({ data: null, error: new Error('Offline') });
+  mockRpcHeader.mockReset();
   await learning.initializeLearning();
 });
 afterEach(async () => {
@@ -137,6 +158,155 @@ afterEach(async () => {
   db.close();
 });
 describe('Kontogebundene Lernpfad-Synchronisation', () => {
+  it('eine verzögerte Rating-Antwort schreibt nach Kontowechsel weder Snapshot noch erfolgreichen Status ins neue Konto', async () => {
+    let reply: (value: { data: unknown; error: null }) => void = () => {
+      throw new Error('Missing reply');
+    };
+    let reached: () => void = () => {
+      throw new Error('Missing signal');
+    };
+    const arrived = new Promise<void>((resolve) => {
+      reached = resolve;
+    });
+    const delayed = new Promise<{ data: unknown; error: null }>((resolve) => {
+      reply = resolve;
+    });
+    mockRpc.mockImplementation(() => {
+      reached();
+      return delayed;
+    });
+    mockInvoke.mockResolvedValue(ok());
+    login('a');
+    await learning.initializeLearning();
+    await arrived;
+    expect(mockRpcHeader).toHaveBeenCalledWith('Authorization', 'Bearer a');
+    const phases: string[] = [];
+    const unsubscribe = learning.useLearningState.subscribe((s) => {
+      if (s.scope === 'b') phases.push(s.sync);
+    });
+    try {
+      login('b');
+      learning.useLearningState.setState({ scope: 'b', sync: 'error', ratings: null });
+      mockInvoke.mockResolvedValue({ data: null, error: new Error('Offline') });
+      reply({
+        data: {
+          throughSequence: 0,
+          skills: {
+            foreign: { rating: 1700, deviation: 100, volatility: 0.06, attempts: 2, updatedAt: 0 },
+          },
+          buckets: {},
+        },
+        error: null,
+      });
+      await learning.syncLearning();
+      await learning.syncLearning();
+      expect(learning.useLearningState.getState().ratings).toBeNull();
+      expect(await mockRepository.ratings('b')).toBeNull();
+      expect(phases).not.toContain('idle');
+    } finally {
+      reply({ data: null, error: null });
+      unsubscribe();
+    }
+  });
+  it('eine verzögerte FSRS-Antwort schreibt nach Kontowechsel weder Snapshot noch erfolgreichen Status ins neue Konto', async () => {
+    let reply: (value: { data: unknown; error: null }) => void = () => {
+      throw new Error('Missing reply');
+    };
+    let reached: () => void = () => {
+      throw new Error('Missing signal');
+    };
+    const arrived = new Promise<void>((resolve) => {
+      reached = resolve;
+    });
+    const delayed = new Promise<{ data: unknown; error: null }>((resolve) => {
+      reply = resolve;
+    });
+    mockRpc
+      .mockResolvedValueOnce({ data: null, error: new Error('No rating snapshot') })
+      .mockImplementation(() => {
+        reached();
+        return delayed;
+      });
+    mockInvoke.mockResolvedValue(ok());
+    login('a');
+    await learning.initializeLearning();
+    await arrived;
+    expect(mockRpcHeader).toHaveBeenCalledWith('Authorization', 'Bearer a');
+    const phases: string[] = [];
+    const unsubscribe = learning.useLearningState.subscribe((s) => {
+      if (s.scope === 'b') phases.push(s.sync);
+    });
+    try {
+      login('b');
+      learning.useLearningState.setState({ scope: 'b', sync: 'error', reviews: null });
+      mockInvoke.mockResolvedValue({ data: null, error: new Error('Offline') });
+      reply({
+        data: {
+          throughSequence: 0,
+          throughPosition: 0,
+          skills: { foreign: newReviewCard(0) },
+          cards: {},
+        },
+        error: null,
+      });
+      await learning.syncLearning();
+      await learning.syncLearning();
+      expect(learning.useLearningState.getState().reviews).toBeNull();
+      expect(await mockRepository.reviews('b')).toBeNull();
+      expect(phases).not.toContain('idle');
+    } finally {
+      reply({ data: null, error: null });
+      unsubscribe();
+    }
+  });
+  it('bewahrt verdichtete Gast-Termine lokal und bevorzugt spätere eigene Server-Termine', async () => {
+    await learning.recordLearningEvent(event('retained-guest'));
+    const expected = localReviewState(catalogue, await mockRepository.list('guest'));
+    await mockRepository.compact('guest', catalogue, 3000);
+    mockInvoke.mockResolvedValue(ok());
+    mockRpc.mockResolvedValue({
+      data: { skills: {}, cards: {}, throughSequence: 0, throughPosition: 0 },
+      error: null,
+    });
+    login('a');
+    await learning.initializeLearning();
+    await learning.syncLearning();
+    expect(learning.useLearningState.getState().reviews?.skills).toEqual(expected.skills);
+    expect(learning.useLearningState.getState().reviews?.cards).toEqual(expected.cards);
+    expect(await mockRepository.reviews('b')).toBeNull();
+    const authoritative = {
+      ...expected,
+      throughSequence: 0,
+      throughPosition: 0,
+      skills: Object.fromEntries(
+        Object.entries(expected.skills).map(([id, card]) => [
+          id,
+          { ...card, due: card.due + 86400000 },
+        ]),
+      ),
+    };
+    mockRpc.mockResolvedValue({ data: authoritative, error: null });
+    await learning.syncLearning();
+    expect(learning.useLearningState.getState().reviews?.skills).toEqual(authoritative.skills);
+    expect(learning.useLearningState.getState().reviews?.cards).toEqual(authoritative.cards);
+  });
+  it('gezieltes Üben ersetzt keine ältere gültige Einstufung', async () => {
+    await learning.recordLearningEvent(placement('valid-placement', true));
+    expect(learning.useLearningState.getState().path.some((u) => u.status === 'tested')).toBe(true);
+    const anchor = lessonPlan(catalogue, 'notation.l1.staff.anchor');
+    if (!anchor) throw new Error('Missing anchor');
+    let prior = createLessonSession(anchor, 'weak-prior');
+    for (const item of prior.initial.items)
+      prior = nextLessonExercise(answerLesson(prior, expectedAnswer(item)));
+    const ratings = localLearningRatings(catalogue, [lessonEvent('prior', prior, 1, 2)]);
+    const weak = weaknessPlan(catalogue, ratings, [anchor.id], 2);
+    if (!weak) throw new Error('Missing weak plan');
+    let practice = createLessonSession(weak, 'weak-practice');
+    for (const item of practice.initial.items)
+      practice = nextLessonExercise(answerLesson(practice, expectedAnswer(item)));
+    await learning.recordLearningEvent(lessonEvent('weak-complete', practice, 3, 4));
+    expect(learning.useLearningState.getState().path.some((u) => u.status === 'tested')).toBe(true);
+  });
   it('Gastfortschritt bleibt lokal und wird erst bei Anmeldung genau einem Konto zugeordnet', async () => {
     await learning.recordLearningEvent(event());
     expect(mockInvoke).not.toHaveBeenCalled();

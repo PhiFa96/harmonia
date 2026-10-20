@@ -12,11 +12,13 @@ export function ExerciseChoices({
   item,
   answer,
   result,
+  disabled = false,
   onSelect,
 }: {
   readonly item: ExerciseItem;
   readonly answer: string | null;
   readonly result?: Evaluation;
+  readonly disabled?: boolean;
   readonly onSelect: (value: string) => void;
 }) {
   const { t } = useTranslation();
@@ -28,7 +30,7 @@ export function ExerciseChoices({
     haptics.tap();
     onSelect(value);
   };
-  useWebChoiceInput(group, { choices: item.choices, enabled: !result, select });
+  useWebChoiceInput(group, { choices: item.choices, enabled: !result && !disabled, select });
   return (
     <View ref={group} role="radiogroup" aria-label={t('exercise.answers')} style={styles.choices}>
       {item.choices.map((value, index) => {
@@ -42,11 +44,14 @@ export function ExerciseChoices({
             testID={`answer-${value}`}
             role="radio"
             aria-checked={selected}
-            aria-disabled={!!result}
+            aria-disabled={!!result || disabled}
             aria-label={`${label}${correct ? `, ${t('highlight.correct')}` : wrong ? `, ${t('highlight.wrong')}` : ''}`}
-            disabled={!!result}
+            disabled={!!result || disabled}
             {...(Platform.OS === 'web'
-              ? { tabIndex: !result && (selected || (answer === null && index === 0)) ? 0 : -1 }
+              ? {
+                  tabIndex:
+                    !result && !disabled && (selected || (answer === null && index === 0)) ? 0 : -1,
+                }
               : {})}
             onPress={() => {
               select(value);

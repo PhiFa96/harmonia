@@ -11,6 +11,9 @@ import {
   lessonReward,
   DEFAULT_REWARD_RULE,
   lessonDay,
+  learnerRatingCacheSchema,
+  reviewCacheSchema,
+  localReviewState,
 } from '@harmonia/content';
 import type {
   LearningEvent,
@@ -19,6 +22,8 @@ import type {
   LessonDraft,
   LessonRewardReceipt,
   ContentCatalogue,
+  LearnerRatingCache,
+  ReviewCache,
 } from '@harmonia/content';
 import type { LessonDatabase } from './lesson-repository.ts';
 import { parsePlacementData, EMPTY_PLACEMENT } from '../placement/model.ts';
@@ -155,6 +160,28 @@ export function createLearningRepository(db: LessonDatabase) {
     list,
     compact(scope: string, catalogue: ContentCatalogue, cutoff: number) {
       return transaction(async () => {
+        assertPrivacyWrite(scope);
+        const rows = await list(scope);
+        const previous = await this.reviews(scope);
+        const projected = localReviewState(catalogue, rows, previous);
+        // Compact answers only after storing their derived scheduling state atomically.
+        await db.runAsync(
+          'INSERT INTO learning_meta VALUES (?,?) ON CONFLICT(id) DO UPDATE SET value=excluded.value',
+          `reviews:${scope}`,
+          JSON.stringify(
+            reviewCacheSchema.parse({
+              ...projected,
+              throughSequence: Math.max(
+                previous?.throughSequence ?? 0,
+                ...rows.map((r) => r.sequence ?? 0),
+              ),
+              throughPosition: Math.max(
+                previous?.throughPosition ?? 0,
+                ...rows.filter((r) => r.sequence === null).map((r) => r.position),
+              ),
+            }),
+          ),
+        );
         const seen = new Set<string>(),
           removed: string[] = [];
         for (const row of await list(scope)) {
@@ -245,13 +272,61 @@ export function createLearningRepository(db: LessonDatabase) {
       return transaction(async () => {
         await db.runAsync('DELETE FROM learning_events WHERE scope=?', scope);
         await db.runAsync('DELETE FROM learning_cursors WHERE scope=?', scope);
-        for (const prefix of ['lesson:', 'reward:', 'view:', 'placement:'])
+        for (const prefix of ['lesson:', 'reward:', 'view:', 'placement:', 'ratings:', 'reviews:'])
           await db.runAsync(
             'DELETE FROM learning_meta WHERE id=? OR substr(id,1,length(?))=?',
             prefix + scope,
             prefix + scope + ':',
             prefix + scope + ':',
           );
+      });
+    },
+    async reviews(scope: LearningScope) {
+      const row = await db.getFirstAsync<{ value: string }>(
+        'SELECT value FROM learning_meta WHERE id = ?',
+        `reviews:${scope}`,
+      );
+      try {
+        const parsed = row ? reviewCacheSchema.safeParse(JSON.parse(row.value) as unknown) : null;
+        return parsed?.success ? parsed.data : null;
+      } catch {
+        return null;
+      }
+    },
+    saveReviews(scope: LearningScope, value: ReviewCache) {
+      assertPrivacyWrite(scope);
+      const payload = JSON.stringify(reviewCacheSchema.parse(value));
+      return transaction(async () => {
+        await db.runAsync(
+          'INSERT INTO learning_meta VALUES (?,?) ON CONFLICT(id) DO UPDATE SET value=excluded.value',
+          `reviews:${scope}`,
+          payload,
+        );
+      });
+    },
+    async ratings(scope: LearningScope) {
+      const row = await db.getFirstAsync<{ value: string }>(
+        'SELECT value FROM learning_meta WHERE id = ?',
+        `ratings:${scope}`,
+      );
+      if (!row) return null;
+      // A damaged disposable projection must not hide intact learning evidence.
+      try {
+        const parsed = learnerRatingCacheSchema.safeParse(JSON.parse(row.value) as unknown);
+        return parsed.success ? parsed.data : null;
+      } catch {
+        return null;
+      }
+    },
+    saveRatings(scope: LearningScope, value: LearnerRatingCache) {
+      assertPrivacyWrite(scope);
+      const payload = JSON.stringify(learnerRatingCacheSchema.parse(value));
+      return transaction(async () => {
+        await db.runAsync(
+          'INSERT INTO learning_meta VALUES (?,?) ON CONFLICT(id) DO UPDATE SET value = excluded.value',
+          `ratings:${scope}`,
+          payload,
+        );
       });
     },
     async drafts(scope: LearningScope): Promise<Record<string, LessonDraft>> {
@@ -358,10 +433,41 @@ export function createLearningRepository(db: LessonDatabase) {
         )) !== null
       );
     },
-    async claimGuest(scope: LearningScope) {
+    async claimGuest(scope: LearningScope, catalogue?: ContentCatalogue) {
       if (scope === GUEST_SCOPE) return;
       await transaction(async () => {
-        for (const row of await list(GUEST_SCOPE)) await insert(scope, row.event);
+        const guestRows = await list(GUEST_SCOPE);
+        const ownCache = await this.reviews(scope);
+        const ownState =
+          catalogue && guestRows.length
+            ? localReviewState(catalogue, await list(scope), ownCache)
+            : null;
+        const guestState =
+          catalogue && guestRows.length
+            ? localReviewState(catalogue, guestRows, await this.reviews(GUEST_SCOPE))
+            : null;
+        for (const row of guestRows) await insert(scope, row.event);
+        if (catalogue && guestRows.length && ownState && guestState) {
+          const rows = await list(scope);
+          const checkpoint = reviewCacheSchema.parse({
+            skills: { ...guestState.skills, ...ownState.skills },
+            cards: { ...guestState.cards, ...ownState.cards },
+            throughSequence: Math.max(
+              ownCache?.throughSequence ?? 0,
+              ...rows.map((r) => r.sequence ?? 0),
+            ),
+            throughPosition: Math.max(
+              ownCache?.throughPosition ?? 0,
+              ...rows.filter((r) => r.sequence === null).map((r) => r.position),
+            ),
+          });
+          await db.runAsync(
+            'INSERT INTO learning_meta VALUES (?,?) ON CONFLICT(id) DO UPDATE SET value=excluded.value',
+            `reviews:${scope}`,
+            JSON.stringify(checkpoint),
+          );
+        }
+        await db.runAsync('DELETE FROM learning_meta WHERE id=?', `reviews:${GUEST_SCOPE}`);
         await db.runAsync('DELETE FROM learning_events WHERE scope = ?', GUEST_SCOPE);
         const guest = await placement(GUEST_SCOPE),
           own = await placement(scope);

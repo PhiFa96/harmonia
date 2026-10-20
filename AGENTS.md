@@ -9,3 +9,5 @@ Projektkonventionen und fachliche Vorgaben stehen in `CLAUDE.md` und `docs/plan/
 - Arbeitsbranches nach erfolgreichem PR-Merge durch GitHubs automatische Branch-Löschung aufräumen lassen.
 
 Claude Code bleibt Hauptprogrammierer. Offene fachliche, rechtliche, Geräte- und Anbieterabnahmen ausdrücklich offen halten.
+
+Aktuelle Nutzeranweisung vom 16.10.2026: Codex lässt getestete Änderungen auf normalen Arbeitsbranches und erstellt selbst keine PRs oder Merges. Claude Code übernimmt anschließend den beschriebenen PR-/CI-/Integrationsablauf.

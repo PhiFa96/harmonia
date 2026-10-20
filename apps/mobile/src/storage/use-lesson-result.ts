@@ -1,3 +1,5 @@
+import { isPracticeLesson } from '@harmonia/content';
+import { recordPractice } from '../state/motivation.ts';
 import type { LessonSession } from '@harmonia/exercises';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createLessonAttempt } from './lesson-repository';
@@ -41,6 +43,11 @@ export function useLessonResult(
     void recordLessonLearning(attempt, owner.current, temporary.current, timeZone)
       .then(async () => {
         if (!temporary.current) await (await getLessonRepository()).save(attempt);
+        if (
+          isPracticeLesson(attempt.session.lesson.id) &&
+          owner.current === (useAuthState.getState().session?.user.id ?? 'guest')
+        )
+          await recordPractice().catch(() => undefined);
       })
       .then(
         () => {

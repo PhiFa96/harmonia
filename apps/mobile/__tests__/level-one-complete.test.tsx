@@ -7,6 +7,7 @@ import {
   expectedAnswer,
   nextLessonExercise,
   isAuralExercise,
+  isVoiceItem,
   knowledgeFactId,
   orderedValues,
   orderValueId,
@@ -141,6 +142,12 @@ describe('Restliche Stufe 1 im App-Spieler', () => {
       renderRouter('./src/app', { initialUrl: `/lesson?id=${id}` });
       const session = await intro(id);
       for (const item of session.initial.items) {
+        if (isVoiceItem(item)) {
+          fireEvent.press(
+            screen.getByRole('button', { name: 'Diese Mikrofonaufgabe überspringen' }),
+          );
+          continue;
+        }
         if (item.type === 'LISTENING_CHOICE')
           expect(screen.queryByTestId('listening-scores') !== null).toBe(
             item.question === 'rhythm-choice',
@@ -155,11 +162,15 @@ describe('Restliche Stufe 1 im App-Spieler', () => {
         expect(mockSave).toHaveBeenCalledTimes(1);
       });
       const saved = required(mockSave.mock.calls[0]?.[0]);
-      expect(saved.session.lesson).toMatchObject({ id, contentVersion: 11 });
+      expect(saved.session.lesson).toMatchObject({
+        id,
+        contentVersion: id === 'aural.l1.pitch-intervals.intervals' ? 14 : 11,
+      });
+      const voiceCount = session.initial.items.filter(isVoiceItem).length;
       expect(saved.summary).toMatchObject({
-        correct: session.initial.items.length,
-        answered: session.initial.items.length,
-        skipped: 0,
+        correct: session.initial.items.length - voiceCount,
+        answered: session.initial.items.length - voiceCount,
+        skipped: voiceCount,
         reviewTotal: 0,
       });
     },

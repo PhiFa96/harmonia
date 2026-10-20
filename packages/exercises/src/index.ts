@@ -7,13 +7,17 @@ export * from './feedback.ts';
 export * from './session.ts';
 export * from './lesson.ts';
 export * from './pitch-input.ts';
+export * from './voice.ts';
 export * from './tonality.ts';
 export * from './chords.ts';
+export * from './harmony-exercises.ts';
+export * from './dictation.ts';
 export * from './rhythm.ts';
 export * from './knowledge.ts';
 export * from './interval-reading.ts';
 export * from './placement.ts';
 export { createRng } from '@harmonia/theory';
+export { durationName, formatPitch } from '@harmonia/theory';
 
 import {
   generateAuralInterval,
@@ -186,6 +190,7 @@ export * from './context.ts';
 export * from './glicko2.ts';
 export * from './rating-buckets.ts';
 export * from './rating-period.ts';
+export * from './adaptive.ts';
 
 export { contextSourceText, contextNotationDescription } from './context-text.ts';
 

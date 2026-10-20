@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@harmonia/exercises": "workspace:*",
+    "ts-fsrs": "5.4.2",
     "zod": "catalog:"
   },
   "devDependencies": {

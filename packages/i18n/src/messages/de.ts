@@ -1,8 +1,346 @@
 import { contentMessages } from '@harmonia/i18n/content-messages';
+import levelThreeExercise from './level-three-exercise.json' with { type: 'json' };
+import levelFourExercise from './level-four-exercise.json' with { type: 'json' };
 // Texte der Oberfläche auf Deutsch. Diese Datei gibt die Schlüssel vor; en-US muss dieselben haben.
 // Fachbegriffe kommen aus dem Glossar: $t(glossary:…).
 
 export const de = {
+  voice: {
+    privacy:
+      'Das Mikrofon verarbeitet den Ton auf deinem Gerät. Die übernommenen Tonhöhen werden als Übungsantwort gespeichert; es wird keine Audioaufnahme gespeichert oder hochgeladen. Beim Verlassen oder im Hintergrund stoppt das Mikrofon.',
+    helpTone: 'Hilfeton spielen (zählt als Hinweis)',
+    detected: 'Erkannt: {{note}}',
+    waiting: 'Warte auf einen gehaltenen Ton …',
+    capture: 'Diesen Ton übernehmen',
+    progress: '{{count}} von {{total}} Tönen übernommen',
+    retry: 'Töne neu aufnehmen',
+    skip: 'Diese Mikrofonaufgabe überspringen',
+  },
+  tuner: {
+    title: 'Stimmgerät',
+    entry: 'Prüfe die Tonhöhe beim Singen oder Spielen.',
+    open: 'Stimmgerät öffnen',
+    intro: 'Spiele oder singe einen einzelnen, gehaltenen Ton in einer ruhigen Umgebung.',
+    privacyTitle: 'Mikrofonzugriff',
+    privacy:
+      'Das Mikrofon startet erst auf Knopfdruck. Audio wird nur auf deinem Gerät verarbeitet, weder gespeichert noch hochgeladen. Beim Verlassen oder im Hintergrund stoppt es.',
+    reference: 'Kammerton A: {{hz}} Hz',
+    start: 'Mikrofon starten',
+    stop: 'Mikrofon stoppen',
+    requesting: 'Mikrofonzugriff wird angefragt …',
+    permission:
+      'Mikrofonzugriff verweigert. Erlaube den Zugriff in den Geräteeinstellungen und versuche es erneut.',
+    interrupted: 'Die Mikrofonverbindung wurde unterbrochen. Starte sie erneut.',
+    unavailable: 'Das Mikrofon ist zurzeit nicht verfügbar. Prüfe Gerät und Browserberechtigungen.',
+    silent: 'Warte auf einen Ton …',
+    unstable: 'Halte einen einzelnen Ton etwas länger.',
+    frequency: '{{hz}} Hz',
+    cents: '{{cents}} Cent',
+    direction_low: 'Zu tief',
+    direction_center: 'Gestimmt',
+    direction_high: 'Zu hoch',
+    scale: 'Mitte = gestimmt; links zu tief, rechts zu hoch.',
+  },
+  friends: {
+    title: 'Freunde und Freundes-Quests',
+    entry: 'Lerne mit eingeladenen Freunden und erreicht gemeinsam ein Wochenziel.',
+    open: 'Freunde öffnen',
+    guest: 'Für Freundschaften brauchst du ein Konto und eine Internetverbindung.',
+    rules:
+      'Freunde kommen nur per Einladungslink oder Code hinzu. Keine Kontakt- oder Namenssuche. Freunde sehen deine aktuelle Lernserie und Liga-Stufe. Eine Quest zählt nur neue bestätigte XP ab ihrem Start; die Woche endet Montag um 00:00 UTC.',
+    loading: 'Freunde werden geladen …',
+    refresh: 'Freunde aktualisieren',
+    error_auth: 'Bitte melde dich erneut an.',
+    error_missing: 'Diese Einladung oder Freundschaft ist nicht mehr verfügbar.',
+    error_retry: 'Gleichzeitige Änderung. Versuche es erneut.',
+    error_limit: 'Eine Freundesliste ist voll (höchstens 50 Freunde).',
+    error_quest_active: 'Eine Person hat bereits eine Quest für diese Woche.',
+    error_unavailable: 'Der bestätigte Freundesstand konnte nicht geladen werden.',
+    inviteTitle: 'Einladung',
+    createInvite: 'Einladungslink erstellen',
+    inviteExpiry: 'Gültig bis {{date}}',
+    share: 'Link teilen oder kopieren',
+    shareMessage: 'Harmonia-Freundschaft: {{link}}\nEinladungscode: {{code}}',
+    code: 'Einladungscode oder Link',
+    accept: 'Einladung annehmen',
+    listTitle: 'Deine Freunde',
+    empty: 'Noch keine bestätigten Freunde.',
+    friend: 'Freund {{count}}',
+    stats: 'Lernserie: {{streak}} Tage · Liga-Stufe: {{tier}}',
+    startQuest: 'Wochenquest zusammen starten',
+    remove: 'Entfernen',
+    block: 'Blockieren',
+    confirmRemove: 'Diese Freundschaft und eine gemeinsame laufende Quest entfernen?',
+    confirmBlock: 'Diese Person blockieren und eine gemeinsame laufende Quest beenden?',
+    confirm: 'Bestätigen',
+    cancel: 'Abbrechen',
+    questTitle: 'Wochenquest',
+    questEmpty: 'Wähle einen bestätigten Freund für diese Woche. Ziel: zusammen 300 neue XP.',
+    questUsed:
+      'Deine Wochenquest wurde bereits begonnen oder beendet. Die nächste ist ab Montag (UTC) möglich.',
+    questPartner: 'Mit Freund {{number}}',
+    questProgress: 'Du: {{own}} XP · Freund: {{friend}} XP · Ziel: {{target}} XP',
+    questActive: 'Läuft bis Sonntagabend (UTC).',
+    questCompleted: 'Geschafft! Ihr habt beide ein Quest-Abzeichen erhalten.',
+    badges: 'Quest-Abzeichen: {{count}}',
+    blockedTitle: 'Blockierte Personen',
+    blocked: 'Blockierte Person {{count}}',
+    unblock: 'Blockierung aufheben',
+  },
+  puzzle: {
+    title: 'Tägliches Rätsel',
+    entry: 'Jeden Tag eine gemeinsame Aufgabe. Die Schwierigkeit steigt bis Sonntag.',
+    open: 'Heutiges Rätsel öffnen',
+    guest: 'Für deine Rätselserie brauchst du ein Konto und eine Internetverbindung.',
+    loading: 'Rätsel wird geladen …',
+    error: 'Das Rätsel konnte nicht geladen oder bestätigt werden. Versuche es erneut.',
+    newDay: 'Ein neuer Rätseltag hat begonnen. Lade das heutige Rätsel.',
+    reload: 'Rätsel neu laden',
+    day: 'Rätsel vom {{day}}',
+    streak_one: 'Rätselserie: {{count}} Tag',
+    streak_other: 'Rätselserie: {{count}} Tage',
+    reset: 'Neues Rätsel um Mitternacht ({{zone}}).',
+    difficulty: 'Schwierigkeitsstufe {{count}}',
+    unavailable: 'Für diesen Tag ist noch kein freigegebenes Rätsel verfügbar.',
+    oneAttempt: 'Ein Versuch für das heutige Rätsel',
+    correct: 'Richtig gelöst!',
+    incorrect: 'Heute leider nicht gelöst.',
+    tomorrow: 'Morgen wartet das nächste Rätsel.',
+    share: 'Ergebnis teilen oder kopieren',
+    shareText: 'Harmonia-Rätsel {{day}} {{symbol}} · Serie: {{streak}}',
+  },
+  duel: {
+    title: 'Duelle',
+    entry:
+      'Spiele drei Minuten gegen eine andere Person oder einen echten aufgezeichneten Rush-Lauf.',
+    open: 'Duelle öffnen',
+    guest: 'Für Duelle brauchst du ein Konto und eine Internetverbindung.',
+    loading: 'Duellstand wird geladen …',
+    error: 'Der bestätigte Duellstand konnte nicht geladen werden. Versuche es erneut.',
+    reload: 'Stand neu laden',
+    kind_live: 'Live-Duell',
+    kind_friend: 'Einladungsduell',
+    kind_ghost: 'Ghost-Duell',
+    ghostDisclosure:
+      'Du spielst gegen die Aufzeichnung eines echten Rush-Laufs. Der Ghost ist nicht live; dieses Duell ändert dein Rating nicht.',
+    friendDisclosure:
+      'Dieses Duell wurde per Einladungslink gestartet und ändert das Rating nicht.',
+    time: 'Verbleibende Zeit: {{time}}',
+    startIn: 'Start in {{seconds}} Sekunden',
+    scores: 'Du: {{own}} Punkte · Gegenüber: {{rival}} Punkte',
+    starting: 'Beide Seiten starten in Kürze.',
+    running: 'Die Zeit läuft auch bei Verbindungsabbruch weiter. Nur bestätigte Antworten zählen.',
+    question_one: 'Aufgabe {{count}} · Schwierigkeitsstufe {{difficulty}}',
+    question_other: 'Aufgabe {{count}} · Schwierigkeitsstufe {{difficulty}}',
+    progress: 'Duellzeit',
+    outcome_win: 'Gewonnen',
+    outcome_loss: 'Verloren',
+    outcome_draw: 'Unentschieden',
+    finalScore: 'Du: {{own}} Punkte · Gegenüber: {{rival}} Punkte',
+    rating: 'Duell-Rating: {{before}} → {{after}}',
+    unrated: 'Dieses Duell zählt nicht für das Rating.',
+    reward:
+      'Live-Duelle geben 10 XP bei Sieg und 3 XP bei Niederlage oder Unentschieden, höchstens 50 XP pro UTC-Tag.',
+    searching: 'Gegner wird gesucht …',
+    ghostWait:
+      'Nach etwa zehn Sekunden kann ein echter aufgezeichneter Lauf einspringen. Ohne passende Aufzeichnung läuft die Suche weiter.',
+    cancel: 'Suche beenden',
+    find: 'Live-Duell suchen',
+    invite: 'Einladungslink erstellen',
+    inviteReady: 'Einladung bereit',
+    share: 'Link teilen oder kopieren',
+    shareMessage: 'Harmonia-Duell: {{link}}\nEinladungscode: {{code}}',
+    acceptTitle: 'Einladung annehmen',
+    inviteCode: 'Einladungskennung',
+    accept: 'Einladung annehmen',
+    rules:
+      'Drei Minuten, dieselben Aufgaben und 10–50 Punkte pro richtiger Antwort. Live-Gegner werden nach Duell-Rating gepaart. Einladungen und Ghosts sind ohne Rating und XP. Die Antwortprüfung erfolgt auf dem Server.',
+  },
+  rush: {
+    title: 'Theorie-Rush',
+    entry: 'Wie viele Aufgaben schaffst du? Spiele gegen die Zeit oder bis zum dritten Fehler.',
+    open: 'Theorie-Rush öffnen',
+    guest:
+      'Melde dich an, um einen geprüften Lauf zu starten und in den Bestenlisten mitzuspielen. Ohne Konto kannst du die freien Übungen nutzen.',
+    account: 'Zum Konto',
+    mode_three: '3 Minuten',
+    mode_five: '5 Minuten',
+    mode_survival: 'Überleben',
+    scope_day: 'Heute',
+    scope_week: 'Diese Woche',
+    scope_all: 'Allzeit',
+    scope_friends: 'Freunde',
+    rules:
+      'Drei Fehler beenden jeden Lauf. Im Überlebensmodus gibt es kein Zeitlimit. Die Aufgaben werden schrittweise schwieriger und können auch Stoff aus späteren Kurseinheiten enthalten. Hinweise sind während des Laufs ausgeschaltet.',
+    scoring:
+      'Eine richtige Antwort gibt je nach Schwierigkeitsstufe 10 bis 50 Punkte. Ein abgeschlossener Lauf bringt 1 XP pro richtiger Antwort, höchstens 30 XP. Abgebrochene Läufe bringen keine XP. Rush schaltet keine Lektionen frei und vergibt keine Münzen oder Lerntage für die Serie.',
+    running:
+      'Du brauchst eine Internetverbindung. Die Zeit läuft beim Verlassen der Ansicht und bei Verbindungsabbrüchen weiter. Antworten zählen erst nach der Serverbestätigung.',
+    loading: 'Laufdaten werden geladen …',
+    source: 'Für Theorie-Rush sind noch keine fachlich freigegebenen Aufgaben verfügbar.',
+    limit: 'Dein Tageskontingent ist aufgebraucht.',
+    fast: 'Bitte warte kurz und prüfe deine Antwort erneut.',
+    error:
+      'Die Verbindung ist unterbrochen oder der Lauf wurde auf einem anderen Gerät fortgesetzt. Lade den bestätigten Stand neu.',
+    reload: 'Bestätigten Stand laden',
+    time: 'Verbleibende Zeit: {{time}}',
+    noTimer: 'Ohne Zeitlimit · Ende nach drei Fehlern',
+    score: '{{score}} Punkte · Fehler: {{mistakes}} von 3',
+    question_one: 'Aufgabe {{count}} · Schwierigkeitsstufe {{difficulty}}',
+    question_other: 'Aufgabe {{count}} · Schwierigkeitsstufe {{difficulty}}',
+    progress: 'Fehler bis zum Laufende',
+    showResult: 'Ergebnis ansehen',
+    stop: 'Lauf beenden',
+    abandon: 'Lauf abbrechen',
+    abandonConfirm:
+      'Diesen Lauf abbrechen? Er erscheint dann nicht in der Bestenliste, bringt keine XP und verbraucht weiterhin einen Start aus deinem Tageskontingent.',
+    keepPlaying: 'Weiterspielen',
+    result: 'Lauf bestätigt',
+    abandoned: 'Lauf abgebrochen',
+    resultScore: '{{score}} Punkte · {{correct}} richtig · {{mistakes}} Fehler',
+    reward: '{{xp}} XP wurden gutgeschrieben.',
+    noReward: 'Keine XP und kein Bestenlisteneintrag für diesen Abbruch.',
+    allowance:
+      'Starts heute: {{remaining}} von {{limit}} übrig. Neues Kontingent ab {{date}} (Tageswechsel um 00:00 UTC). Jeder gestartete Lauf zählt, auch bei Abbruch.',
+    start: 'Lauf starten',
+    upgrade: 'Abos ansehen',
+    leaderboard: 'Bestenlisten',
+    boardRules:
+      'Je Spielmodus und Aufgabenbank zählt dein bester bestätigter Lauf. Tag und Woche wechseln um 00:00 UTC, die Woche beginnt montags. Bei Punktgleichheit entscheiden weniger Fehler, dann der frühere Abschluss. Andere Konten erscheinen ohne Namen oder Profilangaben.',
+    friendsPending: 'Die Freundesbestenliste ist gerade nicht verfügbar.',
+    friendsIntro:
+      'Hier zählen dein bester Lauf und die besten Läufe beidseitig bestätigter Freundschaften. Blockierte oder entfernte Verbindungen zählen nicht.',
+    empty: 'Für diese Auswahl gibt es noch keine bestätigten Läufe.',
+    ownRank: 'Platz {{rank}} · Du · {{score}} Punkte',
+    rank: 'Platz {{rank}} · Lernperson · {{score}} Punkte',
+    back: 'Zurück zu den Übungen',
+  },
+  leagues: {
+    globalPushTitle: 'Systemmitteilungen erlauben',
+    globalPushBody:
+      'Diese Erlaubnis gilt für Lern-Erinnerungen und Liga-Ergebnisse. Die Kategorien wählst du einzeln aus. Beim Ausschalten werden beide abgewählt. Änderungen im Konto brauchen eine Serverbestätigung.',
+    title: 'Ligen',
+    intro:
+      'Lerne in deinem Tempo und sammle bestätigte XP in einer wöchentlichen Gruppe. Die Liga zeigt deine Aktivität, nicht dein musikalisches Können.',
+    guestTitle: 'Gemeinsam lernen',
+    guest:
+      'Mit einem Konto kommst du bei deinen ersten bestätigten XP der Woche in eine Gruppe. Dein privater Profilname bleibt verborgen.',
+    account: 'Anmelden oder Konto erstellen',
+    loading: 'Liga wird geladen …',
+    error:
+      'Die Liga konnte nicht aktualisiert werden. Prüfe deine Verbindung und versuche es erneut.',
+    stale:
+      'Diese Rangliste stammt vom letzten Abruf. Bis zur nächsten Aktualisierung können sich die Plätze ändern.',
+    refresh: 'Liga aktualisieren',
+    empty:
+      'Noch keine Gruppe in dieser Woche. Sobald neue Lektions-XP auf dem Server bestätigt sind, wirst du eingeteilt.',
+    week: 'Woche vom {{start}} bis {{end}}',
+    boundary: 'Wochenwechsel: Montag, 00:00 UTC. Bei dir endet diese Woche am {{date}}.',
+    xpRule:
+      'Es zählen nur XP, die der Server in dieser Woche bestätigt. Offline erspielte XP zählen in der Woche ihrer Übertragung. Frühere XP werden nicht nachgetragen.',
+    group_one: '{{count}} Person in deiner Gruppe',
+    group_other: '{{count}} Personen in deiner Gruppe',
+    capacity: 'Bis zu {{count}} Personen pro Gruppe.',
+    you: 'Du',
+    alias: 'Lernperson {{number}}',
+    row: 'Platz {{rank}} · {{name}} · {{xp}} XP',
+    row_promoted: 'Voraussichtlicher Aufstiegsplatz',
+    row_relegated: 'Voraussichtlicher Abstiegsplatz',
+    row_stayed: 'Voraussichtlicher Ligaerhalt',
+    forecast:
+      'Die markierten Plätze sind vorläufig. Das Ergebnis steht erst nach dem Wochenwechsel fest.',
+    rules:
+      'Bei voller Gruppe steigen die besten {{count}} auf und die letzten {{count}} ab. In kleinen Gruppen betrifft das höchstens die Hälfte je Richtung. Bei gleicher XP-Zahl zählt die frühere Aufnahme in die Gruppe. In pp ist kein Abstieg, in fff kein Aufstieg möglich.',
+    privacy:
+      'Andere sehen nur deine Kennung innerhalb dieser Gruppe und deine Wochen-XP. Die Kennung gilt nur für diese Gruppe. Es werden keine Namen, E-Mail-Adressen oder Kontokennungen angezeigt.',
+    resultTitle: 'Dein Wochenresultat',
+    result: 'Woche ab {{date}}: Platz {{rank}} mit {{xp}} XP.',
+    result_promoted: 'Aufgestiegen in die Liga {{level}}.',
+    result_relegated: 'Nächste Woche lernst du in der Liga {{level}}.',
+    result_stayed: 'Du bleibst in der Liga {{level}}.',
+    ack: 'Als gelesen markieren',
+    actionError: 'Die Änderung konnte nicht gespeichert werden. Versuche es erneut.',
+    levelsTitle: 'Die sieben Ligen',
+    levelsBody:
+      'Die Namen stammen von musikalischen Dynamikangaben. Sie bezeichnen hier die Liga, nicht die Lautstärke beim Üben.',
+    pushTitle: 'Liga-Ergebnisse als Mitteilung',
+    pushBody:
+      'Auf Wunsch erhältst du eine Mitteilung zum Wochenresultat. Lern-Erinnerungen lassen sich getrennt einstellen. Insgesamt höchstens ein Zustellversuch pro Tag, zur gewählten Erinnerungszeit und außerhalb der Ruhezeit von 21 bis 8 Uhr.',
+    pushWeb:
+      'Im Web erscheinen Ergebnisse hier in der App. Systemmitteilungen sind für die iOS- und Android-App vorgesehen.',
+    pushUnavailable:
+      'Systemmitteilungen benötigen einen dauerhaften Speicher und ein eingerichtetes Mobilgerät. Dein Ergebnis bleibt hier verfügbar.',
+    pushPermission:
+      'Mitteilungen sind in den Systemeinstellungen gesperrt. Erlaube sie dort und versuche es erneut.',
+    pushPending:
+      'Liga-Mitteilungen sind ausgewählt. Die Serverregistrierung ist noch nicht bestätigt; dein Ergebnis findest du jederzeit hier.',
+    pushRegistered: 'Liga-Mitteilungen sind auf diesem Gerät eingerichtet.',
+    level_pp: 'pp · $t(glossary:dynamicPianissimo)',
+    meaning_pp: 'sehr leise',
+    level_p: 'p · $t(glossary:dynamicPiano)',
+    meaning_p: 'leise',
+    level_mp: 'mp · $t(glossary:dynamicMezzoPiano)',
+    meaning_mp: 'mäßig leise',
+    level_mf: 'mf · $t(glossary:dynamicMezzoForte)',
+    meaning_mf: 'mäßig laut',
+    level_f: 'f · $t(glossary:dynamicForte)',
+    meaning_f: 'laut',
+    level_ff: 'ff · $t(glossary:dynamicFortissimo)',
+    meaning_ff: 'sehr laut',
+    level_fff: 'fff · $t(glossary:dynamicFortississimo)',
+    meaning_fff: 'äußerst laut',
+  },
+
+  review: {
+    title: 'Wiederholen',
+    intro: 'Frische Gelerntes auf. Deine Antworten bestimmen, wann es wieder dran ist.',
+    empty: 'Gerade ist nichts fällig. Lerne weiter oder schau später wieder vorbei.',
+    new: 'Nach deinen ersten Lektionen findest du hier gelernte Fähigkeiten und Wissenskarten.',
+    due: '{{skills}} Fähigkeiten und {{cards}} Wissenskarten sind fällig.',
+    open: 'Wiederholungen ansehen',
+    skillsTitle: 'Fällige Fähigkeiten',
+    skillsStart: 'Fähigkeiten wiederholen',
+    cardsTitle: 'Fällige Wissenskarten',
+    cardOpen: 'Karte öffnen: {{title}}',
+    recall:
+      'Was weißt du noch darüber? Erinnere dich zuerst selbst. Decke dann die Erklärung und das Beispiel auf.',
+    reveal: 'Erklärung aufdecken',
+    rate: 'Wie gut konntest du dich erinnern?',
+    again: 'Nicht gewusst',
+    hard: 'Schwer',
+    good: 'Gewusst',
+    easy: 'Leicht',
+    ratingHelp:
+      'Bewerte deine Erinnerung vor dem Aufdecken. „Nicht gewusst“ bedeutet, dass du die Erklärung gebraucht hast.',
+    scheduled: 'Nächste Wiederholung: {{date}}',
+    saving: 'Wiederholung wird gespeichert …',
+    saved: 'Wiederholung gespeichert.',
+    error: 'Speichern hat nicht geklappt. Deine Einschätzung bleibt zum erneuten Versuch erhalten.',
+    retry: 'Erneut speichern',
+    back: 'Zu den Wiederholungen',
+    next: 'Nächste Fälligkeit: {{date}}',
+    noRewards:
+      'Diese Wiederholung frischt Gelerntes auf. Sie schaltet keine Lektionen frei und vergibt keine XP oder Münzen.',
+    backlog:
+      'Es sind viele Wiederholungen offen. Schon eine kurze Runde hilft. Du kannst jederzeit pausieren.',
+    memory:
+      'Du lernst ohne dauerhaften Speicher. Deine Wiederholungen gelten nur für diese Sitzung.',
+  },
+  adaptive: {
+    weaknessTitle: 'Schwächen trainieren',
+    weaknessIntro:
+      'Zehn Aufgaben aus bis zu drei Fähigkeiten, die dir im bereits erreichten Stoff noch schwerfallen. Ohne Kursfreischaltung, XP oder Münzen.',
+    weaknessEmpty:
+      'Beantworte zunächst einige Aufgaben selbstständig. Sobald zu einer erreichten Fähigkeit mindestens zwei Antworten vorliegen, kannst du hier gezielt üben.',
+    weaknessStart: 'Gezielt üben',
+    lessonHint:
+      'Reihenfolge und Wiederholungen richten sich nach deinem bisherigen Lernen. Alle neuen Aufgaben bleiben enthalten; passende Fragen zielen auf etwa 70–85 % Erfolg.',
+    practiceLabel: 'Gezieltes Üben',
+    returnPractice: 'Zurück zum Üben',
+    focusSkills: 'Dein Fokus: {{skills}}',
+    practiceResult:
+      'Deine selbstständig beantworteten Aufgaben helfen bei der nächsten Auswahl. Dieser Übungsdurchgang schaltet keine Lektionen frei und vergibt keine XP oder Münzen.',
+  },
   privacy: {
     title: 'Datenschutz und Daten',
     body: 'Du entscheidest über optionale Verarbeitung. Dein Lernen funktioniert auch ohne Statistik und Marketing.',
@@ -655,6 +993,21 @@ export const de = {
     wrongTitle: 'Noch nicht ganz',
   },
   exercise: {
+    ...levelThreeExercise.de,
+    ...levelFourExercise.de,
+    type_SIGHT_SING: 'Vom Blatt singen',
+    type_SING_INTERVAL: 'Intervall singen',
+    type_PLAY_BACK: 'Melodie nachsingen',
+    question_SIGHT_SING: 'Singe die notierte Tonhöhe.',
+    question_SING_INTERVAL:
+      'Höre den Ausgangston und singe von dort das Intervall {{interval}} aufwärts.',
+    question_PLAY_BACK: 'Höre die kurze Melodie und singe ihre drei Töne nacheinander nach.',
+    voiceExplanation:
+      'Zieltöne: {{notes}}. Zulässige Abweichung je Ton: ±{{tolerance}} Cent; die Oktavlage ist frei wählbar, wenn alle Töne gleich verschoben sind.',
+    voiceOctaveShift:
+      'Richtig – du hast in einer anderen Oktavlage gesungen, das zählt. Zieltöne: {{notes}}. Zulässige Abweichung: ±{{tolerance}} Cent.',
+    voiceHint1: 'Höre auf den Ausgangston und halte jeden gesungenen Ton ruhig.',
+    voiceHint2: 'Singe die Töne einzeln und lasse dazwischen eine kurze Pause.',
     solutionImage: 'L\u00f6sungsbild',
     sourceReplay: 'Quellenbeispiel anh\u00f6ren',
     keyReplay:
@@ -1298,6 +1651,26 @@ export const de = {
       'Der Zähler gibt die Zahl der Einheiten an; der Nenner ihren Notenwert. Bei 6/8, 9/8 und 12/8 gehören jeweils drei Achtel zu einem Grundschlag.',
     meterHint2: 'Gruppiere die Einheiten so: {{groups}}. Jede Gruppe bildet einen Grundschlag.',
     rhythmReady: 'Bereit zum Einzählen.',
+    rhythmMode: 'Rhythmusmodus',
+    rhythmMode_practice: 'Üben',
+    rhythmMode_test: 'Prüfungsdurchlauf',
+    rhythmPracticeIntro:
+      'Übe denselben Takt ohne Wertung. Danach beginnt die Prüfung im Originaltempo. Üben zählt als Hilfe für diese Aufgabe.',
+    rhythmPracticeTempo: '{{bpm}} BPM ({{percent}} %)',
+    rhythmSlower: 'Langsamer −5',
+    rhythmFaster: 'Schneller +5',
+    rhythmLoopOn: 'Schleife an',
+    rhythmLoopOff: 'Schleife aus',
+    rhythmMetronomeTitle: 'Metronom beim Üben',
+    rhythmMetronome: 'Metronom: {{mode}}',
+    rhythmMetronome_off: 'Aus',
+    'rhythmMetronome_count-in': 'Nur Einzählen',
+    rhythmMetronome_through: 'Durchgehend',
+    rhythmPracticeBegin: 'Übung starten',
+    rhythmPracticeStop: 'Übung stoppen',
+    rhythmPracticeFinished: 'Übungsrunde beendet. Du kannst erneut üben oder zur Prüfung wechseln.',
+    rhythmPracticeFeedback:
+      'Runde {{round}}: {{matched}} von {{total}} Einsätzen getroffen, {{extras}} zusätzliche Anschläge. Ohne Wertung.',
     rhythmPreparing: 'Klang wird vorbereitet …',
     rhythmCountIn: 'Einzählen: {{current}} von {{count}}',
     rhythmRecording: 'Aufnahme: {{current}} von {{count}} Grundschlägen',
@@ -1320,31 +1693,71 @@ export const de = {
     rhythmLatency:
       'Gemeldete Audio-Verzögerung: {{latency}} ms; beim Messen deiner Anschläge berücksichtigt.',
     chordStart: 'Akkorde erkennen und schreiben',
+    harmonyStart: 'Harmonik und Diktat üben',
+    harmonyIntro:
+      'Kadenzen hören, Stufen bestimmen und kurze Melodien und Rhythmen nach Gehör eingeben.',
+    type_CADENCE_IDENTIFY: 'Kadenz erkennen',
+    type_FUNCTION_ANALYSIS: 'Stufe bestimmen',
+    type_MELODY_DICTATION: 'Melodiediktat',
+    type_RHYTHM_DICTATION: 'Rhythmusdiktat',
+    question_CADENCE_IDENTIFY: 'Höre die Akkordfolge in {{key}}. Wie endet sie?',
+    question_FUNCTION_ANALYSIS: 'Welche Stufe hat dieser Akkord in {{key}}?',
+    question_MELODY_DICTATION:
+      'Höre die Melodie und gib {{count}} Töne in der gehörten Reihenfolge ein. Der erste Ton ist C.',
+    question_RHYTHM_DICTATION:
+      'Höre den Rhythmus und gib die {{count}} Notenwerte in der gehörten Reihenfolge ein.',
+    cadence_authentic: 'Ganzschluss (V–I)',
+    cadence_plagal: 'Plagalschluss (IV–I)',
+    cadence_half: 'Halbschluss (I–V)',
+    cadence_deceptive: 'Trugschluss (V–vi)',
+    cadenceExplanation: 'In {{key}} endet die Folge mit {{answer}}.',
+    functionExplanation: 'Der Akkord gehört in {{key}} zu {{answer}}.',
+    dictationExplanation: 'Gehörte Folge: {{answer}}.',
+    harmonyHint1: 'Höre oder prüfe zuerst die Anfangs- und Schlusspunkte.',
+    harmonyHint2:
+      'Vergleiche die Folge Schritt für Schritt mit den angebotenen Tönen oder Funktionen.',
+    dictationProgress: '{{count}} von {{total}} Eingaben gesetzt',
+    dictationUndo: 'Letzte Eingabe entfernen',
     chordIntro:
       'Neun Aufgaben: Dur-, Moll-, verminderte und übermäßige Dreiklänge mit Umkehrungen schreiben, im Notenbild erkennen und nach Gehör bestimmen.',
     type_CHORD_BUILD: '$t(glossary:chord_other) schreiben',
     type_CHORD_IDENTIFY: '$t(glossary:chord_other) erkennen',
     question_CHORD_BUILD:
       'Schreibe diesen $t(glossary:chord_one) in enger Lage: {{name}}. Der $t(glossary:bassNote_one) {{bass}} ist vorgegeben; ergänze die zwei weiteren Töne.',
+    question_CHORD_BUILD_SEVENTH:
+      'Schreibe diesen Septakkord in enger Lage: {{name}}. Der Basston {{bass}} ist vorgegeben; ergänze die drei weiteren Töne.',
     question_CHORD_IDENTIFY:
       'Welchen $t(glossary:chord_one) siehst du? Bestimme den $t(glossary:root_one), die Art und die $t(glossary:inversion_one).',
     question_CHORD_AURAL:
       'Du hörst zuerst den $t(glossary:root_one) {{root}}, dann den $t(glossary:triad_one). Welche Art und $t(glossary:inversion_one) hörst du?',
+    question_CHORD_AURAL_SEVENTH:
+      'Du hörst zuerst den Grundton {{root}}, dann den Septakkord. Welche Art und Umkehrung hörst du?',
     chordExplanation:
       '{{name}}: {{notes}}. Vom $t(glossary:root_one) {{root}} aus liegen {{third}} und {{fifth}}. Der $t(glossary:bassNote_one) ist {{bass}}; daraus folgt {{inversion}}. Beim Schreiben zählen die vollständigen Töne einschließlich Vorzeichen und Oktave. Enge Lage bedeutet: Über dem Basston stehen die übrigen Akkordtöne in ihren nächsthöheren Lagen.',
+    chordSeventhExplanation:
+      '{{name}}: {{notes}}. Vom Grundton {{root}} aus liegen {{third}}, {{fifth}}{{extension}}. Der Basston ist {{bass}}; daraus folgt {{inversion}}. Beim Schreiben zählen vollständige Töne mit Vorzeichen und Oktave.',
     chordHint1:
       'Ordne die drei Stammtöne gedanklich in Terzschichtung. Der unterste Ton dieser Schichtung ist der $t(glossary:root_one). Vergleiche ihn mit dem tatsächlich tiefsten Ton: Grundton, Terz oder Quinte im Bass bestimmen die $t(glossary:rootPosition) oder $t(glossary:inversion_one).',
+    chordSeventhHint1:
+      'Ordne vier Akkordtöne in Terzschichtung. Grundton, Terz, Quinte oder Septime im Bass bestimmen die Umkehrung.',
     chordHint2:
       'Der $t(glossary:root_one) ist {{root}}. Von dort brauchst du {{third}} und {{fifth}}. Der vorgegebene oder gehörte $t(glossary:bassNote_one) {{bass}} zeigt dir die Lage; die übrigen Akkordtöne stehen möglichst nah darüber.',
+    chordSeventhHint2:
+      'Der Grundton ist {{root}}. Bestimme {{third}}, {{fifth}}{{extension}}. Der Basston {{bass}} zeigt die Umkehrung; setze die restlichen Töne möglichst nah darüber.',
     chordAuralHint1:
       'Merke dir den ersten einzelnen Ton als $t(glossary:root_one). Höre danach auf den tiefsten Ton des $t(glossary:chord_one): Vergleiche ihn mit dem Bezugston, auch über Oktaven hinweg. Grundton, Terz oder Quinte im Bass bestimmen die Lage. Die Abstände zwischen den Tönen bestimmen die Dreiklangart.',
+    chordSeventhAuralHint1:
+      'Merke dir den ersten Ton als Grundton. Höre dann auf den Basston und die Septime des Akkords. Vergleiche Grundton, Terz, Quinte und Septime, um die Umkehrung zu bestimmen.',
     chordPreview: 'Dein $t(glossary:chord_one)',
     chordSelectTone: 'Akkordton zur Bearbeitung wählen',
     chordTone: 'Ton {{index}}',
     chordToneEmpty: 'noch nicht gesetzt',
     chordFilled: '{{count}} von 2 Antworttönen gesetzt.',
+    chordFilledSeventh: '{{count}} von 3 Antworttönen gesetzt.',
     chordInputHint:
       'Wähle Ton 2 oder 3 und setze ihn im rechten $t(glossary:measure_one). Links bleibt der $t(glossary:bassNote_one) fest. Das gemeinsame Notenbild zeigt deinen $t(glossary:chord_one). Die oberen Töne kannst du in beliebiger Reihenfolge eingeben.',
+    chordInputHintSeventh:
+      'Wähle Ton 2, 3 oder 4 und setze ihn im rechten Takt. Der Basston bleibt fest. Die übrigen Töne kannst du in beliebiger Reihenfolge eingeben.',
     tonalityStart: 'Tonleitern und Tonarten üben',
     tonalityIntro:
       'Zwölf Aufgaben: Dur- und Molltonleitern erkennen und schreiben, Tonartvorzeichnungen bestimmen und selbst aufbauen.',
@@ -1637,6 +2050,18 @@ export const de = {
   piano: {
     settings: 'Anpassen',
     title: 'Klaviatur',
+    midiDevice: 'MIDI-Keyboard',
+    midiConnect: 'MIDI verbinden',
+    midiIntro:
+      'USB- oder bereits gekoppeltes Bluetooth-MIDI-Keyboard verbinden. Die Töne werden nur auf diesem Gerät verarbeitet.',
+    midiNoDevice:
+      'Noch kein MIDI-Eingabegerät gefunden. Verbinde ein Keyboard und prüfe die Kopplung.',
+    midiUnavailable:
+      'MIDI ist hier nicht verfügbar oder der Zugriff wurde abgelehnt. Prüfe Browser, Gerät und Berechtigungen.',
+    midiConnected: 'MIDI: {{device}}',
+    midiDisconnected: 'MIDI-Keyboard getrennt. Verbinde es erneut oder wähle ein anderes Gerät.',
+    midiVelocity: 'Anschlag {{velocity}}/127',
+    midiSustain: 'Sustain an',
     labels: 'Tonnamen',
     labels_none: 'Keine Beschriftung',
     labels_de: 'Deutsch (H/B)',
@@ -1729,6 +2154,8 @@ export const de = {
     gallery: 'Bausteine (nur Entwicklung)',
     licenses: 'Lizenzen',
     audioTest: 'Audio-Test (Messungen)',
+    fsrsLicense:
+      'Wiederholungsplanung: ts-fsrs 5.4.2 © 2026 Open Spaced Repetition, MIT-Lizenz. Vollständiger Lizenztext unter Recht & Informationen.',
     bravuraLicense:
       'Notenfont Bravura © Steinberg Media Technologies GmbH, SIL Open Font License 1.1',
     figtreeLicense: 'Schrift Figtree © 2022 The Figtree Project Authors, SIL Open Font License 1.1',

@@ -11,6 +11,9 @@ const directory = resolve(process.argv[2] ?? 'apps/mobile/dist');
 const published = publicCatalogue(catalogue);
 const allowedKeys = new Set(textKeys(published));
 const allowedTexts = new Set();
+// Diese beiden Qualitätsnamen werden unabhängig vom Kursinhalt bereits von der
+// öffentlichen P3.13-Akkord-Engine für freie Übungen ausgeliefert.
+for (const term of ['Mollseptakkord', 'Dominantseptakkord']) allowedTexts.add(term);
 // Allgemeine UI-/Glossarbegriffe sind schon öffentlich (z. B. „Dreiklänge“).
 // Die Standard-Ressourcen laden nur veröffentlichte Inhaltstexte, niemals Authoring-Daten.
 const resources = [RESOURCES];
