@@ -7,7 +7,7 @@ import {
   diatonicSevenths,
   findPivotModulation,
 } from './harmony.ts';
-import { ALL_KEYS, key } from './key.ts';
+import { ALL_KEYS, diatonicTriads, key } from './key.ts';
 import { formatNoteName, formatPitch, parseNoteName, parsePitch } from './pitch.ts';
 
 const c = (root: string, type: Parameters<typeof chord>[1], inversion = 0) =>
@@ -121,6 +121,44 @@ describe('Harmonik', () => {
     ).toMatchObject({ roman: '♭II', functionSymbol: 'N' });
   });
 
+  it('erkennt in melodischem a-Moll die Dreiklänge der aufwärts geführten Leiter', () => {
+    const a = k('A', 'minor');
+    const expected: readonly [string, Parameters<typeof chord>[1], number, string][] = [
+      ['A', 'minor', 1, 'i'],
+      ['B', 'minor', 2, 'ii'],
+      ['C', 'augmented', 3, 'III+'],
+      ['D', 'major', 4, 'IV'],
+      ['E', 'major', 5, 'V'],
+      ['F#', 'diminished', 6, 'vi°'],
+      ['G#', 'diminished', 7, 'vii°'],
+    ];
+    for (const [root, type, degree, roman] of expected) {
+      expect(
+        analyzeHarmony(c(root, type), a, { minorForm: 'melodic' }).find((x) => x.degree === degree),
+        `${root} ${String(type)}`,
+      ).toMatchObject({ roman });
+    }
+    // In natürlichem Moll bleibt Fis° unbekannt, Septakkorde weiter richtig.
+    expect(analyzeHarmony(c('F#', 'diminished'), a, { minorForm: 'natural' })).toEqual([]);
+  });
+
+  it('erkennt in allen Tonarten und Mollformen jeden leitereigenen Dreiklang auf seiner Stufe', () => {
+    for (const tonalKey of ALL_KEYS) {
+      for (const minorForm of tonalKey.mode === 'major'
+        ? (['natural'] as const)
+        : (['natural', 'harmonic', 'melodic'] as const)) {
+        for (const triad of diatonicTriads(tonalKey, { minorForm })) {
+          expect(
+            analyzeHarmony(triad.chord, tonalKey, { minorForm }).some(
+              (found) => found.degree === triad.degree && found.role !== 'secondary-dominant',
+            ),
+            `${tonalKey.tonic.letter}${String(tonalKey.tonic.alter)} ${tonalKey.mode} ${minorForm} Stufe ${String(triad.degree)}`,
+          ).toBe(true);
+        }
+      }
+    }
+  });
+
   it('klassifiziert Kadenzschlüsse und belegt einen Tonartwechsel mit Pivot und V–I', () => {
     expect(classifyCadence([c('G', 'dominant7'), c('C', 'major')], k('C'))).toBe('authentic');
     expect(classifyCadence([c('F', 'major'), c('C', 'major')], k('C'))).toBe('plagal');
@@ -132,5 +170,21 @@ describe('Harmonik', () => {
     expect(
       findPivotModulation([c('A', 'minor'), c('D', 'dominant7')], k('C'), k('G')),
     ).toBeUndefined();
+    // Der Neapolitaner ist kein diatonischer Pivot (♭II in C, aber nicht diatonisch in As).
+    expect(
+      findPivotModulation(
+        [c('Db', 'major'), c('Eb', 'dominant7'), c('Ab', 'major')],
+        k('C'),
+        k('Ab'),
+      ),
+    ).toBeUndefined();
+    // F ist IV in C-Dur und III (natürliches Moll) in d-Moll.
+    expect(
+      findPivotModulation(
+        [c('F', 'major'), c('A', 'dominant7'), c('D', 'minor')],
+        k('C'),
+        k('D', 'minor'),
+      ),
+    ).toMatchObject({ pivotIndex: 0, fromDegree: 4, toDegree: 3 });
   });
 });

@@ -3,7 +3,7 @@
 
 import { chord, chordTones } from './chord.ts';
 import type { Chord, ChordType } from './chord.ts';
-import { keyScale } from './key.ts';
+import { diatonicTriads, keyScale } from './key.ts';
 import type { Key, KeyScaleOptions } from './key.ts';
 import { sameNoteName, transpose, withOctave } from './pitch.ts';
 import type { NoteName, Pitch } from './pitch.ts';
@@ -116,12 +116,8 @@ export function analyzeHarmony(
   options: Pick<KeyScaleOptions, 'minorForm'> = {},
 ): HarmonyAnalysis[] {
   const scale = keyScale(tonalKey, options);
-  const triads: ChordType[] =
-    tonalKey.mode === 'major'
-      ? ['major', 'minor', 'minor', 'major', 'major', 'minor', 'diminished']
-      : options.minorForm === 'harmonic'
-        ? ['minor', 'diminished', 'augmented', 'minor', 'major', 'major', 'diminished']
-        : ['minor', 'diminished', 'major', 'minor', 'minor', 'major', 'major'];
+  // Aus Terzen der gewählten Leiter geschichtet (key.ts, gegen tonal geprüft), auch für melodisches Moll.
+  const triads: ChordType[] = diatonicTriads(tonalKey, options).map((triad) => triad.quality);
   const sevenths = diatonicSevenths(tonalKey, options);
   const analyses: HarmonyAnalysis[] = [];
   const functions = tonalKey.mode === 'major' ? MAJOR_FUNCTIONS : MINOR_FUNCTIONS;
@@ -238,25 +234,34 @@ export function findPivotModulation(
   to: Key,
 ): Modulation | undefined {
   if (sameNoteName(from.tonic, to.tonic) && from.mode === to.mode) return undefined;
-  const source = (c: Chord) =>
-    analyzeHarmony(c, from, { minorForm: from.mode === 'minor' ? 'harmonic' : 'natural' });
-  const target = (c: Chord) =>
-    analyzeHarmony(c, to, { minorForm: to.mode === 'minor' ? 'harmonic' : 'natural' });
+  // Pivotakkorde müssen in beiden Tonarten diatonisch sein (kein Neapolitaner, keine
+  // Zwischendominante). Moll prüft dafür natürliche und harmonische Form, damit auch Pivots wie
+  // F in d-Moll gelten. Dominante und Tonika der Zieltonart verwenden wie bisher nur harmonisches Moll.
+  const forms = (tonalKey: Key) =>
+    tonalKey.mode === 'minor' ? (['natural', 'harmonic'] as const) : (['natural'] as const);
+  const pivotRole = (c: Chord, tonalKey: Key) =>
+    forms(tonalKey)
+      .flatMap((minorForm) => analyzeHarmony(c, tonalKey, { minorForm }))
+      .find((a) => a.role !== 'secondary-dominant' && a.role !== 'neapolitan');
+  const functional = (c: Chord, tonalKey: Key) =>
+    analyzeHarmony(c, tonalKey, {
+      minorForm: tonalKey.mode === 'minor' ? 'harmonic' : 'natural',
+    }).filter((a) => a.role !== 'secondary-dominant');
   for (let i = 0; i < progression.length - 2; i++) {
     const pivot = at(progression, i);
     const dominant = at(progression, i + 1);
     const tonic = at(progression, i + 2);
-    const old = source(pivot).find((a) => a.role !== 'secondary-dominant');
-    const next = target(pivot).find((a) => a.role !== 'secondary-dominant');
+    const old = pivotRole(pivot, from);
+    const next = pivotRole(pivot, to);
     if (
       !old ||
       !next ||
-      !target(dominant).some((a) => a.degree === 5 && a.role !== 'secondary-dominant') ||
-      !target(tonic).some((a) => a.degree === 1 && a.role !== 'secondary-dominant')
+      !functional(dominant, to).some((a) => a.degree === 5) ||
+      !functional(tonic, to).some((a) => a.degree === 1)
     )
       continue;
     // Die neue Dominante muss in der alten Tonart einen neuen Bezug schaffen.
-    if (source(dominant).some((a) => a.degree === 5 && a.role !== 'secondary-dominant')) continue;
+    if (functional(dominant, from).some((a) => a.degree === 5)) continue;
     return {
       pivotIndex: i,
       dominantIndex: i + 1,
