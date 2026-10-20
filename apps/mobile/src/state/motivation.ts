@@ -174,7 +174,7 @@ export function motivationActivities(): MotivationActivity[] {
         : [],
     rules = useMotivation.getState().data?.rules ?? [DEFAULT_REWARD_RULE],
     seen = new Set<string>();
-  return [...rows]
+  const lessonActivities = [...rows]
     .sort(
       (a, b) =>
         (a.sequence ?? Number.MAX_SAFE_INTEGER) - (b.sequence ?? Number.MAX_SAFE_INTEGER) ||
@@ -215,6 +215,13 @@ export function motivationActivities(): MotivationActivity[] {
         return [];
       }
     });
+  const state = useMotivation.getState();
+  const rushActivities =
+    state.scope === motivationOwner() ? (state.data?.server?.rushActivities ?? []) : [];
+  return [
+    ...lessonActivities,
+    ...rushActivities.filter((a) => !lessonActivities.some((l) => l.id === a.id)),
+  ];
 }
 export function currentMotivation(now = Date.now(), extra?: MotivationActivity) {
   const state = useMotivation.getState(),
@@ -361,6 +368,7 @@ export function syncMotivation(): Promise<void> {
       .map((p) => p.purchase);
     const result = await client.functions.invoke('motivation', {
       body: {
+        rushFormat: 1,
         deviceId: device.id,
         deviceKey: device.key,
         deviceRevision: device.revision,

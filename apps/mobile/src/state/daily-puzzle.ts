@@ -1,0 +1,82 @@
+import { create } from 'zustand';
+import { puzzleViewSchema } from '@harmonia/content';
+import type { PuzzleView } from '@harmonia/content';
+import { configuredAuth } from '@/auth/config';
+import { useAuthState } from '@/auth';
+import { assertPrivacyWrite } from '@/privacy/guard';
+
+export const useDailyPuzzle = create<{
+  owner: string | null;
+  view: PuzzleView | null;
+  loading: boolean;
+  error: string | null;
+}>(() => ({ owner: null, view: null, loading: false, error: null }));
+let revision = 0;
+let busy = false;
+const owner = () => useAuthState.getState().session?.user.id ?? null;
+export function clearDailyPuzzle() {
+  revision++;
+  busy = false;
+  useDailyPuzzle.setState({ owner: owner(), view: null, loading: false, error: null });
+}
+export async function refreshDailyPuzzle(timeZone: string) {
+  await send(timeZone);
+}
+export async function answerDailyPuzzle(day: string, timeZone: string, answer: string) {
+  await send(timeZone, { action: 'answer', day, timeZone, answer });
+}
+async function send(timeZone: string, body?: object) {
+  const session = useAuthState.getState().session;
+  if (!session) {
+    clearDailyPuzzle();
+    return;
+  }
+  if (busy) return;
+  const actor = session.user.id;
+  if (useDailyPuzzle.getState().owner !== actor) clearDailyPuzzle();
+  const config = configuredAuth();
+  if (!config) {
+    useDailyPuzzle.setState({ error: 'auth' });
+    return;
+  }
+  busy = true;
+  const ticket = ++revision;
+  useDailyPuzzle.setState({ owner: actor, loading: true, error: null });
+  try {
+    assertPrivacyWrite(actor);
+    const response = await fetch(
+      config.url +
+        '/functions/v1/daily-puzzle' +
+        (body ? '' : '?timeZone=' + encodeURIComponent(timeZone)),
+      {
+        method: body ? 'POST' : 'GET',
+        headers: {
+          apikey: config.key,
+          Authorization: 'Bearer ' + session.access_token,
+          'Content-Type': 'application/json',
+        },
+        ...(body ? { body: JSON.stringify(body) } : {}),
+        signal: AbortSignal.timeout(15000),
+      },
+    );
+    const data: unknown = await response.json();
+    assertPrivacyWrite(actor);
+    if (owner() !== actor || ticket !== revision) return;
+    if (!response.ok) {
+      const code =
+        data && typeof data === 'object' && 'error' in data ? String(data.error) : 'unavailable';
+      throw new Error(
+        ['day', 'conflict', 'source', 'answer'].includes(code) ? code : 'unavailable',
+      );
+    }
+    useDailyPuzzle.setState({ view: puzzleViewSchema.parse(data), loading: false });
+  } catch (error) {
+    if (ticket === revision && owner() === actor)
+      useDailyPuzzle.setState({
+        loading: false,
+        error: error instanceof Error ? error.message : 'unavailable',
+      });
+  } finally {
+    if (ticket === revision) busy = false;
+  }
+}

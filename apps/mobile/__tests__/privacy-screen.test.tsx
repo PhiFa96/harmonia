@@ -2,7 +2,8 @@ import { UiProvider } from '@harmonia/ui/native';
 import { act, fireEvent, renderRouter, screen, waitFor } from 'expo-router/testing-library';
 import Privacy from '@/app/privacy';
 import Legal from '@/app/legal';
-import { usePrivacy } from '@/privacy/state';
+import { usePrivacy, initializePrivacy } from '@/privacy/state';
+import { useMotivation } from '@/state/motivation';
 import { useAuthState } from '@/auth';
 import { useDeviceState } from '@/state/device';
 import type { Session } from '@supabase/supabase-js';
@@ -50,7 +51,11 @@ it('requires a separate confirmation and subscription acknowledgement before del
   expect(mockDelete).not.toHaveBeenCalled();
   const button = screen.getByRole('button', { name: 'Konto endgültig löschen' });
   expect(button).toBeDisabled();
-  fireEvent.press(screen.getByRole('switch'));
+  fireEvent.press(
+    screen.getByRole('switch', {
+      name: 'Ich weiß, dass die Kontolöschung laufende Abos nicht kündigt.',
+    }),
+  );
   expect(button).not.toBeDisabled();
   fireEvent.press(button);
   await waitFor(() => {
@@ -82,4 +87,27 @@ it('keeps exports and account deletion disabled until device storage has initial
   view();
   expect(screen.getByRole('button', { name: 'Daten herunterladen' })).toBeDisabled();
   expect(screen.getByRole('button', { name: 'Kontolöschung öffnen' })).toBeDisabled();
+});
+
+it('provides an explicit global withdrawal without re-enabling learning reminders', async () => {
+  await initializePrivacy();
+  usePrivacy.setState({
+    owner: 'guest',
+    phase: 'ready',
+    choices: { push: true, analytics: false, marketing: false },
+  });
+  useMotivation.setState((s) => ({
+    scope: 'guest',
+    phase: 'ready',
+    memory: true,
+    data: s.data
+      ? { ...s.data, preferences: { ...s.data.preferences, reminderConsent: true } }
+      : null,
+  }));
+  view();
+  fireEvent.press(screen.getByRole('switch', { name: 'Systemmitteilungen erlauben' }));
+  await waitFor(() => {
+    expect(usePrivacy.getState().choices.push).toBe(false);
+    expect(useMotivation.getState().data?.preferences.reminderConsent).toBe(false);
+  });
 });

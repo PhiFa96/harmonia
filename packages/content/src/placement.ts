@@ -21,7 +21,13 @@ export function placementBank(catalogue: ContentCatalogue): PlacementBank {
                 level: level.number,
                 specs: catalogue.exerciseSets
                   .filter((set) => lesson.exerciseSetIds.includes(set.id))
-                  .flatMap((set) => set.exercises.map((entry) => entry.spec)),
+                  .flatMap((set) => set.exercises.map((entry) => entry.spec))
+                  .filter(
+                    (spec) =>
+                      spec.type !== 'SIGHT_SING' &&
+                      spec.type !== 'SING_INTERVAL' &&
+                      spec.type !== 'PLAY_BACK',
+                  ),
               })),
           ),
       )
@@ -43,6 +49,22 @@ export function placementBank(catalogue: ContentCatalogue): PlacementBank {
   for (let i = 0; i < input.length; i++)
     hash = Math.imul(hash ^ input.charCodeAt(i), 16777619) >>> 0;
   return { key: `placement-1:${hash.toString(16)}`, areas };
+}
+
+export function ratingPlacementBank(catalogue: ContentCatalogue): PlacementBank {
+  const previous = placementBank(catalogue);
+  return {
+    ...previous,
+    key: previous.key.replace('placement-1:', 'placement-2:'),
+    algorithm: 'glicko2-v1',
+    previous,
+  };
+}
+export function placementBankForKey(catalogue: ContentCatalogue, key: string) {
+  const current = ratingPlacementBank(catalogue);
+  if (current.key === key) return current;
+  if (current.previous?.key === key) return current.previous;
+  return undefined;
 }
 
 export interface PlacementRecommendation {

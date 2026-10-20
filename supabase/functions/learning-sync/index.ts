@@ -1,4 +1,5 @@
 import { observeHandler } from '../_shared/operations.ts';
+import { processPendingReviews } from '../_shared/reviews.ts';
 import { processPendingRatings } from '../_shared/ratings.ts';
 import { createClient } from 'npm:@supabase/supabase-js@2.117.3';
 import { catalogue } from '../../../packages/content/src/published.ts';
@@ -6,7 +7,6 @@ import {
   learningSyncRequestSchema,
   validateLearningEvent,
   lessonReward,
-  lessonProgress,
   rewardRuleSchema,
   rewardRuleAt,
   lessonDay,
@@ -14,6 +14,7 @@ import {
   accessSourceSchema,
   accessSourceDetails,
   retainLearningEvent,
+  REVIEW_LESSON_ID,
 } from '../../../packages/content/src/index.ts';
 import type { ContentCatalogue } from '../../../packages/content/src/index.ts';
 const learningRewardPageSchema = learningRowSchema
@@ -76,6 +77,7 @@ async function handler(request: Request): Promise<Response> {
     const proofs: { id: string; source: unknown; cost: number; level: number }[] = [];
     try {
       for (const event of parsed.data.events) {
+        if (event.finishedAt > Date.now() + 300000) throw new Error('Future completion');
         const proof = validateLearningEvent(current, event);
         summaries.push(retainLearningEvent(current, event));
         if (event.kind === 'lesson') {
@@ -93,7 +95,7 @@ async function handler(request: Request): Promise<Response> {
           const rule = rewardRuleAt(rewardRules, event.finishedAt);
           rewards.push({
             ruleVersion: rule.version,
-            qualified: lessonProgress(proof.session).passed,
+            qualified: proof.lesson?.passed ?? false,
             id: event.id,
             newAmount: lessonReward(proof.session, false, rule),
             repeatAmount: lessonReward(proof.session, true, rule),
@@ -121,6 +123,11 @@ async function handler(request: Request): Promise<Response> {
       // Canonical progress/XP is committed. Durable null rating_version resumes next sync/backfill.
       console.error('rating_projection_pending');
     }
+    try {
+      await processPendingReviews(client, current, data.user.id);
+    } catch {
+      console.error('review_projection_pending');
+    }
     const rows = await client.rpc('learning_reward_page', {
       actor: data.user.id,
       after_sequence: parsed.data.since,
@@ -129,7 +136,17 @@ async function handler(request: Request): Promise<Response> {
     const parsedRows = learningRewardPageSchema.safeParse(rows.data);
     if (!parsedRows.success) return json(503, { error: 'storage' });
     const page = parsedRows.data.slice(0, 200);
-    if (parsed.data.rowFormat !== 2 && page.some((row) => row.event.kind === 'retained'))
+    if (
+      (parsed.data.rowFormat !== 4 &&
+        page.some(
+          (row) =>
+            row.event.kind === 'card-review' ||
+            (row.event.kind === 'lesson' && row.event.lessonId === REVIEW_LESSON_ID),
+        )) ||
+      (parsed.data.rowFormat === undefined && page.some((row) => row.event.kind === 'retained')) ||
+      (![3, 4].includes(parsed.data.rowFormat ?? 0) &&
+        page.some((row) => row.event.kind === 'retained' && row.event.sourceKind === 'practice'))
+    )
       return json(426, { error: 'upgrade_required' });
     return json(200, {
       accepted: parsed.data.events.map((e) => e.id),

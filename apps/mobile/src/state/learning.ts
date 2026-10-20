@@ -8,8 +8,19 @@ import {
   legacyLessonEvent,
   lessonEvent,
   validateLearningEvent,
+  learnerRatingCacheSchema,
+  reviewCacheSchema,
+  localReviewState,
+  lessonExerciseSources,
 } from '@harmonia/content';
-import type { LearningEvent, LessonProgress, PathUnit, LessonDraft } from '@harmonia/content';
+import type {
+  LearningEvent,
+  LessonProgress,
+  PathUnit,
+  LessonDraft,
+  LearnerRatingCache,
+  ReviewCache,
+} from '@harmonia/content';
 import type { LessonAttempt } from '../storage/lesson-repository.ts';
 import type { StoredLearningEvent } from '../storage/learning-repository.ts';
 import { GUEST_SCOPE } from '../storage/learning-repository.ts';
@@ -24,8 +35,21 @@ import {
   flushPlacementWrites,
 } from './placement.ts';
 import { EMPTY_PLACEMENT } from '../placement/model.ts';
+import { ratingBucket } from '@harmonia/exercises';
+
+const ratingBuckets = [
+  ...new Set(
+    catalogue.lessons.flatMap((lesson) =>
+      (lessonExerciseSources(catalogue, lesson.id) ?? []).map((source) =>
+        ratingBucket(source.spec, source.contentVersion),
+      ),
+    ),
+  ),
+];
 
 interface LearningState {
+  readonly reviews: ReviewCache | null;
+  readonly ratings: LearnerRatingCache | null;
   readonly drafts: Readonly<Record<string, LessonDraft>>;
   readonly phase: 'loading' | 'ready' | 'error';
   readonly scope: string;
@@ -35,10 +59,12 @@ interface LearningState {
   readonly memory: boolean;
   readonly sync: 'guest' | 'idle' | 'syncing' | 'error';
   readonly areaId: string | null;
-  readonly level: 1 | 2 | null;
+  readonly level: 1 | 2 | 3 | 4 | null;
   readonly expanded: readonly string[];
 }
 export const useLearningState = create<LearningState>()(() => ({
+  reviews: null,
+  ratings: null,
   drafts: {},
   phase: 'loading',
   scope: GUEST_SCOPE,
@@ -66,7 +92,11 @@ function derive(rows: readonly StoredLearningEvent[]) {
     try {
       const validated = validateLearningEvent(catalogue, row.event);
       if (validated.lesson) progress.push(validated.lesson);
-      else placements.push({ row, tested: validated.testedUnitIds });
+      else if (
+        row.event.kind === 'placement' ||
+        (row.event.kind === 'retained' && row.event.sourceKind === 'placement')
+      )
+        placements.push({ row, tested: validated.testedUnitIds });
     } catch (e) {
       if (e instanceof EvidenceError && e.reason === 'changed') outdated++;
       else throw e;
@@ -81,9 +111,11 @@ function derive(rows: readonly StoredLearningEvent[]) {
 }
 async function refresh(expected = scope()) {
   const state = useLearningState.getState();
-  const rows = state.memory ? state.rows : await (await getLearningRepository()).list(expected);
+  const repo = state.memory ? null : await getLearningRepository();
+  const rows = repo ? await repo.list(expected) : state.rows;
+  const reviews = repo ? await repo.reviews(expected) : state.reviews;
   if (expected !== scope()) return;
-  useLearningState.setState({ ...derive(rows), rows, scope: expected, phase: 'ready' });
+  useLearningState.setState({ ...derive(rows), rows, reviews, scope: expected, phase: 'ready' });
 }
 function serialize<T>(fn: () => Promise<T>): Promise<T> {
   const work = queue.catch(() => undefined).then(fn);
@@ -99,6 +131,8 @@ export async function initializeLearning(): Promise<void> {
     rows: [],
     path: [],
     drafts: {},
+    reviews: null,
+    ratings: null,
     sync: 'guest',
   });
   try {
@@ -121,7 +155,7 @@ export async function initializeLearning(): Promise<void> {
           owner,
           placementState.storage === 'memory' ? EMPTY_PLACEMENT : placementState.data,
         );
-        await repo.claimGuest(owner);
+        await repo.claimGuest(owner, catalogue);
         const data = await repo.placement(owner),
           last = data.last;
         if (last && usePlacementState.getState().storage !== 'memory') {
@@ -137,8 +171,10 @@ export async function initializeLearning(): Promise<void> {
         }
         const view = await repo.view(owner);
         const drafts = await repo.drafts(owner);
+        const ratings = await repo.ratings(owner);
+        const reviews = await repo.reviews(owner);
         if (current === generation && owner === scope()) {
-          useLearningState.setState({ ...view, drafts });
+          useLearningState.setState({ ...view, drafts, ratings, reviews });
           configurePlacementStorage(data, (value) => repo.savePlacement(owner, value));
         }
       } else {
@@ -239,6 +275,8 @@ export function startTemporaryLearning() {
     scope: scope(),
     rows: [],
     drafts: {},
+    reviews: null,
+    ratings: null,
     ...derive([]),
     sync: 'guest',
   });
@@ -281,7 +319,7 @@ export function syncLearning(): Promise<void> {
       const since = await repo.cursor(owner);
       if (token !== generation || owner !== scope()) return;
       const result = await client.functions.invoke('learning-sync', {
-        body: { since, events, rewardFormat: 2, rowFormat: 2 },
+        body: { since, events, rewardFormat: 2, rowFormat: 4 },
         headers: { Authorization: `Bearer ${session.access_token}` },
         timeout: 15000,
       });
@@ -304,7 +342,62 @@ export function syncLearning(): Promise<void> {
       if (!response.more && pending.length <= events.length) {
         if (token === generation && owner === scope()) {
           await refresh(owner);
-          useLearningState.setState({ sync: 'idle' });
+          // Ratings are optional for learning availability; an older deployment/offline failure uses local replay.
+          const ratingRequest = new AbortController();
+          const ratingDeadline = setTimeout(() => {
+            ratingRequest.abort();
+          }, 10000);
+          try {
+            const read = await client
+              .rpc('learner_rating_snapshot', { bucket_ids: ratingBuckets })
+              .setHeader('Authorization', `Bearer ${session.access_token}`)
+              .abortSignal(ratingRequest.signal);
+            const ratings = read.error ? null : learnerRatingCacheSchema.parse(read.data);
+            if (ratings && token === generation && owner === scope()) {
+              await repo.saveRatings(owner, ratings);
+              if (token === generation && owner === scope()) useLearningState.setState({ ratings });
+            }
+          } catch {
+            /* Keep the last account-scoped snapshot. */
+          } finally {
+            clearTimeout(ratingDeadline);
+          }
+          if (token !== generation || owner !== scope()) return;
+          const reviewRequest = new AbortController();
+          const reviewDeadline = setTimeout(() => {
+            reviewRequest.abort();
+          }, 10000);
+          try {
+            const read = await client
+              .rpc('learner_review_snapshot')
+              .setHeader('Authorization', `Bearer ${session.access_token}`)
+              .abortSignal(reviewRequest.signal);
+            let reviews = read.error ? null : reviewCacheSchema.parse(read.data);
+            if (reviews && token === generation && owner === scope()) {
+              const previous = await repo.reviews(owner);
+              const throughSequence = reviews.throughSequence;
+              const rows = (await repo.list(owner)).filter((r) =>
+                r.sequence === null ? !r.pending : r.sequence <= throughSequence,
+              );
+              const fallback = localReviewState(catalogue, rows, previous);
+              // Retained guest history stays on this device. Server evidence wins every overlapping key.
+              reviews = {
+                ...reviews,
+                skills: { ...fallback.skills, ...reviews.skills },
+                cards: { ...fallback.cards, ...reviews.cards },
+                throughPosition: previous?.throughPosition ?? 0,
+              };
+              if (token !== generation || owner !== scope()) return;
+              await repo.saveReviews(owner, reviews);
+              if (token === generation && owner === scope()) useLearningState.setState({ reviews });
+            }
+          } catch {
+            /* Last own snapshot + local evidence keeps offline review available. */
+          } finally {
+            clearTimeout(reviewDeadline);
+          }
+          if (token === generation && owner === scope())
+            useLearningState.setState({ sync: 'idle' });
         }
         return;
       }
@@ -325,7 +418,7 @@ export function selectLearningArea(areaId: string | null) {
   useLearningState.setState({ areaId, level: null });
   saveView();
 }
-export function selectLearningLevel(level: 1 | 2 | null) {
+export function selectLearningLevel(level: 1 | 2 | 3 | 4 | null) {
   useLearningState.setState({ level });
   saveView();
 }

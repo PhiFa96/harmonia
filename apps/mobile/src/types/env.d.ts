@@ -2,6 +2,7 @@ export {};
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
+      readonly EXPO_PUBLIC_ADAPTIVE_LESSONS?: string;
       readonly EXPO_PUBLIC_AUTH_APPLE_ENABLED?: string;
       readonly EXPO_PUBLIC_AUTH_GOOGLE_ENABLED?: string;
       readonly EXPO_PUBLIC_AUTH_WEB_ORIGIN?: string;

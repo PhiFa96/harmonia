@@ -5,6 +5,14 @@ import type { PartialMessages } from './types.ts';
 import { contentMessages } from '@harmonia/i18n/content-messages';
 
 export const enGB = {
+  adaptive: {
+    weaknessTitle: 'Practise weak skills',
+    weaknessEmpty:
+      'First answer a few questions independently. Once a skill you have reached has at least two answers, you can practise it here.',
+    weaknessStart: 'Start focused practice',
+    practiceResult:
+      'Your independent answers help select future questions. This practice session does not unlock lessons or award XP or coins.',
+  },
   billing: {
     ends: 'Cancelled. Access until {{date}}.',
     renewal:

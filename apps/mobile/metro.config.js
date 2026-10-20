@@ -1,6 +1,7 @@
 // SQLite im Web lädt seine Engine als WASM im Worker.
 const { getDefaultConfig } = require('expo/metro-config');
 const { resolve } = require('node:path');
+const { createHash } = require('node:crypto');
 const config = getDefaultConfig(__dirname);
 const variant = process.env.APP_VARIANT || 'development';
 if (!['development', 'preview', 'production'].includes(variant)) {
@@ -8,7 +9,16 @@ if (!['development', 'preview', 'production'].includes(variant)) {
 }
 // Beide Einstiege sind statisch gewählt: Entwurfsdaten und -texte erreichen Metro in production nie.
 const published = variant === 'production';
-config.cacheVersion = `harmonia-content-${variant}`;
+// Expo inlines public configuration. Guest QA and local Auth exports must not
+// reuse transformed modules with a different backend/permission configuration.
+const publicEnvironment = Object.entries(process.env)
+  .filter(([name]) => name.startsWith('EXPO_PUBLIC_'))
+  .sort(([a], [b]) => a.localeCompare(b));
+const environmentHash = createHash('sha256')
+  .update(JSON.stringify(publicEnvironment))
+  .digest('hex')
+  .slice(0, 16);
+config.cacheVersion = `harmonia-content-${variant}-${environmentHash}`;
 const resolveRequest = config.resolver.resolveRequest;
 config.resolver.resolveRequest = (context, moduleName, platform) => {
   if (moduleName === '@harmonia/content/authoring' && published) {

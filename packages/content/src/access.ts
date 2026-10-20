@@ -5,7 +5,7 @@ import {
   PRACTICE_SETS,
 } from '@harmonia/exercises';
 import type { ContentCatalogue } from './catalogue-schema.ts';
-import { lessonPlan } from './lesson-flow.ts';
+import { lessonPlan, isPracticeLesson, practiceSourceLessons } from './lesson-flow.ts';
 import { resolveLesson } from './catalogue.ts';
 
 export const accessPolicySchema = z
@@ -88,8 +88,28 @@ export function accessSourceDetails(catalogue: ContentCatalogue, source: AccessS
     return { cost: createFreePracticeSession(source.set, source.seed).items.length, level: 0 };
   }
   const lesson = source.planKey
-    ? lessonPlan(catalogue, source.lessonId)
+    ? lessonPlan(catalogue, source.lessonId, source.planKey)
     : resolveLesson(catalogue, source.lessonId);
+  if (
+    isPracticeLesson(source.lessonId) &&
+    lesson &&
+    source.planKey &&
+    lesson.contentVersion === source.contentVersion
+  ) {
+    // All referenced levels count, so mixed practice cannot bypass a future premium level.
+    const refs = practiceSourceLessons(source.planKey);
+    const levels = refs.map((id) => {
+      const record = catalogue.lessons.find((l) => l.id === id);
+      const unit = catalogue.units.find((u) => u.id === record?.unitId);
+      return catalogue.levels.find((l) => l.id === unit?.levelId)?.number;
+    });
+    if (!levels.length || levels.some((level) => level === undefined))
+      throw new Error('Changed practice level');
+    return {
+      cost: lesson.exercises.length,
+      level: Math.max(...levels.filter((level) => level !== undefined)),
+    };
+  }
   const record = catalogue.lessons.find((l) => l.id === source.lessonId),
     unit = catalogue.units.find((u) => u.id === record?.unitId);
   if (

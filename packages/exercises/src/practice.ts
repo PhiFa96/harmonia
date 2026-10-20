@@ -170,6 +170,38 @@ export function createKnowledgeSession(seed: number | string) {
     ).flat(),
   );
 }
+const HARMONY_TYPES: readonly ExerciseSpec[] = [
+  { type: 'CADENCE_IDENTIFY', params: { fifths: [-1, 0, 1] } },
+  { type: 'FUNCTION_ANALYSIS', params: { fifths: [-1, 0, 1], degrees: [1, 2, 4, 5, 6] } },
+  { type: 'MELODY_DICTATION', params: { level: 1 } },
+  { type: 'RHYTHM_DICTATION', params: { level: 2 } },
+  {
+    type: 'CHORD_IDENTIFY',
+    params: {
+      types: ['dominant7', 'major7', 'minor7'],
+      roots: ['C', 'G'],
+      inversions: [0, 1, 2, 3],
+      clefs: ['treble'],
+    },
+  },
+  {
+    type: 'CHORD_BUILD',
+    params: {
+      types: ['dominant7', 'major7', 'minor7'],
+      roots: ['C', 'G'],
+      inversions: [0, 1, 2, 3],
+      clefs: ['treble'],
+    },
+  },
+];
+export function createHarmonySession(seed: number | string) {
+  const rng = createRng(seed);
+  return createSession(
+    Array.from({ length: 2 }, () =>
+      HARMONY_TYPES.map((spec) => generateExercise(spec, rng)),
+    ).flat(),
+  );
+}
 
 export const PRACTICE_CONTENT_VERSION = 1;
 export const PRACTICE_SETS = [
@@ -179,6 +211,7 @@ export const PRACTICE_SETS = [
   'chords',
   'rhythm',
   'knowledge',
+  'harmony',
   'mini',
 ] as const;
 export type PracticeSet = (typeof PRACTICE_SETS)[number];
@@ -208,6 +241,7 @@ export function createFreePracticeSession(set: PracticeSet, seed: number | strin
     chords: createChordSession,
     rhythm: createRhythmSession,
     knowledge: createKnowledgeSession,
+    harmony: createHarmonySession,
     mini: createMiniSession,
   }[set](seed);
 }

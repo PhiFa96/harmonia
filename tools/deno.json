@@ -14,6 +14,7 @@
     "@harmonia/exercises": "../packages/exercises/src/index.ts",
     "@harmonia/content": "../packages/content/src/index.ts",
     "i18next": "npm:i18next@26.4.3",
-    "zod": "npm:zod@4.6.5"
+    "zod": "npm:zod@4.6.5",
+    "ts-fsrs": "npm:ts-fsrs@5.4.2"
   }
 }

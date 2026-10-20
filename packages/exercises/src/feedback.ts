@@ -12,7 +12,10 @@ import { octaveName, octaveNamePitch } from './octave-names.ts';
 import { grandStaffTarget } from '@harmonia/notation';
 import { inputTarget } from './pitch-input.ts';
 import { listeningAnswer } from './listening.ts';
+import { isVoiceItem, voiceIntervalName, voiceOctaveError, voiceTargets } from './voice.ts';
 import { isHistoryTopic } from './knowledge.ts';
+import { cadenceAnswer, functionAnswer, functionChoiceLabel } from './harmony-exercises.ts';
+import { isDictationItem } from './dictation.ts';
 import {
   diatonicIndex,
   intervalBetween,
@@ -24,6 +27,7 @@ import {
   keyName,
   keySignature,
   midi,
+  fromMidi,
   scaleTypeName,
   SHARP_ORDER,
   FLAT_ORDER,
@@ -137,7 +141,27 @@ export function signatureNoteLabel(note: NoteName, locale: TextLocale): string {
 export function pitchInputLabel(pitch: Pitch, locale: TextLocale): string {
   return noteName(pitch, locale);
 }
+export function pitchInputMidiLabel(value: number, locale: TextLocale): string {
+  return pitchInputLabel(fromMidi(value), locale);
+}
 export function choiceLabel(item: ExerciseItem, answer: string, locale: TextLocale): string {
+  if (item.type === 'CADENCE_IDENTIFY') {
+    const kind = answer.slice(8);
+    const keys: Readonly<Record<string, TextKey>> = {
+      authentic: 'exercise.cadence_authentic',
+      plagal: 'exercise.cadence_plagal',
+      half: 'exercise.cadence_half',
+      deceptive: 'exercise.cadence_deceptive',
+    };
+    const key = keys[kind];
+    return item.choices.includes(answer) && key
+      ? translate(locale, key)
+      : translate(locale, 'exercise.unknownAnswer');
+  }
+  if (item.type === 'FUNCTION_ANALYSIS')
+    return item.choices.includes(answer)
+      ? functionChoiceLabel(item, answer)
+      : translate(locale, 'exercise.unknownAnswer');
   if (item.type === 'CONTEXT_CHOICE') return contextChoiceLabel(item, answer, locale);
   if (item.type === 'LISTENING_CHOICE') {
     if (!item.choices.includes(answer)) return translate(locale, 'exercise.unknownAnswer');
@@ -271,6 +295,16 @@ export function choiceLabel(item: ExerciseItem, answer: string, locale: TextLoca
   return noteName(pitch, locale, false);
 }
 export function exercisePrompt(item: ExerciseItem, locale: TextLocale): string {
+  if (item.type === 'CADENCE_IDENTIFY' || item.type === 'FUNCTION_ANALYSIS')
+    return translate(locale, `exercise.question_${item.type}`, {
+      key: keyName(item.key, engineLanguage(locale)),
+    });
+  if (isDictationItem(item))
+    return translate(locale, `exercise.question_${item.type}`, { count: item.pitches.length });
+  if (isVoiceItem(item))
+    return translate(locale, `exercise.question_${item.type}`, {
+      interval: voiceIntervalName(item),
+    });
   if (item.type === 'CONTEXT_CHOICE') return contextPrompt(item, locale);
   if (item.type === 'NOTE_NAME' && item.presentation === 'octave-name')
     return translate(locale, 'exercise.question_octaveName', {
@@ -318,9 +352,13 @@ export function exercisePrompt(item: ExerciseItem, locale: TextLocale): string {
     return translate(
       locale,
       item.type === 'CHORD_BUILD'
-        ? 'exercise.question_CHORD_BUILD'
+        ? isSeventhChord(item)
+          ? 'exercise.question_CHORD_BUILD_SEVENTH'
+          : 'exercise.question_CHORD_BUILD'
         : item.presentation === 'aural'
-          ? 'exercise.question_CHORD_AURAL'
+          ? isSeventhChord(item)
+            ? 'exercise.question_CHORD_AURAL_SEVENTH'
+            : 'exercise.question_CHORD_AURAL'
           : 'exercise.question_CHORD_IDENTIFY',
       {
         name: chordName(item.chord, engineLanguage(locale)),
@@ -402,7 +440,37 @@ export function exerciseFeedback(
   locale: TextLocale,
 ): ExerciseFeedback {
   let message: string;
-  if (item.type === 'CONTEXT_CHOICE') message = contextExplanation(item, locale);
+  if (isVoiceItem(item))
+    message = translate(
+      locale,
+      voiceOctaveError(item, result.answer)
+        ? 'exercise.voiceOctaveError'
+        : 'exercise.voiceExplanation',
+      {
+        notes: voiceTargets(item)
+          .map((pitch) => noteName(pitch, locale))
+          .join(' → '),
+        tolerance: item.toleranceCents,
+      },
+    );
+  else if (item.type === 'CADENCE_IDENTIFY')
+    message = translate(locale, 'exercise.cadenceExplanation', {
+      answer: choiceLabel(item, cadenceAnswer(item), locale),
+      key: keyName(item.key, engineLanguage(locale)),
+    });
+  else if (item.type === 'FUNCTION_ANALYSIS')
+    message = translate(locale, 'exercise.functionExplanation', {
+      answer: choiceLabel(item, functionAnswer(item), locale),
+      key: keyName(item.key, engineLanguage(locale)),
+    });
+  else if (isDictationItem(item))
+    message = translate(locale, 'exercise.dictationExplanation', {
+      answer:
+        item.type === 'MELODY_DICTATION'
+          ? item.pitches.map((pitch) => noteName(pitch, locale)).join(' → ')
+          : item.durations.map((value) => durationName(value, engineLanguage(locale))).join(' · '),
+    });
+  else if (item.type === 'CONTEXT_CHOICE') message = contextExplanation(item, locale);
   else if (item.type === 'NOTE_NAME' && item.presentation === 'octave-name') {
     const pitch = octaveNamePitch(item);
     message = translate(locale, 'exercise.octaveNameExplanation', {
@@ -475,7 +543,11 @@ export function exerciseFeedback(
       );
     }
   } else if (isChordItem(item))
-    message = translate(locale, 'exercise.chordExplanation', chordExplanationValues(item, locale));
+    message = translate(
+      locale,
+      isSeventhChord(item) ? 'exercise.chordSeventhExplanation' : 'exercise.chordExplanation',
+      chordExplanationValues(item, locale),
+    );
   else if (isScaleItem(item)) {
     message = translate(locale, 'exercise.scaleExplanation', {
       tonic: noteName(item.tonic, locale),
@@ -535,6 +607,18 @@ export function exerciseFeedback(
 export function exerciseHints(item: ExerciseItem, level: 1 | 2 | 3): ExerciseHint {
   if (item.type === 'CONTEXT_CHOICE') return { level, key: 'solution', values: {} };
   if (level === 3) return { level, key: 'solution', values: {} };
+  if (
+    item.type === 'CADENCE_IDENTIFY' ||
+    item.type === 'FUNCTION_ANALYSIS' ||
+    isDictationItem(item)
+  )
+    return {
+      level,
+      key: level === 1 ? 'exercise.harmonyHint1' : 'exercise.harmonyHint2',
+      values: {},
+    };
+  if (isVoiceItem(item))
+    return { level, key: level === 1 ? 'exercise.voiceHint1' : 'exercise.voiceHint2', values: {} };
   if (item.type === 'LISTENING_CHOICE')
     return {
       level,
@@ -597,10 +681,16 @@ export function exerciseHints(item: ExerciseItem, level: 1 | 2 | 3): ExerciseHin
       level,
       key:
         level === 2
-          ? 'exercise.chordHint2'
+          ? isSeventhChord(item)
+            ? 'exercise.chordSeventhHint2'
+            : 'exercise.chordHint2'
           : item.type === 'CHORD_IDENTIFY' && item.presentation === 'aural'
-            ? 'exercise.chordAuralHint1'
-            : 'exercise.chordHint1',
+            ? isSeventhChord(item)
+              ? 'exercise.chordSeventhAuralHint1'
+              : 'exercise.chordAuralHint1'
+            : isSeventhChord(item)
+              ? 'exercise.chordSeventhHint1'
+              : 'exercise.chordHint1',
       values: {},
     };
   if (isScaleItem(item))
@@ -677,7 +767,14 @@ export function hintText(item: ExerciseItem, hint: ExerciseHint, locale: TextLoc
       locale,
     ).message;
   if (hint.key === 'solution') return '';
-  if (item.type === 'LISTENING_CHOICE') return translate(locale, hint.key, hint.values);
+  if (
+    item.type === 'LISTENING_CHOICE' ||
+    item.type === 'CADENCE_IDENTIFY' ||
+    item.type === 'FUNCTION_ANALYSIS' ||
+    isDictationItem(item) ||
+    isVoiceItem(item)
+  )
+    return translate(locale, hint.key, hint.values);
   if (isIntervalReadingItem(item)) return translate(locale, hint.key, hint.values);
   if (isKnowledgeItem(item)) return translate(locale, hint.key, knowledgeValues(item, locale));
   if (isRhythmItem(item)) return translate(locale, hint.key, rhythmValues(item, locale));
@@ -751,6 +848,10 @@ function alterationText(pitch: Pitch, locale: TextLocale): string {
 
 /** Positionen statt Tonnamen: Vor dem Prüfen darf der Screenreader die Lösung nicht vorwegnehmen. */
 export function exerciseDescription(item: ExerciseItem, locale: TextLocale): string {
+  if (item.type === 'CADENCE_IDENTIFY' || isDictationItem(item))
+    return exercisePrompt(item, locale);
+  if (item.type === 'FUNCTION_ANALYSIS') return exercisePrompt(item, locale);
+  if (isVoiceItem(item)) return exercisePrompt(item, locale);
   if (item.type === 'CONTEXT_CHOICE') return contextPrompt(item, locale);
   if (item.type === 'LISTENING_CHOICE') return exercisePrompt(item, locale);
   if (item.type === 'KNOWLEDGE_MC' && item.presentation === 'symbol' && 'duration' in item.fact)
@@ -1063,6 +1164,9 @@ function rhythmValues(item: RhythmItem, locale: TextLocale) {
     tolerance: rhythmTolerance(item),
   };
 }
+function isSeventhChord(item: ChordItem): boolean {
+  return chordIntervals(item.chord.type).length === 4;
+}
 function chordExplanationValues(item: ChordItem, locale: TextLocale) {
   const value = resolvedChord(item),
     intervals = chordIntervals(value.type),
@@ -1083,7 +1187,12 @@ function chordExplanationValues(item: ChordItem, locale: TextLocale) {
       .join(' · '),
     third: intervalName(third, engineLanguage(locale)),
     fifth: intervalName(fifth, engineLanguage(locale)),
-    inversion: inversionName(value.inversion, engineLanguage(locale).language),
+    extension: intervals[3] ? `, ${intervalName(intervals[3], engineLanguage(locale))}` : '',
+    inversion: inversionName(
+      value.inversion,
+      engineLanguage(locale).language,
+      intervals.length === 4 ? 4 : 3,
+    ),
   };
 }
 function scalePattern(item: ScaleItem): string {

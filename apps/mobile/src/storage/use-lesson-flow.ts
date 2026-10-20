@@ -10,6 +10,8 @@ import type { LessonSession } from '@harmonia/exercises';
 import { useLearningState } from '../state/learning.ts';
 import { getLearningRepository } from './learning.ts';
 import { trackAnalytics } from '@/analytics/track';
+import { lessonSelectionGroup, lessonSelectionExperiment } from '@/content/adaptive-config';
+import { isPracticeLesson } from '@harmonia/content';
 
 type Plan = NonNullable<ReturnType<typeof lessonPlan>>;
 /** Besitzer und Speicherart gehören zum Durchgang, auch wenn später das Konto wechselt. */
@@ -20,15 +22,19 @@ export function useLessonFlow(plan: Plan) {
   const run = useRef(
     typeof saved?.seed === 'number' ? Math.max(0, saved.seed - Date.now() + 1) : 0,
   );
-  const fresh = (): { draft: LessonDraft; session: LessonSession | null } => {
+  const fresh = (): { draft: LessonDraft; session: LessonSession | null; plan: Plan } => {
     const now = Date.now();
+    const experiment = lessonSelectionExperiment(owner);
     return {
+      plan,
       draft: {
         schemaVersion: 1,
         id: randomUUID(),
         lessonId: plan.id,
         contentVersion: plan.contentVersion,
         planKey: plan.planKey,
+        selectionGroup: lessonSelectionGroup(owner),
+        ...(experiment ? { selectionExperiment: experiment } : {}),
         seed: now + run.current++,
         startedAt: now,
         finishedAt: null,
@@ -65,13 +71,18 @@ export function useLessonFlow(plan: Plan) {
   });
   const [resume, setResume] = useState(!!saved);
   useEffect(() => {
-    if (state.draft.started && !resume)
+    if (state.draft.started && !resume && !isPracticeLesson(plan.id))
       trackAnalytics(
         {
           name: 'lesson_started',
           lessonId: plan.id,
           contentVersion: plan.contentVersion,
           attemptId: state.draft.id,
+          selectionGroup: state.draft.selectionGroup ?? 'control',
+          ...(state.draft.selectionExperiment
+            ? { selectionExperiment: state.draft.selectionExperiment }
+            : {}),
+          selectionUsed: state.draft.planKey.startsWith('["flow:2"') ? 'adaptive' : 'fixed',
         },
         owner,
       );
@@ -126,11 +137,15 @@ export function useLessonFlow(plan: Plan) {
       const session = applyLessonAction(current.session, action);
       if (session === current.session) return current;
       return {
+        ...current,
         session,
         draft: {
           ...current.draft,
           actions: [...current.draft.actions, action],
-          answer: action.type === 'next' || action.type === 'skip' ? null : current.draft.answer,
+          answer:
+            action.type === 'next' || action.type === 'skip' || action.type === 'skipVoice'
+              ? null
+              : current.draft.answer,
           finishedAt:
             session.phase === 'complete' ? Math.max(current.draft.startedAt, Date.now()) : null,
         },
@@ -147,7 +162,7 @@ export function useLessonFlow(plan: Plan) {
         kind: 'lesson',
         lessonId: plan.id,
         contentVersion: plan.contentVersion,
-        planKey: plan.planKey,
+        planKey: draft.planKey,
         seed: draft.seed,
       });
       if (!mounted.current || accessActor !== accessOwner()) return;
@@ -165,7 +180,8 @@ export function useLessonFlow(plan: Plan) {
   const start = () => {
     void permit(state.draft, () => {
       setState((current) => ({
-        session: createLessonSession(plan, current.draft.seed),
+        ...current,
+        session: createLessonSession(current.plan, current.draft.seed),
         draft: { ...current.draft, started: true },
       }));
     });
@@ -179,6 +195,7 @@ export function useLessonFlow(plan: Plan) {
       setState(
         started
           ? {
+              ...next,
               draft: { ...next.draft, started: true },
               session: createLessonSession(plan, next.draft.seed),
             }

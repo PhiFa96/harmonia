@@ -8,12 +8,14 @@ import type {
   Pitch,
   Rng,
   TriadType,
+  SeventhType,
   TimeSignature,
   Duration,
   Interval,
 } from '@harmonia/theory';
 
 export type ExerciseType =
+  | VoiceExerciseType
   | 'CONTEXT_CHOICE'
   | 'LISTENING_CHOICE'
   | 'NOTE_NAME'
@@ -32,7 +34,12 @@ export type ExerciseType =
   | 'METER_IDENTIFY'
   | 'KNOWLEDGE_MC'
   | 'MATCH'
-  | 'ORDER';
+  | 'ORDER'
+  | 'CADENCE_IDENTIFY'
+  | 'FUNCTION_ANALYSIS'
+  | 'MELODY_DICTATION'
+  | 'RHYTHM_DICTATION';
+export type VoiceExerciseType = 'SING_INTERVAL' | 'SIGHT_SING' | 'PLAY_BACK';
 export type ExerciseClef = 'treble' | 'bass';
 export type IntervalPlayback = 'melodic-up' | 'melodic-down' | 'harmonic';
 
@@ -68,6 +75,12 @@ export interface AuralIntervalParams extends NoteParams {
   readonly intervals: readonly string[];
   readonly playback?: IntervalPlayback;
 }
+export interface VoiceParams extends NoteParams {
+  readonly level: 1 | 2 | 3;
+}
+export interface VoiceSequenceParams extends VoiceParams {
+  readonly intervals: readonly string[];
+}
 export type MvpScaleType = 'major' | 'naturalMinor' | 'harmonicMinor' | 'melodicMinor';
 export type ScaleDirection = 'ascending' | 'descending';
 export interface ScaleParams extends NoteParams {
@@ -82,10 +95,10 @@ export interface KeySignatureParams {
   readonly fifths?: readonly number[];
 }
 export interface ChordParams extends NoteParams {
-  readonly types: readonly TriadType[];
+  readonly types: readonly (TriadType | SeventhType)[];
   /** Kanonische ASCII-Stammtöne, z. B. C, F#, Bb; ohne Angabe alle darstellbaren Grundtöne. */
   readonly roots?: readonly string[];
-  readonly inversions?: readonly (0 | 1 | 2)[];
+  readonly inversions?: readonly (0 | 1 | 2 | 3)[];
   readonly diatonic?: boolean;
 }
 export interface ChordIdentifyParams extends ChordParams {
@@ -108,6 +121,18 @@ export interface RhythmParams extends MeterParams {
   readonly rests?: boolean;
   /** Maximale Abweichung in ms; zusätzlich auf 40 % des kürzesten Einsatzabstands begrenzt. */
   readonly toleranceMs?: number;
+}
+export interface CadenceParams {
+  readonly fifths?: readonly number[];
+  readonly types?: readonly ('authentic' | 'plagal' | 'half' | 'deceptive')[];
+}
+export interface FunctionParams {
+  readonly fifths?: readonly number[];
+  readonly degrees?: readonly (1 | 2 | 3 | 4 | 5 | 6 | 7)[];
+  readonly notation?: 'roman' | 'function';
+}
+export interface DictationParams {
+  readonly level?: 1 | 2;
 }
 export type ListeningQuestion =
   | 'pulse'
@@ -154,7 +179,28 @@ export type KnowledgeTopic =
   | 'keyboard'
   | 'pulse'
   | 'tempo'
-  | 'beatGroup';
+  | 'beatGroup'
+  | 'modes'
+  | 'modulation'
+  | 'phrases'
+  | 'forms'
+  | 'instrumentFamilies'
+  | 'instrumentScores'
+  | 'jazzHarmony'
+  | 'historyMethods'
+  | 'multivoice'
+  | 'complexRhythm'
+  | 'extendedChords'
+  | 'appliedHarmony'
+  | 'voiceLeading'
+  | 'figuredBass'
+  | 'sonata'
+  | 'analysis'
+  | 'jazzVoicings'
+  | 'orchestration'
+  | 'tuning'
+  | 'examAural'
+  | 'historySurvey';
 export interface DurationLimits {
   /** 0: nur unpunktierte Werte; Standard 1 bewahrt bestehende Aufgaben. */
   readonly maxDots?: 0 | 1;
@@ -177,7 +223,33 @@ export interface OrderParams extends DurationLimits {
   readonly direction?: ScaleDirection | 'both';
 }
 export type HistoryTopic =
-  'soundSources' | 'sourceTypes' | 'context' | 'periods' | 'genreContext' | 'evidence';
+  | 'soundSources'
+  | 'sourceTypes'
+  | 'context'
+  | 'periods'
+  | 'genreContext'
+  | 'evidence'
+  | 'modes'
+  | 'modulation'
+  | 'phrases'
+  | 'forms'
+  | 'instrumentFamilies'
+  | 'instrumentScores'
+  | 'jazzHarmony'
+  | 'historyMethods'
+  | 'multivoice'
+  | 'complexRhythm'
+  | 'extendedChords'
+  | 'appliedHarmony'
+  | 'voiceLeading'
+  | 'figuredBass'
+  | 'sonata'
+  | 'analysis'
+  | 'jazzVoicings'
+  | 'orchestration'
+  | 'tuning'
+  | 'examAural'
+  | 'historySurvey';
 export type HistoryKind =
   | 'voice'
   | 'instrument'
@@ -202,7 +274,82 @@ export type HistoryKind =
   | 'observation'
   | 'metadata'
   | 'inference'
-  | 'uncertainty';
+  | 'uncertainty'
+  | 'ionian'
+  | 'dorian'
+  | 'mixolydian'
+  | 'aeolian'
+  | 'pivot'
+  | 'tonicization'
+  | 'newTonic'
+  | 'commonTone'
+  | 'motive'
+  | 'phrase'
+  | 'antecedent'
+  | 'consequent'
+  | 'binary'
+  | 'ternary'
+  | 'rondo'
+  | 'variation'
+  | 'strings'
+  | 'woodwinds'
+  | 'brass'
+  | 'percussion'
+  | 'concertPitch'
+  | 'writtenPitch'
+  | 'transposition'
+  | 'scoreOrder'
+  | 'leadSheet'
+  | 'twoFiveOne'
+  | 'backbeat'
+  | 'loop'
+  | 'manuscript'
+  | 'edition'
+  | 'recordingDate'
+  | 'oralHistory'
+  | 'voices'
+  | 'alignment'
+  | 'clefs'
+  | 'systems'
+  | 'subdivision'
+  | 'tuplet'
+  | 'syncopation'
+  | 'hemiola'
+  | 'ninth'
+  | 'inversions'
+  | 'altered'
+  | 'spacing'
+  | 'secondary'
+  | 'confirmation'
+  | 'cadence'
+  | 'common'
+  | 'leading'
+  | 'parallels'
+  | 'range'
+  | 'bass'
+  | 'six'
+  | 'sixFour'
+  | 'realisation'
+  | 'exposition'
+  | 'development'
+  | 'recapitulation'
+  | 'coda'
+  | 'motivic'
+  | 'harmonic'
+  | 'guideTones'
+  | 'extensions'
+  | 'doubling'
+  | 'transposing'
+  | 'harmonics'
+  | 'pureFifth'
+  | 'equal'
+  | 'meantone'
+  | 'dictation'
+  | 'sight'
+  | 'chords'
+  | 'intervals'
+  | 'context'
+  | 'evidence';
 export type KnowledgeFact =
   | { readonly topic: HistoryTopic; readonly kind: HistoryKind }
   | { readonly topic: 'pulse'; readonly kind: 'pulse' | 'rhythm' | 'metronome' | 'countIn' }
@@ -224,6 +371,8 @@ export type OrderValue =
   | { readonly kind: 'duration'; readonly duration: Duration }
   | { readonly kind: 'pitch'; readonly pitch: Pitch };
 export type ExerciseSpec =
+  | { readonly type: 'SIGHT_SING'; readonly params: VoiceParams }
+  | { readonly type: 'SING_INTERVAL' | 'PLAY_BACK'; readonly params: VoiceSequenceParams }
   | { readonly type: 'CONTEXT_CHOICE'; readonly params: ContextParams }
   | { readonly type: 'LISTENING_CHOICE'; readonly params: ListeningParams }
   | { readonly type: 'KNOWLEDGE_MC'; readonly params: KnowledgeMcParams }
@@ -239,6 +388,9 @@ export type ExerciseSpec =
   | { readonly type: 'KEYSIG_BUILD'; readonly params: KeySignatureParams }
   | { readonly type: 'CHORD_BUILD'; readonly params: ChordParams }
   | { readonly type: 'CHORD_IDENTIFY'; readonly params: ChordIdentifyParams }
+  | { readonly type: 'CADENCE_IDENTIFY'; readonly params: CadenceParams }
+  | { readonly type: 'FUNCTION_ANALYSIS'; readonly params: FunctionParams }
+  | { readonly type: 'MELODY_DICTATION' | 'RHYTHM_DICTATION'; readonly params: DictationParams }
   | { readonly type: 'RHYTHM_TAP'; readonly params: RhythmParams }
   | { readonly type: 'METER_IDENTIFY'; readonly params: MeterIdentifyParams }
   | { readonly type: 'INTERVAL_IDENTIFY_VISUAL'; readonly params: VisualIntervalParams }
@@ -282,6 +434,16 @@ export interface IntervalBuildItem extends ItemBase {
   readonly playback: IntervalPlayback;
 }
 export type PitchInputItem = NotePlaceItem | KeyFindItem | IntervalBuildItem;
+interface VoiceItemBase extends ItemBase {
+  readonly pitches: readonly Pitch[];
+  readonly toleranceCents: 25 | 50;
+}
+export type VoiceItem = VoiceItemBase &
+  (
+    | { readonly type: 'SING_INTERVAL' }
+    | { readonly type: 'SIGHT_SING' }
+    | { readonly type: 'PLAY_BACK' }
+  );
 export interface ScaleItem extends ItemBase {
   readonly type: 'SCALE_BUILD' | 'SCALE_IDENTIFY';
   readonly tonic: Pitch;
@@ -301,6 +463,24 @@ export interface ChordItem extends ItemBase {
   readonly pitches: readonly Pitch[];
   readonly presentation: 'visual' | 'aural';
   readonly diatonic?: { readonly key: Key; readonly degree: number };
+}
+export interface CadenceItem extends ItemBase {
+  readonly type: 'CADENCE_IDENTIFY';
+  readonly key: Key;
+  readonly progression: readonly Chord[];
+}
+export interface FunctionItem extends ItemBase {
+  readonly type: 'FUNCTION_ANALYSIS';
+  readonly key: Key;
+  readonly chord: Chord;
+  readonly notation: 'roman' | 'function';
+}
+export interface DictationItem extends ItemBase {
+  readonly type: 'MELODY_DICTATION' | 'RHYTHM_DICTATION';
+  readonly pitches: readonly Pitch[];
+  readonly durations: readonly Duration[];
+  readonly inputPitches: readonly Pitch[];
+  readonly inputDurations: readonly Duration[];
 }
 export interface RhythmItem extends ItemBase {
   readonly type: 'RHYTHM_TAP' | 'METER_IDENTIFY';
@@ -347,9 +527,13 @@ export type ExerciseItem =
   | NoteItem
   | IntervalItem
   | PitchInputItem
+  | VoiceItem
   | ScaleItem
   | KeySignatureItem
   | ChordItem
+  | CadenceItem
+  | FunctionItem
+  | DictationItem
   | RhythmItem
   | KnowledgeExerciseItem;
 

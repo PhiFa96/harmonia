@@ -1,0 +1,9 @@
+# P3.12 – Rhythmus-Übungsmodus
+
+`RHYTHM_TAP` hat zwei sichtbar getrennte Durchläufe. **Üben** wiederholt denselben Takt ohne Antwort oder Wertung. Das Tempo lässt sich in 5-BPM-Schritten vom Originaltempo bis 40 BPM senken. Eine zuschaltbare Schleife startet nach jeder Runde einen neuen Einzähltakt. Die Metronomwahl ist aus, nur Einzählen oder durchgehend; bei ausgeschaltetem Metronom bleibt das Einzählen sichtbar und lautlos. Nach jeder Übungsrunde erscheinen getroffene Einsätze und zusätzliche Anschläge. Stoppen, Navigation, Hintergrundwechsel und Audio-Unterbrechung beenden die laufende Schleife.
+
+**Prüfungsdurchlauf** verwendet immer das unveränderte Aufgabentempo und das durchgehende Metronom. Nur ein vollständig beendeter Prüfungstake erzeugt eine `taps:`-Antwort für die vorhandene Engine-Wertung. Ein Übungstake kann den Prüfen-Knopf nicht aktivieren. Beim Wechsel der Modi wird eine vorherige unbewertete Antwort gelöscht. In Lernpfad, freiem Üben und Einstufung zählt der Start des Übungsmodus als Hilfe; die Aufgabe gilt anschließend nicht als ohne Hilfe gelöst. Wo Hinweise gesperrt sind (Rush, Duell, Tagesrätsel), erscheint der Übungsmodus nicht.
+
+Die Zeitbasis bleibt die Audio-Uhr mit dem vorhandenen Latenzausgleich. Übungs-Feedback vergleicht gegen dieselbe Notenquelle bei gewähltem Übungstempo; die Prüfungswertung verwendet unverändert das Originaltempo. Die Schleife enthält bewusst vor jeder Runde ein neues Einzählen, damit die Durchläufe klar getrennt bleiben.
+
+Geprüft: wiederholtes langsames Üben ohne Antwort, Metronom aus und nur Einzählen, einzelner Übungsdurchlauf, Wechsel zur Prüfung im Originaltempo, Hilfe-Markierung, bestehender Aufnahmeablauf, TypeScript, Übersetzungen und Web-Export. Die Bedienung und Klanglatenz auf echten iOS-/Android-Geräten bleiben für die Geräteabnahme offen.

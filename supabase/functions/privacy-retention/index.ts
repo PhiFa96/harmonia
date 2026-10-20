@@ -1,3 +1,4 @@
+import { processPendingReviews } from '../_shared/reviews.ts';
 import { createClient } from 'npm:@supabase/supabase-js@2.117.3';
 import {
   learningEventSchema,
@@ -30,10 +31,13 @@ Deno.serve(async (request) => {
     const current = local
       ? (await import('../../../packages/content/src/authoring.ts')).catalogue
       : catalogue;
+    // Inactive accounts must also keep their derived schedules before raw answers expire.
+    await processPendingReviews(client, current);
     const rows = await client
       .from('learning_events')
       .select('user_id,client_id,event,event_hash,retained_summary')
       .is('retained_at', null)
+      .eq('fsrs_version', 1)
       .lt('received_at', new Date(retentionCutoff(Date.now())).toISOString())
       .order('sequence')
       .limit(100)
@@ -71,6 +75,18 @@ Deno.serve(async (request) => {
     const cutoff = new Date(retentionCutoff(Date.now())).toISOString();
     const analytics = await client.rpc('analytics_retention');
     if (analytics.error) return json(503, { error: 'retention' });
+    const rush = await client.rpc('retain_rush');
+    if (rush.error) return json(503, { error: 'retention' });
+    const rushResult = rush.data as { changed: number; more: boolean };
+    const duels = await client.rpc('retain_duels');
+    if (duels.error) return json(503, { error: 'retention' });
+    const duelResult = duels.data as { changed: number; more: boolean };
+    const puzzle = await client.rpc('retain_daily_puzzles');
+    if (puzzle.error) return json(503, { error: 'retention' });
+    const puzzleResult = puzzle.data as { changed: number; more: boolean };
+    const friends = await client.rpc('retain_friend_quests');
+    if (friends.error) return json(503, { error: 'retention' });
+    const friendsResult = friends.data as { changed: number; more: boolean };
     const details = await client.rpc('privacy_retention_details');
     if (details.error) return json(503, { error: 'retention' });
     const detailResult = details.data as { changed: number; more: boolean };
@@ -97,11 +113,19 @@ Deno.serve(async (request) => {
     return json(200, {
       retained,
       details: detailResult.changed,
+      rush: rushResult.changed,
+      duels: duelResult.changed,
+      dailyPuzzles: puzzleResult.changed,
+      friends: friendsResult.changed,
       analytics: analytics.data as number,
       more:
         rows.data.length === 100 ||
         audit.data.length === 100 ||
         detailResult.more ||
+        rushResult.more ||
+        duelResult.more ||
+        puzzleResult.more ||
+        friendsResult.more ||
         analytics.data === 100,
     });
   } catch {

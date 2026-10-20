@@ -242,7 +242,7 @@ describe('Dreiklangübungen', () => {
       'chord:C:major:3',
       'chord:C♯:major:0',
       'chord:C:major:0\n',
-      'chord:C:dominant7:0',
+      'chord:C:dominant7:4',
     ])
       expect(() => chordFromId(invalid)).toThrow();
     const wrong = answerSession(revealHint(state), 'chord-notes:C4,E4,F4');
@@ -402,7 +402,7 @@ describe('Dreiklangübungen', () => {
   it('jede explizite Parametergruppe muss erreichbar sein; ungültige Wurzeln, Umkehrungen und Bereiche scheitern vor dem RNG', () => {
     const invalid = [
       { types: [] },
-      { types: ['dominant7'] },
+      { types: ['dominant13'] },
       { types: ['major'], roots: [] },
       { types: ['major'], roots: ['C♯'] },
       { types: ['major'], inversions: [3] },

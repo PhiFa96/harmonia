@@ -5,6 +5,9 @@ import { isAuralExercise } from './chords.ts';
 import { answerSession, createSession, revealHint } from './session.ts';
 import type { ExerciseSession } from './session.ts';
 import type { ExerciseSpec } from './types.ts';
+import { expectedRatingScore, INITIAL_RATING, updateGlicko2 } from './glicko2.ts';
+import type { Glicko2Rating } from './glicko2.ts';
+import { ADAPTIVE_TARGET } from './adaptive.ts';
 
 export interface PlacementCheckpoint {
   readonly id: string;
@@ -22,17 +25,21 @@ export interface PlacementArea {
 export interface PlacementBank {
   readonly key: string;
   readonly areas: readonly PlacementArea[];
+  readonly algorithm?: 'glicko2-v1';
+  readonly previous?: PlacementBank;
 }
 export interface PlacementTask {
   readonly areaId: string;
   readonly tier: number;
   readonly checkpoint: PlacementCheckpoint;
   readonly session: ExerciseSession;
+  readonly specIndex: number;
 }
 export type PlacementAction =
   | { readonly type: 'answer'; readonly answer: string }
   | { readonly type: 'hint' | 'next' | 'skip' | 'finish' };
 export interface PlacementSession {
+  readonly bankKey: string;
   readonly seed: string;
   readonly tasks: readonly PlacementTask[];
   readonly index: number;
@@ -53,10 +60,43 @@ export interface PlacementEstimate {
 export const PLACEMENT_MIN = 15;
 export const PLACEMENT_MAX = 25;
 
+/** Provisional ordered anchors, not empirical difficulty estimates. Versioned with placement-2. */
+export function placementDifficulty(tier: number): Glicko2Rating {
+  return { rating: 900 + 300 * tier, deviation: 100, volatility: 0.06 };
+}
+export function placementBankVersion(bank: PlacementBank, key: string): PlacementBank {
+  if (bank.key === key) return bank;
+  if (bank.previous?.key === key) return bank.previous;
+  throw new Error('Changed placement bank');
+}
+function independentTasks(state: PlacementSession, areaId: string) {
+  const seen = new Set<string>();
+  return state.tasks.filter((task) => {
+    const item = task.session.items[0];
+    if (task.areaId !== areaId || !item || !task.session.result || task.session.hintLevel !== 0)
+      return false;
+    const key = itemVariantKey(item);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+export function placementAreaRating(state: PlacementSession, areaId: string): Glicko2Rating {
+  // One diagnostic period. Never repeatedly apply the same answers as new periods.
+  return updateGlicko2(
+    INITIAL_RATING,
+    independentTasks(state, areaId).map((task) => ({
+      opponent: placementDifficulty(task.tier),
+      score: task.session.result?.correct ? 1 : 0,
+    })),
+  );
+}
+
 export function placementEstimates(
   bank: PlacementBank,
   state: PlacementSession,
 ): PlacementEstimate[] {
+  bank = placementBankVersion(bank, state.bankKey);
   return bank.areas.map((area) => {
     const tasks = state.tasks.filter((task) => task.areaId === area.id);
     const answered = tasks.filter((task) => task.session.result);
@@ -81,6 +121,20 @@ export function placementEstimates(
         confirmedTier = tier;
     if (confirmedTier === null && losses.filter((task) => task.tier === 0).length >= 2)
       confirmedTier = -1;
+    if (bank.algorithm === 'glicko2-v1') {
+      confirmedTier = null;
+      const rating = placementAreaRating(state, area.id);
+      if (evidence.length >= 2) {
+        confirmedTier = -1;
+        for (let tier = 0; tier < 4; tier++) {
+          if (
+            expectedRatingScore(rating, placementDifficulty(tier)) >= ADAPTIVE_TARGET.min &&
+            !losses.some((task) => task.tier <= tier)
+          )
+            confirmedTier = tier;
+        }
+      }
+    }
     const inconsistent = losses.some((loss) => wins.some((win) => win.tier > loss.tier));
     return {
       areaId: area.id,
@@ -99,6 +153,7 @@ export function currentPlacementTask(state: PlacementSession): PlacementTask | u
   return state.ended ? undefined : state.tasks[state.index];
 }
 function appendTask(bank: PlacementBank, state: PlacementSession): PlacementSession {
+  bank = placementBankVersion(bank, state.bankKey);
   const counts = new Map(
     bank.areas.map((area) => [area.id, state.tasks.filter((t) => t.areaId === area.id).length]),
   );
@@ -112,7 +167,7 @@ function appendTask(bank: PlacementBank, state: PlacementSession): PlacementSess
         ));
   if (!area || state.tasks.length >= PLACEMENT_MAX) return { ...state, ended: 'complete' };
   const previous = state.tasks.filter((task) => task.areaId === area.id).at(-1);
-  const tier = previous
+  let tier = previous
     ? Math.max(
         0,
         Math.min(
@@ -126,6 +181,28 @@ function appendTask(bank: PlacementBank, state: PlacementSession): PlacementSess
         ),
       )
     : 1;
+  if (bank.algorithm === 'glicko2-v1') {
+    const rating = placementAreaRating(state, area.id);
+    // Broaden the last diagnostic probe after two answers; recommendations use the mean.
+    // These exploration factors are provisional and require beta calibration.
+    const evidenceCount = independentTasks(state, area.id).length;
+    const selection = {
+      ...rating,
+      rating: rating.rating + rating.deviation * (evidenceCount >= 2 ? 1.5 : 0.75),
+    };
+    tier =
+      evidenceCount === 0
+        ? 1
+        : ([0, 1, 2, 3].sort(
+            (a, b) =>
+              Math.abs(
+                expectedRatingScore(selection, placementDifficulty(a)) - ADAPTIVE_TARGET.center,
+              ) -
+                Math.abs(
+                  expectedRatingScore(selection, placementDifficulty(b)) - ADAPTIVE_TARGET.center,
+                ) || a - b,
+          )[0] ?? 0);
+  }
   const checkpoint = area.checkpoints[tier];
   if (!checkpoint?.specs.length) throw new Error('Einstufungs-Stichprobe fehlt');
   const rng = createRng(`${state.seed}:${String(state.tasks.length)}:${area.id}`);
@@ -145,7 +222,10 @@ function appendTask(bank: PlacementBank, state: PlacementSession): PlacementSess
   const next: PlacementSession = {
     ...state,
     index: state.tasks.length,
-    tasks: [...state.tasks, { areaId: area.id, tier, checkpoint, session }],
+    tasks: [
+      ...state.tasks,
+      { areaId: area.id, tier, checkpoint, specIndex: checkpoint.specs.indexOf(spec), session },
+    ],
   };
   return session.skipped.length ? appendTask(bank, next) : next;
 }
@@ -156,7 +236,14 @@ export function createPlacement(bank: PlacementBank, seed: string): PlacementSes
     bank.areas.some((a) => a.checkpoints.length !== 4)
   )
     throw new Error('Kein vollständiger Einstufungskatalog verfügbar');
-  return appendTask(bank, { seed, tasks: [], index: 0, skipAural: false, ended: null });
+  return appendTask(bank, {
+    bankKey: bank.key,
+    seed,
+    tasks: [],
+    index: 0,
+    skipAural: false,
+    ended: null,
+  });
 }
 export function actPlacement(
   bank: PlacementBank,

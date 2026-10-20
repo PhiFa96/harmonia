@@ -8,7 +8,7 @@ import {
   singleStaffScore,
   stepOf,
 } from '@harmonia/notation';
-import type { Chord, NoteName, Pitch, Rng, TriadType } from '@harmonia/theory';
+import type { Chord, NoteName, Pitch, Rng, TriadType, SeventhType } from '@harmonia/theory';
 import {
   LETTERS,
   diatonicTriads,
@@ -16,6 +16,7 @@ import {
   chord,
   chordBass,
   chordPitches,
+  chordIntervals,
   chroma,
   comparePitches,
   duration,
@@ -38,14 +39,30 @@ export const MVP_TRIAD_TYPES = [
   'diminished',
   'augmented',
 ] as const satisfies readonly TriadType[];
+export const SEVENTH_TYPES = [
+  'dominant7',
+  'major7',
+  'minor7',
+  'minorMajor7',
+  'halfDiminished7',
+  'diminished7',
+  'augmented7',
+  'augmentedMajor7',
+] as const satisfies readonly SeventhType[];
 export function isChordItem(item: ExerciseItem): item is ChordItem {
   return item.type === 'CHORD_BUILD' || item.type === 'CHORD_IDENTIFY';
 }
 export function isAuralExercise(item: ExerciseItem): boolean {
   return (
     item.type === 'LISTENING_CHOICE' ||
+    item.type === 'PLAY_BACK' ||
+    item.type === 'SING_INTERVAL' ||
+    item.type === 'SIGHT_SING' ||
     item.type === 'INTERVAL_IDENTIFY_AURAL' ||
     item.type === 'RHYTHM_TAP' ||
+    item.type === 'CADENCE_IDENTIFY' ||
+    item.type === 'MELODY_DICTATION' ||
+    item.type === 'RHYTHM_DICTATION' ||
     (item.type === 'CHORD_IDENTIFY' && item.presentation === 'aural')
   );
 }
@@ -53,9 +70,16 @@ export function chordChoiceId(value: Chord): string {
   return `chord:${formatNoteName(value.root)}:${value.type}:${String(value.inversion)}`;
 }
 export function chordFromId(id: string): Chord {
-  const match = /^chord:([A-G](?:bb|b|##|#)?):(major|minor|diminished|augmented):([012])$/.exec(id);
+  const match =
+    /^chord:([A-G](?:bb|b|##|#)?):(major|minor|diminished|augmented|dominant7|major7|minor7|minorMajor7|halfDiminished7|diminished7|augmented7|augmentedMajor7):([0123])$/.exec(
+      id,
+    );
   if (!match?.[1] || !match[2] || !match[3]) throw new RangeError('Ungültige Akkord-ID');
-  const result = chord(parseNoteName(match[1]), match[2] as TriadType, Number(match[3]));
+  const result = chord(
+    parseNoteName(match[1]),
+    match[2] as TriadType | SeventhType,
+    Number(match[3]),
+  );
   if (chordChoiceId(result) !== id) throw new RangeError('Ungültige Akkord-ID');
   return result;
 }
@@ -70,14 +94,14 @@ export function resolvedChord(item: ChordItem): Chord {
   if (item.type === 'CHORD_BUILD') return item.chord;
   const matches = (
     item.presentation === 'aural'
-      ? identifyChordFromMidi(item.pitches.map(midi), { maxAccidentals: 2 }).filter((match) =>
-          sameNoteName(match.chord.root, item.chord.root),
-        )
-      : identifyChord(item.pitches)
+      ? identifyChordFromMidi(item.pitches.map(midi), {
+          maxAccidentals: 2,
+          extended: item.pitches.length > 3,
+        }).filter((match) => sameNoteName(match.chord.root, item.chord.root))
+      : identifyChord(item.pitches, { extended: item.pitches.length > 3 })
   ).filter((match) => !match.omitted.length);
   const [match] = matches;
-  if (matches.length !== 1 || !match)
-    throw new RangeError('Dreiklang ist nicht eindeutig bestimmbar');
+  if (matches.length !== 1 || !match) throw new RangeError('Akkord ist nicht eindeutig bestimmbar');
   return match.chord;
 }
 export function chordTargets(item: ChordItem): readonly Pitch[] {
@@ -89,7 +113,7 @@ export function chordTargets(item: ChordItem): readonly Pitch[] {
 export function chordReferencePitch(item: ChordItem): Pitch {
   const rootChroma = chroma({ ...item.chord.root, octave: 4 });
   const pitch = chordTargets(item).find((pitch) => chroma(pitch) === rootChroma);
-  if (!pitch) throw new RangeError('Grundtonbezug fehlt im vollständigen Dreiklang');
+  if (!pitch) throw new RangeError('Grundtonbezug fehlt im vollständigen Akkord');
   return pitch;
 }
 function stackScore(pitches: readonly Pitch[], clef: ChordItem['clef']): Score {
@@ -116,10 +140,14 @@ export function chordAnswerPitches(
   item: ChordItem,
   answer: string | null,
 ): readonly (Pitch | null)[] | undefined {
-  if (answer === null) return [item.bass, null, null];
-  if (!answer.startsWith('chord-notes:') || answer.length > 40) return undefined;
+  if (answer === null)
+    return [
+      item.bass,
+      ...Array.from({ length: chordIntervals(item.chord.type).length - 1 }, () => null),
+    ];
+  if (!answer.startsWith('chord-notes:') || answer.length > 60) return undefined;
   const parts = answer.slice(12).split(',');
-  if (parts.length !== 3) return undefined;
+  if (parts.length !== chordIntervals(item.chord.type).length) return undefined;
   const pitches = parts.map((value) =>
     value === '' ? null : writtenAnswerPitch(item.clef, value),
   );
@@ -140,7 +168,7 @@ export function chordAnswerScore(item: ChordItem, answer: string | null): Score 
 export function chordSolutionScore(item: ChordItem): Score {
   return stackScore(chordTargets(item), item.clef);
 }
-export function chordEditScore(item: ChordItem, answer: string | null, index: 1 | 2): Score {
+export function chordEditScore(item: ChordItem, answer: string | null, index: 1 | 2 | 3): Score {
   const pitch = chordAnswerPitches(item, answer)?.[index];
   return singleStaffScore(
     [
@@ -186,7 +214,7 @@ export function generateChord(
       {
         ...params,
         diatonic: false,
-        types: [context.chord.type],
+        types: [context.chord.type as TriadType],
         roots: [formatNoteName(context.chord.root)],
         inversions: [0],
       },
@@ -196,15 +224,31 @@ export function generateChord(
     return { ...item, diatonic: { key: context.key, degree: context.degree } };
   }
 
-  if (!params.types.length || params.types.some((value) => !MVP_TRIAD_TYPES.includes(value)))
-    throw new RangeError('Ungültige Dreiklangart');
+  if (
+    !params.types.length ||
+    params.types.some((value) => ![...MVP_TRIAD_TYPES, ...SEVENTH_TYPES].includes(value))
+  )
+    throw new RangeError('Ungültige Akkordart');
   const types = [...new Set(params.types)],
-    inversions = [...new Set(params.inversions ?? [0, 1, 2])];
+    inversions = [
+      ...new Set(
+        params.inversions ??
+          (types.every((value) => MVP_TRIAD_TYPES.includes(value as TriadType))
+            ? [0, 1, 2]
+            : [0, 1, 2, 3]),
+      ),
+    ];
   if (
     !inversions.length ||
-    inversions.some((inversion) => !Number.isInteger(inversion) || inversion < 0 || inversion > 2)
+    inversions.some(
+      (inversion) => !Number.isInteger(inversion) || inversion < 0 || inversion > 3,
+    ) ||
+    (params.inversions !== undefined &&
+      types.some((quality) =>
+        inversions.some((inversion) => inversion >= chordIntervals(quality).length),
+      ))
   )
-    throw new RangeError('Dreiklang-Umkehrung muss 0 bis 2 sein');
+    throw new RangeError('Akkord-Umkehrung muss 0 bis 3 sein');
   const presentation = params.presentation ?? 'visual';
   if (
     !['visual', 'aural'].includes(presentation) ||
@@ -231,57 +275,61 @@ export function generateChord(
     pitches: pitchPool(rangeFor(params, clef), limit),
   }));
   const groups = types.flatMap((quality) =>
-    inversions.flatMap((inversion) =>
-      (params.roots ? roots.map((root) => [root]) : [roots]).map((allowedRoots) => {
-        const candidates = allowedRoots.flatMap((root) => {
-          let value: Chord;
+    inversions
+      .filter((inversion) => inversion < chordIntervals(quality).length)
+      .flatMap((inversion) =>
+        (params.roots ? roots.map((root) => [root]) : [roots]).map((allowedRoots) => {
+          const candidates = allowedRoots.flatMap((root) => {
+            let value: Chord;
+            try {
+              value = chord(root, quality, inversion);
+            } catch (error) {
+              if (error instanceof RangeError) return [];
+              throw error;
+            }
+            const bassName = chordBass(value);
+            return pools.flatMap((pool) =>
+              pool.pitches
+                .filter((pitch) => sameNoteName(pitch, bassName))
+                .flatMap((bass) => {
+                  const pitches = chordPitches(value, { octave: bass.octave });
+                  if (
+                    !pitches.every(
+                      (pitch) =>
+                        midi(pitch) >= pool.range.minMidi &&
+                        midi(pitch) <= pool.range.maxMidi &&
+                        Math.abs(pitch.alter) <= limit &&
+                        stepOf(pitch, pool.clef) >= MIN_STEP &&
+                        stepOf(pitch, pool.clef) <= MAX_STEP,
+                    )
+                  )
+                    return [];
+                  return [{ chord: value, clef: pool.clef, bass, pitches }];
+                }),
+            );
+          });
+          if (!candidates.length)
+            throw new RangeError('Akkord im erlaubten Bereich nicht vollständig darstellbar');
+          return candidates;
+        }),
+      ),
+  );
+  const chosen = rng.pick(rng.pick(groups));
+  const available = types.flatMap((quality) =>
+    inversions
+      .filter((inversion) => inversion < chordIntervals(quality).length)
+      .flatMap((inversion) => {
+        // Beim Hören werden keine abweichenden/enharmonischen Grundtöne angeboten.
+        const optionRoots = presentation === 'aural' ? [chosen.chord.root] : roots;
+        return optionRoots.flatMap((root) => {
           try {
-            value = chord(root, quality, inversion);
+            return [chordChoiceId(chord(root, quality, inversion))];
           } catch (error) {
             if (error instanceof RangeError) return [];
             throw error;
           }
-          const bassName = chordBass(value);
-          return pools.flatMap((pool) =>
-            pool.pitches
-              .filter((pitch) => sameNoteName(pitch, bassName))
-              .flatMap((bass) => {
-                const pitches = chordPitches(value, { octave: bass.octave });
-                if (
-                  !pitches.every(
-                    (pitch) =>
-                      midi(pitch) >= pool.range.minMidi &&
-                      midi(pitch) <= pool.range.maxMidi &&
-                      Math.abs(pitch.alter) <= limit &&
-                      stepOf(pitch, pool.clef) >= MIN_STEP &&
-                      stepOf(pitch, pool.clef) <= MAX_STEP,
-                  )
-                )
-                  return [];
-                return [{ chord: value, clef: pool.clef, bass, pitches }];
-              }),
-          );
         });
-        if (!candidates.length)
-          throw new RangeError('Dreiklang im erlaubten Bereich nicht vollständig darstellbar');
-        return candidates;
       }),
-    ),
-  );
-  const chosen = rng.pick(rng.pick(groups));
-  const available = types.flatMap((quality) =>
-    inversions.flatMap((inversion) => {
-      // Beim Hören werden keine abweichenden/enharmonischen Grundtöne angeboten.
-      const optionRoots = presentation === 'aural' ? [chosen.chord.root] : roots;
-      return optionRoots.flatMap((root) => {
-        try {
-          return [chordChoiceId(chord(root, quality, inversion))];
-        } catch (error) {
-          if (error instanceof RangeError) return [];
-          throw error;
-        }
-      });
-    }),
   );
   return {
     type,

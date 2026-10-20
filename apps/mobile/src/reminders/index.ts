@@ -1,3 +1,5 @@
+import { router } from 'expo-router';
+import { leaguePushAllowed, changeLeagueConsent } from '../state/leagues.ts';
 import { setPrivacyConsent, privacyPushAllowed, usePrivacy } from '@/privacy/state';
 import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-device';
@@ -40,7 +42,7 @@ export async function refreshReminderPermission() {
     useMotivation.setState({ notificationError: true });
   }
 }
-export async function optInReminders() {
+export async function optInReminders(category: 'learning' | 'league' = 'learning') {
   const owner = motivationOwner(),
     revision = useMotivation.getState().device?.revision;
   if (Platform.OS === 'web' || useMotivation.getState().memory) return;
@@ -60,12 +62,18 @@ export async function optInReminders() {
       notificationError: false,
     });
     await setPrivacyConsent('push', result.granted);
-    updateOnboarding((d) => ({ ...d, reminderConsent: result.granted }));
-    await changeMotivationPreferences({ reminderConsent: result.granted });
+    if (owner !== motivationOwner() || revision !== useMotivation.getState().device?.revision)
+      return;
+    if (category === 'league') await changeLeagueConsent(result.granted);
+    else {
+      updateOnboarding((d) => ({ ...d, reminderConsent: result.granted }));
+      await changeMotivationPreferences({ reminderConsent: result.granted });
+    }
     void reconcileReminders();
   } catch {
     if (owner === motivationOwner() && revision === useMotivation.getState().device?.revision)
       useMotivation.setState({ notificationError: true });
+    if (category === 'league') throw new Error('League notifications unavailable');
   }
 }
 export function initializeReminderHandler() {
@@ -81,9 +89,10 @@ export function initializeReminderHandler() {
         state.scope === motivationOwner() &&
         state.phase === 'ready' &&
         useDeviceState.getState().completed &&
-        view.preferences.reminderConsent &&
         privacyPushAllowed() &&
-        !view.summary.practiced;
+        (data['category'] === 'league'
+          ? leaguePushAllowed()
+          : view.preferences.reminderConsent && !view.summary.practiced);
       return Promise.resolve({
         shouldShowBanner: show,
         shouldShowList: show,
@@ -92,6 +101,31 @@ export function initializeReminderHandler() {
       });
     },
   });
+  let pendingResponse: Notifications.NotificationResponse | null = null;
+  const tryOpenResult = () => {
+    const state = useMotivation.getState();
+    if (
+      !pendingResponse ||
+      state.phase !== 'ready' ||
+      state.scope !== motivationOwner() ||
+      !useDeviceState.getState().completed
+    )
+      return;
+    const data = pendingResponse.notification.request.content.data;
+    pendingResponse = null;
+    if (ours(data)) Notifications.clearLastNotificationResponse();
+    if (ours(data) && data?.['category'] === 'league' && data['scope'] === motivationOwner())
+      router.push('/(tabs)/leagues');
+  };
+  const openResult = (response: Notifications.NotificationResponse) => {
+    pendingResponse = response;
+    tryOpenResult();
+  };
+  const motivationSubscription = useMotivation.subscribe(tryOpenResult);
+  const deviceSubscription = useDeviceState.subscribe(tryOpenResult);
+  const responses = Notifications.addNotificationResponseReceivedListener(openResult);
+  const lastResponse = Notifications.getLastNotificationResponse();
+  if (lastResponse) openResult(lastResponse);
   const privacySubscription = usePrivacy.subscribe((next, previous) => {
     if (next.choices.push !== previous.choices.push || next.phase !== previous.phase)
       void reconcileReminders();
@@ -102,6 +136,9 @@ export function initializeReminderHandler() {
   });
   return () => {
     subscription.remove();
+    responses.remove();
+    motivationSubscription();
+    deviceSubscription();
     privacySubscription();
   };
 }
@@ -139,8 +176,7 @@ export function reconcileReminders(): Promise<void> {
       if (
         ready.permission === 'granted' &&
         privacyPushAllowed() &&
-        view.preferences.reminderConsent &&
-        privacyPushAllowed() &&
+        (view.preferences.reminderConsent || leaguePushAllowed()) &&
         ready.data?.server?.pushAvailable &&
         Device.isDevice &&
         typeof projectId === 'string' &&

@@ -7,6 +7,7 @@ import {
   isScaleItem,
   isRhythmItem,
   isKnowledgeItem,
+  isVoiceItem,
 } from '@harmonia/exercises';
 import { useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -96,14 +97,18 @@ export function useExercisePlayback(item: ExerciseItem | Score | undefined, bpm 
                 ? playChordExercise(engine, item)
                 : isScaleItem(item)
                   ? playScale(engine, item)
-                  : 'pitch' in item
-                    ? engine.playPitch(item.pitch, { duration: 0.8 })
-                    : engine.playInterval(
-                        item.from,
-                        item.to,
-                        item.playback === 'harmonic' ? 'harmonic' : 'melodic',
-                        { duration: 0.8 },
-                      );
+                  : isVoiceItem(item)
+                    ? playExample(engine, item.score, bpm)
+                    : 'pitch' in item
+                      ? engine.playPitch(item.pitch, { duration: 0.8 })
+                      : 'from' in item
+                        ? engine.playInterval(
+                            item.from,
+                            item.to,
+                            item.playback === 'harmonic' ? 'harmonic' : 'melodic',
+                            { duration: 0.8 },
+                          )
+                        : playExample(engine, item.score, bpm);
       setPlaying(true);
       setHeard(true);
       timer.current = setTimeout(
@@ -116,9 +121,11 @@ export function useExercisePlayback(item: ExerciseItem | Score | undefined, bpm 
           item.type === 'LISTENING_CHOICE' ||
           isRhythmItem(item) ||
           isChordItem(item) ||
-          isScaleItem(item)
+          isScaleItem(item) ||
+          item.type === 'FUNCTION_ANALYSIS' ||
+          isVoiceItem(item)
           ? Math.max(0, playback.current.endTime - engine.context.currentTime) * 1000 + 50
-          : 'pitch' in item || item.playback === 'harmonic'
+          : 'pitch' in item || !('from' in item) || item.playback === 'harmonic'
             ? 850
             : 1650,
       );

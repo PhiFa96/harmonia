@@ -33,3 +33,23 @@ Der Retention-Endpoint ist ausschließlich service-authentifiziert, verarbeitet 
 ## Ergänzung P2.22
 
 Eigene Analytics-Kohorte und alle Ereignisse bei synchronisiertem Widerruf/Kontolöschung vollständig entfernen. Aufnahme endet nach zwölf Monaten ab Einwilligungsbeginn. `analytics_retention()` löscht abgelaufene Kohorten in Batches zu 100 im bestehenden vorzubereitenden `privacy-retention`-Job; kein Scheduler aktiviert. Keine externen Analytics-Anbieter. Private Betreiberberichte regenerieren, veraltete Kopien löschen; keine öffentliche Veröffentlichung. Details und Zweckversion: ADR 0022.
+
+## Ergänzung P3.04
+
+Liga-Mitgliedschaften, Wochenresultate, Lese-/Zustellmarker und Konto-Stufe/-Präferenz kaskadieren bei Kontolöschung. Der lokale Arbeitsspeicher wird gesperrt und geleert; verzögerte Abrufe dürfen ihn nicht wieder befüllen. Der Liga-Job entfernt ältere Gruppen samt Mitgliedschaften und hält nur die laufende sowie die letzten 52 abgeschlossenen Wochen. Aktuelle Stufe und Kategoriepräferenz bleiben bis Kontolöschung bestehen. Geschlossene Resultate anderer Personen werden nach Löschung eines Kontos nicht neu berechnet. Beide persönlichen Bereiche sind im eigenen Export enthalten. Cronbetrieb und juristische Zweck-/Fristenprüfung bleiben offen; ADR 0031.
+
+## Theorie-Rush und minimale Freundschaftsrelation (P3.05, Arbeitsentwurf)
+
+Eigene Rush-Läufe, bestätigte Einzelschritte, Tageskontingente und ausgehende Freundschaftsrelationen sind im persönlichen Export enthalten. Kontolöschung entfernt Läufe/Antworten/Kontingente und beide Seiten betroffener Freundschaften kaskadierend. Der flüchtige App-Cache wird gesperrt/geleert; bestätigte XP-Aggregate im kontogetrennten Motivationsspeicher folgen dessen bestehender Löschung. Der private Retentionjob entfernt spätestens zwölf Monate nach Laufbeginn die Rush-Rohantworten sowie Seed und Aufgabenbank. Bestätigte Summen, Ranglisten- und XP-Belege bleiben bis Kontolöschung erhalten; alte Tageskontingente werden begrenzt bereinigt. Ein dann noch aktiver Überlebenslauf wird ohne XP abgebrochen, ein bereits abgelaufener Zeitlauf nach den vorher servergeprüften Schritten abgeschlossen. Der Freundesfilter verlangt gegenseitige Bestätigung; Blockieren/Entfernen schließt den Beitrag sofort aus. Verwaltung/Einladungen siehe P3.08. Juristische Prüfung dieser Zweck-/Fristentscheidung und eingerichteter Schedulerbetrieb bleiben offen; ADR 0032.
+
+## Freunde und Wochenquests (P3.08, Arbeitsentwurf)
+
+Eigene Freundschaftszeilen, Einladungen, Questpaarungen und Abzeichen sind exportierbar. Kontolöschung kaskadiert Beziehungen in beiden Richtungen, Codes, Quests und Abzeichen. Entfernen oder Blockieren beendet sofort eine laufende gemeinsame Quest; bereits verdiente Abzeichen bleiben bis zur Kontolöschung. Der Retentionjob löscht abgelaufene Einladungen nach 30 Tagen und Quests nach 52 Wochen in begrenzten Chargen. Ein Abzeichen speichert nur Konto und Wochenbeginn. Der flüchtige App-Cache wird beim Kontowechsel und Löschen geleert. Juristische Fristenprüfung und Jobbetrieb bleiben offen; ADR 0035.
+
+## Tägliches Rätsel (P3.07, Arbeitsentwurf)
+
+Eigene Rätselergebnisse sind exportierbar und kaskadieren bei Kontolöschung. Der flüchtige App-Stand wird beim Kontowechsel und Löschen geleert. Der bestehende Retentionjob entfernt nach zwölf Monaten rohe Antwort, genaue Antwortzeit und damals angegebene Zeitzone in begrenzten Chargen; Datum und Richtig/Falsch-Beleg bleiben für die eigene Serie bis Kontolöschung. Die globale Tagesaufgabe hat keine Personenzuordnung. Juristische Prüfung und Jobbetrieb bleiben offen; ADR 0034.
+
+## Duelle (P3.06, Arbeitsentwurf)
+
+Eigene Duell-Ratings, Spiele, Schritte, Warteschlange und Einladungen sind im Export enthalten. Kontolöschung entfernt eigene Antworten und Ratings sowie Warteschlangen- und Einladungsdaten; das bestätigte Ergebnis einer verbleibenden anderen Person wird bewahrt. Der private Retentionjob entfernt Rohantworten und Aufgabenbank zwölf Monate nach Spielbeginn, offene Einladungen 30 Tage nach Ablauf. Bestätigte Ergebnisse und eigene kanonische XP-Belege bleiben bis zur Kontolöschung. Ghost-Aufzeichnungen stammen aus echten Rush-Läufen und folgen zusätzlich deren Löschfrist. Juristische Fristenprüfung, Backup-Auslauf und aktivierter Job bleiben offen; ADR 0033.

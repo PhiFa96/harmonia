@@ -23,6 +23,7 @@
     "@harmonia/i18n": "workspace:*",
     "@harmonia/notation": "workspace:*",
     "@harmonia/ui": "workspace:*",
+    "@motiz88/react-native-midi": "0.0.6",
     "@revenuecat/purchases-js": "1.71.0",
     "@supabase/supabase-js": "^2.118.0",
     "@tanstack/react-query": "^5.104.3",
@@ -88,6 +89,8 @@
       "<rootDir>/jest/after-env.ts"
     ],
     "moduleNameMapper": {
+      "^pitchy$": "<rootDir>/jest/pitchy-stub.ts",
+      "^react-native-worklets$": "<rootDir>/node_modules/react-native-worklets/lib/module/mock.js",
       "^@harmonia/i18n/content-messages$": "<rootDir>/../../packages/i18n/src/authoring-content-messages.ts",
       "^@harmonia/content/catalogue$": "<rootDir>/../../packages/content/src/authoring.ts",
       "\\.(otf|ttf|mp3)$": "<rootDir>/jest/asset-stub.ts"

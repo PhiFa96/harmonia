@@ -1,6 +1,5 @@
 // Akkorde: bauen und bestimmen, immer mit korrekter Schreibweise.
-// Phase 1: Dreiklänge mit Umkehrungen. Das Datenmodell ist für Septakkorde vorbereitet
-// (weitere Akkordtypen mit vier Tönen, Akkordton „seventh“, dritte Umkehrung).
+// Dreiklänge, Septakkorde und Nonakkorde mit notierter Terzschichtung.
 
 import { parseInterval, transposeBy } from './interval.ts';
 import type { Interval } from './interval.ts';
@@ -19,13 +18,31 @@ import {
 
 export type TriadType = 'major' | 'minor' | 'diminished' | 'augmented';
 
-/** Akkordtypen. Septakkorde kommen in Phase 2 dazu. */
-export type ChordType = TriadType;
+export type SeventhType =
+  | 'dominant7'
+  | 'major7'
+  | 'minor7'
+  | 'minorMajor7'
+  | 'halfDiminished7'
+  | 'diminished7'
+  | 'augmented7'
+  | 'augmentedMajor7';
+export type ExtendedType = 'dominant9' | 'major9' | 'minor9' | 'dominant11' | 'dominant13';
+export type ChordType = TriadType | SeventhType | ExtendedType;
 
 /** Akkordtöne in Terzschichtung. */
-export type ChordFactor = 'root' | 'third' | 'fifth' | 'seventh';
+export type ChordFactor =
+  'root' | 'third' | 'fifth' | 'seventh' | 'ninth' | 'eleventh' | 'thirteenth';
 
-const FACTORS: readonly ChordFactor[] = ['root', 'third', 'fifth', 'seventh'];
+const FACTORS: readonly ChordFactor[] = [
+  'root',
+  'third',
+  'fifth',
+  'seventh',
+  'ninth',
+  'eleventh',
+  'thirteenth',
+];
 
 /** Intervalle vom Grundton aus, in Terzschichtung. */
 const CHORD_STRUCTURE: Readonly<Record<ChordType, readonly string[]>> = {
@@ -33,10 +50,39 @@ const CHORD_STRUCTURE: Readonly<Record<ChordType, readonly string[]>> = {
   minor: ['P1', 'm3', 'P5'],
   diminished: ['P1', 'm3', 'd5'],
   augmented: ['P1', 'M3', 'A5'],
+  dominant7: ['P1', 'M3', 'P5', 'm7'],
+  major7: ['P1', 'M3', 'P5', 'M7'],
+  minor7: ['P1', 'm3', 'P5', 'm7'],
+  minorMajor7: ['P1', 'm3', 'P5', 'M7'],
+  halfDiminished7: ['P1', 'm3', 'd5', 'm7'],
+  diminished7: ['P1', 'm3', 'd5', 'd7'],
+  augmented7: ['P1', 'M3', 'A5', 'm7'],
+  augmentedMajor7: ['P1', 'M3', 'A5', 'M7'],
+  dominant9: ['P1', 'M3', 'P5', 'm7', 'M9'],
+  major9: ['P1', 'M3', 'P5', 'M7', 'M9'],
+  minor9: ['P1', 'm3', 'P5', 'm7', 'M9'],
+  dominant11: ['P1', 'M3', 'P5', 'm7', 'M9', 'P11'],
+  dominant13: ['P1', 'M3', 'P5', 'm7', 'M9', 'P11', 'M13'],
 };
 
 /** Alle Akkordtypen, häufigste zuerst (diese Reihenfolge entscheidet auch bei gleichwertigen Kandidaten). */
-export const CHORD_TYPES: readonly ChordType[] = ['major', 'minor', 'diminished', 'augmented'];
+export const CHORD_TYPES: readonly TriadType[] = ['major', 'minor', 'diminished', 'augmented'];
+export const EXTENDED_CHORD_TYPES: readonly Exclude<ChordType, TriadType>[] = [
+  'dominant7',
+  'major7',
+  'minor7',
+  'minorMajor7',
+  'halfDiminished7',
+  'diminished7',
+  'augmented7',
+  'augmentedMajor7',
+  'dominant9',
+  'major9',
+  'minor9',
+  'dominant11',
+  'dominant13',
+];
+export const ALL_CHORD_TYPES: readonly ChordType[] = [...CHORD_TYPES, ...EXTENDED_CHORD_TYPES];
 
 /** Akkordtöne, die beim Bestimmen fehlen dürfen. Im vierstimmigen Satz wird oft die Quinte weggelassen. */
 const OPTIONAL_FACTORS: readonly ChordFactor[] = ['fifth'];
@@ -110,10 +156,14 @@ export interface ChordPitchesOptions {
 export function chordPitches(c: Chord, options: ChordPitchesOptions = {}): Pitch[] {
   chordTones(c); // verständliche Fehlermeldung, falls nicht darstellbar
   const rootPosition = chordIntervals(c.type).map((i) => transposeBy(withOctave(c.root, 4), i));
-  const rotated = [
-    ...rootPosition.slice(c.inversion),
-    ...rootPosition.slice(0, c.inversion).map((p) => transpose(p, 7, 12)),
-  ];
+  const rotated = [...rootPosition.slice(c.inversion)];
+  for (const original of rootPosition.slice(0, c.inversion)) {
+    let raised = original;
+    while (comparePitches(raised, rotated.at(-1) ?? raised) <= 0) {
+      raised = transpose(raised, 7, 12);
+    }
+    rotated.push(raised);
+  }
   const shift = (options.octave ?? 4) - (rotated[0]?.octave ?? 4);
   return rotated.map((p) => transpose(p, 7 * shift, 12 * shift));
 }
@@ -134,7 +184,10 @@ export interface ChordMatch {
  * Fehlt die Quinte, ist das Ergebnis mehrdeutig (C–E: C-Dur oder C-übermäßig); die Kandidaten sind sortiert,
  * der wahrscheinlichste zuerst. Liefert eine leere Liste, wenn kein Akkord passt.
  */
-export function identifyChord(notes: readonly Pitch[]): ChordMatch[] {
+export function identifyChord(
+  notes: readonly Pitch[],
+  options: { readonly extended?: boolean } = {},
+): ChordMatch[] {
   const bass = [...notes].sort(comparePitches)[0];
   if (bass === undefined) {
     return [];
@@ -142,7 +195,14 @@ export function identifyChord(notes: readonly Pitch[]): ChordMatch[] {
   const names = distinct(notes.map(withoutOctave), sameNoteName);
   return sortMatches(
     names.flatMap((root) =>
-      matchRoot(root, names, bass, sameNoteName, 2).map(({ match }) => match),
+      matchRoot(
+        root,
+        names,
+        bass,
+        sameNoteName,
+        2,
+        options.extended === true ? ALL_CHORD_TYPES : CHORD_TYPES,
+      ).map(({ match }) => match),
     ),
   );
 }
@@ -155,6 +215,8 @@ export interface MidiChordMatch extends ChordMatch {
 export interface IdentifyMidiOptions {
   /** Höchstzahl an Vorzeichen je Akkordton (0–2). Standard: 1, also kein Doppelkreuz und kein Doppel-b. */
   readonly maxAccidentals?: number;
+  /** Sept- und Nonakkorde zusätzlich zu Dreiklängen bestimmen. Standard: nein. */
+  readonly extended?: boolean;
 }
 
 /**
@@ -182,18 +244,23 @@ export function identifyChordFromMidi(
     (n) => classes.some((pc) => sameClass(n, pc)),
   );
   const matches = roots.flatMap((root) =>
-    matchRoot(root, classes, pitchClass(lowest), sameClass, maxAccidentals).map(
-      ({ match, tones }) => ({
-        ...match,
-        pitches: midiNumbers.map((m) => {
-          const tone = tones.find((t) => sameClass(t, pitchClass(m)));
-          if (tone === undefined) {
-            throw new RangeError(`MIDI ${String(m)} gehört nicht zum Akkord`);
-          }
-          return spellMidi(m, tone);
-        }),
+    matchRoot(
+      root,
+      classes,
+      pitchClass(lowest),
+      sameClass,
+      maxAccidentals,
+      options.extended === true ? ALL_CHORD_TYPES : CHORD_TYPES,
+    ).map(({ match, tones }) => ({
+      ...match,
+      pitches: midiNumbers.map((m) => {
+        const tone = tones.find((t) => sameClass(t, pitchClass(m)));
+        if (tone === undefined) {
+          throw new RangeError(`MIDI ${String(m)} gehört nicht zum Akkord`);
+        }
+        return spellMidi(m, tone);
       }),
-    ),
+    })),
   );
   return sortMatches(matches);
 }
@@ -205,9 +272,10 @@ function matchRoot<T>(
   bass: T,
   matches: (tone: NoteName, input: T) => boolean,
   maxAccidentals: number,
+  types: readonly ChordType[],
 ): { match: ChordMatch; tones: NoteName[] }[] {
   const result: { match: ChordMatch; tones: NoteName[] }[] = [];
-  for (const type of CHORD_TYPES) {
+  for (const type of types) {
     const tones = tryChordTones(root, type);
     if (!tones || tones.some((t) => Math.abs(t.alter) > maxAccidentals)) {
       continue;
@@ -249,7 +317,7 @@ function sortMatches<T extends ChordMatch>(matches: T[]): T[] {
     (a, b) =>
       a.omitted.length - b.omitted.length ||
       accidentals(a) - accidentals(b) ||
-      CHORD_TYPES.indexOf(a.chord.type) - CHORD_TYPES.indexOf(b.chord.type) ||
+      ALL_CHORD_TYPES.indexOf(a.chord.type) - ALL_CHORD_TYPES.indexOf(b.chord.type) ||
       a.chord.inversion - b.chord.inversion ||
       LETTERS.indexOf(a.chord.root.letter) - LETTERS.indexOf(b.chord.root.letter),
   );

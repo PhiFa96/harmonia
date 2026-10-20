@@ -70,8 +70,16 @@ Deno.serve(async (request) => {
       .eq('device_id', data.deviceId)
       .maybeSingle();
     if (device.error) return json(503, { error: 'storage' });
+    const league = await client
+      .from('league_accounts')
+      .select('push_consent')
+      .eq('user_id', actor)
+      .maybeSingle();
+    if (league.error) return json(503, { error: 'storage' });
     const token =
-      pushAvailable && pushConsent && preferences.reminderConsent
+      pushAvailable &&
+      pushConsent &&
+      (preferences.reminderConsent || league.data?.push_consent === true)
         ? data.pushToken === undefined
           ? device.data?.user_id === actor
             ? (device.data.push_token as string | null)
@@ -171,6 +179,9 @@ Deno.serve(async (request) => {
     });
     if (streak.error) return json(503, { error: 'storage' });
     return json(200, {
+      ...(data.rushFormat === 1
+        ? { rushActivities: current.activities.filter((a) => a.id.startsWith('rush:')) }
+        : {}),
       preferences,
       rules: rewardRules,
       summary,

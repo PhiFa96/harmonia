@@ -26,6 +26,11 @@ const units = catalogue.units.filter((u) => levels.has(u.levelId)),
   unitIds = new Set(units.map((u) => u.id));
 const lessons = catalogue.lessons.filter((l) => unitIds.has(l.unitId));
 function wrong(item: ExerciseItem): string {
+  if (item.type === 'SIGHT_SING' || item.type === 'SING_INTERVAL' || item.type === 'PLAY_BACK')
+    return expectedAnswer(item).replace(
+      /^voice:(\d+)/,
+      (_, first: string) => `voice:${String(Number(first) + 1200)}`,
+    );
   const expected = expectedAnswer(item),
     choice = item.choices.find((a) => a !== expected);
   if (choice) return choice;
@@ -67,12 +72,12 @@ describe('Stufe 2 vollständig intern', () => {
     expect(
       lessons.reduce((n, l) => n + required(resolveLesson(catalogue, l.id)).exercises.length, 0),
     ).toBe(480);
-    expect(catalogue.contentVersion).toBe(13);
-    expect(curriculumPlan.contentVersion).toBe(13);
-    expect(catalogue.lessons).toHaveLength(85);
-    expect(catalogue.knowledgeCards).toHaveLength(250);
-    expect(catalogue.knowledgeCards.flatMap((c) => c.examples)).toHaveLength(307);
-    expect(catalogue.knowledgeArticles).toHaveLength(29);
+    expect(catalogue.contentVersion).toBe(16);
+    expect(curriculumPlan.contentVersion).toBe(16);
+    expect(catalogue.lessons).toHaveLength(160);
+    expect(catalogue.knowledgeCards).toHaveLength(350);
+    expect(catalogue.knowledgeCards.flatMap((c) => c.examples)).toHaveLength(407);
+    expect(catalogue.knowledgeArticles).toHaveLength(54);
     expect(publicCatalogue(catalogue)).toMatchObject({
       lessons: [],
       knowledgeCards: [],

@@ -13,7 +13,7 @@ export const knowledgeLaneSchema = z.enum(['published', 'preview']);
 export type KnowledgeLane = z.infer<typeof knowledgeLaneSchema>;
 export const knowledgeStagesSchema = z.record(
   contentIdSchema,
-  z.union([z.literal(1), z.literal(2)]),
+  z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
 );
 export type KnowledgeStages = z.infer<typeof knowledgeStagesSchema>;
 export const knowledgeDigestSchema = z.string().regex(/^[a-f0-9]{64}$/);
@@ -25,7 +25,7 @@ export const knowledgeChunkSchema = z
     contentVersion: z.number().int().positive(),
     status: contentStatusSchema,
     locale: knowledgeLocaleSchema,
-    stage: z.union([z.literal(1), z.literal(2)]),
+    stage: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
     section: position,
     part: position,
     startChar: position,
@@ -165,7 +165,7 @@ export function knowledgeArticles(
   catalogue: ContentCatalogue,
   lane: KnowledgeLane,
   knownStages: KnowledgeStages = {},
-): { article: ContentCatalogue['knowledgeArticles'][number]; stage: 1 | 2 }[] {
+): { article: ContentCatalogue['knowledgeArticles'][number]; stage: 1 | 2 | 3 | 4 }[] {
   const levels = new Map(catalogue.levels.map((v) => [v.id, v.number])),
     units = new Map(catalogue.units.map((v) => [v.id, levels.get(v.levelId)])),
     trained = new Map<string, number>();
@@ -179,12 +179,12 @@ export function knowledgeArticles(
   return selected.knowledgeArticles.flatMap((article) => {
     const stages = article.skillIds.map((id) => trained.get(id) ?? Infinity),
       stage = knownStages[article.id] ?? Math.max(...stages);
-    return stage === 1 || stage === 2 ? [{ article, stage }] : [];
+    return stage === 1 || stage === 2 || stage === 3 || stage === 4 ? [{ article, stage }] : [];
   });
 }
 export function knowledgeArticleParts(
   article: ContentCatalogue['knowledgeArticles'][number],
-  stage: 1 | 2,
+  stage: 1 | 2 | 3 | 4,
   locale: KnowledgeLocale,
   translate: (key: `content.${string}`) => string,
 ) {

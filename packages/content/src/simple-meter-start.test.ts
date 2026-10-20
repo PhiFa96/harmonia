@@ -104,9 +104,9 @@ describe('Einfache Taktarten, Einzählen und Lesen', () => {
     },
   );
   it('neun Karten, vollständige und angefangene Takte sowie Entwurfsgrenze', () => {
-    expect(catalogue.contentVersion).toBe(13);
-    expect(curriculumPlan.contentVersion).toBe(13);
-    expect(catalogue.lessons).toHaveLength(85);
+    expect(catalogue.contentVersion).toBe(16);
+    expect(curriculumPlan.contentVersion).toBe(16);
+    expect(catalogue.lessons).toHaveLength(160);
     const cards = catalogue.knowledgeCards.filter((card) =>
       card.id.startsWith('rhythm.l1.simple-meter.'),
     );

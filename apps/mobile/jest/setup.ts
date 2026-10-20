@@ -19,9 +19,6 @@ jest.mock('react-native-audio-api', () => {
 jest.mock('react-native-reanimated', () =>
   jest.requireActual<object>('react-native-reanimated/mock'),
 );
-jest.mock('react-native-worklets', () =>
-  jest.requireActual<object>('react-native-worklets/lib/module/mock'),
-);
 
 // Gerätedatenbank wird separat mit echter SQLite geprüft; UI-Tests ersetzen nur den Treiber.
 jest.mock('expo-sqlite', () => ({
@@ -80,6 +77,9 @@ jest.mock('@/state/reports', () => ({
 
 // Systemberechtigungen und Zustellung werden im Erinnerungsadapter separat geprüft.
 jest.mock('expo-notifications', () => ({
+  addNotificationResponseReceivedListener: jest.fn(() => ({ remove: jest.fn() })),
+  clearLastNotificationResponse: jest.fn(),
+  getLastNotificationResponse: jest.fn(() => null),
   getPermissionsAsync: jest.fn(() => Promise.resolve({ granted: true, canAskAgain: true })),
   requestPermissionsAsync: jest.fn(() => Promise.resolve({ granted: true, canAskAgain: true })),
   getAllScheduledNotificationsAsync: jest.fn(() => Promise.resolve([])),

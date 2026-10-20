@@ -20,7 +20,11 @@ export function LessonIntroduction({
   onCardChange,
   initialCard = 0,
   onCardSave,
+  hideProgress = false,
+  hideContinue = false,
 }: {
+  readonly hideProgress?: boolean;
+  readonly hideContinue?: boolean;
   readonly lesson: LessonContent;
   readonly onStart: () => void;
   readonly onCardChange: () => void;
@@ -48,9 +52,11 @@ export function LessonIntroduction({
   const scrollable = viewportWidth > 0 && scoreWidth > viewportWidth + 1;
   return (
     <>
-      <AppText variant="small" tone="muted">
-        {t('lesson.introProgress', { current: index + 1, total: lesson.introduction.length })}
-      </AppText>
+      {hideProgress ? null : (
+        <AppText variant="small" tone="muted">
+          {t('lesson.introProgress', { current: index + 1, total: lesson.introduction.length })}
+        </AppText>
+      )}
       <Card>
         <View style={styles.card}>
           <AppText variant="title2" aria-live="polite">
@@ -147,23 +153,25 @@ export function LessonIntroduction({
           ) : null}
         </View>
       </Card>
-      <Button
-        label={
-          index === lesson.introduction.length - 1
-            ? t('lesson.start', { count: lesson.exercises.length })
-            : t('lesson.introNext')
-        }
-        onPress={() => {
-          audio.stop();
-          if (index === lesson.introduction.length - 1) onStart();
-          else {
-            setIndex(index + 1);
-            onCardSave?.(index + 1);
-            setExampleIndex(0);
-            onCardChange();
+      {hideContinue ? null : (
+        <Button
+          label={
+            index === lesson.introduction.length - 1
+              ? t('lesson.start', { count: lesson.exercises.length })
+              : t('lesson.introNext')
           }
-        }}
-      />
+          onPress={() => {
+            audio.stop();
+            if (index === lesson.introduction.length - 1) onStart();
+            else {
+              setIndex(index + 1);
+              onCardSave?.(index + 1);
+              setExampleIndex(0);
+              onCardChange();
+            }
+          }}
+        />
+      )}
     </>
   );
 }

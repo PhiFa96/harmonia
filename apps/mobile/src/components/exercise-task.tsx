@@ -13,6 +13,7 @@ import {
   isKeySignatureItem,
   isAuralExercise,
   isPitchInput,
+  isVoiceItem,
   itemVariantKey,
   isKnowledgeItem,
   isIntervalReadingItem,
@@ -40,7 +41,9 @@ import { useMusicLocale } from '@/i18n';
 import { useSettings } from '@/state/settings';
 import { ExerciseChoices } from './exercise-choices';
 import { ChordAnswerInput } from './chord-answer-input';
+import { DictationAnswerInput } from './dictation-answer-input';
 import { PitchAnswerInput } from './pitch-answer-input';
+import { MicrophoneAnswerInput } from './microphone-answer-input';
 import { ScaleAnswerInput } from './scale-answer-input';
 import { SignatureAnswerInput } from './signature-answer-input';
 import { RhythmAnswerInput } from './rhythm-answer-input';
@@ -53,6 +56,8 @@ import { openTaskTutor } from '@/tutor/state';
 import { taskTutorScore } from '@/tutor/context';
 
 interface Props {
+  readonly hintsAllowed?: boolean;
+  readonly interactionDisabled?: boolean;
   readonly session: ExerciseSession;
   readonly reportSource?: ReportSource;
   readonly onReportOpen?: () => void;
@@ -69,9 +74,12 @@ interface Props {
   readonly onCheck: (answer: string) => void;
   readonly onHint: () => void;
   readonly onSkip: () => void;
+  readonly onSkipVoice?: () => void;
   readonly onNext: () => void;
 }
 export function ExerciseTask({
+  hintsAllowed = true,
+  interactionDisabled = false,
   session,
   reportSource,
   onReportOpen,
@@ -88,6 +96,7 @@ export function ExerciseTask({
   onCheck,
   onHint,
   onSkip,
+  onSkipVoice,
   onNext,
 }: Props) {
   const { t } = useTranslation();
@@ -201,6 +210,8 @@ export function ExerciseTask({
         ].includes(item.type) ? null : item.type !== 'LISTENING_CHOICE' &&
         (item.type === 'RHYTHM_TAP' ||
           !isAuralExercise(item) ||
+          item.type === 'SING_INTERVAL' ||
+          item.type === 'SIGHT_SING' ||
           result ||
           session.hintLevel === 3) ? (
         <Card
@@ -232,7 +243,7 @@ export function ExerciseTask({
             </View>
           ) : null}
         </Card>
-      ) : (
+      ) : isVoiceItem(item) ? null : (
         <Card>
           <AppText tone="muted">{t('exercise.headphones')}</AppText>
           <Button
@@ -332,7 +343,7 @@ export function ExerciseTask({
           {t('exercise.pickupScroll')}
         </AppText>
       ) : null}
-      {isAuralExercise(item) && !result ? (
+      {isAuralExercise(item) && !isVoiceItem(item) && !result ? (
         <Button
           size="medium"
           variant="ghost"
@@ -340,6 +351,16 @@ export function ExerciseTask({
           onPress={() => {
             audio.stop();
             onSkip();
+          }}
+        />
+      ) : null}
+      {isVoiceItem(item) && !result && onSkipVoice ? (
+        <Button
+          variant="ghost"
+          label={t('voice.skip')}
+          onPress={() => {
+            audio.stop();
+            onSkipVoice();
           }}
         />
       ) : null}
@@ -373,6 +394,10 @@ export function ExerciseTask({
           showSolution={!!result || session.hintLevel === 3}
           onSelect={onSelect}
           beforeStart={audio.stop}
+          practiceAllowed={hintsAllowed}
+          onPracticeStart={() => {
+            if (session.hintLevel === 0) onHint();
+          }}
           onPreview={() => {
             void audio.play();
           }}
@@ -384,6 +409,14 @@ export function ExerciseTask({
           answer={answer}
           {...(result ? { result } : {})}
           showSolution={!!result || session.hintLevel === 3}
+          onSelect={onSelect}
+        />
+      ) : item.type === 'MELODY_DICTATION' || item.type === 'RHYTHM_DICTATION' ? (
+        <DictationAnswerInput
+          key={`${String(session.index)}:${itemVariantKey(item)}`}
+          item={item}
+          answer={answer}
+          {...(result ? { result } : {})}
           onSelect={onSelect}
         />
       ) : item.type === 'SCALE_BUILD' ? (
@@ -413,10 +446,31 @@ export function ExerciseTask({
           showSolution={!!result || session.hintLevel === 3}
           onSelect={onSelect}
         />
+      ) : isVoiceItem(item) ? (
+        <MicrophoneAnswerInput
+          key={`${String(session.index)}:${itemVariantKey(item)}`}
+          item={item}
+          answer={answer}
+          {...(result ? { result } : {})}
+          disabled={interactionDisabled}
+          playing={audio.playing}
+          heard={audio.heard}
+          onSelect={onSelect}
+          onBeforeCapture={audio.stop}
+          onPreview={async () => {
+            if (audio.playing) {
+              audio.stop();
+              return;
+            }
+            if (item.type === 'SIGHT_SING' && session.hintLevel === 0 && music.sound) onHint();
+            await audio.play();
+          }}
+        />
       ) : (
         <ExerciseChoices
           item={item}
           answer={answer}
+          disabled={interactionDisabled}
           {...(result ? { result } : {})}
           onSelect={onSelect}
         />
@@ -445,19 +499,21 @@ export function ExerciseTask({
               </MusicText>
             </Card>
           ) : null}
-          <Button
-            size="medium"
-            variant="ghost"
-            label={
-              session.hintLevel >= 2
-                ? t('exercise.solution')
-                : t('exercise.hint', { level: session.hintLevel + 1 })
-            }
-            disabled={session.hintLevel === 3}
-            onPress={() => {
-              onHint();
-            }}
-          />
+          {hintsAllowed ? (
+            <Button
+              size="medium"
+              variant="ghost"
+              label={
+                session.hintLevel >= 2
+                  ? t('exercise.solution')
+                  : t('exercise.hint', { level: session.hintLevel + 1 })
+              }
+              disabled={session.hintLevel === 3}
+              onPress={() => {
+                onHint();
+              }}
+            />
+          ) : null}
           {reportSource && session.hintLevel > 0 ? (
             <Button
               variant="ghost"
@@ -491,6 +547,7 @@ export function ExerciseTask({
           <Button
             label={t('practice.check')}
             disabled={
+              interactionDisabled ||
               answer === null ||
               !evaluateExercise(item, answer).validAnswer ||
               (item.type !== 'RHYTHM_TAP' &&
@@ -500,6 +557,7 @@ export function ExerciseTask({
             }
             onPress={() => {
               if (
+                interactionDisabled ||
                 answer === null ||
                 !evaluateExercise(item, answer).validAnswer ||
                 (item.type !== 'RHYTHM_TAP' &&

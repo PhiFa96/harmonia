@@ -31,7 +31,10 @@ describe('Glossar: Form der Einträge', () => {
   it('deutsche Substantive groß, englische Begriffe in Grundform klein', () => {
     for (const [id, entry] of entries) {
       // Ausnahme: das Versetzungszeichen „b“ (Duden: das b)
-      if (id === 'grandStaff' || id === 'scientificNotation') {
+      if (id.startsWith('dynamic')) {
+        // Italian performance directions are not German nouns.
+        expect(entry.de.term, id).toBe(entry.de.term.toLowerCase());
+      } else if (id === 'grandStaff' || id === 'scientificNotation') {
         // Adjektive bleiben klein; das folgende Substantiv wird großgeschrieben.
         expect(entry.de.term.split(' ')[1]?.[0], id).toMatch(/\p{Lu}/u);
       } else if (id !== 'flat') {

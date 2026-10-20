@@ -45,6 +45,8 @@ export function highlightFor(
     (h) =>
       h.ref.measure === ref.measure &&
       h.ref.event === ref.event &&
+      (h.ref.staff ?? 0) === (ref.staff ?? 0) &&
+      (h.ref.voice ?? 0) === (ref.voice ?? 0) &&
       (h.ref.note === undefined || ref.note === undefined || h.ref.note === ref.note),
   )?.kind;
 }
@@ -71,13 +73,24 @@ export function highlightMarks(
 ): HighlightMark[] {
   return eventBounds(layout).flatMap((b) => {
     const kinds = highlights
-      .filter((h) => h.ref.measure === b.measure && h.ref.event === b.event)
+      .filter(
+        (h) =>
+          h.ref.measure === b.measure &&
+          h.ref.event === b.event &&
+          (h.ref.staff ?? 0) === (b.staff ?? 0) &&
+          (h.ref.voice ?? 0) === (b.voice ?? 0),
+      )
       .map((h) => h.kind);
     const kind = PRIORITY.find((k) => kinds.includes(k));
     if (!kind) {
       return [];
     }
-    const ref = { measure: b.measure, event: b.event };
+    const ref = {
+      measure: b.measure,
+      event: b.event,
+      ...(b.staff !== undefined ? { staff: b.staff } : {}),
+      ...(b.voice !== undefined ? { voice: b.voice } : {}),
+    };
     const y = Math.min(eventTop(layout, ref), 0) - MARK_BAND / 2;
     return [{ kind, ref, x: (b.x1 + b.x2) / 2, y }];
   });
@@ -87,7 +100,14 @@ export function highlightMarks(
 function eventTop(layout: ScoreLayout, ref: EventRef): number {
   let top = Infinity;
   for (const item of layout.items) {
-    if (!('ref' in item) || item.ref.measure !== ref.measure || item.ref.event !== ref.event) {
+    if (
+      !('ref' in item) ||
+      item.kind === 'label' ||
+      item.ref.measure !== ref.measure ||
+      item.ref.event !== ref.event ||
+      (item.ref.voice ?? 0) !== (ref.voice ?? 0) ||
+      (item.ref.staff ?? 0) !== (ref.staff ?? 0)
+    ) {
       continue;
     }
     top = Math.min(

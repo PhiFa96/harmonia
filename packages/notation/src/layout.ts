@@ -1,4 +1,4 @@
-// Layout v1: berechnet Positionen als reine Daten (Phase 1: ein System, eine Stimme, Violin- oder Bassschlüssel).
+// Layout: berechnet Positionen als reine Daten.
 // Koordinaten in Notenlinienabständen. Ursprung: oberste Notenlinie am linken Rand, y nach unten
 // (SMuFL-Maße haben y nach oben und werden hier umgerechnet).
 
@@ -20,7 +20,7 @@ import {
 } from '@harmonia/theory';
 
 import type { Clef, Score, Staff, VoiceEvent } from './score.ts';
-import { eventPitches, ties } from './score.ts';
+import { eventPitches, slurs, ties } from './score.ts';
 import { ENGRAVING_DEFAULTS, GLYPHS } from './smufl-data.ts';
 
 export type GlyphName = keyof typeof GLYPHS;
@@ -36,13 +36,25 @@ const METRICS: Readonly<Record<GlyphName, GlyphMetrics>> = GLYPHS;
 
 /** Bezug eines Elements auf die Partitur (für Interaktion und Hervorhebung). */
 export interface EventRef {
+  /** Bei mehreren Systemen gesetzt; bei einem System optional für Abwärtskompatibilität. */
+  readonly staff?: number;
   readonly measure: number;
+  /** Bei mehreren Stimmen gesetzt. */
+  readonly voice?: number;
   readonly event: number;
   /** Index des Tons im Akkord (bei Einzelnoten 0). */
   readonly note?: number;
 }
 
 export type LayoutItem =
+  | {
+      readonly kind: 'label';
+      readonly text: string;
+      readonly x: number;
+      readonly y: number;
+      readonly role: 'chordSymbol' | 'functionSymbol';
+      readonly ref: EventRef;
+    }
   | {
       readonly kind: 'glyph';
       readonly glyph: GlyphName;
@@ -83,6 +95,13 @@ export type LayoutItem =
     }
   | {
       readonly kind: 'tie';
+      readonly x1: number;
+      readonly x2: number;
+      readonly y: number;
+      readonly direction: 'up' | 'down';
+    }
+  | {
+      readonly kind: 'slur';
       readonly x1: number;
       readonly x2: number;
       readonly y: number;
@@ -129,6 +148,7 @@ const { stemThickness, beamThickness, beamSpacing, legerLineExtension } = ENGRAV
 
 /** Berechnet das Layout einer Partitur. Wirft einen RangeError bei Elementen, die Layout v1 noch nicht kann. */
 export function layoutScore(score: Score, options: LayoutOptions = {}): ScoreLayout {
+  if (score.staves.length > 1) return layoutMultipleStaves(score, options);
   const staff = checkPhaseOne(score);
   const items: LayoutItem[] = [];
   const quarterSpace = options.quarterSpace ?? 3.5;
@@ -155,12 +175,21 @@ export function layoutScore(score: Score, options: LayoutOptions = {}): ScoreLay
       }
       x += width;
     } else {
-      for (const e of measureEvents) {
-        const left = leftExtent(e);
-        e.x = x + left;
-        placed.set(key(e.measure, e.index), e);
-        emitEvent(e, items);
-        x += left + Math.max(spacing(e, quarterSpace), rightExtent(e) + 0.6);
+      for (let index = 0; index < measureEvents.length;) {
+        const first = measureEvents[index];
+        if (!first) break;
+        const group = measureEvents.filter((e) => fractionEquals(e.onset, first.onset));
+        const left = Math.max(...group.map(leftExtent));
+        const column = x + left;
+        for (const e of group) {
+          e.x = column;
+          placed.set(key(e.measure, e.index, e.voice), e);
+          emitEvent(e, items);
+        }
+        x +=
+          left +
+          Math.max(...group.map((e) => Math.max(spacing(e, quarterSpace), rightExtent(e) + 0.6)));
+        index += group.length;
       }
     }
     const last = measureIndex === staff.measures.length - 1;
@@ -173,6 +202,7 @@ export function layoutScore(score: Score, options: LayoutOptions = {}): ScoreLay
   layoutBeams(events, items);
   layoutTriplets(events, items);
   layoutTies(score, placed, items);
+  layoutSlurs(score, placed, items);
 
   const end = options.endBarline ?? 'single';
   const width = layoutEndBarline(end, x, items);
@@ -195,48 +225,148 @@ export function layoutScore(score: Score, options: LayoutOptions = {}): ScoreLay
   };
 }
 
+/** Systeme werden nach ihren Taktstrichen auf gemeinsame Spalten gestreckt. */
+function layoutMultipleStaves(score: Score, options: LayoutOptions): ScoreLayout {
+  const at = <T>(values: readonly T[], index: number): T => {
+    const value = values[index];
+    if (value === undefined) throw new RangeError('Unvollständige Systemausrichtung');
+    return value;
+  };
+  const count = score.staves[0]?.measures.length;
+  if (!count || score.staves.some((staff) => staff.measures.length !== count))
+    throw new RangeError('Alle Systeme brauchen dieselbe Taktzahl');
+  const layouts = score.staves.map((staff) => layoutScore({ staves: [staff] }, options));
+  const cuts = layouts.map((layout) => [
+    0,
+    ...layout.items
+      .filter(
+        (item): item is Extract<LayoutItem, { kind: 'line' }> =>
+          item.kind === 'line' && item.role === 'barline',
+      )
+      .map((item) => item.x1)
+      .slice(0, count),
+  ]);
+  if (options.endBarline === 'none')
+    cuts.forEach((list, index) => list.push(at(layouts, index).width));
+  if (cuts.some((list) => list.length !== cuts[0]?.length))
+    throw new RangeError('Taktstriche der Systeme stimmen nicht überein');
+  const shared = at(cuts, 0).map((_, i) => Math.max(...cuts.map((list) => at(list, i))));
+  const mapX = (value: number, list: number[]): number => {
+    const found = list.findIndex((_, i) => i < list.length - 1 && value <= at(list, i + 1));
+    const segment = found < 0 ? list.length - 2 : found;
+    const left = at(list, segment);
+    const right = at(list, segment + 1);
+    return (
+      at(shared, segment) +
+      ((value - left) * (at(shared, segment + 1) - at(shared, segment))) / (right - left)
+    );
+  };
+  const gap = 10;
+  const items = layouts.flatMap((layout, staff) =>
+    layout.items.map((item): LayoutItem => {
+      const x = (value: number) => mapX(value, at(cuts, staff));
+      const y = (value: number) => value + staff * gap;
+      const ref = 'ref' in item ? { ...item.ref, staff } : undefined;
+      switch (item.kind) {
+        case 'glyph':
+          return { ...item, x: x(item.x), y: y(item.y), ...(ref ? { ref } : {}) };
+        case 'label':
+          return { ...item, x: x(item.x), y: y(item.y), ...(ref ? { ref } : {}) };
+        case 'line':
+          return {
+            ...item,
+            x1: x(item.x1),
+            x2: x(item.x2),
+            y1: y(item.y1),
+            y2: y(item.y2),
+            ...(ref ? { ref } : {}),
+          };
+        case 'beam':
+          return { ...item, x1: x(item.x1), x2: x(item.x2), y1: y(item.y1), y2: y(item.y2) };
+        case 'tie':
+        case 'slur':
+          return { ...item, x1: x(item.x1), x2: x(item.x2), y: y(item.y) };
+      }
+    }),
+  );
+  // Durchgehende Anfangs- und Taktstriche verbinden die Systeme.
+  for (const x of shared.slice(1)) {
+    items.push({
+      kind: 'line',
+      x1: x,
+      x2: x,
+      y1: 4,
+      y2: (score.staves.length - 1) * gap,
+      thickness: ENGRAVING_DEFAULTS.thinBarlineThickness,
+      role: 'barline',
+    });
+  }
+  items.push({
+    kind: 'line',
+    x1: 0,
+    x2: 0,
+    y1: 0,
+    y2: (score.staves.length - 1) * gap + 4,
+    thickness: ENGRAVING_DEFAULTS.thinBarlineThickness,
+    role: 'barline',
+  });
+  const extent = extents(items);
+  const width = Math.max(...layouts.map((layout, staff) => mapX(layout.width, at(cuts, staff))));
+  return {
+    width: round(width),
+    top: round(extent.top),
+    bottom: round(extent.bottom),
+    items: items.map(roundItem),
+  };
+}
+
 /** Bewusst begrenzt auf vollständige, zusammenhängende Achteltriolen innerhalb einer Viertel. */
 function layoutTriplets(events: readonly PlacedEvent[], items: LayoutItem[]) {
-  for (let index = 0; index < events.length; index++) {
-    const first = events[index];
-    if (!first?.event.duration.tuplet) continue;
-    const group = events.slice(index, index + 3);
-    if (
-      group.length !== 3 ||
-      !Number.isInteger(fractionToNumber(first.onset) * 4) ||
-      group.some(
-        (e) =>
-          e.measure !== first.measure ||
-          e.event.kind !== 'note' ||
-          e.event.duration.value !== 'eighth' ||
-          e.event.duration.dots !== 0 ||
-          e.event.duration.tuplet?.actual !== 3 ||
-          e.event.duration.tuplet.normal !== 2,
+  const voices = new Set(events.map((event) => event.voice));
+  for (const voice of voices) {
+    const stream = events.filter((event) => event.voice === voice);
+    for (let index = 0; index < stream.length; index++) {
+      const first = stream[index];
+      if (!first?.event.duration.tuplet) continue;
+      const group = stream.slice(index, index + 3);
+      if (
+        group.length !== 3 ||
+        !Number.isInteger(fractionToNumber(first.onset) * 4) ||
+        group.some(
+          (e) =>
+            e.measure !== first.measure ||
+            e.voice !== first.voice ||
+            e.event.kind !== 'note' ||
+            e.event.duration.value !== 'eighth' ||
+            e.event.duration.dots !== 0 ||
+            e.event.duration.tuplet?.actual !== 3 ||
+            e.event.duration.tuplet.normal !== 2,
+        )
       )
-    )
-      throw new RangeError(
-        'Layout unterstützt nur vollständige unpunktierte 3:2-Achteltriolen ohne Pausen',
+        throw new RangeError(
+          'Layout unterstützt nur vollständige unpunktierte 3:2-Achteltriolen ohne Pausen',
+        );
+      const last = group[2];
+      if (
+        !last ||
+        !fractionEquals(durationValue(first.event.duration), durationValue(last.event.duration))
+      )
+        throw new RangeError('Ungültige Triole');
+      const down = first.stem === 'down';
+      const y = down
+        ? Math.max(...group.map((e) => e.stemTip ?? 4)) + 1.5
+        : Math.min(...group.map((e) => e.stemTip ?? 0)) - 0.8;
+      items.push(
+        glyph(
+          'tuplet3',
+          (first.x + last.x) / 2 -
+            (glyphMetrics('tuplet3').bBoxNE[0] + glyphMetrics('tuplet3').bBoxSW[0]) / 2,
+          y,
+          'tuplet',
+        ),
       );
-    const last = group[2];
-    if (
-      !last ||
-      !fractionEquals(durationValue(first.event.duration), durationValue(last.event.duration))
-    )
-      throw new RangeError('Ungültige Triole');
-    const down = first.stem === 'down';
-    const y = down
-      ? Math.max(...group.map((e) => e.stemTip ?? 4)) + 1.5
-      : Math.min(...group.map((e) => e.stemTip ?? 0)) - 0.8;
-    items.push(
-      glyph(
-        'tuplet3',
-        (first.x + last.x) / 2 -
-          (glyphMetrics('tuplet3').bBoxNE[0] + glyphMetrics('tuplet3').bBoxSW[0]) / 2,
-        y,
-        'tuplet',
-      ),
-    );
-    index += 2;
+      index += 2;
+    }
   }
 }
 /** Auf Tausendstel eines Abstands runden: stabile, lesbare Daten (ein Tausendstel ist weit unter einem Pixel). */
@@ -247,6 +377,7 @@ function round(value: number): number {
 function roundItem(item: LayoutItem): LayoutItem {
   switch (item.kind) {
     case 'glyph':
+    case 'label':
       return { ...item, x: round(item.x), y: round(item.y) };
     case 'line':
     case 'beam':
@@ -258,6 +389,7 @@ function roundItem(item: LayoutItem): LayoutItem {
         y2: round(item.y2),
       };
     case 'tie':
+    case 'slur':
       return { ...item, x1: round(item.x1), x2: round(item.x2), y: round(item.y) };
   }
 }
@@ -267,14 +399,9 @@ function checkPhaseOne(score: Score): Staff {
   if (!staff || others.length > 0) {
     throw new RangeError('Layout v1 kann genau ein System (mehrere ab Phase 3)');
   }
-  if (staff.clef !== 'treble' && staff.clef !== 'bass') {
-    throw new RangeError(`Schlüssel ${staff.clef}: Layout v1 kann Violin- und Bassschlüssel`);
-  }
   staff.measures.forEach((m, i) => {
-    if (m.voices.length !== 1) {
-      throw new RangeError(
-        `Takt ${String(i + 1)}: Layout v1 kann eine Stimme (mehrere ab Phase 3)`,
-      );
+    if (m.voices.length < 1 || m.voices.length > 2) {
+      throw new RangeError(`Takt ${String(i + 1)}: Layout kann eine oder zwei Stimmen`);
     }
     if (m.changes) {
       throw new RangeError(
@@ -291,29 +418,30 @@ function checkPhaseOne(score: Score): Staff {
 // ---------------------------------------------------------------------------
 // Tonhöhe → Position
 
-const TOP_LINE: Readonly<Record<'treble' | 'bass', Pitch>> = {
+const TOP_LINE: Readonly<Record<Clef, Pitch>> = {
   treble: parsePitch('F5'),
   bass: parsePitch('A3'),
+  alto: parsePitch('G4'),
+  tenor: parsePitch('E4'),
 };
 
 /** y einer Tonhöhe im System: oberste Linie 0, unterste 4, Schritt = halber Abstand. */
 export function staffY(p: Pitch, clef: Clef): number {
-  if (clef !== 'treble' && clef !== 'bass') {
-    throw new RangeError(`Schlüssel ${clef}: Layout v1 kann Violin- und Bassschlüssel`);
-  }
   return (diatonicIndex(TOP_LINE[clef]) - diatonicIndex(p)) * 0.5;
 }
 
 // ---------------------------------------------------------------------------
 // Schlüssel, Vorzeichnung, Taktart
 
-const CLEF_GLYPHS: Readonly<Record<'treble' | 'bass', { glyph: GlyphName; y: number }>> = {
+const CLEF_GLYPHS: Readonly<Record<Clef, { glyph: GlyphName; y: number }>> = {
   treble: { glyph: 'gClef', y: 3 }, // Ursprung auf der g¹-Linie (zweite von unten)
   bass: { glyph: 'fClef', y: 1 }, // Ursprung auf der f-Linie (zweite von oben)
+  alto: { glyph: 'cClef', y: 2 },
+  tenor: { glyph: 'cClef', y: 1 }, // c¹ auf der vierten Linie von unten
 };
 
 function layoutClef(clef: Clef, x: number, items: LayoutItem[]): number {
-  const { glyph: name, y } = CLEF_GLYPHS[clef === 'bass' ? 'bass' : 'treble'];
+  const { glyph: name, y } = CLEF_GLYPHS[clef];
   items.push(glyph(name, x, y, 'clef'));
   return x + glyphRight(name);
 }
@@ -329,8 +457,16 @@ export function keySignatureYs(fifths: number, clef: Clef): number[] {
   const list = fifths >= 0 ? SIGNATURE_PITCHES.sharps : SIGNATURE_PITCHES.flats;
   return list.slice(0, Math.abs(fifths)).map((text) => {
     const p = parsePitch(text);
-    const shifted = clef === 'bass' ? { ...p, octave: p.octave - 2 } : p;
-    return staffY(shifted, clef);
+    if (clef === 'treble') return staffY(p, clef);
+    const preferred = clef === 'bass' ? 2 : clef === 'alto' ? 2 : 2.5;
+    const candidates = [-2, -1, 0, 1].map((shift) =>
+      staffY({ ...p, octave: p.octave + shift }, clef),
+    );
+    return (
+      candidates
+        .filter((y) => y >= -0.5 && y <= 4)
+        .sort((a, b) => Math.abs(a - preferred) - Math.abs(b - preferred))[0] ?? staffY(p, clef)
+    );
   });
 }
 
@@ -397,6 +533,8 @@ interface Head {
 
 interface PlacedEvent {
   readonly measure: number;
+  readonly voice: number;
+  readonly polyphonic: boolean;
   readonly index: number;
   readonly event: VoiceEvent;
   readonly value: NoteValue;
@@ -454,30 +592,56 @@ const ACCIDENTALS: Readonly<Record<number, GlyphName>> = {
   2: 'accidentalDoubleSharp',
 };
 
-function key(measure: number, index: number): string {
-  return `${String(measure)}:${String(index)}`;
+function key(measure: number, index: number, voice = 0): string {
+  return `${String(measure)}:${String(voice)}:${String(index)}`;
 }
 
 function prepareEvents(score: Score, staff: Staff): PlacedEvent[] {
   const signature = keyFromFifths(staff.keySignature.fifths);
   // Haltebogen-Ziele bekommen kein Vorzeichen (die Bindung trägt es über den Taktstrich).
   const tieTargets = new Set(
-    ties(score).map((t) => `${key(t.to.measure, t.to.event)}:${pitchKey(t.pitch)}`),
+    ties(score).map((t) => `${key(t.to.measure, t.to.event, t.to.voice)}:${pitchKey(t.pitch)}`),
   );
   const result: PlacedEvent[] = [];
   let groupCounter = 0;
 
   staff.measures.forEach((m, measure) => {
     const state = new Map<string, number>();
-    let onset = ZERO;
-    const measureEvents: PlacedEvent[] = (m.voices[0]?.events ?? []).map((event, index) => {
-      const pitches = eventPitches(event);
-      const heads: Head[] = pitches
-        .map((pitch, note) => ({ pitch, y: staffY(pitch, staff.clef), note, displaced: false }))
-        .sort((a, b) => a.y - b.y);
-      for (const head of [...heads].sort((a, b) => a.note - b.note)) {
+    const measureEvents: PlacedEvent[] = m.voices
+      .flatMap((voice, voiceIndex) => {
+        let onset = ZERO;
+        return voice.events.map((event, index) => {
+          const pitches = eventPitches(event);
+          const heads: Head[] = pitches
+            .map((pitch, note) => ({ pitch, y: staffY(pitch, staff.clef), note, displaced: false }))
+            .sort((a, b) => a.y - b.y);
+          const placedEvent: PlacedEvent = {
+            measure,
+            voice: voiceIndex,
+            polyphonic: m.voices.length > 1,
+            index,
+            event,
+            value: event.duration.value,
+            dots: event.duration.dots,
+            onset,
+            heads,
+            stem: 'none',
+            beamLevels: event.kind === 'rest' ? 0 : BEAM_LEVELS[event.duration.value],
+            x: 0,
+          };
+          onset = addFractions(onset, durationValue(event.duration));
+          return placedEvent;
+        });
+      })
+      .sort((a, b) => compareFractions(a.onset, b.onset) || a.voice - b.voice);
+    for (const placedEvent of measureEvents) {
+      for (const head of [...placedEvent.heads].sort((a, b) => a.note - b.note)) {
         const id = `${head.pitch.letter}${String(head.pitch.octave)}`;
-        if (tieTargets.has(`${key(measure, index)}:${pitchKey(head.pitch)}`)) {
+        if (
+          tieTargets.has(
+            `${key(measure, placedEvent.index, placedEvent.voice)}:${pitchKey(head.pitch)}`,
+          )
+        ) {
           continue;
         }
         const expected = state.get(id) ?? signatureAlter(signature, head.pitch.letter);
@@ -487,59 +651,47 @@ function prepareEvents(score: Score, staff: Staff): PlacedEvent[] {
           state.set(id, head.pitch.alter);
         }
       }
-      const placedEvent: PlacedEvent = {
-        measure,
-        index,
-        event,
-        value: event.duration.value,
-        dots: event.duration.dots,
-        onset,
-        heads,
-        stem: 'none',
-        beamLevels: event.kind === 'rest' ? 0 : BEAM_LEVELS[event.duration.value],
-        x: 0,
-      };
-      onset = addFractions(onset, durationValue(event.duration));
-      return placedEvent;
-    });
+    }
 
     // Balkengruppen: aufeinanderfolgende Achtel und kürzer innerhalb einer Zählzeit
     const beatBounds = beatBoundaries(staff.timeSignature);
-    let current: PlacedEvent[] = [];
-    const flush = () => {
-      if (current.length >= 2) {
-        groupCounter++;
-        for (const e of current) {
-          e.beamGroup = groupCounter;
+    m.voices.forEach((_, voice) => {
+      let current: PlacedEvent[] = [];
+      const flush = () => {
+        if (current.length >= 2) {
+          groupCounter++;
+          for (const e of current) {
+            e.beamGroup = groupCounter;
+          }
         }
-      }
-      current = [];
-    };
-    for (const e of measureEvents) {
-      const end = addFractions(e.onset, durationValue(e.event.duration));
-      const beat = beatBounds.find(
-        ([start, stop]) =>
-          compareFractions(e.onset, start) >= 0 && compareFractions(e.onset, stop) < 0,
-      );
-      const fits = beat !== undefined && compareFractions(end, beat[1]) <= 0;
-      if (e.beamLevels === 0 || !fits) {
-        flush();
-        continue;
-      }
-      const previous = current.at(-1);
-      const previousBeat =
-        previous &&
-        beatBounds.find(
+        current = [];
+      };
+      for (const e of measureEvents.filter((item) => item.voice === voice)) {
+        const end = addFractions(e.onset, durationValue(e.event.duration));
+        const beat = beatBounds.find(
           ([start, stop]) =>
-            compareFractions(previous.onset, start) >= 0 &&
-            compareFractions(previous.onset, stop) < 0,
+            compareFractions(e.onset, start) >= 0 && compareFractions(e.onset, stop) < 0,
         );
-      if (previousBeat && !fractionEquals(previousBeat[0], beat[0])) {
-        flush();
+        const fits = beat !== undefined && compareFractions(end, beat[1]) <= 0;
+        if (e.beamLevels === 0 || !fits) {
+          flush();
+          continue;
+        }
+        const previous = current.at(-1);
+        const previousBeat =
+          previous &&
+          beatBounds.find(
+            ([start, stop]) =>
+              compareFractions(previous.onset, start) >= 0 &&
+              compareFractions(previous.onset, stop) < 0,
+          );
+        if (previousBeat && !fractionEquals(previousBeat[0], beat[0])) {
+          flush();
+        }
+        current.push(e);
       }
-      current.push(e);
-    }
-    flush();
+      flush();
+    });
     result.push(...measureEvents);
   });
 
@@ -549,11 +701,19 @@ function prepareEvents(score: Score, staff: Staff): PlacedEvent[] {
     if (e.beamGroup !== undefined) {
       groups.set(e.beamGroup, [...(groups.get(e.beamGroup) ?? []), e]);
     } else if (e.heads.length > 0 && e.value !== 'whole' && e.value !== 'breve') {
-      e.stem = stemDirection(e.heads.map((h) => h.y));
+      e.stem = e.polyphonic
+        ? e.voice === 0
+          ? 'up'
+          : 'down'
+        : stemDirection(e.heads.map((h) => h.y));
     }
   }
   for (const members of groups.values()) {
-    const direction = stemDirection(members.flatMap((e) => e.heads.map((h) => h.y)));
+    const direction = members[0]?.polyphonic
+      ? members[0].voice === 0
+        ? 'up'
+        : 'down'
+      : stemDirection(members.flatMap((e) => e.heads.map((h) => h.y)));
     for (const e of members) {
       e.stem = direction;
     }
@@ -682,6 +842,15 @@ function rightExtent(e: PlacedEvent): number {
   if (e.stem === 'up' && e.beamGroup === undefined && e.beamLevels > 0) {
     right = Math.max(right, glyphRight(headGlyph(e)) + glyphRight('flag8thUp'));
   }
+  if (e.event.harmony) {
+    right = Math.max(
+      right,
+      Math.max(
+        e.event.harmony.chordSymbol?.length ?? 0,
+        e.event.harmony.functionSymbol?.length ?? 0,
+      ) * 0.8,
+    );
+  }
   return right;
 }
 
@@ -705,10 +874,32 @@ function isWholeMeasureRest(events: readonly PlacedEvent[], ts: TimeSignature): 
 // Zeichnen eines Ereignisses (ohne Balken)
 
 function emitEvent(e: PlacedEvent, items: LayoutItem[]): void {
-  const ref = { measure: e.measure, event: e.index };
+  const ref = e.polyphonic
+    ? { measure: e.measure, voice: e.voice, event: e.index }
+    : { measure: e.measure, event: e.index };
+  if (e.event.kind !== 'rest' && e.event.harmony) {
+    if (e.event.harmony.chordSymbol)
+      items.push({
+        kind: 'label',
+        text: e.event.harmony.chordSymbol,
+        x: e.x,
+        y: -4.2,
+        role: 'chordSymbol',
+        ref,
+      });
+    if (e.event.harmony.functionSymbol)
+      items.push({
+        kind: 'label',
+        text: e.event.harmony.functionSymbol,
+        x: e.x,
+        y: -2.6,
+        role: 'functionSymbol',
+        ref,
+      });
+  }
   if (e.event.kind === 'rest') {
     const name = RESTS[e.value];
-    const y = e.value === 'whole' ? 1 : MIDDLE_LINE;
+    const y = e.polyphonic ? (e.voice === 0 ? 0 : 4) : e.value === 'whole' ? 1 : MIDDLE_LINE;
     items.push(glyph(name, e.x, y, 'rest', ref));
     emitDots(e.x + glyphRight(name) + DOT_GAP, [1.5], e.dots, items, ref);
     return;
@@ -909,7 +1100,15 @@ function layoutBeamGroup(members: readonly PlacedEvent[], items: LayoutItem[]): 
   members.forEach((e, i) => {
     const x = xs[i] ?? x0;
     e.stemTip = beamY(x);
-    items.push(stemLine(e, beamY(x), { measure: e.measure, event: e.index }));
+    items.push(
+      stemLine(
+        e,
+        beamY(x),
+        e.polyphonic
+          ? { measure: e.measure, voice: e.voice, event: e.index }
+          : { measure: e.measure, event: e.index },
+      ),
+    );
   });
 
   // Hauptbalken und weitere Ebenen (Teilbalken als kurze Stummel)
@@ -955,8 +1154,8 @@ function layoutBeamGroup(members: readonly PlacedEvent[], items: LayoutItem[]): 
 
 function layoutTies(score: Score, placed: Map<string, PlacedEvent>, items: LayoutItem[]): void {
   for (const t of ties(score)) {
-    const from = placed.get(key(t.from.measure, t.from.event));
-    const to = placed.get(key(t.to.measure, t.to.event));
+    const from = placed.get(key(t.from.measure, t.from.event, t.from.voice));
+    const to = placed.get(key(t.to.measure, t.to.event, t.to.voice));
     const fromHead = from?.heads.find((h) => equals(h.pitch, t.pitch));
     const toHead = to?.heads.find((h) => equals(h.pitch, t.pitch));
     if (!from || !to || !fromHead || !toHead) {
@@ -974,6 +1173,30 @@ function layoutTies(score: Score, placed: Map<string, PlacedEvent>, items: Layou
         0.1,
       x2: to.x - (toHead.displaced && to.stem === 'down' ? displacement(to) : 0) - 0.1,
       y: fromHead.y + offset,
+      direction,
+    });
+  }
+}
+
+function layoutSlurs(score: Score, placed: Map<string, PlacedEvent>, items: LayoutItem[]): void {
+  for (const span of slurs(score)) {
+    const from = placed.get(key(span.from.measure, span.from.event, span.from.voice));
+    const to = placed.get(key(span.to.measure, span.to.event, span.to.voice));
+    if (!from || !to || from.heads.length === 0 || to.heads.length === 0) continue;
+    const direction = from.polyphonic
+      ? from.voice === 0
+        ? 'up'
+        : 'down'
+      : from.stem === 'up'
+        ? 'down'
+        : 'up';
+    const head = direction === 'up' ? from.heads[0] : from.heads.at(-1);
+    if (!head) continue;
+    items.push({
+      kind: 'slur',
+      x1: from.x + glyphRight(headGlyph(from)) + 0.1,
+      x2: to.x - 0.1,
+      y: head.y + (direction === 'up' ? -0.8 : 0.8),
       direction,
     });
   }
@@ -1077,6 +1300,10 @@ function extents(items: readonly LayoutItem[]): { top: number; bottom: number } 
         bottom = Math.max(bottom, item.y - m.bBoxSW[1]);
         break;
       }
+      case 'label':
+        top = Math.min(top, item.y - 1.4);
+        bottom = Math.max(bottom, item.y);
+        break;
       case 'line':
         top = Math.min(top, item.y1, item.y2);
         bottom = Math.max(bottom, item.y1, item.y2);
@@ -1093,6 +1320,7 @@ function extents(items: readonly LayoutItem[]): { top: number; bottom: number } 
         break;
       }
       case 'tie':
+      case 'slur':
         top = Math.min(top, item.y - 1);
         bottom = Math.max(bottom, item.y + 1);
         break;
@@ -1103,7 +1331,9 @@ function extents(items: readonly LayoutItem[]): { top: number; bottom: number } 
 
 /** Waagerechter Bereich eines Ereignisses (Notenköpfe, Vorzeichen, Punkte, Fähnchen, Hälse). */
 export interface EventBounds {
+  readonly staff?: number;
   readonly measure: number;
+  readonly voice?: number;
   readonly event: number;
   readonly x1: number;
   readonly x2: number;
@@ -1111,7 +1341,7 @@ export interface EventBounds {
 
 /** Bereiche aller Ereignisse, z. B. für Screenreader-Flächen und später für Antippen. */
 export function eventBounds(layout: ScoreLayout): EventBounds[] {
-  const bounds = new Map<string, { measure: number; event: number; x1: number; x2: number }>();
+  const bounds = new Map<string, EventBounds>();
   for (const item of layout.items) {
     if (!('ref' in item)) {
       continue;
@@ -1119,19 +1349,29 @@ export function eventBounds(layout: ScoreLayout): EventBounds[] {
     const [left, right] =
       item.kind === 'glyph'
         ? [item.x + METRICS[item.glyph].bBoxSW[0], item.x + METRICS[item.glyph].bBoxNE[0]]
-        : [Math.min(item.x1, item.x2), Math.max(item.x1, item.x2)];
-    const id = key(item.ref.measure, item.ref.event);
+        : item.kind === 'label'
+          ? [item.x, item.x + item.text.length * 0.8]
+          : [Math.min(item.x1, item.x2), Math.max(item.x1, item.x2)];
+    const id = `${String(item.ref.staff ?? 0)}:${key(item.ref.measure, item.ref.event, item.ref.voice)}`;
     const current = bounds.get(id);
     bounds.set(id, {
       measure: item.ref.measure,
       event: item.ref.event,
+      ...(item.ref.staff !== undefined ? { staff: item.ref.staff } : {}),
+      ...(item.ref.voice !== undefined ? { voice: item.ref.voice } : {}),
       x1: Math.min(current?.x1 ?? left, left),
       x2: Math.max(current?.x2 ?? right, right),
     });
   }
   return [...bounds.values()]
     .map((b) => ({ ...b, x1: round(b.x1), x2: round(b.x2) }))
-    .sort((a, b) => a.measure - b.measure || a.event - b.event);
+    .sort(
+      (a, b) =>
+        (a.staff ?? 0) - (b.staff ?? 0) ||
+        a.measure - b.measure ||
+        (a.voice ?? 0) - (b.voice ?? 0) ||
+        a.event - b.event,
+    );
 }
 
 /** Glyphen-Metriken für Renderer (Codepoint und Begrenzungsrahmen). */

@@ -9,6 +9,7 @@ import {
   exerciseHints,
   exercisePrompt,
   createRng,
+  generateExercise,
   generateListening,
   hintText,
   LISTENING_QUESTIONS,
@@ -130,6 +131,26 @@ describe('Hörhinweise', () => {
           const text = hintText(item, exerciseHints(item, level), locale);
           expect(text, `${question}/${locale}/${String(level)}`).not.toMatch(/NaN|undefined|\{\{/);
           expect(text.length).toBeGreaterThan(20);
+          expect(text).not.toMatch(/Klangabstand|pitch distance/);
+        }
+      }
+    }
+  });
+
+  it('geben für Gesangs- und Nachspielaufgaben sinnvolle Hinweise ohne Zahlenplatzhalter aus', () => {
+    const range = { minMidi: 60, maxMidi: 76 };
+    const base = { level: 1, clefs: ['treble'], maxAccidentals: 0, range } as const;
+    const specs = [
+      { type: 'SING_INTERVAL', params: { ...base, intervals: ['m3', 'M3', 'P4', 'P5'] } },
+      { type: 'SIGHT_SING', params: { ...base } },
+      { type: 'PLAY_BACK', params: { ...base, intervals: ['M2', 'm3', 'M3', 'P4'] } },
+    ] as const;
+    for (const spec of specs) {
+      const item = generateExercise(spec, createRng(5));
+      for (const locale of ['de', 'en-US', 'en-GB'] as const) {
+        for (const level of [1, 2] as const) {
+          const text = hintText(item, exerciseHints(item, level), locale);
+          expect(text, `${spec.type}/${locale}/${String(level)}`).not.toMatch(/NaN|undefined|\{\{/);
           expect(text).not.toMatch(/Klangabstand|pitch distance/);
         }
       }
