@@ -11,7 +11,7 @@ export const EXAM_TEMPLATES: readonly ExamTemplate[] = [
       { lessonId: 'rhythm.l4.complex.lesson1', sourceIndex: 0, area: 'theory' },
       { lessonId: 'chords.l3.sevenths.lesson1', sourceIndex: 0, area: 'theory' },
       { lessonId: 'harmony.l3.functions.lesson1', sourceIndex: 0, area: 'theory' },
-      { lessonId: 'harmony.l3.cadences.lesson1', sourceIndex: 0, area: 'theory' },
+      { lessonId: 'harmony.l3.modulation.lesson1', sourceIndex: 0, area: 'theory' },
       { lessonId: 'forms.l3.phrases.lesson1', sourceIndex: 0, area: 'theory' },
       { lessonId: 'aural.l4.preparation.lesson1', sourceIndex: 0, area: 'aural' },
       { lessonId: 'aural.l4.preparation.lesson1', sourceIndex: 4, area: 'aural' },

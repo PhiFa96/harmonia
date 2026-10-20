@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { currentItem, expectedAnswer } from '@harmonia/exercises';
+import { currentItem, expectedAnswer, isAuralExercise } from '@harmonia/exercises';
 import { catalogue, examTemplates } from './authoring.ts';
 import { catalogue as published, examTemplates as publishedTemplates } from './published.ts';
 import {
@@ -93,5 +93,23 @@ describe('Prüfungssimulation', () => {
     expect(run.endReason).toBe('completed');
     expect(examResult(run).areas.map((area) => area.points)).toEqual([30, 0]);
     expect(run.session.skipped).toHaveLength(6);
+  });
+});
+
+describe('Prüfungsbereiche', () => {
+  it('ordnet jede Frage dem Bereich zu, den ihre Aufgabenart tatsächlich verlangt', () => {
+    for (const template of availableExamTemplates(catalogue, examTemplates)) {
+      for (const seed of [1, 2, 3]) {
+        const run = createExamRun(catalogue, examTemplates, template.id, seed, 1000);
+        template.questions.forEach((question, index) => {
+          const item = run.session.items[index];
+          if (!item) throw new Error('Aufgabe fehlt');
+          expect(
+            isAuralExercise(item) ? 'aural' : 'theory',
+            `${template.id} #${String(index)} ${question.lessonId}`,
+          ).toBe(question.area);
+        });
+      }
+    }
   });
 });
