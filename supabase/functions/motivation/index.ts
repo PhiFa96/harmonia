@@ -3,6 +3,7 @@ import {
   motivationPreferencesSchema,
   motivationSummary,
   rewardRuleAt,
+  serverBookedActivity,
 } from '../../../packages/content/src/index.ts';
 import {
   backend,
@@ -180,7 +181,7 @@ Deno.serve(async (request) => {
     if (streak.error) return json(503, { error: 'storage' });
     return json(200, {
       ...(data.rushFormat === 1
-        ? { rushActivities: current.activities.filter((a) => a.id.startsWith('rush:')) }
+        ? { rushActivities: current.activities.filter((a) => serverBookedActivity(a.id)) }
         : {}),
       preferences,
       rules: rewardRules,

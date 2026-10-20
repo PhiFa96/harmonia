@@ -260,6 +260,9 @@ export const motivationResponseSchema = z
     purchases: freezePurchaseSchema.array(),
   })
   .strict();
+/** Rush- und Duell-XP stammen nur vom Server (kein lokaler Lektionsbeleg) und werden Clients mit `rushFormat: 1` mitgeliefert. */
+export const serverBookedActivity = (id: string) =>
+  id.startsWith('rush:') || id.startsWith('duel:');
 export type MotivationRequest = z.infer<typeof motivationRequestSchema>;
 export type MotivationResponse = z.infer<typeof motivationResponseSchema>;
 
