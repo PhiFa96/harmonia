@@ -235,13 +235,15 @@ Die fachliche Prüfung nach ADR 0005, F03 und echte Geräteabnahme bleiben offen
 
 ### P3.18 – Tutor v2: Lernplaner und Gedächtnis
 
+**Technischer Stand (20.10.2026):** Zwei kontogebundene Werkzeuge, verdichtete Ratings/Lernnachweise, kurze Wochenvorschläge und ein separater Stufe-3/4-Testkatalog sind vorbereitet. [Umsetzung und offene Abnahme](tutor-lernplaner.md). Fachlicher Katalog-/Planreview und echte Modellmessung stehen aus.
+
 - **Ziel:** Der Tutor kennt Stärken und Schwächen und plant mit.
 - **Abhängig von:** P3.01
 - **Umfang:** M
 - **Aufgaben:**
-  - [ ] Werkzeuge `get_learner_summary`, `analyze_progression`
-  - [ ] Wochenplan-Vorschlag; Zusammenfassung von Stärken und Schwächen (ohne personenbezogene Daten)
-  - [ ] Testkatalog erweitern (Stufen 3–4)
+  - [x] Werkzeuge `get_learner_summary`, `analyze_progression`
+  - [x] Wochenplan-Vorschlag; Zusammenfassung von Stärken und Schwächen (ohne personenbezogene Daten)
+  - [x] Testkatalog erweitern (Stufen 3–4)
 - **Fertig, wenn:** Testkatalog erfüllt; Lernpläne stichprobenartig fachlich geprüft.
 
 ### P3.19 – Wissensbasis v2

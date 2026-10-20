@@ -52,6 +52,7 @@
     "db:test:knowledge": "node tools/test-knowledge.mjs",
     "check:knowledge:live": "npx -y deno@2.9.6 run --config tools/deno.json --allow-env=ANTHROPIC_API_KEY,HARMONIA_TUTOR_MODEL,HARMONIA_TUTOR_TARIFF,ANTHROPIC_CUSTOM_HEADERS --allow-net=api.anthropic.com tools/tutor-live.ts --knowledge",
     "check:tutor:catalogue": "node tools/check-tutor-catalogue.mjs",
+    "check:tutor:catalogue-v2": "node tools/check-tutor-catalogue-v2.mjs",
     "tutor:catalogue:write": "node tools/check-tutor-catalogue.mjs --write",
     "tutor:benchmark": "node tools/tutor-benchmark.mjs",
     "check:tutor:benchmark": "npx -y deno@2.9.6 check --config tools/deno.json tools/tutor-benchmark-worker.ts tools/tutor-benchmark-smoke.ts && npx -y deno@2.9.6 run --config tools/deno.json --allow-env=ANTHROPIC_CUSTOM_HEADERS tools/tutor-benchmark-smoke.ts",

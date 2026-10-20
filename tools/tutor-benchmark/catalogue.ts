@@ -51,7 +51,7 @@ const language = (de: string, us: string, uk = us) => ({ de, 'en-US': us, 'en-GB
 const noteIds =
   ' Die Ton-IDs verwenden internationale wissenschaftliche Schreibweise: B bedeutet H, Bb bedeutet B.';
 
-function wrongAnswer(item: ExerciseItem): string {
+export function wrongAnswer(item: ExerciseItem): string {
   const expected = expectedAnswer(item),
     candidates = [
       ...item.choices,

@@ -32,6 +32,8 @@ import {
   tutorReservation,
 } from '../supabase/functions/_shared/tutor-provider.ts';
 import { runTutor } from '../supabase/functions/_shared/tutor-runtime.ts';
+import { summarizeLearner } from '../supabase/functions/_shared/tutor-learner.ts';
+import { contentMessages as authoringMessages } from '../packages/i18n/src/authoring-content-messages.ts';
 import type { TutorEvent } from '../supabase/functions/_shared/tutor-runtime.ts';
 import {
   localTutorFetch,
@@ -74,6 +76,38 @@ const request: TutorRequest = {
 };
 const tool = (name: string, input: unknown) =>
   executeTutorTool(name, input, request, { available: false });
+const firstLesson = catalogue.lessons[0];
+if (!firstLesson) throw Error('Missing fixture lesson');
+const learner = summarizeLearner(
+  catalogue,
+  authoringMessages,
+  request,
+  [{ skill_id: firstLesson.skillIds[0] ?? '', rating: 1370, rating_deviation: 90, attempts: 6 }],
+  {
+    passed: [{ lessonId: firstLesson.id, contentVersion: firstLesson.contentVersion }],
+    testedUnitIds: [],
+  },
+);
+check(learner.evidence.completedLessons === 1, 'Verified lesson completion in learner summary');
+check(
+  learner.progression.nextLessons.every((lesson) => lesson.lessonId !== firstLesson.id),
+  'Passed lesson excluded from plan',
+);
+check(
+  learner.progression.weeklyPlan.every((item) => item.minutes === 15),
+  'Bounded study sessions',
+);
+check(!JSON.stringify(learner).includes('user_id'), 'No account identifier in model context');
+check(!tool('get_learner_summary', {}).ok, 'Learner tool fails closed without server context');
+check(
+  executeTutorTool('get_learner_summary', {}, request, null, learner).ok,
+  'Server learner summary',
+);
+check(executeTutorTool('analyze_progression', {}, request, null, learner).ok, 'Server progression');
+check(
+  !executeTutorTool('get_learner_summary', { userId: 'other' }, request, null, learner).ok,
+  'No user selector',
+);
 equal(
   tool('analyze_interval', { from: 'C4', to: 'Fb4' }),
   { ok: true, interval: 'd4', name: 'verminderte Quarte', semitones: 4, direction: 1 },

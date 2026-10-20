@@ -1,8 +1,8 @@
 import { z } from 'zod';
 import { reportSourceSchema } from './content-reports.ts';
 
-export const TUTOR_PROMPT_VERSION = 3;
-export const TUTOR_TOOL_VERSION = 1;
+export const TUTOR_PROMPT_VERSION = 4;
+export const TUTOR_TOOL_VERSION = 2;
 const tokens = z.number().int().nonnegative().max(10_000_000);
 const money = z.number().int().nonnegative().max(1_000_000_000_000);
 const rate = z.number().int().nonnegative().max(1_000_000);
@@ -164,6 +164,8 @@ export const tutorToolSchemas = {
     })
     .strict(),
   get_exercise_context: z.object({}).strict(),
+  get_learner_summary: z.object({}).strict(),
+  analyze_progression: z.object({}).strict(),
   render_example: z
     .object({ source: z.string().min(1).max(4096), bpm: z.number().int().min(30).max(240) })
     .strict(),
