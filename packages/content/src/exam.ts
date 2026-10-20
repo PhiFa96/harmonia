@@ -60,10 +60,17 @@ export function createExamRun(
   );
   if (!template || !Number.isFinite(now)) throw new RangeError('Prüfungsvorlage nicht verfügbar');
   const rng = createRng(`${String(seed)}:exam:${template.id}:${String(catalogue.contentVersion)}`);
+  // Dieselbe Quelle kommt mehrfach vor (z. B. Diktate); zwei identische Aufgaben im Durchgang
+  // wären eine geschenkte Wiederholung. Deshalb neu würfeln, solange die Aufgabe schon vorkommt.
+  const seen = new Set<string>();
   const items = template.questions.map(({ lessonId, sourceIndex }) => {
     const source = lessonExerciseSources(catalogue, lessonId)?.[sourceIndex];
     if (!source) throw new RangeError('Prüfungsaufgabe fehlt');
-    return generateExercise(source.spec, rng);
+    let item = generateExercise(source.spec, rng);
+    for (let attempt = 0; attempt < 50 && seen.has(JSON.stringify(item)); attempt++)
+      item = generateExercise(source.spec, rng);
+    seen.add(JSON.stringify(item));
+    return item;
   });
   return {
     template,
