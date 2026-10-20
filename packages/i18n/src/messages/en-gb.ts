@@ -3,6 +3,8 @@
 
 import type { PartialMessages } from './types.ts';
 import { contentMessages } from '@harmonia/i18n/content-messages';
+import levelThreeExercise from './level-three-exercise.json' with { type: 'json' };
+import levelFourExercise from './level-four-exercise.json' with { type: 'json' };
 
 export const enGB = {
   adaptive: {
@@ -54,6 +56,9 @@ export const enGB = {
     settings: 'Customise',
   },
   exercise: {
+    // Stufen 3 und 4: Aufgaben-, Hinweis- und Erklärtexte mit britischer Schreibweise.
+    ...levelThreeExercise['en-GB'],
+    ...levelFourExercise['en-GB'],
     harmonyStart: 'Practise harmony and dictation',
     tonalityStart: 'Practise scales and key signatures',
     tonalityIntro:
