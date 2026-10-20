@@ -82,7 +82,7 @@
     "db:test:rush": "node tools/test-rush.mjs"
   },
   "devDependencies": {
-    "@anthropic-ai/sdk": "0.133.0",
+    "@anthropic-ai/sdk": "0.135.0",
     "@axe-core/playwright": "4.14.0",
     "@eslint/js": "catalog:",
     "@harmonia/config": "workspace:*",

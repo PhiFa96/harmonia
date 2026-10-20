@@ -29,11 +29,11 @@ catalog:
   react-native-web: ~0.21.4
   # Notenfont Bravura (SIL OFL 1.1) mit SMuFL-Metadaten
   '@vexflow-fonts/bravura': 1.0.2
-  eslint: ^10.12.0
+  eslint: ^10.13.0
   fast-check: ^4.10.2
   # Übersetzungen (P1.05)
-  i18next: ^26.4.6
-  react-i18next: ^17.0.18
+  i18next: ^26.4.7
+  react-i18next: ^17.0.20
   globals: ^17.0.0
   # Kontrast-Orakel im Test des Design-Systems (P1.06)
   culori: ^4.0.2
