@@ -85,7 +85,9 @@ describe('Klaviaturlektionen im vorhandenen Spieler', () => {
     await waitFor(() => {
       expect(mockLatest).not.toHaveBeenCalled();
     });
-  });
+    // Der erste Render lädt den gesamten Katalog (kalt ca. 30 s, auch auf main); das
+    // globale Limit von 20 s greift nur bei CI-Last zufällig, daher hier ausdrücklich höher.
+  }, 90_000);
   it.each([
     ['keys', 8],
     ['steps', 10],
