@@ -252,12 +252,10 @@ export function analyzeVoiceLeading(
       const lowerMotion = Math.sign(midi(afterLow) - midi(beforeLow));
       const upperMotion = Math.sign(midi(afterHigh) - midi(beforeHigh));
       if (lowerMotion === 0 || upperMotion === 0) continue;
-      // Kreuzungen gehen nicht als scheinbare Parallelen in die Analyse ein.
-      if (midi(beforeLow) > midi(beforeHigh) || midi(afterLow) > midi(afterHigh)) {
-        continue;
-      }
-      const before = perfectClass(beforeLow, beforeHigh);
-      const after = perfectClass(afterLow, afterHigh);
+      // Parallelen gelten auch zwischen gekreuzten Stimmen: das Intervall wird zwischen dem
+      // tieferen und dem höheren klingenden Ton bestimmt, die Kreuzung meldet 'voice-crossing'.
+      const before = perfectClass(...lowerFirst(beforeLow, beforeHigh));
+      const after = perfectClass(...lowerFirst(afterLow, afterHigh));
       const outer = lower === 'bass' && upper === 'soprano';
       const successiveFifths = before === 'fifth' && after === 'fifth';
       const successiveOctaves = isOctaveFamily(before) && isOctaveFamily(after);
@@ -289,6 +287,11 @@ export function analyzeVoiceLeading(
 
 type PerfectClass = 'fifth' | 'octave' | 'unison';
 
+function lowerFirst(a: Pitch, b: Pitch): [Pitch, Pitch] {
+  const order = midi(a) - midi(b) || diatonicIndex(a) - diatonicIndex(b);
+  return order <= 0 ? [a, b] : [b, a];
+}
+
 function perfectClass(lower: Pitch, upper: Pitch): PerfectClass | undefined {
   const steps = diatonicIndex(upper) - diatonicIndex(lower);
   const semitones = midi(upper) - midi(lower);
@@ -317,8 +320,11 @@ function validateOptions(
 ): void {
   if (rules['voice-range'] !== undefined) {
     if (!options.ranges) throw new RangeError('Stimmumfänge müssen ausdrücklich angegeben werden');
+    // Zur Laufzeit können Einträge fehlen (JSON-Eingaben), obwohl der Typ sie verlangt.
+    const ranges: Readonly<Partial<Record<Voice, VoiceRange>>> = options.ranges;
     for (const voice of VOICES) {
-      const range = options.ranges[voice];
+      const range = ranges[voice];
+      if (!range) throw new RangeError(`Stimmumfang fehlt: ${voice}`);
       if (
         !Number.isFinite(midi(range.min)) ||
         !Number.isFinite(midi(range.max)) ||
