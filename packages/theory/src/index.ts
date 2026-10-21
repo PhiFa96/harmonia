@@ -11,6 +11,7 @@ export * from './key.ts';
 export * from './chord.ts';
 export * from './chord-naming.ts';
 export * from './harmony.ts';
+export * from './voice-leading.ts';
 export * from './fraction.ts';
 export * from './rhythm.ts';
 export * from './rhythm-naming.ts';

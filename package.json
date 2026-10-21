@@ -16,6 +16,7 @@
     "check:content": "node tools/check-content.mjs --check",
     "check:curriculum": "node tools/check-curriculum.mjs --check",
     "curriculum:render": "node tools/check-curriculum.mjs --write",
+    "voice-leading:report": "node tools/voice-leading-report.mjs",
     "check:content:bundle": "node tools/check-public-bundle.mjs",
     "content:publish": "node tools/check-content.mjs --write",
     "db:test:profile": "node tools/test-profile-settings.mjs",
@@ -76,13 +77,15 @@
     "check:storefront": "node tools/storefront/check.mjs",
     "check:storefront:release": "node tools/storefront/check.mjs --release",
     "check:accounts": "npx -y deno@2.9.6 check --config tools/deno.json tools/account-operations-smoke.ts supabase/functions/apple-grant/index.ts && npx -y deno@2.9.6 run --config tools/deno.json tools/account-operations-smoke.ts",
-    "test:tools": "node --test tools/content-pipeline.test.mjs tools/curriculum-view.test.mjs tools/local-backend-setup.test.mjs tools/local-backend-diagnostics.test.mjs tools/app-test-reporter.test.mjs tools/ratings-worker.test.mjs tools/reviews-worker.test.mjs tools/tutor-interface.test.mjs tools/tutor-benchmark.test.mjs && node --test tools/qa/release.test.mjs tools/qa/server.test.mjs tools/storefront/model.test.mjs tools/beta/beta.test.mjs tools/release/monitor.test.mjs tools/release/check.test.mjs",
+    "test:tools": "node --test tools/voice-leading-playback.test.mjs tools/voice-leading-workbench.test.mjs tools/voice-leading-report.test.mjs tools/content-pipeline.test.mjs tools/curriculum-view.test.mjs tools/local-backend-setup.test.mjs tools/local-backend-diagnostics.test.mjs tools/app-test-reporter.test.mjs tools/ratings-worker.test.mjs tools/reviews-worker.test.mjs tools/tutor-interface.test.mjs tools/tutor-benchmark.test.mjs && node --test tools/qa/release.test.mjs tools/qa/server.test.mjs tools/storefront/model.test.mjs tools/beta/beta.test.mjs tools/release/monitor.test.mjs tools/release/check.test.mjs",
     "reviews:backfill": "node tools/reviews-backfill.mjs",
     "db:test:reviews": "node tools/test-reviews.mjs",
     "ratings:backfill": "node tools/ratings-backfill.mjs",
     "db:test:ratings": "node tools/test-ratings.mjs",
     "db:test:leagues": "node tools/test-leagues.mjs && node tools/test-league-notifications.mjs",
-    "db:test:rush": "node tools/test-rush.mjs"
+    "db:test:rush": "node tools/test-rush.mjs",
+    "voice-leading:workbench": "node tools/voice-leading-workbench.mjs",
+    "voice-leading:test:web": "playwright test --config tools/voice-leading/playwright.config.mjs"
   },
   "devDependencies": {
     "@anthropic-ai/sdk": "0.133.0",
@@ -90,6 +93,7 @@
     "@eslint/js": "catalog:",
     "@harmonia/config": "workspace:*",
     "@playwright/test": "1.64.1",
+    "esbuild": "0.28.1",
     "eslint": "catalog:",
     "globals": "catalog:",
     "prettier": "catalog:",

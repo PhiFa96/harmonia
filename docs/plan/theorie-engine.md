@@ -185,6 +185,8 @@ Regeln für den vierstimmigen Satz, jede einzeln aktivierbar, mit Schweregrad (F
 
 Jede Regel bekommt eine Quelle (Lehrbuch, Seite) in der internen Dokumentation.
 
+**Technischer Entwurf P4.09:** `analyzeVoiceLeading` deckt die genannten Regelfamilien mit 16 einzeln aktivierbaren Kennungen ab; `null` steht für eine pausierende Stimme. `analyzeVoiceLeadingScore` im Notationspaket verbindet vollständige Partituren mit exakten Zeiten und Notenbezügen für jeden Befund. Stilparameter und harmonische Auflösungsgrenzen stammen ausdrücklich vom Aufrufer; es gibt kein freigegebenes Standardprofil. [Schnittstelle und Grenzen](stimmfuehrung-entwurf.md), [Primärtextabgleich mit Abschnitten und offenen Quellenlücken](../quality/p4-09-quellenentwurf.md). F05 und unabhängige Fachfreigabe bleiben offen.
+
 ## Generatoren
 
 - Schnittstelle: `generate(params, rng) → item`. `rng` ist ein seedbarer Zufallsgenerator.
