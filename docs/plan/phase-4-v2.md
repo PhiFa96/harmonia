@@ -162,7 +162,7 @@
 
 ### P4.12 – Zeitreise durch die Musikgeschichte
 
-**Technischer Entwurf:** Vier europäische Stationen mit eigenen Klangmodellen, redaktionell geschriebenen fiktiven Interviews, Wissens- und Hörfrage und präzisem Link auf den P3.19-Quellenabschnitt. Der Ablauf ist intern spielbar; es werden keine XP oder Fortschritte vergeben. Details und offene Freigaben: [Zeitreise P4.12](zeitreise-musikgeschichte.md).
+**Technischer Entwurf:** Vier europäische Stationen mit eigenen Klangmodellen, redaktionell geschriebenen fiktiven Interviews, Wissens- und Hörfrage und präzisem Link auf den versionierten Abschnitt des P2.08-Wissensartikels (Linkmechanismus aus P3.19). Der Ablauf ist intern spielbar; es werden keine XP oder Fortschritte vergeben. Details und offene Freigaben: [Zeitreise P4.12](zeitreise-musikgeschichte.md).
 
 - **Ziel:** Geschichte erleben statt auswendig lernen.
 - **Abhängig von:** P3.19

@@ -2,7 +2,7 @@
   "de": {
     "medieval": {
       "title": "Mittelalter: eine Quelle lesen",
-      "scene": "Ein fiktives Lehrdossier nennt das Werkjahr 1250. In der europäischen Übersicht gehört es zum Mittelalter. Einstimmiger liturgischer Gesang ist ein mögliches Merkmal, aber der Klang allein beweist weder das Jahr noch den Aufführungsort.",
+      "scene": "Ein fiktives Lehrdossier nennt das Werkjahr 1250. In der europäischen Übersicht gehört es zum Mittelalter. Einstimmiger liturgischer Gesang ist ein mögliches Merkmal, nicht die einzige Musik dieser Zeit: Es gab auch weltliche Traditionen und mehrstimmige Praktiken. Der Klang allein beweist weder das Jahr noch den Aufführungsort.",
       "modelCaption": "Eigenes einstimmiges Klangmodell; keine historische Aufnahme oder Rekonstruktion",
       "personaName": "Fiktive Schreiberin",
       "personaPrompt": "Was kannst du über dieses Stück sicher sagen?",
@@ -16,7 +16,7 @@
     },
     "renaissance": {
       "title": "Renaissance: Stimmen im Zusammenhang",
-      "scene": "Ein zweites fiktives Lehrdossier nennt 1550 als Werkjahr. Die Quelle führt imitierende Vokalpolyphonie als verbreitetes Merkmal an. Unser eigenes Klangmodell zeigt zwei gleichzeitige Tonlinien; es ist keine Übertragung eines Renaissancewerks.",
+      "scene": "Ein zweites fiktives Lehrdossier nennt 1550 als Werkjahr. Die Quelle führt imitierende Vokalpolyphonie als verbreitetes Merkmal an. Unser eigenes Klangmodell zeigt zwei Tonlinien, von denen die zweite den Anfang der ersten nachahmt; es ist keine Übertragung eines Renaissancewerks.",
       "modelCaption": "Eigenes zweistimmiges Klangmodell; kein historisches Werk",
       "personaName": "Fiktiver Sänger",
       "personaPrompt": "Kann man die Epoche allein am Klang erkennen?",
@@ -60,7 +60,7 @@
     },
     "classical": {
       "title": "Klassik: Phrasen beobachten",
-      "scene": "Das fiktive Lehrdossier nennt 1780 als Werkjahr. Es nennt regelmäßige Phrasen als verbreitetes Lehrmerkmal und warnt vor starren Epochenschubladen. Das eigene Klangmodell besteht aus zwei kurzen Vierergruppen.",
+      "scene": "Das fiktive Lehrdossier nennt 1780 als Werkjahr. Es nennt regelmäßige Phrasen als verbreitetes Lehrmerkmal und betont, dass sie keine ausschließlichen Kennzeichen aller Werke sind. Das eigene Klangmodell besteht aus zwei kurzen Vierergruppen.",
       "modelCaption": "Eigenes Modell mit zwei Vierergruppen; kein Werk der Klassik",
       "personaName": "Fiktiver Musiklehrer",
       "personaPrompt": "Ist eine regelmäßige Phrase ein Datumsbeweis?",
@@ -72,15 +72,15 @@
       "listeningOptions": [
         "Zwei kurze Vierergruppen",
         "Ein einzelner langer Ton",
-        "Vier gleichzeitige Stimmen"
+        "Vier kurze Zweiergruppen"
       ],
-      "listeningExplanation": "Es erklingen nacheinander zwei Gruppen mit je vier Tönen. Das ist eine Hörbeobachtung am Modell."
+      "listeningExplanation": "Es erklingen nacheinander zwei Gruppen mit je vier Tönen, durch eine Pause getrennt. Das ist eine Hörbeobachtung am Modell."
     }
   },
   "en-US": {
     "medieval": {
       "title": "Medieval music: reading a source",
-      "scene": "A fictional teaching dossier gives 1250 as the year of composition. In this European overview, that places it in the medieval period. Monophonic liturgical singing is one possible feature, but sound alone proves neither the year nor the place of performance.",
+      "scene": "A fictional teaching dossier gives 1250 as the year of composition. In this European overview, that places it in the medieval period. Monophonic liturgical singing is one possible feature, not the only music of the time: there were also secular traditions and polyphonic practices. Sound alone proves neither the year nor the place of performance.",
       "modelCaption": "Original monophonic teaching model; not a historical recording or reconstruction",
       "personaName": "Fictional scribe",
       "personaPrompt": "What can you say for certain about this piece?",
@@ -94,7 +94,7 @@
     },
     "renaissance": {
       "title": "Renaissance: voices in context",
-      "scene": "A second fictional teaching dossier gives 1550 as the year of composition. Its source names imitative vocal polyphony as a common feature. Our original sound model has two simultaneous lines; it is not a transcription of a Renaissance work.",
+      "scene": "A second fictional teaching dossier gives 1550 as the year of composition. Its source names imitative vocal polyphony as a common feature. Our original sound model has two lines, the second imitating the opening of the first; it is not a transcription of a Renaissance work.",
       "modelCaption": "Original two-part teaching model; not a historical work",
       "personaName": "Fictional singer",
       "personaPrompt": "Can sound alone identify the period?",
@@ -138,7 +138,7 @@
     },
     "classical": {
       "title": "Classical period: hearing phrases",
-      "scene": "The fictional teaching dossier gives 1780 as the year of composition. It mentions regular phrases as a common teaching feature and warns against rigid period labels. The original sound model consists of two short groups of four notes.",
+      "scene": "The fictional teaching dossier gives 1780 as the year of composition. It mentions regular phrases as a common teaching feature and stresses that they are not exclusive marks of all works. The original sound model consists of two short groups of four notes.",
       "modelCaption": "Original two-group model; not a work from the Classical period",
       "personaName": "Fictional music teacher",
       "personaPrompt": "Is a regular phrase proof of a date?",
@@ -150,9 +150,9 @@
       "listeningOptions": [
         "Two short groups of four notes",
         "A single long note",
-        "Four simultaneous voices"
+        "Four short groups of two notes"
       ],
-      "listeningExplanation": "There are two successive groups of four notes. That is a listening observation about the model."
+      "listeningExplanation": "There are two successive groups of four notes, separated by a rest. That is a listening observation about the model."
     }
   }
 }

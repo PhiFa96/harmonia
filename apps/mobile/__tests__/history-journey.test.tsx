@@ -127,3 +127,51 @@ it('allows correction, completes a station, and awards no progress', () => {
   fireEvent.press(screen.getByText('Weiter'));
   expect(screen.getByText(/vergibt keine XP/)).toBeTruthy();
 });
+
+it('keeps the sound models free of parallel fifths and octaves and audibly groups the phrases', () => {
+  const natural: Record<string, number> = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 };
+  const perfect = (low: number, high: number) => [0, 7].includes((high - low) % 12);
+  for (const stop of historyStops)
+    for (const source of [stop.sceneScore, stop.listeningScore]) {
+      const byOnset = new Map<number, number[]>();
+      for (const { onsetSeconds, pitch } of scoreTimeline(parseScore(source), { bpm: 90 }).tones)
+        byOnset.set(onsetSeconds, [
+          ...(byOnset.get(onsetSeconds) ?? []),
+          12 * (pitch.octave + 1) + (natural[pitch.letter] ?? 0) + pitch.alter,
+        ]);
+      const pairs: (readonly [number, number])[] = [];
+      for (const [, notes] of [...byOnset.entries()].sort(([a], [b]) => a - b)) {
+        const [low, high] = notes.sort((a, b) => a - b);
+        if (notes.length === 2 && low !== undefined && high !== undefined) pairs.push([low, high]);
+      }
+      for (let index = 1; index < pairs.length; index++) {
+        const [beforeLow, beforeHigh] = pairs[index - 1] ?? [0, 0];
+        const [low, high] = pairs[index] ?? [0, 0];
+        const parallel =
+          Math.sign(low - beforeLow) === Math.sign(high - beforeHigh) &&
+          low !== beforeLow &&
+          perfect(low, high) &&
+          perfect(beforeLow, beforeHigh) &&
+          (high - low) % 12 === (beforeHigh - beforeLow) % 12;
+        expect({ stop: stop.id, pair: index, parallel }).toEqual({
+          stop: stop.id,
+          pair: index,
+          parallel: false,
+        });
+      }
+    }
+  const classical = historyStops.find((stop) => stop.id === 'classical');
+  if (!classical) throw new Error('Missing classical stop');
+  for (const source of [classical.sceneScore, classical.listeningScore]) {
+    const tones = scoreTimeline(parseScore(source), { bpm: 90 }).tones;
+    const gaps = tones.filter((tone, index) => {
+      const previous = tones[index - 1];
+      return (
+        previous !== undefined &&
+        tone.onsetSeconds - (previous.onsetSeconds + previous.durationSeconds) > 0.1
+      );
+    });
+    expect(tones).toHaveLength(8);
+    expect(gaps).toHaveLength(1);
+  }
+});

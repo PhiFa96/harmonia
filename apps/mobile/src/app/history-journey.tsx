@@ -251,6 +251,7 @@ function Question({
           <Button
             key={index}
             variant={choice === index ? 'primary' : 'secondary'}
+            selected={choice === index}
             label={option}
             disabled={checked && choice === correct}
             onPress={() => {

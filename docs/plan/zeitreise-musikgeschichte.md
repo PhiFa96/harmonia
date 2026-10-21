@@ -10,11 +10,11 @@ Die historischen Personen sind erfundene Rollen, keine Zitate realer Menschen. D
 
 ## Quellen und offene Abnahme
 
-| Station | P3-Artikelabschnitt | Offene Fachprüfung |
+| Station | Quellenabschnitt (Artikel `history.l2.period-contexts.article`, P2.08) | Offene Fachprüfung |
 |---|---:|---|
 | Mittelalter | 0 | Werkjahr 1250 und Grenzen der einstimmigen Modellierung |
 | Renaissance | 1 | Werkjahr 1550, Polyphonie und Grenze der modellhaften Zweistimmigkeit |
 | Barock | 3 | Werkjahr 1720, Generalbass-Begriff und Klangmodell |
 | Klassik | 4 | Werkjahr 1780, Phrasenmerkmal und Epochengrenzen |
 
-Alle verwendeten P3-Artikel und die neuen Texte sind `entwurf`. Die Artikel wurden noch nicht unabhängig gegen Primärliteratur geprüft. Das Quellenreview muss Aussagen, Übersetzungen und die Aussagegrenze der Modelle getrennt beurteilen. Danach sind echte Hör-, Screenreader- und Geräteprüfungen auf iOS, Android und Web erforderlich. Bis dahin bleiben die vier Stationen intern; **keine Epoche ist fachlich freigegeben**. Auch Phase 3 und Phase 4 bleiben nach ihren bestehenden Start- und Abschlussbedingungen offen. P4.01 wartet weiter auf F14 und die rechtlichen Voraussetzungen.
+Der verwendete Wissensartikel (aus P2.08; der versionierte Abschnittslink stammt aus P3.19) und die neuen Texte sind `entwurf`. Der Artikel wurde noch nicht unabhängig gegen Primärliteratur geprüft. Das Quellenreview muss Aussagen, Übersetzungen und die Aussagegrenze der Modelle getrennt beurteilen. Danach sind echte Hör-, Screenreader- und Geräteprüfungen auf iOS, Android und Web erforderlich. Bis dahin bleiben die vier Stationen intern; **keine Epoche ist fachlich freigegeben**. Auch Phase 3 und Phase 4 bleiben nach ihren bestehenden Start- und Abschlussbedingungen offen. P4.01 wartet weiter auf F14 und die rechtlichen Voraussetzungen.
