@@ -8,6 +8,32 @@ import levelFourExercise from './level-four-exercise.json' with { type: 'json' }
 import type { Messages } from './types.ts';
 
 export const enUS = {
+  historyJourney: {
+    title: 'Journey through music history',
+    intro:
+      'Four stops with sources, original sound models, and questions. This is an internal preview.',
+    draft: 'Content draft: independent subject review is still pending.',
+    fictional:
+      'AI fiction as a scripted role play: this person and their statements are invented. This is not a live conversation.',
+    source: 'Read source section',
+    sourceError: 'The source section is unavailable right now.',
+    scene: 'Scene',
+    interview: 'Fictional interview',
+    knowledge: 'Knowledge question',
+    listening: 'Listening question',
+    play: 'Play sound model',
+    stop: 'Stop playback',
+    audioError: 'The sound model could not be played.',
+    skipListening: 'Cannot listen now – skip question',
+    check: 'Check answer',
+    correct: 'Correct.',
+    incorrect: 'Not quite.',
+    next: 'Continue',
+    back: 'Back',
+    finish: 'Back to stops',
+    complete: 'Stop complete. This preview saves no learning progress and awards no XP.',
+    unavailable: 'No history stops have been approved for the public version yet.',
+  },
   voice: {
     privacy:
       'The microphone processes sound on your device. Captured pitches are saved as exercise answers; no audio recording is saved or uploaded. The microphone stops when you leave or move to the background.',

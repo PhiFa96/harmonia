@@ -124,6 +124,7 @@ export default function RootLayout() {
                   <Stack.Screen name="friends" />
                   <Stack.Screen name="tuner" />
                   <Stack.Screen name="article" />
+                  <Stack.Screen name="history-journey" />
                   <Stack.Screen name="tutor-task" />
                   <Stack.Screen name="note-input" />
                   <Stack.Screen name="audio-test" />

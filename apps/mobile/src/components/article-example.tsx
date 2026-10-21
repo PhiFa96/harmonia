@@ -17,7 +17,10 @@ export function ArticleExample({
   example,
   locale,
 }: {
-  readonly example: ResolvedKnowledgeArticle['sections'][number]['examples'][number];
+  readonly example: Pick<
+    ResolvedKnowledgeArticle['sections'][number]['examples'][number],
+    'score' | 'caption' | 'pulse' | 'keyboard'
+  >;
   readonly locale: KnowledgeLocale;
 }) {
   const { t } = useTranslation(),
