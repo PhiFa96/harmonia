@@ -32,8 +32,8 @@ export type VoiceLeadingRule =
   | 'melodic-leap';
 export type VoiceLeadingSeverity = 'error' | 'warning' | 'hint';
 
-/** Alle Stimmen erklingen zum selben Zeitpunkt; gehaltene Töne müssen wiederholt werden. */
-export type FourPartSlice = Readonly<Record<Voice, Pitch>>;
+/** Gleichzeitige Stimmen; gehaltene Töne wiederholen, Pausen ausdrücklich als null angeben. */
+export type FourPartSlice = Readonly<Record<Voice, Pitch | null>>;
 
 /** Keine impliziten Lehrbuchurteile: nur explizit eingeschaltete Regeln erzeugen Funde. */
 export type VoiceLeadingRules = Readonly<Partial<Record<VoiceLeadingRule, VoiceLeadingSeverity>>>;
@@ -74,6 +74,26 @@ export interface VoiceLeadingFinding {
   /** Stimmen in der festen Reihenfolge Bass, Tenor, Alt, Sopran. */
   readonly voices: readonly [Voice, ...Voice[]];
 }
+
+/** Ob der Befund nur den Zielschnitt oder auch den vorigen Schnitt benötigt. */
+export const VOICE_LEADING_RULE_PHASE: Readonly<Record<VoiceLeadingRule, 'slice' | 'motion'>> = {
+  'parallel-fifth': 'motion',
+  'parallel-octave': 'motion',
+  'parallel-unison': 'motion',
+  'contrary-fifth': 'motion',
+  'contrary-octave': 'motion',
+  'hidden-fifth': 'motion',
+  'hidden-octave': 'motion',
+  'voice-crossing': 'slice',
+  'voice-overlap': 'motion',
+  'upper-voice-spacing': 'slice',
+  'voice-range': 'slice',
+  'leading-tone-resolution': 'motion',
+  'seventh-resolution': 'motion',
+  'doubled-leading-tone': 'slice',
+  'augmented-second': 'motion',
+  'melodic-leap': 'motion',
+};
 
 const VOICES: readonly Voice[] = ['bass', 'tenor', 'alto', 'soprano'];
 const PAIRS: readonly (readonly [Voice, Voice])[] = [
@@ -116,28 +136,33 @@ export function analyzeVoiceLeading(
 
   for (const [at, current] of slices.entries()) {
     for (const [lower, upper] of NEIGHBOURS) {
-      if (midi(current[lower]) > midi(current[upper])) {
+      const low = current[lower],
+        high = current[upper];
+      if (low && high && midi(low) > midi(high)) {
         add('voice-crossing', at, [lower, upper]);
       }
     }
     for (const [lower, upper] of UPPER_NEIGHBOURS) {
-      if (midi(current[upper]) - midi(current[lower]) > 12) {
+      const low = current[lower],
+        high = current[upper];
+      if (low && high && midi(high) - midi(low) > 12) {
         add('upper-voice-spacing', at, [lower, upper]);
       }
     }
     for (const voice of VOICES) {
       const range = options.ranges?.[voice];
-      if (
-        range &&
-        (midi(current[voice]) < midi(range.min) || midi(current[voice]) > midi(range.max))
-      ) {
+      const tone = current[voice];
+      if (range && tone && (midi(tone) < midi(range.min) || midi(tone) > midi(range.max))) {
         add('voice-range', at, [voice]);
       }
     }
     const currentHarmony = options.harmonies?.[at];
     if (currentHarmony?.tonic && rules['doubled-leading-tone'] !== undefined) {
       const leadingTone = leadingToneOf(currentHarmony.tonic);
-      const doubled = VOICES.filter((voice) => sameNoteName(current[voice], leadingTone));
+      const doubled = VOICES.filter((voice) => {
+        const tone = current[voice];
+        return tone !== null && sameNoteName(tone, leadingTone);
+      });
       const [first, ...rest] = doubled;
       if (first && rest.length > 0) add('doubled-leading-tone', at, [first, ...rest]);
     }
@@ -146,13 +171,20 @@ export function analyzeVoiceLeading(
     if (previous === undefined) continue;
 
     for (const [lower, upper] of NEIGHBOURS) {
+      const beforeLow = previous[lower],
+        beforeHigh = previous[upper];
+      const afterLow = current[lower],
+        afterHigh = current[upper];
       // Eine Stimmkreuzung ist bereits ein eigener Befund. Bei geordneter
       // Ziel-Lage erkennt Übergreifen die Bewegung über die alte Nachbarposition.
       if (
-        midi(previous[lower]) <= midi(previous[upper]) &&
-        midi(current[lower]) <= midi(current[upper]) &&
-        (midi(current[lower]) > midi(previous[upper]) ||
-          midi(current[upper]) < midi(previous[lower]))
+        beforeLow &&
+        beforeHigh &&
+        afterLow &&
+        afterHigh &&
+        midi(beforeLow) <= midi(beforeHigh) &&
+        midi(afterLow) <= midi(afterHigh) &&
+        (midi(afterLow) > midi(beforeHigh) || midi(afterHigh) < midi(beforeLow))
       ) {
         add('voice-overlap', at, [lower, upper]);
       }
@@ -171,8 +203,21 @@ export function analyzeVoiceLeading(
         ? chordTones(previousHarmony.chord)[3]
         : undefined;
     for (const voice of VOICES) {
-      const steps = diatonicIndex(current[voice]) - diatonicIndex(previous[voice]);
-      const semitones = midi(current[voice]) - midi(previous[voice]);
+      const from = previous[voice],
+        to = current[voice];
+      if (!from) continue;
+      if (!to) {
+        // Eine Pause ist keine Auflösung, wenn der Autor genau hier eine verlangt.
+        if (resolution?.leadingTone && leadingTone && sameNoteName(from, leadingTone)) {
+          add('leading-tone-resolution', at, [voice]);
+        }
+        if (resolution?.seventh && seventh && sameNoteName(from, seventh)) {
+          add('seventh-resolution', at, [voice]);
+        }
+        continue;
+      }
+      const steps = diatonicIndex(to) - diatonicIndex(from);
+      const semitones = midi(to) - midi(from);
       if (Math.abs(steps) === 1 && steps * semitones === 3) {
         add('augmented-second', at, [voice]);
       }
@@ -182,7 +227,7 @@ export function analyzeVoiceLeading(
       ) {
         add('melodic-leap', at, [voice]);
       }
-      if (resolution?.leadingTone && leadingTone && sameNoteName(previous[voice], leadingTone)) {
+      if (resolution?.leadingTone && leadingTone && sameNoteName(from, leadingTone)) {
         const resolvesUp = steps === 1 && semitones === 1;
         const frustrated =
           resolution.leadingTone === 'up-or-frustrated-inner' &&
@@ -191,7 +236,7 @@ export function analyzeVoiceLeading(
           semitones === -4;
         if (!resolvesUp && !frustrated) add('leading-tone-resolution', at, [voice]);
       }
-      if (resolution?.seventh && seventh && sameNoteName(previous[voice], seventh)) {
+      if (resolution?.seventh && seventh && sameNoteName(from, seventh)) {
         if (steps !== -1 || (semitones !== -1 && semitones !== -2)) {
           add('seventh-resolution', at, [voice]);
         }
@@ -199,18 +244,20 @@ export function analyzeVoiceLeading(
     }
 
     for (const [lower, upper] of PAIRS) {
-      const lowerMotion = Math.sign(midi(current[lower]) - midi(previous[lower]));
-      const upperMotion = Math.sign(midi(current[upper]) - midi(previous[upper]));
+      const beforeLow = previous[lower],
+        beforeHigh = previous[upper];
+      const afterLow = current[lower],
+        afterHigh = current[upper];
+      if (!beforeLow || !beforeHigh || !afterLow || !afterHigh) continue;
+      const lowerMotion = Math.sign(midi(afterLow) - midi(beforeLow));
+      const upperMotion = Math.sign(midi(afterHigh) - midi(beforeHigh));
       if (lowerMotion === 0 || upperMotion === 0) continue;
       // Kreuzungen gehen nicht als scheinbare Parallelen in die Analyse ein.
-      if (
-        midi(previous[lower]) > midi(previous[upper]) ||
-        midi(current[lower]) > midi(current[upper])
-      ) {
+      if (midi(beforeLow) > midi(beforeHigh) || midi(afterLow) > midi(afterHigh)) {
         continue;
       }
-      const before = perfectClass(previous[lower], previous[upper]);
-      const after = perfectClass(current[lower], current[upper]);
+      const before = perfectClass(beforeLow, beforeHigh);
+      const after = perfectClass(afterLow, afterHigh);
       const outer = lower === 'bass' && upper === 'soprano';
       const successiveFifths = before === 'fifth' && after === 'fifth';
       const successiveOctaves = isOctaveFamily(before) && isOctaveFamily(after);
@@ -223,9 +270,9 @@ export function analyzeVoiceLeading(
             [lower, upper],
           );
         }
-        const sopranoSteps = Math.abs(
-          diatonicIndex(current.soprano) - diatonicIndex(previous.soprano),
-        );
+        const sopranoSteps = outer
+          ? Math.abs(diatonicIndex(afterHigh) - diatonicIndex(beforeHigh))
+          : 0;
         if (outer && (options.hiddenPerfectMotion === 'any' || sopranoSteps > 1)) {
           if (after === 'fifth' && !successiveFifths) add('hidden-fifth', at, [lower, upper]);
           if (after === 'octave' && !successiveOctaves) add('hidden-octave', at, [lower, upper]);

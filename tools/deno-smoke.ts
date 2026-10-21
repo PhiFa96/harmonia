@@ -59,7 +59,12 @@ import {
   adaptiveLessonPlan,
   weaknessPlan,
 } from '../packages/content/src/index.ts';
-import { parseScore, scoreTimeline, layoutGrandStaff } from '../packages/notation/src/index.ts';
+import {
+  parseScore,
+  scoreTimeline,
+  layoutGrandStaff,
+  analyzeVoiceLeadingScore,
+} from '../packages/notation/src/index.ts';
 
 import {
   analyzeVoiceLeading,
@@ -121,6 +126,19 @@ const contraryFifths = analyzeVoiceLeading(
 );
 check('SATB-Gegenquinte unter Deno', contraryFifths[0]?.rule, 'contrary-fifth');
 check('SATB-Zielindex unter Deno', contraryFifths[0]?.at, 1);
+
+const scoreVoiceLeading = analyzeVoiceLeadingScore(
+  parseScore('treble | E4/2 F4/2 & C4/1\nbass | G3/2 A3/2 & C3/2 D3/2'),
+  {
+    soprano: { staff: 0, voice: 0 },
+    alto: { staff: 0, voice: 1 },
+    tenor: { staff: 1, voice: 0 },
+    bass: { staff: 1, voice: 1 },
+  },
+  { 'parallel-fifth': 'error' },
+);
+check('SATB-Partiturbezug unter Deno', scoreVoiceLeading.findings[0]?.notes[0]?.ref.event, 1);
+check('SATB-exakte Taktposition unter Deno', scoreVoiceLeading.findings[0]?.position.offset.den, 2);
 
 const ratingExample = updateGlicko2({ ...INITIAL_RATING, deviation: 200 }, [
   { opponent: { ...INITIAL_RATING, rating: 1400, deviation: 30 }, score: 1 },

@@ -21,6 +21,8 @@ Diese Texte behandeln teils zweistimmigen Spezieskontrapunkt, teils strengen Gen
 
 Der Test `voice-leading-motion.test.ts` stellt die Unterscheidung aus R1 mit einem eigenen verdeckten Quintgang nach: Ein Profil mit offenen Parallelen, Außenstimmen-Gegenparallelen und verdeckten Oktaven bei Sopransprung meldet diesen Gang nicht. Das ist **kein vollständiger OMT-Stilprüfer**; insbesondere fehlt dessen Gesamtspanne der Oberstimmen. Die Harmoniebeispiele prüfen Halten bis zur markierten Grenze sowie korrekte und fehlerhafte Auflösung in Dur und Moll, Schreibweise und die optionale Innenstimmenausnahme. `voice-leading.tonal.test.ts` gleicht die Intervalle eigener Beispiele mit `tonal` ab. Diese Prüfmittel bestätigen Berechnungen und Quellentransfer im Autorendurchgang, nicht die unabhängige Abnahme.
 
+Der Partituradapter fügt keine neue Stilkonvention hinzu. Er überträgt nur geschriebene Tonhöhen/Pausen, Dauern und Haltebögen mit exakten Zeit- und Notenbezügen in den Detektor. Pausen unterbrechen Bewegungen der betroffenen Stimme; eine Pause an einer ausdrücklich geforderten Auflösungsgrenze wird nicht als erfüllte Auflösung gewertet. Diese Abgrenzung und das Zusammenfassen unveränderter Lagebefunde bleiben im unabhängigen Prüfdurchgang zu kontrollieren.
+
 [R1]: https://github.com/openmusictheory/openmusictheory.github.io/blob/a907aa015f7ec54b925ddb070d2d36aecd0dc705/bassoContinuo.md
 [R2]: https://github.com/openmusictheory/openmusictheory.github.io/blob/a907aa015f7ec54b925ddb070d2d36aecd0dc705/firstSpecies.md
 [R3]: https://github.com/openmusictheory/openmusictheory.github.io/blob/a907aa015f7ec54b925ddb070d2d36aecd0dc705/tendencyTonesFunctionalDissonances.md
