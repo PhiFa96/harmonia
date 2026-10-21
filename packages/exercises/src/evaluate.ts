@@ -1,3 +1,4 @@
+import { choirExpected, evaluateChoir } from './choir.ts';
 import { satbAnswerId, evaluateSatb } from './voice-leading.ts';
 import { contextAnswer } from './context.ts';
 import { octaveNamePitch } from './octave-names.ts';
@@ -60,6 +61,7 @@ import { dictationExpected, dictationInputValues, isDictationItem } from './dict
 
 /** Die Engine berechnet die Lösung aus den Fachdaten, nie aus dem sichtbaren Antworttext. */
 export function expectedAnswer(item: ExerciseItem): string {
+  if (item.type === 'CHOIR_PART') return choirExpected(item);
   if (item.type === 'VOICE_LEADING') return satbAnswerId(item.example);
   if (isVoiceItem(item)) return voiceAnswerId(voiceTargets(item));
   if (item.type === 'CADENCE_IDENTIFY') return cadenceAnswer(item);
@@ -101,6 +103,7 @@ export function expectedAnswer(item: ExerciseItem): string {
     : intervalAnswerId(intervalBetween(item.from, item.to));
 }
 export function evaluateExercise(item: ExerciseItem, answer: string): Evaluation {
+  if (item.type === 'CHOIR_PART') return evaluateChoir(item, answer);
   if (item.type === 'VOICE_LEADING') return evaluateSatb(item, answer);
   if (isVoiceItem(item)) return evaluateVoice(item, answer);
   const expected = expectedAnswer(item);

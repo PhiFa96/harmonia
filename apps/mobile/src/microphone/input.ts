@@ -7,13 +7,14 @@ import type { MicrophoneSession, OnMicrophoneError, OnPcmFrame } from './types';
 export async function startMicrophone(
   onFrame: OnPcmFrame,
   onError: OnMicrophoneError,
+  options: { readonly headphones?: boolean } = {},
 ): Promise<MicrophoneSession> {
   const permission = await AudioManager.requestRecordingPermissions();
   if (permission !== 'Granted') throw new MicrophoneError('permission');
   AudioManager.setAudioSessionOptions({
     iosCategory: 'playAndRecord',
     iosMode: 'measurement',
-    iosOptions: ['defaultToSpeaker', 'mixWithOthers'],
+    iosOptions: options.headphones ? ['mixWithOthers'] : ['defaultToSpeaker', 'mixWithOthers'],
   });
   const recorder = new AudioRecorder();
   const framer = new PitchFramer();

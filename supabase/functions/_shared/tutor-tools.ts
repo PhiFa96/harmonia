@@ -40,6 +40,7 @@ import {
   grandStaffTarget,
 } from '../../../packages/notation/src/index.ts';
 import {
+  assessChoir,
   exercisePrompt,
   exerciseDescription,
   exerciseHints,
@@ -136,6 +137,16 @@ export function exerciseContext(catalogue: ContentCatalogue, request: TutorReque
   return {
     ...base,
     solutionAllowed: true,
+    ...(item.type === 'CHOIR_PART'
+      ? {
+          choir: {
+            ...assessChoir(item, answer),
+            voice: item.params.voice,
+            limits:
+              'Internal draft. Pitch-only time-window profile, not vocal quality, onset precision or specialist approval. No raw microphone audio is available.',
+          },
+        }
+      : {}),
     ...(item.type === 'VOICE_LEADING'
       ? {
           voiceLeading: {

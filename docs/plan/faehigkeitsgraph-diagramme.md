@@ -2,7 +2,7 @@
 
 <!-- Erzeugt mit pnpm curriculum:render; Änderungen an Katalog, Plan oder Übersetzungen vornehmen. -->
 
-Katalog-/Planversion 19. 15 Bereiche, 34 Bereichsstufen, 56 Einheiten und 171 Fähigkeiten.
+Katalog-/Planversion 20. 15 Bereiche, 34 Bereichsstufen, 57 Einheiten und 175 Fähigkeiten.
 
 Pfeile zeigen von der Voraussetzung zum folgenden Lernziel. Die Reihenfolge ist eine mögliche Reihenfolge für die Planung; unabhängige Zweige bleiben im Graphen unabhängig. Die Tabellen zeigen alle direkten Voraussetzungen, auch über Bereichsgrenzen hinweg.
 
@@ -67,7 +67,8 @@ Die Einheiten haben noch keine vollständigen Lektionen. Technische Prüfungen e
 | 53 | 4 | Gehörbildung | Gehörbildung zur Studienvorbereitung · `aural.l4.preparation` | 3 |
 | 54 | 4 | Musikgeschichte und Quellen | Historische Werke einordnen · `history.l4.survey` | 3 |
 | 55 | 4 | Tonsatz und Stimmführung | Vierstimmige Dreiklänge · Entwurf · `satz.l4.writing` | 3 |
-| 56 | 5 | Tonsatz und Stimmführung | Dominantseptakkord im Satz · Entwurf · `satz.l5.writing` | 3 |
+| 56 | 4 | Gehörbildung | Chor-Trainer · Entwurf · `aural.l4.choir` | 4 |
+| 57 | 5 | Tonsatz und Stimmführung | Dominantseptakkord im Satz · Entwurf · `satz.l5.writing` | 3 |
 
 ```mermaid
 flowchart TD
@@ -133,9 +134,10 @@ flowchart TD
     u52["Gehörbildung zur Studienvorbereitung"]
     u53["Historische Werke einordnen"]
     u54["Vierstimmige Dreiklänge · Entwurf"]
+    u55["Chor-Trainer · Entwurf"]
   end
   subgraph level5["Stufe 5"]
-    u55["Dominantseptakkord im Satz · Entwurf"]
+    u56["Dominantseptakkord im Satz · Entwurf"]
   end
   u1 --> u2
   u1 --> u3
@@ -236,7 +238,8 @@ flowchart TD
   u40 --> u53
   u48 --> u53
   u45 --> u54
-  u54 --> u55
+  u34 --> u55
+  u54 --> u56
 ```
 
 ## Grundlagen · `fundament`
@@ -661,6 +664,10 @@ flowchart TD
     s159["Intervalle und Vierklänge hören"]
     s160["Melodie und Rhythmus notieren"]
     s161["Vom Blatt singen"]
+    s168["Sopran singen"]
+    s169["Alt singen"]
+    s170["Tenor singen"]
+    s171["Bass singen"]
   end
   s21["Kurze Rhythmen mit Viertelnoten, Achtelnoten und Pausen lesen · anderer Bereich"]
   s46["Einfach punktierte Notenwerte zusammensetzen · anderer Bereich"]
@@ -695,6 +702,10 @@ flowchart TD
   s133 -.-> s159
   s159 --> s160
   s160 --> s161
+  s107 --> s168
+  s107 --> s169
+  s107 --> s170
+  s107 --> s171
 ```
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
@@ -720,6 +731,10 @@ flowchart TD
 | 4 · Gehörbildung zur Studienvorbereitung | Intervalle und Vierklänge hören | `aural.l4.preparation.s1` | Hear intervals and seventh chords | `aural.l3.dictation.s3`, `chords.l4.extensions.s2` | entwurf |
 | 4 · Gehörbildung zur Studienvorbereitung | Melodie und Rhythmus notieren | `aural.l4.preparation.s2` | Notate melody and rhythm | `aural.l4.preparation.s1` | entwurf |
 | 4 · Gehörbildung zur Studienvorbereitung | Vom Blatt singen | `aural.l4.preparation.s3` | Sight sing | `aural.l4.preparation.s2` | entwurf |
+| 4 · Chor-Trainer · Entwurf | Sopran singen | `aural.l4.choir.soprano` | Sing soprano | `aural.l3.dictation.s3` | entwurf |
+| 4 · Chor-Trainer · Entwurf | Alt singen | `aural.l4.choir.alto` | Sing alto | `aural.l3.dictation.s3` | entwurf |
+| 4 · Chor-Trainer · Entwurf | Tenor singen | `aural.l4.choir.tenor` | Sing tenor | `aural.l3.dictation.s3` | entwurf |
+| 4 · Chor-Trainer · Entwurf | Bass singen | `aural.l4.choir.bass` | Sing bass | `aural.l3.dictation.s3` | entwurf |
 
 ## Musikgeschichte und Quellen · `area.history`
 
@@ -994,9 +1009,9 @@ flowchart TD
     s167["Funktionen aussetzen"]
   end
   subgraph level5["Stufe 5"]
-    s168["Bass vorgegeben"]
-    s169["Sopran vorgegeben"]
-    s170["Funktionen aussetzen"]
+    s172["Bass vorgegeben"]
+    s173["Sopran vorgegeben"]
+    s174["Funktionen aussetzen"]
   end
   s73["Grundstellung, erste und zweite Umkehrung bestimmen · anderer Bereich"]
   s101["Kadenzfolgen im Tonartbezug vergleichen · anderer Bereich"]
@@ -1011,9 +1026,9 @@ flowchart TD
   s140 --> s165
   s140 --> s166
   s140 --> s167
-  s165 --> s168
-  s166 --> s169
-  s167 --> s170
+  s165 --> s172
+  s166 --> s173
+  s167 --> s174
 ```
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |

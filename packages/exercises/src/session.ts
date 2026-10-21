@@ -64,7 +64,7 @@ export function skipAuralExercises(session: ExerciseSession): ExerciseSession {
 /** Überspringt nur die aktuelle Mikrofonaufgabe; Hörfragen bleiben verfügbar. */
 export function skipVoiceExercise(session: ExerciseSession): ExerciseSession {
   const item = currentItem(session);
-  if (!item || !isVoiceItem(item) || session.result) return session;
+  if (!item || (!isVoiceItem(item) && item.type !== 'CHOIR_PART') || session.result) return session;
   return advance({ ...session, skipped: [...session.skipped, session.index] }, session.index + 1);
 }
 export function sessionSummary(session: ExerciseSession) {
