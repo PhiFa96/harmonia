@@ -82,7 +82,7 @@ export function satbOptions(item: VoiceLeadingItem): VoiceLeadingOptions {
       ...(index === 2
         ? {
             resolveToNext: {
-              leadingTone: 'up' as const,
+              leadingTone: 'up-or-frustrated-inner' as const,
               ...(item.params.level === 5 ? { seventh: 'down' as const } : {}),
             },
           }
@@ -217,8 +217,10 @@ export function checkSatb(item: VoiceLeadingItem, answer: string | null) {
         else if (!tones.some((t) => sameNoteName(t, p)))
           issues.push({ rule: 'chord-tone', severity: 'error', at, voices: [voice] });
       }
-      // Triads complete; in V7 only the fifth may be omitted. Bass remains the root.
-      const required = tones.filter((_, i) => !(tones.length === 4 && i === 2));
+      // Triads complete; in V7 only the fifth may be omitted, and after a complete V7 the final
+      // tonic may omit its fifth (tripled root). Bass remains the root.
+      const afterSeventh = item.params.level === 5 && at === item.chords.length - 1;
+      const required = tones.filter((_, i) => !((tones.length === 4 || afterSeventh) && i === 2));
       if (required.some((t) => !SATB_VOICES.some((v) => slice[v] && sameNoteName(t, slice[v]))))
         issues.push({ rule: 'chord-incomplete', severity: 'error', at, voices: SATB_VOICES });
       if (slice.bass && !sameNoteName(slice.bass, harmony.root))

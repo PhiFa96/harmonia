@@ -100,3 +100,92 @@ describe('internal VOICE_LEADING exercises', () => {
     );
   });
 });
+
+describe('VOICE_LEADING accepts the standard textbook V(7)–I resolutions', () => {
+  const cMajor = (level: 4 | 5) => {
+    for (let seed = 0; seed < 100; seed++) {
+      const item = generateVoiceLeading({ level, mode: 'functions' }, createRng(seed));
+      if (item.fifths === 0) return item;
+    }
+    throw new Error('No C-major seed found');
+  };
+  // Zeilen: Sopran, Alt, Tenor, Bass je Akkord.
+  const answer = (rows: readonly (readonly [string, string, string, string])[]) =>
+    satbAnswerId(
+      rows.map(([soprano, alto, tenor, bass]) => ({
+        soprano: parsePitch(soprano),
+        alto: parsePitch(alto),
+        tenor: parsePitch(tenor),
+        bass: parsePitch(bass),
+      })),
+    );
+  it('complete V7 resolving to an incomplete I (fifth omitted, root tripled)', () => {
+    const item = cMajor(5);
+    const result = checkSatb(
+      item,
+      answer([
+        ['C5', 'E4', 'G3', 'C3'],
+        ['C5', 'F4', 'A3', 'F2'],
+        ['B4', 'F4', 'D4', 'G2'],
+        ['C5', 'E4', 'C4', 'C3'],
+      ]),
+    );
+    expect(result).toMatchObject({ passed: true, issues: [] });
+  });
+  it('complete V7 resolving to a complete I with the leading tone falling in an inner voice', () => {
+    const item = cMajor(5);
+    const result = checkSatb(
+      item,
+      answer([
+        ['G4', 'E4', 'C4', 'C3'],
+        ['A4', 'F4', 'C4', 'F2'],
+        ['F4', 'D4', 'B3', 'G2'],
+        ['E4', 'C4', 'G3', 'C3'],
+      ]),
+    );
+    expect(result).toMatchObject({ passed: true, issues: [] });
+  });
+  it('V resolving to I with the leading tone falling to the fifth in the tenor', () => {
+    const item = cMajor(4);
+    const result = checkSatb(
+      item,
+      answer([
+        ['E5', 'G4', 'C4', 'C3'],
+        ['F5', 'A4', 'C4', 'F2'],
+        ['D5', 'G4', 'B3', 'G2'],
+        ['C5', 'E4', 'G3', 'C3'],
+      ]),
+    );
+    expect(result).toMatchObject({ passed: true, issues: [] });
+  });
+  it('still rejects a leading tone that falls in an outer voice', () => {
+    const item = cMajor(4);
+    const result = checkSatb(
+      item,
+      answer([
+        ['G4', 'E4', 'C4', 'C3'],
+        ['A4', 'F4', 'C4', 'F2'],
+        ['B4', 'D4', 'G3', 'G2'],
+        ['G4', 'E4', 'C4', 'C3'],
+      ]),
+    );
+    expect(result.passed).toBe(false);
+    expect(result.issues).toContainEqual(
+      expect.objectContaining({ rule: 'leading-tone-resolution', voices: ['soprano'] }),
+    );
+  });
+  it('still requires a complete I in the level-4 progression', () => {
+    const item = cMajor(4);
+    const result = checkSatb(
+      item,
+      answer([
+        ['C5', 'E4', 'G3', 'C3'],
+        ['C5', 'F4', 'A3', 'F2'],
+        ['B4', 'D4', 'G3', 'G2'],
+        ['C5', 'E4', 'C4', 'C3'],
+      ]),
+    );
+    expect(result.passed).toBe(false);
+    expect(result.issues).toContainEqual(expect.objectContaining({ rule: 'chord-incomplete' }));
+  });
+});

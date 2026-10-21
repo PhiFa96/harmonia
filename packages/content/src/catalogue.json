@@ -2147,7 +2147,7 @@
       "status": "entwurf",
       "titleKey": "content.partWriting.bass",
       "areaId": "area.satz",
-      "prerequisites": ["satz.l4.writing.bass"]
+      "prerequisites": ["satz.l4.writing.bass", "chords.l3.sevenths.s2"]
     },
     {
       "id": "satz.l5.writing.soprano",
@@ -2155,7 +2155,7 @@
       "status": "entwurf",
       "titleKey": "content.partWriting.soprano",
       "areaId": "area.satz",
-      "prerequisites": ["satz.l4.writing.soprano"]
+      "prerequisites": ["satz.l4.writing.soprano", "chords.l3.sevenths.s2"]
     },
     {
       "id": "satz.l5.writing.functions",
@@ -2163,7 +2163,7 @@
       "status": "entwurf",
       "titleKey": "content.partWriting.functions",
       "areaId": "area.satz",
-      "prerequisites": ["satz.l4.writing.functions"]
+      "prerequisites": ["satz.l4.writing.functions", "chords.l3.sevenths.s2"]
     },
     {
       "contentVersion": 20,

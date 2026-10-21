@@ -50,4 +50,10 @@ describe('P4.10 internal course integration', () => {
     ])
       expect(exerciseSpecSchema.safeParse({ type: 'VOICE_LEADING', params }).success).toBe(false);
   });
+  it('stage-5 writing requires writing seventh chords, because the progression uses V7', () => {
+    for (const name of ['bass', 'soprano', 'functions']) {
+      const skill = catalogue.skills.find((s) => s.id === `satz.l5.writing.${name}`);
+      expect(skill?.prerequisites).toContain('chords.l3.sevenths.s2');
+    }
+  });
 });
