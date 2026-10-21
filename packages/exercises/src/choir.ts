@@ -25,13 +25,13 @@ const PIECES = {
     soprano: 'E4 G4 F4 F4 D4 D4 E4 E4',
     alto: 'C4 C4 C4 C4 B3 B3 C4 C4',
     tenor: 'G3 G3 A3 A3 G3 G3 G3 G3',
-    bass: 'C3 E3 F3 F3 G2 G2 C3 C3',
+    bass: 'C3 E3 F3 F3 G3 G3 C3 C3',
   },
   arch: {
     soprano: 'E4 E4 F4 E4 D4 F4 E4 E4',
     alto: 'C4 C4 C4 C4 B3 B3 C4 C4',
     tenor: 'G3 G3 A3 G3 G3 G3 G3 G3',
-    bass: 'C3 C3 F3 E3 G2 G2 C3 C3',
+    bass: 'C3 C3 F3 C3 G2 G2 C3 C3',
   },
 } as const;
 export function choirScore(item: Pick<ChoirItem, 'parts'>, solo?: Voice): Score {

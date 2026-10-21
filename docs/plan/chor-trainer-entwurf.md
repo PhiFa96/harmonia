@@ -10,7 +10,7 @@ Stand: 21.10.2026. Auf ausdrücklichen Nutzerauftrag erfolgt diese technische P4
 - Einzelstimme und Gesamtsatz vorhörbar; vor der Wertung zählt Vorhören als Hilfe. Kopfhörerbestätigung vor dem Start. Vier Zählschläge, danach genau die drei anderen Stimmen; die gewählte Stimme fehlt in der Begleitung.
 - Markierte aktuelle Note und pro Note Tonabweichung, Erkennungsanteil sowie Ergebnis in Textform. Abbrechen, erneuter Durchlauf, nächste Miniatur und Mikrofonaufgabe überspringen sind möglich.
 - Mikrofon und Klang stoppen bei Abbruch, Navigation, Hintergrund, ausgeschaltetem Ton oder unterbrochenem Audiokontext. Eine verspätete Berechtigung startet keinen verlassenen Durchlauf. Teilaufnahmen werden nicht abgegeben.
-- Der interne Direkteinstieg speichert keinen Lernfortschritt und vergibt keine XP. Der normale Lektionenablauf verwendet dieselbe Engine einschließlich serverseitiger Rekonstruktion und korrekt ausgenommener Mikrofon-Skips. Ein vollständig übersprungener Durchlauf besteht keine Lektion.
+- Der interne Direkteinstieg speichert keinen Lernfortschritt und vergibt keine XP. Der normale Lektionenablauf verwendet dieselbe Engine einschließlich serverseitiger Rekonstruktion und korrekt ausgenommener Mikrofon-Skips. Sind in einer Sitzung ohne Mischung beide Chor-Aufgaben übersprungen, besteht die Lektion nicht. Im regulären Ablauf mischt `lessonPlan` jedoch Wiederholungsfragen ein; richtig beantwortet können sie die Lektion auch ohne gesungenen Ton bestehen lassen (Nenner ohne Skips, ADR 0037). Ob Gesangslektionen mindestens eine gezählte Gesangsaufgabe verlangen sollen, ist eine offene Entscheidung zu ADR 0037 (Nacharbeitsliste in `docs/plan/fachpruefung-phase-4-entwuerfe.md`).
 
 ## Bewertungsprofil v1
 

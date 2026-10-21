@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { validateScore } from '@harmonia/notation';
-import { midi } from '@harmonia/theory';
+import { analyzeVoiceLeading, midi, parsePitch } from '@harmonia/theory';
 import {
   createRng,
   generateExercise,
@@ -24,6 +24,7 @@ import {
   createChoirCollector,
   generateChoir,
 } from './choir.ts';
+import { SATB_DRAFT_RULES } from './voice-leading.ts';
 
 function required<T>(value: T | undefined | null): T {
   if (value === undefined || value === null) throw new Error('Missing test fixture');
@@ -130,4 +131,40 @@ describe('CHOIR_PART internal draft', () => {
     expect(session.records).toEqual([]);
     expect(sessionSummary(session)).toBeDefined();
   });
+});
+
+describe('CHOIR_PART miniatures follow the draft part-writing profile', () => {
+  const ranges = {
+    bass: { min: parsePitch('E2'), max: parsePitch('C4') },
+    tenor: { min: parsePitch('C3'), max: parsePitch('G4') },
+    alto: { min: parsePitch('G3'), max: parsePitch('D5') },
+    soprano: { min: parsePitch('C4'), max: parsePitch('G5') },
+  };
+  // Die Miniaturen tragen keinen Akkordkontext: Leitton-/Septimregeln entfallen. Strenger als
+  // das Aufgabenprofil: auch Gegen- und verdeckte Quinten/Oktaven sind hier Fehler.
+  const harmonic = ['leading-tone-resolution', 'seventh-resolution', 'doubled-leading-tone'];
+  const profile = Object.fromEntries(
+    Object.entries(SATB_DRAFT_RULES).filter(([rule]) => !harmonic.includes(rule)),
+  );
+  const strict = Object.fromEntries(
+    [...Object.keys(profile), 'contrary-fifth', 'contrary-octave'].map((rule) => [rule, 'error']),
+  );
+  for (const piece of ['home', 'arch'] as const)
+    it(`${piece}: no findings under the exercise profile or the strict rule set`, () => {
+      const { parts } = generateChoir({ voice: 'soprano', piece }, createRng(1));
+      const slices = parts.soprano.map((_, i) => ({
+        soprano: required(parts.soprano[i]),
+        alto: required(parts.alto[i]),
+        tenor: required(parts.tenor[i]),
+        bass: required(parts.bass[i]),
+      }));
+      const options = {
+        ranges,
+        hiddenPerfectMotion: 'soprano-leap',
+        maxMelodicInterval: 8,
+        contraryPerfectScope: 'all',
+      } as const;
+      expect(analyzeVoiceLeading(slices, profile, options)).toEqual([]);
+      expect(analyzeVoiceLeading(slices, strict, options)).toEqual([]);
+    });
 });
