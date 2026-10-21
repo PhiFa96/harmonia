@@ -144,6 +144,9 @@ jobs:
       - name: Kernabläufe, axe, Tastatur und Leistungsbudgets prüfen
         run: pnpm qa:web
 
+      - name: Lokale Satzwerkstatt mit eigenen Entwürfen prüfen
+        run: pnpm voice-leading:test:web
+
       - name: Privaten Beta-Zugang und Testhinweise mit eigenen Fixtures prüfen
         env:
           HARMONIA_QA_OUTPUT: artifacts/quality/beta-playwright

@@ -13,6 +13,8 @@
 - Die Nutzerbasis ist groß genug, um Coaches Buchungen zu versprechen.
 - Die offenen Phase-3-Abnahmen aus dem [technischen Rückblick](phase-3-rueckblick.md) sind abgeschlossen: Stufen 3–4 fachlich freigegeben und live, echte Geräte-/Realtime-/DB-Tests sowie Tutor-Quellenreview bestanden. P4.06 braucht zusätzlich eine eigene widerrufbare Lernstand-Freigabe; Harmonik-Korrekturen warten auf F03.
 
+**Interne technische Vorarbeit (21.10.2026):** Auf ausdrücklichen Nutzerauftrag entstehen Entwürfe vor der formalen Phase-4-Freigabe. Dazu zählen die gesonderte P4.12-Zeitreise und die P4.09-Satzprüfung mit lokaler Satzwerkstatt als Eingabevorarbeit für P4.10. Diese Arbeit hebt keine Start-, Fach- oder Veröffentlichungsvoraussetzung auf. P4.01 bleibt bis F14 und Klärung der rechtlichen Voraussetzungen zurückgestellt.
+
 **Blöcke:**
 
 - A: Coach-Marktplatz
@@ -147,6 +149,8 @@
   - [ ] Aufgaben: Bass oder Sopran gegeben, Rest ergänzen; Funktionen vorgegeben
   - [ ] Fehler markieren; Tutor erklärt mit `check_voice_leading`
 - **Fertig, wenn:** Übungstyp `VOICE_LEADING` in Stufe 4–5 eingebunden.
+
+**Interner Eingabeprototyp, keine Abnahme:** Die [lokale Satzwerkstatt](stimmfuehrung-entwurf.md#lokale-satzwerkstatt) bietet vier Textfelder, gemeinsame Taktart/Vorzeichnung, ausdrückliche JSON-Regelkonfiguration, erneute Prüfung und lokale Entwurfsdateien. Sie zeigt die verbundenen Stimmen im Klaviersystem mit den Befunden aus P4.09. Grafisches Notensetzen, Übungsaufgaben, Tutor und Stufenintegration sind weiterhin offen; F03/F05 und die unabhängige Fachprüfung bleiben Voraussetzung für den Produktablauf.
 
 ### P4.11 – Chor-Trainer
 

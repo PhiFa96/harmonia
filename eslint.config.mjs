@@ -46,7 +46,7 @@ export default defineConfig(
     },
   },
   {
-    files: ['e2e/web/**/*.mjs', 'e2e/beta/**/*.mjs'],
+    files: ['e2e/web/**/*.mjs', 'e2e/beta/**/*.mjs', 'e2e/voice-leading/**/*.mjs'],
     languageOptions: { globals: { ...globals.node, ...globals.browser } },
   },
 );
