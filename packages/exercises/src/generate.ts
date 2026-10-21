@@ -1,3 +1,4 @@
+import { generateChoir } from './choir.ts';
 import { generateVoiceLeading } from './voice-leading.ts';
 import { generateContext } from './context.ts';
 import {
@@ -389,6 +390,8 @@ export function generateIntervalBuild(params: VisualIntervalParams, rng: Rng): I
 }
 export function generateExercise(spec: ExerciseSpec, rng: Rng) {
   switch (spec.type) {
+    case 'CHOIR_PART':
+      return generateChoir(spec.params, rng);
     case 'VOICE_LEADING':
       return generateVoiceLeading(spec.params, rng);
     case 'SIGHT_SING':

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": 19,
+  "contentVersion": 20,
   "areas": [
     {
       "id": "fundament",
@@ -759,6 +759,13 @@
       "status": "entwurf",
       "titleKey": "content.partWriting.unit5",
       "levelId": "satz.level-5"
+    },
+    {
+      "contentVersion": 20,
+      "status": "entwurf",
+      "id": "aural.l4.choir",
+      "titleKey": "content.choir.title",
+      "levelId": "aural.level-4"
     }
   ],
   "skills": [
@@ -2157,6 +2164,38 @@
       "titleKey": "content.partWriting.functions",
       "areaId": "area.satz",
       "prerequisites": ["satz.l4.writing.functions", "chords.l3.sevenths.s2"]
+    },
+    {
+      "contentVersion": 20,
+      "status": "entwurf",
+      "id": "aural.l4.choir.soprano",
+      "titleKey": "content.choir.soprano",
+      "areaId": "area.aural",
+      "prerequisites": ["aural.l3.dictation.s3"]
+    },
+    {
+      "contentVersion": 20,
+      "status": "entwurf",
+      "id": "aural.l4.choir.alto",
+      "titleKey": "content.choir.alto",
+      "areaId": "area.aural",
+      "prerequisites": ["aural.l3.dictation.s3"]
+    },
+    {
+      "contentVersion": 20,
+      "status": "entwurf",
+      "id": "aural.l4.choir.tenor",
+      "titleKey": "content.choir.tenor",
+      "areaId": "area.aural",
+      "prerequisites": ["aural.l3.dictation.s3"]
+    },
+    {
+      "contentVersion": 20,
+      "status": "entwurf",
+      "id": "aural.l4.choir.bass",
+      "titleKey": "content.choir.bass",
+      "areaId": "area.aural",
+      "prerequisites": ["aural.l3.dictation.s3"]
     }
   ],
   "exerciseSets": [
@@ -6795,6 +6834,122 @@
             }
           },
           "count": 3
+        }
+      ]
+    },
+    {
+      "contentVersion": 20,
+      "status": "entwurf",
+      "id": "aural.l4.choir.soprano.exercises",
+      "titleKey": "content.choir.soprano",
+      "skillIds": ["aural.l4.choir.soprano"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CHOIR_PART",
+            "params": {
+              "voice": "soprano",
+              "piece": "home"
+            }
+          },
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "CHOIR_PART",
+            "params": {
+              "voice": "soprano",
+              "piece": "arch"
+            }
+          },
+          "count": 1
+        }
+      ]
+    },
+    {
+      "contentVersion": 20,
+      "status": "entwurf",
+      "id": "aural.l4.choir.alto.exercises",
+      "titleKey": "content.choir.alto",
+      "skillIds": ["aural.l4.choir.alto"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CHOIR_PART",
+            "params": {
+              "voice": "alto",
+              "piece": "home"
+            }
+          },
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "CHOIR_PART",
+            "params": {
+              "voice": "alto",
+              "piece": "arch"
+            }
+          },
+          "count": 1
+        }
+      ]
+    },
+    {
+      "contentVersion": 20,
+      "status": "entwurf",
+      "id": "aural.l4.choir.tenor.exercises",
+      "titleKey": "content.choir.tenor",
+      "skillIds": ["aural.l4.choir.tenor"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CHOIR_PART",
+            "params": {
+              "voice": "tenor",
+              "piece": "home"
+            }
+          },
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "CHOIR_PART",
+            "params": {
+              "voice": "tenor",
+              "piece": "arch"
+            }
+          },
+          "count": 1
+        }
+      ]
+    },
+    {
+      "contentVersion": 20,
+      "status": "entwurf",
+      "id": "aural.l4.choir.bass.exercises",
+      "titleKey": "content.choir.bass",
+      "skillIds": ["aural.l4.choir.bass"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "CHOIR_PART",
+            "params": {
+              "voice": "bass",
+              "piece": "home"
+            }
+          },
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "CHOIR_PART",
+            "params": {
+              "voice": "bass",
+              "piece": "arch"
+            }
+          },
+          "count": 1
         }
       ]
     }
@@ -12309,6 +12464,62 @@
         {
           "score": "treble | 4/4 | C4/1 | D4/1",
           "captionKey": "content.partWriting.caption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 20,
+      "status": "entwurf",
+      "id": "aural.l4.choir.soprano.card",
+      "titleKey": "content.choir.title",
+      "skillIds": ["aural.l4.choir.soprano"],
+      "bodyKey": "content.choir.intro",
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/2 G4/2 | F4/2 F4/2",
+          "captionKey": "content.choir.caption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 20,
+      "status": "entwurf",
+      "id": "aural.l4.choir.alto.card",
+      "titleKey": "content.choir.title",
+      "skillIds": ["aural.l4.choir.alto"],
+      "bodyKey": "content.choir.intro",
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/2 G4/2 | F4/2 F4/2",
+          "captionKey": "content.choir.caption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 20,
+      "status": "entwurf",
+      "id": "aural.l4.choir.tenor.card",
+      "titleKey": "content.choir.title",
+      "skillIds": ["aural.l4.choir.tenor"],
+      "bodyKey": "content.choir.intro",
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/2 G4/2 | F4/2 F4/2",
+          "captionKey": "content.choir.caption"
+        }
+      ]
+    },
+    {
+      "contentVersion": 20,
+      "status": "entwurf",
+      "id": "aural.l4.choir.bass.card",
+      "titleKey": "content.choir.title",
+      "skillIds": ["aural.l4.choir.bass"],
+      "bodyKey": "content.choir.intro",
+      "examples": [
+        {
+          "score": "treble | 4/4 | E4/2 G4/2 | F4/2 F4/2",
+          "captionKey": "content.choir.caption"
         }
       ]
     }
@@ -19139,6 +19350,46 @@
       "skillIds": ["satz.l5.writing.functions"],
       "introductionCardIds": ["satz.l5.writing.functions.card"],
       "exerciseSetIds": ["satz.l5.writing.functions.exercises"]
+    },
+    {
+      "contentVersion": 20,
+      "status": "entwurf",
+      "id": "aural.l4.choir.soprano.lesson",
+      "titleKey": "content.choir.soprano",
+      "unitId": "aural.l4.choir",
+      "skillIds": ["aural.l4.choir.soprano"],
+      "introductionCardIds": ["aural.l4.choir.soprano.card"],
+      "exerciseSetIds": ["aural.l4.choir.soprano.exercises"]
+    },
+    {
+      "contentVersion": 20,
+      "status": "entwurf",
+      "id": "aural.l4.choir.alto.lesson",
+      "titleKey": "content.choir.alto",
+      "unitId": "aural.l4.choir",
+      "skillIds": ["aural.l4.choir.alto"],
+      "introductionCardIds": ["aural.l4.choir.alto.card"],
+      "exerciseSetIds": ["aural.l4.choir.alto.exercises"]
+    },
+    {
+      "contentVersion": 20,
+      "status": "entwurf",
+      "id": "aural.l4.choir.tenor.lesson",
+      "titleKey": "content.choir.tenor",
+      "unitId": "aural.l4.choir",
+      "skillIds": ["aural.l4.choir.tenor"],
+      "introductionCardIds": ["aural.l4.choir.tenor.card"],
+      "exerciseSetIds": ["aural.l4.choir.tenor.exercises"]
+    },
+    {
+      "contentVersion": 20,
+      "status": "entwurf",
+      "id": "aural.l4.choir.bass.lesson",
+      "titleKey": "content.choir.bass",
+      "unitId": "aural.l4.choir",
+      "skillIds": ["aural.l4.choir.bass"],
+      "introductionCardIds": ["aural.l4.choir.bass.card"],
+      "exerciseSetIds": ["aural.l4.choir.bass.exercises"]
     }
   ]
 }

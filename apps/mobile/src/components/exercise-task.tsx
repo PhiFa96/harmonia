@@ -1,3 +1,4 @@
+import { ChoirAnswerInput } from './choir-answer-input';
 import { VoiceLeadingAnswerInput } from './voice-leading-answer-input';
 import type { ReportSource } from '@harmonia/content';
 import { openReport } from '@/state/reports';
@@ -211,6 +212,7 @@ export function ExerciseTask({
           'KEYSIG_BUILD',
           'CHORD_BUILD',
           'VOICE_LEADING',
+          'CHOIR_PART',
         ].includes(item.type) ? null : item.type !== 'LISTENING_CHOICE' &&
         (item.type === 'RHYTHM_TAP' ||
           !isAuralExercise(item) ||
@@ -358,7 +360,7 @@ export function ExerciseTask({
           }}
         />
       ) : null}
-      {isVoiceItem(item) && !result && onSkipVoice ? (
+      {(isVoiceItem(item) || item.type === 'CHOIR_PART') && !result && onSkipVoice ? (
         <Button
           variant="ghost"
           label={t('voice.skip')}
@@ -373,7 +375,23 @@ export function ExerciseTask({
           {t('exercise.audioError')}
         </AppText>
       ) : null}
-      {item.type === 'VOICE_LEADING' ? (
+      {item.type === 'CHOIR_PART' ? (
+        <ChoirAnswerInput
+          key={`${String(session.index)}:${itemVariantKey(item)}`}
+          item={item}
+          answer={answer}
+          {...(result ? { result } : {})}
+          disabled={interactionDisabled}
+          onSelect={onSelect}
+          {...(hintsAllowed
+            ? {
+                onInspect: () => {
+                  if (session.hintLevel === 0) onHint();
+                },
+              }
+            : {})}
+        />
+      ) : item.type === 'VOICE_LEADING' ? (
         <VoiceLeadingAnswerInput
           key={`${String(session.index)}:${itemVariantKey(item)}`}
           item={item}
@@ -602,7 +620,8 @@ export function ExerciseTask({
             kind={result.correct ? 'correct' : 'wrong'}
             title={feedback.title}
             message={feedback.message}
-            {...(item.type !== 'VOICE_LEADING' &&
+            {...(item.type !== 'CHOIR_PART' &&
+            item.type !== 'VOICE_LEADING' &&
             !isKnowledgeItem(item) &&
             (!isKeySignatureItem(item) || !!media.audio) &&
             (item.type !== 'CONTEXT_CHOICE' || !!media.audio)
