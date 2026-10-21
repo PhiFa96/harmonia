@@ -280,6 +280,8 @@ test('empty rule selection is explicit, imported text stays text, and narrow lay
   await expect(page.getByRole('heading', { name: draft.title, exact: true })).toBeVisible();
   await expect(page.locator('img')).toHaveCount(0);
   await expect(page.locator('.empty')).toHaveText(REPORT_MESSAGES['de-DE'].noRules);
+  // Breite Schrift erzwingen: der Überlauf zeigte sich nur mit der CI-Standardschrift.
+  await page.addStyleTag({ content: '*{font-family:"DejaVu Sans",sans-serif !important}' });
   await page.setViewportSize({ width: 390, height: 844 });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
     true,
