@@ -132,7 +132,7 @@
 - **Technische Vorarbeit vor formaler Phase-4-Freigabe:** [SATB-Musterdetektor mit 16 Regelkennungen, Partituradapter und eigenem Testkorpus](stimmfuehrung-entwurf.md) auf einem Arbeitsbranch, ohne Anbindung an Lern- oder Tutorabläufe. Der Adapter liefert exakte Zeit- und Notenbezüge bei unterschiedlichen Dauern, Haltebögen und Pausen. Der [Primärtextabgleich](../quality/p4-09-quellenentwurf.md) nennt direkt gelesene OMT-Abschnitte und offene SATB-Übertragungen. F05, passende Quellen für Stimmumfänge/Abstände und unabhängige Fachprüfung stehen aus. P4.09 ist nicht abgenommen; die Phase-4-Start- und Veröffentlichungsvoraussetzungen gelten weiter. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
 - **Aufgaben:**
   - [ ] Regeln aus [theorie-engine.md](theorie-engine.md), jede mit Quelle, Schweregrad, Konfiguration
-  - [ ] Testkorpus mit eigenen fehlerhaften und fehlerfreien Sätzen
+  - [ ] Testkorpus mit eigenen fehlerhaften und fehlerfreien Sätzen (technische Fixture und lokaler DE/EN-Review-Bericht vorhanden; unabhängige Abnahme offen)
 - **Fertig, wenn:**
   - Der Korpus wird vollständig korrekt beurteilt.
   - Jede Regel ist mit ihrer Quelle belegt und fachlich geprüft.
