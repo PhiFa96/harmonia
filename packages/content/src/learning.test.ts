@@ -1,3 +1,4 @@
+import { choirAnswer, choirAnswerId } from '@harmonia/exercises';
 import { describe, expect, it } from 'vitest';
 import { catalogue, firstLesson } from './authoring.ts';
 import { catalogue as publishedCatalogue } from './published.ts';
@@ -29,6 +30,12 @@ import {
 import type { ExerciseItem, LessonDefinition } from '@harmonia/exercises';
 
 function wrongAnswer(item: ExerciseItem): string {
+  if (item.type === 'CHOIR_PART')
+    return choirAnswerId(
+      (choirAnswer(item, expectedAnswer(item)) ?? []).map((row) =>
+        row.map((n) => (n === null ? null : n + 200)),
+      ),
+    );
   if (item.type === 'VOICE_LEADING') {
     const voice = item.params.mode === 'soprano' ? 'alto' : 'soprano';
     return satbAnswerId(
@@ -242,8 +249,8 @@ describe('Erstversuch als geprüfter Lernnachweis', () => {
 describe('Lernpfad aus Fähigkeiten und bestandenen Versuchen', () => {
   it('ordnet alle Einheiten nach ihren Voraussetzungen und öffnet nur den Einstieg', () => {
     const path = learningPath(catalogue, []);
-    expect(path).toHaveLength(56);
-    expect(path.flatMap((u) => u.lessons)).toHaveLength(166);
+    expect(path).toHaveLength(57);
+    expect(path.flatMap((u) => u.lessons)).toHaveLength(170);
     expect(lessonStatus(path, firstLesson.id)).toBe('open');
     expect(path.some((u) => u.status === 'locked')).toBe(true);
     expect(path.some((u) => u.status === 'completed' || u.status === 'tested')).toBe(false);

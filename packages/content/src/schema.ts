@@ -111,6 +111,17 @@ export const exerciseSpecSchema = z
   .discriminatedUnion('type', [
     z
       .object({
+        type: z.literal('CHOIR_PART'),
+        params: z
+          .object({
+            voice: z.enum(['soprano', 'alto', 'tenor', 'bass']),
+            piece: z.enum(['home', 'arch']),
+          })
+          .strict(),
+      })
+      .strict(),
+    z
+      .object({
         type: z.literal('VOICE_LEADING'),
         params: z
           .object({
@@ -352,6 +363,7 @@ export const exerciseSpecSchema = z
           ...(value.params.direction ? { direction: value.params.direction } : {}),
         },
       };
+    if (value.type === 'CHOIR_PART') return { type: value.type, params: value.params };
     if (value.type === 'VOICE_LEADING') return { type: value.type, params: value.params };
     if (value.type === 'CADENCE_IDENTIFY')
       return {

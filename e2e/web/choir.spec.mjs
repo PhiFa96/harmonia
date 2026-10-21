@@ -1,0 +1,157 @@
+import { test, expect } from '@playwright/test';
+import { onboard, audit, noOverflow, copy } from './helpers.mjs';
+
+for (const locale of ['de-DE', 'en-US', 'en-GB']) {
+  test(`${locale} choir draft: all parts, headphones gate, denied microphone and accessible skip`, async ({
+    browser,
+  }) => {
+    const context = await browser.newContext({
+      locale,
+      viewport: { width: locale === 'en-US' ? 1280 : 390, height: 900 },
+    });
+    const page = await context.newPage();
+    const errors = [];
+    page.on('pageerror', (error) => errors.push(error.message));
+    await page.addInitScript(() => {
+      navigator.mediaDevices.getUserMedia = async () => {
+        throw new DOMException('Denied', 'NotAllowedError');
+      };
+    });
+    try {
+      await onboard(page, locale);
+      await page.goto('/choir');
+      for (const voice of ['soprano', 'alto', 'tenor', 'bass'])
+        await expect(page.getByTestId(`choir-start-aural.l4.choir.${voice}.lesson`)).toBeVisible();
+      await page.getByTestId('choir-start-aural.l4.choir.tenor.lesson').click();
+      const trainer = page.getByTestId('choir-trainer');
+      await expect(trainer).toContainText(
+        locale.startsWith('de') ? 'Interner Entwurf' : 'Internal draft',
+      );
+      await expect(page.getByTestId('choir-start')).toBeDisabled();
+      await trainer
+        .getByRole('button', {
+          name: locale.startsWith('de')
+            ? 'Ich trage Kopfhörer und höre die Begleitung darin'
+            : 'I am wearing headphones and hear the accompaniment through them',
+          exact: true,
+        })
+        .click();
+      await page.getByTestId('choir-start').click();
+      await expect(trainer).toContainText(locale.startsWith('de') ? 'verweigert' : 'denied');
+      await expect(
+        page.getByRole('button', { name: copy(locale).check, exact: true }),
+      ).toBeDisabled();
+      await audit(page);
+      await noOverflow(page);
+      await page
+        .getByRole('button', {
+          name: locale.startsWith('de')
+            ? 'Diese Mikrofonaufgabe überspringen'
+            : 'Skip this microphone exercise',
+          exact: true,
+        })
+        .click();
+      await expect(page.getByText('2 / 2', { exact: true })).toBeVisible();
+      expect(errors).toEqual([]);
+    } finally {
+      await context.close();
+    }
+  });
+}
+
+test('choir real browser audio pipeline: synthetic singing, per-note results, repeat, stop and navigation', async ({
+  page,
+}, info) => {
+  const errors = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+  await page.addInitScript(() => {
+    const fixture = {
+      active: false,
+      scheduled: false,
+      starts: 0,
+      stops: 0,
+      oscillator: null,
+      mic: null,
+    };
+    window.choirFixture = fixture;
+    // A real MediaStream supplies PCM to the unmodified analyser and pitch detector.
+    navigator.mediaDevices.getUserMedia = async () => {
+      const mic = new AudioContext();
+      await mic.resume();
+      const oscillator = mic.createOscillator(),
+        gain = mic.createGain(),
+        destination = mic.createMediaStreamDestination();
+      gain.gain.value = 0.22;
+      oscillator.frequency.value = 329.627557;
+      oscillator.connect(gain).connect(destination);
+      oscillator.start();
+      Object.assign(fixture, { active: true, scheduled: false, oscillator, mic });
+      const track = destination.stream.getAudioTracks()[0],
+        originalStop = track.stop.bind(track);
+      track.stop = () => {
+        fixture.stops++;
+        fixture.active = false;
+        oscillator.stop();
+        void mic.close();
+        originalStop();
+      };
+      return destination.stream;
+    };
+    const originalStart = AudioBufferSourceNode.prototype.start;
+    AudioBufferSourceNode.prototype.start = function (when, ...args) {
+      if (fixture.active) {
+        fixture.starts++;
+        if (!fixture.scheduled) {
+          fixture.scheduled = true;
+          const bpm = Number(
+            document
+              .querySelector('[data-testid="choir-trainer"]')
+              .textContent.match(/(60|72|80) BPM/)[1],
+          );
+          const start = fixture.mic.currentTime + when - this.context.currentTime;
+          [64, 67, 65, 65, 62, 62, 64, 64].forEach((pitch, index) =>
+            fixture.oscillator.frequency.setValueAtTime(
+              440 * 2 ** ((pitch - 69) / 12),
+              start + (index * 120) / bpm,
+            ),
+          );
+        }
+      }
+      return originalStart.call(this, when, ...args);
+    };
+  });
+  await onboard(page, 'de-DE');
+  await page.goto('/choir');
+  await page.getByTestId('choir-start-aural.l4.choir.soprano.lesson').click();
+  await page
+    .getByRole('button', { name: 'Ich trage Kopfhörer und höre die Begleitung darin', exact: true })
+    .click();
+  await page.getByTestId('choir-start').click();
+  await expect(page.getByTestId('choir-status')).toContainText('Vorzähler');
+  await expect(page.getByTestId('choir-status')).toContainText('Durchlauf beendet', {
+    timeout: 25000,
+  });
+  await expect.poll(() => page.evaluate(() => window.choirFixture.stops)).toBe(1);
+  expect(await page.evaluate(() => window.choirFixture.starts)).toBe(24);
+  await page.getByRole('button', { name: 'Prüfen', exact: true }).click();
+  await expect(
+    page.getByTestId('choir-results').getByText('Getroffen', { exact: true }),
+  ).toHaveCount(8);
+  await audit(page);
+  await noOverflow(page);
+  await page.screenshot({ path: info.outputPath('choir-per-note-results.png'), fullPage: true });
+  await page.getByTestId('exercise-next').click();
+  await page
+    .getByRole('button', { name: 'Ich trage Kopfhörer und höre die Begleitung darin', exact: true })
+    .click();
+  await page.getByTestId('choir-start').click();
+  await expect(page.getByTestId('choir-status')).toContainText('Vorzähler');
+  await page.getByRole('button', { name: 'Abbrechen', exact: true }).click();
+  await expect.poll(() => page.evaluate(() => window.choirFixture.stops)).toBe(2);
+  await expect(page.getByRole('button', { name: 'Prüfen', exact: true })).toBeDisabled();
+  await page.getByTestId('choir-start').click();
+  await expect(page.getByTestId('choir-status')).toContainText('Vorzähler');
+  await page.getByRole('button', { name: 'Zurück zum Lernen', exact: true }).click();
+  await expect.poll(() => page.evaluate(() => window.choirFixture.stops)).toBe(3);
+  expect(errors).toEqual([]);
+});

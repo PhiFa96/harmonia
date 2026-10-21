@@ -1,3 +1,4 @@
+import { assessChoir } from './choir.ts';
 import { checkSatb, satbAnswer } from './voice-leading.ts';
 import type { ContextItem } from './context.ts';
 import {
@@ -154,6 +155,7 @@ export function pitchInputMidiLabel(value: number, locale: TextLocale): string {
   return pitchInputLabel(fromMidi(value), locale);
 }
 export function choiceLabel(item: ExerciseItem, answer: string, locale: TextLocale): string {
+  if (item.type === 'CHOIR_PART') return translate(locale, 'exercise.choirAnswer');
   if (item.type === 'VOICE_LEADING')
     return satbAnswer(item, answer)
       ? translate(locale, 'exercise.satbAnswer')
@@ -308,6 +310,10 @@ export function choiceLabel(item: ExerciseItem, answer: string, locale: TextLoca
   return noteName(pitch, locale, false);
 }
 export function exercisePrompt(item: ExerciseItem, locale: TextLocale): string {
+  if (item.type === 'CHOIR_PART')
+    return translate(locale, 'exercise.choirPrompt', {
+      voice: translate(locale, `exercise.satb_${item.params.voice}`),
+    });
   if (item.type === 'VOICE_LEADING')
     return translate(locale, 'exercise.question_VOICE_LEADING', {
       mode: translate(locale, `exercise.satbMode_${item.params.mode}`),
@@ -457,6 +463,14 @@ export function exerciseFeedback(
   result: Evaluation,
   locale: TextLocale,
 ): ExerciseFeedback {
+  if (item.type === 'CHOIR_PART')
+    return {
+      title: translate(locale, 'exercise.type_CHOIR_PART'),
+      message: translate(locale, 'exercise.choirSummary', {
+        count: assessChoir(item, result.answer).notes.filter((n) => n.passed).length,
+        total: 8,
+      }),
+    };
   if (item.type === 'VOICE_LEADING') {
     const report = checkSatb(item, result.answer);
     return {
@@ -648,6 +662,7 @@ export function exerciseFeedback(
 }
 /** Sprachneutraler Hinweis; erst die Oberfläche wählt die Sprache. Level 3 ist die erklärte Lösung. */
 export function exerciseHints(item: ExerciseItem, level: 1 | 2 | 3): ExerciseHint {
+  if (item.type === 'CHOIR_PART') return { level, key: 'exercise.choirHint', values: {} };
   if (item.type === 'CONTEXT_CHOICE') return { level, key: 'solution', values: {} };
   if (level === 3) return { level, key: 'solution', values: {} };
   if (item.type === 'VOICE_LEADING')
@@ -801,6 +816,7 @@ export function exerciseHints(item: ExerciseItem, level: 1 | 2 | 3): ExerciseHin
   };
 }
 export function hintText(item: ExerciseItem, hint: ExerciseHint, locale: TextLocale): string {
+  if (item.type === 'CHOIR_PART') return translate(locale, 'exercise.choirHint');
   if (item.type === 'CONTEXT_CHOICE')
     return hint.level === 3
       ? contextExplanation(item, locale)
@@ -899,6 +915,7 @@ function alterationText(pitch: Pitch, locale: TextLocale): string {
 
 /** Positionen statt Tonnamen: Vor dem Prüfen darf der Screenreader die Lösung nicht vorwegnehmen. */
 export function exerciseDescription(item: ExerciseItem, locale: TextLocale): string {
+  if (item.type === 'CHOIR_PART') return exercisePrompt(item, locale);
   if (item.type === 'VOICE_LEADING')
     return (
       exercisePrompt(item, locale) +

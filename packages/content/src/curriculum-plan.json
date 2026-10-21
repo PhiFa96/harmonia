@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": 19,
+  "contentVersion": 20,
   "scopeLevels": [1, 2, 3, 4, 5],
   "units": [
     {
@@ -275,6 +275,15 @@
     {
       "unitId": "satz.l4.writing",
       "skillIds": ["satz.l4.writing.bass", "satz.l4.writing.soprano", "satz.l4.writing.functions"]
+    },
+    {
+      "unitId": "aural.l4.choir",
+      "skillIds": [
+        "aural.l4.choir.soprano",
+        "aural.l4.choir.alto",
+        "aural.l4.choir.tenor",
+        "aural.l4.choir.bass"
+      ]
     },
     {
       "unitId": "satz.l5.writing",

@@ -6,8 +6,8 @@ import { ratePeriod } from './rating-period.ts';
 import type { RatedState } from './rating-period.ts';
 
 describe('parameter profiles', () => {
-  it('covers all 27 types and is stable across property order and set ordering', () => {
-    expect(Object.keys(RATING_PARAMETERS)).toHaveLength(27);
+  it('covers all 28 types and is stable across property order and set ordering', () => {
+    expect(Object.keys(RATING_PARAMETERS)).toHaveLength(28);
     const a = ratingBucket(
       {
         type: 'CHORD_BUILD',

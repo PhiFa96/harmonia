@@ -191,7 +191,7 @@ export function lessonProgress(session: LessonSession): LessonProgress {
   ).length;
   const voiceSkipped = session.initial.skipped.filter((index) => {
     const item = session.initial.items[index];
-    return item !== undefined && isVoiceItem(item);
+    return item !== undefined && (isVoiceItem(item) || item.type === 'CHOIR_PART');
   }).length;
   const counted = session.initial.items.length - voiceSkipped;
   return {
@@ -217,8 +217,12 @@ function restoreRound(
       item = session && currentItem(session);
     if (!session || !item) throw new EvidenceError('invalid');
     if (evidence.skipped.includes(session.index)) {
-      if (!isAuralExercise(item) && !isVoiceItem(item)) throw new EvidenceError('invalid');
-      state = isVoiceItem(item) ? skipLessonVoice(state) : skipLessonAural(state);
+      if (!isAuralExercise(item) && !isVoiceItem(item) && item.type !== 'CHOIR_PART')
+        throw new EvidenceError('invalid');
+      state =
+        isVoiceItem(item) || item.type === 'CHOIR_PART'
+          ? skipLessonVoice(state)
+          : skipLessonAural(state);
     } else {
       const record = evidence.answers[seen.length];
       if (record?.index !== session.index) throw new EvidenceError('invalid');
@@ -264,7 +268,7 @@ export function validateLearningEvent(catalogue: ContentCatalogue, input: unknow
       throw new EvidenceError('changed');
     const p = event.progress;
     const voiceItems = lesson.exercises.filter((spec) =>
-      ['SING_INTERVAL', 'SIGHT_SING', 'PLAY_BACK'].includes(spec.type),
+      ['SING_INTERVAL', 'SIGHT_SING', 'PLAY_BACK', 'CHOIR_PART'].includes(spec.type),
     ).length;
     const counted = countedTotal(p);
     if (

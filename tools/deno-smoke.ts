@@ -161,7 +161,7 @@ const exercise = generateExercise(
   exerciseRng('deno-exercises'),
 );
 const plannedSkills = curriculumSkills(catalogue, curriculumPlan);
-check('166 interne Lektionen in Stufen 1 bis 5', catalogue.lessons.length, 166);
+check('170 interne Lektionen in Stufen 1 bis 5', catalogue.lessons.length, 170);
 let internalTasks = 0;
 for (const record of catalogue.lessons) {
   const lesson = resolveLesson(catalogue, record.id);
@@ -175,7 +175,7 @@ for (const record of catalogue.lessons) {
     throw new Error('Lernnachweis nicht unter Deno reproduzierbar');
   internalTasks += lesson.exercises.length;
 }
-check('Alle 1618 internen Aufgaben unter Deno durchspielbar', internalTasks, 1618);
+check('Alle 1626 internen Aufgaben unter Deno durchspielbar', internalTasks, 1626);
 let mixedTasks = 0;
 for (const record of catalogue.lessons) {
   const plan = lessonPlan(catalogue, record.id);
@@ -209,7 +209,7 @@ check(
   lessonDay(Date.parse('2026-03-29T22:30:00Z'), 'Europe/Berlin'),
   '2026-03-30',
 );
-check('56 graphbasierte Einheiten unter Deno', learningPath(catalogue, []).length, 56);
+check('57 graphbasierte Einheiten unter Deno', learningPath(catalogue, []).length, 57);
 const placement = placementBank(catalogue);
 for (const profile of ['assisted', 'advanced']) {
   let state = createPlacement(placement, `deno-${profile}`);

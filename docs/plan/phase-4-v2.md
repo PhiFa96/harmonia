@@ -13,7 +13,7 @@
 - Die Nutzerbasis ist groß genug, um Coaches Buchungen zu versprechen.
 - Die offenen Phase-3-Abnahmen aus dem [technischen Rückblick](phase-3-rueckblick.md) sind abgeschlossen: Stufen 3–4 fachlich freigegeben und live, echte Geräte-/Realtime-/DB-Tests sowie Tutor-Quellenreview bestanden. P4.06 braucht zusätzlich eine eigene widerrufbare Lernstand-Freigabe; Harmonik-Korrekturen warten auf F03.
 
-**Interne technische Vorarbeit (21.10.2026):** Auf ausdrücklichen Nutzerauftrag entstehen Entwürfe vor der formalen Phase-4-Freigabe. Dazu zählen die gesonderte P4.12-Zeitreise und die P4.09-Satzprüfung mit lokaler Satzwerkstatt als Eingabevorarbeit für P4.10. Diese Arbeit hebt keine Start-, Fach- oder Veröffentlichungsvoraussetzung auf. P4.01 bleibt bis F14 und Klärung der rechtlichen Voraussetzungen zurückgestellt.
+**Interne technische Vorarbeit (21.10.2026):** Auf ausdrücklichen Nutzerauftrag entstehen Entwürfe vor der formalen Phase-4-Freigabe. Dazu zählen die gesonderte P4.12-Zeitreise, der P4.11-Chor-Trainer sowie die P4.09-Satzprüfung mit lokaler Satzwerkstatt als Eingabevorarbeit für P4.10. Diese Arbeit hebt keine Start-, Fach- oder Veröffentlichungsvoraussetzung auf. P4.01 bleibt bis F14 und Klärung der rechtlichen Voraussetzungen zurückgestellt.
 
 **Blöcke:**
 
@@ -158,10 +158,12 @@
 - **Abhängig von:** P3.09
 - **Umfang:** L
 - **Aufgaben:**
-  - [ ] Chorklang („Ah“) im Sampler
-  - [ ] Drei Stimmen spielen, eine Stimme singen; Bewertung pro Note
-  - [ ] Eigene Chorsätze (selbst geschrieben oder gemeinfrei in eigenem Satz)
+  - [x] Chorklang („Ah“) im Sampler
+  - [x] Drei Stimmen spielen, eine Stimme singen; Bewertung pro Note
+  - [x] Eigene Chorsätze (selbst geschrieben oder gemeinfrei in eigenem Satz)
 - **Fertig, wenn:** Übungstyp `CHOIR_PART` funktioniert mit Kopfhörern zuverlässig.
+
+**Technisch als interner Entwurf implementiert, keine Produktabnahme:** [Ablauf, Originalmaterial, Auswertungsprofil und offene Abnahmen](chor-trainer-entwurf.md). Technische P4-Vorarbeit findet auf Nutzerauftrag **vor der formalen Phase-4-Freigabe** statt. Die Häkchen bezeichnen die technische Umsetzung. Unabhängige Fachprüfung und reale Kopfhörer-/Gerätetests bleiben offen; keine Veröffentlichung. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
 
 ### P4.12 – Zeitreise durch die Musikgeschichte
 

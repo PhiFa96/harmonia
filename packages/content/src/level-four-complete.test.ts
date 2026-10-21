@@ -11,7 +11,7 @@ import {
 
 const levelIds = new Set(catalogue.levels.filter((level) => level.number === 4).map((v) => v.id));
 const units = catalogue.units.filter(
-  (unit) => levelIds.has(unit.levelId) && unit.id !== 'satz.l4.writing',
+  (unit) => levelIds.has(unit.levelId) && !['satz.l4.writing', 'aural.l4.choir'].includes(unit.id),
 );
 const unitIds = new Set(units.map((unit) => unit.id));
 const lessons = catalogue.lessons.filter((lesson) => unitIds.has(lesson.unitId));
@@ -50,7 +50,7 @@ describe('Stufe 4 als interner Entwurf', () => {
     expect(knowledgeArticles(catalogue, 'preview').filter(({ stage }) => stage === 4)).toHaveLength(
       13,
     );
-    expect(learningPath(catalogue, []).filter((unit) => unit.level === 4)).toHaveLength(14);
+    expect(learningPath(catalogue, []).filter((unit) => unit.level === 4)).toHaveLength(15);
     expect(publicCatalogue(catalogue).lessons).toHaveLength(0);
   });
 
