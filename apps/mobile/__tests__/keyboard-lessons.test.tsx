@@ -45,7 +45,6 @@ beforeEach(() => {
 afterEach(() => {
   clock.mockRestore();
 });
-jest.setTimeout(20_000);
 function required<T>(value: T | undefined): T {
   if (value === undefined) throw new Error('Testwert fehlt');
   return value;
