@@ -11,7 +11,7 @@ import type {
   KnowledgeBundle,
   KnowledgeCitation,
 } from '../../../packages/content/src/index.ts';
-import { TUTOR_TOOLS, executeTutorTool } from './tutor-tools.ts';
+import { toolsForTutorContext, executeTutorTool } from './tutor-tools.ts';
 import { tutorSystemPrompt, TutorTextFilter, redactTutorText } from './tutor-prompt.ts';
 import type { TutorModelProvider } from './tutor-provider.ts';
 import {
@@ -146,7 +146,7 @@ export async function runTutor(input: {
         stream: true as const,
         system,
         messages,
-        tools: TUTOR_TOOLS,
+        tools: toolsForTutorContext(input.context),
         tool_choice: { type: 'auto' as const },
         output_config: { effort: policy.effort },
       };

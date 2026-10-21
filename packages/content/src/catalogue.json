@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": 18,
+  "contentVersion": 19,
   "areas": [
     {
       "id": "fundament",
@@ -357,6 +357,14 @@
       "titleKey": "content.levelFour.levelTitle",
       "areaId": "area.history",
       "number": 4
+    },
+    {
+      "id": "satz.level-5",
+      "contentVersion": 19,
+      "status": "entwurf",
+      "titleKey": "content.partWriting.level5",
+      "areaId": "area.satz",
+      "number": 5
     }
   ],
   "units": [
@@ -737,6 +745,20 @@
       "status": "entwurf",
       "titleKey": "content.levelFour.units.historySurvey.unitTitle",
       "levelId": "history.level-4"
+    },
+    {
+      "id": "satz.l4.writing",
+      "contentVersion": 19,
+      "status": "entwurf",
+      "titleKey": "content.partWriting.unit4",
+      "levelId": "satz.level-4"
+    },
+    {
+      "id": "satz.l5.writing",
+      "contentVersion": 19,
+      "status": "entwurf",
+      "titleKey": "content.partWriting.unit5",
+      "levelId": "satz.level-5"
     }
   ],
   "skills": [
@@ -2087,6 +2109,54 @@
       "titleKey": "content.levelFour.units.historySurvey.skill3",
       "areaId": "area.history",
       "prerequisites": ["history.l4.survey.s2"]
+    },
+    {
+      "id": "satz.l4.writing.bass",
+      "contentVersion": 19,
+      "status": "entwurf",
+      "titleKey": "content.partWriting.bass",
+      "areaId": "area.satz",
+      "prerequisites": ["satz.l4.voice-leading.s3"]
+    },
+    {
+      "id": "satz.l4.writing.soprano",
+      "contentVersion": 19,
+      "status": "entwurf",
+      "titleKey": "content.partWriting.soprano",
+      "areaId": "area.satz",
+      "prerequisites": ["satz.l4.voice-leading.s3"]
+    },
+    {
+      "id": "satz.l4.writing.functions",
+      "contentVersion": 19,
+      "status": "entwurf",
+      "titleKey": "content.partWriting.functions",
+      "areaId": "area.satz",
+      "prerequisites": ["satz.l4.voice-leading.s3"]
+    },
+    {
+      "id": "satz.l5.writing.bass",
+      "contentVersion": 19,
+      "status": "entwurf",
+      "titleKey": "content.partWriting.bass",
+      "areaId": "area.satz",
+      "prerequisites": ["satz.l4.writing.bass", "chords.l3.sevenths.s2"]
+    },
+    {
+      "id": "satz.l5.writing.soprano",
+      "contentVersion": 19,
+      "status": "entwurf",
+      "titleKey": "content.partWriting.soprano",
+      "areaId": "area.satz",
+      "prerequisites": ["satz.l4.writing.soprano", "chords.l3.sevenths.s2"]
+    },
+    {
+      "id": "satz.l5.writing.functions",
+      "contentVersion": 19,
+      "status": "entwurf",
+      "titleKey": "content.partWriting.functions",
+      "areaId": "area.satz",
+      "prerequisites": ["satz.l4.writing.functions", "chords.l3.sevenths.s2"]
     }
   ],
   "exerciseSets": [
@@ -6611,6 +6681,120 @@
             }
           },
           "count": 4
+        }
+      ]
+    },
+    {
+      "id": "satz.l4.writing.bass.exercises",
+      "contentVersion": 19,
+      "status": "entwurf",
+      "titleKey": "content.partWriting.bass",
+      "skillIds": ["satz.l4.writing.bass"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "VOICE_LEADING",
+            "params": {
+              "level": 4,
+              "mode": "bass"
+            }
+          },
+          "count": 3
+        }
+      ]
+    },
+    {
+      "id": "satz.l4.writing.soprano.exercises",
+      "contentVersion": 19,
+      "status": "entwurf",
+      "titleKey": "content.partWriting.soprano",
+      "skillIds": ["satz.l4.writing.soprano"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "VOICE_LEADING",
+            "params": {
+              "level": 4,
+              "mode": "soprano"
+            }
+          },
+          "count": 3
+        }
+      ]
+    },
+    {
+      "id": "satz.l4.writing.functions.exercises",
+      "contentVersion": 19,
+      "status": "entwurf",
+      "titleKey": "content.partWriting.functions",
+      "skillIds": ["satz.l4.writing.functions"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "VOICE_LEADING",
+            "params": {
+              "level": 4,
+              "mode": "functions"
+            }
+          },
+          "count": 3
+        }
+      ]
+    },
+    {
+      "id": "satz.l5.writing.bass.exercises",
+      "contentVersion": 19,
+      "status": "entwurf",
+      "titleKey": "content.partWriting.bass",
+      "skillIds": ["satz.l5.writing.bass"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "VOICE_LEADING",
+            "params": {
+              "level": 5,
+              "mode": "bass"
+            }
+          },
+          "count": 3
+        }
+      ]
+    },
+    {
+      "id": "satz.l5.writing.soprano.exercises",
+      "contentVersion": 19,
+      "status": "entwurf",
+      "titleKey": "content.partWriting.soprano",
+      "skillIds": ["satz.l5.writing.soprano"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "VOICE_LEADING",
+            "params": {
+              "level": 5,
+              "mode": "soprano"
+            }
+          },
+          "count": 3
+        }
+      ]
+    },
+    {
+      "id": "satz.l5.writing.functions.exercises",
+      "contentVersion": 19,
+      "status": "entwurf",
+      "titleKey": "content.partWriting.functions",
+      "skillIds": ["satz.l5.writing.functions"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "VOICE_LEADING",
+            "params": {
+              "level": 5,
+              "mode": "functions"
+            }
+          },
+          "count": 3
         }
       ]
     }
@@ -12041,6 +12225,90 @@
         {
           "score": "treble | 4/4 | C4/2 G4/2",
           "captionKey": "content.levelFour.units.historySurvey.uncertaintyCaption"
+        }
+      ]
+    },
+    {
+      "id": "satz.l4.writing.bass.card",
+      "contentVersion": 19,
+      "status": "entwurf",
+      "titleKey": "content.partWriting.introTitle",
+      "skillIds": ["satz.l4.writing.bass"],
+      "bodyKey": "content.partWriting.intro4",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/1 | D4/1",
+          "captionKey": "content.partWriting.caption"
+        }
+      ]
+    },
+    {
+      "id": "satz.l4.writing.soprano.card",
+      "contentVersion": 19,
+      "status": "entwurf",
+      "titleKey": "content.partWriting.introTitle",
+      "skillIds": ["satz.l4.writing.soprano"],
+      "bodyKey": "content.partWriting.intro4",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/1 | D4/1",
+          "captionKey": "content.partWriting.caption"
+        }
+      ]
+    },
+    {
+      "id": "satz.l4.writing.functions.card",
+      "contentVersion": 19,
+      "status": "entwurf",
+      "titleKey": "content.partWriting.introTitle",
+      "skillIds": ["satz.l4.writing.functions"],
+      "bodyKey": "content.partWriting.intro4",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/1 | D4/1",
+          "captionKey": "content.partWriting.caption"
+        }
+      ]
+    },
+    {
+      "id": "satz.l5.writing.bass.card",
+      "contentVersion": 19,
+      "status": "entwurf",
+      "titleKey": "content.partWriting.introTitle",
+      "skillIds": ["satz.l5.writing.bass"],
+      "bodyKey": "content.partWriting.intro5",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/1 | D4/1",
+          "captionKey": "content.partWriting.caption"
+        }
+      ]
+    },
+    {
+      "id": "satz.l5.writing.soprano.card",
+      "contentVersion": 19,
+      "status": "entwurf",
+      "titleKey": "content.partWriting.introTitle",
+      "skillIds": ["satz.l5.writing.soprano"],
+      "bodyKey": "content.partWriting.intro5",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/1 | D4/1",
+          "captionKey": "content.partWriting.caption"
+        }
+      ]
+    },
+    {
+      "id": "satz.l5.writing.functions.card",
+      "contentVersion": 19,
+      "status": "entwurf",
+      "titleKey": "content.partWriting.introTitle",
+      "skillIds": ["satz.l5.writing.functions"],
+      "bodyKey": "content.partWriting.intro5",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/1 | D4/1",
+          "captionKey": "content.partWriting.caption"
         }
       ]
     }
@@ -18811,6 +19079,66 @@
         "history.l4.survey.card-uncertainty"
       ],
       "exerciseSetIds": ["history.l4.survey.lesson3.exercises"]
+    },
+    {
+      "id": "satz.l4.writing.bass.lesson",
+      "contentVersion": 19,
+      "status": "entwurf",
+      "titleKey": "content.partWriting.bass",
+      "unitId": "satz.l4.writing",
+      "skillIds": ["satz.l4.writing.bass"],
+      "introductionCardIds": ["satz.l4.writing.bass.card"],
+      "exerciseSetIds": ["satz.l4.writing.bass.exercises"]
+    },
+    {
+      "id": "satz.l4.writing.soprano.lesson",
+      "contentVersion": 19,
+      "status": "entwurf",
+      "titleKey": "content.partWriting.soprano",
+      "unitId": "satz.l4.writing",
+      "skillIds": ["satz.l4.writing.soprano"],
+      "introductionCardIds": ["satz.l4.writing.soprano.card"],
+      "exerciseSetIds": ["satz.l4.writing.soprano.exercises"]
+    },
+    {
+      "id": "satz.l4.writing.functions.lesson",
+      "contentVersion": 19,
+      "status": "entwurf",
+      "titleKey": "content.partWriting.functions",
+      "unitId": "satz.l4.writing",
+      "skillIds": ["satz.l4.writing.functions"],
+      "introductionCardIds": ["satz.l4.writing.functions.card"],
+      "exerciseSetIds": ["satz.l4.writing.functions.exercises"]
+    },
+    {
+      "id": "satz.l5.writing.bass.lesson",
+      "contentVersion": 19,
+      "status": "entwurf",
+      "titleKey": "content.partWriting.bass",
+      "unitId": "satz.l5.writing",
+      "skillIds": ["satz.l5.writing.bass"],
+      "introductionCardIds": ["satz.l5.writing.bass.card"],
+      "exerciseSetIds": ["satz.l5.writing.bass.exercises"]
+    },
+    {
+      "id": "satz.l5.writing.soprano.lesson",
+      "contentVersion": 19,
+      "status": "entwurf",
+      "titleKey": "content.partWriting.soprano",
+      "unitId": "satz.l5.writing",
+      "skillIds": ["satz.l5.writing.soprano"],
+      "introductionCardIds": ["satz.l5.writing.soprano.card"],
+      "exerciseSetIds": ["satz.l5.writing.soprano.exercises"]
+    },
+    {
+      "id": "satz.l5.writing.functions.lesson",
+      "contentVersion": 19,
+      "status": "entwurf",
+      "titleKey": "content.partWriting.functions",
+      "unitId": "satz.l5.writing",
+      "skillIds": ["satz.l5.writing.functions"],
+      "introductionCardIds": ["satz.l5.writing.functions.card"],
+      "exerciseSetIds": ["satz.l5.writing.functions.exercises"]
     }
   ]
 }

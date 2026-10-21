@@ -145,12 +145,12 @@
 - **Abhängig von:** P4.09
 - **Umfang:** L
 - **Aufgaben:**
-  - [ ] Eingabe von vier Stimmen (Klaviersystem, Stimmen-Umschaltung)
-  - [ ] Aufgaben: Bass oder Sopran gegeben, Rest ergänzen; Funktionen vorgegeben
-  - [ ] Fehler markieren; Tutor erklärt mit `check_voice_leading`
+  - [x] Eingabe von vier Stimmen (Klaviersystem, Stimmen-Umschaltung)
+  - [x] Aufgaben: Bass oder Sopran gegeben, Rest ergänzen; Funktionen vorgegeben
+  - [x] Fehler markieren; Tutor erklärt mit `check_voice_leading`
 - **Fertig, wenn:** Übungstyp `VOICE_LEADING` in Stufe 4–5 eingebunden.
 
-**Interner Eingabeprototyp, keine Abnahme:** Die [lokale Satzwerkstatt](stimmfuehrung-entwurf.md#lokale-satzwerkstatt) bietet vier Textfelder, gemeinsame Taktart/Vorzeichnung, ausdrückliche JSON-Regelkonfiguration, erneute Prüfung, lokale Entwurfsdateien und Gesamt-/Solo-Wiedergabe mit wählbarem Vierteltempo. Sie zeigt die verbundenen Stimmen im Klaviersystem mit den Befunden aus P4.09. Grafisches Notensetzen, Übungsaufgaben, Tutor und Stufenintegration sind weiterhin offen; F03/F05 und die unabhängige Fachprüfung bleiben Voraussetzung für den Produktablauf.
+**Technisch als interner Entwurf implementiert, keine Produktabnahme:** [Umsetzung, Aufgabenprofil und offene Abnahmen](tonsatz-korrektor-entwurf.md). Auf ausdrücklichen Nutzerauftrag findet technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe** statt. Der grafische Editor, sechs eigene DE/EN-Entwurfslektionen in Stufe 4–5 und das serverseitig gebundene Tutor-Werkzeug sind implementiert. Die Häkchen kennzeichnen ausschließlich diese technische Umsetzung. F03/F05, unabhängige Fachprüfung, reales Tutor-Modell und Geräteabnahmen bleiben offen. Keine Veröffentlichung. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
 
 ### P4.11 – Chor-Trainer
 

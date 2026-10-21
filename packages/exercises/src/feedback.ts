@@ -1,3 +1,4 @@
+import { checkSatb, satbAnswer } from './voice-leading.ts';
 import type { ContextItem } from './context.ts';
 import {
   contextPrompt,
@@ -31,6 +32,7 @@ import {
   pitchName,
   semitones,
   keyName,
+  keyFromFifths,
   keySignature,
   midi,
   fromMidi,
@@ -152,6 +154,10 @@ export function pitchInputMidiLabel(value: number, locale: TextLocale): string {
   return pitchInputLabel(fromMidi(value), locale);
 }
 export function choiceLabel(item: ExerciseItem, answer: string, locale: TextLocale): string {
+  if (item.type === 'VOICE_LEADING')
+    return satbAnswer(item, answer)
+      ? translate(locale, 'exercise.satbAnswer')
+      : translate(locale, 'exercise.unknownAnswer');
   if (item.type === 'CADENCE_IDENTIFY') {
     const kind = answer.slice(8);
     const keys: Readonly<Record<string, TextKey>> = {
@@ -302,6 +308,11 @@ export function choiceLabel(item: ExerciseItem, answer: string, locale: TextLoca
   return noteName(pitch, locale, false);
 }
 export function exercisePrompt(item: ExerciseItem, locale: TextLocale): string {
+  if (item.type === 'VOICE_LEADING')
+    return translate(locale, 'exercise.question_VOICE_LEADING', {
+      mode: translate(locale, `exercise.satbMode_${item.params.mode}`),
+      key: keyName(keyFromFifths(item.fifths), engineLanguage(locale)),
+    });
   if (item.type === 'CADENCE_IDENTIFY' || item.type === 'FUNCTION_ANALYSIS')
     return translate(locale, `exercise.question_${item.type}`, {
       key: keyName(item.key, engineLanguage(locale)),
@@ -446,6 +457,21 @@ export function exerciseFeedback(
   result: Evaluation,
   locale: TextLocale,
 ): ExerciseFeedback {
+  if (item.type === 'VOICE_LEADING') {
+    const report = checkSatb(item, result.answer);
+    return {
+      title: translate(locale, 'exercise.type_VOICE_LEADING'),
+      message: translate(
+        locale,
+        report.passed
+          ? 'exercise.satbPass'
+          : report.complete
+            ? 'exercise.satbFail'
+            : 'exercise.satbInvalid',
+        { count: report.issues.length },
+      ),
+    };
+  }
   let message: string;
   if (isVoiceItem(item)) {
     message = translate(
@@ -624,6 +650,8 @@ export function exerciseFeedback(
 export function exerciseHints(item: ExerciseItem, level: 1 | 2 | 3): ExerciseHint {
   if (item.type === 'CONTEXT_CHOICE') return { level, key: 'solution', values: {} };
   if (level === 3) return { level, key: 'solution', values: {} };
+  if (item.type === 'VOICE_LEADING')
+    return { level, key: level === 1 ? 'exercise.satbHint1' : 'exercise.satbHint2', values: {} };
   if (
     item.type === 'CADENCE_IDENTIFY' ||
     item.type === 'FUNCTION_ANALYSIS' ||
@@ -790,6 +818,7 @@ export function hintText(item: ExerciseItem, hint: ExerciseHint, locale: TextLoc
     ).message;
   if (hint.key === 'solution') return '';
   if (
+    item.type === 'VOICE_LEADING' ||
     item.type === 'LISTENING_CHOICE' ||
     item.type === 'CADENCE_IDENTIFY' ||
     item.type === 'FUNCTION_ANALYSIS' ||
@@ -870,6 +899,14 @@ function alterationText(pitch: Pitch, locale: TextLocale): string {
 
 /** Positionen statt Tonnamen: Vor dem Prüfen darf der Screenreader die Lösung nicht vorwegnehmen. */
 export function exerciseDescription(item: ExerciseItem, locale: TextLocale): string {
+  if (item.type === 'VOICE_LEADING')
+    return (
+      exercisePrompt(item, locale) +
+      ' ' +
+      item.functions.join(' → ') +
+      ' ' +
+      translate(locale, 'exercise.satbDraft')
+    );
   if (item.type === 'CADENCE_IDENTIFY' || isDictationItem(item))
     return exercisePrompt(item, locale);
   if (isVoiceItem(item)) return exercisePrompt(item, locale);

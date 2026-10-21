@@ -1,3 +1,4 @@
+import partWritingExercise from './part-writing-exercise.json' with { type: 'json' };
 // Englisch (UK): nur Abweichungen von en-US, der Rest kommt aus en-US.
 // Fachbegriffe (crotchet, bar …) nicht hier, sondern im Glossar überschreiben.
 
@@ -56,6 +57,7 @@ export const enGB = {
     settings: 'Customise',
   },
   exercise: {
+    ...partWritingExercise['en-GB'],
     // Stufen 3 und 4: Aufgaben-, Hinweis- und Erklärtexte mit britischer Schreibweise.
     ...levelThreeExercise['en-GB'],
     ...levelFourExercise['en-GB'],

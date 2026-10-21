@@ -18,6 +18,7 @@ import {
   createLessonSession,
   currentItem,
   expectedAnswer,
+  satbAnswerId,
   evaluateExercise,
   isAuralExercise,
   nextLessonExercise,
@@ -28,6 +29,14 @@ import {
 import type { ExerciseItem, LessonDefinition } from '@harmonia/exercises';
 
 function wrongAnswer(item: ExerciseItem): string {
+  if (item.type === 'VOICE_LEADING') {
+    const voice = item.params.mode === 'soprano' ? 'alto' : 'soprano';
+    return satbAnswerId(
+      item.example.map((slice, i) =>
+        i === 1 ? { ...slice, [voice]: { letter: 'C', alter: 1, octave: 7 } } : slice,
+      ),
+    );
+  }
   const expected = expectedAnswer(item);
   const candidates = [
     ...item.choices.filter((v) => v !== expected),
@@ -233,8 +242,8 @@ describe('Erstversuch als geprüfter Lernnachweis', () => {
 describe('Lernpfad aus Fähigkeiten und bestandenen Versuchen', () => {
   it('ordnet alle Einheiten nach ihren Voraussetzungen und öffnet nur den Einstieg', () => {
     const path = learningPath(catalogue, []);
-    expect(path).toHaveLength(54);
-    expect(path.flatMap((u) => u.lessons)).toHaveLength(160);
+    expect(path).toHaveLength(56);
+    expect(path.flatMap((u) => u.lessons)).toHaveLength(166);
     expect(lessonStatus(path, firstLesson.id)).toBe('open');
     expect(path.some((u) => u.status === 'locked')).toBe(true);
     expect(path.some((u) => u.status === 'completed' || u.status === 'tested')).toBe(false);

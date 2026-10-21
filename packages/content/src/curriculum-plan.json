@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "contentVersion": 18,
-  "scopeLevels": [1, 2, 3, 4],
+  "contentVersion": 19,
+  "scopeLevels": [1, 2, 3, 4, 5],
   "units": [
     {
       "unitId": "fundament.reading-and-listening",
@@ -271,6 +271,14 @@
     {
       "unitId": "history.l4.survey",
       "skillIds": ["history.l4.survey.s1", "history.l4.survey.s2", "history.l4.survey.s3"]
+    },
+    {
+      "unitId": "satz.l4.writing",
+      "skillIds": ["satz.l4.writing.bass", "satz.l4.writing.soprano", "satz.l4.writing.functions"]
+    },
+    {
+      "unitId": "satz.l5.writing",
+      "skillIds": ["satz.l5.writing.bass", "satz.l5.writing.soprano", "satz.l5.writing.functions"]
     }
   ]
 }

@@ -80,32 +80,36 @@ export const localTutorFetch: typeof fetch = (_url, options) => {
         return;
       }
       let stop = 'end_turn';
-      const tools = question.includes('fixture:showcase')
-        ? [
-            { name: 'get_exercise_context', input: {} },
-            { name: 'analyze_interval', input: { from: 'C4', to: 'Fb4' } },
-            {
-              name: 'render_example',
-              input: { source: 'treble | 4/4 | C4/4 Fb4/4 r/2', bpm: 120 },
-            },
-          ]
-        : [
-            { name: 'analyze_interval', input: { from: 'C4', to: 'Fb4' } },
-            {
-              name: 'build_scale',
-              input: {
-                tonic: 'C5',
-                type: 'melodicMinor',
-                direction: 'descending',
-                includeOctave: true,
+      const tools = question.includes('fixture:satb')
+        ? [{ name: 'check_voice_leading', input: {} }]
+        : question.includes('fixture:showcase')
+          ? [
+              { name: 'get_exercise_context', input: {} },
+              { name: 'analyze_interval', input: { from: 'C4', to: 'Fb4' } },
+              {
+                name: 'render_example',
+                input: { source: 'treble | 4/4 | C4/4 Fb4/4 r/2', bpm: 120 },
               },
-            },
-            { name: 'render_example', input: { source: 'treble | 4/4 | C4/1', bpm: 90 } },
-            { name: 'get_exercise_context', input: {} },
-          ];
+            ]
+          : [
+              { name: 'analyze_interval', input: { from: 'C4', to: 'Fb4' } },
+              {
+                name: 'build_scale',
+                input: {
+                  tonic: 'C5',
+                  type: 'melodicMinor',
+                  direction: 'descending',
+                  includeOctave: true,
+                },
+              },
+              { name: 'render_example', input: { source: 'treble | 4/4 | C4/1', bpm: 90 } },
+              { name: 'get_exercise_context', input: {} },
+            ];
       if (
         (!result || question.includes('fixture:loop')) &&
-        (question.includes('fixture:tools') || question.includes('fixture:showcase'))
+        (question.includes('fixture:tools') ||
+          question.includes('fixture:showcase') ||
+          question.includes('fixture:satb'))
       ) {
         stop = 'tool_use';
         tools.forEach((tool, index) => {

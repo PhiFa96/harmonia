@@ -1,3 +1,4 @@
+import type { VoiceLeadingItem, VoiceLeadingParams } from './voice-leading.ts';
 import type { ContextItem, ContextParams } from './context.ts';
 import type { AppLocale, Messages } from '@harmonia/i18n';
 import type { KeyboardRange, Score } from '@harmonia/notation';
@@ -16,6 +17,7 @@ import type {
 
 export type ExerciseType =
   | VoiceExerciseType
+  | 'VOICE_LEADING'
   | 'CONTEXT_CHOICE'
   | 'LISTENING_CHOICE'
   | 'NOTE_NAME'
@@ -371,6 +373,7 @@ export type OrderValue =
   | { readonly kind: 'duration'; readonly duration: Duration }
   | { readonly kind: 'pitch'; readonly pitch: Pitch };
 export type ExerciseSpec =
+  | { readonly type: 'VOICE_LEADING'; readonly params: VoiceLeadingParams }
   | { readonly type: 'SIGHT_SING'; readonly params: VoiceParams }
   | { readonly type: 'SING_INTERVAL' | 'PLAY_BACK'; readonly params: VoiceSequenceParams }
   | { readonly type: 'CONTEXT_CHOICE'; readonly params: ContextParams }
@@ -522,6 +525,7 @@ export interface OrderItem {
 }
 export type KnowledgeExerciseItem = KnowledgeItem | MatchItem | OrderItem;
 export type ExerciseItem =
+  | VoiceLeadingItem
   | ContextItem
   | ListeningItem
   | NoteItem

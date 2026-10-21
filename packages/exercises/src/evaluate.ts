@@ -1,3 +1,4 @@
+import { satbAnswerId, evaluateSatb } from './voice-leading.ts';
 import { contextAnswer } from './context.ts';
 import { octaveNamePitch } from './octave-names.ts';
 import { listeningAnswer } from './listening.ts';
@@ -59,6 +60,7 @@ import { dictationExpected, dictationInputValues, isDictationItem } from './dict
 
 /** Die Engine berechnet die Lösung aus den Fachdaten, nie aus dem sichtbaren Antworttext. */
 export function expectedAnswer(item: ExerciseItem): string {
+  if (item.type === 'VOICE_LEADING') return satbAnswerId(item.example);
   if (isVoiceItem(item)) return voiceAnswerId(voiceTargets(item));
   if (item.type === 'CADENCE_IDENTIFY') return cadenceAnswer(item);
   if (item.type === 'FUNCTION_ANALYSIS') return functionAnswer(item);
@@ -99,6 +101,7 @@ export function expectedAnswer(item: ExerciseItem): string {
     : intervalAnswerId(intervalBetween(item.from, item.to));
 }
 export function evaluateExercise(item: ExerciseItem, answer: string): Evaluation {
+  if (item.type === 'VOICE_LEADING') return evaluateSatb(item, answer);
   if (isVoiceItem(item)) return evaluateVoice(item, answer);
   const expected = expectedAnswer(item);
   if (isDictationItem(item)) {

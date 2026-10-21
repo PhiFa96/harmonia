@@ -1,3 +1,4 @@
+import { PartWritingEntry } from '@/components/part-writing-entry';
 import { RushEntry } from '@/components/rush-entry';
 import { ExamEntry } from '@/components/exam-entry';
 import { DuelEntry } from '@/components/duel-entry';
@@ -132,6 +133,7 @@ export default function PracticeScreen() {
             <DailyPuzzleEntry />
             <FriendsEntry />
             <TunerEntry />
+            <PartWritingEntry />
             <ReviewEntry />
             {historyStops.length ? (
               <Card>
