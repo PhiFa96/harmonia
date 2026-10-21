@@ -8,6 +8,19 @@ import {
   type WorkbenchDraft,
 } from './workbench-model.ts';
 import { WORKBENCH_MESSAGES } from './workbench-messages.ts';
+import {
+  createAudioEngine,
+  type AudioEngine,
+  type Timers,
+} from '../../packages/audio/src/index.ts';
+import {
+  createWorkbenchPlayer,
+  workbenchPlaybackTimeline,
+  MIN_TEMPO,
+  MAX_TEMPO,
+  type PlaybackPart,
+  type PlayerState,
+} from './playback.ts';
 
 interface Bootstrap {
   draft: WorkbenchDraft;
@@ -19,6 +32,7 @@ export function startWorkbench({ draft, locale: initialLocale, assets }: Bootstr
   let locale = initialLocale;
   let revision = 0;
   let reportHtml: string | null = null;
+  let checkedDraft: WorkbenchDraft | null = null;
   const main = document.querySelector('main');
   if (!main) throw new Error('Missing workshop root');
   const form = document.createElement('form');
@@ -91,7 +105,7 @@ export function startWorkbench({ draft, locale: initialLocale, assets }: Bootstr
   settings.setAttribute('aria-describedby', 'settings-help');
   const actions = document.createElement('div');
   actions.className = 'actions';
-  const button = (message: 'analyze' | 'save' | 'export') => {
+  const button = (message: 'analyze' | 'save' | 'export' | 'play' | 'stop') => {
     const node = document.createElement('button');
     node.type = 'button';
     translations.push(() => {
@@ -109,6 +123,7 @@ export function startWorkbench({ draft, locale: initialLocale, assets }: Bootstr
   file.accept = '.json,application/json';
   actions.append(analyze, save, exportReport);
   const status = document.createElement('p');
+  status.id = 'check-status';
   status.setAttribute('role', 'status');
   const error = document.createElement('div');
   error.setAttribute('role', 'alert');
@@ -116,6 +131,91 @@ export function startWorkbench({ draft, locale: initialLocale, assets }: Bootstr
   output.setAttribute('aria-label', WORKBENCH_MESSAGES[locale].results);
   const style = document.createElement('style');
   document.head.append(style);
+  const sound = document.createElement('fieldset');
+  const soundTitle = document.createElement('legend'),
+    soundHelp = document.createElement('p');
+  const tempo = document.createElement('input');
+  tempo.type = 'number';
+  tempo.min = String(MIN_TEMPO);
+  tempo.max = String(MAX_TEMPO);
+  tempo.step = '1';
+  tempo.value = '96';
+  const part = document.createElement('select');
+  for (const voice of ['all', ...PARTS]) part.add(new Option('', voice));
+  const soundFields = document.createElement('div');
+  soundFields.className = 'fields';
+  soundFields.append(label(tempo, 'tempo'), label(part, 'part'));
+  const play = button('play'),
+    stop = button('stop');
+  play.disabled = true;
+  stop.disabled = true;
+  const soundActions = document.createElement('div');
+  soundActions.className = 'actions';
+  soundActions.append(play, stop);
+  const soundStatus = document.createElement('p');
+  soundStatus.id = 'playback-status';
+  soundStatus.setAttribute('role', 'status');
+  const progress = document.createElement('progress');
+  progress.max = 1;
+  progress.value = 0;
+  sound.append(
+    soundTitle,
+    soundHelp,
+    soundFields,
+    soundActions,
+    soundStatus,
+    label(progress, 'progress'),
+  );
+  let audioContext: AudioContext | undefined;
+  let audioEngine: AudioEngine | undefined;
+  let audioState: PlayerState = { status: 'idle', elapsed: 0, duration: 0 };
+  const timers: Timers = {
+    setInterval: (callback, ms) => window.setInterval(callback, ms),
+    clearInterval: (handle) => {
+      window.clearInterval(handle as number);
+    },
+  };
+  function renderPlayer(next: PlayerState) {
+    audioState = next;
+    const active = next.status === 'starting' || next.status === 'playing';
+    play.disabled = checkedDraft === null || active;
+    stop.disabled = !active;
+    const m = WORKBENCH_MESSAGES[locale];
+    const messages = {
+      idle: '',
+      starting: m.audioStarting,
+      playing: m.audioPlaying,
+      stopped: m.audioStopped,
+      ended: m.audioEnded,
+      error: m.audioError,
+    };
+    // Keine wiederholten Live-Ankündigungen für jeden Fortschrittsschritt.
+    if (soundStatus.textContent !== messages[next.status])
+      soundStatus.textContent = messages[next.status];
+    progress.max = next.duration || 1;
+    progress.value = next.elapsed;
+  }
+  const player = createWorkbenchPlayer(
+    () => {
+      if (!audioContext || audioContext.state === 'closed') {
+        const context = new AudioContext();
+        audioContext = context;
+        audioEngine = createAudioEngine(context, { timers, volume: 0.6 });
+        context.addEventListener('statechange', () => {
+          if (
+            audioContext === context &&
+            context.state !== 'running' &&
+            audioState.status === 'playing'
+          )
+            player.stop();
+        });
+      }
+      if (!audioEngine) throw new Error('Audio engine unavailable');
+      return audioEngine;
+    },
+    timers,
+    renderPlayer,
+  );
   form.append(
     row,
     notationHelp,
@@ -133,6 +233,7 @@ export function startWorkbench({ draft, locale: initialLocale, assets }: Bootstr
     form,
     status,
     error,
+    sound,
     output,
   );
 
@@ -152,6 +253,8 @@ export function startWorkbench({ draft, locale: initialLocale, assets }: Bootstr
   function invalidate(message = WORKBENCH_MESSAGES[locale].pending) {
     revision += 1;
     reportHtml = null;
+    checkedDraft = null;
+    player.stop();
     exportReport.disabled = true;
     output.replaceChildren();
     error.replaceChildren();
@@ -171,7 +274,8 @@ export function startWorkbench({ draft, locale: initialLocale, assets }: Bootstr
   function check() {
     invalidate('');
     try {
-      const report = renderVoiceLeadingReport(workbenchReportInput(read()), locale, assets);
+      const snapshot = read();
+      const report = renderVoiceLeadingReport(workbenchReportInput(snapshot), locale, assets);
       const parsed = new DOMParser().parseFromString(report.html, 'text/html');
       const body = parsed.querySelector('main');
       if (!body) throw new Error('Missing report body');
@@ -184,6 +288,8 @@ export function startWorkbench({ draft, locale: initialLocale, assets }: Bootstr
       style.textContent = parsed.querySelector('style')?.textContent ?? '';
       output.replaceChildren(...body.childNodes);
       reportHtml = report.html;
+      checkedDraft = snapshot;
+      renderPlayer(audioState);
       exportReport.disabled = false;
       status.textContent = `${WORKBENCH_MESSAGES[locale].checked} ${String(report.analysis.findings.length)}.`;
     } catch (reason) {
@@ -200,6 +306,15 @@ export function startWorkbench({ draft, locale: initialLocale, assets }: Bootstr
     notationHelp.textContent = m.notationHelp;
     settingsHelp.textContent = m.settingsHelp;
     output.setAttribute('aria-label', m.results);
+    soundTitle.textContent = m.listen;
+    soundHelp.textContent = m.soundHelp;
+    soundStatus.setAttribute('aria-label', m.audioStatus);
+    for (const option of part.options)
+      option.textContent =
+        option.value === 'all'
+          ? m.allParts
+          : REPORT_MESSAGES[locale].voices[option.value as (typeof PARTS)[number]];
+    renderPlayer(audioState);
     translations.forEach((translate) => {
       translate();
     });
@@ -233,6 +348,44 @@ export function startWorkbench({ draft, locale: initialLocale, assets }: Bootstr
   });
   exportReport.addEventListener('click', () => {
     if (reportHtml) download(reportHtml, `satb-review-${locale}.html`, 'text/html');
+  });
+  play.addEventListener('click', () => {
+    if (!checkedDraft) return;
+    if (
+      !Number.isInteger(tempo.valueAsNumber) ||
+      tempo.valueAsNumber < MIN_TEMPO ||
+      tempo.valueAsNumber > MAX_TEMPO
+    ) {
+      player.stop();
+      soundStatus.textContent = WORKBENCH_MESSAGES[locale].tempoError;
+      tempo.focus();
+      return;
+    }
+    void player.start(
+      workbenchPlaybackTimeline(checkedDraft, tempo.valueAsNumber, part.value as PlaybackPart),
+    );
+  });
+  stop.addEventListener('click', () => {
+    player.stop();
+  });
+  tempo.addEventListener('input', () => {
+    player.stop();
+  });
+  part.addEventListener('change', () => {
+    player.stop();
+  });
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) player.stop();
+  });
+  window.addEventListener('pagehide', () => {
+    player.dispose();
+    const context = audioContext;
+    audioContext = undefined;
+    audioEngine = undefined;
+    if (context && context.state !== 'closed')
+      void context.close().catch(() => {
+        /* Bereits beendete Plattformausgabe. */
+      });
   });
   file.addEventListener('change', () => {
     const selected = file.files?.[0];

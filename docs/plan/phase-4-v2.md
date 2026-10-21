@@ -150,7 +150,7 @@
   - [ ] Fehler markieren; Tutor erklärt mit `check_voice_leading`
 - **Fertig, wenn:** Übungstyp `VOICE_LEADING` in Stufe 4–5 eingebunden.
 
-**Interner Eingabeprototyp, keine Abnahme:** Die [lokale Satzwerkstatt](stimmfuehrung-entwurf.md#lokale-satzwerkstatt) bietet vier Textfelder, gemeinsame Taktart/Vorzeichnung, ausdrückliche JSON-Regelkonfiguration, erneute Prüfung und lokale Entwurfsdateien. Sie zeigt die verbundenen Stimmen im Klaviersystem mit den Befunden aus P4.09. Grafisches Notensetzen, Übungsaufgaben, Tutor und Stufenintegration sind weiterhin offen; F03/F05 und die unabhängige Fachprüfung bleiben Voraussetzung für den Produktablauf.
+**Interner Eingabeprototyp, keine Abnahme:** Die [lokale Satzwerkstatt](stimmfuehrung-entwurf.md#lokale-satzwerkstatt) bietet vier Textfelder, gemeinsame Taktart/Vorzeichnung, ausdrückliche JSON-Regelkonfiguration, erneute Prüfung, lokale Entwurfsdateien und Gesamt-/Solo-Wiedergabe mit wählbarem Vierteltempo. Sie zeigt die verbundenen Stimmen im Klaviersystem mit den Befunden aus P4.09. Grafisches Notensetzen, Übungsaufgaben, Tutor und Stufenintegration sind weiterhin offen; F03/F05 und die unabhängige Fachprüfung bleiben Voraussetzung für den Produktablauf.
 
 ### P4.11 – Chor-Trainer
 

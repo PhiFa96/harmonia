@@ -23,6 +23,23 @@ const de = {
   details: 'Fehlerdetails',
   results: 'Aktueller Prüfbericht',
   noScript: 'Diese lokale Bearbeitungsansicht benötigt JavaScript.',
+  listen: 'Satz anhören',
+  soundHelp:
+    'Der zuletzt geprüfte Satz erklingt mit einem einfachen Synthesizer. Wähle alle Stimmen oder eine einzelne Stimme. Das Tempo zählt immer Viertelnoten pro Minute, auch bei anderen Taktarten.',
+  tempo: 'Tempo (Viertel/min, 40–200)',
+  part: 'Stimmenauswahl',
+  allParts: 'Alle vier Stimmen',
+  play: 'Abspielen',
+  stop: 'Stoppen',
+  audioStatus: 'Wiedergabestatus',
+  progress: 'Wiedergabefortschritt',
+  audioStarting: 'Wiedergabe wird vorbereitet …',
+  audioPlaying: 'Wiedergabe läuft.',
+  audioStopped: 'Wiedergabe gestoppt.',
+  audioEnded: 'Wiedergabe beendet.',
+  audioError:
+    'Wiedergabe nicht möglich. Prüfe die Audioausgabe des Browsers und versuche es erneut.',
+  tempoError: 'Wähle ein ganzzahliges Tempo zwischen 40 und 200 Viertelnoten pro Minute.',
 };
 type Messages = { readonly [Key in keyof typeof de]: string };
 const en: Messages = {
@@ -50,9 +67,33 @@ const en: Messages = {
   details: 'Error details',
   results: 'Current review report',
   noScript: 'This local editor requires JavaScript.',
+  listen: 'Listen to the composition',
+  soundHelp:
+    'The last checked composition plays with a simple synthesizer. Choose all voices or a single voice. Tempo always counts quarter notes per minute, including in other time signatures.',
+  tempo: 'Tempo (quarter notes/min, 40–200)',
+  part: 'Voice selection',
+  allParts: 'All four voices',
+  play: 'Play',
+  stop: 'Stop',
+  audioStatus: 'Playback status',
+  progress: 'Playback progress',
+  audioStarting: 'Preparing playback …',
+  audioPlaying: 'Playback in progress.',
+  audioStopped: 'Playback stopped.',
+  audioEnded: 'Playback finished.',
+  audioError: 'Playback is unavailable. Check your browser’s audio output and try again.',
+  tempoError: 'Choose a whole-number tempo between 40 and 200 quarter notes per minute.',
 };
 export const WORKBENCH_MESSAGES = {
   'de-DE': de,
   'en-US': en,
-  'en-GB': { ...en, notationHelp: en.notationHelp.replace('measures', 'bars') },
+  'en-GB': {
+    ...en,
+    notationHelp: en.notationHelp.replace('measures', 'bars'),
+    soundHelp: en.soundHelp
+      .replace('synthesizer', 'synthesiser')
+      .replace('quarter notes', 'crotchets'),
+    tempo: 'Tempo (crotchets/min, 40–200)',
+    tempoError: en.tempoError.replace('quarter notes', 'crotchets'),
+  },
 };
