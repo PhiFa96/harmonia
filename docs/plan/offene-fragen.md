@@ -47,3 +47,5 @@
 | F14 | Coaching für Minderjährige | ab 18 / mit Eltern-Einwilligung | Phillip (nach Rechtsberatung) | P4.01 |
 | F15 | Rechtsform | Einzelunternehmen / UG / GmbH | Phillip (nach Beratung) | P0.02 |
 | F16 | Name und Marke „Harmonia“ | behalten / Alternativen nach Recherche | Phillip | P0.03 |
+
+**F05 – Recherchevorarbeit, weiterhin offen (21.10.2026):** Der [P4.09-Quellenentwurf](../quality/p4-09-quellenentwurf.md) dokumentiert direkt gelesene OMT-Primärtexte mit festem Commit. Die Stilunterschiede bei verdeckten Gängen sowie die fehlende SATB-Referenz für Stimmumfänge und Oberstimmenabstände verhindern eine pauschale Übernahme als Lehrkonvention. Die technischen Parameter bleiben ausdrücklich zu wählen; ein unabhängiger Fachprüfdurchgang steht aus.

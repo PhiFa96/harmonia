@@ -1,16 +1,35 @@
 // P4.09: rein beschreibende, interne Vorprüfung synchroner SATB-Tonhöhen.
 // Welche Funde im jeweiligen Stil als Fehler gelten, entscheidet erst F05.
 
-import { diatonicIndex, midi, type Pitch } from './pitch.ts';
+import { chordTones, type Chord } from './chord.ts';
+import {
+  diatonicIndex,
+  midi,
+  sameNoteName,
+  transpose,
+  withOctave,
+  type NoteName,
+  type Pitch,
+} from './pitch.ts';
 
 export type Voice = 'bass' | 'tenor' | 'alto' | 'soprano';
 export type VoiceLeadingRule =
   | 'parallel-fifth'
   | 'parallel-octave'
   | 'parallel-unison'
+  | 'contrary-fifth'
+  | 'contrary-octave'
+  | 'hidden-fifth'
+  | 'hidden-octave'
   | 'voice-crossing'
   | 'voice-overlap'
-  | 'upper-voice-spacing';
+  | 'upper-voice-spacing'
+  | 'voice-range'
+  | 'leading-tone-resolution'
+  | 'seventh-resolution'
+  | 'doubled-leading-tone'
+  | 'augmented-second'
+  | 'melodic-leap';
 export type VoiceLeadingSeverity = 'error' | 'warning' | 'hint';
 
 /** Alle Stimmen erklingen zum selben Zeitpunkt; gehaltene Töne müssen wiederholt werden. */
@@ -19,15 +38,44 @@ export type FourPartSlice = Readonly<Record<Voice, Pitch>>;
 /** Keine impliziten Lehrbuchurteile: nur explizit eingeschaltete Regeln erzeugen Funde. */
 export type VoiceLeadingRules = Readonly<Partial<Record<VoiceLeadingRule, VoiceLeadingSeverity>>>;
 
+export interface VoiceRange {
+  readonly min: Pitch;
+  readonly max: Pitch;
+}
+
+/** Harmonik stammt vom Aufrufer; keine automatische Funktionsanalyse (F03). */
+export interface VoiceLeadingHarmonyContext {
+  /** Null bedeutet ausdrücklich: keine Tonalität für diesen Schnitt angegeben. */
+  readonly tonic: NoteName | null;
+  readonly chord: Pick<Chord, 'root' | 'type'> | null;
+  /** Nur hier markierte Funktionswechsel verlangen am nächsten Schnitt eine Auflösung. */
+  readonly resolveToNext?: {
+    readonly leadingTone?: 'up' | 'up-or-frustrated-inner';
+    readonly seventh?: 'down';
+  };
+}
+
+export interface VoiceLeadingOptions {
+  /** Keine eingebauten SATB-Umfänge, solange F05 offen ist. Grenzen sind inklusive. */
+  readonly ranges?: Readonly<Record<Voice, VoiceRange>>;
+  readonly contraryPerfectScope?: 'outer' | 'all';
+  readonly hiddenPerfectMotion?: 'soprano-leap' | 'any';
+  /** Größtes erlaubtes geschriebenes Melodieintervall: 8 = Oktave. */
+  readonly maxMelodicInterval?: number;
+  /** Genau ein Kontext pro Schnitt; null-Werte markieren bewusst unbekannte Harmonik. */
+  readonly harmonies?: readonly VoiceLeadingHarmonyContext[];
+}
+
 export interface VoiceLeadingFinding {
   readonly rule: VoiceLeadingRule;
   readonly severity: VoiceLeadingSeverity;
   /** Index des betroffenen Schnitts; bei Bewegungsregeln das Ziel. */
   readonly at: number;
   /** Stimmen in der festen Reihenfolge Bass, Tenor, Alt, Sopran. */
-  readonly voices: readonly [Voice, Voice];
+  readonly voices: readonly [Voice, ...Voice[]];
 }
 
+const VOICES: readonly Voice[] = ['bass', 'tenor', 'alto', 'soprano'];
 const PAIRS: readonly (readonly [Voice, Voice])[] = [
   ['bass', 'tenor'],
   ['bass', 'alto'],
@@ -48,16 +96,18 @@ const UPPER_NEIGHBOURS: readonly (readonly [Voice, Voice])[] = [
 
 /**
  * Meldet objektiv berechenbare Muster, ohne einen Satz als gültig/ungültig zu bewerten.
- * Der Aufrufer muss Stil und Schweregrade ausdrücklich wählen. Tonart, Harmonik,
- * metrische Lage und dissonante Durchgänge werden hier noch nicht berücksichtigt.
+ * Der Aufrufer wählt Stilparameter, Schweregrade und harmonische Grenzen ausdrücklich.
+ * Metrische Lage und dissonante Durchgänge werden nicht automatisch interpretiert.
  */
 export function analyzeVoiceLeading(
   slices: readonly FourPartSlice[],
   rules: VoiceLeadingRules,
+  options: VoiceLeadingOptions = {},
 ): VoiceLeadingFinding[] {
+  validateOptions(slices.length, rules, options);
   const findings: VoiceLeadingFinding[] = [];
 
-  function add(rule: VoiceLeadingRule, at: number, voices: readonly [Voice, Voice]): void {
+  function add(rule: VoiceLeadingRule, at: number, voices: readonly [Voice, ...Voice[]]): void {
     const severity = rules[rule];
     if (severity !== undefined) {
       findings.push({ rule, severity, at, voices });
@@ -74,6 +124,22 @@ export function analyzeVoiceLeading(
       if (midi(current[upper]) - midi(current[lower]) > 12) {
         add('upper-voice-spacing', at, [lower, upper]);
       }
+    }
+    for (const voice of VOICES) {
+      const range = options.ranges?.[voice];
+      if (
+        range &&
+        (midi(current[voice]) < midi(range.min) || midi(current[voice]) > midi(range.max))
+      ) {
+        add('voice-range', at, [voice]);
+      }
+    }
+    const currentHarmony = options.harmonies?.[at];
+    if (currentHarmony?.tonic && rules['doubled-leading-tone'] !== undefined) {
+      const leadingTone = leadingToneOf(currentHarmony.tonic);
+      const doubled = VOICES.filter((voice) => sameNoteName(current[voice], leadingTone));
+      const [first, ...rest] = doubled;
+      if (first && rest.length > 0) add('doubled-leading-tone', at, [first, ...rest]);
     }
 
     const previous = slices[at - 1];
@@ -92,10 +158,50 @@ export function analyzeVoiceLeading(
       }
     }
 
+    const previousHarmony = options.harmonies?.[at - 1];
+    const resolution = previousHarmony?.resolveToNext;
+    const leadingTone =
+      rules['leading-tone-resolution'] !== undefined &&
+      resolution?.leadingTone &&
+      previousHarmony?.tonic
+        ? leadingToneOf(previousHarmony.tonic)
+        : undefined;
+    const seventh =
+      rules['seventh-resolution'] !== undefined && resolution?.seventh && previousHarmony?.chord
+        ? chordTones(previousHarmony.chord)[3]
+        : undefined;
+    for (const voice of VOICES) {
+      const steps = diatonicIndex(current[voice]) - diatonicIndex(previous[voice]);
+      const semitones = midi(current[voice]) - midi(previous[voice]);
+      if (Math.abs(steps) === 1 && steps * semitones === 3) {
+        add('augmented-second', at, [voice]);
+      }
+      if (
+        options.maxMelodicInterval !== undefined &&
+        Math.abs(steps) + 1 > options.maxMelodicInterval
+      ) {
+        add('melodic-leap', at, [voice]);
+      }
+      if (resolution?.leadingTone && leadingTone && sameNoteName(previous[voice], leadingTone)) {
+        const resolvesUp = steps === 1 && semitones === 1;
+        const frustrated =
+          resolution.leadingTone === 'up-or-frustrated-inner' &&
+          (voice === 'tenor' || voice === 'alto') &&
+          steps === -2 &&
+          semitones === -4;
+        if (!resolvesUp && !frustrated) add('leading-tone-resolution', at, [voice]);
+      }
+      if (resolution?.seventh && seventh && sameNoteName(previous[voice], seventh)) {
+        if (steps !== -1 || (semitones !== -1 && semitones !== -2)) {
+          add('seventh-resolution', at, [voice]);
+        }
+      }
+    }
+
     for (const [lower, upper] of PAIRS) {
       const lowerMotion = Math.sign(midi(current[lower]) - midi(previous[lower]));
       const upperMotion = Math.sign(midi(current[upper]) - midi(previous[upper]));
-      if (lowerMotion === 0 || lowerMotion !== upperMotion) continue;
+      if (lowerMotion === 0 || upperMotion === 0) continue;
       // Kreuzungen gehen nicht als scheinbare Parallelen in die Analyse ein.
       if (
         midi(previous[lower]) > midi(previous[upper]) ||
@@ -105,8 +211,28 @@ export function analyzeVoiceLeading(
       }
       const before = perfectClass(previous[lower], previous[upper]);
       const after = perfectClass(current[lower], current[upper]);
-      if (before !== undefined && before === after) {
-        add(before, at, [lower, upper]);
+      const outer = lower === 'bass' && upper === 'soprano';
+      const successiveFifths = before === 'fifth' && after === 'fifth';
+      const successiveOctaves = isOctaveFamily(before) && isOctaveFamily(after);
+      if (lowerMotion === upperMotion) {
+        if (successiveFifths) add('parallel-fifth', at, [lower, upper]);
+        if (successiveOctaves) {
+          add(
+            before === 'unison' && after === 'unison' ? 'parallel-unison' : 'parallel-octave',
+            at,
+            [lower, upper],
+          );
+        }
+        const sopranoSteps = Math.abs(
+          diatonicIndex(current.soprano) - diatonicIndex(previous.soprano),
+        );
+        if (outer && (options.hiddenPerfectMotion === 'any' || sopranoSteps > 1)) {
+          if (after === 'fifth' && !successiveFifths) add('hidden-fifth', at, [lower, upper]);
+          if (after === 'octave' && !successiveOctaves) add('hidden-octave', at, [lower, upper]);
+        }
+      } else if (outer || options.contraryPerfectScope === 'all') {
+        if (successiveFifths) add('contrary-fifth', at, [lower, upper]);
+        if (successiveOctaves) add('contrary-octave', at, [lower, upper]);
       }
     }
   }
@@ -114,15 +240,85 @@ export function analyzeVoiceLeading(
   return findings;
 }
 
-function perfectClass(lower: Pitch, upper: Pitch): VoiceLeadingRule | undefined {
+type PerfectClass = 'fifth' | 'octave' | 'unison';
+
+function perfectClass(lower: Pitch, upper: Pitch): PerfectClass | undefined {
   const steps = diatonicIndex(upper) - diatonicIndex(lower);
   const semitones = midi(upper) - midi(lower);
   if (steps < 0 || semitones < 0) return undefined;
   if (steps % 7 === 4 && semitones === 7 + 12 * Math.floor(steps / 7)) {
-    return 'parallel-fifth';
+    return 'fifth';
   }
   if (steps % 7 === 0 && semitones === 12 * (steps / 7)) {
-    return steps === 0 ? 'parallel-unison' : 'parallel-octave';
+    return steps === 0 ? 'unison' : 'octave';
   }
   return undefined;
+}
+
+function isOctaveFamily(kind: PerfectClass | undefined): boolean {
+  return kind === 'octave' || kind === 'unison';
+}
+
+function leadingToneOf(tonic: NoteName): NoteName {
+  return transpose(withOctave(tonic, 4), -1, -1);
+}
+
+function validateOptions(
+  length: number,
+  rules: VoiceLeadingRules,
+  options: VoiceLeadingOptions,
+): void {
+  if (rules['voice-range'] !== undefined) {
+    if (!options.ranges) throw new RangeError('Stimmumfänge müssen ausdrücklich angegeben werden');
+    for (const voice of VOICES) {
+      const range = options.ranges[voice];
+      if (
+        !Number.isFinite(midi(range.min)) ||
+        !Number.isFinite(midi(range.max)) ||
+        midi(range.min) > midi(range.max)
+      ) {
+        throw new RangeError(`Ungültiger Stimmumfang: ${voice}`);
+      }
+    }
+  }
+  if (
+    (rules['contrary-fifth'] !== undefined || rules['contrary-octave'] !== undefined) &&
+    !options.contraryPerfectScope
+  ) {
+    throw new RangeError('Geltungsbereich für Gegenparallelen fehlt');
+  }
+  if (
+    (rules['hidden-fifth'] !== undefined || rules['hidden-octave'] !== undefined) &&
+    !options.hiddenPerfectMotion
+  ) {
+    throw new RangeError('Sopranbewegung für verdeckte Quint-/Oktavgänge fehlt');
+  }
+  if (
+    rules['melodic-leap'] !== undefined &&
+    (!Number.isInteger(options.maxMelodicInterval) || (options.maxMelodicInterval ?? 0) < 1)
+  ) {
+    throw new RangeError('Größtes Melodieintervall muss eine positive ganze Zahl sein');
+  }
+  const harmonicRules = [
+    'leading-tone-resolution',
+    'seventh-resolution',
+    'doubled-leading-tone',
+  ] as const;
+  if (harmonicRules.some((rule) => rules[rule] !== undefined) && !options.harmonies) {
+    throw new RangeError('Harmonischer Kontext für Leitton-/Septimregeln fehlt');
+  }
+  if (options.harmonies && options.harmonies.length !== length) {
+    throw new RangeError('Genau ein harmonischer Kontext pro Schnitt ist erforderlich');
+  }
+  for (const [at, harmony] of (options.harmonies ?? []).entries()) {
+    const leading =
+      rules['leading-tone-resolution'] !== undefined && harmony.resolveToNext?.leadingTone;
+    const seventh = rules['seventh-resolution'] !== undefined && harmony.resolveToNext?.seventh;
+    if ((leading || seventh) && at === length - 1)
+      throw new RangeError('Auflösungsziel nach dem letzten Schnitt fehlt');
+    if (leading && !harmony.tonic) throw new RangeError('Tonika für Leittonauflösung fehlt');
+    if (seventh && (!harmony.chord || chordTones(harmony.chord)[3] === undefined)) {
+      throw new RangeError('Septakkord für Septimauflösung fehlt');
+    }
+  }
 }

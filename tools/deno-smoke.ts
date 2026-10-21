@@ -62,6 +62,7 @@ import {
 import { parseScore, scoreTimeline, layoutGrandStaff } from '../packages/notation/src/index.ts';
 
 import {
+  analyzeVoiceLeading,
   buildScale,
   checkMeasure,
   duration,
@@ -98,6 +99,28 @@ function check(label: string, actual: unknown, expected: unknown): void {
   }
   console.log(`ok  ${label}`);
 }
+
+const voiceLeadingPassage = [
+  {
+    bass: parsePitch('C3'),
+    tenor: parsePitch('A3'),
+    alto: parsePitch('C4'),
+    soprano: parsePitch('G4'),
+  },
+  {
+    bass: parsePitch('G3'),
+    tenor: parsePitch('A3'),
+    alto: parsePitch('C4'),
+    soprano: parsePitch('D4'),
+  },
+];
+const contraryFifths = analyzeVoiceLeading(
+  voiceLeadingPassage,
+  { 'contrary-fifth': 'warning' },
+  { contraryPerfectScope: 'outer' },
+);
+check('SATB-Gegenquinte unter Deno', contraryFifths[0]?.rule, 'contrary-fifth');
+check('SATB-Zielindex unter Deno', contraryFifths[0]?.at, 1);
 
 const ratingExample = updateGlicko2({ ...INITIAL_RATING, deviation: 200 }, [
   { opponent: { ...INITIAL_RATING, rating: 1400, deviation: 30 }, score: 1 },
