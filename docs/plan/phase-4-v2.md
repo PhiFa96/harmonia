@@ -13,7 +13,7 @@
 - Die Nutzerbasis ist groß genug, um Coaches Buchungen zu versprechen.
 - Die offenen Phase-3-Abnahmen aus dem [technischen Rückblick](phase-3-rueckblick.md) sind abgeschlossen: Stufen 3–4 fachlich freigegeben und live, echte Geräte-/Realtime-/DB-Tests sowie Tutor-Quellenreview bestanden. P4.06 braucht zusätzlich eine eigene widerrufbare Lernstand-Freigabe; Harmonik-Korrekturen warten auf F03.
 
-**Technische Vorarbeit vor der formalen Freigabe:** P4.12 wird auf einem Arbeitsbranch als interne Vorschau entwickelt, weil P3.19 technisch integriert ist. Diese Ausnahme ändert keine Phase-4-Start-, Fach-, Rechts- oder Veröffentlichungsvoraussetzung. Der Produktions-Build enthält keine P4.12-Entwurfstexte oder Stationen. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
+**Interne technische Vorarbeit (21.10.2026):** Auf ausdrücklichen Nutzerauftrag entstehen Entwürfe vor der formalen Phase-4-Freigabe. Dazu zählen die gesonderte P4.12-Zeitreise und die P4.09-Satzprüfung mit lokaler Satzwerkstatt als Eingabevorarbeit für P4.10. Diese Arbeit hebt keine Start-, Fach- oder Veröffentlichungsvoraussetzung auf. Der Produktions-Build enthält keine P4.12-Entwurfstexte oder Stationen. P4.01 bleibt bis F14 und Klärung der rechtlichen Voraussetzungen zurückgestellt.
 
 **Blöcke:**
 
@@ -131,9 +131,10 @@
 - **Ziel:** Regelwerk für den vierstimmigen Satz.
 - **Abhängig von:** P3.13, F05
 - **Umfang:** XL
+- **Technische Vorarbeit vor formaler Phase-4-Freigabe:** [SATB-Musterdetektor mit 16 Regelkennungen, Partituradapter und eigenem Testkorpus](stimmfuehrung-entwurf.md) auf einem Arbeitsbranch, ohne Anbindung an Lern- oder Tutorabläufe. Der Adapter liefert exakte Zeit- und Notenbezüge bei unterschiedlichen Dauern, Haltebögen und Pausen. Der [Primärtextabgleich](../quality/p4-09-quellenentwurf.md) nennt direkt gelesene OMT-Abschnitte und offene SATB-Übertragungen. F05, passende Quellen für Stimmumfänge/Abstände und unabhängige Fachprüfung stehen aus. P4.09 ist nicht abgenommen; die Phase-4-Start- und Veröffentlichungsvoraussetzungen gelten weiter. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
 - **Aufgaben:**
   - [ ] Regeln aus [theorie-engine.md](theorie-engine.md), jede mit Quelle, Schweregrad, Konfiguration
-  - [ ] Testkorpus mit eigenen fehlerhaften und fehlerfreien Sätzen
+  - [ ] Testkorpus mit eigenen fehlerhaften und fehlerfreien Sätzen (technische Fixture und lokaler DE/EN-Review-Bericht vorhanden; unabhängige Abnahme offen)
 - **Fertig, wenn:**
   - Der Korpus wird vollständig korrekt beurteilt.
   - Jede Regel ist mit ihrer Quelle belegt und fachlich geprüft.
@@ -148,6 +149,8 @@
   - [ ] Aufgaben: Bass oder Sopran gegeben, Rest ergänzen; Funktionen vorgegeben
   - [ ] Fehler markieren; Tutor erklärt mit `check_voice_leading`
 - **Fertig, wenn:** Übungstyp `VOICE_LEADING` in Stufe 4–5 eingebunden.
+
+**Interner Eingabeprototyp, keine Abnahme:** Die [lokale Satzwerkstatt](stimmfuehrung-entwurf.md#lokale-satzwerkstatt) bietet vier Textfelder, gemeinsame Taktart/Vorzeichnung, ausdrückliche JSON-Regelkonfiguration, erneute Prüfung, lokale Entwurfsdateien und Gesamt-/Solo-Wiedergabe mit wählbarem Vierteltempo. Sie zeigt die verbundenen Stimmen im Klaviersystem mit den Befunden aus P4.09. Grafisches Notensetzen, Übungsaufgaben, Tutor und Stufenintegration sind weiterhin offen; F03/F05 und die unabhängige Fachprüfung bleiben Voraussetzung für den Produktablauf.
 
 ### P4.11 – Chor-Trainer
 

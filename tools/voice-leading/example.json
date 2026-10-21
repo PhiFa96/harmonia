@@ -1,0 +1,28 @@
+{
+  "title": "SATB · 01",
+  "score": "treble | E4/2 F4/2 & C4/1 | B3/2 A3/2 & F3/2 E3/2\nbass | G3/2 A3/2 & C3/2 D3/2 | D3/2 E3/2 & G2/2 C3/2",
+  "assignment": {
+    "soprano": { "staff": 0, "voice": 0 },
+    "alto": { "staff": 0, "voice": 1 },
+    "tenor": { "staff": 1, "voice": 0 },
+    "bass": { "staff": 1, "voice": 1 }
+  },
+  "rules": {
+    "parallel-fifth": "error",
+    "voice-crossing": "error",
+    "leading-tone-resolution": "warning",
+    "seventh-resolution": "warning"
+  },
+  "options": {
+    "harmonies": [
+      { "tonic": "C", "chord": { "root": "C", "type": "major" } },
+      { "tonic": "C", "chord": { "root": "D", "type": "minor7" } },
+      {
+        "tonic": "C",
+        "chord": { "root": "G", "type": "dominant7" },
+        "resolveToNext": { "leadingTone": "up", "seventh": "down" }
+      },
+      { "tonic": "C", "chord": { "root": "A", "type": "minor" } }
+    ]
+  }
+}
