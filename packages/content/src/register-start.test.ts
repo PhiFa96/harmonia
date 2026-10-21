@@ -96,8 +96,8 @@ describe('Dritte Notationseinheit: Register und Hilfslinien', () => {
     },
   );
   it('ergänzt acht Karten, dreizehn Beispiele und einen fünfteiligen Artikel; frühere Versionen bleiben erhalten', () => {
-    expect(catalogue.contentVersion).toBe(18);
-    expect(curriculumPlan.contentVersion).toBe(18);
+    expect(catalogue.contentVersion).toBe(19);
+    expect(curriculumPlan.contentVersion).toBe(19);
     const cards = catalogue.knowledgeCards.filter((card) =>
       card.id.startsWith('notation.l1.register.'),
     );
@@ -115,7 +115,7 @@ describe('Dritte Notationseinheit: Register und Hilfslinien', () => {
     expect(resolveLesson(catalogue, 'fundament.reading-and-listening.1')?.contentVersion).toBe(1);
     expect(resolveLesson(catalogue, 'notation.l1.staff.anchor')?.contentVersion).toBe(3);
     expect(resolveLesson(catalogue, 'notation.l1.keyboard.keys')?.contentVersion).toBe(4);
-    expect(catalogue.lessons).toHaveLength(160);
+    expect(catalogue.lessons).toHaveLength(166);
     expect(
       required(curriculumPlan.units.find((unit) => unit.unitId === 'notation.l1.register'))
         .skillIds,

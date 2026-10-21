@@ -124,7 +124,11 @@ export function TutorScreen({ task = false }: { readonly task?: boolean }) {
     if (state?.entry?.score) return state.entry.score;
     if (!scope?.context) return undefined;
     try {
-      return taskTutorScore(resolveReportSource(catalogue, scope.context.source).item, scope.mode);
+      return taskTutorScore(
+        resolveReportSource(catalogue, scope.context.source).item,
+        scope.mode,
+        scope.context.answer,
+      );
     } catch {
       return undefined;
     }
@@ -184,7 +188,11 @@ export function TutorScreen({ task = false }: { readonly task?: boolean }) {
                 <AppText variant="overline">{t('tutor.task')}</AppText>
                 <MusicText>{taskPrompt}</MusicText>
                 {originalScore ? (
-                  <ScrollView horizontal testID="tutor-original-score">
+                  <ScrollView
+                    horizontal
+                    testID="tutor-original-score"
+                    {...(Platform.OS === 'web' ? { tabIndex: 0 } : {})}
+                  >
                     <View
                       accessible
                       role="img"
@@ -196,7 +204,12 @@ export function TutorScreen({ task = false }: { readonly task?: boolean }) {
                         .join('; ')}
                     >
                       <View aria-hidden importantForAccessibility="no-hide-descendants">
-                        {originalScore.staves.length === 2 ? (
+                        {originalScore.staves.length === 2 &&
+                        originalScore.staves.every(
+                          (staff) =>
+                            staff.measures.length === 1 &&
+                            staff.measures.every((measure) => measure.voices.length === 1),
+                        ) ? (
                           <GrandStaffView
                             score={originalScore}
                             staffSpace={14}

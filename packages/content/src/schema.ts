@@ -109,6 +109,17 @@ const signatureParams = z
   .strict();
 export const exerciseSpecSchema = z
   .discriminatedUnion('type', [
+    z
+      .object({
+        type: z.literal('VOICE_LEADING'),
+        params: z
+          .object({
+            mode: z.enum(['bass', 'soprano', 'functions']),
+            level: z.union([z.literal(4), z.literal(5)]),
+          })
+          .strict(),
+      })
+      .strict(),
     z.object({ type: z.literal('SIGHT_SING'), params: voiceParams }).strict(),
     z.object({ type: z.literal('SING_INTERVAL'), params: voiceSequenceParams }).strict(),
     z.object({ type: z.literal('PLAY_BACK'), params: voiceSequenceParams }).strict(),
@@ -341,6 +352,7 @@ export const exerciseSpecSchema = z
           ...(value.params.direction ? { direction: value.params.direction } : {}),
         },
       };
+    if (value.type === 'VOICE_LEADING') return { type: value.type, params: value.params };
     if (value.type === 'CADENCE_IDENTIFY')
       return {
         type: value.type,

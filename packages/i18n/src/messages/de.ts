@@ -1,3 +1,4 @@
+import partWritingExercise from './part-writing-exercise.json' with { type: 'json' };
 import { contentMessages } from '@harmonia/i18n/content-messages';
 import levelThreeExercise from './level-three-exercise.json' with { type: 'json' };
 import levelFourExercise from './level-four-exercise.json' with { type: 'json' };
@@ -1047,6 +1048,7 @@ export const de = {
     wrongTitle: 'Noch nicht ganz',
   },
   exercise: {
+    ...partWritingExercise.de,
     ...levelThreeExercise.de,
     ...levelFourExercise.de,
     type_SIGHT_SING: 'Vom Blatt singen',

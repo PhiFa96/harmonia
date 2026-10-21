@@ -49,6 +49,11 @@ import {
   exerciseFeedback,
   choiceLabel,
   isAuralExercise,
+  checkSatb,
+  satbAnswer,
+  satbAnswerId,
+  SATB_DRAFT_RULES,
+  satbOptions,
 } from '../../../packages/exercises/src/index.ts';
 
 const descriptions: Record<TutorToolName, string> = {
@@ -68,6 +73,8 @@ const descriptions: Record<TutorToolName, string> = {
     'Read aggregate strengths and practice needs from verified skill ratings for the current authenticated learner. No account identifier parameter.',
   analyze_progression:
     'Read completed lesson count, currently open lessons and a short weekly study suggestion from the current authenticated learner. No account identifier parameter.',
+  check_voice_leading:
+    'Check only the server-reconstructed current VOICE_LEADING answer under its explicit draft profile. Returns voice/bar locations, given chord context and spelling. Available only in explain or solution mode; no arbitrary scores, overrides, or hidden reference answers.',
   render_example:
     'Validate a short Harmonia score for notation and playback; only this result can be rendered. BPM counts quarter-note beats. Syntax: treble | key:G | 4/4 | C4/4 D4/4 E4/4 r/4. Chord: (C4 E4 G4)/1. Durations 1,2,4,8,16,32,64,breve; dot: /4.; tie: ~; undotted triplet: /8{3:2}. Max 8 bars, one staff/voice. Two staves only the current simple treble/bass whole-note example.',
 };
@@ -125,9 +132,23 @@ export function exerciseContext(catalogue: ContentCatalogue, request: TutorReque
     // Nur engine-gültige Antwort-IDs erscheinen im vertrauenswürdigen Kontextblock, kein freier Text.
     shown = evaluated.validAnswer ? answer : null,
     evaluation = { ...evaluated, answer: shown };
+  const satbNotes = item.type === 'VOICE_LEADING' && shown ? satbAnswer(item, shown) : undefined;
   return {
     ...base,
     solutionAllowed: true,
+    ...(item.type === 'VOICE_LEADING'
+      ? {
+          voiceLeading: {
+            ...checkSatb(item, answer),
+            notes: satbNotes ? satbAnswerId(satbNotes) : null,
+            functions: item.functions,
+            rules: SATB_DRAFT_RULES,
+            options: satbOptions(item),
+            limits:
+              'Internal draft, pending F03/F05 and independent specialist review. Four homorhythmic root-position chords. Multiple realizations may pass; warnings are advisory. No general musical approval.',
+          },
+        }
+      : {}),
     answer: shown,
     answerValid: evaluated.validAnswer,
     solution,
@@ -203,6 +224,15 @@ export function executeTutorTool(
         pitches.forEach((p) => checkedPitch(formatPitch(p)));
         return { ok: true, name: chordName(c, { language }), pitches: pitches.map(display) };
       }
+      case 'check_voice_leading': {
+        tutorToolSchemas.check_voice_leading.parse(input);
+        if (
+          (request.mode !== 'explain' && request.mode !== 'solution') ||
+          !voiceLeadingContext(context)
+        )
+          return { ok: false, error: 'voice_leading_unavailable' };
+        return { ok: true, report: context.voiceLeading };
+      }
       case 'get_exercise_context':
         tutorToolSchemas.get_exercise_context.parse(input);
         return { ok: true, context };
@@ -251,4 +281,21 @@ export function executeTutorTool(
     // Keine ungeprüften Parameter oder internen Fehlermeldungen an Modell/Client weitergeben.
     return { ok: false, error: 'invalid_tool_input' };
   }
+}
+
+function voiceLeadingContext(
+  context: unknown,
+): context is { type: 'VOICE_LEADING'; voiceLeading: unknown } {
+  return (
+    typeof context === 'object' &&
+    context !== null &&
+    'type' in context &&
+    context.type === 'VOICE_LEADING' &&
+    'voiceLeading' in context
+  );
+}
+export function toolsForTutorContext(context: unknown) {
+  return TUTOR_TOOLS.filter(
+    (tool) => tool.name !== 'check_voice_leading' || voiceLeadingContext(context),
+  );
 }

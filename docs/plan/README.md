@@ -19,6 +19,7 @@ Dieser Plan beschreibt, wie wir Harmonia Schritt für Schritt bauen: vom leeren 
 | [Harmonik und Diktat P3.14](harmonik-und-diktat-uebungen.md) | Vier neue Aufgabentypen, Septakkorde und freier Übungssatz; Fach- und Geräteabnahme offen |
 | [Theorie-Engine](theorie-engine.md) | Fachlicher Kern: Tonhöhen, Intervalle, Akkorde, Harmonik, Stimmführung |
 | [Stimmführung P4.09 – technischer Entwurf](stimmfuehrung-entwurf.md) | SATB-Musterprüfung mit Partitur-/Notenbezug, Testkorpus, lokalem DE/EN-Bericht und bearbeitbarer Satzwerkstatt mit Gesamt-/Solo-Wiedergabe; Fachprüfung offen |
+| [Tonsatz-Korrektor P4.10 – interner Entwurf](tonsatz-korrektor-entwurf.md) | Grafischer SATB-Editor, sechs DE/EN-Lektionen in Stufe 4–5, lokalisierte Befunde und gebundenes Tutor-Werkzeug; Fach-/Produktfreigabe offen |
 | [Notation, Audio, Eingabe](notation-audio-eingabe.md) | Notendarstellung, Klang, Klaviatur, Mikrofon, MIDI |
 | [Übersetzungen und Glossar](i18n-und-glossar.md) | Texte DE/EN (US/UK), Fachglossar, Prüfungen, Sprachwahl |
 | [Audio-Latenz messen](audio-latenz-messen.md) | Messanleitung und Ergebnisvorlage für P1.16 |

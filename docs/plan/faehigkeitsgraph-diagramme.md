@@ -2,7 +2,7 @@
 
 <!-- Erzeugt mit pnpm curriculum:render; Änderungen an Katalog, Plan oder Übersetzungen vornehmen. -->
 
-Katalog-/Planversion 18. 15 Bereiche, 33 Bereichsstufen, 54 Einheiten und 165 Fähigkeiten.
+Katalog-/Planversion 19. 15 Bereiche, 34 Bereichsstufen, 56 Einheiten und 171 Fähigkeiten.
 
 Pfeile zeigen von der Voraussetzung zum folgenden Lernziel. Die Reihenfolge ist eine mögliche Reihenfolge für die Planung; unabhängige Zweige bleiben im Graphen unabhängig. Die Tabellen zeigen alle direkten Voraussetzungen, auch über Bereichsgrenzen hinweg.
 
@@ -66,6 +66,8 @@ Die Einheiten haben noch keine vollständigen Lektionen. Technische Prüfungen e
 | 52 | 4 | Akustik und Stimmungen | Akustik und Stimmungen · `acoustics.l4.tuning` | 3 |
 | 53 | 4 | Gehörbildung | Gehörbildung zur Studienvorbereitung · `aural.l4.preparation` | 3 |
 | 54 | 4 | Musikgeschichte und Quellen | Historische Werke einordnen · `history.l4.survey` | 3 |
+| 55 | 4 | Tonsatz und Stimmführung | Vierstimmige Dreiklänge · Entwurf · `satz.l4.writing` | 3 |
+| 56 | 5 | Tonsatz und Stimmführung | Dominantseptakkord im Satz · Entwurf · `satz.l5.writing` | 3 |
 
 ```mermaid
 flowchart TD
@@ -130,6 +132,10 @@ flowchart TD
     u51["Akustik und Stimmungen"]
     u52["Gehörbildung zur Studienvorbereitung"]
     u53["Historische Werke einordnen"]
+    u54["Vierstimmige Dreiklänge · Entwurf"]
+  end
+  subgraph level5["Stufe 5"]
+    u55["Dominantseptakkord im Satz · Entwurf"]
   end
   u1 --> u2
   u1 --> u3
@@ -229,6 +235,8 @@ flowchart TD
   u43 --> u52
   u40 --> u53
   u48 --> u53
+  u45 --> u54
+  u54 --> u55
 ```
 
 ## Grundlagen · `fundament`
@@ -981,6 +989,14 @@ flowchart TD
     s141["Ziffern über dem Bass lesen"]
     s142["Sext- und Quartsextlagen erklären"]
     s143["Eine einfache Aussetzung prüfen"]
+    s165["Bass vorgegeben"]
+    s166["Sopran vorgegeben"]
+    s167["Funktionen aussetzen"]
+  end
+  subgraph level5["Stufe 5"]
+    s168["Bass vorgegeben"]
+    s169["Sopran vorgegeben"]
+    s170["Funktionen aussetzen"]
   end
   s73["Grundstellung, erste und zweite Umkehrung bestimmen · anderer Bereich"]
   s101["Kadenzfolgen im Tonartbezug vergleichen · anderer Bereich"]
@@ -992,6 +1008,12 @@ flowchart TD
   s73 -.-> s141
   s141 --> s142
   s142 --> s143
+  s140 --> s165
+  s140 --> s166
+  s140 --> s167
+  s165 --> s168
+  s166 --> s169
+  s167 --> s170
 ```
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
@@ -1002,6 +1024,12 @@ flowchart TD
 | 4 · Generalbass-Grundlagen | Ziffern über dem Bass lesen | `satz.l4.figured-bass.s1` | Read figures above a bass | `satz.l4.voice-leading.s3`, `chord.inversions` | entwurf |
 | 4 · Generalbass-Grundlagen | Sext- und Quartsextlagen erklären | `satz.l4.figured-bass.s2` | Explain six and six-four positions | `satz.l4.figured-bass.s1` | entwurf |
 | 4 · Generalbass-Grundlagen | Eine einfache Aussetzung prüfen | `satz.l4.figured-bass.s3` | Check a simple realization / Check a simple realisation | `satz.l4.figured-bass.s2` | entwurf |
+| 4 · Vierstimmige Dreiklänge · Entwurf | Bass vorgegeben | `satz.l4.writing.bass` | Given bass | `satz.l4.voice-leading.s3` | entwurf |
+| 4 · Vierstimmige Dreiklänge · Entwurf | Sopran vorgegeben | `satz.l4.writing.soprano` | Given soprano | `satz.l4.voice-leading.s3` | entwurf |
+| 4 · Vierstimmige Dreiklänge · Entwurf | Funktionen aussetzen | `satz.l4.writing.functions` | Realizing functions / Realising functions | `satz.l4.voice-leading.s3` | entwurf |
+| 5 · Dominantseptakkord im Satz · Entwurf | Bass vorgegeben | `satz.l5.writing.bass` | Given bass | `satz.l4.writing.bass` | entwurf |
+| 5 · Dominantseptakkord im Satz · Entwurf | Sopran vorgegeben | `satz.l5.writing.soprano` | Given soprano | `satz.l4.writing.soprano` | entwurf |
+| 5 · Dominantseptakkord im Satz · Entwurf | Funktionen aussetzen | `satz.l5.writing.functions` | Realizing functions / Realising functions | `satz.l4.writing.functions` | entwurf |
 
 ## Werkanalyse · `area.analysis`
 
