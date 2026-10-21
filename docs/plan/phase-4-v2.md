@@ -129,6 +129,7 @@
 - **Ziel:** Regelwerk für den vierstimmigen Satz.
 - **Abhängig von:** P3.13, F05
 - **Umfang:** XL
+- **Technische Vorarbeit vor formaler Phase-4-Freigabe:** [Isolierter SATB-Musterdetektor und eigener Testkorpus](stimmfuehrung-entwurf.md) auf einem Arbeitsbranch, ohne Anbindung an Lern- oder Tutorabläufe. F05, Lehrbuchseiten und unabhängige Fachprüfung stehen aus. P4.09 ist nicht abgenommen; die Phase-4-Start- und Veröffentlichungsvoraussetzungen gelten weiter. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
 - **Aufgaben:**
   - [ ] Regeln aus [theorie-engine.md](theorie-engine.md), jede mit Quelle, Schweregrad, Konfiguration
   - [ ] Testkorpus mit eigenen fehlerhaften und fehlerfreien Sätzen
