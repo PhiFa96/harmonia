@@ -2,6 +2,7 @@ import type { ExerciseSpec, ExerciseType } from './types.ts';
 
 /** Explicit parameter profiles, never question text, answers, seeds or locale. */
 export const RATING_PARAMETERS = {
+  VOICE_LEADING: ['mode', 'level'],
   SIGHT_SING: ['clefs', 'range', 'maxAccidentals', 'level'],
   SING_INTERVAL: ['clefs', 'range', 'maxAccidentals', 'level', 'intervals'],
   PLAY_BACK: ['clefs', 'range', 'maxAccidentals', 'level', 'intervals'],

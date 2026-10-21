@@ -73,6 +73,7 @@ export function revealLessonHint(lesson: LessonSession): LessonSession {
 }
 /** Das Musikbeispiel muss sich ändern; bloßes Mischen der Antworten ist keine neue Variante. */
 export function itemVariantKey(item: ExerciseItem): string {
+  if (item.type === 'VOICE_LEADING') return JSON.stringify([item.type, item.params, item.fifths]);
   if (item.type === 'SIGHT_SING' || item.type === 'SING_INTERVAL' || item.type === 'PLAY_BACK')
     return JSON.stringify([item.type, item.pitches.map(midi)]);
   if (item.type === 'CONTEXT_CHOICE') return contextVariantKey(item);

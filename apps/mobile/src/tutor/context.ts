@@ -1,10 +1,27 @@
-import { feedbackMedia, isAuralExercise, isPitchInput } from '@harmonia/exercises';
+import {
+  feedbackMedia,
+  isAuralExercise,
+  isPitchInput,
+  satbAnswer,
+  satbScore,
+} from '@harmonia/exercises';
 import type { ExerciseItem } from '@harmonia/exercises';
 import type { TutorScope } from '@harmonia/content';
 import type { Score } from '@harmonia/notation';
 
 /** Hinweise zeigen nur ein vorhandenes Fragebild; nach Bewertung darf die Quelle erscheinen. */
-export function taskTutorScore(item: ExerciseItem, mode: TutorScope['mode']): Score | undefined {
+export function taskTutorScore(
+  item: ExerciseItem,
+  mode: TutorScope['mode'],
+  answer?: string | null,
+): Score | undefined {
+  if (item.type === 'VOICE_LEADING') {
+    if (mode === 'hint' || mode === 'chat') return undefined;
+    return satbScore(
+      mode === 'solution' ? item.example : (satbAnswer(item, answer ?? null) ?? item.given),
+      item.fifths,
+    );
+  }
   if (mode === 'hint') {
     return !isAuralExercise(item) &&
       !isPitchInput(item) &&

@@ -1,3 +1,4 @@
+import { VoiceLeadingAnswerInput } from './voice-leading-answer-input';
 import type { ReportSource } from '@harmonia/content';
 import { openReport } from '@/state/reports';
 import { ContextQuestion } from './context-question';
@@ -209,6 +210,7 @@ export function ExerciseTask({
           'SCALE_BUILD',
           'KEYSIG_BUILD',
           'CHORD_BUILD',
+          'VOICE_LEADING',
         ].includes(item.type) ? null : item.type !== 'LISTENING_CHOICE' &&
         (item.type === 'RHYTHM_TAP' ||
           !isAuralExercise(item) ||
@@ -371,7 +373,24 @@ export function ExerciseTask({
           {t('exercise.audioError')}
         </AppText>
       ) : null}
-      {item.type === 'MATCH' ? (
+      {item.type === 'VOICE_LEADING' ? (
+        <VoiceLeadingAnswerInput
+          key={`${String(session.index)}:${itemVariantKey(item)}`}
+          item={item}
+          answer={answer}
+          {...(result ? { result } : {})}
+          showSolution={!!result || session.hintLevel === 3}
+          disabled={interactionDisabled}
+          {...(hintsAllowed
+            ? {
+                onInspect: () => {
+                  if (session.hintLevel === 0) onHint();
+                },
+              }
+            : {})}
+          onSelect={onSelect}
+        />
+      ) : item.type === 'MATCH' ? (
         <MatchAnswerInput
           key={`${String(session.index)}:${itemVariantKey(item)}`}
           item={item}
@@ -583,7 +602,8 @@ export function ExerciseTask({
             kind={result.correct ? 'correct' : 'wrong'}
             title={feedback.title}
             message={feedback.message}
-            {...(!isKnowledgeItem(item) &&
+            {...(item.type !== 'VOICE_LEADING' &&
+            !isKnowledgeItem(item) &&
             (!isKeySignatureItem(item) || !!media.audio) &&
             (item.type !== 'CONTEXT_CHOICE' || !!media.audio)
               ? {
@@ -632,7 +652,7 @@ export function ExerciseTask({
                     context: { source: reportSource, answer: result.answer, checked: true },
                   },
                   prompt,
-                  taskTutorScore(item, 'explain'),
+                  taskTutorScore(item, 'explain', result.answer),
                 );
                 router.push('/tutor-task');
               }}

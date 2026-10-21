@@ -196,3 +196,5 @@ export { contextSourceText, contextNotationDescription } from './context-text.ts
 
 export * from './practice.ts';
 export * from './feedback-media.ts';
+
+export * from './voice-leading.ts';

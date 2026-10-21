@@ -1,3 +1,4 @@
+import { generateVoiceLeading } from './voice-leading.ts';
 import { generateContext } from './context.ts';
 import {
   MAX_STEP,
@@ -388,6 +389,8 @@ export function generateIntervalBuild(params: VisualIntervalParams, rng: Rng): I
 }
 export function generateExercise(spec: ExerciseSpec, rng: Rng) {
   switch (spec.type) {
+    case 'VOICE_LEADING':
+      return generateVoiceLeading(spec.params, rng);
     case 'SIGHT_SING':
       return generateSightSing(spec.params, rng);
     case 'SING_INTERVAL':

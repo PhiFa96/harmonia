@@ -10,7 +10,9 @@ import {
 } from '@harmonia/exercises';
 
 const levelIds = new Set(catalogue.levels.filter((level) => level.number === 4).map((v) => v.id));
-const units = catalogue.units.filter((unit) => levelIds.has(unit.levelId));
+const units = catalogue.units.filter(
+  (unit) => levelIds.has(unit.levelId) && unit.id !== 'satz.l4.writing',
+);
 const unitIds = new Set(units.map((unit) => unit.id));
 const lessons = catalogue.lessons.filter((lesson) => unitIds.has(lesson.unitId));
 
@@ -48,7 +50,7 @@ describe('Stufe 4 als interner Entwurf', () => {
     expect(knowledgeArticles(catalogue, 'preview').filter(({ stage }) => stage === 4)).toHaveLength(
       13,
     );
-    expect(learningPath(catalogue, []).filter((unit) => unit.level === 4)).toHaveLength(13);
+    expect(learningPath(catalogue, []).filter((unit) => unit.level === 4)).toHaveLength(14);
     expect(publicCatalogue(catalogue).lessons).toHaveLength(0);
   });
 
