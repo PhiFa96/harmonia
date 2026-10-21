@@ -66,8 +66,8 @@ Die Einheiten haben noch keine vollständigen Lektionen. Technische Prüfungen e
 | 52 | 4 | Akustik und Stimmungen | Akustik und Stimmungen · `acoustics.l4.tuning` | 3 |
 | 53 | 4 | Gehörbildung | Gehörbildung zur Studienvorbereitung · `aural.l4.preparation` | 3 |
 | 54 | 4 | Musikgeschichte und Quellen | Historische Werke einordnen · `history.l4.survey` | 3 |
-| 55 | 4 | Tonsatz und Stimmführung | Vierstimmige Dreiklänge · Entwurf · `satz.l4.writing` | 3 |
-| 56 | 5 | Tonsatz und Stimmführung | Dominantseptakkord im Satz · Entwurf · `satz.l5.writing` | 3 |
+| 55 | 4 | Tonsatz und Stimmführung | Vierstimmige Dreiklänge · `satz.l4.writing` | 3 |
+| 56 | 5 | Tonsatz und Stimmführung | Dominantseptakkord im Satz · `satz.l5.writing` | 3 |
 
 ```mermaid
 flowchart TD
@@ -132,10 +132,10 @@ flowchart TD
     u51["Akustik und Stimmungen"]
     u52["Gehörbildung zur Studienvorbereitung"]
     u53["Historische Werke einordnen"]
-    u54["Vierstimmige Dreiklänge · Entwurf"]
+    u54["Vierstimmige Dreiklänge"]
   end
   subgraph level5["Stufe 5"]
-    u55["Dominantseptakkord im Satz · Entwurf"]
+    u55["Dominantseptakkord im Satz"]
   end
   u1 --> u2
   u1 --> u3
@@ -237,6 +237,7 @@ flowchart TD
   u48 --> u53
   u45 --> u54
   u54 --> u55
+  u30 --> u55
 ```
 
 ## Grundlagen · `fundament`
@@ -1000,6 +1001,7 @@ flowchart TD
   end
   s73["Grundstellung, erste und zweite Umkehrung bestimmen · anderer Bereich"]
   s101["Kadenzfolgen im Tonartbezug vergleichen · anderer Bereich"]
+  s94["Septakkorde schreiben · anderer Bereich"]
   s73 -.-> s138
   s101 -.-> s138
   s138 --> s139
@@ -1012,8 +1014,11 @@ flowchart TD
   s140 --> s166
   s140 --> s167
   s165 --> s168
+  s94 -.-> s168
   s166 --> s169
+  s94 -.-> s169
   s167 --> s170
+  s94 -.-> s170
 ```
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
@@ -1024,12 +1029,12 @@ flowchart TD
 | 4 · Generalbass-Grundlagen | Ziffern über dem Bass lesen | `satz.l4.figured-bass.s1` | Read figures above a bass | `satz.l4.voice-leading.s3`, `chord.inversions` | entwurf |
 | 4 · Generalbass-Grundlagen | Sext- und Quartsextlagen erklären | `satz.l4.figured-bass.s2` | Explain six and six-four positions | `satz.l4.figured-bass.s1` | entwurf |
 | 4 · Generalbass-Grundlagen | Eine einfache Aussetzung prüfen | `satz.l4.figured-bass.s3` | Check a simple realization / Check a simple realisation | `satz.l4.figured-bass.s2` | entwurf |
-| 4 · Vierstimmige Dreiklänge · Entwurf | Bass vorgegeben | `satz.l4.writing.bass` | Given bass | `satz.l4.voice-leading.s3` | entwurf |
-| 4 · Vierstimmige Dreiklänge · Entwurf | Sopran vorgegeben | `satz.l4.writing.soprano` | Given soprano | `satz.l4.voice-leading.s3` | entwurf |
-| 4 · Vierstimmige Dreiklänge · Entwurf | Funktionen aussetzen | `satz.l4.writing.functions` | Realizing functions / Realising functions | `satz.l4.voice-leading.s3` | entwurf |
-| 5 · Dominantseptakkord im Satz · Entwurf | Bass vorgegeben | `satz.l5.writing.bass` | Given bass | `satz.l4.writing.bass` | entwurf |
-| 5 · Dominantseptakkord im Satz · Entwurf | Sopran vorgegeben | `satz.l5.writing.soprano` | Given soprano | `satz.l4.writing.soprano` | entwurf |
-| 5 · Dominantseptakkord im Satz · Entwurf | Funktionen aussetzen | `satz.l5.writing.functions` | Realizing functions / Realising functions | `satz.l4.writing.functions` | entwurf |
+| 4 · Vierstimmige Dreiklänge | Bass vorgegeben | `satz.l4.writing.bass` | Given bass | `satz.l4.voice-leading.s3` | entwurf |
+| 4 · Vierstimmige Dreiklänge | Sopran vorgegeben | `satz.l4.writing.soprano` | Given soprano | `satz.l4.voice-leading.s3` | entwurf |
+| 4 · Vierstimmige Dreiklänge | Funktionen aussetzen | `satz.l4.writing.functions` | Realizing functions / Realising functions | `satz.l4.voice-leading.s3` | entwurf |
+| 5 · Dominantseptakkord im Satz | Bass vorgegeben | `satz.l5.writing.bass` | Given bass | `satz.l4.writing.bass`, `chords.l3.sevenths.s2` | entwurf |
+| 5 · Dominantseptakkord im Satz | Sopran vorgegeben | `satz.l5.writing.soprano` | Given soprano | `satz.l4.writing.soprano`, `chords.l3.sevenths.s2` | entwurf |
+| 5 · Dominantseptakkord im Satz | Funktionen aussetzen | `satz.l5.writing.functions` | Realizing functions / Realising functions | `satz.l4.writing.functions`, `chords.l3.sevenths.s2` | entwurf |
 
 ## Werkanalyse · `area.analysis`
 

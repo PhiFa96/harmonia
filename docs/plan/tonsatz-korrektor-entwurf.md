@@ -23,9 +23,9 @@ Vier Takte, je eine ganze Note pro Stimme und Takt (EN-GB: semibreve), Tonarten 
 
 Profil `p4.10-root-position-v1`:
 
-- Grundton im Bass, Dreiklänge vollständig. Bei D7 sind Grundton, Terz und Septime verlangt; die Quinte darf fehlen. Enharmonisch anders geschriebene Töne gelten nicht automatisch als derselbe Akkordton.
+- Grundton im Bass, Dreiklänge vollständig. Bei D7 sind Grundton, Terz und Septime verlangt; die Quinte darf fehlen. Nach einem D7 (Stufe 5) darf auch die abschließende Tonika ohne Quinte stehen (verdreifachter Grundton); in Stufe 4 bleibt der Dreiklang vollständig. Enharmonisch anders geschriebene Töne gelten nicht automatisch als derselbe Akkordton.
 - Umfänge in wissenschaftlicher Oktavnotation: Bass E2–C4, Tenor C3–G4, Alt G3–D5, Sopran C4–G5.
-- Fehler: parallele reine Quinten/Oktaven/Einklänge, Stimmkreuzung, Übergreifen, Oberstimmenabstand über Oktave, überschrittener Umfang, verdoppelter Leitton und übermäßige Sekundschritte. Am markierten D–T-Übergang: Leitton einen Schritt aufwärts, Akkordseptime einen Schritt abwärts.
+- Fehler: parallele reine Quinten/Oktaven/Einklänge, Stimmkreuzung, Übergreifen, Oberstimmenabstand über Oktave, überschrittener Umfang, verdoppelter Leitton und übermäßige Sekundschritte. Am markierten D–T-Übergang: Leitton einen Schritt aufwärts oder, nur in Alt und Tenor, eine Terz abwärts zur Quinte der Tonika (Engine-Modus `up-or-frustrated-inner`, verbreiteter Lehrbuchstandard; Quellen nur als Suchauszüge belegt, F05 offen), Akkordseptime einen Schritt abwärts.
 - Warnungen: verdeckte Quinten/Oktaven der Außenstimmen mit Sopransprung und Melodiesprünge über die Oktave. Warnungen verhindern keine positive Aufgabenwertung. Gegenbewegungsregeln sind in diesem Profil nicht eingeschaltet.
 - Eine positive Wertung bedeutet nur, dass die Bedingungen dieses **Entwurfsprofils** erfüllt sind. Mehrere Aussetzungen werden akzeptiert; kein Vergleich allein mit einer Musterlösung. Die Auswahl der Regeln und Schweregrade bleibt fachlich zu prüfen.
 
