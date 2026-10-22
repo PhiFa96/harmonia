@@ -55,6 +55,15 @@ select ok(replace_knowledge_index('preview',repeat('f',64),13,0,'[]'),'Withdrawa
 select is((select count(*)::integer from knowledge_chunks where lane='preview'),0,'Old chunks removed by withdrawal');
 select is(jsonb_array_length(search_knowledge('preview',repeat('f',64),'de','Viertelnoten')->'hits'),0,'Withdrawn text no longer searchable');
 select is((select count(*)::integer from knowledge_chunks where lane='published'),1,'Withdrawal does not cross lanes');
+-- P4.19: Stufe 5 bleibt derselben privaten Entwurfs- und Freigabeprüfung unterworfen.
+select ok(replace_knowledge_index('preview',repeat('1',64),21,1,jsonb_build_array(knowledge_test_entry('de') || '{"stage":5,"contentVersion":21}'::jsonb)),'Stage 5 draft index accepted');
+select is((select stage from knowledge_chunks where lane='preview'),5,'Stage 5 preserved');
+select throws_ok($$select replace_knowledge_index('published',repeat('2',64),21,1,jsonb_build_array(knowledge_test_entry('de') || '{"stage":5,"contentVersion":21}'::jsonb))$$,'P0001','Inconsistent knowledge index','Stage 5 drafts cannot enter public index');
+select throws_ok($$select replace_knowledge_index('preview',repeat('3',64),21,1,jsonb_build_array(knowledge_test_entry('de') || '{"stage":6,"contentVersion":21}'::jsonb))$$,'23514',null,'Unimplemented stage 6 rejected');
+set local role anon;
+select is((select count(*)::integer from knowledge_chunks where stage=5),0,'Guest cannot read Stage 5 draft');
+set local role authenticated;
+select is((select count(*)::integer from knowledge_chunks where stage=5),0,'Account cannot read Stage 5 draft');
 reset role;
 select * from finish();
 rollback;

@@ -10,7 +10,7 @@ import {
 import type { HistoryTopic } from './types.ts';
 
 /**
- * Lösungsleck-Wache für die Begriffsaufgaben der Stufen 3 und 4: Die Erklärung darf weder den
+ * Lösungsleck-Wache für die Begriffsaufgaben der Stufen 3 bis 5: Die Erklärung darf weder den
  * gesuchten Begriff noch dessen Wortstamm enthalten. Wörter ab fünf Buchstaben zählen mit ihren
  * ersten fünf Buchstaben (irgendwo im Text), kürzere nur als ganzes Wort.
  */
@@ -74,10 +74,10 @@ function leaks(term: string, definition: string, locale: (typeof LOCALES)[number
   return hits;
 }
 
-describe('Begriffsaufgaben der Stufen 3 und 4 verraten den Begriff nicht', () => {
-  it('prüft 21 Themen mit je vier Begriffen', () => {
-    expect(STAGE_TOPICS).toHaveLength(21);
-    expect(STAGE_TOPICS.reduce((sum, topic) => sum + HISTORY_FACTS[topic].length, 0)).toBe(84);
+describe('Begriffsaufgaben der Stufen 3 bis 5 verraten den Begriff nicht', () => {
+  it('prüft 29 Themen mit je vier Begriffen', () => {
+    expect(STAGE_TOPICS).toHaveLength(29);
+    expect(STAGE_TOPICS.reduce((sum, topic) => sum + HISTORY_FACTS[topic].length, 0)).toBe(116);
   });
 
   it.each(LOCALES)('%s: keine Erklärung enthält Begriff oder Wortstamm', (locale) => {

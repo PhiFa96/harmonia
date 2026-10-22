@@ -249,8 +249,8 @@ describe('Erstversuch als geprüfter Lernnachweis', () => {
 describe('Lernpfad aus Fähigkeiten und bestandenen Versuchen', () => {
   it('ordnet alle Einheiten nach ihren Voraussetzungen und öffnet nur den Einstieg', () => {
     const path = learningPath(catalogue, []);
-    expect(path).toHaveLength(57);
-    expect(path.flatMap((u) => u.lessons)).toHaveLength(170);
+    expect(path).toHaveLength(65);
+    expect(path.flatMap((u) => u.lessons)).toHaveLength(194);
     expect(lessonStatus(path, firstLesson.id)).toBe('open');
     expect(path.some((u) => u.status === 'locked')).toBe(true);
     expect(path.some((u) => u.status === 'completed' || u.status === 'tested')).toBe(false);

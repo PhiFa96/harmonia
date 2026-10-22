@@ -1,3 +1,4 @@
+import levelFiveExercise from './level-five-exercise.json' with { type: 'json' };
 import choirExercise from './choir-exercise.json' with { type: 'json' };
 import partWritingExercise from './part-writing-exercise.json' with { type: 'json' };
 // Englisch (UK): nur Abweichungen von en-US, der Rest kommt aus en-US.
@@ -63,6 +64,7 @@ export const enGB = {
     // Stufen 3 und 4: Aufgaben-, Hinweis- und Erklärtexte mit britischer Schreibweise.
     ...levelThreeExercise['en-GB'],
     ...levelFourExercise['en-GB'],
+    ...levelFiveExercise['en-GB'],
     harmonyStart: 'Practise harmony and dictation',
     tonalityStart: 'Practise scales and key signatures',
     tonalityIntro:

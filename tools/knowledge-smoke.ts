@@ -36,11 +36,12 @@ function check(value: unknown, label: string): asserts value {
 const preview = await currentKnowledgeSnapshot('preview'),
   published = await currentKnowledgeSnapshot('published');
 check(
-  preview.articleCount === 54 &&
-    preview.chunks.length === 1014 &&
+  preview.articleCount === 62 &&
+    preview.chunks.length === 1110 &&
     preview.chunks.filter((chunk) => chunk.stage === 3).length === 144 &&
-    preview.chunks.filter((chunk) => chunk.stage === 4).length === 156,
-  'All stage 1–4 articles and locales',
+    preview.chunks.filter((chunk) => chunk.stage === 4).length === 156 &&
+    preview.chunks.filter((chunk) => chunk.stage === 5).length === 96,
+  'All stage 1–5 articles and locales',
 );
 check(published.chunks.length === 0, 'Unreviewed articles cannot become public sources');
 check(

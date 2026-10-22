@@ -204,7 +204,15 @@ export type KnowledgeTopic =
   | 'orchestration'
   | 'tuning'
   | 'examAural'
-  | 'historySurvey';
+  | 'historySurvey'
+  | 'speciesBasics'
+  | 'imitationStudy'
+  | 'advancedForms'
+  | 'workAnalysis'
+  | 'serialStudy'
+  | 'setStudy'
+  | 'processStudy'
+  | 'worldStudy';
 export interface DurationLimits {
   /** 0: nur unpunktierte Werte; Standard 1 bewahrt bestehende Aufgaben. */
   readonly maxDots?: 0 | 1;
@@ -253,7 +261,15 @@ export type HistoryTopic =
   | 'orchestration'
   | 'tuning'
   | 'examAural'
-  | 'historySurvey';
+  | 'historySurvey'
+  | 'speciesBasics'
+  | 'imitationStudy'
+  | 'advancedForms'
+  | 'workAnalysis'
+  | 'serialStudy'
+  | 'setStudy'
+  | 'processStudy'
+  | 'worldStudy';
 export type HistoryKind =
   | 'voice'
   | 'instrument'
@@ -353,7 +369,39 @@ export type HistoryKind =
   | 'chords'
   | 'intervals'
   | 'context'
-  | 'evidence';
+  | 'evidence'
+  | 'oneAgainstOne'
+  | 'speciesConsonance'
+  | 'speciesMotion'
+  | 'speciesClosure'
+  | 'canonEntry'
+  | 'subjectAnswer'
+  | 'motifInversion'
+  | 'retrograde'
+  | 'sectionIdentity'
+  | 'rondoReturn'
+  | 'variationIdentity'
+  | 'sonataFunction'
+  | 'analyticalQuestion'
+  | 'pitchEvidence'
+  | 'reductionLimits'
+  | 'analysisArgument'
+  | 'rowOrder'
+  | 'rowOperations'
+  | 'serialScope'
+  | 'rowContext'
+  | 'setIdentity'
+  | 'intervalClass'
+  | 'intervalVector'
+  | 'setLimits'
+  | 'discretePhase'
+  | 'additiveProcess'
+  | 'electroacoustic'
+  | 'spectralModel'
+  | 'maqamContext'
+  | 'ragaContext'
+  | 'situatedSource'
+  | 'modelBoundary';
 export type KnowledgeFact =
   | { readonly topic: HistoryTopic; readonly kind: HistoryKind }
   | { readonly topic: 'pulse'; readonly kind: 'pulse' | 'rhythm' | 'metronome' | 'countIn' }

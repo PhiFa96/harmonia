@@ -39,8 +39,15 @@ import {
   validateScore,
 } from '@harmonia/notation';
 import { options, pitchPool } from './parameters.ts';
+import {
+  ADVANCED_CONTEXT_TOPICS,
+  advancedContextAnswer,
+  generateAdvancedContext,
+  isAdvancedContextTopic,
+} from './advanced-context.ts';
 
 export const CONTEXT_TOPICS = [
+  ...ADVANCED_CONTEXT_TOPICS,
   'accidental-scope',
   'enharmonic-spelling',
   'dotted-duration',
@@ -153,6 +160,10 @@ function quarters(d: ReturnType<typeof durationValue>) {
 }
 export function contextAnswer(item: ContextItem): string {
   if (!CONTEXT_TOPICS.includes(item.topic)) throw new RangeError('Unbekannte Kontextfrage');
+  if (isAdvancedContextTopic(item.topic)) {
+    if (item.source.kind !== 'score') throw new RangeError('Notenquelle für Analyse erforderlich');
+    return advancedContextAnswer(item.topic, item.source.score);
+  }
   const source = item.source;
   switch (item.topic) {
     case 'accidental-scope': {
@@ -425,6 +436,7 @@ export function generateContext(params: ContextParams, rng: Rng): ContextItem {
   if (!params.topics.length || params.topics.some((t) => !CONTEXT_TOPICS.includes(t)))
     throw new RangeError('Ungültige Kontextparameter');
   const topic = rng.pick(params.topics);
+  if (isAdvancedContextTopic(topic)) return generateAdvancedContext(topic, rng);
   let source: ContextSource, available: string[];
   const p = () => parsePitch(rng.pick(['C4', 'D4', 'E4', 'F4', 'G4', 'A4']));
   const fractionChoices = ['1/2', '1/1', '3/2', '2/1', '5/2', '3/1', '4/1'].map(

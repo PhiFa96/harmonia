@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": 20,
+  "contentVersion": 21,
   "scopeLevels": [1, 2, 3, 4, 5],
   "units": [
     {
@@ -288,6 +288,54 @@
     {
       "unitId": "satz.l5.writing",
       "skillIds": ["satz.l5.writing.bass", "satz.l5.writing.soprano", "satz.l5.writing.functions"]
+    },
+    {
+      "unitId": "counterpoint.l5.species",
+      "skillIds": [
+        "counterpoint.l5.species.s1",
+        "counterpoint.l5.species.s2",
+        "counterpoint.l5.species.s3"
+      ]
+    },
+    {
+      "unitId": "counterpoint.l5.imitation",
+      "skillIds": [
+        "counterpoint.l5.imitation.s1",
+        "counterpoint.l5.imitation.s2",
+        "counterpoint.l5.imitation.s3"
+      ]
+    },
+    {
+      "unitId": "forms.l5.structure",
+      "skillIds": ["forms.l5.structure.s1", "forms.l5.structure.s2", "forms.l5.structure.s3"]
+    },
+    {
+      "unitId": "analysis.l5.methods",
+      "skillIds": ["analysis.l5.methods.s1", "analysis.l5.methods.s2", "analysis.l5.methods.s3"]
+    },
+    {
+      "unitId": "contemporary.l5.serial",
+      "skillIds": [
+        "contemporary.l5.serial.s1",
+        "contemporary.l5.serial.s2",
+        "contemporary.l5.serial.s3"
+      ]
+    },
+    {
+      "unitId": "contemporary.l5.sets",
+      "skillIds": ["contemporary.l5.sets.s1", "contemporary.l5.sets.s2", "contemporary.l5.sets.s3"]
+    },
+    {
+      "unitId": "contemporary.l5.process",
+      "skillIds": [
+        "contemporary.l5.process.s1",
+        "contemporary.l5.process.s2",
+        "contemporary.l5.process.s3"
+      ]
+    },
+    {
+      "unitId": "world.l5.context",
+      "skillIds": ["world.l5.context.s1", "world.l5.context.s2", "world.l5.context.s3"]
     }
   ]
 }
