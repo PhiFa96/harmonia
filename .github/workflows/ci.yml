@@ -212,7 +212,7 @@ jobs:
           deno check --config tools/deno.json tools/knowledge-smoke.ts
           deno run --config tools/deno.json --allow-env=ANTHROPIC_CUSTOM_HEADERS tools/knowledge-smoke.ts
 
-      - name: Artikel der Stufen 3–4 und Suchfragen-Abdeckung prüfen
+      - name: Artikel der Stufen 3–5 und Suchfragen-Abdeckung prüfen
         run: |
           deno check --config tools/deno.json tools/knowledge-v2-smoke.ts
           deno run --config tools/deno.json tools/knowledge-v2-smoke.ts
@@ -309,7 +309,7 @@ jobs:
       - name: Volltextsuche, Quellenrückzug, Zitate und Konto-Zugriff lokal prüfen
         run: pnpm db:test:knowledge
 
-      - name: Trigramm-Suche mit 150 Fragen zu den Artikeln der Stufen 3–4 lokal prüfen
+      - name: Trigramm-Suche mit 198 Fragen zu den Artikeln der Stufen 3–5 lokal prüfen
         run: pnpm db:test:knowledge:v2
 
       - name: Abo-Webhooks, Konto-Isolation und ersetzten RevenueCat-Kontostand prüfen

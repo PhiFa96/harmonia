@@ -27,6 +27,8 @@ select is(search_knowledge('preview',repeat('d',64),'en-GB','crotchet')->'hits'-
 select is(jsonb_array_length(search_knowledge('preview',repeat('d',64),'en-US','crotchets')->'hits'),0,'UK term never falls through into US');
 select is(jsonb_array_length(search_knowledge('preview',repeat('d',64),'de','Galaxienantriebsleistung')->'hits'),0,'Unrelated topic has no invented source');
 select is(jsonb_array_length(search_knowledge('preview',repeat('d',64),'de','',array['test.rhythm'])->'hits'),1,'Trusted skill fallback');
+select is(jsonb_array_length(search_knowledge('preview',repeat('d',64),'de','')->'hits'),0,'Empty question without skills has no matches or division by zero');
+select is(jsonb_array_length(search_knowledge('preview',repeat('d',64),'en-US','the and')->'hits'),0,'Stopword-only question is valid and empty');
 select is(search_knowledge('preview',repeat('e',64),'de','Puls')->>'state','stale','Stale snapshot has no hits');
 select throws_ok($$select search_knowledge('preview',repeat('d',64),'de',repeat('x',4001))$$,'P0001','Invalid knowledge search','Question bound');
 select throws_ok($$select search_knowledge('preview',repeat('d',64),'fr','Puls')$$,'P0001','Invalid knowledge search','Unknown locale rejected');
@@ -64,6 +66,20 @@ set local role anon;
 select is((select count(*)::integer from knowledge_chunks where stage=5),0,'Guest cannot read Stage 5 draft');
 set local role authenticated;
 select is((select count(*)::integer from knowledge_chunks where stage=5),0,'Account cannot read Stage 5 draft');
+reset role;
+-- A short, partly matching heading must not drown out a passage answering the question.
+create function public.knowledge_coverage_entry(id text, article text, language text, heading text, body text) returns jsonb language sql as $$
+  select knowledge_test_entry(language) || jsonb_build_object('id',id,'articleId',article,'title',heading,'heading',heading,'body',body,'endChar',length(body),'stage',5,'contentVersion',21)
+$$;
+set local role service_role;
+select ok(replace_knowledge_index('preview',repeat('4',64),21,2,jsonb_build_array(
+  knowledge_coverage_entry(repeat('5',64),'test.coverage.article','de','Konsonanzen mit Schreibweise','Im zweistimmigen Modell gelten reine Primen, Quinten und Oktaven sowie kleine und große Terzen und Sexten als konsonant. Die reine Quarte über dem tiefsten Ton gehört hier nicht dazu.'),
+  knowledge_coverage_entry(repeat('6',64),'test.heading.article','de','Reine Quarte und reine Quinte','Eine reine Quarte hat fünf Halbtöne, eine reine Quinte sieben.'),
+  knowledge_coverage_entry(repeat('7',64),'test.coverage.article','en-US','Rondo as a formal hypothesis','Repeated returns of a refrain between contrasting episodes can support a rondo interpretation. A–B–A–C–A is one possible scheme, not sufficient identification of a historical work. Check extent, cadences, keys and the function of each return.'),
+  knowledge_coverage_entry(repeat('8',64),'test.heading.article','en-US','Historical context','Historical interpretation requires dated sources and specific works.')
+))),'Install original multi-concept search fixtures');
+select is(search_knowledge('preview',repeat('4',64),'de','Warum zählt die reine Quarte über dem tiefsten Ton hier nicht als Konsonanz?')->'hits'->0->>'id',repeat('5',64),'Full question coverage outranks a partial German heading');
+select is(search_knowledge('preview',repeat('4',64),'en-US','Is the pattern A–B–A–C–A enough to identify a historical work as a rondo?')->'hits'->0->>'id',repeat('7',64),'Full question coverage outranks a partial English heading');
 reset role;
 select * from finish();
 rollback;

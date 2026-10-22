@@ -37,6 +37,8 @@ Die Theorieoperationen sind plattformunabhängig. Fehlende, unpassend rhythmisie
 
 Der Wissensindex verarbeitet jetzt auch Stufe 5. Die Migration `20261022190000_knowledge_stage_five.sql` erweitert die zulässige Stufe auf 5; sie publiziert und synchronisiert nichts. Vorschauartikel bleiben über RLS vor Gästen und gewöhnlichen Konten verborgen. Öffentliche Entwürfe sind weiterhin unzulässig.
 
+Die anschließende Migration `20261022200000_knowledge_query_coverage.sql` berücksichtigt zusätzlich, wie viele unterschiedliche Suchbegriffe ein Abschnitt abdeckt. Abdeckung und Ähnlichkeit der Überschrift erhalten jeweils höchstens vier Gewichtungspunkte. So verdrängt eine kurze, nur teilweise passende Überschrift keinen Abschnitt mit mehreren passenden Begriffen. Die Suche bleibt sprach- und snapshotgebunden; Dokumentbudget und Zugriffsrechte bleiben erhalten. Beide Migrationen vor dem nächsten lokalen Vorschauindex-Abgleich anwenden.
+
 In Produktion werden zusätzlich zu Katalog/Kartentexten auch die neuen Übungsdefinitionen und Aufgabenstellungen durch Metro ausgeschlossen. Der direkte Aufruf des internen Pfades zeigt dort nur den Nichtverfügbarkeitszustand. Der Bundle-Check kontrolliert diese Texte ausdrücklich.
 
 ## Prüfungen
@@ -45,6 +47,7 @@ In Produktion werden zusätzlich zu Katalog/Kartentexten auch die neuen Übungsd
 - Übungen: deterministische Quellen, jeweils genau eine passende Antwort, geänderte Quellen verändern die Bewertung, Zurückweisung von Mehrdeutigkeit/ungeeigneten Dauern, DE/US/UK-Hinweise und keine Begriffslecks.
 - Inhalt: alle 24 Lektionen über mehrere Seeds einschließlich echter Fehlerwiederholung; Graph, Texte, Notation, Artikel und Freigabefilter.
 - Datenbank: gezielter Lauf auf lokalem PostgreSQL 17 mit den tatsächlichen Wissensmigrationen; Stufe 4 bleibt erhalten, Stufe 5 ist intern suchbar, Stufe 6/öffentliche Entwürfe scheitern, Rollback und RLS bleiben wirksam. Zusätzlich erweitert `knowledge.test.sql` die reguläre pgTAP-CI um diese Grenze. Kein vollständiger lokaler Supabase-Systemlauf.
+- Suche: 48 neue Suchfälle (acht Artikel, jeweils direkte und umformulierte Frage in DE/US/UK). Mit den 237 vorhandenen Fällen finden **285/285** auf lokalem PostgreSQL 17 den vorgesehenen Artikel innerhalb des tatsächlichen Tutor-Dokumentbudgets. Vor der Gewichtungskorrektur scheiterten drei neue Fälle. Die 198 Fälle der Stufen 3–5 laufen zusätzlich in der bestehenden Supabase-Such-CI; Deno prüft ihre Artikel-/Sprachabdeckung. Eigene Suchfälle sind keine Live-Modell- oder Fachabnahme.
 - Browser: DE/US/UK, schmale und breite Darstellung, Einführung → Aufgaben → Wiederholung → Abschluss, Reload, lange Reihen, Axe und Export ohne gespeicherte Entwurfs-Lernereignisse.
 - Typecheck, Lint, Übersetzungs-/Katalogprüfungen, Deno-Portabilität, Preview- und Produktions-Export samt Bundle-Prüfung gehören zum technischen PR-Nachweis. Der endgültige CI-Status steht am PR.
 
