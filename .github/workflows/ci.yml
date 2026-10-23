@@ -148,6 +148,18 @@ jobs:
       - name: Lokale Satzwerkstatt mit eigenen Entwürfen prüfen
         run: pnpm voice-leading:test:web
 
+      - name: Internes Schul-Dashboard mit isoliertem PostgreSQL prüfen
+        run: pnpm school:test:web
+
+      - name: Synthetische Schul-Dashboard-Prüfungen aufbewahren
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: school-draft-fixtures
+          path: artifacts/quality/school
+          if-no-files-found: ignore
+          retention-days: 7
+
       - name: Privaten Beta-Zugang und Testhinweise mit eigenen Fixtures prüfen
         env:
           HARMONIA_QA_OUTPUT: artifacts/quality/beta-playwright
@@ -256,6 +268,9 @@ jobs:
 
       - name: pgTAP-Zugriffstests
         run: pnpm db:test
+
+      - name: Internes Schulmodell mit pgTAP und echten HTTP-/DB-Tests prüfen
+        run: pnpm school:test:db --supabase && pnpm school:test
 
       - name: Auth- und REST-API mit zwei Konten prüfen
         run: pnpm db:test:api
