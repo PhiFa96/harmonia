@@ -1,3 +1,4 @@
+import levelFiveExercise from './level-five-exercise.json' with { type: 'json' };
 import choirExercise from './choir-exercise.json' with { type: 'json' };
 import partWritingExercise from './part-writing-exercise.json' with { type: 'json' };
 import { contentMessages } from '@harmonia/i18n/content-messages';
@@ -1080,6 +1081,7 @@ export const de = {
     ...partWritingExercise.de,
     ...levelThreeExercise.de,
     ...levelFourExercise.de,
+    ...levelFiveExercise.de,
     type_SIGHT_SING: 'Vom Blatt singen',
     type_SING_INTERVAL: 'Intervall singen',
     type_PLAY_BACK: 'Melodie nachsingen',

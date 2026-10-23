@@ -2,7 +2,7 @@
 
 <!-- Erzeugt mit pnpm curriculum:render; Änderungen an Katalog, Plan oder Übersetzungen vornehmen. -->
 
-Katalog-/Planversion 20. 15 Bereiche, 34 Bereichsstufen, 57 Einheiten und 175 Fähigkeiten.
+Katalog-/Planversion 21. 18 Bereiche, 39 Bereichsstufen, 65 Einheiten und 199 Fähigkeiten.
 
 Pfeile zeigen von der Voraussetzung zum folgenden Lernziel. Die Reihenfolge ist eine mögliche Reihenfolge für die Planung; unabhängige Zweige bleiben im Graphen unabhängig. Die Tabellen zeigen alle direkten Voraussetzungen, auch über Bereichsgrenzen hinweg.
 
@@ -69,6 +69,14 @@ Die Einheiten haben noch keine vollständigen Lektionen. Technische Prüfungen e
 | 55 | 4 | Tonsatz und Stimmführung | Vierstimmige Dreiklänge · `satz.l4.writing` | 3 |
 | 56 | 4 | Gehörbildung | Chor-Trainer · Entwurf · `aural.l4.choir` | 4 |
 | 57 | 5 | Tonsatz und Stimmführung | Dominantseptakkord im Satz · `satz.l5.writing` | 3 |
+| 58 | 5 | Kontrapunkt | Gattungskontrapunkt: Grundlagen · `counterpoint.l5.species` | 3 |
+| 59 | 5 | Kontrapunkt | Imitation, Kanon und Fuge · `counterpoint.l5.imitation` | 3 |
+| 60 | 5 | Formenlehre | Formverläufe begründet lesen · `forms.l5.structure` | 3 |
+| 61 | 5 | Werkanalyse | Werkanalyse: Methode und Beleg · `analysis.l5.methods` | 3 |
+| 62 | 5 | Musik des 20. und 21. Jahrhunderts | Zwölftonreihen und Operationen · `contemporary.l5.serial` | 3 |
+| 63 | 5 | Musik des 20. und 21. Jahrhunderts | Tonklassenmengen und Intervalle · `contemporary.l5.sets` | 3 |
+| 64 | 5 | Musik des 20. und 21. Jahrhunderts | Prozesse, Medien und Klangmodelle · `contemporary.l5.process` | 3 |
+| 65 | 5 | Musik anderer Kulturen | Musikkulturen: Quellen und Modellgrenzen · `world.l5.context` | 3 |
 
 ```mermaid
 flowchart TD
@@ -138,6 +146,14 @@ flowchart TD
   end
   subgraph level5["Stufe 5"]
     u56["Dominantseptakkord im Satz"]
+    u57["Gattungskontrapunkt: Grundlagen"]
+    u58["Imitation, Kanon und Fuge"]
+    u59["Formverläufe begründet lesen"]
+    u60["Werkanalyse: Methode und Beleg"]
+    u61["Zwölftonreihen und Operationen"]
+    u62["Tonklassenmengen und Intervalle"]
+    u63["Prozesse, Medien und Klangmodelle"]
+    u64["Musikkulturen: Quellen und Modellgrenzen"]
   end
   u1 --> u2
   u1 --> u3
@@ -241,6 +257,18 @@ flowchart TD
   u34 --> u55
   u54 --> u56
   u30 --> u56
+  u45 --> u57
+  u57 --> u58
+  u47 --> u59
+  u48 --> u60
+  u59 --> u60
+  u53 --> u61
+  u48 --> u61
+  u61 --> u62
+  u42 --> u63
+  u51 --> u63
+  u53 --> u63
+  u53 --> u64
 ```
 
 ## Grundlagen · `fundament`
@@ -887,6 +915,11 @@ flowchart TD
     s145["Durchführung und Reprise unterscheiden"]
     s146["Formbehauptungen belegen"]
   end
+  subgraph level5["Stufe 5"]
+    s181["Formverläufe begründet lesen: Begriffe und Modell"]
+    s182["Formverläufe begründet lesen: Beispiele untersuchen"]
+    s183["Formverläufe begründet lesen: Anwenden und Grenzen begründen"]
+  end
   s5["Stammtöne von e¹ bis f² im Violinschlüssel lesen · anderer Bereich"]
   s21["Kurze Rhythmen mit Viertelnoten, Achtelnoten und Pausen lesen · anderer Bereich"]
   s137["Neue Tonika mit Kadenz begründen · anderer Bereich"]
@@ -901,6 +934,9 @@ flowchart TD
   s137 -.-> s144
   s144 --> s145
   s145 --> s146
+  s146 --> s181
+  s181 --> s182
+  s182 --> s183
 ```
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
@@ -914,6 +950,9 @@ flowchart TD
 | 4 · Sonatenform als Modell | Exposition einordnen | `forms.l4.sonata.s1` | Place an exposition | `forms.l3.designs.s3`, `harmony.l4.applied.s3` | entwurf |
 | 4 · Sonatenform als Modell | Durchführung und Reprise unterscheiden | `forms.l4.sonata.s2` | Distinguish development and recapitulation | `forms.l4.sonata.s1` | entwurf |
 | 4 · Sonatenform als Modell | Formbehauptungen belegen | `forms.l4.sonata.s3` | Support formal claims | `forms.l4.sonata.s2` | entwurf |
+| 5 · Formverläufe begründet lesen | Formverläufe begründet lesen: Begriffe und Modell | `forms.l5.structure.s1` | Reading formal processes: Terms and model | `forms.l4.sonata.s3` | entwurf |
+| 5 · Formverläufe begründet lesen | Formverläufe begründet lesen: Beispiele untersuchen | `forms.l5.structure.s2` | Reading formal processes: Investigate examples | `forms.l5.structure.s1` | entwurf |
+| 5 · Formverläufe begründet lesen | Formverläufe begründet lesen: Anwenden und Grenzen begründen | `forms.l5.structure.s3` | Reading formal processes: Apply and justify limits | `forms.l5.structure.s2` | entwurf |
 
 ## Instrumentenkunde · `area.instruments`
 
@@ -1060,10 +1099,20 @@ flowchart TD
     s148["Phrasen und Harmonik verbinden"]
     s149["Analyse am Notenbild belegen"]
   end
+  subgraph level5["Stufe 5"]
+    s184["Werkanalyse: Methode und Beleg: Begriffe und Modell"]
+    s185["Werkanalyse: Methode und Beleg: Beispiele untersuchen"]
+    s186["Werkanalyse: Methode und Beleg: Anwenden und Grenzen begründen"]
+  end
   s146["Formbehauptungen belegen · anderer Bereich"]
+  s183["Formverläufe begründet lesen: Anwenden und Grenzen begründen · anderer Bereich"]
   s146 -.-> s147
   s147 --> s148
   s148 --> s149
+  s149 --> s184
+  s183 -.-> s184
+  s184 --> s185
+  s185 --> s186
 ```
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
@@ -1071,6 +1120,9 @@ flowchart TD
 | 4 · Werkbezogene Analyse | Motivbeziehungen beschreiben | `analysis.l4.score.s1` | Describe motivic relations | `forms.l4.sonata.s3` | entwurf |
 | 4 · Werkbezogene Analyse | Phrasen und Harmonik verbinden | `analysis.l4.score.s2` | Relate phrases and harmony | `analysis.l4.score.s1` | entwurf |
 | 4 · Werkbezogene Analyse | Analyse am Notenbild belegen | `analysis.l4.score.s3` | Support analysis with score evidence | `analysis.l4.score.s2` | entwurf |
+| 5 · Werkanalyse: Methode und Beleg | Werkanalyse: Methode und Beleg: Begriffe und Modell | `analysis.l5.methods.s1` | Work analysis: method and evidence: Terms and model | `analysis.l4.score.s3`, `forms.l5.structure.s3` | entwurf |
+| 5 · Werkanalyse: Methode und Beleg | Werkanalyse: Methode und Beleg: Beispiele untersuchen | `analysis.l5.methods.s2` | Work analysis: method and evidence: Investigate examples | `analysis.l5.methods.s1` | entwurf |
+| 5 · Werkanalyse: Methode und Beleg | Werkanalyse: Methode und Beleg: Anwenden und Grenzen begründen | `analysis.l5.methods.s3` | Work analysis: method and evidence: Apply and justify limits | `analysis.l5.methods.s2` | entwurf |
 
 ## Akustik und Stimmungen · `area.acoustics`
 
@@ -1092,3 +1144,99 @@ flowchart TD
 | 4 · Akustik und Stimmungen | Obertonverhältnisse erklären | `acoustics.l4.tuning.s1` | Explain harmonic ratios | `interval.simple-qualities` | entwurf |
 | 4 · Akustik und Stimmungen | Reine und gleichstufige Quinten vergleichen | `acoustics.l4.tuning.s2` | Compare just and equal fifths | `acoustics.l4.tuning.s1` | entwurf |
 | 4 · Akustik und Stimmungen | Stimmungssysteme einordnen | `acoustics.l4.tuning.s3` | Contextualize tuning systems / Contextualise tuning systems | `acoustics.l4.tuning.s2` | entwurf |
+
+## Kontrapunkt · `area.counterpoint`
+
+```mermaid
+flowchart TD
+  subgraph level5["Stufe 5"]
+    s175["Gattungskontrapunkt: Grundlagen: Begriffe und Modell"]
+    s176["Gattungskontrapunkt: Grundlagen: Beispiele untersuchen"]
+    s177["Gattungskontrapunkt: Grundlagen: Anwenden und Grenzen begründen"]
+    s178["Imitation, Kanon und Fuge: Begriffe und Modell"]
+    s179["Imitation, Kanon und Fuge: Beispiele untersuchen"]
+    s180["Imitation, Kanon und Fuge: Anwenden und Grenzen begründen"]
+  end
+  s140["Stimmumfänge kontrollieren · anderer Bereich"]
+  s140 -.-> s175
+  s175 --> s176
+  s176 --> s177
+  s177 --> s178
+  s178 --> s179
+  s179 --> s180
+```
+
+| Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
+|---|---|---|---|---|---|
+| 5 · Gattungskontrapunkt: Grundlagen | Gattungskontrapunkt: Grundlagen: Begriffe und Modell | `counterpoint.l5.species.s1` | Species counterpoint: foundations: Terms and model | `satz.l4.voice-leading.s3` | entwurf |
+| 5 · Gattungskontrapunkt: Grundlagen | Gattungskontrapunkt: Grundlagen: Beispiele untersuchen | `counterpoint.l5.species.s2` | Species counterpoint: foundations: Investigate examples | `counterpoint.l5.species.s1` | entwurf |
+| 5 · Gattungskontrapunkt: Grundlagen | Gattungskontrapunkt: Grundlagen: Anwenden und Grenzen begründen | `counterpoint.l5.species.s3` | Species counterpoint: foundations: Apply and justify limits | `counterpoint.l5.species.s2` | entwurf |
+| 5 · Imitation, Kanon und Fuge | Imitation, Kanon und Fuge: Begriffe und Modell | `counterpoint.l5.imitation.s1` | Imitation, canon and fugue: Terms and model | `counterpoint.l5.species.s3` | entwurf |
+| 5 · Imitation, Kanon und Fuge | Imitation, Kanon und Fuge: Beispiele untersuchen | `counterpoint.l5.imitation.s2` | Imitation, canon and fugue: Investigate examples | `counterpoint.l5.imitation.s1` | entwurf |
+| 5 · Imitation, Kanon und Fuge | Imitation, Kanon und Fuge: Anwenden und Grenzen begründen | `counterpoint.l5.imitation.s3` | Imitation, canon and fugue: Apply and justify limits | `counterpoint.l5.imitation.s2` | entwurf |
+
+## Musik des 20. und 21. Jahrhunderts · `area.contemporary`
+
+```mermaid
+flowchart TD
+  subgraph level5["Stufe 5"]
+    s187["Zwölftonreihen und Operationen: Begriffe und Modell"]
+    s188["Zwölftonreihen und Operationen: Beispiele untersuchen"]
+    s189["Zwölftonreihen und Operationen: Anwenden und Grenzen begründen"]
+    s190["Tonklassenmengen und Intervalle: Begriffe und Modell"]
+    s191["Tonklassenmengen und Intervalle: Beispiele untersuchen"]
+    s192["Tonklassenmengen und Intervalle: Anwenden und Grenzen begründen"]
+    s193["Prozesse, Medien und Klangmodelle: Begriffe und Modell"]
+    s194["Prozesse, Medien und Klangmodelle: Beispiele untersuchen"]
+    s195["Prozesse, Medien und Klangmodelle: Anwenden und Grenzen begründen"]
+  end
+  s164["Unsicherheit aus Quellen benennen · anderer Bereich"]
+  s149["Analyse am Notenbild belegen · anderer Bereich"]
+  s131["Akzentgruppen vergleichen · anderer Bereich"]
+  s158["Stimmungssysteme einordnen · anderer Bereich"]
+  s164 -.-> s187
+  s149 -.-> s187
+  s187 --> s188
+  s188 --> s189
+  s189 --> s190
+  s190 --> s191
+  s191 --> s192
+  s131 -.-> s193
+  s158 -.-> s193
+  s164 -.-> s193
+  s193 --> s194
+  s194 --> s195
+```
+
+| Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
+|---|---|---|---|---|---|
+| 5 · Zwölftonreihen und Operationen | Zwölftonreihen und Operationen: Begriffe und Modell | `contemporary.l5.serial.s1` | Twelve-tone rows and operations: Terms and model | `history.l4.survey.s3`, `analysis.l4.score.s3` | entwurf |
+| 5 · Zwölftonreihen und Operationen | Zwölftonreihen und Operationen: Beispiele untersuchen | `contemporary.l5.serial.s2` | Twelve-tone rows and operations: Investigate examples | `contemporary.l5.serial.s1` | entwurf |
+| 5 · Zwölftonreihen und Operationen | Zwölftonreihen und Operationen: Anwenden und Grenzen begründen | `contemporary.l5.serial.s3` | Twelve-tone rows and operations: Apply and justify limits | `contemporary.l5.serial.s2` | entwurf |
+| 5 · Tonklassenmengen und Intervalle | Tonklassenmengen und Intervalle: Begriffe und Modell | `contemporary.l5.sets.s1` | Pitch-class sets and intervals: Terms and model | `contemporary.l5.serial.s3` | entwurf |
+| 5 · Tonklassenmengen und Intervalle | Tonklassenmengen und Intervalle: Beispiele untersuchen | `contemporary.l5.sets.s2` | Pitch-class sets and intervals: Investigate examples | `contemporary.l5.sets.s1` | entwurf |
+| 5 · Tonklassenmengen und Intervalle | Tonklassenmengen und Intervalle: Anwenden und Grenzen begründen | `contemporary.l5.sets.s3` | Pitch-class sets and intervals: Apply and justify limits | `contemporary.l5.sets.s2` | entwurf |
+| 5 · Prozesse, Medien und Klangmodelle | Prozesse, Medien und Klangmodelle: Begriffe und Modell | `contemporary.l5.process.s1` | Processes, media and sound models: Terms and model | `rhythm.l4.complex.s3`, `acoustics.l4.tuning.s3`, `history.l4.survey.s3` | entwurf |
+| 5 · Prozesse, Medien und Klangmodelle | Prozesse, Medien und Klangmodelle: Beispiele untersuchen | `contemporary.l5.process.s2` | Processes, media and sound models: Investigate examples | `contemporary.l5.process.s1` | entwurf |
+| 5 · Prozesse, Medien und Klangmodelle | Prozesse, Medien und Klangmodelle: Anwenden und Grenzen begründen | `contemporary.l5.process.s3` | Processes, media and sound models: Apply and justify limits | `contemporary.l5.process.s2` | entwurf |
+
+## Musik anderer Kulturen · `area.world`
+
+```mermaid
+flowchart TD
+  subgraph level5["Stufe 5"]
+    s196["Musikkulturen: Quellen und Modellgrenzen: Begriffe und Modell"]
+    s197["Musikkulturen: Quellen und Modellgrenzen: Beispiele untersuchen"]
+    s198["Musikkulturen: Quellen und Modellgrenzen: Anwenden und Grenzen begründen"]
+  end
+  s164["Unsicherheit aus Quellen benennen · anderer Bereich"]
+  s164 -.-> s196
+  s196 --> s197
+  s197 --> s198
+```
+
+| Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
+|---|---|---|---|---|---|
+| 5 · Musikkulturen: Quellen und Modellgrenzen | Musikkulturen: Quellen und Modellgrenzen: Begriffe und Modell | `world.l5.context.s1` | Musical cultures: sources and model limits: Terms and model | `history.l4.survey.s3` | entwurf |
+| 5 · Musikkulturen: Quellen und Modellgrenzen | Musikkulturen: Quellen und Modellgrenzen: Beispiele untersuchen | `world.l5.context.s2` | Musical cultures: sources and model limits: Investigate examples | `world.l5.context.s1` | entwurf |
+| 5 · Musikkulturen: Quellen und Modellgrenzen | Musikkulturen: Quellen und Modellgrenzen: Anwenden und Grenzen begründen | `world.l5.context.s3` | Musical cultures: sources and model limits: Apply and justify limits | `world.l5.context.s2` | entwurf |

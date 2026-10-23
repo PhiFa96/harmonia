@@ -84,8 +84,8 @@ describe('Vollständige interne Stufe 1', () => {
     expect(
       catalogue.knowledgeArticles.filter((a) => a.skillIds.some((id) => firstSkills.has(id))),
     ).toHaveLength(13);
-    expect(catalogue.contentVersion).toBe(20);
-    expect(curriculumPlan.contentVersion).toBe(20);
+    expect(catalogue.contentVersion).toBe(21);
+    expect(curriculumPlan.contentVersion).toBe(21);
     expect(publicCatalogue(catalogue)).toMatchObject({
       lessons: [],
       knowledgeCards: [],

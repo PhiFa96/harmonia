@@ -21,6 +21,21 @@ const environmentHash = createHash('sha256')
 config.cacheVersion = `harmonia-content-${variant}-${environmentHash}`;
 const resolveRequest = config.resolver.resolveRequest;
 config.resolver.resolveRequest = (context, moduleName, platform) => {
+  if (
+    published &&
+    moduleName === './level-five-exercise.json' &&
+    context.originModulePath.startsWith(
+      resolve(__dirname, '../../packages/i18n/src/messages') + '/',
+    )
+  ) {
+    return {
+      type: 'sourceFile',
+      filePath: resolve(
+        __dirname,
+        '../../packages/i18n/src/messages/level-five-exercise-published.json',
+      ),
+    };
+  }
   if (moduleName === '@harmonia/content/authoring' && published) {
     throw new Error(
       'Interne Inhaltsdaten dürfen nicht in einen Produktions-Build importiert werden.',
