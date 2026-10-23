@@ -62,7 +62,18 @@ try {
         .replaceAll('__VERSION__', '1.3')
         .replaceAll('MODULE_PATHNAME', 'pgtap'),
     );
+    // Supabase's postgres is not a superuser. Reproduce its CREATEROLE boundary
+    // locally so an implicit superuser SET ROLE privilege cannot hide CI errors.
+    await client.query(`drop schema school_draft cascade;
+      drop role harmonia_school_actor;
+      create role harmonia_school_setup nologin nosuperuser createrole;
+      grant create on database school_draft to harmonia_school_setup;
+      set local role harmonia_school_setup`);
+    await client.query(await readFile(new URL('./schema.sql', import.meta.url), 'utf8'));
   }
+  // PostgreSQL 16+ grants a role creator ADMIN but not necessarily SET permission.
+  // This test-only membership, schema and fixture data all roll back together.
+  await client.query('grant harmonia_school_actor to current_user with inherit false, set true');
   await seedSchoolFixtures(client);
   const results = await client.query(
     await readFile(new URL('./access.test.sql', import.meta.url), 'utf8'),
