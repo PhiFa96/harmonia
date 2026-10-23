@@ -77,7 +77,7 @@ select ok(replace_knowledge_index('preview',repeat('4',64),21,2,jsonb_build_arra
   knowledge_coverage_entry(repeat('6',64),'test.heading.article','de','Reine Quarte und reine Quinte','Eine reine Quarte hat fünf Halbtöne, eine reine Quinte sieben.'),
   knowledge_coverage_entry(repeat('7',64),'test.coverage.article','en-US','Rondo as a formal hypothesis','Repeated returns of a refrain between contrasting episodes can support a rondo interpretation. A–B–A–C–A is one possible scheme, not sufficient identification of a historical work. Check extent, cadences, keys and the function of each return.'),
   knowledge_coverage_entry(repeat('8',64),'test.heading.article','en-US','Historical context','Historical interpretation requires dated sources and specific works.')
-))),'Install original multi-concept search fixtures');
+)),'Install original multi-concept search fixtures');
 select is(search_knowledge('preview',repeat('4',64),'de','Warum zählt die reine Quarte über dem tiefsten Ton hier nicht als Konsonanz?')->'hits'->0->>'id',repeat('5',64),'Full question coverage outranks a partial German heading');
 select is(search_knowledge('preview',repeat('4',64),'en-US','Is the pattern A–B–A–C–A enough to identify a historical work as a rondo?')->'hits'->0->>'id',repeat('7',64),'Full question coverage outranks a partial English heading');
 reset role;
