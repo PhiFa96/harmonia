@@ -46,6 +46,7 @@ Dieser Plan beschreibt, wie wir Harmonia Schritt für Schritt bauen: vom leeren 
 | [Stufe 3 als interner Entwurf P3.15](stufe-3-vollstaendig.md) | Zwölf Einheiten mit Formen, Instrumenten, Jazz/Pop, Geschichte und 360 Aufgaben; getrennte fachliche Freigabe offen |
 | [Stufe 4 als interner Entwurf P3.16](stufe-4-vollstaendig.md) | 13 Einheiten mit Studienvorbereitung und 390 Aufgaben; getrennte fachliche Freigabe offen |
 | [Prüfungsmodus P3.17](pruefungsmodus.md) | Zwei interne Vorlagen mit Theorie/Gehörbildung, Zeitlimit, Punkten und Lernpfad-Empfehlungen; fachliche Abnahme offen |
+| [Organisationen und Klassen P4.13 – interner Entwurf](schule-dashboard-entwurf.md) | Lokales Lehrer-Dashboard, Codes, klassenbezogene Lernstandfreigaben und PostgreSQL-RLS mit synthetischen Konten; Rechts-/Produktfreigabe offen |
 | [Tutor-Lernplaner P3.18](tutor-lernplaner.md) | Servergeprüfte Lernübersicht, kurze Wochenvorschläge und separater Stufe-3/4-Testkatalog; fachliche Abnahme offen |
 | [Wissensbasis v2 P3.19](wissensbasis-v2.md) | 25 Entwurfsartikel für Stufen 3–4, erweiterte Quellensuche und 150 Suchfragen; fachliche Abnahme offen |
 | [Rückblick Phase 3](phase-3-rueckblick.md) | Technischer Übergabestand, offene Freigaben und angepasste Startbedingungen für Phase 4 |

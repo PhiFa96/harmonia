@@ -183,6 +183,8 @@
 
 ### P4.13 – Organisationen, Klassen, Lehrer-Dashboard
 
+**Interne technische Vorarbeit auf Nutzerauftrag (23.10.2026), vor der formalen Phase-4-Freigabe:** [Lokaler Schul-Dashboard-Entwurf](schule-dashboard-entwurf.md) mit Organisationen, Rollen, Klassen, befristeten Einladungscodes, Klassen-/Einzelübersichten und widerrufbarer klassenbezogener Freigabe. Echte PostgreSQL-RLS, pgTAP, HTTP- und DE/EN-Browserprüfungen; ausschließlich synthetische Konten und Lerndaten. Die Dashboard-Basis aus P4.01 wird nur für diesen lokalen Entwurf durch eine eigene Werkstatt ersetzt. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt. Keine Veröffentlichung, produktive Authentifizierung oder Schulabnahme. P4.17, AVV/Schulrecht, echte Lernnachweise und Pilotbetrieb bleiben offen; die Produkt-Checkliste bleibt unverändert offen.
+
 - **Ziel:** Lehrkräfte arbeiten mit ihren Klassen.
 - **Abhängig von:** P4.01 (Dashboard-Basis)
 - **Umfang:** XL
