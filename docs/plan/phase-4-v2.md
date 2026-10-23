@@ -236,6 +236,8 @@
 
 ### P4.18 – Zertifikate
 
+**Interne technische Vorarbeit auf ausdrücklichen Nutzerauftrag (23.10.2026), vor der formalen Phase-4-Freigabe:** [Lokaler Zertifikats-Prototyp](zertifikate-entwurf.md) mit zwei Testprofilen, servergeprüfter Auswertung, ungültigem Muster-PDF und interner Codeprüfung einschließlich Widerruf. DE/EN, SQLite-Wiederaufnahme und Tests. P4.17, feste fachlich freigegebene Prüfungsinhalte, verbindliche Bestehensregeln und Zahlungsberechtigung bleiben Voraussetzungen eines Produktangebots. Keine Veröffentlichung, keine gültigen Zertifikate. Die folgenden Produkt-Abnahmefelder bleiben offen. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
+
 - **Ziel:** Bezahlte, verifizierbare Abschlussprüfungen je Stufe.
 - **Abhängig von:** P3.17, P4.17
 - **Umfang:** L

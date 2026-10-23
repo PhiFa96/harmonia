@@ -7,6 +7,7 @@ import { publicCatalogue, textAt, textKeys, COLLECTIONS } from '../packages/cont
 import { contentMessages } from '../packages/i18n/src/authoring-content-messages.ts';
 import { RESOURCES } from '../packages/i18n/src/index.ts';
 import historyDraft from '../packages/i18n/src/history-journey-draft.json' with { type: 'json' };
+import { CERTIFICATE_DRAFT_MESSAGES } from '../packages/i18n/src/certificate-draft.ts';
 
 const directory = resolve(process.argv[2] ?? 'apps/mobile/dist');
 const published = publicCatalogue(catalogue);
@@ -26,6 +27,10 @@ while (resources.length > 0) {
 for (const content of Object.values(contentMessages))
   for (const key of allowedKeys) allowedTexts.add(textAt({ content }, key));
 const forbidden = new Map();
+for (const id of ['certificate-draft-1', 'certificate-draft-2']) forbidden.set(id, `P4.18 ${id}`);
+for (const [locale, messages] of Object.entries(CERTIFICATE_DRAFT_MESSAGES))
+  for (const key of ['title', 'intro', 'policy', 'pdfTitle'])
+    forbidden.set(messages[key], `P4.18 ${locale}.${key}`);
 for (const collection of COLLECTIONS)
   for (const record of catalogue[collection])
     if (record.status !== 'freigegeben') forbidden.set(record.id, record.id);

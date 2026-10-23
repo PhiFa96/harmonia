@@ -121,7 +121,8 @@ jobs:
   web:
     name: Web-Build der App
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # Chromium installation took ten minutes in run 210; retain time for the complete suite.
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
 
@@ -147,6 +148,9 @@ jobs:
       - name: Lokale Satzwerkstatt mit eigenen Entwürfen prüfen
         run: pnpm voice-leading:test:web
 
+      - name: Internen Zertifikats-Prototyp mit eigenem lokalem Server prüfen
+        run: pnpm certificates:test:web
+
       - name: Privaten Beta-Zugang und Testhinweise mit eigenen Fixtures prüfen
         env:
           HARMONIA_QA_OUTPUT: artifacts/quality/beta-playwright
@@ -158,6 +162,15 @@ jobs:
         with:
           name: web-quality-fixtures
           path: artifacts/quality/playwright
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: Synthetische Zertifikatsprüfungen und Muster-PDFs aufbewahren
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: certificate-draft-fixtures
+          path: artifacts/quality/certificates
           if-no-files-found: ignore
           retention-days: 7
 
