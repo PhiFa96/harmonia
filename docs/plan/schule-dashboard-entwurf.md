@@ -55,7 +55,7 @@ Lokaler Nachweis am 23.10.2026: **39/39 pgTAP-Prüfungen**, **12/12 Server-/Werk
 
 ## Nächste technische Schritte und offene Produktabnahmen
 
-- P4.14 ergänzt auf einem Folgebranch die Klassenrechte und Mitgliedschaften um [Aufgaben zusammenstellen, zuweisen, bearbeiten und auswerten](schulaufgaben-entwurf.md). Diese Erweiterung verwendet tatsächlich im synthetischen Probelauf bewertete Antworten; der allgemeine P4.13-Lernstandbericht bleibt auf seinen Fixtures. Live-Quiz und Schullizenz sind noch nicht implementiert.
+- P4.14 ergänzt auf einem Folgebranch die Klassenrechte und Mitgliedschaften um [Aufgaben zusammenstellen, zuweisen, bearbeiten und auswerten](schulaufgaben-entwurf.md). Diese Erweiterung verwendet tatsächlich im synthetischen Probelauf bewertete Antworten; der allgemeine P4.13-Lernstandbericht bleibt auf seinen Fixtures. [P4.15 ergänzt auf einem weiteren Folgebranch ein internes Live-Quiz](klassen-live-quiz-entwurf.md); die Schullizenz ist noch nicht implementiert.
 - Vor echten Daten: P4.17, Rechtsgrundlage je Schulkontext/Land, Verantwortlichkeiten/AVV, Identitäts- und Rollenprüfung, Minderjährigenkonzept, Vertrag, Datenschutzinformation und genehmigte Löschfristen.
 - Vor Betrieb: produktive Migration/Auth-Bindung, verifizierte Lernnachweise statt Fixtures, Kontenexport/-löschung, Audit-/Betriebskonzept und reale Pilotabnahme. Keine der vorhandenen Simulationen ersetzt diese Prüfungen.
 

@@ -74,6 +74,7 @@ export async function createSchoolDatabase() {
     if (!ready) throw new Error('Local PostgreSQL did not start');
     await pool.query(await readFile(new URL('./schema.sql', import.meta.url), 'utf8'));
     await pool.query(await readFile(new URL('./assignments.sql', import.meta.url), 'utf8'));
+    await pool.query(await readFile(new URL('./quiz.sql', import.meta.url), 'utf8'));
     return { pool, close };
   } catch (error) {
     await close();

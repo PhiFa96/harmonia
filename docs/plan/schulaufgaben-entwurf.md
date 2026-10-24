@@ -71,6 +71,6 @@ Die bestehenden CI-Jobs führen die erweiterten Server-, Datenbank- und Browserb
 
 ## Übergabe
 
-Als nächstes technisches Paket folgt **P4.15 – Klassen-Live-Quiz**. Dafür stehen Klassenrechte und Aufgabenquellen als interne Grundlage bereit; der geforderte Test mit 30 echten gleichzeitigen Geräten bleibt eine eigene Abnahme. Schul-Lizenz/P4.16 und KI-Verordnungsprüfung/P4.17 sind nicht durch diesen Aufgabenentwurf erledigt.
+**P4.15 – Klassen-Live-Quiz** ist inzwischen auf einem [Folgebranch als interner Entwurf](klassen-live-quiz-entwurf.md) implementiert. Dafür stehen Klassenrechte und Aufgabenquellen als interne Grundlage bereit; der geforderte Test mit 30 echten gleichzeitigen Geräten bleibt eine eigene Abnahme. Schul-Lizenz/P4.16 und KI-Verordnungsprüfung/P4.17 sind nicht durch diesen Aufgabenentwurf erledigt.
 
 Architektur: [ADR 0041](../decisions/0041-klassenaufgaben-mit-eingefrorenen-durchgaengen.md). Datenkategorien und offene Rechts-/AVV-Punkte: [Datenschutzentwurf P4.13/P4.14](../quality/p4-13-datenschutz-entwurf.md).

@@ -1,3 +1,4 @@
+import { QUIZ_MESSAGES } from '../packages/i18n/src/school-quiz.ts';
 // Prüft den tatsächlichen Produktions-Export, einschließlich escapeter JavaScript-Strings.
 import { readdirSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -28,6 +29,10 @@ while (resources.length > 0) {
 for (const content of Object.values(contentMessages))
   for (const key of allowedKeys) allowedTexts.add(textAt({ content }, key));
 const forbidden = new Map();
+forbidden.set('quiz_material', 'P4.15 private quiz material');
+for (const [locale, messages] of Object.entries(QUIZ_MESSAGES))
+  for (const key of ['entry', 'intro', 'codeInfo', 'projectorNote'])
+    forbidden.set(messages[key], `P4.15 ${locale}.${key}`);
 forbidden.set('assignment_material', 'P4.14 private material');
 for (const [locale, messages] of Object.entries(ASSIGNMENT_MESSAGES))
   for (const key of ['assignments', 'intro', 'draftPolicy', 'shareNote'])

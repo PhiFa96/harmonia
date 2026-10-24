@@ -47,6 +47,7 @@ test.beforeEach(async () => {
 });
 async function selectAnswer(page, answer) {
   const radios = page.locator('input[name=assignment-answer]');
+  await expect(radios.first()).toBeVisible();
   const index = await radios.evaluateAll(
     (nodes, answer) => nodes.findIndex((n) => n.value === answer),
     answer,

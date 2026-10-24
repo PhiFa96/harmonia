@@ -1,3 +1,5 @@
+import { createQuizUi } from './quiz-browser.ts';
+import { QUIZ_MESSAGES, quizText, type QuizTextKey } from '../../packages/i18n/src/school-quiz.ts';
 import { schoolText, type SchoolTextKey } from '../../packages/i18n/src/school-draft.ts';
 import type { AppLocale } from '../../packages/i18n/src/locale.ts';
 import type { ClassReport, Evidence, SchoolClass, SchoolState } from './protocol.ts';
@@ -24,6 +26,8 @@ error.setAttribute('role', 'alert');
 const status = document.createElement('p');
 status.setAttribute('role', 'status');
 const content = document.createElement('div');
+content.dataset['schoolContent'] = 'true';
+const quizUi = createQuizUi({ root: content, api, guard, refresh });
 const assignmentUi = createAssignmentUi({ root: content, api, guard, refresh });
 const languages = document.createElement('select'),
   accounts = document.createElement('select');
@@ -115,14 +119,17 @@ async function guard(action: () => void | Promise<void>) {
   } catch (reason) {
     // Never retain a cached report after a failed authorization or refresh.
     const message = reason instanceof Error ? reason.message : 'error';
-    if (selected || assignmentUi.clearOnError(message)) content.replaceChildren();
-    error.textContent = Object.hasOwn(ASSIGNMENT_MESSAGES.de, message)
-      ? assignmentText(locale, message as AssignmentTextKey)
-      : t(
-          message === 'invalid' || message === 'invalidCode' || message === 'forbidden'
-            ? message
-            : 'error',
-        );
+    if (quizUi.active()) quizUi.onError(message);
+    else if (selected || assignmentUi.clearOnError(message)) content.replaceChildren();
+    error.textContent = Object.hasOwn(QUIZ_MESSAGES.de, message)
+      ? quizText(locale, message as QuizTextKey)
+      : Object.hasOwn(ASSIGNMENT_MESSAGES.de, message)
+        ? assignmentText(locale, message as AssignmentTextKey)
+        : t(
+            message === 'invalid' || message === 'invalidCode' || message === 'forbidden'
+              ? message
+              : 'error',
+          );
   } finally {
     busy = false;
     languages.disabled = false;
@@ -130,6 +137,7 @@ async function guard(action: () => void | Promise<void>) {
     content.removeAttribute('aria-busy');
     for (const node of content.querySelectorAll('button')) node.disabled = false;
     assignmentUi.controls();
+    quizUi.controls();
   }
 }
 function headingFocus() {
@@ -157,6 +165,7 @@ function shell() {
       button('refresh', refresh),
       button('overview', async () => {
         assignmentUi.reset();
+        quizUi.reset();
         selected = '';
         learner = '';
         await refresh();
@@ -273,11 +282,22 @@ function classCard(c: SchoolClass) {
     entry.addEventListener('click', () => {
       void guard(async () => {
         selected = '';
+        quizUi.reset();
         assignmentUi.openClass(c.id);
         await refresh();
       });
     });
-    section.append(entry);
+    const quizEntry = el('button', quizText(locale, 'entry'));
+    quizEntry.type = 'button';
+    quizEntry.addEventListener('click', () => {
+      void guard(async () => {
+        selected = '';
+        assignmentUi.reset();
+        quizUi.openClass(c.id);
+        await refresh();
+      });
+    });
+    section.append(entry, quizEntry);
   }
   if (c.teaches)
     section.append(
@@ -412,9 +432,18 @@ function report(result: ClassReport) {
   }
 }
 async function refresh() {
-  if (selected || assignmentUi.active()) content.replaceChildren();
+  quizUi.stop();
+  if (selected || assignmentUi.active() || quizUi.active()) content.replaceChildren();
   state = await api<SchoolState>('/api/state');
   shell();
+  if (quizUi.active()) {
+    await quizUi.render(state, locale);
+    if (document.hidden) {
+      quizUi.stop();
+      content.replaceChildren();
+    }
+    return;
+  }
   if (assignmentUi.active()) {
     await assignmentUi.render(state, locale);
     if (document.hidden) {
@@ -444,6 +473,7 @@ languages.addEventListener('change', () => {
 accounts.addEventListener('change', () => {
   void guard(async () => {
     const next = accounts.value;
+    quizUi.stop();
     selected = '';
     learner = '';
     content.replaceChildren();
@@ -453,8 +483,9 @@ accounts.addEventListener('change', () => {
 });
 // Clear report DOM when hidden. On return, retrieve authorization and data again.
 document.addEventListener('visibilitychange', () => {
-  if (document.hidden && (selected || assignmentUi.active())) {
+  if (document.hidden && (selected || assignmentUi.active() || quizUi.active())) {
     assignmentUi.stop();
+    quizUi.stop();
     content.replaceChildren();
   } else if (!document.hidden) void guard(refresh);
 });
@@ -463,6 +494,7 @@ window.setInterval(() => {
 }, 10000);
 window.addEventListener('pagehide', () => {
   assignmentUi.stop();
+  quizUi.stop();
 });
 shell();
 void guard(refresh);

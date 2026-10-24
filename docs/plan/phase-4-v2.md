@@ -208,6 +208,8 @@
 
 ### P4.15 – Klassen-Live-Quiz
 
+**Interne technische Vorarbeit auf Nutzerauftrag (24.10.2026), vor der formalen Phase-4-Freigabe:** [Lokaler Live-Quiz-Entwurf](klassen-live-quiz-entwurf.md) mit Lobbycode, Beameransicht, synchronisierten Runden, serverseitiger Bewertung, freiwilliger Rangliste mit Spielkürzeln und freigabegebundener Endauswertung in DE/en-US/en-GB. Aufbau auf P4.13/P4.14, ausschließlich synthetische Konten und Entwurfsquellen. Ein Lasttest prüft 30 gleichzeitige HTTP-/SSE-Clients; **die verlangte Abnahme mit 30 echten Geräten ist weiterhin offen**. Keine Veröffentlichung oder produktive Authentifizierung. Fachprüfung, P4.17, Schulrecht/AVV und Pilot bleiben offen; die Produkt-Checkliste ist deshalb nicht abgenommen. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
+
 - **Ziel:** Gemeinsames Quiz im Unterricht.
 - **Abhängig von:** P4.13
 - **Umfang:** L
