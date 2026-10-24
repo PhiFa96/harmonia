@@ -1,3 +1,4 @@
+import { aiActReleaseProblems } from '../ai-act/model.mjs';
 import { readFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { legalReleaseMissing } from '../../apps/mobile/src/legal/readiness.ts';
@@ -125,7 +126,10 @@ export function actualBetaProblems(
   for (const key of ['brand', 'domain', ...(native ? ['currentStoreRequirements'] : [])])
     if (!approved(website.approvals[key])) websiteMissing.push('approvals.' + key);
   return betaStartProblems(readiness, platform, {
-    legal: legalReleaseMissing(read('../../apps/mobile/legal-readiness.json')),
+    legal: [
+      ...legalReleaseMissing(read('../../apps/mobile/legal-readiness.json')),
+      ...aiActReleaseProblems().map((p) => 'aiAct.' + p),
+    ],
     device: missingDeviceEvidence(read('../qa/device-readiness.json')),
     website: websiteMissing,
     runtime: runtimeProblems({ native, betaBuild }),

@@ -73,3 +73,5 @@ Die Produktions-Bundle-Wache prüft zusätzliche P4.16-Merkmale. Standardüberse
 Vor echtem Verkauf bleiben insbesondere Vertrags-/Preis- und Steuerprüfung, Rechnungsanforderungen, zulässige Schulbedingungen, produktive Zahlungsbestätigung, echte Identitäten, sichere Betreiberbindung, P4.17, AVV/Schulrecht und Pilotbetrieb offen. **Die Produktbedingung „Eine Pilotschule ist eingerichtet“ ist nicht erfüllt.** Der lokale Testablauf setzt keine dieser Abnahmen auf erledigt.
 
 Architektur: [ADR 0043](../decisions/0043-schullizenz-mit-getrennter-betreiberfreigabe.md). Datenkategorien: [Datenschutzentwurf Schule](../quality/p4-13-datenschutz-entwurf.md).
+
+Folgeschritt: [P4.17 ist als technische Prüfvorbereitung implementiert](ki-verordnung-pruefvorbereitung.md). Unabhängige Rechtsprüfung und alle formalen Schul-/Lizenzabnahmen bleiben offen.

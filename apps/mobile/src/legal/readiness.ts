@@ -38,6 +38,7 @@ export function legalReleaseMissing(input: LegalReadiness) {
     'consentReview',
     'taxReview',
     'licensesReview',
+    'aiActReview',
   ])
     if (!input.approvals[key]?.approved || !input.approvals[key].evidenceReference)
       missing.push('approvals.' + key);

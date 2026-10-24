@@ -39,8 +39,12 @@
 
 **KI-Verordnung (EU AI Act)**
 
-- [ ] **Transparenzpflicht (Art. 50)** gilt seit 02.08.2026: Nutzer klar informieren, dass sie mit einer KI interagieren; KI-generierte Audio- und Bildinhalte kennzeichnen.
-- [ ] Einordnung prüfen: Hochrisiko-Bereich Bildung (Anhang III Nr. 3), z. B. KI-Systeme zur Bewertung von Lernergebnissen in Bildungseinrichtungen. Geltungsfristen und mögliche Änderungen sind gegen die aktuelle amtliche konsolidierte Fassung zu prüfen; eine zuvor genannte „Digital-Omnibus“-Verschiebung ist hier nicht verifiziert. Unsere Architektur (Bewertung durch deterministische Engine, KI nur erklärend) ist hier hilfreich. Die Einordnung muss trotzdem rechtlich geprüft werden, besonders vor Schul-Lizenzen und Zertifikaten (Phase 4).
+- [ ] **Transparenz nach Art. 50:** KI-Interaktionshinweis, maschinenlesbare Markierung synthetischer Ausgaben und Offenlegung bestimmter Inhalte je Rolle, Medium und Ausnahmen prüfen. Der allgemeine Geltungsbeginn ist der 02.08.2026; ein UI-Hinweis allein belegt nicht alle Pflichten.
+- [ ] **Einordnung Bildung/Profiling:** Anhang III Nr. 3 umfasst unter anderem Lernergebnisbewertung und darauf gestützte Lernsteuerung in Bildungseinrichtungen. KI-Definition, Profiling und Voraussetzungen einer Ausnahme nach Art. 6(3) schriftlich prüfen. Die Trennung von Engine-Bewertung und KI-Erklärung erteilt keine pauschale Niedrigrisiko-Einstufung.
+- [ ] **KI-Kompetenzmaßnahmen nach geändertem Art. 4:** Rollenbezogene Unterstützung der Kompetenzentwicklung dokumentieren und prüfen lassen.
+- [ ] **Aktueller Rechtsstand:** Amtlicher AI Act Explorer und Kommissionsmitteilung am 24.10.2026 gelesen: für die bezeichneten Hochrisiko-Regeln nach Anhang III gilt 02.12.2027, nach Anhang I 02.08.2028. Die frühere unbestätigte Omnibus-Angabe wird durch diese dokumentierten Quellen ersetzt. Direkter konsolidierter EUR-Lex-Text und unabhängige Einschätzung bleiben offen. [Voreinschätzung mit amtlichen Belegen](../legal/ai-act/vorpruefung.md).
+
+[P4.17-Prüfvorbereitung](ki-verordnung-pruefvorbereitung.md) und `pnpm check:ai:release` prüfen Nachweise, Scope und Code-/Zweckbindung. Alle rechtlichen Abnahmen bleiben offen; keine Frist und kein grüner Testlauf schaltet Schule oder Zertifikate frei.
 
 **App Stores**
 

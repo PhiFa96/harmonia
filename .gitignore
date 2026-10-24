@@ -40,3 +40,6 @@ coverage/
 /playwright-report/
 /test-results/
 .claude/worktrees/
+
+# Internal AI Act evidence packs; never public app output
+/artifacts/ai-act/

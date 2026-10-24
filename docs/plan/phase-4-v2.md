@@ -234,6 +234,8 @@
 
 ### P4.17 – Prüfung der KI-Verordnung
 
+**Technische Prüfvorbereitung auf Nutzerauftrag (24.10.2026), vor der formalen Phase-4-Freigabe:** [Quellenbezogene Voreinschätzung](../legal/ai-act/vorpruefung.md) und [programmierte Übergabe](ki-verordnung-pruefvorbereitung.md) mit neun Funktionsbereichen, acht Maßnahmenpaketen, DE/EN-Prüfberichten, Code-/Zweckbindung und getrennten Freigabeprüfungen für allgemeines Produkt, Schule und Zertifikate. Aktuelle amtliche Explorer-/Kommissionsquellen bestätigen die Friständerung und benennen insbesondere Lernsteuerung/Profiling als Prüfpunkte. Der direkte konsolidierte EUR-Lex-Abruf und die unabhängige schriftliche Rechtsprüfung bleiben offen. Alle juristischen Häkchen bleiben unerledigt; keine Rechts-, Schul- oder Veröffentlichungsfreigabe. P4.01 bleibt bis F14 und Rechtsklärung zurückgestellt.
+
 - **Ziel:** Rechtssichere Einordnung vor Schule und Zertifikaten.
 - **Abhängig von:** –
 - **Umfang:** M

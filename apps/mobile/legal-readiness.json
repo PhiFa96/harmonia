@@ -91,6 +91,10 @@
     "licensesReview": {
       "approved": false,
       "evidenceReference": null
+    },
+    "aiActReview": {
+      "approved": false,
+      "evidenceReference": null
     }
   }
 }

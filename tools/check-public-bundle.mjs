@@ -1,3 +1,4 @@
+import { AI_REVIEW_MESSAGES } from '../packages/i18n/src/ai-act-review.ts';
 import { LICENSE_MESSAGES } from '../packages/i18n/src/school-license.ts';
 import { QUIZ_MESSAGES } from '../packages/i18n/src/school-quiz.ts';
 // Prüft den tatsächlichen Produktions-Export, einschließlich escapeter JavaScript-Strings.
@@ -30,6 +31,13 @@ while (resources.length > 0) {
 for (const content of Object.values(contentMessages))
   for (const key of allowedKeys) allowedTexts.add(textAt({ content }, key));
 const forbidden = new Map();
+forbidden.set(
+  'official-explorer-2026-07-27; direct-eur-lex-pending',
+  'P4.17 internal legal inventory',
+);
+for (const [locale, messages] of Object.entries(AI_REVIEW_MESSAGES))
+  for (const key of ['title', 'draft', 'intro', 'limit'])
+    forbidden.set(messages[key], `P4.17 ${locale}.${key}`);
 forbidden.set('license_invoices', 'P4.16 private invoices');
 for (const [locale, messages] of Object.entries(LICENSE_MESSAGES))
   for (const key of ['entry', 'intro', 'invoiceNote', 'practiceInfo'])
