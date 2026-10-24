@@ -183,6 +183,8 @@
 
 ### P4.13 – Organisationen, Klassen, Lehrer-Dashboard
 
+**Interne technische Vorarbeit auf Nutzerauftrag (23.10.2026), vor der formalen Phase-4-Freigabe:** [Lokaler Schul-Dashboard-Entwurf](schule-dashboard-entwurf.md) mit Organisationen, Rollen, Klassen, befristeten Einladungscodes, Klassen-/Einzelübersichten und widerrufbarer klassenbezogener Freigabe. Echte PostgreSQL-RLS, pgTAP, HTTP- und DE/EN-Browserprüfungen; ausschließlich synthetische Konten und Lerndaten. Die Dashboard-Basis aus P4.01 wird nur für diesen lokalen Entwurf durch eine eigene Werkstatt ersetzt. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt. Keine Veröffentlichung, produktive Authentifizierung oder Schulabnahme. P4.17, AVV/Schulrecht, echte Lernnachweise und Pilotbetrieb bleiben offen; die Produkt-Checkliste bleibt unverändert offen.
+
 - **Ziel:** Lehrkräfte arbeiten mit ihren Klassen.
 - **Abhängig von:** P4.01 (Dashboard-Basis)
 - **Umfang:** XL
@@ -193,6 +195,8 @@
 - **Fertig, wenn:** pgTAP-Tests belegen, dass Lehrkräfte nur ihre Klassen sehen.
 
 ### P4.14 – Aufgaben zuweisen
+
+**Interne technische Vorarbeit auf Nutzerauftrag (24.10.2026), vor der formalen Phase-4-Freigabe:** [Klassenaufgaben-Entwurf](schulaufgaben-entwurf.md) auf der lokalen P4.13-Werkstatt: Lektionen/Übungsbausteine zusammenstellen, Empfänger und Aufgaben einfrieren, Fälligkeit, geschützter lokaler Link, Bearbeitung/Wiederaufnahme, serverseitige Engine-Bewertung und widerrufbar freigegebene Auswertung in DE/en-US/en-GB. Ausschließlich synthetische Konten; echte PostgreSQL-RLS-, HTTP- und Browserprüfungen. P4.13 ist die technische PR-Abhängigkeit. Quellen bleiben Entwurf bis zur unabhängigen Fachprüfung; keine Veröffentlichung. Die Produkt-Checkliste bleibt bis zu den Fach-, Rechts-, Identitäts- und Pilotabnahmen offen. P4.01 bleibt bis F14 und Klärung der rechtlichen Voraussetzungen zurückgestellt.
 
 - **Ziel:** Hausaufgaben für Klassen.
 - **Abhängig von:** P4.13
