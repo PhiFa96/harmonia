@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { startupFailureKinds } from './local-backend-diagnostics.mjs';
+import { startupFailureKinds, startupMigrationDetails } from './local-backend-diagnostics.mjs';
 test('startup classifications reveal no log data or credentials', () => {
   const secret = 'synthetic-sensitive-fixture',
     email = 'person@example.test';
@@ -14,6 +14,22 @@ test('startup classifications reveal no log data or credentials', () => {
   assert.deepEqual(report, ['registry_rate_limit', 'migration_failed']);
   assert.ok(!JSON.stringify(report).includes(secret));
   assert.ok(!JSON.stringify(report).includes(email));
+});
+test('migration diagnostics whitelist project filenames and SQLSTATE without copying private errors', () => {
+  const detail = startupMigrationDetails(
+    'Applying migration 20261020020000_knowledge_search_v2.sql...\n' +
+      'ERROR: synthetic-sensitive-fixture person@example.test (SQLSTATE 42P01)\n' +
+      'Applying migration private-secret.sql...\nSQLSTATE: 42P01\nSQLSTATE=23505',
+    ['20261020020000_knowledge_search_v2.sql'],
+  );
+  assert.deepEqual(detail, {
+    migration: '20261020020000_knowledge_search_v2.sql',
+    states: ['42P01', '23505'],
+  });
+  assert.deepEqual(startupMigrationDetails('arbitrary private output', []), {
+    migration: null,
+    states: [],
+  });
 });
 test('unknown startup failures stay unknown and template failures remain diagnosable', () => {
   assert.deepEqual(startupFailureKinds('unrecognized private error'), [
