@@ -1,6 +1,6 @@
-# P4.13 – Technische Datenschutzanlage zur späteren Rechts-/AVV-Prüfung
+# P4.13/P4.14 – Technische Datenschutzanlage zur späteren Rechts-/AVV-Prüfung
 
-Stand 23.10.2026 · **Entwurf, ausschließlich synthetische Vorschau. Kein unterschriftsreifer AVV und keine Rechtsfreigabe.**
+Stand 24.10.2026 · **Entwurf, ausschließlich synthetische Vorschau. Kein unterschriftsreifer AVV und keine Rechtsfreigabe.**
 
 ## Implementierter Datenfluss
 
@@ -13,10 +13,14 @@ Browser → lokaler HTTP-Server → isoliertes PostgreSQL. Kein externer Versand
 | Pseudonym und Klassenmitgliedschaft | Roster und eigene Mitgliedschaften | Zugewiesene Lehrkräfte; Lernkonto sieht nur sich selbst | Verlassen, Entfernen, Klassenlöschung / Container |
 | Klassenbezogene Freigabe, Textversion, Zeit | Erprobung von Freigabe/Widerruf | Eigene Freigabeereignisse; aktueller Zustand bei berechtigter Lehrkraft | Mitgliedschaft oder Klasse löschen / Container |
 | Synthetische Lernbereichs-Summen | Test von Übersicht und Einzelansicht | Eigene Person oder ausdrücklich freigegebene Klasse; höchstens letzte 30 Tage | Container; keine echten Lernnachweise gespeichert |
+| Aufgabentitel, Quellen, konkrete Fragen, Frist und Empfängerliste | Eingefrorene lokale Klassenaufgabe | Metadaten für zugewiesene Lehrkräfte und jeweilige Empfänger; vollständiges Material nur im Server | Aufgaben/Material bei Klassenlöschung oder Containerende; Empfänger bei Mitgliedschaftsende |
+| Antworten, Engine-Bewertung, Beginn und Abschluss | Lokale Bearbeitung, Wiederaufnahme und Auswertung | Rohantworten nur im Server; eigenes Ergebnis bzw. abgeschlossenes Ergebnis mit aktueller Klassenfreigabe für zugewiesene Lehrkräfte | Mitgliedschaftsende oder Klassenlöschung kaskadierend; ansonsten Containerende |
 | Hash eines zufälligen Codes, Restnutzungen, Ablauf | Begrenzter Klassen-/Lehrerbeitritt | Keine Dashboard-Leseabfrage; Code nur einmal beim Erstellen | Klassenlöschung / Container; Widerruf/Ablauf sperren Nutzung |
 | Zufälliger Sitzungscookie | Lokale Trennung gleichzeitig geöffneter Demo-Konten | HttpOnly, SameSite Strict, nur lokaler Server | Browser-Sitzung bzw. Serverende |
 
 Die Klassenfreigabe ist standardmäßig aus. Sie darf nicht mit der Mitgliedschaft, einem Kauf oder einer pauschalen Zustimmung gekoppelt werden. Ihre technische Erprobung entscheidet nicht, ob Einwilligung im tatsächlichen Schulkontext die passende Rechtsgrundlage ist. Verwaltung erbt keinen Lernstandzugriff; eine ausdrückliche Klassenzuweisung ist erforderlich. Personenbezogene Freitexte, E-Mails, Geburtsdaten, Adressen, Sprachaufnahmen und Tutorverläufe sind nicht vorgesehen.
+
+P4.14 speichert tatsächlich eingegebene Übungsantworten ausschließlich unter synthetischen Testkonten. Diese Aufgabe kann ohne Lernstandfreigabe bearbeitet werden; die Lehrkraft erhält dann kein Ergebnis. Laufende Ergebnisse werden auch bei Freigabe nicht angezeigt, bis Abgabe, Fristablauf oder Beenden erfolgt. Der neue lokale Aufgabenlink enthält nur eine Kennung, keine Zugangsdaten und keine zusätzliche Berechtigung. Es erfolgt kein automatischer Versand. Verlassen/Entfernen löscht Antworten und Ergebnis der Mitgliedschaft; ein Wiederbeitritt stellt sie nicht wieder her. Anders als die 30-Tage-Begrenzung der P4.13-Fixtures besteht für Aufgaben keine zusätzliche zeitgesteuerte Aufbewahrung; der gesamte Vorschaucontainer ist flüchtig. Für echten Betrieb sind verbindliche Fristen und Löschverfahren weiterhin festzulegen.
 
 ## Vor einer AVV-/Produktfreigabe konkret auszufüllen und prüfen zu lassen
 

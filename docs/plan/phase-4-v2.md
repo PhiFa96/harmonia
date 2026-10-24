@@ -196,6 +196,8 @@
 
 ### P4.14 – Aufgaben zuweisen
 
+**Interne technische Vorarbeit auf Nutzerauftrag (24.10.2026), vor der formalen Phase-4-Freigabe:** [Klassenaufgaben-Entwurf](schulaufgaben-entwurf.md) auf der lokalen P4.13-Werkstatt: Lektionen/Übungsbausteine zusammenstellen, Empfänger und Aufgaben einfrieren, Fälligkeit, geschützter lokaler Link, Bearbeitung/Wiederaufnahme, serverseitige Engine-Bewertung und widerrufbar freigegebene Auswertung in DE/en-US/en-GB. Ausschließlich synthetische Konten; echte PostgreSQL-RLS-, HTTP- und Browserprüfungen. P4.13 ist die technische PR-Abhängigkeit. Quellen bleiben Entwurf bis zur unabhängigen Fachprüfung; keine Veröffentlichung. Die Produkt-Checkliste bleibt bis zu den Fach-, Rechts-, Identitäts- und Pilotabnahmen offen. P4.01 bleibt bis F14 und Klärung der rechtlichen Voraussetzungen zurückgestellt.
+
 - **Ziel:** Hausaufgaben für Klassen.
 - **Abhängig von:** P4.13
 - **Umfang:** M

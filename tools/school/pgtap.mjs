@@ -32,6 +32,7 @@ try {
   await client.query('begin');
   if (supabase) {
     await client.query(await readFile(new URL('./schema.sql', import.meta.url), 'utf8'));
+    await client.query(await readFile(new URL('./assignments.sql', import.meta.url), 'utf8'));
     await client.query(
       'create extension if not exists pgtap with schema extensions; grant usage on schema extensions to harmonia_school_actor; set local search_path=public,extensions',
     );
@@ -66,17 +67,22 @@ try {
     // locally so an implicit superuser SET ROLE privilege cannot hide CI errors.
     await client.query(`drop schema school_draft cascade;
       drop role harmonia_school_actor;
+      drop role harmonia_school_grader;
       create role harmonia_school_setup nologin nosuperuser createrole;
       grant create on database school_draft to harmonia_school_setup;
       set local role harmonia_school_setup`);
     await client.query(await readFile(new URL('./schema.sql', import.meta.url), 'utf8'));
+    await client.query(await readFile(new URL('./assignments.sql', import.meta.url), 'utf8'));
   }
   // PostgreSQL 16+ grants a role creator ADMIN but not necessarily SET permission.
   // This test-only membership, schema and fixture data all roll back together.
   await client.query('grant harmonia_school_actor to current_user with inherit false, set true');
+  await client.query('grant harmonia_school_grader to current_user with inherit false, set true');
   await seedSchoolFixtures(client);
   const results = await client.query(
-    await readFile(new URL('./access.test.sql', import.meta.url), 'utf8'),
+    (await readFile(new URL('./access.test.sql', import.meta.url), 'utf8')) +
+      (await readFile(new URL('./assignment-access.test.sql', import.meta.url), 'utf8')) +
+      '\nselect * from finish();',
   );
   const lines = results
     .flatMap((r) => r.rows.flatMap((row) => Object.values(row)))

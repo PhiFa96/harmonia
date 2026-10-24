@@ -8,6 +8,7 @@ import { contentMessages } from '../packages/i18n/src/authoring-content-messages
 import { RESOURCES } from '../packages/i18n/src/index.ts';
 import historyDraft from '../packages/i18n/src/history-journey-draft.json' with { type: 'json' };
 import { SCHOOL_DRAFT_MESSAGES } from '../packages/i18n/src/school-draft.ts';
+import { ASSIGNMENT_MESSAGES } from '../packages/i18n/src/school-assignments.ts';
 
 const directory = resolve(process.argv[2] ?? 'apps/mobile/dist');
 const published = publicCatalogue(catalogue);
@@ -27,6 +28,10 @@ while (resources.length > 0) {
 for (const content of Object.values(contentMessages))
   for (const key of allowedKeys) allowedTexts.add(textAt({ content }, key));
 const forbidden = new Map();
+forbidden.set('assignment_material', 'P4.14 private material');
+for (const [locale, messages] of Object.entries(ASSIGNMENT_MESSAGES))
+  for (const key of ['assignments', 'intro', 'draftPolicy', 'shareNote'])
+    forbidden.set(messages[key], `P4.14 ${locale}.${key}`);
 forbidden.set('school_draft', 'P4.13 local schema');
 for (const [locale, messages] of Object.entries(SCHOOL_DRAFT_MESSAGES))
   for (const key of ['title', 'draft', 'intro', 'privacy'])

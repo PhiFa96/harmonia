@@ -64,4 +64,3 @@ select set_config('school_draft.actor','00000000-0000-4000-8000-000000000002',tr
 select is((select count(*)::int from school_draft.classes),0,'Removed teacher loses class access');
 select is((select count(*)::int from school_draft.class_members),0,'Removed teacher loses roster access');
 reset role;
-select * from finish();

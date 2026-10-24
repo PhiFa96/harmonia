@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import { createAssignmentService } from './assignment-service.mjs';
 import { createServer } from 'node:http';
 import { randomBytes } from 'node:crypto';
 import { resolve } from 'node:path';
@@ -8,14 +10,19 @@ import { createSchoolDatabase, seedSchoolFixtures, FIXTURE_ACTORS } from './data
 import { createSchoolService, SchoolError } from './service.mjs';
 
 const c = COLORS.light;
+const bravura = new URL(
+  '../../packages/notation/node_modules/@vexflow-fonts/bravura/bravura.woff2',
+  import.meta.url,
+);
 const html = `<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Harmonia</title><style>
-*{box-sizing:border-box}body{margin:0;background:${c.background};color:${c.text};font:16px/1.6 system-ui,sans-serif}main{max-width:1050px;margin:auto;padding:${SPACE.l}px}h1,h2,h3{line-height:1.3}section,article{margin:${SPACE.m}px 0;padding:${SPACE.m}px;border:1px solid ${c.border};border-radius:${RADIUS.control}px;background:${c.surface}}button,input,select{font:inherit;color:inherit;background:${c.surface};border:1px solid ${c.borderStrong};border-radius:${RADIUS.control}px;padding:${SPACE.s}px;min-height:48px;max-width:100%}input{width:100%}button{cursor:pointer}button:disabled{opacity:.65;cursor:wait}label{display:block;margin:${SPACE.s}px 0}.actions{display:flex;flex-wrap:wrap;gap:${SPACE.s}px;margin:${SPACE.s}px 0}.draft{background:${c.accent};color:${c.onAccent};padding:${SPACE.m}px;font-weight:700}.note{color:${c.textMuted}}p,code{overflow-wrap:anywhere}:focus-visible{outline:3px solid ${c.primary};outline-offset:3px}[role=alert]:not(:empty){padding:${SPACE.s}px;border:2px solid ${c.danger}}@media(max-width:500px){main{padding:${SPACE.m}px}}
+@font-face{font-family:Bravura;src:url('/bravura.woff2') format('woff2');font-display:swap}.score{overflow:auto;max-width:100%}.score svg{display:block}fieldset{border:0;padding:0}input[type=radio]{width:auto;min-height:0}*{box-sizing:border-box}body{margin:0;background:${c.background};color:${c.text};font:16px/1.6 system-ui,sans-serif}main{max-width:1050px;margin:auto;padding:${SPACE.l}px}h1,h2,h3{line-height:1.3}section,article{margin:${SPACE.m}px 0;padding:${SPACE.m}px;border:1px solid ${c.border};border-radius:${RADIUS.control}px;background:${c.surface}}button,input,select{font:inherit;color:inherit;background:${c.surface};border:1px solid ${c.borderStrong};border-radius:${RADIUS.control}px;padding:${SPACE.s}px;min-height:48px;max-width:100%}input{width:100%}button{cursor:pointer}button:disabled{opacity:.65;cursor:wait}label{display:block;margin:${SPACE.s}px 0}.actions{display:flex;flex-wrap:wrap;gap:${SPACE.s}px;margin:${SPACE.s}px 0}.draft{background:${c.accent};color:${c.onAccent};padding:${SPACE.m}px;font-weight:700}.note{color:${c.textMuted}}p,code{overflow-wrap:anywhere}:focus-visible{outline:3px solid ${c.primary};outline-offset:3px}[role=alert]:not(:empty){padding:${SPACE.s}px;border:2px solid ${c.danger}}@media(max-width:500px){main{padding:${SPACE.m}px}}
 </style></head><body><main></main><script src="/app.js" defer></script></body></html>`;
 
 export async function createSchoolServer({ pool, port = 0 } = {}) {
   if (!pool) throw new Error('An isolated school fixture database is required');
   const service = createSchoolService(pool),
     sessions = new Map();
+  const assignments = createAssignmentService(pool);
   const bundle = await build({
     entryPoints: [new URL('./browser.ts', import.meta.url).pathname],
     absWorkingDir: new URL('../..', import.meta.url).pathname,
@@ -34,7 +41,7 @@ export async function createSchoolServer({ pool, port = 0 } = {}) {
     res.setHeader('Cross-Origin-Resource-Policy', 'same-origin');
     res.setHeader(
       'Content-Security-Policy',
-      "default-src 'none'; script-src 'self'; style-src 'unsafe-inline'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'",
+      "default-src 'none'; script-src 'self'; style-src 'unsafe-inline'; connect-src 'self'; font-src 'self'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'",
     );
     const send = (status, value, type = 'application/json; charset=utf-8') => {
       res.writeHead(status, { 'Content-Type': type });
@@ -62,6 +69,8 @@ export async function createSchoolServer({ pool, port = 0 } = {}) {
       }
       if (req.method === 'GET' && url.pathname === '/app.js')
         return send(200, bundle.outputFiles[0].text, 'text/javascript; charset=utf-8');
+      if (req.method === 'GET' && url.pathname === '/bravura.woff2')
+        return send(200, readFileSync(bravura), 'font/woff2');
       if (!session) throw new SchoolError('forbidden', 401);
       // Capture this request's actor before awaiting anything or changing a demo session.
       const actor = session.actor;
@@ -92,6 +101,11 @@ export async function createSchoolServer({ pool, port = 0 } = {}) {
         session.actor = next;
         return send(200, { ok: true });
       }
+      if (url.pathname.startsWith('/api/assignment-'))
+        return send(
+          200,
+          await assignments.call(actor.id, url.pathname.slice('/api/assignment-'.length), body),
+        );
       if (!url.pathname.startsWith('/api/')) throw new SchoolError('forbidden', 404);
       return send(200, await service.act(actor.id, url.pathname.slice(5), body));
     } catch (error) {

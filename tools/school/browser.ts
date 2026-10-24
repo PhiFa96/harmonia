@@ -2,6 +2,12 @@ import { schoolText, type SchoolTextKey } from '../../packages/i18n/src/school-d
 import type { AppLocale } from '../../packages/i18n/src/locale.ts';
 import type { ClassReport, Evidence, SchoolClass, SchoolState } from './protocol.ts';
 import { summarizeClass } from './report.ts';
+import { createAssignmentUi } from './assignment-browser.ts';
+import {
+  ASSIGNMENT_MESSAGES,
+  assignmentText,
+  type AssignmentTextKey,
+} from '../../packages/i18n/src/school-assignments.ts';
 
 const root = document.querySelector('main');
 if (!root) throw new Error('Missing dashboard root');
@@ -18,6 +24,7 @@ error.setAttribute('role', 'alert');
 const status = document.createElement('p');
 status.setAttribute('role', 'status');
 const content = document.createElement('div');
+const assignmentUi = createAssignmentUi({ root: content, api, guard, refresh });
 const languages = document.createElement('select'),
   accounts = document.createElement('select');
 let fieldId = 0;
@@ -107,19 +114,22 @@ async function guard(action: () => void | Promise<void>) {
     await action();
   } catch (reason) {
     // Never retain a cached report after a failed authorization or refresh.
-    if (selected) content.replaceChildren();
     const message = reason instanceof Error ? reason.message : 'error';
-    error.textContent = t(
-      message === 'invalid' || message === 'invalidCode' || message === 'forbidden'
-        ? message
-        : 'error',
-    );
+    if (selected || assignmentUi.clearOnError(message)) content.replaceChildren();
+    error.textContent = Object.hasOwn(ASSIGNMENT_MESSAGES.de, message)
+      ? assignmentText(locale, message as AssignmentTextKey)
+      : t(
+          message === 'invalid' || message === 'invalidCode' || message === 'forbidden'
+            ? message
+            : 'error',
+        );
   } finally {
     busy = false;
     languages.disabled = false;
     accounts.disabled = false;
     content.removeAttribute('aria-busy');
     for (const node of content.querySelectorAll('button')) node.disabled = false;
+    assignmentUi.controls();
   }
 }
 function headingFocus() {
@@ -146,6 +156,7 @@ function shell() {
     actions(
       button('refresh', refresh),
       button('overview', async () => {
+        assignmentUi.reset();
         selected = '';
         learner = '';
         await refresh();
@@ -256,6 +267,18 @@ function classCard(c: SchoolClass) {
   const org = state.organizations.find((o) => o.id === c.org_id),
     membership = state.memberships.find((m) => m.class_id === c.id);
   if (c.archived) section.append(el('p', t('archived')));
+  if (!c.archived && (c.teaches || membership)) {
+    const entry = el('button', assignmentText(locale, 'assignments'));
+    entry.type = 'button';
+    entry.addEventListener('click', () => {
+      void guard(async () => {
+        selected = '';
+        assignmentUi.openClass(c.id);
+        await refresh();
+      });
+    });
+    section.append(entry);
+  }
   if (c.teaches)
     section.append(
       button('view', async () => {
@@ -389,9 +412,17 @@ function report(result: ClassReport) {
   }
 }
 async function refresh() {
-  if (selected) content.replaceChildren();
+  if (selected || assignmentUi.active()) content.replaceChildren();
   state = await api<SchoolState>('/api/state');
   shell();
+  if (assignmentUi.active()) {
+    await assignmentUi.render(state, locale);
+    if (document.hidden) {
+      assignmentUi.stop();
+      content.replaceChildren();
+    }
+    return;
+  }
   if (selected) {
     if (!state.classes.some((c) => c.id === selected && c.teaches)) {
       selected = '';
@@ -422,11 +453,16 @@ accounts.addEventListener('change', () => {
 });
 // Clear report DOM when hidden. On return, retrieve authorization and data again.
 document.addEventListener('visibilitychange', () => {
-  if (document.hidden && selected) content.replaceChildren();
-  else if (!document.hidden) void guard(refresh);
+  if (document.hidden && (selected || assignmentUi.active())) {
+    assignmentUi.stop();
+    content.replaceChildren();
+  } else if (!document.hidden) void guard(refresh);
 });
 window.setInterval(() => {
-  if (selected && !document.hidden && !busy) void guard(refresh);
+  if ((selected || assignmentUi.polling()) && !document.hidden && !busy) void guard(refresh);
 }, 10000);
+window.addEventListener('pagehide', () => {
+  assignmentUi.stop();
+});
 shell();
 void guard(refresh);
