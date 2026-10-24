@@ -205,6 +205,35 @@ test('early submission and teacher closure are final, without exposing unfinishe
   assert.equal(late.result.answered, 0);
   assert.equal((await call('teacherA', 'report', { id: second })).summary.submitted, 1);
 });
+test('start rechecks database time when the loaded clock snapshot predates the deadline', async () => {
+  const f = await fixture(),
+    id = await assign(f.first);
+  await db.pool.query(
+    "update school_draft.assignments set created_at=now()-interval '2 hours',due_at=now()-interval '1 hour' where id=$1",
+    [id],
+  );
+  // Model a pause after loading metadata, without sleeps or changing PostgreSQL's clock.
+  // Only the already-loaded timestamp is stale; every write uses the real database.
+  const delayed = createAssignmentService({
+    async connect() {
+      const client = await db.pool.connect();
+      return {
+        release: () => client.release(),
+        async query(sql, params) {
+          const result = await client.query(sql, params);
+          if (sql.includes('as server_now'))
+            result.rows[0].server_now = new Date(result.rows[0].due_at.getTime() - 1);
+          return result;
+        },
+      };
+    },
+  });
+  assert.equal((await delayed.call(ids.learnerA, 'start', { id, locale: 'de' })).phase, 'expired');
+  assert.equal(
+    (await db.pool.query('select count(*)::int n from school_draft.assignment_attempts')).rows[0].n,
+    0,
+  );
+});
 test('client fields, scores, timestamps, grader role and raw materials cannot be injected or read', async () => {
   const f = await fixture(),
     id = await assign(f.first);

@@ -61,11 +61,11 @@ corepack pnpm typecheck
 corepack pnpm format:check
 ```
 
-Lokale PostgreSQL-/pgTAP-Prüfungen laufen einschließlich Schemaaufbau unter einer Rolle ohne Superuserrechte. Abgedeckt sind Rechte und zusammengesetzte Fremdschlüssel, private Lösungen/Rohantworten, laufende versus abgeschlossene Ergebnisse, Freigabe/Widerruf und kaskadierende Löschung. Die Serverprüfungen ergänzen parallele Wiederholungen, Reload, tatsächliche Fälligkeit, vorzeitige Abgabe, Lehrerabschluss, Rechteentzug, manipuliertes Material und Erzeugungs-Rollback.
+Lokale PostgreSQL-/pgTAP-Prüfungen laufen einschließlich Schemaaufbau unter einer Rolle ohne Superuserrechte. Abgedeckt sind Rechte und zusammengesetzte Fremdschlüssel, private Lösungen/Rohantworten, laufende versus abgeschlossene Ergebnisse, Freigabe/Widerruf und kaskadierende Löschung. Die Serverprüfungen ergänzen parallele Wiederholungen, Reload, tatsächliche Fälligkeit einschließlich eines während des Starts veralteten Zeit-Snapshots, vorzeitige Abgabe, Lehrerabschluss, Rechteentzug, manipuliertes Material und Erzeugungs-Rollback.
 
 Browserproben verwenden den echten HTTP-Server und PostgreSQL: Lektion und Hörbaustein zusammenstellen, Link öffnen, Antworten speichern, Reload, Klangwiedergabe, Auswertung und Freigabe/Widerruf in allen drei Sprachen. Dazu kommen verlorene HTTP-Antworten, Fristablauf, fremde Konten, Axe und schmale Ansicht sowie die bisherigen P4.13-Abläufe. Sie ersetzen keine realen Audio-/Gerätetests oder Schulabnahme.
 
-Lokaler Nachweis am 24.10.2026: **65/65 pgTAP-Prüfungen**, **27/27 Server-/Werkzeugtests**, **8/8 Chromium-Abläufe** sowie vollständiger Lint, Typcheck und Formatprüfung erfolgreich.
+Lokaler Nachweis am 24.10.2026: **65/65 pgTAP-Prüfungen**, **28/28 Server-/Werkzeugtests**, **8/8 Chromium-Abläufe** sowie vollständiger Lint, Typcheck und Formatprüfung erfolgreich. Produktions-Webexport und Bundle-Wache bestanden: fünf JavaScript-Dateien ohne unveröffentlichte Inhalte.
 
 Die bestehenden CI-Jobs führen die erweiterten Server-, Datenbank- und Browserbefehle aus. Die öffentliche Webausgabe wird zusätzlich auf Entwurfsbestandteile geprüft. Lokale Ergebnisse und GitHub-CI-Status werden im PR getrennt angegeben; eine grüne technische Prüfung ist keine formale Phase-4- oder Fachfreigabe.
 

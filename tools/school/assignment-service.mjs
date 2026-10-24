@@ -283,9 +283,10 @@ export function createAssignmentService(pool) {
           if (a.server_now.getTime() >= deadline(a)) return view(db, a);
           await material(db, a);
           await db.query(
-            'insert into school_draft.assignment_attempts(assignment_id,class_id,actor_id) values($1,$2,school_draft.actor())',
-            [a.id, a.class_id],
+            'insert into school_draft.assignment_attempts(assignment_id,class_id,actor_id) select $1,$2,school_draft.actor() where clock_timestamp()<$3',
+            [a.id, a.class_id, a.due_at],
           );
+          a.server_now = (await db.query('select clock_timestamp() as now')).rows[0].now;
         }
         if (action === 'finish' && row && !row.finished_at) {
           await db.query(

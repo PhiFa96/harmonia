@@ -2,7 +2,7 @@ import type { AppLocale } from './locale.ts';
 const de = {
   assignments: 'Klassenaufgaben · Entwurf',
   intro:
-    'Eigene Entwurfsaufgaben unter synthetischen Testkonten bearbeiten. Ergebnisse werden durch die bestehende Engine geprüft; keine Noten, XP oder Zertifikate.',
+    'Eigene Entwurfsaufgaben unter synthetischen Testkonten bearbeiten. Antworten werden automatisch geprüft; keine Noten, XP oder Zertifikate.',
   create: 'Aufgabe zuweisen',
   title: 'Titel der Aufgabe',
   due: 'Fällig am (Zeitzone dieses Browsers)',
@@ -72,7 +72,7 @@ const de = {
 const en: Record<keyof typeof de, string> = {
   assignments: 'Class assignments · draft',
   intro:
-    'Work through original draft exercises with synthetic test accounts. The existing engine checks answers; no grades, XP or certificates.',
+    'Work through original draft exercises with synthetic test accounts. Answers are checked automatically; no grades, XP or certificates.',
   create: 'Assign task',
   title: 'Assignment title',
   due: 'Due at (this browser’s time zone)',
