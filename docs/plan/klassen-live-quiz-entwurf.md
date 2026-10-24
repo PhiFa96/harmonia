@@ -60,6 +60,6 @@ Lokaler Nachweis am 24.10.2026: **88/88 pgTAP-Prüfungen**, **40/40 Server-/Werk
 
 ## Nächster Schritt
 
-Im Plan folgt **P4.16 – Schul-Lizenz**. Ein nächster interner technischer Entwurf kann Plätze, Laufzeiten und Freischaltungen mit Testdaten erproben. Reale Verträge, Rechnungen/Zahlungen und eine eingerichtete Pilotschule benötigen ihre offenen rechtlichen und betrieblichen Voraussetzungen; P4.17 bleibt eine gesonderte Prüfung.
+**P4.16 – Schul-Lizenz** ist inzwischen auf einem [Folgebranch als interner Entwurf](schul-lizenz-entwurf.md) implementiert: Rechnungsproben, Plätze, Laufzeiten und Premium-Übungen mit Testdaten. Reale Verträge, Rechnungen/Zahlungen und eine eingerichtete Pilotschule benötigen ihre offenen rechtlichen und betrieblichen Voraussetzungen; P4.17 bleibt eine gesonderte Prüfung.
 
 Architektur: [ADR 0042](../decisions/0042-klassenquiz-mit-autorisierten-live-ansichten.md). Datenkategorien: [Datenschutzentwurf Schule](../quality/p4-13-datenschutz-entwurf.md).

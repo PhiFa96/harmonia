@@ -49,6 +49,7 @@ Dieser Plan beschreibt, wie wir Harmonia Schritt für Schritt bauen: vom leeren 
 | [Organisationen und Klassen P4.13 – interner Entwurf](schule-dashboard-entwurf.md) | Lokales Lehrer-Dashboard, Codes, klassenbezogene Lernstandfreigaben und PostgreSQL-RLS mit synthetischen Konten; Rechts-/Produktfreigabe offen |
 | [Klassenaufgaben P4.14 – interner Entwurf](schulaufgaben-entwurf.md) | Aufgaben zusammenstellen, einfrieren, zuweisen, bearbeiten und auswerten; lokaler Link, Fristen, Engine-Bewertung und getrennte Freigabe |
 | [Klassen-Live-Quiz P4.15 – interner Entwurf](klassen-live-quiz-entwurf.md) | Lobbycode, synchronisierte Runden, Beameransicht, freiwillige Rangliste und Auswertung; 30 simulierte Netzwerkclients, echte Geräteabnahme offen |
+| [Schullizenz P4.16 – interner Entwurf](schul-lizenz-entwurf.md) | Rechnungsproben, getrennte Betreiberfreigabe, Plätze/Laufzeiten und servergesperrte Premium-Übungen; Verkauf und Pilotschule offen |
 | [Tutor-Lernplaner P3.18](tutor-lernplaner.md) | Servergeprüfte Lernübersicht, kurze Wochenvorschläge und separater Stufe-3/4-Testkatalog; fachliche Abnahme offen |
 | [Wissensbasis v2 P3.19](wissensbasis-v2.md) | 25 Entwurfsartikel für Stufen 3–4, erweiterte Quellensuche und 150 Suchfragen; fachliche Abnahme offen |
 | [Rückblick Phase 3](phase-3-rueckblick.md) | Technischer Übergabestand, offene Freigaben und angepasste Startbedingungen für Phase 4 |

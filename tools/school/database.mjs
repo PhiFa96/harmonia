@@ -75,6 +75,7 @@ export async function createSchoolDatabase() {
     await pool.query(await readFile(new URL('./schema.sql', import.meta.url), 'utf8'));
     await pool.query(await readFile(new URL('./assignments.sql', import.meta.url), 'utf8'));
     await pool.query(await readFile(new URL('./quiz.sql', import.meta.url), 'utf8'));
+    await pool.query(await readFile(new URL('./licenses.sql', import.meta.url), 'utf8'));
     return { pool, close };
   } catch (error) {
     await close();
@@ -93,6 +94,7 @@ export const FIXTURE_ACTORS = [
   ['learnerA', 'learner'],
   ['learnerB', 'learner'],
   ['learnerC', 'learner'],
+  ['operator', 'staff'],
 ].map(([key, kind], index) => ({
   key,
   kind,

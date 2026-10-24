@@ -34,6 +34,7 @@ try {
     await client.query(await readFile(new URL('./schema.sql', import.meta.url), 'utf8'));
     await client.query(await readFile(new URL('./assignments.sql', import.meta.url), 'utf8'));
     await client.query(await readFile(new URL('./quiz.sql', import.meta.url), 'utf8'));
+    await client.query(await readFile(new URL('./licenses.sql', import.meta.url), 'utf8'));
     await client.query(
       'create extension if not exists pgtap with schema extensions; grant usage on schema extensions to harmonia_school_actor; set local search_path=public,extensions',
     );
@@ -75,6 +76,7 @@ try {
     await client.query(await readFile(new URL('./schema.sql', import.meta.url), 'utf8'));
     await client.query(await readFile(new URL('./assignments.sql', import.meta.url), 'utf8'));
     await client.query(await readFile(new URL('./quiz.sql', import.meta.url), 'utf8'));
+    await client.query(await readFile(new URL('./licenses.sql', import.meta.url), 'utf8'));
   }
   // PostgreSQL 16+ grants a role creator ADMIN but not necessarily SET permission.
   // This test-only membership, schema and fixture data all roll back together.
@@ -85,6 +87,7 @@ try {
     (await readFile(new URL('./access.test.sql', import.meta.url), 'utf8')) +
       (await readFile(new URL('./assignment-access.test.sql', import.meta.url), 'utf8')) +
       (await readFile(new URL('./quiz-access.test.sql', import.meta.url), 'utf8')) +
+      (await readFile(new URL('./license-access.test.sql', import.meta.url), 'utf8')) +
       '\nselect * from finish();',
   );
   const lines = results

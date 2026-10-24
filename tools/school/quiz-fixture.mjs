@@ -1,4 +1,4 @@
-// Test-only synthetic accounts. The regular preview retains its eight-account picker.
+// Test-only synthetic accounts. The regular preview uses synthetic accounts only.
 import { FIXTURE_ACTORS, seedSchoolFixtures } from './database.mjs';
 import { createSchoolService } from './service.mjs';
 export async function quizFixture(pool, count = 2) {
@@ -16,7 +16,7 @@ export async function quizFixture(pool, count = 2) {
   const actors = [...FIXTURE_ACTORS],
     learners = [];
   for (let i = 0; i < count; i++) {
-    let actor = FIXTURE_ACTORS[5 + i];
+    let actor = FIXTURE_ACTORS.filter((a) => a.kind === 'learner')[i];
     if (!actor) {
       actor = {
         id: `90000000-0000-4000-8000-${String(i).padStart(12, '0')}`,

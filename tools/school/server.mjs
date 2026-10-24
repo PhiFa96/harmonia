@@ -1,3 +1,4 @@
+import { createLicenseService } from './license-service.mjs';
 import { createQuizService } from './quiz-service.mjs';
 import { createQuizStreams } from './quiz-streams.mjs';
 import { readFileSync } from 'node:fs';
@@ -24,6 +25,7 @@ export async function createSchoolServer({ pool, port = 0, fixtureActors = FIXTU
   if (!pool) throw new Error('An isolated school fixture database is required');
   const service = createSchoolService(pool),
     sessions = new Map();
+  const licenses = createLicenseService(pool);
   const assignments = createAssignmentService(pool);
   const quiz = createQuizService(pool);
   const quizStreams = createQuizStreams(quiz);
@@ -117,6 +119,11 @@ export async function createSchoolServer({ pool, port = 0, fixtureActors = FIXTU
         quizStreams.wake();
         return send(200, { ok: true });
       }
+      if (url.pathname.startsWith('/api/license-'))
+        return send(
+          200,
+          await licenses.call(actor.id, url.pathname.slice('/api/license-'.length), body),
+        );
       if (url.pathname.startsWith('/api/quiz-')) {
         const result = await quiz.call(actor.id, url.pathname.slice('/api/quiz-'.length), body);
         quizStreams.wake();

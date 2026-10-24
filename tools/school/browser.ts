@@ -1,3 +1,9 @@
+import { createLicenseUi } from './license-browser.ts';
+import {
+  LICENSE_MESSAGES,
+  licenseText,
+  type LicenseTextKey,
+} from '../../packages/i18n/src/school-license.ts';
 import { createQuizUi } from './quiz-browser.ts';
 import { QUIZ_MESSAGES, quizText, type QuizTextKey } from '../../packages/i18n/src/school-quiz.ts';
 import { schoolText, type SchoolTextKey } from '../../packages/i18n/src/school-draft.ts';
@@ -27,6 +33,7 @@ const status = document.createElement('p');
 status.setAttribute('role', 'status');
 const content = document.createElement('div');
 content.dataset['schoolContent'] = 'true';
+const licenseUi = createLicenseUi({ root: content, api, guard, refresh });
 const quizUi = createQuizUi({ root: content, api, guard, refresh });
 const assignmentUi = createAssignmentUi({ root: content, api, guard, refresh });
 const languages = document.createElement('select'),
@@ -119,17 +126,20 @@ async function guard(action: () => void | Promise<void>) {
   } catch (reason) {
     // Never retain a cached report after a failed authorization or refresh.
     const message = reason instanceof Error ? reason.message : 'error';
-    if (quizUi.active()) quizUi.onError(message);
+    if (licenseUi.active()) licenseUi.onError(message);
+    else if (quizUi.active()) quizUi.onError(message);
     else if (selected || assignmentUi.clearOnError(message)) content.replaceChildren();
-    error.textContent = Object.hasOwn(QUIZ_MESSAGES.de, message)
-      ? quizText(locale, message as QuizTextKey)
-      : Object.hasOwn(ASSIGNMENT_MESSAGES.de, message)
-        ? assignmentText(locale, message as AssignmentTextKey)
-        : t(
-            message === 'invalid' || message === 'invalidCode' || message === 'forbidden'
-              ? message
-              : 'error',
-          );
+    error.textContent = Object.hasOwn(LICENSE_MESSAGES.de, message)
+      ? licenseText(locale, message as LicenseTextKey)
+      : Object.hasOwn(QUIZ_MESSAGES.de, message)
+        ? quizText(locale, message as QuizTextKey)
+        : Object.hasOwn(ASSIGNMENT_MESSAGES.de, message)
+          ? assignmentText(locale, message as AssignmentTextKey)
+          : t(
+              message === 'invalid' || message === 'invalidCode' || message === 'forbidden'
+                ? message
+                : 'error',
+            );
   } finally {
     busy = false;
     languages.disabled = false;
@@ -138,6 +148,7 @@ async function guard(action: () => void | Promise<void>) {
     for (const node of content.querySelectorAll('button')) node.disabled = false;
     assignmentUi.controls();
     quizUi.controls();
+    licenseUi.controls();
   }
 }
 function headingFocus() {
@@ -162,10 +173,25 @@ function shell() {
     label('language', languages),
     label('account', accounts),
     actions(
+      (() => {
+        const b = el('button', licenseText(locale, 'entry'));
+        b.type = 'button';
+        b.addEventListener('click', () => {
+          void guard(async () => {
+            selected = '';
+            assignmentUi.reset();
+            quizUi.reset();
+            licenseUi.open();
+            await refresh();
+          });
+        });
+        return b;
+      })(),
       button('refresh', refresh),
       button('overview', async () => {
         assignmentUi.reset();
         quizUi.reset();
+        licenseUi.reset();
         selected = '';
         learner = '';
         await refresh();
@@ -433,9 +459,19 @@ function report(result: ClassReport) {
 }
 async function refresh() {
   quizUi.stop();
-  if (selected || assignmentUi.active() || quizUi.active()) content.replaceChildren();
+  licenseUi.stop();
+  if (selected || assignmentUi.active() || quizUi.active() || licenseUi.active())
+    content.replaceChildren();
   state = await api<SchoolState>('/api/state');
   shell();
+  if (licenseUi.active()) {
+    await licenseUi.render(locale);
+    if (document.hidden) {
+      licenseUi.stop();
+      content.replaceChildren();
+    }
+    return;
+  }
   if (quizUi.active()) {
     await quizUi.render(state, locale);
     if (document.hidden) {
@@ -473,6 +509,8 @@ languages.addEventListener('change', () => {
 accounts.addEventListener('change', () => {
   void guard(async () => {
     const next = accounts.value;
+    licenseUi.stop();
+    licenseUi.resetPractice();
     quizUi.stop();
     selected = '';
     learner = '';
@@ -483,9 +521,13 @@ accounts.addEventListener('change', () => {
 });
 // Clear report DOM when hidden. On return, retrieve authorization and data again.
 document.addEventListener('visibilitychange', () => {
-  if (document.hidden && (selected || assignmentUi.active() || quizUi.active())) {
+  if (
+    document.hidden &&
+    (selected || assignmentUi.active() || quizUi.active() || licenseUi.active())
+  ) {
     assignmentUi.stop();
     quizUi.stop();
+    licenseUi.stop();
     content.replaceChildren();
   } else if (!document.hidden) void guard(refresh);
 });
@@ -493,6 +535,7 @@ window.setInterval(() => {
   if ((selected || assignmentUi.polling()) && !document.hidden && !busy) void guard(refresh);
 }, 10000);
 window.addEventListener('pagehide', () => {
+  licenseUi.stop();
   assignmentUi.stop();
   quizUi.stop();
 });

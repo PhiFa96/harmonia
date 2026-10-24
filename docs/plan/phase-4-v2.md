@@ -220,6 +220,8 @@
 
 ### P4.16 – Schul-Lizenz
 
+**Interne technische Vorarbeit auf Nutzerauftrag (24.10.2026), vor der formalen Phase-4-Freigabe:** [Lokaler Schullizenz-Entwurf](schul-lizenz-entwurf.md) mit Rechnungsproben, simuliertem Zahlungseingang über ein getrenntes synthetisches Betreiberkonto, Platzvergabe, Laufzeiten und widerrufbaren Premium-Übungen in DE/en-US/en-GB. Datenbankzeit, RLS, Sperren und Mitgliedschaftstrigger schützen Freischaltungen. Ausschließlich Testdaten; keine echte Rechnung, Zahlung oder produktive App-Freischaltung. Die Bedingung **„Eine Pilotschule ist eingerichtet“ bleibt offen**, ebenso P4.17, Schulrecht/AVV, Identität, Rechnungs-/Steuerprüfung und Fachabnahmen. Keine Veröffentlichung. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt; die Produkt-Checkliste ist nicht abgenommen.
+
 - **Ziel:** Verkauf an Organisationen.
 - **Abhängig von:** P4.13
 - **Umfang:** M

@@ -1,3 +1,4 @@
+import { LICENSE_MESSAGES } from '../packages/i18n/src/school-license.ts';
 import { QUIZ_MESSAGES } from '../packages/i18n/src/school-quiz.ts';
 // Prüft den tatsächlichen Produktions-Export, einschließlich escapeter JavaScript-Strings.
 import { readdirSync, readFileSync } from 'node:fs';
@@ -29,6 +30,10 @@ while (resources.length > 0) {
 for (const content of Object.values(contentMessages))
   for (const key of allowedKeys) allowedTexts.add(textAt({ content }, key));
 const forbidden = new Map();
+forbidden.set('license_invoices', 'P4.16 private invoices');
+for (const [locale, messages] of Object.entries(LICENSE_MESSAGES))
+  for (const key of ['entry', 'intro', 'invoiceNote', 'practiceInfo'])
+    forbidden.set(messages[key], `P4.16 ${locale}.${key}`);
 forbidden.set('quiz_material', 'P4.15 private quiz material');
 for (const [locale, messages] of Object.entries(QUIZ_MESSAGES))
   for (const key of ['entry', 'intro', 'codeInfo', 'projectorNote'])

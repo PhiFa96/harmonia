@@ -1,0 +1,32 @@
+-- Continue the common rollback-only pgTAP transaction.
+insert into school_draft.class_members(class_id,actor_id,alias) values ('20000000-0000-4000-8000-000000000001','00000000-0000-4000-8000-000000000006','License member');
+set local role harmonia_school_actor;
+select set_config('school_draft.actor','00000000-0000-4000-8000-000000000001',true);
+select throws_ok($$select school_draft.license_create('50000000-0000-4000-8000-000000000001','10000000-0000-4000-8000-000000000001',1,250,30,null)$$,'42501','forbidden','Organization cannot self-issue a paid licence');
+select ok(not has_function_privilege('public','school_draft.license_access()','execute'),'School grants are not public');
+select set_config('school_draft.actor','00000000-0000-4000-8000-000000000009',true);
+select lives_ok($$select school_draft.license_create('50000000-0000-4000-8000-000000000001','10000000-0000-4000-8000-000000000001',1,250,30,null)$$,'Only synthetic operator creates invoice');
+select is((select total_cents from school_draft.license_invoices),250,'Invoice amount is server computed in cents');
+select is((select count(*)::int from school_draft.classes),0,'Billing operator inherits no learning class access');
+select lives_ok($$select school_draft.license_transition('50000000-0000-4000-8000-000000000001','paid')$$,'Operator simulates payment');
+select set_config('school_draft.actor','00000000-0000-4000-8000-000000000001',true);
+select throws_ok($$select school_draft.license_transition('50000000-0000-4000-8000-000000000001','paid')$$,'42501','forbidden','School cannot confirm a payment');
+select throws_ok($$update school_draft.license_invoices set state='paid'$$,'42501',null,'No direct invoice state writes');
+select lives_ok($$select school_draft.license_assign('50000000-0000-4000-8000-000000000001','00000000-0000-4000-8000-000000000006',true)$$,'Organization assigns one eligible seat');
+select throws_ok($$select school_draft.license_assign('50000000-0000-4000-8000-000000000001','00000000-0000-4000-8000-000000000001',true)$$,'P0001','licenseFull','Database enforces licence capacity');
+select throws_ok($$select * from school_draft.license_practice$$,'42501',null,'School cannot read private practice material');
+select set_config('school_draft.actor','00000000-0000-4000-8000-000000000004',true);
+select is((select count(*)::int from school_draft.license_invoices),0,'Other organization cannot read invoices');
+select throws_ok($$select school_draft.license_assign('50000000-0000-4000-8000-000000000001','00000000-0000-4000-8000-000000000006',false)$$,'42501','forbidden','Other organization cannot release seats');
+select set_config('school_draft.actor','00000000-0000-4000-8000-000000000006',true);
+select is(jsonb_array_length(school_draft.license_access()),1,'Assigned learner has one current Premium source');
+select is((select count(*)::int from school_draft.license_invoices),0,'Learner cannot read invoice prices');
+select throws_ok($$select school_draft.license_orgs()$$,'42501','forbidden','Learner cannot list operator organizations');
+select lives_ok($$select school_draft.leave_class('20000000-0000-4000-8000-000000000001')$$,'Learner leaves organization class');
+-- The same learner still has Class B in this organization from the common fixture.
+select is(jsonb_array_length(school_draft.license_access()),1,'Other active membership preserves entitlement');
+select lives_ok($$select school_draft.leave_class('20000000-0000-4000-8000-000000000002')$$,'Last membership ends');
+select is(jsonb_array_length(school_draft.license_access()),0,'Last membership removes entitlement');
+reset role;
+select is((select count(*)::int from school_draft.license_seats),0,'Trigger removes the stale seat immediately');
+select is((select count(*)::int from school_draft.license_events where kind='paid'),1,'Payment transition has one audit event');

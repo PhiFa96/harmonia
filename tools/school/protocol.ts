@@ -1,5 +1,13 @@
 export type ActorKey =
-  'adminA' | 'teacherA' | 'teacherB' | 'adminB' | 'teacherC' | 'learnerA' | 'learnerB' | 'learnerC';
+  | 'adminA'
+  | 'teacherA'
+  | 'teacherB'
+  | 'adminB'
+  | 'teacherC'
+  | 'learnerA'
+  | 'learnerB'
+  | 'learnerC'
+  | 'operator';
 export interface Actor {
   id: string;
   key: ActorKey;
