@@ -15,6 +15,7 @@ const requiredIds = [
   'school-assessment',
   'certificates',
   'ai-live-call',
+  'advanced-analysis',
 ];
 const controlIds = [
   'classification',
@@ -180,6 +181,7 @@ const roots = [
   'apps/mobile/src/microphone',
   'apps/mobile/src/placement',
   'apps/mobile/src/legal',
+  'apps/mobile/src/preview',
   'packages/exercises/src',
   'packages/content/src',
   'packages/i18n/src',

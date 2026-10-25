@@ -379,6 +379,44 @@
         "profiling": "unreviewed",
         "outcome": "unreviewed"
       }
+    },
+    {
+      "id": "advanced-analysis",
+      "title": {
+        "de": "Stufe 5: Kontrapunkt und Analyse",
+        "en-US": "Stage 5: counterpoint and analysis",
+        "en-GB": "Stage 5: counterpoint and analysis"
+      },
+      "technology": "rules",
+      "deployment": "internal-draft",
+      "scopes": ["general", "school"],
+      "files": [
+        "packages/theory/src/counterpoint.ts",
+        "packages/theory/src/analysis.ts",
+        "packages/exercises/src/advanced-context.ts",
+        "packages/content/src/level-five-preview.ts",
+        "apps/mobile/src/app/level-five.tsx",
+        "apps/mobile/src/storage/learning-repository.ts",
+        "apps/mobile/src/privacy/export-local.ts",
+        "apps/mobile/src/privacy/local.ts",
+        "apps/mobile/src/privacy/retention.ts"
+      ],
+      "purpose": {
+        "de": "Interne Lektionen bewerten begrenzte Kontrapunkt- und Analysefragen aus eigenen Notenquellen. Ein lokaler, getrennt gespeicherter Vorschau-Durchgang kann wiederaufgenommen werden; keine XP, Qualifikationsnachweise oder automatische Gesamtanalyse fremder Werke.",
+        "en-US": "Internal lessons grade bounded counterpoint and analysis questions from original score sources. A separately stored local preview attempt can be resumed; no XP, qualifications or automatic overall analysis of external works.",
+        "en-GB": "Internal lessons grade bounded counterpoint and analysis questions from original score sources. A separately stored local preview attempt can be resumed; no XP, qualifications or automatic overall analysis of external works."
+      },
+      "concern": {
+        "de": "Neun Prüfregeln sind keine Stil- oder Hochschulreifeprüfung. Bildungszweck, institutionelle Nutzung, gespeicherte Antworten und Grenzen automatischer Deutung unabhängig prüfen.",
+        "en-US": "Nine rules do not assess overall style or readiness for higher education. Independently review the educational purpose, institutional use, stored answers and limits of automatic interpretation.",
+        "en-GB": "Nine rules do not assess overall style or readiness for higher education. Independently review the educational purpose, institutional use, stored answers and limits of automatic interpretation."
+      },
+      "assessment": {
+        "aiSystem": "unreviewed",
+        "annexIII": "unreviewed",
+        "profiling": "unreviewed",
+        "outcome": "unreviewed"
+      }
     }
   ],
   "controls": [

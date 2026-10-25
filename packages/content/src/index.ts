@@ -8,6 +8,7 @@ export * from './learning-ratings.ts';
 export * from './local-ratings.ts';
 export * from './learning-path.ts';
 export * from './lesson-flow.ts';
+export * from './level-five-preview.ts';
 export * from './lesson-rewards.ts';
 export * from './content-reports.ts';
 export * from './motivation.ts';

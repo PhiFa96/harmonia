@@ -12,6 +12,7 @@ import { useTutor } from '@/tutor/state';
 import { useAccess } from '@/access/state';
 import { getProfileRepository } from '@/storage/profile';
 import { useProfile } from '@/state/profile';
+import { readPreviewMemory } from '@/preview/memory';
 export async function exportLocalData(scope: string) {
   const temporary = useDeviceState.getState().storage === 'memory',
     state = useLearningState.getState(),
@@ -20,7 +21,10 @@ export async function exportLocalData(scope: string) {
     tutor = useTutor.getState(),
     access = useAccess.getState();
   const learning = temporary ? null : await getLearningRepository();
+  if (learning) await learning.prunePreviews(Date.now());
+  const preview = learning ? await learning.preview(scope) : readPreviewMemory(scope);
   return {
+    levelFivePreview: preview ? (JSON.parse(preview) as unknown) : null,
     profile: temporary
       ? useProfile.getState().scope === scope
         ? useProfile.getState().data

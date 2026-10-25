@@ -14,6 +14,7 @@ export async function retainLocalData(now = Date.now()) {
     cutoff = retentionCutoff(now),
     repo = await getLearningRepository();
   const ids = await repo.compact(scope, catalogue, cutoff);
+  await repo.prunePreviews(now);
   await (await getLessonRepository()).eraseIds(ids);
   await (await getAccessRepository()).eraseIds(ids);
   await (await getReportRepository()).pruneBefore(cutoff);

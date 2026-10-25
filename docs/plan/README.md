@@ -46,7 +46,7 @@ Dieser Plan beschreibt, wie wir Harmonia Schritt für Schritt bauen: vom leeren 
 | [Zeitreise durch die Musikgeschichte P4.12](zeitreise-musikgeschichte.md) | Vier interne Epochenstationen mit eigenen Klangmodellen, fiktiven Interviews und Quellenbezug; Fachfreigabe offen |
 | [Stufe 3 als interner Entwurf P3.15](stufe-3-vollstaendig.md) | Zwölf Einheiten mit Formen, Instrumenten, Jazz/Pop, Geschichte und 360 Aufgaben; getrennte fachliche Freigabe offen |
 | [Stufe 4 als interner Entwurf P3.16](stufe-4-vollstaendig.md) | 13 Einheiten mit Studienvorbereitung und 390 Aufgaben; getrennte fachliche Freigabe offen |
-| [Stufe 5 als interner Entwurf P4.19](stufe-5-entwurf.md) | Kontrapunkt-Engine, 24 neue DE/EN-Lektionen und Tutor-Suchprüfung; technische Vorarbeit vor formaler P4-Freigabe |
+| [Stufe 5 als interner Entwurf P4.19](stufe-5-entwurf.md) | Kontrapunkt-Engine, 24 neue DE/EN-Lektionen, getrennte Wiederaufnahme mit Export/Löschung und Tutor-Suchprüfung; technische Vorarbeit vor formaler P4-Freigabe |
 | [Prüfungsmodus P3.17](pruefungsmodus.md) | Zwei interne Vorlagen mit Theorie/Gehörbildung, Zeitlimit, Punkten und Lernpfad-Empfehlungen; fachliche Abnahme offen |
 | [Organisationen und Klassen P4.13 – interner Entwurf](schule-dashboard-entwurf.md) | Lokales Lehrer-Dashboard, Codes, klassenbezogene Lernstandfreigaben und PostgreSQL-RLS mit synthetischen Konten; Rechts-/Produktfreigabe offen |
 | [Klassenaufgaben P4.14 – interner Entwurf](schulaufgaben-entwurf.md) | Aufgaben zusammenstellen, einfrieren, zuweisen, bearbeiten und auswerten; lokaler Link, Fristen, Engine-Bewertung und getrennte Freigabe |

@@ -181,11 +181,13 @@ test('current monitored file set includes the actual model, learner tools, gradi
     'apps/mobile/src/components/tutor-screen.tsx',
     'tools/school/quiz-service.mjs',
     'tools/school/license-service.mjs',
+    'apps/mobile/src/preview/use-level-five-preview.ts',
+    'packages/theory/src/counterpoint.ts',
   ])
     assert.ok(digests[file], file);
   const result = inspectInventory(inventory, { digests, now });
   assert.equal(result.legalApprovalInferred, false);
-  assert.equal(result.componentCount, 9);
+  assert.equal(result.componentCount, 10);
   assert.ok(result.scopes.certificates.missing.includes('certificates.classification'));
 });
 test('release, legal, storefront and beta entry points keep AI evidence in the blocking path', async () => {

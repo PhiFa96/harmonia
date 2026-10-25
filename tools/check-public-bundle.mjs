@@ -85,7 +85,9 @@ const files = [];
 for (const [locale, messages] of Object.entries(levelFiveDraft))
   for (const [key, value] of Object.entries(messages))
     if (
-      /^(contextQuestion_|contextHint[12]_|contextExplain_|knowledgeHistoryDefinition_)/.test(key)
+      /^(contextQuestion_|contextHint[12]_|contextExplain_|knowledgeHistoryDefinition_|levelFive(Saving|Saved|Empty|Memory|Resume|Discard|Reload|Outdated|Conflict|LoadError|SaveError)$)/.test(
+        key,
+      )
     )
       forbidden.set(value, `P4.19 ${locale}.${key}`);
 function visit(path) {

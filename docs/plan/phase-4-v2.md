@@ -262,6 +262,8 @@
 
 ### P4.19 – Stufe 5 (DE + EN)
 
+**Weiterbau der internen technischen Vorarbeit (25.10.2026), vor formaler Phase-4-Freigabe:** Der [Stufe-5-Entwurf](stufe-5-entwurf.md) aus #103 wird auf `codex/p4-19-preview-resume-draft` mit #110 lokal zusammengeführt und um getrennte, quellengebundene Wiederaufnahme erweitert. Ein eigener Vorschau-Durchgang je Konto/Gast, bestätigte SQLite-Speicherung, Konfliktschutz, lokale Siebentagesgrenze, Export und Löschung; ohne dauerhaften Speicher nur RAM. Einführung, Auswahl, Hinweise und Wiederholung bleiben erhalten; keine Lernnachweise, Ratings, XP, Gastübernahme oder Synchronisation. P4.17 inventarisiert Analyse und Vorschau zusätzlich, ohne Einstufungsfreigabe. Keine Integration auf main oder Veröffentlichung. Fach-/Quellen-/Geräteabnahmen und formale P4-Freigabe bleiben offen. P4.01 bleibt bis F14/Rechtsklärung zurückgestellt.
+
 - **Ziel:** Hochschulniveau: Kontrapunkt, Formenlehre, Werkanalyse, Musik des 20. und 21. Jahrhunderts.
 - **Abhängig von:** P4.09
 - **Umfang:** XL

@@ -1,6 +1,6 @@
 # P4.19 – Stufe 5 als interner Entwurf
 
-Stand: 22.10.2026 · Arbeitsbranch `codex/p4-19-level-five-draft`
+Stand: 25.10.2026 · Grundentwurf `codex/p4-19-level-five-draft` (#103); Weiterbau `codex/p4-19-preview-resume-draft`
 
 **Technische P4-Vorarbeit vor der formalen Phase-4-Freigabe auf ausdrücklichen Nutzerauftrag.** Kein Deployment, keine Veröffentlichung, keine Fachabnahme. P4.01 bleibt bis F14 und Klärung der rechtlichen Voraussetzungen zurückgestellt.
 
@@ -29,7 +29,15 @@ In einer lokalen Preview unter **Üben → Stufe-5-Entwurf öffnen** oder `/leve
 2. Aufgaben mit Notation, semantischen Auswahlantworten und drei Hinweisstufen bearbeiten.
 3. Rückmeldung aus dem sichtbaren Material erhalten; die Kontrapunktprüfung nennt Regel und Takt.
 4. Fehler mit verändertem Material wiederholen und eine lokale Zusammenfassung sehen.
-5. Zur Übersicht zurückkehren. Es werden keine Lernereignisse, Bewertungen oder XP gespeichert; Reload beendet den Entwurfsdurchgang.
+5. Zur Übersicht zurückkehren oder die Seite neu laden. Der eigene Vorschau-Durchgang kann über „Gespeicherten Entwurf öffnen“ fortgesetzt oder ausdrücklich verworfen werden. Es entstehen keine Lernereignisse, Ratings, XP oder Freischaltungen.
+
+### Wiederaufnahme im aktuellen Entwurfsstand
+
+Der Weiterbau führt #103 und #110 lokal zusammen. Einführungskarte, Auswahl (einschließlich unvollständiger Zuordnungen), Hinweise, bereits gewertete Antworten, Fehlerwiederholung und Abschluss werden getrennt vom normalen Lernfortschritt gespeichert und beim Laden nachvollzogen. Genau ein Vorschau-Durchgang je Konto/Gast; vor einem anderen Durchgang den vorhandenen verwerfen. Besitzerwechsel zeigen keine fremde Vorschau, Gastübernahme übernimmt sie nicht. Im Modus ohne dauerhaften Speicher geht sie beim Reload verloren.
+
+Die lokale Speicherung nutzt `preview:<scope>` in der vorhandenen `learning_meta`, ohne Datenbankversion oder produktive Migration zu ändern. Quellenkennung der aufgelösten Lektion, Katalog- und Engine-Version schützen vor stillen Inhaltswechseln. Die mobile Engine-Version muss bei Änderungen der Wiedergabesemantik bewusst erhöht werden; sie ist kein automatisch berechneter Codehash. Ungültige/veraltete Quellen bleiben gesperrt und löschbar. SQLite-Vergleich und Transaktionswarteschlange verhindern veraltetes Überschreiben/Löschen durch konkurrierende Ansichten. Ein neuer Ablaufstand wird erst nach erfolgreichem Speichern angezeigt; nach Speicher-/Konfliktfehlern den bestätigten Stand neu laden.
+
+Eigene Vorschau-Antworten gehören zum lokalen Datenschutzexport und zur Kontolöschung. Die bestehende Löschsperre schützt auch verzögerte Speicheraufrufe. Aufbewahrung: intern höchstens sieben Tage ab Erstellung, Bereinigung beim nächsten Zugriff/Export/Aufbewahrungslauf. Keine Synchronisation, Analytics-/XP-Buchung oder Schulfreigabe. Das P4.17-Inventar enthält jetzt zehn ungeprüfte Funktionsbereiche einschließlich dieses konkreten Kontrapunkt-/Analysezwecks und der neuen Speicherpfade. [ADR 0046](../decisions/0046-stufe-fuenf-vorschau-getrennt-wiederaufnehmen.md).
 
 Der reguläre Lernpfad nutzt dieselben Aufgaben mit seinen bestehenden Voraussetzungen. Der separate Prüfablauf umgeht diese Voraussetzungen nur für die interne Vorschau und erzeugt keine Freischaltungen. Notation und Ton nutzen dieselbe Partitur. Lange Reihen sind horizontal scrollbar und per Tastatur erreichbar.
 
@@ -56,3 +64,13 @@ Lokaler Nachweis vom 22.10.2026: Theorie **853**, Übungen **547**, Inhalte **13
 ## Offene Abnahme
 
 Die vorstehenden Prüfungen ersetzen keine unabhängige Fachprüfung. Quellenlücken und Modellgrenzen stehen im [Quellenentwurf](../quality/p4-19-quellenentwurf.md). Reale iOS-/Android-Audio- und Geräteprüfungen, didaktische Evaluation, Tutor-Primärquellenreview, F03/F05 soweit betroffen sowie formale P4-/Veröffentlichungsabnahmen bleiben offen. [ADR 0038](../decisions/0038-stufe-fuenf-als-begrenzter-analyseentwurf.md) hält die technische Entscheidung fest.
+
+## Prüfstand des Weiterbaus (25.10.2026)
+
+- 254 portable Modell-/Lektionsablauf-/Prüfungstests, darunter 28 neue Vorschau-Prüfungen: alle 24 neuen Lektionen, Auswahl und Teilzuordnung, Hinweise, Fehlerwiederholung, Abschluss, Quellen-/Versionswechsel, ungültige Eingaben und exakte Aufbewahrungsgrenze.
+- 35 gezielte App-/SQLite-/Datenschutztests: Besitzertrennung, Vergleich gegen veraltete Writes, Löschen und verspätete Writes, Aufbewahrung, Hook-Wiederaufnahme, verlorener ACK, Speicherfehler, Konflikt, Unmount/Besitzerwechsel und RAM-Modus. Ein zusätzlich gestarteter vollständiger lokaler App-Lauf wurde ohne bisherigen Fehlerbefund beendet; die vollständige App-Suite bleibt Teil der neuen GitHub-CI.
+- 238 Werkzeugtests, vollständiger Lint, Typprüfung, Formatierung sowie Inhalts-/Curriculum-/Übersetzungsprüfung erfolgreich.
+- 3/3 Browserprüfungen in DE/en-US/en-GB erfolgreich. Sie decken Reload während eines Durchgangs, unveränderte Frage/Originalfehler, Wiederholung, wiederaufgenommenen Abschluss, gezieltes Verwerfen, neuen Durchgang und eigenen Datenschutzexport ohne Lernnachweis ab. Der lange Scrollbereich wurde nach Axe-Befund fokussierbar gemacht. Der Test wartet an den nun asynchronen Speicherübergängen auf den bestätigten Stand; aktuelle Browser-/CI-Ergebnisse stehen im Weiterbau-PR.
+- Isolierter Produktions-Webexport mit tatsächlicher Bundle-Prüfung: fünf JS-Dateien ohne Entwurfsdaten. Aktuelle private KI-/Zertifikatsprüfpakete sowie Rechts-/Beta-/P2-Vorbereitung bleiben bei offenen Freigaben technisch prüfbar.
+
+Die Ausgangsstände #103 und #110 haben jeweils fünf grüne CI-Jobs. Für den kombinierten Weiterbau ist ein eigener GitHub-Lauf erforderlich; keine fachliche, rechtliche, native Geräte- oder formale Phase-4-Freigabe aus den technischen Prüfungen ableiten.

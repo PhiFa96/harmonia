@@ -4,7 +4,7 @@ Stand: 24.10.2026 · Branch `codex/p4-17-ai-act-review-draft`
 
 Technische P4-Vorarbeit auf Nutzerauftrag **vor der formalen Phase-4-Freigabe**. Auf Grundlage des Schul-/Lizenzstands aus Entwurfs-PR #108 entsteht eine prüfbare Vorbereitung der unabhängigen Rechtsprüfung. Keine rechtliche Freigabe, Veröffentlichung, Bereitstellung oder Kontaktaufnahme mit Dritten. P4.01 bleibt bis F14/Rechtsklärung zurückgestellt.
 
-Die [technische Voreinschätzung](../legal/ai-act/vorpruefung.md) dokumentiert direkt gelesene amtliche Quellen, bestätigte Änderungen und verbleibende Prüffragen. Der direkte EUR-Lex-Volltextabruf war blockiert; der amtliche Explorer mit Rechtsstand 27.07.2026 und die Kommissionsmitteilung waren lesbar. Dieses Nachweisgefälle ist im Inventar ausdrücklich enthalten. Alle neun Funktionsbereiche und acht Maßnahmenpakete bleiben ungeprüft/offen.
+Die [technische Voreinschätzung](../legal/ai-act/vorpruefung.md) dokumentiert direkt gelesene amtliche Quellen, bestätigte Änderungen und verbleibende Prüffragen. Der direkte EUR-Lex-Volltextabruf war blockiert; der amtliche Explorer mit Rechtsstand 27.07.2026 und die Kommissionsmitteilung waren lesbar. Dieses Nachweisgefälle ist im Inventar ausdrücklich enthalten. Alle zehn Funktionsbereiche und acht Maßnahmenpakete bleiben ungeprüft/offen.
 
 ## Befehle
 
@@ -53,3 +53,7 @@ Lokaler Nachweis am 24.10.2026: **21/21 Werkzeug-/Integrations-/Diagnosetests**,
 ## Anschluss an P4.18 (25.10.2026)
 
 Der Weiterbau `codex/p4-18-review-bound-draft` führt die offenen Entwürfe #104/#109 lokal zusammen. Das Inventar beschreibt nun den tatsächlichen synthetischen Prüfungs-/PDF-Ablauf als `internal-draft` mit deterministischen Regeln; alle Einstufungen bleiben `unreviewed`. Der Zertifikatsprüfbericht bindet seinen eigenen Prüfungsstand und den aktuellen KI-Snapshot. Die zusätzliche Sperre `check:certificates:release` verweigert einen Produktstart auch unabhängig von vollständig ergänzten Rechtsfeldern, da ein Produktmodus und weitere Abnahmen fehlen. Details: [Zertifikatsentwurf](zertifikate-entwurf.md), [ADR 0045](../decisions/0045-zertifikatsentwuerfe-an-pruefcode-binden.md).
+
+## Anschluss an P4.19 (25.10.2026)
+
+Der gemeinsame Entwurfsstand enthält jetzt den konkreten Kontrapunkt-/Analysezweck als zehnten Funktionsbereich (`advanced-analysis`), weiterhin `unreviewed`. Mobile Vorschau, getrennte Speicherung und lokale Export-/Löschpfade werden zusätzlich an den KI-Prüfstand gebunden. Alle drei Rechtsprüfungen bleiben pending. Die allgemeine und Schul-Freigabe berücksichtigen diesen internen Einsatz; der vorhandene Zertifikatsentwurf umfasst weiter nur Stufen 1–2. [Umsetzung und Grenzen](stufe-5-entwurf.md).

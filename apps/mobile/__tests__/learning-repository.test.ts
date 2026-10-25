@@ -3,7 +3,14 @@ import { mkdtempSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { firstLesson, catalogue } from '@harmonia/content/authoring';
-import { lessonEvent, lessonPlan, localReviewState } from '@harmonia/content';
+import {
+  lessonEvent,
+  lessonPlan,
+  localReviewState,
+  createLevelFivePreview,
+  LEVEL_FIVE_PREVIEW_TTL,
+} from '@harmonia/content';
+import { blockErasedScope } from '@/privacy/guard';
 import type { LearningEvent } from '@harmonia/content';
 import {
   activeLessonSession,
@@ -52,6 +59,82 @@ async function repository() {
 }
 
 describe('Lernpfad mit echter SQLite', () => {
+  it('trennt interne Vorschauen von Lernnachweisen, anderen Konten und Gastübernahme', async () => {
+    const repo = await repository(),
+      now = Date.now();
+    const a = JSON.stringify(
+      createLevelFivePreview(catalogue, 'counterpoint.l5.species.lesson3', 'preview-a', now),
+    );
+    expect(await repo.comparePreview('preview-alice', null, a)).toBe(true);
+    expect(await repo.preview('preview-bob')).toBeNull();
+    expect(await repo.drafts('preview-alice')).toEqual({});
+    expect(await repo.list('preview-alice')).toEqual([]);
+    await repo.claimGuest('preview-bob', catalogue);
+    expect(await repo.preview('preview-bob')).toBeNull();
+    expect(await repo.preview('preview-alice')).toBe(a);
+  });
+  it('verhindert veraltetes Überschreiben und Löschen durch zwei Tabs', async () => {
+    const repo = await repository(),
+      draft = createLevelFivePreview(
+        catalogue,
+        'counterpoint.l5.species.lesson3',
+        'preview-cas',
+        Date.now(),
+      );
+    const first = JSON.stringify(draft),
+      next = JSON.stringify({ ...draft, introCard: 1 });
+    expect(await repo.comparePreview('preview-tabs', null, first)).toBe(true);
+    const results = await Promise.all([
+      repo.comparePreview('preview-tabs', first, next),
+      repo.comparePreview('preview-tabs', first, null),
+    ]);
+    expect(results).toEqual([true, false]);
+    expect(await repo.preview('preview-tabs')).toBe(next);
+    expect(await repo.comparePreview('preview-tabs', first, first)).toBe(false);
+  });
+  it('löscht Vorschauen bei Kontolöschung und sperrt verzögerte Schreibversuche', async () => {
+    const repo = await repository(),
+      raw = JSON.stringify(
+        createLevelFivePreview(
+          catalogue,
+          'counterpoint.l5.species.lesson3',
+          'preview-erase',
+          Date.now(),
+        ),
+      );
+    await repo.comparePreview('preview-erased', null, raw);
+    await repo.comparePreview('preview-kept', null, raw);
+    blockErasedScope('preview-erased', []);
+    await repo.eraseScope('preview-erased');
+    expect(await repo.preview('preview-erased')).toBeNull();
+    expect(await repo.preview('preview-kept')).toBe(raw);
+    await expect(repo.comparePreview('preview-erased', null, raw)).rejects.toThrow('Erased');
+  });
+  it('entfernt abgelaufene und beschädigte Vorschauen, erhält übrige lokale Metadaten', async () => {
+    const repo = await repository(),
+      now = Date.now();
+    const draft = createLevelFivePreview(
+      catalogue,
+      'counterpoint.l5.species.lesson3',
+      'preview-retain',
+      now,
+    );
+    await repo.comparePreview('preview-new', null, JSON.stringify(draft));
+    await repo.comparePreview(
+      'preview-old',
+      null,
+      JSON.stringify({ ...draft, createdAt: now - LEVEL_FIVE_PREVIEW_TTL }),
+    );
+    db.prepare('INSERT INTO learning_meta VALUES(?,?)').run('preview:damaged', 'invalid-json');
+    db.prepare('INSERT INTO learning_meta VALUES(?,?)').run('unrelated', 'keep');
+    await repo.prunePreviews(now);
+    expect(await repo.preview('preview-old')).toBeNull();
+    expect(await repo.preview('damaged')).toBeNull();
+    expect(await repo.preview('preview-new')).not.toBeNull();
+    expect(db.prepare('SELECT value FROM learning_meta WHERE id=?').get('unrelated')).toEqual({
+      value: 'keep',
+    });
+  });
   it('bewahrt FSRS-Termine atomar beim Entfernen alter Detailantworten', async () => {
     const repo = await repository();
     await repo.save('guest', event());

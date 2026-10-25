@@ -14,6 +14,8 @@ import {
   learnerRatingCacheSchema,
   reviewCacheSchema,
   localReviewState,
+  levelFivePreviewSchema,
+  LEVEL_FIVE_PREVIEW_TTL,
 } from '@harmonia/content';
 import type {
   LearningEvent,
@@ -272,7 +274,15 @@ export function createLearningRepository(db: LessonDatabase) {
       return transaction(async () => {
         await db.runAsync('DELETE FROM learning_events WHERE scope=?', scope);
         await db.runAsync('DELETE FROM learning_cursors WHERE scope=?', scope);
-        for (const prefix of ['lesson:', 'reward:', 'view:', 'placement:', 'ratings:', 'reviews:'])
+        for (const prefix of [
+          'lesson:',
+          'reward:',
+          'view:',
+          'placement:',
+          'ratings:',
+          'reviews:',
+          'preview:',
+        ])
           await db.runAsync(
             'DELETE FROM learning_meta WHERE id=? OR substr(id,1,length(?))=?',
             prefix + scope,
@@ -327,6 +337,47 @@ export function createLearningRepository(db: LessonDatabase) {
           `ratings:${scope}`,
           payload,
         );
+      });
+    },
+    prunePreviews(now: number) {
+      return transaction(() =>
+        db.runAsync(
+          "DELETE FROM learning_meta WHERE substr(id,1,8)='preview:' AND CASE WHEN json_valid(value) THEN typeof(json_extract(value,'$.createdAt')) != 'integer' OR json_extract(value,'$.createdAt') <= ? OR json_extract(value,'$.createdAt') > ? ELSE 1 END",
+          now - LEVEL_FIVE_PREVIEW_TTL,
+          now,
+        ),
+      );
+    },
+    async preview(scope: LearningScope) {
+      return (
+        (
+          await db.getFirstAsync<{ value: string }>(
+            'SELECT value FROM learning_meta WHERE id=?',
+            `preview:${scope}`,
+          )
+        )?.value ?? null
+      );
+    },
+    comparePreview(scope: LearningScope, expected: string | null, next: string | null) {
+      const parsed =
+        next === null ? null : levelFivePreviewSchema.parse(JSON.parse(next) as unknown);
+      if (next !== null && next.length > 1000000) throw new Error('Preview storage limit');
+      return transaction(async () => {
+        assertPrivacyWrite(scope, parsed?.id);
+        const current = await db.getFirstAsync<{ value: string }>(
+          'SELECT value FROM learning_meta WHERE id=?',
+          `preview:${scope}`,
+        );
+        if ((current?.value ?? null) !== expected) return false;
+        if (next === null)
+          await db.runAsync('DELETE FROM learning_meta WHERE id=?', `preview:${scope}`);
+        else
+          await db.runAsync(
+            'INSERT INTO learning_meta VALUES(?,?) ON CONFLICT(id) DO UPDATE SET value=excluded.value',
+            `preview:${scope}`,
+            next,
+          );
+        return true;
       });
     },
     async drafts(scope: LearningScope): Promise<Record<string, LessonDraft>> {

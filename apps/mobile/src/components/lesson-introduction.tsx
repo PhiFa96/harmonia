@@ -22,7 +22,9 @@ export function LessonIntroduction({
   onCardSave,
   hideProgress = false,
   hideContinue = false,
+  disabled = false,
 }: {
+  readonly disabled?: boolean;
   readonly hideProgress?: boolean;
   readonly hideContinue?: boolean;
   readonly lesson: LessonContent;
@@ -155,6 +157,7 @@ export function LessonIntroduction({
       </Card>
       {hideContinue ? null : (
         <Button
+          disabled={disabled}
           label={
             index === lesson.introduction.length - 1
               ? t('lesson.start', { count: lesson.exercises.length })
