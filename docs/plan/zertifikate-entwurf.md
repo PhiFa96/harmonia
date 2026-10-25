@@ -76,3 +76,7 @@ Diese offenen Punkte sind keine durch Simulation erledigten Abnahmen. Entscheidu
 - Vollständige Werkzeugtests: 231/231; vollständiger Lint (mit dem auch in CI gesetzten 4-GB-Heap), Typprüfung und Formatprüfung erfolgreich. Der erste lokale Lint-Aufruf ohne diese Heap-Einstellung erreichte das 2-GB-Node-Limit; der anschließende vollständige Lauf war erfolgreich.
 - Produktions-Webexport und Bundle-Prüfung: fünf JS-Dateien ohne Entwurfsdaten; neues deutsches Muster-PDF zusätzlich ausgelesen, gerendert und visuell geprüft.
 - Prüfpakete sowie Rechts-, Beta- und P2-Vorbereitung laufen; die Produktfreigaben bleiben gesperrt. GitHub-CI wird für den neuen Entwurfs-PR gesondert ausgewiesen. Lokale grüne Ergebnisse ersetzen keine erforderliche CI oder offene Fach-/Rechts-/Geräteabnahme.
+
+### CI-Nacharbeit zur Zeitumstellung (25.10.2026)
+
+Lauf 222 bestand Web, Deno und Tutor-Mechanik, scheiterte im Datenbankjob aber an einer bestehenden Push-Smoke-Fixture: 18:59:30 UTC entsprach nach der heutigen Berliner Zeitumstellung nicht mehr 20:59:30 Ortszeit. Die Fixture ermittelt jetzt den aktuellen Berliner Tag um 20:59:30; sieben feste Sommer-/Winter-/Umstellungsfälle prüfen erwartete UTC-Werte und die unveränderte 30-Sekunden-TTL. Kein produktiver Erinnerungsalgorithmus geändert. Der neue GitHub-Lauf bleibt bis zu seinem Abschluss gesondert offen.
