@@ -51,6 +51,7 @@ export default defineConfig(
       'e2e/beta/**/*.mjs',
       'e2e/voice-leading/**/*.mjs',
       'e2e/school/**/*.mjs',
+      'e2e/certificates/**/*.mjs',
     ],
     languageOptions: { globals: { ...globals.node, ...globals.browser } },
   },

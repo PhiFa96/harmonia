@@ -162,6 +162,8 @@ jobs:
           path: artifacts/quality/school
           if-no-files-found: ignore
           retention-days: 7
+      - name: Internen Zertifikats-Prototyp mit eigenem lokalem Server prüfen
+        run: pnpm certificates:test:web
 
       - name: Privaten Beta-Zugang und Testhinweise mit eigenen Fixtures prüfen
         env:
@@ -174,6 +176,15 @@ jobs:
         with:
           name: web-quality-fixtures
           path: artifacts/quality/playwright
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: Synthetische Zertifikatsprüfungen und Muster-PDFs aufbewahren
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: certificate-draft-fixtures
+          path: artifacts/quality/certificates
           if-no-files-found: ignore
           retention-days: 7
 

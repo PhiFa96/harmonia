@@ -12,6 +12,7 @@ import { RESOURCES } from '../packages/i18n/src/index.ts';
 import historyDraft from '../packages/i18n/src/history-journey-draft.json' with { type: 'json' };
 import { SCHOOL_DRAFT_MESSAGES } from '../packages/i18n/src/school-draft.ts';
 import { ASSIGNMENT_MESSAGES } from '../packages/i18n/src/school-assignments.ts';
+import { CERTIFICATE_DRAFT_MESSAGES } from '../packages/i18n/src/certificate-draft.ts';
 
 const directory = resolve(process.argv[2] ?? 'apps/mobile/dist');
 const published = publicCatalogue(catalogue);
@@ -54,6 +55,10 @@ forbidden.set('school_draft', 'P4.13 local schema');
 for (const [locale, messages] of Object.entries(SCHOOL_DRAFT_MESSAGES))
   for (const key of ['title', 'draft', 'intro', 'privacy'])
     forbidden.set(messages[key], `P4.13 ${locale}.${key}`);
+for (const id of ['certificate-draft-1', 'certificate-draft-2']) forbidden.set(id, `P4.18 ${id}`);
+for (const [locale, messages] of Object.entries(CERTIFICATE_DRAFT_MESSAGES))
+  for (const key of ['title', 'intro', 'policy', 'pdfTitle'])
+    forbidden.set(messages[key], `P4.18 ${locale}.${key}`);
 for (const collection of COLLECTIONS)
   for (const record of catalogue[collection])
     if (record.status !== 'freigegeben') forbidden.set(record.id, record.id);
