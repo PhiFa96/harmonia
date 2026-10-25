@@ -1,3 +1,4 @@
+import { CERTIFICATE_REVIEW_MESSAGES } from '../packages/i18n/src/certificate-review.ts';
 import { AI_REVIEW_MESSAGES } from '../packages/i18n/src/ai-act-review.ts';
 import { LICENSE_MESSAGES } from '../packages/i18n/src/school-license.ts';
 import { QUIZ_MESSAGES } from '../packages/i18n/src/school-quiz.ts';
@@ -32,6 +33,9 @@ while (resources.length > 0) {
 for (const content of Object.values(contentMessages))
   for (const key of allowedKeys) allowedTexts.add(textAt({ content }, key));
 const forbidden = new Map();
+for (const [locale, messages] of Object.entries(CERTIFICATE_REVIEW_MESSAGES))
+  for (const key of ['title', 'draft', 'sampleLimit', 'limits'])
+    forbidden.set(messages[key], `P4.18 review ${locale}.${key}`);
 forbidden.set(
   'official-explorer-2026-07-27; direct-eur-lex-pending',
   'P4.17 internal legal inventory',

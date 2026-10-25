@@ -182,7 +182,11 @@ const roots = [
   'apps/mobile/src/legal',
   'packages/exercises/src',
   'packages/content/src',
-  'packages/i18n/src/messages',
+  'packages/i18n/src',
+  'packages/theory/src',
+  'packages/notation/src',
+  'packages/audio/src',
+  'tools/certificates',
   'tools/school',
   'tools/ai-act',
 ];

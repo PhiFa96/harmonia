@@ -51,7 +51,7 @@ Dieser Plan beschreibt, wie wir Harmonia Schritt für Schritt bauen: vom leeren 
 | [Klassen-Live-Quiz P4.15 – interner Entwurf](klassen-live-quiz-entwurf.md) | Lobbycode, synchronisierte Runden, Beameransicht, freiwillige Rangliste und Auswertung; 30 simulierte Netzwerkclients, echte Geräteabnahme offen |
 | [Schullizenz P4.16 – interner Entwurf](schul-lizenz-entwurf.md) | Rechnungsproben, getrennte Betreiberfreigabe, Plätze/Laufzeiten und servergesperrte Premium-Übungen; Verkauf und Pilotschule offen |
 | [KI-Verordnung P4.17 – technische Prüfvorbereitung](ki-verordnung-pruefvorbereitung.md) | Amtliche Quellen, Funktionsinventar, Code-/Zweckbindung, DE/EN-Prüfberichte und gesperrte Freigaben; unabhängige Rechtsprüfung offen |
-| [Zertifikate P4.18 – lokaler Prototyp](zertifikate-entwurf.md) | Servergeprüfte Testdurchgänge, ungültige Muster-PDFs und interne Codeprüfung; technische Vorarbeit vor formaler P4-Freigabe |
+| [Zertifikate P4.18 – lokaler Prototyp](zertifikate-entwurf.md) | Servergeprüfte Testdurchgänge, Bindung an Prüfcode, ungültige Muster-PDFs und private DE/EN-Prüfmappe; technische Vorarbeit vor formaler P4-Freigabe |
 | [Tutor-Lernplaner P3.18](tutor-lernplaner.md) | Servergeprüfte Lernübersicht, kurze Wochenvorschläge und separater Stufe-3/4-Testkatalog; fachliche Abnahme offen |
 | [Wissensbasis v2 P3.19](wissensbasis-v2.md) | 25 Entwurfsartikel für Stufen 3–4, erweiterte Quellensuche und 150 Suchfragen; fachliche Abnahme offen |
 | [Rückblick Phase 3](phase-3-rueckblick.md) | Technischer Übergabestand, offene Freigaben und angepasste Startbedingungen für Phase 4 |

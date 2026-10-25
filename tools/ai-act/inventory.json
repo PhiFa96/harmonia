@@ -318,22 +318,27 @@
     {
       "id": "certificates",
       "title": {
-        "de": "Zertifikate: geplanter Produktbetrieb",
-        "en-US": "Certificates: planned production operation",
-        "en-GB": "Certificates: planned production operation"
+        "de": "Zertifikate: lokaler Prüfungsentwurf",
+        "en-US": "Certificates: local exam draft",
+        "en-GB": "Certificates: local exam draft"
       },
-      "technology": "planned",
-      "deployment": "planned",
+      "technology": "rules",
+      "deployment": "internal-draft",
       "scopes": ["certificates"],
       "files": [
+        "tools/certificates/service.mjs",
+        "tools/certificates/profiles.ts",
+        "tools/certificates/pdf.mjs",
+        "tools/certificates/binding.mjs",
+        "tools/certificates/review.mjs",
         "packages/content/src/exam.ts",
         "packages/content/src/exam-templates.ts",
         "docs/plan/phase-4-v2.md"
       ],
       "purpose": {
-        "de": "Geplante Abschlussnachweise; Prüfungsentwürfe vorhanden, kein öffentlicher Betrieb.",
-        "en-US": "Planned completion certificates; exam drafts exist without public operation.",
-        "en-GB": "Planned completion certificates; exam drafts exist without public operation."
+        "de": "Lokale synthetische Prüfungsdurchgänge mit serverseitiger Engine-Bewertung, Testgrenze und ungültigem Muster-PDF. Keine Namen, Zahlungen, öffentliche Anerkennung oder produktive Identitätsprüfung.",
+        "en-US": "Local synthetic exam attempts with server-side engine grading, a test threshold and invalid sample PDFs. No names, payments, public recognition or production identity checks.",
+        "en-GB": "Local synthetic exam attempts with server-side engine grading, a test threshold and invalid sample PDFs. No names, payments, public recognition or production identity checks."
       },
       "concern": {
         "de": "Bewertungs-, Zugangs- und Anerkennungszweck vor jeder Produktfreigabe prüfen.",

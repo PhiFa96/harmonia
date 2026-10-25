@@ -59,6 +59,9 @@ jobs:
       - name: KI-Verordnungsinventar und Codebindung prüfen
         run: pnpm check:ai
 
+      - name: Zertifikatsentwurf, Quellenbindung und offene Freigaben prüfen
+        run: pnpm check:certificates
+
       - name: Rechtliche Freigabefelder und geschlossene Vorbereitung prüfen
         run: pnpm check:legal
 

@@ -246,6 +246,8 @@
 
 ### P4.18 – Zertifikate
 
+**Technischer Entwurf und Weiterbau (25.10.2026), vor der formalen Phase-4-Freigabe:** [Lokale Zertifikatswerkstatt](zertifikate-entwurf.md) mit zwei serverbewerteten Testprofilen, Wiederaufnahme, ungültigen Muster-PDFs, Widerruf und Datenlöschung. Der Weiterbau verbindet die Entwurfsstände #104 und #109: Code-/Inhaltsbindung für Durchgänge und PDFs, eigener Zustand für veraltete Durchgänge, private DE/EN-Prüfmappe mit 72 reproduzierbaren Aufgabenbeispielen und ausdrücklich ausgewiesenen Themenlücken. `check:certificates:release` sperrt zusammen mit den offenen P4.17-Zertifikatsnachweisen. Testgrenze und Engine-Lösungen sind keine fachliche Abnahme. Keine Zahlung, gültige Urkunde, Veröffentlichung oder Integration auf main. Schriftliche Rechtsprüfung, unabhängige Fachprüfung und sämtliche Produkt-Häkchen bleiben offen. P4.01 bleibt bis F14 und Rechtsklärung zurückgestellt.
+
 **Interne technische Vorarbeit auf ausdrücklichen Nutzerauftrag (23.10.2026), vor der formalen Phase-4-Freigabe:** [Lokaler Zertifikats-Prototyp](zertifikate-entwurf.md) mit zwei Testprofilen, servergeprüfter Auswertung, ungültigem Muster-PDF und interner Codeprüfung einschließlich Widerruf. DE/EN, SQLite-Wiederaufnahme und Tests. P4.17, feste fachlich freigegebene Prüfungsinhalte, verbindliche Bestehensregeln und Zahlungsberechtigung bleiben Voraussetzungen eines Produktangebots. Keine Veröffentlichung, keine gültigen Zertifikate. Die folgenden Produkt-Abnahmefelder bleiben offen. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
 
 - **Ziel:** Bezahlte, verifizierbare Abschlussprüfungen je Stufe.

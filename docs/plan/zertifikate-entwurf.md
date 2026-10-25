@@ -1,6 +1,6 @@
 # P4.18 – Zertifikate als interner technischer Prototyp
 
-Stand: 23.10.2026 · Branch `codex/p4-18-certificate-draft`
+Stand: 25.10.2026 · ursprünglicher Prototyp `codex/p4-18-certificate-draft` (#104), Weiterbau `codex/p4-18-review-bound-draft`
 
 **Ausdrücklich beauftragte technische P4-Vorarbeit vor der formalen Phase-4-Freigabe.** P4.17, fachliche Prüfungsfreigaben, verbindliche Bestehens-/Wiederholungsregeln und Zahlungsentscheidungen bleiben offen. P4.01 bleibt bis F14 und Klärung der rechtlichen Voraussetzungen zurückgestellt. Kein Deployment, keine Veröffentlichung, keine gültigen Zertifikate.
 
@@ -21,6 +21,8 @@ Die getrennte Web-Werkstatt läuft ausschließlich auf `http://127.0.0.1:8237`. 
 
 ## Server und Daten
 
+**Weiterbau mit P4.17:** Die lokale Zusammenführung der Entwurfsstände #104 und #109 enthält jetzt eine zusätzliche Bindung an die Prüfungsimplementierung, nicht nur die erzeugten Aufgaben. `source_hash` wird beim Serverstart über Werkstatt, Inhalte, Engines, Übersetzungen, Schriften und Lockfile ermittelt und beim Start eines Durchgangs gespeichert. Neue Dateien in den überwachten Verzeichnissen zählen mit. Nach Codeänderungen den Server neu starten; laufende Prozesse werden nicht automatisch neu geladen. Ein veralteter oder ungebundener Altbestand erscheint als eigener Zustand ohne Aufgaben/Ergebnis und kann nicht fortgesetzt, neu bewertet oder als neues PDF ausgegeben werden. Die additive lokale Migration löscht keine bestehenden Zeilen. Eigene Daten können gelöscht und anschließend neue Testdurchgänge begonnen werden. Bereits vorhandene Muster bleiben ungültig; der technische Hash ist keine Freigabe. Siehe [ADR 0045](../decisions/0045-zertifikatsentwuerfe-an-pruefcode-binden.md).
+
 - Der Server wählt Seed, Aufgaben und Frist. Antworten bestehen nur aus Durchgangs-ID, aktuellem Index, Auswahl und Sprache. Clientpunkte, Zeitstempel, Ergebnisse und zusätzliche Felder werden abgewiesen.
 - Der P3.17-Kern erzeugt und bewertet die Aufgaben erneut. Ein Fingerabdruck bindet Profil, Inhalte und erzeugte Aufgaben; eine geänderte Inhaltsfassung erlaubt keine Fortsetzung mit stillschweigend geänderten Fragen.
 - Der Browser erhält nur die aktuelle Aufgabenansicht; keine Seeds, zukünftigen Aufgaben, Lösungshinweise oder Bewertung vor Abschluss. Hörfragen geben keine Notengrafik aus. Dies ist keine beaufsichtigte Prüfung und kein Schutz gegen Hilfsmittel oder externe Analyse des Hörmaterials.
@@ -31,6 +33,20 @@ Die getrennte Web-Werkstatt läuft ausschließlich auf `http://127.0.0.1:8237`. 
 - Nach Verlust des Cookies kann ein Durchgang nicht wiederhergestellt werden; seine automatische Aufbewahrungsgrenze bleibt bestehen. Antworten müssen vor Ablauf beim Server eintreffen; offline eingegebene Antworten erhalten keinen nachträglichen Zeitbonus.
 
 ## Prüfungen
+
+### Private Prüfmappe und Veröffentlichungssperre
+
+```sh
+corepack pnpm certificates:review
+corepack pnpm check:certificates
+corepack pnpm check:certificates:release
+```
+
+`certificates:review` erzeugt `snapshot.json`, `de.html`, `en-US.html` und `en-GB.html` ausschließlich unter dem ignorierten `artifacts/certificates/review/` (0700/0600). Die statischen Berichte enthalten **Lösungsschlüssel**, eigene Aufgaben-/Notenquellen, drei feste Seeds je Profil (insgesamt 72 Aufgabenbeispiele), Profilkonfiguration, verwendete Lektionen und ausgelassene Einheiten. Eine verwendete Einheit kann weitere ungeprüfte Fähigkeiten enthalten. Weder diese Liste noch die mit derselben Engine ermittelten Lösungen sind ein unabhängiger Vollständigkeits-/Fachnachweis. Bravura wird mit Lizenz eingebettet; die Mappe benötigt keine externen Ressourcen. Der Prüfungsserver liefert weder die Mappe noch einen Antwortschlüssel-Endpunkt aus.
+
+Beide technischen Prüfstände sind enthalten: der Prüfungsquellcode und der aktuelle P4.17-Snapshot mit offenen Zertifikatsanforderungen. Das KI-Inventar beschreibt jetzt den vorhandenen lokalen Entwurf statt ausschließlich geplanter Zertifikatsfunktionen. Die Prüfmappe ist keine neue KI-Einstufung.
+
+`check:certificates` darf bei offenen Abnahmen erfolgreich sein und läuft in CI. `check:certificates:release` muss mit Exitcode 1 sperren: ungültiger Musterbetrieb, fachliche Abschlussinhalte, verbindliche Prüfungsregeln, Identität/Datenschutz, Zahlung/Erstattung, Betrieb/Verifikation, Geräte/Barrierefreiheit, formale Phase 4 und die P4.17-Nachweise sind offen. Es gibt weiterhin keinen Produktmodus; ein Rechtsformular allein schaltet keine gültigen Zertifikate frei.
 
 ```sh
 corepack pnpm certificates:test
@@ -52,3 +68,11 @@ Lokaler Nachweis vom 23.10.2026: 13 Server-/Werkzeugtests, vier Chromium-Abläuf
 - Produktive Speicherung, Betrieb, veröffentlichte Verifikationsseite, reale Geräte-/Audioabnahme und formale P4-Freigabe.
 
 Diese offenen Punkte sind keine durch Simulation erledigten Abnahmen. Entscheidung: [ADR 0039](../decisions/0039-zertifikate-als-lokaler-pruefprototyp.md).
+
+## Nachweis des Weiterbaus (25.10.2026)
+
+- 24/24 Zertifikats-/Prüfmappe-Tests, darunter echte HTTP-/SQLite-Prüfungen, Codewechsel nach Neustart, additive Altbestandsmigration, gesperrte Neubewertung/PDF-Ausgabe, Quellen-/Lösungsmappe, P4.17-Anbindung und Veröffentlichungssperre.
+- 8/8 Chromium-Abläufe: bisheriger DE/US/UK-Prüfablauf, verlorene Antwort/Frist, veralteter Durchgang mit Löschung/Neustart und drei eigenständige Berichte mit eingebetteter Schrift, schmaler Ansicht und Axe. Gleiche Regionsnamen im Bericht wurden nach einem Axe-Befund eindeutig gemacht.
+- Vollständige Werkzeugtests: 231/231; vollständiger Lint (mit dem auch in CI gesetzten 4-GB-Heap), Typprüfung und Formatprüfung erfolgreich. Der erste lokale Lint-Aufruf ohne diese Heap-Einstellung erreichte das 2-GB-Node-Limit; der anschließende vollständige Lauf war erfolgreich.
+- Produktions-Webexport und Bundle-Prüfung: fünf JS-Dateien ohne Entwurfsdaten; neues deutsches Muster-PDF zusätzlich ausgelesen, gerendert und visuell geprüft.
+- Prüfpakete sowie Rechts-, Beta- und P2-Vorbereitung laufen; die Produktfreigaben bleiben gesperrt. GitHub-CI wird für den neuen Entwurfs-PR gesondert ausgewiesen. Lokale grüne Ergebnisse ersetzen keine erforderliche CI oder offene Fach-/Rechts-/Geräteabnahme.

@@ -216,7 +216,9 @@ function renderAttempt(attempt: DraftAttempt) {
   player.stop();
   if (timer) clearInterval(timer);
   content.replaceChildren();
-  if (attempt.phase === 'finished' && attempt.result) {
+  if (attempt.phase === 'outdated') {
+    content.append(element('h2', t('outdatedTitle')), element('p', t('outdated')));
+  } else if (attempt.phase === 'finished' && attempt.result) {
     const result = attempt.result;
     content.append(
       element('h2', t('result')),

@@ -20,6 +20,7 @@ import {
   scoreTimeline,
 } from '../../packages/notation/src/index.ts';
 import { CERTIFICATE_PROFILES } from './profiles.ts';
+import { certificateSourceHash, SOURCE_HASH } from './binding.mjs';
 
 export class DraftError extends Error {
   constructor(code, status = 400) {
@@ -47,7 +48,11 @@ export function validLocale(locale) {
 }
 
 /** An explicitly local fixture store. Server clock, seeds, grading and receipts stay here. */
-export function createCertificateService(filename, { now = Date.now } = {}) {
+export function createCertificateService(
+  filename,
+  { now = Date.now, sourceHash = certificateSourceHash() } = {},
+) {
+  if (!SOURCE_HASH.test(sourceHash)) throw Error('Invalid certificate source hash');
   const db = new DatabaseSync(filename);
   db.exec(`pragma foreign_keys=on; pragma journal_mode=DELETE;
     create table if not exists certificate_drafts (
@@ -58,6 +63,14 @@ export function createCertificateService(filename, { now = Date.now } = {}) {
     );
     create unique index if not exists one_active_draft on certificate_drafts(owner) where finished is null;
     create index if not exists draft_owner on certificate_drafts(owner,started);`);
+  // Additive local migration: legacy attempts have no verifiable implementation binding.
+  if (
+    !db
+      .prepare('pragma table_info(certificate_drafts)')
+      .all()
+      .some((c) => c.name === 'source_hash')
+  )
+    db.exec('alter table certificate_drafts add column source_hash text');
 
   const profileFor = (id) => {
     const profile = CERTIFICATE_PROFILES.find((p) => p.id === id);
@@ -65,6 +78,7 @@ export function createCertificateService(filename, { now = Date.now } = {}) {
     return profile;
   };
   function reconstruct(row) {
+    requireCurrent(row);
     const profile = profileFor(row.profile);
     let run = createExamRun(catalogue, [profile.template], profile.id, row.seed, row.started);
     const fingerprint = hash(
@@ -77,6 +91,9 @@ export function createCertificateService(filename, { now = Date.now } = {}) {
     }
     if (row.finished !== null) run = finishExam(run, row.finished);
     return run;
+  }
+  function requireCurrent(row) {
+    if (row.source_hash !== sourceHash) throw new DraftError('outdated', 409);
   }
   function finalize(row, run) {
     const result = examResult(run);
@@ -94,6 +111,7 @@ export function createCertificateService(filename, { now = Date.now } = {}) {
       status: 'draft',
       issuedAt: run.endedAt,
       code,
+      sourceHash: row.source_hash,
     };
     db.prepare(
       'update certificate_drafts set finished=?,reason=?,result=?,code=? where id=? and finished is null',
@@ -113,6 +131,15 @@ export function createCertificateService(filename, { now = Date.now } = {}) {
     return now() >= run.deadlineAt ? finalize(row, finishExam(run, now())) : row;
   }
   function view(row, locale) {
+    if (row.source_hash !== sourceHash)
+      return {
+        id: row.id,
+        profile: row.profile,
+        startedAt: row.started,
+        serverNow: now(),
+        deadlineAt: row.started + profileFor(row.profile).template.minutes * 60_000,
+        phase: 'outdated',
+      };
     row = expire(row);
     const base = {
       id: row.id,
@@ -220,8 +247,8 @@ export function createCertificateService(filename, { now = Date.now } = {}) {
           JSON.stringify({ version: catalogue.contentVersion, profile, items: run.session.items }),
         );
         db.prepare(
-          'insert into certificate_drafts(id,owner,profile,seed,fingerprint,started) values(?,?,?,?,?,?)',
-        ).run(id, owner, profile.id, seed, fingerprint, started);
+          'insert into certificate_drafts(id,owner,profile,seed,fingerprint,started,source_hash) values(?,?,?,?,?,?,?)',
+        ).run(id, owner, profile.id, seed, fingerprint, started, sourceHash);
         return view(owned(owner, id), payload.locale);
       });
     },
@@ -237,7 +264,9 @@ export function createCertificateService(filename, { now = Date.now } = {}) {
       )
         throw new DraftError('invalid');
       return transaction(() => {
-        let row = expire(owned(owner, payload.id));
+        const stored = owned(owner, payload.id);
+        requireCurrent(stored);
+        let row = expire(stored);
         const answers = JSON.parse(row.answers);
         const previous = answers.find((a) => a.index === payload.index);
         if (previous) {
@@ -268,7 +297,9 @@ export function createCertificateService(filename, { now = Date.now } = {}) {
       validLocale(payload.locale);
       if (typeof payload.id !== 'string') throw new DraftError('invalid');
       return transaction(() => {
-        let row = expire(owned(owner, payload.id));
+        const stored = owned(owner, payload.id);
+        requireCurrent(stored);
+        let row = expire(stored);
         if (row.finished === null) row = finalize(row, finishExam(reconstruct(row), now()));
         return view(row, payload.locale);
       });
@@ -306,6 +337,7 @@ export function createCertificateService(filename, { now = Date.now } = {}) {
       if (typeof id !== 'string') throw new DraftError('invalid');
       return transaction(() => {
         const row = owned(owner, id);
+        requireCurrent(row);
         if (!row.code) throw new DraftError('notFound', 404);
         if (row.revoked !== null) throw new DraftError('revoked', 410);
         return { id: row.id, ...JSON.parse(row.result) };

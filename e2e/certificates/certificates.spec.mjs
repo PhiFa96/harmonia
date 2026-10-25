@@ -1,11 +1,86 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { mkdtempSync, rmSync } from 'node:fs';
+import { DatabaseSync } from 'node:sqlite';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createCertificateServer } from '../../tools/certificates/server.mjs';
 import { fixtureAnswers } from '../../tools/certificates/test-fixture.mjs';
 import { certificateTranslator } from '../../packages/i18n/src/certificate-draft.ts';
+import { CERTIFICATE_REVIEW_MESSAGES } from '../../packages/i18n/src/certificate-review.ts';
+import { certificateReview, certificateReviewHtml } from '../../tools/certificates/review.mjs';
+
+test('an outdated attempt explains the block and can be removed before restarting', async ({
+  page,
+}) => {
+  const dir = mkdtempSync(join(tmpdir(), 'harmonia-cert-outdated-'));
+  const database = join(dir, 'test.sqlite'),
+    app = await createCertificateServer({ database });
+  const t = certificateTranslator('de');
+  try {
+    await page.goto(app.origin);
+    await page
+      .getByRole('button', { name: t('start'), exact: true })
+      .first()
+      .click();
+    await expect(
+      page.getByRole('heading', { name: t('progress', { current: 1, total: 12 }) }),
+    ).toBeVisible();
+    const db = new DatabaseSync(database);
+    db.exec("update certificate_drafts set source_hash='earlier-implementation'");
+    db.close();
+    await page.reload();
+    await expect(page.getByRole('heading', { name: t('outdatedTitle') })).toBeVisible();
+    await expect(page.getByText(t('outdated'), { exact: true })).toBeVisible();
+    await expect(page.locator('input[type=radio]')).toHaveCount(0);
+    await expect(page.getByRole('button', { name: t('download'), exact: true })).toHaveCount(0);
+    expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+    page.once('dialog', (dialog) => dialog.accept());
+    await page.getByRole('button', { name: t('erase'), exact: true }).click();
+    await page
+      .getByRole('button', { name: t('start'), exact: true })
+      .first()
+      .click();
+    await expect(
+      page.getByRole('heading', { name: t('progress', { current: 1, total: 12 }) }),
+    ).toBeVisible();
+  } finally {
+    await app.close();
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+for (const locale of ['de', 'en-US', 'en-GB']) {
+  test(`${locale}: standalone review report renders notation offline with accessible narrow layout`, async ({
+    page,
+  }, info) => {
+    const dir = mkdtempSync(join(tmpdir(), 'harmonia-cert-report-'));
+    const html = certificateReviewHtml(certificateReview(), locale);
+    const external = [];
+    page.on('request', (request) => {
+      if (/^https?:/.test(request.url())) external.push(request.url());
+    });
+    try {
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.setContent(html);
+      await page.evaluate(() => document.fonts.ready);
+      await expect(
+        page.getByRole('heading', { name: CERTIFICATE_REVIEW_MESSAGES[locale].title }),
+      ).toBeVisible();
+      expect(await page.locator('article').count()).toBe(72);
+      expect(await page.evaluate(() => document.fonts.check('16px Bravura'))).toBe(true);
+      expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+      expect(
+        await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
+      ).toBe(true);
+      await page.locator('article').first().scrollIntoViewIfNeeded();
+      await page.screenshot({ path: info.outputPath(`review-${locale}.png`) });
+      expect(external).toEqual([]);
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+}
 
 for (const locale of ['de', 'en-US', 'en-GB']) {
   test(`${locale}: exam, reload, audio, server result, sample PDF, verification and revocation`, async ({

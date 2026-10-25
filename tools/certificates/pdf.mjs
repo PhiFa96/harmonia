@@ -3,6 +3,7 @@ import fontkit from '@pdf-lib/fontkit';
 import { readFileSync } from 'node:fs';
 import { certificateTranslator } from '../../packages/i18n/src/certificate-draft.ts';
 import { validLocale, DRAFT_CODE } from './service.mjs';
+import { SOURCE_HASH } from './binding.mjs';
 
 /** Receives only a receipt reloaded by the server for the cookie owner. */
 export async function sampleCertificatePdf(receipt, locale) {
@@ -11,7 +12,8 @@ export async function sampleCertificatePdf(receipt, locale) {
     receipt.status !== 'draft' ||
     !receipt.qualified ||
     !DRAFT_CODE.test(receipt.code) ||
-    receipt.revoked
+    receipt.revoked ||
+    !SOURCE_HASH.test(receipt.sourceHash)
   )
     throw new Error('Sample receipt required');
   const t = certificateTranslator(locale);
@@ -64,6 +66,8 @@ export async function sampleCertificatePdf(receipt, locale) {
   for (const area of receipt.areas)
     line(`${t(area.area)}: ${t('points', { points: area.points, maximum: area.maxPoints })}`);
   line(t('pdfVersion', { profile: receipt.profileVersion, content: receipt.contentVersion }), 10);
+  line(t('pdfSource'), 10);
+  line(receipt.sourceHash, 8);
   line(t('pdfDate', { date: new Date(receipt.issuedAt).toISOString() }), 10);
   y -= 12;
   line(t('code'), 11, true);

@@ -14,7 +14,7 @@ export interface DraftAttempt {
   startedAt: number;
   deadlineAt: number;
   serverNow: number;
-  phase: 'active' | 'finished';
+  phase: 'active' | 'finished' | 'outdated';
   reason?: 'completed' | 'submitted' | 'timeout';
   result?: DraftResult;
   question?: {
