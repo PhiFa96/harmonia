@@ -14,6 +14,7 @@ import historyDraft from '../packages/i18n/src/history-journey-draft.json' with 
 import { SCHOOL_DRAFT_MESSAGES } from '../packages/i18n/src/school-draft.ts';
 import { ASSIGNMENT_MESSAGES } from '../packages/i18n/src/school-assignments.ts';
 import { CERTIFICATE_DRAFT_MESSAGES } from '../packages/i18n/src/certificate-draft.ts';
+import levelFiveDraft from '../packages/i18n/src/messages/level-five-exercise.json' with { type: 'json' };
 
 const directory = resolve(process.argv[2] ?? 'apps/mobile/dist');
 const published = publicCatalogue(catalogue);
@@ -79,6 +80,14 @@ for (const [locale, stories] of Object.entries(historyDraft))
         if (typeof text === 'string' && text.length > 24 && !allowedTexts.has(text))
           forbidden.set(text, `P4.12 ${locale}.${era}.${field}`);
 const files = [];
+// P4.19 teaching prompts are draft content too, even though Node's authoring
+// tools load them as exercise messages. Metro removes them from production.
+for (const [locale, messages] of Object.entries(levelFiveDraft))
+  for (const [key, value] of Object.entries(messages))
+    if (
+      /^(contextQuestion_|contextHint[12]_|contextExplain_|knowledgeHistoryDefinition_)/.test(key)
+    )
+      forbidden.set(value, `P4.19 ${locale}.${key}`);
 function visit(path) {
   for (const entry of readdirSync(path, { withFileTypes: true })) {
     const full = resolve(path, entry.name);

@@ -13,7 +13,7 @@
 - Die Nutzerbasis ist groß genug, um Coaches Buchungen zu versprechen.
 - Die offenen Phase-3-Abnahmen aus dem [technischen Rückblick](phase-3-rueckblick.md) sind abgeschlossen: Stufen 3–4 fachlich freigegeben und live, echte Geräte-/Realtime-/DB-Tests sowie Tutor-Quellenreview bestanden. P4.06 braucht zusätzlich eine eigene widerrufbare Lernstand-Freigabe; Harmonik-Korrekturen warten auf F03.
 
-**Interne technische Vorarbeit (21.10.2026):** Auf ausdrücklichen Nutzerauftrag entstehen Entwürfe vor der formalen Phase-4-Freigabe. Dazu zählen die gesonderte P4.12-Zeitreise, der P4.11-Chor-Trainer sowie die P4.09-Satzprüfung mit lokaler Satzwerkstatt als Eingabevorarbeit für P4.10. Diese Arbeit hebt keine Start-, Fach- oder Veröffentlichungsvoraussetzung auf. Der Produktions-Build enthält keine P4.12-Entwurfstexte oder Stationen. P4.01 bleibt bis F14 und Klärung der rechtlichen Voraussetzungen zurückgestellt.
+**Interne technische Vorarbeit (22.10.2026):** Auf ausdrücklichen Nutzerauftrag entstehen Entwürfe vor der formalen Phase-4-Freigabe. Dazu zählen die gesonderte P4.12-Zeitreise, der P4.11-Chor-Trainer, die P4.09-Satzprüfung und P4.10 sowie jetzt der [P4.19-Stufe-5-Entwurf](stufe-5-entwurf.md). Diese Arbeit hebt keine Start-, Fach- oder Veröffentlichungsvoraussetzung auf. Der Produktions-Build enthält keine P4.12-Entwurfstexte oder Stationen und keine neuen P4.19-Lerntexte/Aufgabenstellungen. P4.01 bleibt bis F14 und Klärung der rechtlichen Voraussetzungen zurückgestellt.
 
 **Blöcke:**
 
@@ -266,6 +266,16 @@
 - **Abhängig von:** P4.09
 - **Umfang:** XL
 - **Aufgaben und Abnahme:** wie P2.07. Zusätzlich Engine-Module `counterpoint` (Grundlagen) und Analyse-Übungen.
+
+**Technisch als interner Entwurf implementiert, keine Produktabnahme:** [Umsetzung und offene Abnahmen](stufe-5-entwurf.md), [Quellenentwurf](../quality/p4-19-quellenentwurf.md), [ADR 0038](../decisions/0038-stufe-fuenf-als-begrenzter-analyseentwurf.md). Technische P4-Vorarbeit findet ausdrücklich **vor der formalen Phase-4-Freigabe** statt.
+
+- [x] Begrenzte Kontrapunkt-Engine (erste Gattung, neun Regeln) und zehn quellbasierte Analysethemen mit Tests.
+- [x] Acht neue Einheiten, 24 DE/EN-Lektionen, 240 Aufgaben, 32 eigene Karten/Notenbeispiele und acht Artikel als `entwurf`.
+- [x] Interner Prüfablauf mit Einführung, Bewertung und veränderter Fehlerwiederholung; keine XP oder gespeicherten Lernereignisse.
+- [x] Wissensindex für Stufe 5 und Produktionsausschluss der neuen Entwurfstexte vorbereitet.
+- [ ] Unabhängige Fachprüfung, vollständige Quellen-/Didaktikabnahme, reale Geräte-/Audioprüfungen und formale Freigabe.
+
+Die Häkchen kennzeichnen ausschließlich die technische Umsetzung. Keine Veröffentlichung. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
 
 ---
 

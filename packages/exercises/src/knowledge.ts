@@ -66,6 +66,14 @@ export const HISTORY_FACTS: Readonly<Record<HistoryTopic, readonly HistoryKind[]
   tuning: ['harmonics', 'pureFifth', 'equal', 'meantone'],
   examAural: ['intervals', 'chords', 'dictation', 'sight'],
   historySurvey: ['context', 'edition', 'recording', 'uncertainty'],
+  speciesBasics: ['oneAgainstOne', 'speciesConsonance', 'speciesMotion', 'speciesClosure'],
+  imitationStudy: ['canonEntry', 'subjectAnswer', 'motifInversion', 'retrograde'],
+  advancedForms: ['sectionIdentity', 'rondoReturn', 'variationIdentity', 'sonataFunction'],
+  workAnalysis: ['analyticalQuestion', 'pitchEvidence', 'reductionLimits', 'analysisArgument'],
+  serialStudy: ['rowOrder', 'rowOperations', 'serialScope', 'rowContext'],
+  setStudy: ['setIdentity', 'intervalClass', 'intervalVector', 'setLimits'],
+  processStudy: ['discretePhase', 'additiveProcess', 'electroacoustic', 'spectralModel'],
+  worldStudy: ['maqamContext', 'ragaContext', 'situatedSource', 'modelBoundary'],
 };
 export const HISTORY_PERIODS = [
   'medieval',
@@ -118,6 +126,14 @@ export const KNOWLEDGE_TOPICS = [
   'tuning',
   'examAural',
   'historySurvey',
+  'speciesBasics',
+  'imitationStudy',
+  'advancedForms',
+  'workAnalysis',
+  'serialStudy',
+  'setStudy',
+  'processStudy',
+  'worldStudy',
 ] as const;
 export const ORDER_TOPICS = ['noteValues', 'pitches', 'periods'] as const;
 const VALUES = ['whole', 'half', 'quarter', 'eighth', 'sixteenth'] as const;

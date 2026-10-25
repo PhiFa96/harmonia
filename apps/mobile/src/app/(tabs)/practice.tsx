@@ -1,4 +1,5 @@
 import { ChoirEntry } from '@/components/choir-entry';
+import { LevelFiveEntry } from '@/components/level-five-entry';
 import { PartWritingEntry } from '@/components/part-writing-entry';
 import { RushEntry } from '@/components/rush-entry';
 import { ExamEntry } from '@/components/exam-entry';
@@ -133,6 +134,7 @@ export default function PracticeScreen() {
             <DuelEntry />
             <DailyPuzzleEntry />
             <FriendsEntry />
+            <LevelFiveEntry />
             <TunerEntry />
             <PartWritingEntry />
             <ChoirEntry />
