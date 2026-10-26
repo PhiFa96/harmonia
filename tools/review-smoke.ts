@@ -41,7 +41,7 @@ for (const record of catalogue.lessons) {
   );
   tasks += plan.newCount;
 }
-assert(tasks === 1600, 'Every authored exercise covered');
+assert(tasks === 1866, 'Every authored exercise covered');
 const engine = fsrs(REVIEW_PARAMETERS);
 for (const grade of [1, 2, 3, 4] as const)
   assert(

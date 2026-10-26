@@ -15,6 +15,7 @@ import {
   PRACTICE_CONTENT_VERSION,
   expectedAnswer,
   createLessonSession,
+  lessonReviewItem,
   satbAnswerId,
 } from '../packages/exercises/src/index.ts';
 import {
@@ -628,6 +629,55 @@ check(
 
 // P4.10: only the reconstructed checked task is available to the draft tool.
 {
+  for (const record of catalogue.lessons.filter((entry) => entry.id.includes('.writing.'))) {
+    const lesson = resolveLesson(catalogue, record.id);
+    if (!lesson) throw new Error('SATB lesson missing');
+    const seed = 'satb-key-source';
+    const initial = createLessonSession(lesson, seed).initial.items;
+    for (const index of [0, 1, 2]) {
+      for (const round of ['initial', 'review'] as const) {
+        const item = round === 'initial' ? initial[index] : lessonReviewItem(lesson, seed, index);
+        if (item?.type !== 'VOICE_LEADING') throw new Error('SATB source task missing');
+        const source = {
+          kind: 'lesson' as const,
+          lessonId: lesson.id,
+          contentVersion: lesson.contentVersion,
+          seed,
+          round,
+          index,
+        };
+        const boundRequest: TutorRequest = {
+          ...request,
+          mode: 'explain',
+          context: { source, answer: expectedAnswer(item), checked: true },
+        };
+        const context = exerciseContext(catalogue, boundRequest);
+        const output = executeTutorTool('check_voice_leading', {}, boundRequest, context);
+        check(
+          output.ok && JSON.stringify(output).includes('"passed":true'),
+          `SATB tutor reconstructs ${lesson.id}/${round}/${String(index)}`,
+        );
+        check(
+          JSON.stringify(output).includes(JSON.stringify(expectedAnswer(item))),
+          'SATB tutor uses the same key and pitches as the task',
+        );
+        let staleRejected = false;
+        try {
+          exerciseContext(catalogue, {
+            ...boundRequest,
+            context: {
+              source: { ...source, contentVersion: 19 },
+              answer: expectedAnswer(item),
+              checked: true,
+            },
+          });
+        } catch {
+          staleRejected = true;
+        }
+        check(staleRejected, 'SATB tutor rejects the superseded task version');
+      }
+    }
+  }
   const lesson = resolveLesson(catalogue, 'satz.l5.writing.bass.lesson');
   check(!!lesson, 'SATB draft lesson exists');
   if (!lesson) throw new Error('SATB draft lesson missing');

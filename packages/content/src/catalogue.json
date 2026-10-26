@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": 21,
+  "contentVersion": 22,
   "areas": [
     {
       "id": "fundament",
@@ -7031,7 +7031,7 @@
     },
     {
       "id": "satz.l4.writing.bass.exercises",
-      "contentVersion": 19,
+      "contentVersion": 22,
       "status": "entwurf",
       "titleKey": "content.partWriting.bass",
       "skillIds": ["satz.l4.writing.bass"],
@@ -7041,16 +7041,39 @@
             "type": "VOICE_LEADING",
             "params": {
               "level": 4,
-              "mode": "bass"
+              "mode": "bass",
+              "fifths": 0
             }
           },
-          "count": 3
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "VOICE_LEADING",
+            "params": {
+              "level": 4,
+              "mode": "bass",
+              "fifths": -1
+            }
+          },
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "VOICE_LEADING",
+            "params": {
+              "level": 4,
+              "mode": "bass",
+              "fifths": 1
+            }
+          },
+          "count": 1
         }
       ]
     },
     {
       "id": "satz.l4.writing.soprano.exercises",
-      "contentVersion": 19,
+      "contentVersion": 22,
       "status": "entwurf",
       "titleKey": "content.partWriting.soprano",
       "skillIds": ["satz.l4.writing.soprano"],
@@ -7060,16 +7083,39 @@
             "type": "VOICE_LEADING",
             "params": {
               "level": 4,
-              "mode": "soprano"
+              "mode": "soprano",
+              "fifths": 0
             }
           },
-          "count": 3
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "VOICE_LEADING",
+            "params": {
+              "level": 4,
+              "mode": "soprano",
+              "fifths": -1
+            }
+          },
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "VOICE_LEADING",
+            "params": {
+              "level": 4,
+              "mode": "soprano",
+              "fifths": 1
+            }
+          },
+          "count": 1
         }
       ]
     },
     {
       "id": "satz.l4.writing.functions.exercises",
-      "contentVersion": 19,
+      "contentVersion": 22,
       "status": "entwurf",
       "titleKey": "content.partWriting.functions",
       "skillIds": ["satz.l4.writing.functions"],
@@ -7079,16 +7125,39 @@
             "type": "VOICE_LEADING",
             "params": {
               "level": 4,
-              "mode": "functions"
+              "mode": "functions",
+              "fifths": 0
             }
           },
-          "count": 3
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "VOICE_LEADING",
+            "params": {
+              "level": 4,
+              "mode": "functions",
+              "fifths": -1
+            }
+          },
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "VOICE_LEADING",
+            "params": {
+              "level": 4,
+              "mode": "functions",
+              "fifths": 1
+            }
+          },
+          "count": 1
         }
       ]
     },
     {
       "id": "satz.l5.writing.bass.exercises",
-      "contentVersion": 19,
+      "contentVersion": 22,
       "status": "entwurf",
       "titleKey": "content.partWriting.bass",
       "skillIds": ["satz.l5.writing.bass"],
@@ -7098,16 +7167,39 @@
             "type": "VOICE_LEADING",
             "params": {
               "level": 5,
-              "mode": "bass"
+              "mode": "bass",
+              "fifths": 0
             }
           },
-          "count": 3
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "VOICE_LEADING",
+            "params": {
+              "level": 5,
+              "mode": "bass",
+              "fifths": -1
+            }
+          },
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "VOICE_LEADING",
+            "params": {
+              "level": 5,
+              "mode": "bass",
+              "fifths": 1
+            }
+          },
+          "count": 1
         }
       ]
     },
     {
       "id": "satz.l5.writing.soprano.exercises",
-      "contentVersion": 19,
+      "contentVersion": 22,
       "status": "entwurf",
       "titleKey": "content.partWriting.soprano",
       "skillIds": ["satz.l5.writing.soprano"],
@@ -7117,16 +7209,39 @@
             "type": "VOICE_LEADING",
             "params": {
               "level": 5,
-              "mode": "soprano"
+              "mode": "soprano",
+              "fifths": 0
             }
           },
-          "count": 3
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "VOICE_LEADING",
+            "params": {
+              "level": 5,
+              "mode": "soprano",
+              "fifths": -1
+            }
+          },
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "VOICE_LEADING",
+            "params": {
+              "level": 5,
+              "mode": "soprano",
+              "fifths": 1
+            }
+          },
+          "count": 1
         }
       ]
     },
     {
       "id": "satz.l5.writing.functions.exercises",
-      "contentVersion": 19,
+      "contentVersion": 22,
       "status": "entwurf",
       "titleKey": "content.partWriting.functions",
       "skillIds": ["satz.l5.writing.functions"],
@@ -7136,10 +7251,33 @@
             "type": "VOICE_LEADING",
             "params": {
               "level": 5,
-              "mode": "functions"
+              "mode": "functions",
+              "fifths": 0
             }
           },
-          "count": 3
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "VOICE_LEADING",
+            "params": {
+              "level": 5,
+              "mode": "functions",
+              "fifths": -1
+            }
+          },
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "VOICE_LEADING",
+            "params": {
+              "level": 5,
+              "mode": "functions",
+              "fifths": 1
+            }
+          },
+          "count": 1
         }
       ]
     },
@@ -21132,7 +21270,7 @@
     },
     {
       "id": "satz.l4.writing.bass.lesson",
-      "contentVersion": 19,
+      "contentVersion": 22,
       "status": "entwurf",
       "titleKey": "content.partWriting.bass",
       "unitId": "satz.l4.writing",
@@ -21142,7 +21280,7 @@
     },
     {
       "id": "satz.l4.writing.soprano.lesson",
-      "contentVersion": 19,
+      "contentVersion": 22,
       "status": "entwurf",
       "titleKey": "content.partWriting.soprano",
       "unitId": "satz.l4.writing",
@@ -21152,7 +21290,7 @@
     },
     {
       "id": "satz.l4.writing.functions.lesson",
-      "contentVersion": 19,
+      "contentVersion": 22,
       "status": "entwurf",
       "titleKey": "content.partWriting.functions",
       "unitId": "satz.l4.writing",
@@ -21162,7 +21300,7 @@
     },
     {
       "id": "satz.l5.writing.bass.lesson",
-      "contentVersion": 19,
+      "contentVersion": 22,
       "status": "entwurf",
       "titleKey": "content.partWriting.bass",
       "unitId": "satz.l5.writing",
@@ -21172,7 +21310,7 @@
     },
     {
       "id": "satz.l5.writing.soprano.lesson",
-      "contentVersion": 19,
+      "contentVersion": 22,
       "status": "entwurf",
       "titleKey": "content.partWriting.soprano",
       "unitId": "satz.l5.writing",
@@ -21182,7 +21320,7 @@
     },
     {
       "id": "satz.l5.writing.functions.lesson",
-      "contentVersion": 19,
+      "contentVersion": 22,
       "status": "entwurf",
       "titleKey": "content.partWriting.functions",
       "unitId": "satz.l5.writing",

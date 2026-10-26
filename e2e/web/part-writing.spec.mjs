@@ -66,42 +66,45 @@ for (const locale of ['de-DE', 'en-US', 'en-GB']) {
   });
 }
 
-test('stage 5 function task: enter a full score, assess it and open the tutor context', async ({
+test('stage 5 function tasks: complete three distinct keys and open the final tutor context', async ({
   page,
 }) => {
   await onboard(page, 'de-DE');
   await page.goto('/part-writing');
   await page.getByTestId('satb-start-satz.l5.writing.functions.lesson').click();
-  const prompt = await page.getByTestId('exercise-question').innerText();
-  const fifths = prompt.includes('F-Dur') ? -1 : prompt.includes('G-Dur') ? 1 : 0;
-  const item = Array.from({ length: 30 }, (_, seed) =>
-    generateVoiceLeading({ level: 5, mode: 'functions' }, createRng(seed)),
-  ).find((i) => i.fifths === fifths);
-  expect(item).toBeTruthy();
   const step = (p) => p.octave * 7 + 'CDEFGAB'.indexOf(p.letter);
-  for (const voice of ['soprano', 'alto', 'tenor', 'bass']) {
-    await page.getByTestId(`satb-voice-${voice}`).click();
-    for (let at = 0; at < 4; at++) {
-      const target = item.example[at][voice];
-      const delta = step(target) - (voice === 'bass' || voice === 'tenor' ? 3 : 4) * 7;
-      const note = page.getByTestId('satb-input-staff').getByRole('slider').nth(at);
-      await note.focus();
-      if (delta === 0) {
-        await page.keyboard.press('ArrowUp');
-        await page.keyboard.press('ArrowDown');
-      } else
-        for (let n = 0; n < Math.abs(delta); n++)
-          await page.keyboard.press(delta > 0 ? 'ArrowUp' : 'ArrowDown');
+  for (const fifths of [0, -1, 1]) {
+    await expect(page.getByTestId('exercise-question')).toContainText(
+      fifths === -1 ? 'F-Dur' : fifths === 1 ? 'G-Dur' : 'C-Dur',
+    );
+    const item = generateVoiceLeading({ level: 5, mode: 'functions', fifths }, createRng('e2e'));
+    const check = page.getByRole('button', { name: 'Prüfen', exact: true });
+    await expect(check).toBeDisabled();
+    await expect(page.getByTestId('satb-editor')).toContainText('0 von 16');
+    for (const voice of ['soprano', 'alto', 'tenor', 'bass']) {
+      await page.getByTestId(`satb-voice-${voice}`).click();
+      for (let at = 0; at < 4; at++) {
+        const target = item.example[at][voice];
+        const delta = step(target) - (voice === 'bass' || voice === 'tenor' ? 3 : 4) * 7;
+        const note = page.getByTestId('satb-input-staff').getByRole('slider').nth(at);
+        await note.focus();
+        if (delta === 0) {
+          await page.keyboard.press('ArrowUp');
+          await page.keyboard.press('ArrowDown');
+        } else
+          for (let n = 0; n < Math.abs(delta); n++)
+            await page.keyboard.press(delta > 0 ? 'ArrowUp' : 'ArrowDown');
+      }
     }
+    await expect(check).toBeEnabled();
+    await check.click();
+    await expect(page.getByTestId('satb-findings')).toContainText(
+      'Bedingungen dieses Entwurfsprofils sind erfüllt',
+    );
+    await expect(page.getByTestId('satb-editor')).toContainText('Eine mögliche Lösung');
+    await expect(page.getByTestId('satb-input-staff').getByRole('slider')).toHaveCount(0);
+    if (fifths !== 1) await page.getByRole('button', { name: 'Neue Aufgabe', exact: true }).click();
   }
-  const check = page.getByRole('button', { name: 'Prüfen', exact: true });
-  await expect(check).toBeEnabled();
-  await check.click();
-  await expect(page.getByTestId('satb-findings')).toContainText(
-    'Bedingungen dieses Entwurfsprofils sind erfüllt',
-  );
-  await expect(page.getByTestId('satb-editor')).toContainText('Eine mögliche Lösung');
-  await expect(page.getByTestId('satb-input-staff').getByRole('slider')).toHaveCount(0);
   await page.getByRole('button', { name: 'Warum? Mit KI erklären', exact: true }).click();
   await expect(page).toHaveURL(/tutor-task/);
 });

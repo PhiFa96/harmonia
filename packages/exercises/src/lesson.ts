@@ -153,7 +153,21 @@ function newVariant(lesson: LessonSession, index: number): ExerciseItem {
   if (!spec || !original) throw new RangeError('Wiederholungsaufgabe fehlt');
   const rng = createRng(`${String(lesson.seed)}:review:${String(index)}`);
   for (let attempt = 0; attempt < 256; attempt++) {
-    const item = generateExercise(spec, rng);
+    // A fixed initial key must still permit a different musical review task.
+    // Keep legacy specs on their original generation path for seed replay.
+    const variantSpec =
+      spec.type === 'VOICE_LEADING' &&
+      spec.params.fifths !== undefined &&
+      original.type === 'VOICE_LEADING'
+        ? {
+            ...spec,
+            params: {
+              ...spec.params,
+              fifths: rng.pick(([-1, 0, 1] as const).filter((key) => key !== original.fifths)),
+            },
+          }
+        : spec;
+    const item = generateExercise(variantSpec, rng);
     if (
       itemVariantKey(item) !== itemVariantKey(original) &&
       (item.type !== 'CONTEXT_CHOICE' ||
