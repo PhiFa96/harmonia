@@ -16,11 +16,16 @@ import {
   satbAnswer,
   satbAnswerId,
   satbScore,
+  SATB_DRAFT_RULES,
 } from './voice-leading.ts';
 import { parsePitch, transposeBy, parseInterval } from '@harmonia/theory';
 import { scoreTimeline, validateScore } from '@harmonia/notation';
 
 describe('internal VOICE_LEADING exercises', () => {
+  it('keeps the optional augmented-interval detector outside the existing grading profile', () => {
+    expect(SATB_DRAFT_RULES['augmented-melodic-interval']).toBeUndefined();
+    expect(SATB_DRAFT_RULES['augmented-second']).toBe('error');
+  });
   it('keeps legacy rating profiles stable and binds each fixed key to its own new profile', () => {
     const spec = {
       type: 'VOICE_LEADING' as const,

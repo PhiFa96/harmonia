@@ -1,6 +1,6 @@
 # P4.09 – Stimmführung: technischer Entwurf
 
-**Stand 21.10.2026.** `packages/theory/src/voice-leading.ts` analysiert synchronisierte vierstimmige SATB-Schnitte mit 16 einzeln aktivierbaren Regelkennungen. Jede Stimme hat pro Schnitt eine geschriebene Tonhöhe oder ausdrücklich `null` für eine Pause; gehaltene Töne werden im nächsten Schnitt wiederholt. Der Rückgabewert besteht aus Regelkennung, eingestelltem Schweregrad, Zielindex und einer oder mehreren beteiligten Stimmen. Die Funktion fällt **kein Gesamturteil** über einen Satz. Ohne ausdrücklich konfigurierte Regeln gibt sie keine Befunde zurück. Es gibt keine Anbindung an Übungen, Tutor, Lernstand oder Produktionsinhalte.
+**Stand 26.10.2026.** `packages/theory/src/voice-leading.ts` analysiert synchronisierte vierstimmige SATB-Schnitte mit 17 einzeln aktivierbaren Regelkennungen. Jede Stimme hat pro Schnitt eine geschriebene Tonhöhe oder ausdrücklich `null` für eine Pause; gehaltene Töne werden im nächsten Schnitt wiederholt. Der Rückgabewert besteht aus Regelkennung, eingestelltem Schweregrad, Zielindex und einer oder mehreren beteiligten Stimmen. Die Funktion fällt **kein Gesamturteil** über einen Satz. Ohne ausdrücklich konfigurierte Regeln gibt sie keine Befunde zurück. Die optionale neue Melodieregel wird nicht im bestehenden P4.10-Lern-/Tutorprofil aktiviert. Inhalte bleiben Entwurf.
 
 Diese Arbeit ist technische P4-Vorarbeit vor der formalen Phase-4-Freigabe. F05 (Lehrbuchkonvention, Stimmumfänge und Regelwerk) ist offen. Jeder hier gemeldete Sachverhalt ist ein **Entwurf zur Fachprüfung**, kein freigegebenes Lehrurteil. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
 
@@ -16,11 +16,27 @@ Die [Quellenübersicht](../quality/p4-09-quellenentwurf.md) nennt direkt gelesen
 | Leittonauflösung | `harmonies` pro Schnitt und ein ausdrücklich markierter Übergang `resolveToNext.leadingTone: 'up'`; optional `'up-or-frustrated-inner'` für den abspringenden Innenstimmenleitton. |
 | Septimauflösung | Akkord im Quellkontext und `resolveToNext.seventh: 'down'`; die benannte Akkordseptime muss in derselben Stimme einen Halb-/Ganzton abwärts gehen. |
 | Leittonverdopplung | Tonika pro Schnitt; der Halbton darunter bestimmt den geschriebenen Leitton. Ein Befund nennt alle beteiligten Stimmen. |
-| Melodie | Übermäßige Sekunde sowie frei konfigurierbare Sprunggrenze `maxMelodicInterval` (1 = Prime, 8 = Oktave). |
+| Melodie | Übermäßige Sekunde, optional alle übermäßigen Melodieintervalle sowie frei konfigurierbare Sprunggrenze `maxMelodicInterval` (1 = Prime, 8 = Oktave). |
 
 `harmonies` enthält genau einen Kontext je Schnitt; `tonic: null` und `chord: null` markieren unbekannte Harmonik ausdrücklich. Ohne markierte Grenze wird keine Auflösung verlangt, etwa innerhalb einer Dominantverlängerung. Eine markierte Grenze prüft genau den nächsten Schnitt; eine noch gehaltene Dissonanz wird dort als unerledigt gemeldet. Der Aufrufer muss eine spätere Auflösungsgrenze entsprechend markieren. Die Funktion bestimmt weder Funktionen noch Akkorde aus den Tönen und setzt F03 damit nicht voraus. Fehlende erforderliche Parameter, umgekehrte Bereiche, unvollständige Kontextlisten und eine Auflösung nach dem letzten Schnitt lösen `RangeError` aus.
 
 Pausen werden nicht als Tonhöhen ersetzt. Lage- und Bewegungsregeln prüfen nur die jeweils klingenden Stimmen; eine Pause unterbricht die Bewegung dieser Stimme, ohne andere Stimmen von der Prüfung auszunehmen. Eine Pause am ausdrücklich verlangten Auflösungsziel erfüllt eine Leitton-/Septimauflösung nicht. Auch diese Abgrenzung bleibt Teil des fachlich zu prüfenden Entwurfs.
+
+## Optionale übermäßige Melodieintervalle vom 26.10.2026
+
+`codex/p4-09-augmented-intervals-draft` baut auf Entwurfs-PR #125 auf. Dies ist ausdrücklich **technische P4-Vorarbeit vor der formalen Phase-4-Freigabe**. Die neue Regel ist als Entwurf zur unabhängigen Fachprüfung gekennzeichnet. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
+
+In den Einstellungen der privaten Satzwerkstatt lässt sich die zusätzliche Musterprüfung so einschalten:
+
+```json
+{ "rules": { "augmented-melodic-interval": "warning" } }
+```
+
+Die Erkennung vergleicht die Halbtondistanz in der geschriebenen Bewegungsrichtung mit dem großen/reinen Referenzintervall derselben Größe. Chromatische Primen folgen der klingenden Richtung. Mehrfach übermäßige und zusammengesetzte Intervalle sind eingeschlossen. Zum Beispiel wird C4 → Fis4 gemeldet, C4 → Ges4 als verminderte Quinte nicht. Pausen unterbrechen den Melodieverlauf; gehaltene oder gebundene Wiederholungen erzeugen keinen zusätzlichen Fund. Der Partituradapter liefert die ursprünglichen Ausgangs-/Zielnoten und exakten Zeitpunkte.
+
+Die bisherige Regel `augmented-second` bleibt eigenständig und unverändert. Wer beide Regeln einschaltet, erhält für eine einfach übermäßige Sekunde bewusst beide Kennungen mit den jeweils eingestellten Schweregraden. Kein Schweregrad wird vorgegeben. Werkstatt, Bericht-CLI und skriptfreier Download verwenden dieselbe DE/en-US/en-GB-Beschreibung und Entwurfskennzeichnung. Das Startprofil wird nicht erweitert.
+
+`SATB_DRAFT_RULES` für P4.10 und das Tutorwerkzeug enthalten die neue Regel nicht. Deren Bewertungen, Zufallsfolgen, Quellen-/Engine-Versionen und Wiederaufnahme bleiben unverändert; Katalog/Fähigkeitsplan weiter Version 24. Auch die Bedeutung von `soprano-leap` bleibt unverändert und zur Fachentscheidung offen. Die [Quellenübersicht](../quality/p4-09-quellenentwurf.md) belegt die Intervallbegriffe mit erneut gelesenem R5 und benennt die Grenzen des `tonal`-Abgleichs. Ein allgemeines Stilurteil, die Schweregrade und das spätere Lehrprofil verlangen weiterhin F05 und eine unabhängige Fachprüfung. Keine Veröffentlichung. [ADR 0058](../decisions/0058-optionale-uebermaessige-melodieintervalle.md).
 
 ## Verbindung zur Partitur
 
@@ -46,11 +62,11 @@ pnpm voice-leading:report --input tools/voice-leading/example.json --language en
 
 Die eigene Zweitakt-Fixture enthält absichtlich zwei Quintparallelen und eine nicht erfüllte Leittonauflösung. Sie ist ein technisches Beispiel mit vier gewählten Regeln, **kein F05-Standardprofil und kein freigegebener Lerninhalt**. Eigene JSON-Eingaben verwenden die Noten-Kurzschreibweise, eine SATB-Zuordnung, Regelkennungen/Schweregrade und bei Bedarf Stimmumfänge/Harmoniekontexte. Tonhöhen sind Zeichenketten wie `C4`, Tonika-/Akkordgrundtöne wie `C` oder `F#`. Unbekannte Felder oder Regeln werden zurückgewiesen; fehlende fachliche Parameter werden nicht ergänzt.
 
-DE-, EN-US- und EN-GB-Texte stehen ausschließlich in `tools/voice-leading/messages.ts`. Alle 16 Regeln haben eine Bezeichnung und Erklärung; Unterschiede wie H/B, „leading tone“/„leading note“ und „measure“/„bar“ werden berücksichtigt. Das Werkzeug interpretiert einen leeren Bericht nicht als Freigabe des Satzes. Kopf und Fuß kennzeichnen jeden Bericht als Entwurf und verweisen auf F05 und die Quellenübersicht.
+DE-, EN-US- und EN-GB-Texte stehen ausschließlich in `tools/voice-leading/messages.ts`. Alle 17 Regeln haben eine Bezeichnung und Erklärung; Unterschiede wie H/B, „leading tone“/„leading note“ und „measure“/„bar“ werden berücksichtigt. Das Werkzeug interpretiert einen leeren Bericht nicht als Freigabe des Satzes. Kopf und Fuß kennzeichnen jeden Bericht als Entwurf und verweisen auf F05 und die Quellenübersicht.
 
 Ausgaben sind nur als neue HTML-Dateien unter dem ignorierten lokalen Verzeichnis `artifacts/voice-leading/` möglich. Bestehende Dateien und symbolische Elternpfade werden zurückgewiesen. App-Exports und öffentliche Inhaltsartefakte werden nicht beschrieben. Das Werkzeug hat keine Bereitstellungs- oder Versandfunktion.
 
-Der eigene Testkorpus deckt alle 16 Kennungen ab, einschließlich Gegenbeispielen, Stilvarianten, Dur/Moll, enharmonischer Schreibweise, Pausen, mehreren Fundstellen und ungültiger Konfiguration. Intervallbeispiele werden zusätzlich mit `tonal` verglichen. Die Partiturtests prüfen exakte Einsatzzeiten, Quell-/Zielnoten, die Verbindung zur Notenmarkierung, Haltebögen, Auftakte, unveränderte Eingaben und ungültige Partituren. Die Deno-Probe enthält Gegenquinten sowie einen vollständigen Partitur-zu-Befund-Durchgang. `tools/voice-leading-report.test.mjs` prüft alle Sprachfassungen, Befunde, leere Ergebnisse, Eingabevalidierung, HTML-Maskierung, private Ausgabepfade und einen vollständigen CLI-Aufruf; es ist Teil von `pnpm test:tools`. Die lokale Chromium-Probe prüfte Tastatur, eingebettete Schrift, fehlende externe Abrufe und axe in allen drei Sprachen sowie die schmale Darstellung. Dazu wurde der generierte HTML-Inhalt direkt eingesetzt, weil `file://`-Navigation in der Cloud gesperrt ist. Diese Prüfmittel ersetzen die getrennte fachliche Kontrolle nach [ADR 0005](../decisions/0005-fachliche-pruefung-durch-claude.md) nicht.
+Der eigene Testkorpus deckt alle 17 Kennungen ab, einschließlich Gegenbeispielen, Stilvarianten, Dur/Moll, enharmonischer Schreibweise, Pausen, mehreren Fundstellen und ungültiger Konfiguration. Intervallbeispiele werden zusätzlich mit `tonal` verglichen. Die Partiturtests prüfen exakte Einsatzzeiten, Quell-/Zielnoten, die Verbindung zur Notenmarkierung, Haltebögen, Auftakte, unveränderte Eingaben und ungültige Partituren. Die Deno-Probe enthält Gegenquinten sowie einen vollständigen Partitur-zu-Befund-Durchgang. `tools/voice-leading-report.test.mjs` prüft alle Sprachfassungen, Befunde, leere Ergebnisse, Eingabevalidierung, HTML-Maskierung, private Ausgabepfade und einen vollständigen CLI-Aufruf; es ist Teil von `pnpm test:tools`. Die lokale Chromium-Probe prüfte Tastatur, eingebettete Schrift, fehlende externe Abrufe und axe in allen drei Sprachen sowie die schmale Darstellung. Dazu wurde der generierte HTML-Inhalt direkt eingesetzt, weil `file://`-Navigation in der Cloud gesperrt ist. Diese Prüfmittel ersetzen die getrennte fachliche Kontrolle nach [ADR 0005](../decisions/0005-fachliche-pruefung-durch-claude.md) nicht.
 
 ## Technische Positionsanzeige vom 26.10.2026
 

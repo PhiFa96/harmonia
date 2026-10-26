@@ -27,6 +27,40 @@ const octaveFixture = () => ({
   options: {},
 });
 
+test('optional augmented intervals keep spelled source/destination evidence in every language', () => {
+  const input = {
+    ...sample(),
+    score: 'treble | C4/2 F#4/2 & G3/1\nbass | E3/1 & C3/1',
+    rules: { 'augmented-melodic-interval': 'warning' },
+    options: {},
+  };
+  assert.deepEqual(parseReportInput(input).rules, input.rules);
+  for (const locale of ['de-DE', 'en-US', 'en-GB']) {
+    const { html, analysis } = renderVoiceLeadingReport(input, locale, assets);
+    const m = REPORT_MESSAGES[locale];
+    assert.equal(analysis.findings.length, 1);
+    assert.equal(analysis.findings[0].previous.notes[0].ref.event, 0);
+    assert.equal(analysis.findings[0].notes[0].ref.event, 1);
+    assert.ok(html.includes(m.rules['augmented-melodic-interval'].title));
+    assert.ok(html.includes(m.rules['augmented-melodic-interval'].description));
+    assert.ok(html.includes(`<caption>${m.source} · ${m.measure} 1 · ${m.beginning}</caption>`));
+    assert.ok(
+      html.includes(`<caption>${m.destination} · ${m.measure} 1 · ${m.offset} 1/2</caption>`),
+    );
+    assert.equal((html.match(/<tbody>/g) ?? []).length, 2);
+    assert.ok(html.includes(m.draft));
+    assert.ok(!html.includes('<script'));
+    assert.equal(
+      renderVoiceLeadingReport(
+        { ...input, score: input.score.replace('F#4', 'Gb4') },
+        locale,
+        assets,
+      ).analysis.findings.length,
+      0,
+    );
+  }
+});
+
 test('three parallel octave pairs share one display block while all findings, pairs and evidence remain', () => {
   for (const locale of ['de-DE', 'en-US', 'en-GB']) {
     const input = octaveFixture();

@@ -160,6 +160,11 @@ const de: ReportMessages = {
       description:
         'Eine Stimme bewegt sich um eine geschriebene Sekunde mit drei Halbtönen. Eine enharmonisch klingende kleine Terz fällt nicht unter diese Regel.',
     },
+    'augmented-melodic-interval': {
+      title: 'Übermäßiges Melodieintervall',
+      description:
+        'Zwei aufeinanderfolgende Töne derselben Stimme bilden ein geschriebenes übermäßiges Intervall, auch mehrfach übermäßig oder über eine Oktave hinaus. Diese ausdrücklich eingeschaltete Musterprüfung ist kein allgemeines Stilurteil.',
+    },
     'melodic-leap': {
       title: 'Melodischer Sprung',
       description:
@@ -284,6 +289,11 @@ const en: ReportMessages = {
       title: 'Augmented second',
       description:
         'A voice moves by a written second spanning three semitones. An enharmonically equivalent minor third is excluded from this rule.',
+    },
+    'augmented-melodic-interval': {
+      title: 'Augmented melodic interval',
+      description:
+        'Two successive pitches in one voice form a spelled augmented interval, including multiple augmentation and compound intervals. This explicitly enabled pattern check is not a general stylistic judgment.',
     },
     'melodic-leap': {
       title: 'Melodic leap',

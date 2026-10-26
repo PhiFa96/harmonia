@@ -24,6 +24,51 @@ const assignment: SatbAssignment = {
 const parallelSource = 'treble | E4/2 F4/2 & C4/1\nbass | G3/2 A3/2 & C3/2 D3/2';
 
 describe('P4.09 – Satzprüfung aus dem tatsächlichen Notenmodell', () => {
+  it('binds augmented melodic findings to the written source and destination notes', () => {
+    const score = parseScore('treble | C4/2 F#4/2 & G3/1\nbass | E3/1 & C3/1');
+    const report = analyzeVoiceLeadingScore(score, assignment, {
+      'augmented-melodic-interval': 'warning',
+    });
+    expect(report.findings).toHaveLength(1);
+    expect(report.findings[0]).toMatchObject({
+      rule: 'augmented-melodic-interval',
+      severity: 'warning',
+      at: 1,
+      voices: ['soprano'],
+      position: { at: { num: 1, den: 2 }, measure: 0, offset: { num: 1, den: 2 } },
+      notes: [{ voice: 'soprano', ref: { staff: 0, measure: 0, voice: 0, event: 1 } }],
+      previous: {
+        position: { at: { num: 0, den: 1 }, measure: 0, offset: { num: 0, den: 1 } },
+        notes: [{ voice: 'soprano', ref: { staff: 0, measure: 0, voice: 0, event: 0 } }],
+      },
+    });
+    const enharmonic = parseScore('treble | C4/2 Gb4/2 & G3/1\nbass | E3/1 & C3/1');
+    expect(
+      analyzeVoiceLeadingScore(enharmonic, assignment, {
+        'augmented-melodic-interval': 'warning',
+      }).findings,
+    ).toEqual([]);
+  });
+
+  it('does not turn a tied repetition into an augmented motion or bridge a rest', () => {
+    const tied = parseScore(
+      'treble | C4/1~ & G3/1 | C4/2 F#4/2 & G3/1\nbass | E3/1 & C3/1 | E3/1 & C3/1',
+    );
+    const findings = analyzeVoiceLeadingScore(tied, assignment, {
+      'augmented-melodic-interval': 'hint',
+    }).findings;
+    expect(findings).toHaveLength(1);
+    expect(findings[0]).toMatchObject({
+      position: { at: { num: 3, den: 2 }, measure: 1, offset: { num: 1, den: 2 } },
+      notes: [{ ref: { measure: 1, event: 1 } }],
+      previous: { notes: [{ ref: { measure: 1, event: 0 } }] },
+    });
+    const rest = parseScore('treble | C4/4 r/4 F#4/2 & G3/1\nbass | E3/1 & C3/1');
+    expect(
+      analyzeVoiceLeadingScore(rest, assignment, { 'augmented-melodic-interval': 'hint' }).findings,
+    ).toEqual([]);
+  });
+
   it('ordnet eine Quintparallele den richtigen Quell- und Zielnoten zu', () => {
     const score = parseScore(parallelSource);
     const before = JSON.stringify(score);

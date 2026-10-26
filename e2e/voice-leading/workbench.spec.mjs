@@ -179,6 +179,52 @@ test.afterEach(async ({ page }) => {
 });
 
 for (const locale of ['de-DE', 'en-US', 'en-GB']) {
+  test(`${locale}: optional augmented intervals show evidence and respect an enharmonic edit`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 900 });
+    await page.getByRole('combobox', { name: 'Sprache' }).selectOption(locale);
+    const m = WORKBENCH_MESSAGES[locale],
+      report = REPORT_MESSAGES[locale];
+    const parts = { soprano: 'C4/2 F#4/2', alto: 'G3/1', tenor: 'E3/1', bass: 'C3/1' };
+    for (const [voice, source] of Object.entries(parts))
+      await page.getByRole('textbox', { name: report.voices[voice], exact: true }).fill(source);
+    await page
+      .getByRole('textbox', { name: m.settings, exact: true })
+      .fill('{"rules":{"augmented-melodic-interval":"warning"}}');
+    await page.getByRole('button', { name: m.analyze, exact: true }).click();
+    await expect(page.locator('.finding')).toHaveCount(1);
+    const finding = page.locator('#finding-1');
+    await expect(finding.locator('summary')).toContainText(
+      report.rules['augmented-melodic-interval'].title,
+    );
+    await finding.locator('summary').click();
+    await expect(finding.locator('caption')).toHaveText([
+      `${report.source} · ${report.measure} 1 · ${report.beginning}`,
+      `${report.destination} · ${report.measure} 1 · ${report.offset} 1/2`,
+    ]);
+    for (const table of await finding.locator('table').all())
+      await expect(table.locator('tbody tr')).toHaveCount(1);
+    const pending = page.waitForEvent('download');
+    await page.getByRole('button', { name: m.export, exact: true }).click();
+    const saved = await readFile(await (await pending).path(), 'utf8');
+    expect(saved).toContain(report.rules['augmented-melodic-interval'].description);
+    expect(saved).toContain(report.draft);
+    expect(saved).not.toContain('<script');
+    expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
+    ).toBe(true);
+    await page
+      .getByRole('textbox', { name: report.voices.soprano, exact: true })
+      .fill('C4/2 Gb4/2');
+    await expect(page.locator('.finding')).toHaveCount(0);
+    await expect(page.getByRole('button', { name: m.export, exact: true })).toBeDisabled();
+    await page.getByRole('button', { name: m.analyze, exact: true }).click();
+    await expect(page.locator('.finding')).toHaveCount(0);
+    await expect(page.locator('#check-status')).toHaveText(`${m.checked} 0.`);
+  });
+
   test(`${locale}: simultaneous octave pairs share evidence and regroup after editing`, async ({
     page,
   }) => {

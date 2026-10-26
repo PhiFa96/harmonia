@@ -127,6 +127,24 @@ const contraryFifths = analyzeVoiceLeading(
 check('SATB-Gegenquinte unter Deno', contraryFifths[0]?.rule, 'contrary-fifth');
 check('SATB-Zielindex unter Deno', contraryFifths[0]?.at, 1);
 
+const augmentedMelody = (to: string) =>
+  ['C4', to].map((name) => ({
+    bass: parsePitch('C3'),
+    tenor: parsePitch('A3'),
+    alto: parsePitch('C4'),
+    soprano: parsePitch(name),
+  }));
+check(
+  'SATB-übermäßiges Melodieintervall unter Deno',
+  analyzeVoiceLeading(augmentedMelody('F#4'), { 'augmented-melodic-interval': 'hint' })[0]?.rule,
+  'augmented-melodic-interval',
+);
+check(
+  'SATB-enharmonische verminderte Quinte unter Deno',
+  analyzeVoiceLeading(augmentedMelody('Gb4'), { 'augmented-melodic-interval': 'hint' }).length,
+  0,
+);
+
 const scoreVoiceLeading = analyzeVoiceLeadingScore(
   parseScore('treble | E4/2 F4/2 & C4/1\nbass | G3/2 A3/2 & C3/2 D3/2'),
   {
