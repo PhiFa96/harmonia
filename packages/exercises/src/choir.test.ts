@@ -125,6 +125,20 @@ describe('CHOIR_PART internal draft', () => {
     for (let n = 0; n < 10000; n++) flood.add(duration * 0.2, 6400);
     expect(assessChoir(item, flood.answer()).notes[0]?.coverage).toBe(1 / 12);
   });
+  it('requires raw PCM coverage separately from pitch detection and rejects gaps', () => {
+    const quiet = createChoirCollector(item),
+      incomplete = createChoirCollector(item),
+      duration = 120 / item.bpm;
+    for (let note = 0; note < 8; note++)
+      for (let bin = 0; bin < 12; bin++) {
+        const at = (note + 0.15 + ((bin + 0.5) / 12) * 0.7) * duration;
+        quiet.add(at, null);
+        if (note !== 7 || bin < 9) incomplete.add(at, 6400);
+      }
+    expect(quiet.inputComplete()).toBe(true);
+    expect(assessChoir(item, quiet.answer()).passed).toBe(false);
+    expect(incomplete.inputComplete()).toBe(false);
+  });
   it('skips microphone work without a failed answer or denominator penalty', () => {
     const session = skipVoiceExercise(createSession([item]));
     expect(session.skipped).toEqual([0]);

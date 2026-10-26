@@ -124,7 +124,7 @@ export function ChoirAnswerInput({
       setError('unavailable');
     }
   };
-  const busy = ['requesting', 'countIn', 'singing', 'preview'].includes(state.phase);
+  const busy = ['requesting', 'checking', 'countIn', 'singing', 'preview'].includes(state.phase);
   const scoreScroll = useRef<ScrollView>(null);
   const [scoreWidth, setScoreWidth] = useState(300);
   const solo = useMemo(() => choirScore(item, item.params.voice), [item]);
@@ -263,20 +263,24 @@ export function ChoirAnswerInput({
             ? t('exercise.choirSinging', { note: state.note + 1 })
             : state.phase === 'requesting'
               ? t('exercise.choirRequesting')
-              : state.phase === 'preview'
-                ? t('exercise.choirPreview')
-                : state.phase === 'done'
-                  ? t('exercise.choirDone')
-                  : ''}
+              : state.phase === 'checking'
+                ? t('exercise.choirChecking')
+                : state.phase === 'preview'
+                  ? t('exercise.choirPreview')
+                  : state.phase === 'done'
+                    ? t('exercise.choirDone')
+                    : ''}
       </AppText>
       {error ? (
         <AppText tone="danger" aria-live="polite">
           {t(
-            error === 'permission'
-              ? 'tuner.permission'
-              : error === 'interrupted'
-                ? 'tuner.interrupted'
-                : 'tuner.unavailable',
+            error === 'no-input'
+              ? 'exercise.choirNoInput'
+              : error === 'permission'
+                ? 'tuner.permission'
+                : error === 'interrupted'
+                  ? 'exercise.choirInterrupted'
+                  : 'tuner.unavailable',
           )}
         </AppText>
       ) : null}

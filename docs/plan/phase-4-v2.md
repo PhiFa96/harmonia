@@ -154,6 +154,8 @@
 
 ### P4.11 – Chor-Trainer
 
+**Technischer Aufnahme-Weiterbau (26.10.2026), vor formaler Phase-4-Freigabe:** [Datenflussprüfung und offene Geräteabnahme](chor-trainer-entwurf.md) auf eigenem Branch: Begleitung erst nach PCM-Eingang, Abbruch ohne Antwort bei erkannten Datenlücken, vollständige PCM-Abdeckung der Bewertungsfenster, Web-/native Bereinigung und sicher abgewarteter Neustart. Stille bleibt gültiges PCM; musikalische Bestehensregeln und Antwortformat ändern sich nicht. Synthetische Tests ersetzen keine echten Mikrofon-/Kopfhörerprüfungen. Kein Veröffentlichungsangebot. P4.01 bleibt bis F14/Rechtsklärung zurückgestellt.
+
 - **Ziel:** Mehrstimmig singen üben.
 - **Abhängig von:** P3.09
 - **Umfang:** L

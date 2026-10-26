@@ -38,7 +38,10 @@
     "choirHome": "Heimweg",
     "choirArch": "Kleiner Bogen",
     "choirSource": "Zwei eigene vierstimmige Miniaturen in C-Dur, neu für Harmonia geschrieben. Keine Bearbeitung eines fremden Werkes. Der „Ah“-Klang wird aus eigenen synthetischen Proben erzeugt.",
-    "choirTempo": "{{bpm}} BPM"
+    "choirTempo": "{{bpm}} BPM",
+    "choirChecking": "Mikrofoneingang wird geprüft …",
+    "choirNoInput": "Vom Mikrofon kommen keine Audiodaten an. Es wurde keine Antwort erzeugt. Prüfe den Eingang und versuche es erneut oder überspringe die Aufgabe.",
+    "choirInterrupted": "Die Aufnahme war unterbrochen oder unvollständig und wurde nicht gewertet. Versuche es erneut oder überspringe die Aufgabe."
   },
   "en-US": {
     "type_CHOIR_PART": "Choir trainer · Draft",
@@ -79,7 +82,10 @@
     "choirHome": "Homeward",
     "choirArch": "A small arch",
     "choirSource": "Two original four-part miniatures in C major, newly written for Harmonia. Neither is an arrangement of another work. The “Ah” sound uses our own synthetic samples.",
-    "choirTempo": "{{bpm}} BPM"
+    "choirTempo": "{{bpm}} BPM",
+    "choirChecking": "Checking microphone input …",
+    "choirNoInput": "No audio data is arriving from the microphone. No answer was created. Check the input and retry, or skip this exercise.",
+    "choirInterrupted": "Capture was interrupted or incomplete and was not graded. Retry or skip this exercise."
   },
   "en-GB": {
     "type_CHOIR_PART": "Choir trainer · Draft",
@@ -120,6 +126,9 @@
     "choirHome": "Homeward",
     "choirArch": "A small arch",
     "choirSource": "Two original four-part miniatures in C major, newly written for Harmonia. Neither is an arrangement of another work. The “Ah” sound uses our own synthetic samples.",
-    "choirTempo": "{{bpm}} BPM"
+    "choirTempo": "{{bpm}} BPM",
+    "choirChecking": "Checking microphone input …",
+    "choirNoInput": "No audio data is arriving from the microphone. No answer was created. Check the input and retry, or skip this exercise.",
+    "choirInterrupted": "Capture was interrupted or incomplete and was not graded. Retry or skip this exercise."
   }
 }

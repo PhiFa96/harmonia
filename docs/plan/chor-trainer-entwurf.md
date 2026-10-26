@@ -1,5 +1,7 @@
 # P4.11 – Chor-Trainer: interner technischer Entwurf
 
+**Weiterbau 26.10.2026:** `codex/p4-11-capture-reliability-draft` sichert fehlende/unterbrochene Mikrofon-Datenströme ab, aufbauend auf #111 (alle fünf CI-Jobs grün). Diese technische P4-Vorarbeit findet weiterhin **vor der formalen Phase-4-Freigabe** statt. Keine Veröffentlichung oder echte Geräte-/Fachabnahme. [ADR 0047](../decisions/0047-chor-aufnahme-nur-mit-vollstaendigem-datenfluss-werten.md).
+
 Stand: 21.10.2026. Auf ausdrücklichen Nutzerauftrag erfolgt diese technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**. Keine Veröffentlichung, kein Deployment und keine fachliche oder Geräteabnahme. P4.01 bleibt bis F14 und Klärung der rechtlichen Voraussetzungen zurückgestellt.
 
 ## Implementierter Ablauf
@@ -39,3 +41,23 @@ Offen bleiben die unabhängige Fachprüfung der Kompositionen und Schwellen sowi
 - Die CI der P4.10-Basis meldete bereits veraltete Deno-Zählwerte, einen veralteten Tutor-v2-Snapshot, die alte Prompt-Default-Erwartung im SQL-Test und einen schmalen Satzwerkstatt-Titel. Diese Vorbedingungen wurden im Arbeitsbranch korrigiert; neun Satzwerkstatt-Browserfälle bestanden. Der SQL-Test erwartet nun den bereits durch P4.10 migrierten Default 5. Kein lokaler Supabase-Datenbanklauf in diesem Arbeitsschritt; der neue PR muss seine eigene CI bestehen.
 
 Automatisierte Ergebnisse ersetzen keine unabhängige Fachprüfung, keinen echten Anbieter-/Gerätetest und keine Veröffentlichungserlaubnis.
+
+## Datenflussprüfung des Weiterbaus (26.10.2026)
+
+Nach Berechtigung und Mikrofoninitialisierung erscheint „Mikrofoneingang wird geprüft“. Erst ein gültiges PCM-Fenster startet den Vorzähler und die Begleitung. Fünf Sekunden ohne Daten, mindestens eine Sekunde Datenlücke, ungültige Fenster/Zeiten, rückläufige Zeitstempel oder ein Sampleratenwechsel beenden den Take ohne Antwort. Gleiche Zeitstempel aus gerundeten Browseruhren bleiben erlaubt. Die Zeitgrenzen sind interne technische Vorgaben, keine Stimm-/Intonationsregeln.
+
+Zusätzlich erfasst der Collector flüchtig den PCM-Eingang in allen bestehenden 12 Bewertungsfenstern je Note. Ohne vollständige Transportabdeckung gibt es auch bei kürzeren Lücken keine Antwort oder Teilwertung. Stille PCM zählt als vorhanden; ein vollständiger stiller Take erfüllt dadurch nicht die fachliche Tonhöhenwertung. Die konservative Abdeckung kann nach JS-Verzögerungen einen neuen Take verlangen. Cent-Toleranz, Oktavregel, Antwortformat und Entscheidung über mindestens eine gesungene Aufgabe bleiben unverändert.
+
+Im Browser werden Track-Ende, Mute nach Datenbeginn, deaktivierte Tracks und ein unterbrochener AudioContext abgefangen. Anfangs gemutete Tracks liefern noch keine Fenster an die Auswertung. Native SDK-Fehler beenden Aufnahme und Callbacks ebenfalls. Aufnahmen werden bei Fehlern selbst geschlossen; wiederholtes Stoppen wartet auf dieselbe Schließoperation. Das verhindert, dass eine alte native Aufnahme nach dem Beginn einer neuen Aufnahme erst noch den Audiomodus umschaltet. Die Eingangsprüfung lässt sich mit dem bestehenden Abbruchknopf beenden; späte Ereignisse und Timer eines alten Starts bleiben wirkungslos. Die Anzeige wird nur bei Phasen-, Noten- oder Zählschlagwechsel aktualisiert, damit die komplette Partitur nicht bei jedem 50-ms-Watchdog-Tick neu gerendert wird.
+
+Keine Audioablage, neuen Gerätekennungen, Datenbankfelder oder Sync-/Analytics-Ereignisse. Der reguläre Antwortpfad erhält nur abgeschlossene Takes. Fehler zeigen einen Grund und lassen Retry oder das bestehende explizite Überspringen zu. Das KI-Inventar bindet die zusätzlichen Capture-/Runner-Dateien; rechtliche Einstufungen bleiben offen.
+
+**Grenze:** Ein Gerät kann trotz Defekt weiter plausible stille Fenster mit lebendem Track liefern. Das lässt sich hier nicht zuverlässig von echter Stille unterscheiden. Der Kopfhöreranschluss wird weiterhin nur manuell bestätigt, reale Latenz-/Mikrofon-/iOS-/Android-Abnahmen fehlen. Die synthetischen Signale der automatischen Prüfungen sind keine Geräteabnahme. Siehe [ADR 0047](../decisions/0047-chor-aufnahme-nur-mit-vollstaendigem-datenfluss-werten.md).
+
+### Lokaler Prüfnachweis des Weiterbaus
+
+40 gezielte App-/Capture-Tests in sechs Dateien und 17 portable Chor-Modelltests prüfen unter anderem Vorlauf ohne PCM, exakte Zeitgrenzen, Stille, Fehlformate, Sampleratenwechsel, rückläufige/gerundete Zeitstempel, fehlende Fenster, Hintergrund, verspätete Timer, Neustart und Stop-Promise-/SDK-Rennen. Web- und native Ressourcen werden dabei mit eigenen Schnittstellen-Fixtures geprüft, nicht mit echten Geräten. Die 238 Werkzeugtests einschließlich der aktuellen KI-Prüfung sind erfolgreich.
+
+Die Browserfälle nutzen echte lokale AudioContexts/MediaStreams mit synthetischen Signalen: Berechtigungsfehler in drei Sprachen, vollständiger Gesangsablauf mit Einzelwertung, Retry/Abbruch/Navigation sowie fehlender Eingang und spätere Unterbrechung in DE/US/UK. Nach einem Lauf mit nur sieben erkannten Noten unter paralleler CPU-Last wurde die unnötige Status-Neuzeichnung reduziert; der abschließende Browserlauf ist mit 7/7 Fällen erfolgreich. Der neue GitHub-CI-Stand wird im Entwurfs-PR dokumentiert. Toleranzen werden nicht zur Anpassung an Testläufe gelockert.
+
+Vollständiger Lint, Typprüfung, Formatierung, Übersetzungs-/Inhaltsprüfung und `git diff --check` sind erfolgreich. Der isolierte Produktions-Webexport und die tatsächliche Bundle-Prüfung ergeben fünf JS-Dateien ohne Entwurfsdaten. Aktuelle KI-/Zertifikatsprüfpakete sowie Rechts-/Beta-/P2-Vorbereitung laufen weiter bei offenen Freigaben. Keine technische Messung gilt dadurch als reale Geräte- oder Veröffentlichungsabnahme.

@@ -1,4 +1,4 @@
-export type MicrophoneErrorReason = 'permission' | 'unavailable' | 'interrupted';
+export type MicrophoneErrorReason = 'permission' | 'unavailable' | 'interrupted' | 'no-input';
 
 export class MicrophoneError extends Error {
   constructor(readonly reason: MicrophoneErrorReason) {

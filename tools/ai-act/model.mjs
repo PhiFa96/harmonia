@@ -179,6 +179,7 @@ const roots = [
   'supabase/functions/_shared',
   'apps/mobile/src/tutor',
   'apps/mobile/src/microphone',
+  'apps/mobile/src/choir',
   'apps/mobile/src/placement',
   'apps/mobile/src/legal',
   'apps/mobile/src/preview',

@@ -183,6 +183,8 @@ test('current monitored file set includes the actual model, learner tools, gradi
     'tools/school/license-service.mjs',
     'apps/mobile/src/preview/use-level-five-preview.ts',
     'packages/theory/src/counterpoint.ts',
+    'apps/mobile/src/choir/runner.ts',
+    'apps/mobile/src/microphone/health.ts',
   ])
     assert.ok(digests[file], file);
   const result = inspectInventory(inventory, { digests, now });

@@ -155,3 +155,103 @@ test('choir real browser audio pipeline: synthetic singing, per-note results, re
   await expect.poll(() => page.evaluate(() => window.choirFixture.stops)).toBe(3);
   expect(errors).toEqual([]);
 });
+
+for (const locale of ['de-DE', 'en-US', 'en-GB']) {
+  test(`${locale} missing input and later capture loss never create a graded answer`, async ({
+    browser,
+  }) => {
+    const context = await browser.newContext({ locale, viewport: { width: 390, height: 900 } });
+    const page = await context.newPage(),
+      errors = [];
+    page.on('pageerror', (error) => errors.push(error.message));
+    await page.addInitScript(() => {
+      const fixture = { hold: true, active: false, starts: 0, stops: 0 };
+      window.choirMissingInput = fixture;
+      navigator.mediaDevices.getUserMedia = async () => {
+        const audio = new AudioContext();
+        await audio.resume();
+        const oscillator = audio.createOscillator(),
+          destination = audio.createMediaStreamDestination();
+        oscillator.connect(destination);
+        oscillator.start();
+        fixture.active = true;
+        const track = destination.stream.getAudioTracks()[0],
+          originalStop = track.stop.bind(track);
+        Object.defineProperty(track, 'muted', { get: () => fixture.hold });
+        let closed = false;
+        track.stop = () => {
+          if (closed) return;
+          closed = true;
+          fixture.stops++;
+          fixture.active = false;
+          oscillator.stop();
+          void audio.close();
+          originalStop();
+        };
+        return destination.stream;
+      };
+      const originalStart = AudioBufferSourceNode.prototype.start;
+      AudioBufferSourceNode.prototype.start = function (...args) {
+        if (fixture.active) fixture.starts++;
+        return originalStart.apply(this, args);
+      };
+    });
+    try {
+      await onboard(page, locale);
+      await page.goto('/choir');
+      await page.getByTestId('choir-start-aural.l4.choir.soprano.lesson').click();
+      const trainer = page.getByTestId('choir-trainer');
+      await trainer
+        .getByRole('button', {
+          name: locale.startsWith('de')
+            ? 'Ich trage Kopfhörer und höre die Begleitung darin'
+            : 'I am wearing headphones and hear the accompaniment through them',
+          exact: true,
+        })
+        .click();
+      await page.getByTestId('choir-start').click();
+      await expect(page.getByTestId('choir-status')).toContainText(
+        locale.startsWith('de') ? 'Mikrofoneingang wird geprüft' : 'Checking microphone input',
+      );
+      await expect(trainer).toContainText(
+        locale.startsWith('de') ? 'keine Audiodaten' : 'No audio data',
+        { timeout: 10000 },
+      );
+      expect(await page.evaluate(() => window.choirMissingInput.starts)).toBe(0);
+      await expect.poll(() => page.evaluate(() => window.choirMissingInput.stops)).toBe(1);
+      await expect(
+        page.getByRole('button', { name: copy(locale).check, exact: true }),
+      ).toBeDisabled();
+      await audit(page);
+      await page.evaluate(() => {
+        window.choirMissingInput.hold = false;
+      });
+      await page.getByTestId('choir-start').click();
+      await expect(page.getByTestId('choir-status')).toContainText(
+        locale.startsWith('de') ? 'Vorzähler' : 'Count-in',
+      );
+      expect(await page.evaluate(() => window.choirMissingInput.starts)).toBe(24);
+      await page.evaluate(() => {
+        window.choirMissingInput.hold = true;
+      });
+      await expect(trainer).toContainText(locale.startsWith('de') ? 'unterbrochen' : 'interrupted');
+      await expect.poll(() => page.evaluate(() => window.choirMissingInput.stops)).toBe(2);
+      await expect(
+        page.getByRole('button', { name: copy(locale).check, exact: true }),
+      ).toBeDisabled();
+      await expect(page.getByTestId('choir-results')).toHaveCount(0);
+      await page
+        .getByRole('button', {
+          name: locale.startsWith('de')
+            ? 'Diese Mikrofonaufgabe überspringen'
+            : 'Skip this microphone exercise',
+          exact: true,
+        })
+        .click();
+      await expect(page.getByText('2 / 2', { exact: true })).toBeVisible();
+      expect(errors).toEqual([]);
+    } finally {
+      await context.close();
+    }
+  });
+}

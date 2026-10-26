@@ -3,9 +3,10 @@ import { PitchTracker } from '@harmonia/audio/pitch-detection';
 import { choirEvents, createChoirCollector } from '@harmonia/exercises';
 import type { ChoirItem } from '@harmonia/exercises';
 import type { MicrophoneSession, OnMicrophoneError, OnPcmFrame } from '../microphone/types';
+import { createPcmHealth } from '../microphone/health';
 
 export type ChoirPhase =
-  'idle' | 'requesting' | 'countIn' | 'singing' | 'preview' | 'done' | 'error';
+  'idle' | 'requesting' | 'checking' | 'countIn' | 'singing' | 'preview' | 'done' | 'error';
 export interface ChoirState {
   readonly phase: ChoirPhase;
   readonly note: number;
@@ -21,6 +22,7 @@ interface Dependencies {
   readonly error: (reason: string) => void;
   readonly interval: (callback: () => void) => unknown;
   readonly clear: (handle: unknown) => void;
+  readonly now?: () => number;
 }
 // Serialize permission/open/close across trainer instances, including navigation during permission.
 let microphoneLifecycle: Promise<void> = Promise.resolve();
@@ -29,11 +31,18 @@ export function createChoirRunner(item: ChoirItem, deps: Dependencies) {
     timer: unknown,
     microphone: MicrophoneSession | undefined;
   let playback: Playback | undefined;
+  let cancelReadiness: (() => void) | undefined;
+  const clock = deps.now ?? (() => performance.now());
+  let lastState: ChoirState | undefined;
   const update = (phase: ChoirPhase, note = -1, beat = 0) => {
-    deps.update({ phase, note, beat });
+    if (lastState?.phase === phase && lastState.note === note && lastState.beat === beat) return;
+    lastState = { phase, note, beat };
+    deps.update(lastState);
   };
   const stop = () => {
     revision++;
+    cancelReadiness?.();
+    cancelReadiness = undefined;
     if (timer !== undefined) deps.clear(timer);
     timer = undefined;
     playback?.stop();
@@ -63,6 +72,44 @@ export function createChoirRunner(item: ChoirItem, deps: Dependencies) {
     const current = () => ticket === revision && deps.active();
     const collector = createChoirCollector(item);
     const tracker = new PitchTracker(deps.referenceHz);
+    let health: ReturnType<typeof createPcmHealth> | undefined;
+    let ready: ((success: boolean) => void) | undefined;
+    const tick = () => {
+      if (ticket !== revision) return;
+      if (!deps.active() || deps.engine.context.state !== 'running') {
+        fail('interrupted');
+        return;
+      }
+      const problem = health?.check(clock());
+      if (problem) {
+        fail(problem);
+        return;
+      }
+      if (!playback) return;
+      const now = deps.engine.context.currentTime;
+      if (now >= playback.endTime + 0.35) {
+        if (mode === 'backing' && !collector.inputComplete()) {
+          fail('interrupted');
+          return;
+        }
+        const answer = mode === 'backing' ? collector.answer() : null;
+        void stop();
+        if (answer) {
+          deps.answer(answer);
+          update('done');
+        }
+        return;
+      }
+      if (mode !== 'backing') return;
+      if (now < playback.startTime)
+        update(
+          'countIn',
+          -1,
+          Math.max(1, 4 - Math.ceil((playback.startTime - now) / (60 / item.bpm)) + 1),
+        );
+      else
+        update('singing', Math.min(7, Math.floor((now - playback.startTime) / (120 / item.bpm))));
+    };
     try {
       // Resume during the user gesture, before the asynchronous microphone permission dialog.
       await deps.engine.resume();
@@ -75,7 +122,16 @@ export function createChoirRunner(item: ChoirItem, deps: Dependencies) {
             if (!current()) return;
             const opened = await deps.open(
               (samples, rate, atMs) => {
-                if (!current() || !playback) return;
+                if (!current() || !health) return;
+                const problem = health.frame(samples, rate, atMs, clock());
+                if (problem) {
+                  fail(problem);
+                  return;
+                }
+                if (!playback) {
+                  ready?.(true);
+                  return;
+                }
                 const reading = tracker.analyze(samples, rate, atMs);
                 const latency = deps.engine.latency();
                 const outputDelay = Math.max(0, (latency.base ?? 0) + (latency.output ?? 0));
@@ -104,38 +160,28 @@ export function createChoirRunner(item: ChoirItem, deps: Dependencies) {
       }
       await deps.engine.resume();
       if (!current()) return;
+      if (mode === 'backing') {
+        health = createPcmHealth(clock());
+        const inputReady = new Promise<boolean>((resolve) => {
+          ready = (success) => {
+            cancelReadiness = undefined;
+            resolve(success);
+          };
+          cancelReadiness = () => {
+            ready?.(false);
+          };
+        });
+        update('checking');
+        timer = deps.interval(tick);
+        if (!(await inputReady) || !current()) return;
+      }
       // Three backing voices only. Metronome provides the count-in and a quiet time reference.
       playback = deps.engine.playSequence(choirEvents(item, mode), {
         tempo: item.bpm,
         ...(mode === 'backing' ? { countIn: 4, metronome: 4 } : {}),
       });
-      const startTime = playback.startTime,
-        endTime = playback.endTime;
       update(mode === 'backing' ? 'countIn' : 'preview');
-      timer = deps.interval(() => {
-        if (!current() || deps.engine.context.state !== 'running') {
-          fail('interrupted');
-          return;
-        }
-        const now = deps.engine.context.currentTime;
-        if (now >= endTime + 0.35) {
-          const answer = mode === 'backing' ? collector.answer() : null;
-          void stop();
-          if (answer) {
-            deps.answer(answer);
-            update('done');
-          }
-          return;
-        }
-        if (mode !== 'backing') return;
-        if (now < startTime)
-          update(
-            'countIn',
-            -1,
-            Math.max(1, 4 - Math.ceil((startTime - now) / (60 / item.bpm)) + 1),
-          );
-        else update('singing', Math.min(7, Math.floor((now - startTime) / (120 / item.bpm))));
-      });
+      if (timer === undefined) timer = deps.interval(tick);
     } catch (error) {
       if (current())
         fail(error instanceof Error && 'reason' in error ? String(error.reason) : 'unavailable');

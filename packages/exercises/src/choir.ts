@@ -164,24 +164,28 @@ export function createChoirCollector(item: ChoirItem) {
   const bins = item.parts[item.params.voice].map(() =>
     Array.from({ length: CHOIR_BINS }, () => [] as number[]),
   );
+  const received = bins.map((row) => row.map(() => false));
   return {
     add(seconds: number, pitchCents: number | null) {
+      if (!Number.isFinite(seconds) || seconds < 0) return;
+      const index = Math.floor(seconds / duration),
+        fraction = seconds / duration - index;
+      if (fraction < 0.15 || fraction >= 0.85) return;
+      const slot = Math.floor(((fraction - 0.15) / 0.7) * CHOIR_BINS);
+      const row = received[index];
+      if (row && slot >= 0 && slot < row.length) row[slot] = true;
       if (
-        !Number.isFinite(seconds) ||
-        seconds < 0 ||
         pitchCents === null ||
         !Number.isFinite(pitchCents) ||
         pitchCents < 2100 ||
         pitchCents > 10800
       )
         return;
-      const index = Math.floor(seconds / duration),
-        fraction = seconds / duration - index;
-      if (fraction < 0.15 || fraction >= 0.85) return;
-      const bin = bins[index]?.[Math.floor(((fraction - 0.15) / 0.7) * CHOIR_BINS)];
+      const bin = bins[index]?.[slot];
       // Bounded memory; many callbacks cannot manufacture more temporal coverage.
       if (bin && bin.length < 8) bin.push(Math.round(pitchCents));
     },
+    inputComplete: () => received.every((row) => row.every(Boolean)),
     answer: () =>
       choirAnswerId(bins.map((row) => row.map((bin) => (bin.length ? median(bin) : null)))),
   };
