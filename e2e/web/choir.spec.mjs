@@ -233,15 +233,20 @@ test('choir real browser audio pipeline: synthetic singing, per-note results, re
     timeout: 25000,
   });
   await expect.poll(() => page.evaluate(() => window.choirFixture.stops)).toBe(1);
+  await expect(page.getByTestId(/^choir-window-\d+-\d+$/)).toHaveCount(0);
   expect(await page.evaluate(() => window.choirFixture.starts)).toBe(24);
   await page.getByRole('button', { name: 'Prüfen', exact: true }).click();
   await expect(
     page.getByTestId('choir-results').getByText('Getroffen', { exact: true }),
   ).toHaveCount(8);
+  await expect(page.getByTestId(/^choir-window-\d+-\d+$/)).toHaveCount(96);
+  await expect(page.getByTestId(/^choir-window-counts-\d+$/)).toHaveCount(8);
+  await page.setViewportSize({ width: 390, height: 900 });
   await audit(page);
   await noOverflow(page);
   await page.screenshot({ path: info.outputPath('choir-per-note-results.png'), fullPage: true });
   await page.getByTestId('exercise-next').click();
+  await expect(page.getByTestId(/^choir-window-\d+-\d+$/)).toHaveCount(0);
   await expect(page.getByTestId('choir-key')).toHaveText('Tonart: D-Dur');
   await page
     .getByRole('button', { name: 'Ich trage Kopfhörer und höre die Begleitung darin', exact: true })
@@ -261,6 +266,9 @@ test('choir real browser audio pipeline: synthetic singing, per-note results, re
   await expect(
     page.getByTestId('choir-results').getByText('Getroffen', { exact: true }),
   ).toHaveCount(8);
+  await expect(page.getByTestId(/^choir-window-\d+-\d+$/)).toHaveCount(96);
+  await audit(page);
+  await noOverflow(page);
   await page.screenshot({ path: info.outputPath('choir-transposed-results.png'), fullPage: true });
   await page.getByRole('button', { name: 'Zurück zum Lernen', exact: true }).click();
   await startWithIntroduction(page, 'soprano', 'de-DE');

@@ -84,6 +84,10 @@ Die private P4.09-Satzwerkstatt zeigt alle 17 Kennungen mit vorhandener Regelbes
 
 Aktuelle P4.11-Lektionen beginnen in C- und D-Dur; kanonische Fehlerwiederholungen wechseln zu einer anderen der drei begrenzten Tonarten B/C/D. Alle vier Stimmen werden gemeinsam um höchstens einen Ganzton aus der C-Ausgangsfassung transponiert. Noten, Begleitung, Tonartanzeige und Bewertung stimmen überein; die Variantenkennung ignoriert bei den neuen expliziten Spezifikationen das Tempo. Die C-Dur-Einführungen bleiben Version 24, Aufgaben-/Lektionsquellen und Katalog Version 25. Alte Quellen werden abgewiesen. Dies ist technische Vorarbeit vor formaler Phase-4-Freigabe, keine unabhängige Fachprüfung oder Entscheidung über Stimmumfänge. [ADR 0060](../decisions/0060-chor-wiederholungen-mit-anderen-zieltoenen.md).
 
+## Technische Nacharbeit vom 26.10.2026: Fenster im Chor-Ergebnis
+
+Der Chor-Trainer zeigt nach einer Wertung die zwölf vorhandenen Antwortfenster je Note und die getrennten Zahlen für Erkennung und passende Tonhöhe. Die Beschriftungen verwenden dieselbe globale Oktavkorrektur wie die Engine, inklusive exakter ±50-Cent-Grenzen. Ein Treffer nach dem bestehenden 75-%-Profil kann dadurch sichtbar einzelne unpassende Fenster enthalten. Das Profil wird nicht verschärft oder fachlich freigegeben. DE/en-US/en-GB, Symbole und Screenreader-Beschriftungen; Tutor-Zusammenfassung bleibt knapp. Technische Vorarbeit vor formaler Phase-4-Freigabe, keine unabhängige Fach-/Sprach-/Geräteabnahme. [ADR 0061](../decisions/0061-chor-rueckmeldung-pro-bewertungsfenster.md).
+
 ## Nacharbeitsliste (nicht blockierend, offen)
 
 - **P4.12:** Die neuen Transferfragen, Hinweise und Ablenker müssen unabhängig auf fachliche und didaktische Qualität geprüft werden. Die neuen auswählbaren Interviewfragen, Ich-Antworten und Rollenperspektiven sind ebenfalls unabhängig zu prüfen. Die Kernbegriffe sind an das Glossar angebunden; ihre grammatische Einbettung, die britischen Schreibweisen und die gemeinsame englische Fassung brauchen eine unabhängige Sprachprüfung.

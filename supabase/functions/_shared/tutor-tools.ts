@@ -134,13 +134,22 @@ export function exerciseContext(catalogue: ContentCatalogue, request: TutorReque
     shown = evaluated.validAnswer ? answer : null,
     evaluation = { ...evaluated, answer: shown };
   const satbNotes = item.type === 'VOICE_LEADING' && shown ? satbAnswer(item, shown) : undefined;
+  const choirAssessment = item.type === 'CHOIR_PART' ? assessChoir(item, answer) : undefined;
   return {
     ...base,
     solutionAllowed: true,
-    ...(item.type === 'CHOIR_PART'
+    ...(item.type === 'CHOIR_PART' && choirAssessment
       ? {
           choir: {
-            ...assessChoir(item, answer),
+            ...choirAssessment,
+            // Detailed time windows belong to the local feedback view. Preserve the brief
+            // existing tutor context rather than repeating 96 derived windows in the prompt.
+            notes: choirAssessment.notes.map(({ index, coverage, deviation, passed }) => ({
+              index,
+              coverage,
+              deviation,
+              passed,
+            })),
             voice: item.params.voice,
             limits:
               'Internal draft. Pitch-only time-window profile, not vocal quality, onset precision or specialist approval. No raw microphone audio is available.',

@@ -109,6 +109,13 @@ export function choirEvents(item: ChoirItem, mode: 'backing' | 'all' | 'solo') {
 }
 /** Twelve equally spaced bins over the central 70% of each note. No raw audio is retained. */
 export const CHOIR_BINS = 12;
+const CHOIR_TOLERANCE_CENTS = 50;
+export interface ChoirWindowAssessment {
+  readonly index: number;
+  /** After the same whole-take octave correction used in grading. */
+  readonly deviation: number | null;
+  readonly status: 'missing' | 'in-tune' | 'low' | 'high';
+}
 export type ChoirSamples = readonly (readonly (number | null)[])[];
 export function choirAnswerId(samples: ChoirSamples): string {
   return `choir:${JSON.stringify(samples)}`;
@@ -157,12 +164,29 @@ export function assessChoir(item: ChoirItem, answer: string | null) {
   const octaveShift = Math.round(median(differences) / 1200);
   const notes = targets.map((target, index) => {
     const values = (samples?.[index] ?? []).filter((n): n is number => n !== null);
-    const inTune = values.filter((n) => Math.abs(n - target - octaveShift * 1200) <= 50).length;
+    const inTune = values.filter(
+      (n) => Math.abs(n - target - octaveShift * 1200) <= CHOIR_TOLERANCE_CENTS,
+    ).length;
+    const windows = Array.from({ length: CHOIR_BINS }, (_, bin): ChoirWindowAssessment => {
+      const value = samples?.[index]?.[bin];
+      if (value === undefined || value === null)
+        return { index: bin, deviation: null, status: 'missing' };
+      const deviation = value - target - octaveShift * 1200;
+      return {
+        index: bin,
+        deviation,
+        status:
+          Math.abs(deviation) <= CHOIR_TOLERANCE_CENTS ? 'in-tune' : deviation < 0 ? 'low' : 'high',
+      };
+    });
     return {
       index,
       coverage: values.length / CHOIR_BINS,
       deviation: values.length ? median(values) - target - octaveShift * 1200 : null,
       passed: values.length >= 8 && inTune / values.length >= 0.75,
+      detectedWindows: values.length,
+      matchingWindows: inTune,
+      windows,
     };
   });
   return {
@@ -172,6 +196,7 @@ export function assessChoir(item: ChoirItem, answer: string | null) {
     passed: !!samples && notes.every((n) => n.passed),
   };
 }
+export type ChoirNoteAssessment = ReturnType<typeof assessChoir>['notes'][number];
 export function evaluateChoir(item: ChoirItem, answer: string): Evaluation {
   const report = assessChoir(item, answer);
   return {

@@ -42,7 +42,16 @@
     "choirChecking": "Mikrofoneingang wird geprüft …",
     "choirNoInput": "Vom Mikrofon kommen keine Audiodaten an. Es wurde keine Antwort erzeugt. Prüfe den Eingang und versuche es erneut oder überspringe die Aufgabe.",
     "choirInterrupted": "Die Aufnahme war unterbrochen oder unvollständig und wurde nicht gewertet. Versuche es erneut oder überspringe die Aufgabe.",
-    "choirKey": "Tonart: {{key}}"
+    "choirKey": "Tonart: {{key}}",
+    "choirWindowsHelp": "Von links nach rechts: zwölf Zeitfenster im mittleren Bereich jeder Note. ✓ passend, ↑ zu hoch, ↓ zu tief, — nicht erkannt. Abweichungen berücksichtigen die angezeigte Oktavverschiebung des Durchlaufs.",
+    "choirWindowCounts": "Erkannt: {{detected}} von 12 Fenstern · Passend: {{matching}} von {{detected}} erkannten Fenstern.",
+    "choirNoWindows": "In keinem der zwölf Fenster wurde eine Tonhöhe erkannt.",
+    "choirWindowInTune": "passend",
+    "choirWindowLow": "zu tief",
+    "choirWindowHigh": "zu hoch",
+    "choirWindowMissingStatus": "nicht erkannt",
+    "choirWindowMissing": "Note {{note}}, Fenster {{window}}: nicht erkannt.",
+    "choirWindowObserved": "Note {{note}}, Fenster {{window}}: {{status}}, Abweichung {{cents}} Cent."
   },
   "en-US": {
     "type_CHOIR_PART": "Choir trainer · Draft",
@@ -87,7 +96,16 @@
     "choirChecking": "Checking microphone input …",
     "choirNoInput": "No audio data is arriving from the microphone. No answer was created. Check the input and retry, or skip this exercise.",
     "choirInterrupted": "Capture was interrupted or incomplete and was not graded. Retry or skip this exercise.",
-    "choirKey": "Key: {{key}}"
+    "choirKey": "Key: {{key}}",
+    "choirWindowsHelp": "Left to right: twelve time windows in the central part of each note. ✓ in tune, ↑ too high, ↓ too low, — not detected. Deviations include the displayed octave adjustment for the whole take.",
+    "choirWindowCounts": "Detected: {{detected}} of 12 windows · In tune: {{matching}} of {{detected}} detected windows.",
+    "choirNoWindows": "No pitch was detected in any of the twelve windows.",
+    "choirWindowInTune": "in tune",
+    "choirWindowLow": "too low",
+    "choirWindowHigh": "too high",
+    "choirWindowMissingStatus": "not detected",
+    "choirWindowMissing": "Note {{note}}, Window {{window}}: not detected.",
+    "choirWindowObserved": "Note {{note}}, Window {{window}}: {{status}}, deviation {{cents}} cents."
   },
   "en-GB": {
     "type_CHOIR_PART": "Choir trainer · Draft",
@@ -132,6 +150,15 @@
     "choirChecking": "Checking microphone input …",
     "choirNoInput": "No audio data is arriving from the microphone. No answer was created. Check the input and retry, or skip this exercise.",
     "choirInterrupted": "Capture was interrupted or incomplete and was not graded. Retry or skip this exercise.",
-    "choirKey": "Key: {{key}}"
+    "choirKey": "Key: {{key}}",
+    "choirWindowsHelp": "Left to right: twelve time windows in the central part of each note. ✓ in tune, ↑ too high, ↓ too low, — not detected. Deviations include the displayed octave adjustment for the whole take.",
+    "choirWindowCounts": "Detected: {{detected}} of 12 windows · In tune: {{matching}} of {{detected}} detected windows.",
+    "choirNoWindows": "No pitch was detected in any of the twelve windows.",
+    "choirWindowInTune": "in tune",
+    "choirWindowLow": "too low",
+    "choirWindowHigh": "too high",
+    "choirWindowMissingStatus": "not detected",
+    "choirWindowMissing": "Note {{note}}, Window {{window}}: not detected.",
+    "choirWindowObserved": "Note {{note}}, Window {{window}}: {{status}}, deviation {{cents}} cents."
   }
 }

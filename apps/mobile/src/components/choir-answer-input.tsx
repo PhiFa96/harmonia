@@ -16,6 +16,7 @@ import { getAudioEngine } from '@/audio';
 import { startMicrophone } from '@/microphone/input';
 import { createChoirRunner } from '@/choir/runner';
 import type { ChoirState } from '@/choir/runner';
+import { ChoirNoteFeedback } from '@/choir/note-feedback';
 
 interface Props {
   readonly item: ChoirItem;
@@ -293,35 +294,15 @@ export function ChoirAnswerInput({
       {report ? (
         <View style={{ gap: SPACE.s }} testID="choir-results">
           <AppText>{t('exercise.choirOctave', { shift: report.octaveShift })}</AppText>
+          <AppText variant="small">{t('exercise.choirWindowsHelp')}</AppText>
           {report.notes.map((n) => {
             const pitch = item.parts[item.params.voice][n.index];
             return (
-              <Card key={n.index}>
-                <AppText variant="title3">
-                  {t('exercise.choirNote', {
-                    note: n.index + 1,
-                    bar: Math.floor(n.index / 2) + 1,
-                    pitch: pitch ? pitchInputLabel(pitch, locale) : '',
-                  })}
-                </AppText>
-                <AppText>
-                  {t(
-                    n.passed
-                      ? 'exercise.choirPass'
-                      : n.coverage < 8 / 12
-                        ? 'exercise.choirMissing'
-                        : 'exercise.choirMiss',
-                  )}
-                </AppText>
-                <AppText>
-                  {n.deviation === null
-                    ? t('exercise.choirNoPitch')
-                    : t('exercise.choirDeviation', {
-                        cents: n.deviation,
-                        coverage: Math.round(n.coverage * 100),
-                      })}
-                </AppText>
-              </Card>
+              <ChoirNoteFeedback
+                key={n.index}
+                note={n}
+                pitch={pitch ? pitchInputLabel(pitch, locale) : ''}
+              />
             );
           })}
         </View>

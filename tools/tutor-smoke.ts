@@ -724,6 +724,13 @@ check(
             'solution' in context && context.solution === expectedAnswer(item),
             'Choir tutor retains actual transposed targets',
           );
+          check(
+            'choir' in context &&
+              context.choir.notes.every(
+                (note) => Object.keys(note).sort().join() === 'coverage,deviation,index,passed',
+              ),
+            'Choir tutor keeps the brief note summary without local window details',
+          );
           for (const contentVersion of [20, 24]) {
             let rejected = false;
             try {

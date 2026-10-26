@@ -191,6 +191,125 @@ describe('CHOIR_PART internal draft', () => {
     }
   const item = generateChoir({ voice: 'soprano', piece: 'home' }, createRng(1));
   const perfect = () => required(choirAnswer(item, expectedAnswer(item))).map((row) => [...row]);
+  it('reports every window in order with exact inclusive pitch boundaries and unchanged note grading', () => {
+    const rows = perfect(),
+      target = required(rows[0]?.[0]);
+    rows[0] = [-51, -50, 0, 50, 51, 700, null, 0, 0, 0, 0, 0].map((offset) =>
+      offset === null ? null : target + offset,
+    );
+    const note = required(assessChoir(item, choirAnswerId(rows)).notes[0]);
+    expect(note).toMatchObject({
+      index: 0,
+      detectedWindows: 11,
+      matchingWindows: 8,
+      coverage: 11 / 12,
+      deviation: 0,
+      passed: false,
+    });
+    expect(note.windows.map((window) => window.index)).toEqual(
+      Array.from({ length: 12 }, (_, i) => i),
+    );
+    expect(note.windows.map((window) => window.deviation)).toEqual([
+      -51,
+      -50,
+      0,
+      50,
+      51,
+      700,
+      null,
+      0,
+      0,
+      0,
+      0,
+      0,
+    ]);
+    expect(note.windows.map((window) => window.status)).toEqual([
+      'low',
+      'in-tune',
+      'in-tune',
+      'in-tune',
+      'high',
+      'high',
+      'missing',
+      'in-tune',
+      'in-tune',
+      'in-tune',
+      'in-tune',
+      'in-tune',
+    ]);
+  });
+
+  it('distinguishes detection from matching windows, including the unchanged 75-percent boundary', () => {
+    const rows = perfect(),
+      target = required(rows[0]?.[0]);
+    rows[0] = Array.from({ length: 12 }, (_, i) => target + (i < 9 ? 0 : 700));
+    rows[1] = Array.from({ length: 12 }, (_, i) =>
+      i < 6 ? required(rows[1]?.[0]) : i < 8 ? required(rows[1]?.[0]) + 700 : null,
+    );
+    const report = assessChoir(item, choirAnswerId(rows));
+    expect(report.notes[0]).toMatchObject({
+      detectedWindows: 12,
+      matchingWindows: 9,
+      deviation: 0,
+      passed: true,
+    });
+    expect(report.notes[1]).toMatchObject({
+      detectedWindows: 8,
+      matchingWindows: 6,
+      coverage: 8 / 12,
+      passed: true,
+    });
+    expect(report.notes[1]?.windows.map((window) => window.status)).toEqual([
+      ...Array<string>(6).fill('in-tune'),
+      'high',
+      'high',
+      ...Array<string>(4).fill('missing'),
+    ]);
+  });
+
+  it.each([-2, -1, 0, 1, 2])(
+    'uses the same whole-take octave correction for displayed windows and grading (%s)',
+    (shift) => {
+      const rows = perfect().map((row) => row.map((n) => required(n) + shift * 1200));
+      const target = required(rows[0]?.[0]);
+      rows[0] = Array.from(
+        { length: 12 },
+        (_, index) => target + (index === 0 ? -51 : index === 11 ? 51 : 0),
+      );
+      const report = assessChoir(item, choirAnswerId(rows));
+      expect(report.octaveShift).toBe(shift);
+      expect(report.notes[0]?.windows[0]).toEqual({ index: 0, deviation: -51, status: 'low' });
+      expect(report.notes[0]?.windows[11]).toEqual({ index: 11, deviation: 51, status: 'high' });
+      expect(report.notes[0]).toMatchObject({
+        matchingWindows: 10,
+        detectedWindows: 12,
+        passed: true,
+      });
+    },
+  );
+
+  it('keeps missing and invalid input explicit without inventing pitch values', () => {
+    for (const answer of [
+      null,
+      'invalid',
+      choirAnswerId(Array.from({ length: 8 }, () => Array<null>(12).fill(null))),
+    ]) {
+      const report = assessChoir(item, answer);
+      expect(report.passed).toBe(false);
+      for (const note of report.notes) {
+        expect(note).toMatchObject({
+          detectedWindows: 0,
+          matchingWindows: 0,
+          coverage: 0,
+          deviation: null,
+          passed: false,
+        });
+        expect(note.windows).toEqual(
+          Array.from({ length: 12 }, (_, index) => ({ index, deviation: null, status: 'missing' })),
+        );
+      }
+    }
+  });
   it('grades each note, rejects silence and sparse detections', () => {
     const rows = perfect();
     rows[2] = Array<null>(12).fill(null);
