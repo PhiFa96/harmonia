@@ -70,8 +70,8 @@ describe('Erste Rhythmuseinheit: Puls, Tempo und Zählgruppen', () => {
     },
   );
   it('ergänzt acht Karten und dreizehn Beispiele ohne Freigabe oder Änderung früherer Lektionen', () => {
-    expect(catalogue.contentVersion).toBe(23);
-    expect(curriculumPlan.contentVersion).toBe(23);
+    expect(catalogue.contentVersion).toBe(24);
+    expect(curriculumPlan.contentVersion).toBe(24);
     const cards = catalogue.knowledgeCards.filter((card) => card.id.startsWith('rhythm.l1.pulse.'));
     expect(cards).toHaveLength(8);
     expect(cards.flatMap((card) => card.examples)).toHaveLength(13);

@@ -1723,8 +1723,15 @@
       "alto": "Alt singen",
       "tenor": "Tenor singen",
       "bass": "Bass singen",
-      "intro": "Eigene vierstimmige Miniaturen: „Heimweg“ und „Kleiner Bogen“. Singe deine Stimme auf „Ah“, während die drei anderen Stimmen erklingen. Verwende Kopfhörer und singe nach vier Zählschlägen acht halbe Noten. Höre zuerst die Einzelstimme. Du kannst das gesamte Stück in einer bequemeren Oktave singen. Interner Entwurf; unabhängige Fachprüfung und Geräteabnahme stehen aus.",
-      "caption": "Beginn von „Heimweg“, eigene Komposition für Harmonia: vier halbe Noten im Sopran. Jede Note dauert zwei Viertelschläge."
+      "intro": "Eigene vierstimmige Miniaturen: „Heimweg“ und „Kleiner Bogen“. Die Einführung zeigt deine vollständige Einzelstimme und spielt sie vor. Jede Miniatur hat vier $t(glossary:measure_other) mit acht $t(glossary:notes.half_other). Jede Note dauert zwei Viertelschläge. Höre zuerst die Einzelstimme. In den Aufgaben singst du nach vier Zählschlägen auf „Ah“, während die drei anderen Stimmen erklingen. Verwende Kopfhörer. Du kannst das gesamte Stück in einer bequemeren Oktave singen. Interner Entwurf; unabhängige Fachprüfung und Geräteabnahme stehen aus.",
+      "sopranoHomeCaption": "„Heimweg“: vollständige Sopran-Einzelstimme im $t(glossary:trebleClef_one), acht $t(glossary:notes.half_other). Eigene Komposition für Harmonia.",
+      "sopranoArchCaption": "„Kleiner Bogen“: vollständige Sopran-Einzelstimme im $t(glossary:trebleClef_one), acht $t(glossary:notes.half_other). Eigene Komposition für Harmonia.",
+      "altoHomeCaption": "„Heimweg“: vollständige Alt-Einzelstimme im $t(glossary:trebleClef_one), acht $t(glossary:notes.half_other). Eigene Komposition für Harmonia.",
+      "altoArchCaption": "„Kleiner Bogen“: vollständige Alt-Einzelstimme im $t(glossary:trebleClef_one), acht $t(glossary:notes.half_other). Eigene Komposition für Harmonia.",
+      "tenorHomeCaption": "„Heimweg“: vollständige Tenor-Einzelstimme im $t(glossary:bassClef_one), acht $t(glossary:notes.half_other). Eigene Komposition für Harmonia.",
+      "tenorArchCaption": "„Kleiner Bogen“: vollständige Tenor-Einzelstimme im $t(glossary:bassClef_one), acht $t(glossary:notes.half_other). Eigene Komposition für Harmonia.",
+      "bassHomeCaption": "„Heimweg“: vollständige Bass-Einzelstimme im $t(glossary:bassClef_one), acht $t(glossary:notes.half_other). Eigene Komposition für Harmonia.",
+      "bassArchCaption": "„Kleiner Bogen“: vollständige Bass-Einzelstimme im $t(glossary:bassClef_one), acht $t(glossary:notes.half_other). Eigene Komposition für Harmonia."
     },
     "levelFive": {
       "levelTitle": "Hochschule – Grundlagen",
@@ -3629,8 +3636,15 @@
       "alto": "Sing alto",
       "tenor": "Sing tenor",
       "bass": "Sing bass",
-      "intro": "Original four-part miniatures: “Homeward” and “A small arch”. Sing your part on “Ah” while the other three parts play. Use headphones and sing eight notes after four count-in beats; each note lasts two beats. Listen to your part alone first. You may sing the entire piece in a more comfortable octave. Internal draft; independent subject review and device acceptance are still pending.",
-      "caption": "Opening of “Homeward”, originally composed for Harmonia: four half notes in the soprano. Each note lasts two quarter-note beats."
+      "intro": "Original four-part miniatures: “Homeward” and “A small arch”. This introduction shows your complete part and plays it back. Each miniature has four $t(glossary:measure_other) with eight $t(glossary:notes.half_other). Each note lasts two beats. Listen to your part alone first. In the exercises, sing on “Ah” after four count-in beats while the other three parts play. Use headphones. You may sing the entire piece in a more comfortable octave. Internal draft; independent subject review and device acceptance are still pending.",
+      "sopranoHomeCaption": "“Homeward”: complete soprano part in the $t(glossary:trebleClef_one), eight $t(glossary:notes.half_other). Originally composed for Harmonia.",
+      "sopranoArchCaption": "“A small arch”: complete soprano part in the $t(glossary:trebleClef_one), eight $t(glossary:notes.half_other). Originally composed for Harmonia.",
+      "altoHomeCaption": "“Homeward”: complete alto part in the $t(glossary:trebleClef_one), eight $t(glossary:notes.half_other). Originally composed for Harmonia.",
+      "altoArchCaption": "“A small arch”: complete alto part in the $t(glossary:trebleClef_one), eight $t(glossary:notes.half_other). Originally composed for Harmonia.",
+      "tenorHomeCaption": "“Homeward”: complete tenor part in the $t(glossary:bassClef_one), eight $t(glossary:notes.half_other). Originally composed for Harmonia.",
+      "tenorArchCaption": "“A small arch”: complete tenor part in the $t(glossary:bassClef_one), eight $t(glossary:notes.half_other). Originally composed for Harmonia.",
+      "bassHomeCaption": "“Homeward”: complete bass part in the $t(glossary:bassClef_one), eight $t(glossary:notes.half_other). Originally composed for Harmonia.",
+      "bassArchCaption": "“A small arch”: complete bass part in the $t(glossary:bassClef_one), eight $t(glossary:notes.half_other). Originally composed for Harmonia."
     },
     "levelFive": {
       "levelTitle": "University studies – foundations",
@@ -5535,8 +5549,15 @@
       "alto": "Sing alto",
       "tenor": "Sing tenor",
       "bass": "Sing bass",
-      "intro": "Original four-part miniatures: “Homeward” and “A small arch”. Sing your part on “Ah” while the other three parts play. Use headphones and sing eight notes after four count-in beats; each note lasts two beats. Listen to your part alone first. You may sing the entire piece in a more comfortable octave. Internal draft; independent subject review and device acceptance are still pending.",
-      "caption": "Opening of “Homeward”, originally composed for Harmonia: four minims in the soprano. Each note lasts two crotchet beats."
+      "intro": "Original four-part miniatures: “Homeward” and “A small arch”. This introduction shows your complete part and plays it back. Each miniature has four $t(glossary:measure_other) with eight $t(glossary:notes.half_other). Each note lasts two beats. Listen to your part alone first. In the exercises, sing on “Ah” after four count-in beats while the other three parts play. Use headphones. You may sing the entire piece in a more comfortable octave. Internal draft; independent subject review and device acceptance are still pending.",
+      "sopranoHomeCaption": "“Homeward”: complete soprano part in the $t(glossary:trebleClef_one), eight $t(glossary:notes.half_other). Originally composed for Harmonia.",
+      "sopranoArchCaption": "“A small arch”: complete soprano part in the $t(glossary:trebleClef_one), eight $t(glossary:notes.half_other). Originally composed for Harmonia.",
+      "altoHomeCaption": "“Homeward”: complete alto part in the $t(glossary:trebleClef_one), eight $t(glossary:notes.half_other). Originally composed for Harmonia.",
+      "altoArchCaption": "“A small arch”: complete alto part in the $t(glossary:trebleClef_one), eight $t(glossary:notes.half_other). Originally composed for Harmonia.",
+      "tenorHomeCaption": "“Homeward”: complete tenor part in the $t(glossary:bassClef_one), eight $t(glossary:notes.half_other). Originally composed for Harmonia.",
+      "tenorArchCaption": "“A small arch”: complete tenor part in the $t(glossary:bassClef_one), eight $t(glossary:notes.half_other). Originally composed for Harmonia.",
+      "bassHomeCaption": "“Homeward”: complete bass part in the $t(glossary:bassClef_one), eight $t(glossary:notes.half_other). Originally composed for Harmonia.",
+      "bassArchCaption": "“A small arch”: complete bass part in the $t(glossary:bassClef_one), eight $t(glossary:notes.half_other). Originally composed for Harmonia."
     },
     "levelFive": {
       "levelTitle": "University studies – foundations",

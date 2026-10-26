@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": 23,
+  "contentVersion": 24,
   "areas": [
     {
       "id": "fundament",
@@ -13589,58 +13589,74 @@
       ]
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 24,
       "status": "entwurf",
       "id": "aural.l4.choir.soprano.card",
-      "titleKey": "content.choir.title",
+      "titleKey": "content.choir.soprano",
       "skillIds": ["aural.l4.choir.soprano"],
       "bodyKey": "content.choir.intro",
       "examples": [
         {
-          "score": "treble | 4/4 | E4/2 G4/2 | F4/2 F4/2",
-          "captionKey": "content.choir.caption"
+          "score": "treble | key:C | 4/4 | E4/2 G4/2 | F4/2 F4/2 | D4/2 D4/2 | E4/2 E4/2",
+          "captionKey": "content.choir.sopranoHomeCaption"
+        },
+        {
+          "score": "treble | key:C | 4/4 | E4/2 E4/2 | F4/2 E4/2 | D4/2 F4/2 | E4/2 E4/2",
+          "captionKey": "content.choir.sopranoArchCaption"
         }
       ]
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 24,
       "status": "entwurf",
       "id": "aural.l4.choir.alto.card",
-      "titleKey": "content.choir.title",
+      "titleKey": "content.choir.alto",
       "skillIds": ["aural.l4.choir.alto"],
       "bodyKey": "content.choir.intro",
       "examples": [
         {
-          "score": "treble | 4/4 | E4/2 G4/2 | F4/2 F4/2",
-          "captionKey": "content.choir.caption"
+          "score": "treble | key:C | 4/4 | C4/2 C4/2 | C4/2 C4/2 | B3/2 B3/2 | C4/2 C4/2",
+          "captionKey": "content.choir.altoHomeCaption"
+        },
+        {
+          "score": "treble | key:C | 4/4 | C4/2 C4/2 | C4/2 C4/2 | B3/2 B3/2 | C4/2 C4/2",
+          "captionKey": "content.choir.altoArchCaption"
         }
       ]
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 24,
       "status": "entwurf",
       "id": "aural.l4.choir.tenor.card",
-      "titleKey": "content.choir.title",
+      "titleKey": "content.choir.tenor",
       "skillIds": ["aural.l4.choir.tenor"],
       "bodyKey": "content.choir.intro",
       "examples": [
         {
-          "score": "treble | 4/4 | E4/2 G4/2 | F4/2 F4/2",
-          "captionKey": "content.choir.caption"
+          "score": "bass | key:C | 4/4 | G3/2 G3/2 | A3/2 A3/2 | G3/2 G3/2 | G3/2 G3/2",
+          "captionKey": "content.choir.tenorHomeCaption"
+        },
+        {
+          "score": "bass | key:C | 4/4 | G3/2 G3/2 | A3/2 G3/2 | G3/2 G3/2 | G3/2 G3/2",
+          "captionKey": "content.choir.tenorArchCaption"
         }
       ]
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 24,
       "status": "entwurf",
       "id": "aural.l4.choir.bass.card",
-      "titleKey": "content.choir.title",
+      "titleKey": "content.choir.bass",
       "skillIds": ["aural.l4.choir.bass"],
       "bodyKey": "content.choir.intro",
       "examples": [
         {
-          "score": "treble | 4/4 | E4/2 G4/2 | F4/2 F4/2",
-          "captionKey": "content.choir.caption"
+          "score": "bass | key:C | 4/4 | C3/2 E3/2 | F3/2 F3/2 | G3/2 G3/2 | C3/2 C3/2",
+          "captionKey": "content.choir.bassHomeCaption"
+        },
+        {
+          "score": "bass | key:C | 4/4 | C3/2 C3/2 | F3/2 C3/2 | G2/2 G2/2 | C3/2 C3/2",
+          "captionKey": "content.choir.bassArchCaption"
         }
       ]
     },
@@ -21329,7 +21345,7 @@
       "exerciseSetIds": ["satz.l5.writing.functions.exercises"]
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 24,
       "status": "entwurf",
       "id": "aural.l4.choir.soprano.lesson",
       "titleKey": "content.choir.soprano",
@@ -21339,7 +21355,7 @@
       "exerciseSetIds": ["aural.l4.choir.soprano.exercises"]
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 24,
       "status": "entwurf",
       "id": "aural.l4.choir.alto.lesson",
       "titleKey": "content.choir.alto",
@@ -21349,7 +21365,7 @@
       "exerciseSetIds": ["aural.l4.choir.alto.exercises"]
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 24,
       "status": "entwurf",
       "id": "aural.l4.choir.tenor.lesson",
       "titleKey": "content.choir.tenor",
@@ -21359,7 +21375,7 @@
       "exerciseSetIds": ["aural.l4.choir.tenor.exercises"]
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 24,
       "status": "entwurf",
       "id": "aural.l4.choir.bass.lesson",
       "titleKey": "content.choir.bass",

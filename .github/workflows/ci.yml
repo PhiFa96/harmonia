@@ -211,18 +211,18 @@ jobs:
       - name: Tatsächlichen Export auf Entwurfsdaten, Texte und Größenbudgets prüfen
         run: pnpm check:content:bundle && pnpm qa:bundle
 
-      - name: Öffentliche Zeitreise verweigert Entwurfsstationen in DE und EN
+      - name: Öffentliche Zeitreise und Chor-Route verweigern Entwürfe in DE und EN
         env:
           HARMONIA_QA_VARIANT: production
-          HARMONIA_QA_OUTPUT: artifacts/quality/history-production
-        run: pnpm qa:web e2e/web/history-journey.spec.mjs
+          HARMONIA_QA_OUTPUT: artifacts/quality/drafts-production
+        run: pnpm qa:web e2e/web/history-journey.spec.mjs e2e/web/choir-production.spec.mjs
 
-      - name: Öffentliche Zeitreise-Prüfungen aufbewahren
+      - name: Öffentliche Entwurfsprüfungen aufbewahren
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: history-production-fixtures
-          path: artifacts/quality/history-production
+          name: drafts-production-fixtures
+          path: artifacts/quality/drafts-production
           if-no-files-found: ignore
           retention-days: 7
 

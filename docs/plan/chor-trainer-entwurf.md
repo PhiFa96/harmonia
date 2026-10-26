@@ -1,5 +1,7 @@
 # P4.11 – Chor-Trainer: interner technischer Entwurf
 
+**Einführungs-Weiterbau 26.10.2026:** `codex/p4-11-introduction-draft` baut auf dem offenen Entwurfs-PR #120 mit fünf erfolgreichen CI-Jobs auf. Vier Karten zeigen jetzt die vollständige gewählte Einzelstimme aus beiden vorhandenen Miniaturen; der interne Direkteinstieg verwendet vor den Aufgaben dieselbe Einführung wie der Lernpfad. Karten/Lektionen und Katalog/Fähigkeitsplan Version 24, Übungssätze/Ratingquellen weiter 20. Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**, keine Veröffentlichung. [ADR 0053](../decisions/0053-chor-einfuehrungen-fuer-jede-stimmlage.md).
+
 **Weiterbau 26.10.2026:** `codex/p4-11-capture-reliability-draft` sichert fehlende/unterbrochene Mikrofon-Datenströme ab, aufbauend auf #111 (alle fünf CI-Jobs grün). Diese technische P4-Vorarbeit findet weiterhin **vor der formalen Phase-4-Freigabe** statt. Keine Veröffentlichung oder echte Geräte-/Fachabnahme. [ADR 0047](../decisions/0047-chor-aufnahme-nur-mit-vollstaendigem-datenfluss-werten.md).
 
 Stand: 21.10.2026. Auf ausdrücklichen Nutzerauftrag erfolgt diese technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**. Keine Veröffentlichung, kein Deployment und keine fachliche oder Geräteabnahme. P4.01 bleibt bis F14 und Klärung der rechtlichen Voraussetzungen zurückgestellt.
@@ -13,6 +15,24 @@ Stand: 21.10.2026. Auf ausdrücklichen Nutzerauftrag erfolgt diese technische P4
 - Markierte aktuelle Note und pro Note Tonabweichung, Erkennungsanteil sowie Ergebnis in Textform. Abbrechen, erneuter Durchlauf, nächste Miniatur und Mikrofonaufgabe überspringen sind möglich.
 - Mikrofon und Klang stoppen bei Abbruch, Navigation, Hintergrund, ausgeschaltetem Ton oder unterbrochenem Audiokontext. Eine verspätete Berechtigung startet keinen verlassenen Durchlauf. Teilaufnahmen werden nicht abgegeben.
 - Der interne Direkteinstieg speichert keinen Lernfortschritt und vergibt keine XP. Der normale Lektionenablauf verwendet dieselbe Engine einschließlich serverseitiger Rekonstruktion und korrekt ausgenommener Mikrofon-Skips. Sind in einer Sitzung ohne Mischung beide Chor-Aufgaben übersprungen, besteht die Lektion nicht. Im regulären Ablauf mischt `lessonPlan` jedoch Wiederholungsfragen ein; richtig beantwortet können sie die Lektion auch ohne gesungenen Ton bestehen lassen (Nenner ohne Skips, ADR 0037). Ob Gesangslektionen mindestens eine gezählte Gesangsaufgabe verlangen sollen, ist eine offene Entscheidung zu ADR 0037 (Nacharbeitsliste in `docs/plan/fachpruefung-phase-4-entwuerfe.md`).
+
+## Einführung für Sopran, Alt, Tenor und Bass
+
+Jede Einführungskarte bietet „Heimweg“ und „Kleiner Bogen“ als vollständig notierte Einzelstimme an: vier 4/4-Takte, acht halbe Noten. Sopran und Alt verwenden den Violinschlüssel, Tenor und Bass den Bassschlüssel wie im vorhandenen Trainer. Die acht Beispiele übernehmen die Tonhöhen der bestehenden Aufgaben. Die schmale Ansicht erlaubt seitliches Verschieben des Notenbilds; die Notenbeschreibungen bleiben zugänglich.
+
+Der interne Ablauf ist jetzt Auswahl → Einführung mit Beispielwahl und Klang → zwei Aufgaben → Abschluss. Der gemeinsame Beispielspieler verwendet sein bisheriges Tempo von 90 Viertelschlägen pro Minute und den bestehenden Synthesizer-/Klavierpfad. Das ist getrennt von der unveränderten Tempoauswahl der Gesangsaufgaben. Die Einführung fordert keine Mikrofonberechtigung an. Beispielwechsel, Aufgabenstart und Verlassen stoppen den Klang. Nach dem Verlassen beginnt die nächste Einführung wieder bei „Heimweg“. Der Einstieg bleibt flüchtig und ohne Lernnachweise oder XP.
+
+Schlüssel und Notenwerte kommen in DE/en-US/en-GB aus dem Glossar. Die Beschriftung benennt die ausgewählte Stimme und das Stück; en-US verwendet „half notes“/„measures“, en-GB „minims“/„bars“. Die Entwurfskennzeichnung und offenen Fach-/Geräteabnahmen bleiben sichtbar.
+
+Die vier Karten und Lektionen sowie Katalog/Fähigkeitsplan sind Version 24, die Übungssätze und Ratingquellen weiter 20. Alte Chor-Lektionsquellen mit Version 20 werden abgewiesen; gemischte Pläne mit ersetzten Quellen benötigen einen neuen Start. Auch lokale Stufe-5-Vorschauentwürfe mit globaler Katalogversion 23 benötigen nach dem Versionswechsel einen neuen Start. Alte Antworten werden nicht umgedeutet. Bewertungsprofil, Oktavregel, Skip-Verhalten und die offene Entscheidung zu mindestens einer gesungenen Aufgabe bleiben unverändert.
+
+### Lokaler Prüfnachweis der Einführungen
+
+1375 Inhaltsfälle sind über Gesamtlauf und gezielten Nachlauf geprüft, einschließlich alter Quellversionen und unveränderter Übungsquellen. Nach dem Versionswechsel wurden die globalen Versions-/Beispielzählwerte aktualisiert; der Katalog enthält 392 Karten mit 453 Beispielen. Ein unter paralleler Last abgelaufener P4.10-Test wurde gezielt erfolgreich wiederholt. 498 Sprachtests, 13 gezielte App-Tests und 254 Werkzeugtests sind erfolgreich. Feste MIDI-/Zeittabellen vergleichen alle acht Einzelstimmen zusätzlich mit den erzeugten Aufgaben.
+
+Zehn Vorschau-Browserfälle prüfen DE/en-US/en-GB, alle vier Einführungen, Beispielwahl, acht sichtbare Noten, tatsächlichen Audiostart ohne Mikrofon, Stoppen beim Verlassen, Axe und schmale Ansichten sowie die bisherigen Mikrofon-/Skip-/Unterbrechungsabläufe. Die Audioprobe erfasst sowohl den anfänglichen Synthesizer als auch später verfügbare Klavierproben. Die synthetische Gesangsprobe erkennt weiterhin acht von acht Sollnoten. Drei zusätzliche Produktionsfälle zeigen ausschließlich die Unverfügbarkeit der Chor-Lektionen. Diese Produktionsprobe ist zusammen mit der Zeitreise-Prüfung in CI eingebunden.
+
+Typecheck, Lint, Formatierung, Sprach-/Inhalts-/Fähigkeitsgraphprüfung und Deno-Smoke sind erfolgreich. Der tatsächliche Produktions-Bundleguard bestätigt fünf JS-Dateien ohne Entwurfsdaten. KI-/Zertifikatsprüfmappen werden nur lokal neu erzeugt; das KI-Inventar umfasst zehn ungeprüfte Funktionsbereiche und 244 gebundene Dateien. Zwanzig allgemeine KI-Nachweise und 25 Zertifikatsanforderungen bleiben offen. Diese technischen Prüfungen ersetzen keine unabhängige Fach-/Sprach-, echte Kopfhörer-/Geräte- oder Veröffentlichungsabnahme.
 
 ## Bewertungsprofil v1
 

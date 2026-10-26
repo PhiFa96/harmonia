@@ -33,6 +33,8 @@ In einer lokalen Preview unter **Üben → Stufe-5-Entwurf öffnen** oder `/leve
 
 ### Wiederaufnahme im aktuellen Entwurfsstand
 
+**Versionswechsel 26.10.2026:** Der P4.11-Einführungsweiterbau hebt die globale Katalogversion auf 24. Gespeicherte Stufe-5-Vorschauentwürfe mit Version 23 werden deshalb als veraltet abgewiesen und benötigen einen neuen Start. Die Stufe-5-Aufgaben und ihre eigenen Quellversionen ändern sich dabei nicht. [ADR 0053](../decisions/0053-chor-einfuehrungen-fuer-jede-stimmlage.md).
+
 Der Weiterbau führt #103 und #110 lokal zusammen. Einführungskarte, Auswahl (einschließlich unvollständiger Zuordnungen), Hinweise, bereits gewertete Antworten, Fehlerwiederholung und Abschluss werden getrennt vom normalen Lernfortschritt gespeichert und beim Laden nachvollzogen. Genau ein Vorschau-Durchgang je Konto/Gast; vor einem anderen Durchgang den vorhandenen verwerfen. Besitzerwechsel zeigen keine fremde Vorschau, Gastübernahme übernimmt sie nicht. Im Modus ohne dauerhaften Speicher geht sie beim Reload verloren.
 
 Die lokale Speicherung nutzt `preview:<scope>` in der vorhandenen `learning_meta`, ohne Datenbankversion oder produktive Migration zu ändern. Quellenkennung der aufgelösten Lektion, Katalog- und Engine-Version schützen vor stillen Inhaltswechseln. Die mobile Engine-Version muss bei Änderungen der Wiedergabesemantik bewusst erhöht werden; sie ist kein automatisch berechneter Codehash. Ungültige/veraltete Quellen bleiben gesperrt und löschbar. SQLite-Vergleich und Transaktionswarteschlange verhindern veraltetes Überschreiben/Löschen durch konkurrierende Ansichten. Ein neuer Ablaufstand wird erst nach erfolgreichem Speichern angezeigt; nach Speicher-/Konfliktfehlern den bestätigten Stand neu laden.

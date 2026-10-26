@@ -158,6 +158,8 @@
 
 ### P4.11 – Chor-Trainer
 
+**Technischer Einführungs-Weiterbau (26.10.2026), vor formaler Phase-4-Freigabe:** Vier Karten mit je zwei vollständigen, zur gewählten Stimme passenden Noten-/Klangbeispielen aus den vorhandenen eigenen Miniaturen. Der interne Einstieg zeigt dieselbe Einführung wie der Lernpfad, vor den Mikrofonaufgaben. DE/en-US/en-GB verwenden Glossarbegriffe; Karten/Lektionen und Katalog/Fähigkeitsplan Version 24, Übungssätze weiter 20. [ADR 0053](../decisions/0053-chor-einfuehrungen-fuer-jede-stimmlage.md). Technische Vorarbeit, sämtliche Inhalte `entwurf`, unabhängige Fach-/Geräteabnahmen offen, keine Veröffentlichung. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
+
 **Technischer Aufnahme-Weiterbau (26.10.2026), vor formaler Phase-4-Freigabe:** [Datenflussprüfung und offene Geräteabnahme](chor-trainer-entwurf.md) auf eigenem Branch: Begleitung erst nach PCM-Eingang, Abbruch ohne Antwort bei erkannten Datenlücken, vollständige PCM-Abdeckung der Bewertungsfenster, Web-/native Bereinigung und sicher abgewarteter Neustart. Stille bleibt gültiges PCM; musikalische Bestehensregeln und Antwortformat ändern sich nicht. Synthetische Tests ersetzen keine echten Mikrofon-/Kopfhörerprüfungen. Kein Veröffentlichungsangebot. P4.01 bleibt bis F14/Rechtsklärung zurückgestellt.
 
 - **Ziel:** Mehrstimmig singen üben.

@@ -96,8 +96,8 @@ describe('Dritte Notationseinheit: Register und Hilfslinien', () => {
     },
   );
   it('ergänzt acht Karten, dreizehn Beispiele und einen fünfteiligen Artikel; frühere Versionen bleiben erhalten', () => {
-    expect(catalogue.contentVersion).toBe(23);
-    expect(curriculumPlan.contentVersion).toBe(23);
+    expect(catalogue.contentVersion).toBe(24);
+    expect(curriculumPlan.contentVersion).toBe(24);
     const cards = catalogue.knowledgeCards.filter((card) =>
       card.id.startsWith('notation.l1.register.'),
     );

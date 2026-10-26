@@ -115,8 +115,8 @@ describe('Zweite Notationseinheit: Klaviatur und Vorzeichen', () => {
       catalogue.knowledgeArticles.find((article) => article.id === 'notation.l1.keyboard.article')
         ?.sections,
     ).toHaveLength(5);
-    expect(catalogue.contentVersion).toBe(23);
-    expect(curriculumPlan.contentVersion).toBe(23);
+    expect(catalogue.contentVersion).toBe(24);
+    expect(curriculumPlan.contentVersion).toBe(24);
     expect(resolveLesson(catalogue, 'fundament.reading-and-listening.1')?.contentVersion).toBe(1);
     expect(resolveLesson(catalogue, 'notation.l1.staff.anchor')?.contentVersion).toBe(3);
     const unit = required(

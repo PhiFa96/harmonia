@@ -1,5 +1,95 @@
 import { test, expect } from '@playwright/test';
 import { onboard, audit, noOverflow, copy } from './helpers.mjs';
+import { createI18n, createContentI18n } from '../../packages/i18n/src/index.ts';
+import authored from '../../packages/i18n/src/authored-content.json' with { type: 'json' };
+
+async function startWithIntroduction(page, voice, locale) {
+  const labels = createI18n(locale.startsWith('de') ? 'de' : locale);
+  await page.getByTestId(`choir-start-aural.l4.choir.${voice}.lesson`).click();
+  await expect(page.getByTestId('lesson-example-scroll').getByRole('img')).toHaveCount(8);
+  await expect(page.getByTestId('choir-trainer')).toHaveCount(0);
+  await page
+    .getByRole('button', { name: labels.t('lesson.start', { count: 2 }), exact: true })
+    .click();
+}
+
+for (const locale of ['de-DE', 'en-US', 'en-GB']) {
+  test(`${locale}: four choir introductions show both complete parts with local terms and audio`, async ({
+    browser,
+  }) => {
+    const context = await browser.newContext({ locale, viewport: { width: 390, height: 900 } });
+    const page = await context.newPage();
+    const language = locale.startsWith('de') ? 'de' : locale;
+    const labels = createI18n(language),
+      text = createContentI18n(language, authored);
+    const errors = [];
+    page.on('pageerror', (error) => errors.push(error.message));
+    await page.addInitScript(() => {
+      window.choirIntroAudio = { starts: 0, stops: 0, microphone: 0 };
+      navigator.mediaDevices.getUserMedia = async () => {
+        window.choirIntroAudio.microphone++;
+        throw new Error('The introduction must not request a microphone');
+      };
+      // The shared player starts with its synthesizer while piano samples load.
+      for (const prototype of [AudioBufferSourceNode.prototype, OscillatorNode.prototype]) {
+        const start = prototype.start,
+          stop = prototype.stop;
+        prototype.start = function (...args) {
+          window.choirIntroAudio.starts++;
+          return start.apply(this, args);
+        };
+        prototype.stop = function (...args) {
+          window.choirIntroAudio.stops++;
+          return stop.apply(this, args);
+        };
+      }
+    });
+    try {
+      await onboard(page, locale);
+      await page.goto('/choir');
+      for (const voice of ['soprano', 'alto', 'tenor', 'bass']) {
+        await page.getByTestId(`choir-start-aural.l4.choir.${voice}.lesson`).click();
+        const score = page.getByTestId('lesson-example-scroll');
+        await expect(score.getByRole('img')).toHaveCount(8);
+        await expect(page.getByTestId('choir-trainer')).toHaveCount(0);
+        for (const piece of ['Home', 'Arch']) {
+          const caption = text.t(`content.choir.${voice}${piece}Caption`);
+          await expect(page.getByRole('button', { name: caption, exact: true })).toBeVisible();
+          expect(caption).toContain(
+            language === 'de'
+              ? 'acht halbe Noten'
+              : language === 'en-GB'
+                ? 'eight minims'
+                : 'eight half notes',
+          );
+          if (piece === 'Arch')
+            await page.getByRole('button', { name: caption, exact: true }).click();
+          await expect(score.getByRole('img')).toHaveCount(8);
+        }
+        await expect(page.getByText(/\$t\(|glossary:/)).toHaveCount(0);
+        if (voice === 'tenor') {
+          const before = await page.evaluate(() => window.choirIntroAudio.starts);
+          await page.getByRole('button', { name: labels.t('lesson.example'), exact: true }).click();
+          await expect
+            .poll(() => page.evaluate(() => window.choirIntroAudio.starts))
+            .toBeGreaterThanOrEqual(before + 8);
+          await expect(
+            page.getByRole('button', { name: labels.t('exercise.stop'), exact: true }),
+          ).toBeVisible();
+        }
+        await audit(page);
+        await noOverflow(page);
+        await page.getByRole('button', { name: labels.t('lesson.home'), exact: true }).click();
+        await expect(score).toHaveCount(0);
+      }
+      expect(await page.evaluate(() => window.choirIntroAudio.microphone)).toBe(0);
+      expect(await page.evaluate(() => window.choirIntroAudio.stops)).toBeGreaterThanOrEqual(8);
+      expect(errors).toEqual([]);
+    } finally {
+      await context.close();
+    }
+  });
+}
 
 for (const locale of ['de-DE', 'en-US', 'en-GB']) {
   test(`${locale} choir draft: all parts, headphones gate, denied microphone and accessible skip`, async ({
@@ -22,7 +112,7 @@ for (const locale of ['de-DE', 'en-US', 'en-GB']) {
       await page.goto('/choir');
       for (const voice of ['soprano', 'alto', 'tenor', 'bass'])
         await expect(page.getByTestId(`choir-start-aural.l4.choir.${voice}.lesson`)).toBeVisible();
-      await page.getByTestId('choir-start-aural.l4.choir.tenor.lesson').click();
+      await startWithIntroduction(page, 'tenor', locale);
       const trainer = page.getByTestId('choir-trainer');
       await expect(trainer).toContainText(
         locale.startsWith('de') ? 'Interner Entwurf' : 'Internal draft',
@@ -122,7 +212,7 @@ test('choir real browser audio pipeline: synthetic singing, per-note results, re
   });
   await onboard(page, 'de-DE');
   await page.goto('/choir');
-  await page.getByTestId('choir-start-aural.l4.choir.soprano.lesson').click();
+  await startWithIntroduction(page, 'soprano', 'de-DE');
   await page
     .getByRole('button', { name: 'Ich trage Kopfhörer und höre die Begleitung darin', exact: true })
     .click();
@@ -199,7 +289,7 @@ for (const locale of ['de-DE', 'en-US', 'en-GB']) {
     try {
       await onboard(page, locale);
       await page.goto('/choir');
-      await page.getByTestId('choir-start-aural.l4.choir.soprano.lesson').click();
+      await startWithIntroduction(page, 'soprano', locale);
       const trainer = page.getByTestId('choir-trainer');
       await trainer
         .getByRole('button', {

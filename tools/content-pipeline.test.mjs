@@ -20,6 +20,7 @@ import historyDraft from '../packages/i18n/src/history-journey-draft.json' with 
 import { historyStops } from '../packages/content/src/history-journey-draft.ts';
 import { historyJourneyMessages } from '../packages/i18n/src/history-journey-draft.ts';
 import { createHistoryJourneyText } from '../packages/i18n/src/history-journey-text.ts';
+import { createRng, generateChoir } from '../packages/exercises/src/index.ts';
 
 function checks() {
   return {
@@ -67,6 +68,64 @@ test('P4.10: six draft introductions show four simultaneous voices in a single c
         .length,
       4,
     );
+  }
+});
+
+test('P4.11: both complete solo examples match each voice in pitch, clef and timing', () => {
+  const expected = {
+    soprano: [
+      [64, 67, 65, 65, 62, 62, 64, 64],
+      [64, 64, 65, 64, 62, 65, 64, 64],
+    ],
+    alto: [
+      [60, 60, 60, 60, 59, 59, 60, 60],
+      [60, 60, 60, 60, 59, 59, 60, 60],
+    ],
+    tenor: [
+      [55, 55, 57, 57, 55, 55, 55, 55],
+      [55, 55, 57, 55, 55, 55, 55, 55],
+    ],
+    bass: [
+      [48, 52, 53, 53, 55, 55, 48, 48],
+      [48, 48, 53, 48, 43, 43, 48, 48],
+    ],
+  };
+  for (const [voice, pieces] of Object.entries(expected)) {
+    const card = catalogue.knowledgeCards.find(
+      (entry) => entry.id === `aural.l4.choir.${voice}.card`,
+    );
+    assert.equal(card.contentVersion, 24);
+    assert.equal(card.examples.length, 2);
+    assert.equal(card.status, 'entwurf');
+    for (const [index, pitches] of pieces.entries()) {
+      const example = card.examples[index];
+      assert.match(
+        example.captionKey,
+        new RegExp(`${voice}${index === 0 ? 'Home' : 'Arch'}Caption$`),
+      );
+      validateContentExample(example.score);
+      const score = parseScore(example.score);
+      assert.equal(score.staves.length, 1);
+      assert.equal(score.staves[0].clef, voice === 'tenor' || voice === 'bass' ? 'bass' : 'treble');
+      assert.equal(score.staves[0].measures.length, 4);
+      const timeline = scoreTimeline(score, { bpm: 90 });
+      assert.deepEqual(
+        timeline.tones.map((tone) => keyboardMidi(tone.pitch)),
+        pitches,
+      );
+      timeline.tones.forEach((tone, position) => {
+        assert.ok(Math.abs(tone.onsetSeconds - (position * 4) / 3) < 1e-8);
+        assert.ok(Math.abs(tone.durationSeconds - 4 / 3) < 1e-8);
+      });
+      assert.ok(Math.abs(timeline.durationSeconds - 32 / 3) < 1e-8);
+      const exercise = generateChoir({ voice, piece: index === 0 ? 'home' : 'arch' }, createRng(1));
+      assert.deepEqual(exercise.parts[voice].map(keyboardMidi), pitches);
+      assert.equal(
+        layoutScore(score).items.filter((item) => item.kind === 'glyph' && item.role === 'notehead')
+          .length,
+        8,
+      );
+    }
   }
 });
 
