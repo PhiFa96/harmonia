@@ -11,6 +11,9 @@ export interface ReportMessages {
   readonly scope: string;
   readonly ownScore: string;
   readonly findings: string;
+  readonly groups: string;
+  readonly pairs: string;
+  readonly groupHelp: string;
   readonly noFindings: string;
   readonly noRules: string;
   readonly enabled: string;
@@ -46,6 +49,10 @@ const de: ReportMessages = {
     'Dieser Bericht zeigt Funde der ausdrücklich eingeschalteten Regeln. Er beurteilt nicht die vollständige Richtigkeit des Satzes.',
   ownScore: 'Eigener Satz',
   findings: 'Befunde',
+  groups: 'Anzeigegruppen',
+  pairs: 'Enthaltene Stimmenpaare',
+  groupHelp:
+    'Paarbefunde derselben Regel am selben Zeitpunkt stehen in einem gemeinsamen Block. Alle Stimmenpaare bleiben aufgeführt; die Befundzahl zählt weiterhin jeden Paarbefund einzeln.',
   noFindings:
     'Unter den eingeschalteten Regeln wurden keine Befunde gefunden. Fachfreigabe und weitere Satzregeln bleiben offen.',
   noRules: 'Keine Regeln eingeschaltet. Es wurde kein Regelurteil erzeugt.',
@@ -168,6 +175,10 @@ const en: ReportMessages = {
     'This report shows findings from the explicitly enabled rules. It does not establish that the whole composition is correct.',
   ownScore: 'Own composition',
   findings: 'Findings',
+  groups: 'Display groups',
+  pairs: 'Included voice pairs',
+  groupHelp:
+    'Pair findings for the same rule at the same moment share a display block. Every voice pair remains listed; the finding count still counts each pair separately.',
   noFindings:
     'No findings under the enabled rules. Subject approval and further part-writing rules remain open.',
   noRules: 'No rules enabled. No rule assessment was produced.',

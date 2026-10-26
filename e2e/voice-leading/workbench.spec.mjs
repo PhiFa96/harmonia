@@ -179,6 +179,65 @@ test.afterEach(async ({ page }) => {
 });
 
 for (const locale of ['de-DE', 'en-US', 'en-GB']) {
+  test(`${locale}: simultaneous octave pairs share evidence and regroup after editing`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 900 });
+    await page.getByRole('combobox', { name: 'Sprache' }).selectOption(locale);
+    const m = WORKBENCH_MESSAGES[locale],
+      report = REPORT_MESSAGES[locale];
+    const parts = {
+      soprano: 'E5/2 F5/2',
+      alto: 'C5/2 D5/2',
+      tenor: 'C4/2 D4/2',
+      bass: 'C3/2 D3/2',
+    };
+    for (const [voice, source] of Object.entries(parts))
+      await page.getByRole('textbox', { name: report.voices[voice], exact: true }).fill(source);
+    await page
+      .getByRole('textbox', { name: m.settings, exact: true })
+      .fill('{"rules":{"parallel-octave":"error"}}');
+    await page.getByRole('button', { name: m.analyze, exact: true }).click();
+    await expect(page.locator('.finding')).toHaveCount(1);
+    await expect(page.locator('.finding-group-count')).toHaveText(`${report.groups}: 1`);
+    await expect(page.locator('#check-status')).toContainText(
+      `${m.checked} 3. ${report.groups}: 1.`,
+    );
+    const group = page.locator('#group-1');
+    await group.locator('summary').click();
+    await expect(group.locator('.finding-pairs li')).toHaveText([
+      `1. ${report.voices.bass} / ${report.voices.tenor}`,
+      `2. ${report.voices.bass} / ${report.voices.alto}`,
+      `3. ${report.voices.tenor} / ${report.voices.alto}`,
+    ]);
+    await expect(group.locator('table')).toHaveCount(2);
+    for (const table of await group.locator('table').all())
+      await expect(table.locator('tbody tr')).toHaveCount(3);
+    for (let index = 1; index <= 3; index++)
+      await expect(group.locator(`#finding-${index}`)).toHaveCount(1);
+    const pending = page.waitForEvent('download');
+    await page.getByRole('button', { name: m.export, exact: true }).click();
+    const download = await pending;
+    const saved = await readFile(await download.path(), 'utf8');
+    expect(saved).toContain(`${report.groups}: 1`);
+    expect(saved).toContain('id="finding-3"');
+    expect(saved).not.toContain('<script');
+    expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
+    ).toBe(true);
+    await page.getByRole('textbox', { name: report.voices.alto, exact: true }).fill('C5/2 E5/2');
+    await expect(page.locator('.finding')).toHaveCount(0);
+    await expect(page.getByRole('button', { name: m.export, exact: true })).toBeDisabled();
+    await page.getByRole('button', { name: m.analyze, exact: true }).click();
+    await expect(page.locator('.finding')).toHaveCount(1);
+    await expect(page.locator('#finding-1 > summary')).toBeVisible();
+    await expect(page.locator('#finding-2')).toHaveCount(0);
+    await expect(page.locator('#group-1')).toHaveCount(0);
+    await expect(page.locator('.finding-group-count')).toHaveCount(0);
+    await expect(page.locator('#check-status')).toHaveText(`${m.checked} 1.`);
+  });
+
   test(`${locale}: pickup positions stay consistent in findings, evidence and downloaded reports`, async ({
     page,
   }) => {

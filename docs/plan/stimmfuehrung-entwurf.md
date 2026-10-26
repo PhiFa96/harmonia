@@ -62,6 +62,16 @@ Am Anfang steht „Notierter Taktbeginn“ statt „Position 0“. Spätere Anga
 
 25 gezielte Werkzeugtests und zwölf Chromium-Abläufe sind erfolgreich, einschließlich Noten-/Taktbezügen, anderer SATB-Zuordnung, unveränderter vollständiger Engine-Ausgabe, DE/en-US/en-GB, Berichtdownload, Tastatur, Axe, schmaler Ansicht und vorhandener Audiowiedergabe. Typecheck der Werkzeuge, Lint/Paketgraph sowie Sprach-/Inhaltsprüfung sind erfolgreich. Katalog/Fähigkeitsplan bleiben Version 24; Engine-/Aufgaben-/Quellversionen und Wiederaufnahmeverhalten ändern sich nicht. Fach-/Primärliteratur-/Geräteabnahmen bleiben offen, keine Veröffentlichung. [ADR 0054](../decisions/0054-auftakte-und-positionen-im-satzbericht.md).
 
+## Gemeinsame Anzeige von Paarbefunden vom 26.10.2026
+
+`codex/p4-09-grouped-findings-draft` baut auf dem offenen Entwurfs-PR #122 auf. Dies ist ausdrücklich **technische P4-Vorarbeit vor der formalen Phase-4-Freigabe**. Die Engine liefert weiterhin sämtliche Einzelbefunde; die Gruppierung gehört zum privaten Bericht und zur lokalen Werkstatt.
+
+Paarbefunde derselben Regel, desselben Schweregrads und desselben Zeitpunkts mit gleichen Ausgangs-/Zielpositionen erscheinen gemeinsam. Jede Paarung steht mit ihrer ursprünglichen Befundnummer in einer Liste. Die Verweise `finding-N` bleiben vorhanden; gemeinsame Blöcke erhalten eigene `group-N`-Kennungen. Einzelstimmige Befunde, Befunde mit mehr als zwei Stimmen und abweichende Regeln/Positionen bleiben getrennt.
+
+Die gemeinsame Markierung und die Ausgangs-/Zieltabellen enthalten jede betroffene Stimme einmal. Zwei getrennte Paare behalten die Belege aller vier Stimmen. Bericht und Werkstatt nennen die unveränderte Einzelbefundzahl und bei Gruppierung zusätzlich die Zahl der Anzeigegruppen. Nach einer Notenänderung verschwinden die alten Befunde; die nächste Prüfung kann wieder einzelne Blöcke ergeben. DE/en-US/en-GB und heruntergeladene skriptfreie Berichte verwenden dieselbe Darstellung.
+
+30 gezielte Werkzeugtests und 15 Chromium-Abläufe sind erfolgreich, einschließlich unveränderter vollständiger Analyse, vollständiger Paarlisten/Belege, Gruppengrenzen, ursprünglicher Befundverweise, Bearbeitung und erneutem Prüfen, Download, Axe, schmaler Ansicht und vorhandener Audio-/Auftaktabläufe. Typecheck der Werkzeuge, Lint/Paketgraph, Formatierung und Sprach-/Inhaltsprüfung sind erfolgreich. Katalog/Fähigkeitsplan bleiben Version 24; Bewertungs-/Aufgaben-/Quellversionen und Wiederaufnahmeverhalten ändern sich nicht. Die fachliche Bedeutung der Paarzählung und unabhängige Fach-/Geräteabnahmen bleiben offen. Keine Veröffentlichung. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt. [ADR 0055](../decisions/0055-paarbefunde-im-satzbericht-gemeinsam-anzeigen.md).
+
 ## Lokale Satzwerkstatt
 
 `pnpm voice-leading:workbench --language de-DE --output artifacts/voice-leading/workbench.html` erzeugt eine eigenständige bearbeitbare HTML-Datei. DE, EN-US und EN-GB sind auch innerhalb der Datei umschaltbar. Das Werkzeug bündelt mit dem festgelegten esbuild 0.28.1 die vorhandene Engine, den Adapter und den Bericht. Schrift und Lizenz sind enthalten. Nach dem Erzeugen laufen Bearbeitung und Prüfung ohne Server oder Netzwerk im Browser; ein CSP-Hash erlaubt genau das eingebettete Skript. Der erzeugte Prüfbericht bleibt skriptfrei.

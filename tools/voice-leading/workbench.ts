@@ -292,6 +292,8 @@ export function startWorkbench({ draft, locale: initialLocale, assets }: Bootstr
       renderPlayer(audioState);
       exportReport.disabled = false;
       status.textContent = `${WORKBENCH_MESSAGES[locale].checked} ${String(report.analysis.findings.length)}.`;
+      if (report.groupCount < report.analysis.findings.length)
+        status.textContent += ` ${REPORT_MESSAGES[locale].groups}: ${String(report.groupCount)}.`;
     } catch (reason) {
       showError(WORKBENCH_MESSAGES[locale].invalid, reason);
     }
