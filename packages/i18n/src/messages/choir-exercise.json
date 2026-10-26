@@ -4,7 +4,7 @@
     "choirOpen": "Chor-Trainer öffnen",
     "choirDraft": "Interner Entwurf: Musik und Auswertung sind noch nicht unabhängig fachlich geprüft. Die Zuverlässigkeit mit echten Geräten und Kopfhörern ist noch nicht abgenommen.",
     "choirIntro": "Wähle deine Stimme. Drei andere Stimmen begleiten dich auf einem synthetischen „Ah“. Nach vier Zählschlägen singst du acht halbe Noten. Du darfst das ganze Stück in einer anderen Oktave singen.",
-    "choirPrompt": "Singe {{voice}} zu den drei anderen Stimmen.",
+    "choirPrompt": "Singe {{voice}} in {{key}} zu den drei anderen Stimmen.",
     "choirAnswer": "Zeitlich zugeordnete Tonhöhen der Singstimme",
     "choirSummary": "{{count}} von {{total}} Noten erfüllen das Entwurfsprofil. Die Einzelwertung zeigt Tonabweichung und Erkennungsanteil.",
     "choirHint": "Höre zuerst deine Stimme allein. Präge dir den Anfangston ein und halte jeden Ton über zwei Zählschläge. Singe in einer bequemen Oktave durchgehend auf „Ah“.",
@@ -37,18 +37,19 @@
     "choirDelayMore": "Zeitversatz erhöhen",
     "choirHome": "Heimweg",
     "choirArch": "Kleiner Bogen",
-    "choirSource": "Zwei eigene vierstimmige Miniaturen in C-Dur, neu für Harmonia geschrieben. Keine Bearbeitung eines fremden Werkes. Der „Ah“-Klang wird aus eigenen synthetischen Proben erzeugt.",
+    "choirSource": "Zwei eigene vierstimmige Miniaturen, ursprünglich in C-Dur für Harmonia geschrieben. Aufgaben verwenden auch Transpositionen nach B- und D-Dur. Keine Bearbeitung eines fremden Werkes. Der „Ah“-Klang wird aus eigenen synthetischen Proben erzeugt.",
     "choirTempo": "{{bpm}} BPM",
     "choirChecking": "Mikrofoneingang wird geprüft …",
     "choirNoInput": "Vom Mikrofon kommen keine Audiodaten an. Es wurde keine Antwort erzeugt. Prüfe den Eingang und versuche es erneut oder überspringe die Aufgabe.",
-    "choirInterrupted": "Die Aufnahme war unterbrochen oder unvollständig und wurde nicht gewertet. Versuche es erneut oder überspringe die Aufgabe."
+    "choirInterrupted": "Die Aufnahme war unterbrochen oder unvollständig und wurde nicht gewertet. Versuche es erneut oder überspringe die Aufgabe.",
+    "choirKey": "Tonart: {{key}}"
   },
   "en-US": {
     "type_CHOIR_PART": "Choir trainer · Draft",
     "choirOpen": "Open choir trainer",
     "choirDraft": "Internal draft: the music and scoring have not had independent subject review. Reliability with real devices and headphones has not yet been accepted.",
     "choirIntro": "Choose your part. Three other parts accompany you with a synthetic “Ah”. After four count-in beats, sing eight notes, each lasting two beats. You may sing the entire piece in another octave.",
-    "choirPrompt": "Sing {{voice}} with the other three parts.",
+    "choirPrompt": "Sing {{voice}} in {{key}} with the other three voices.",
     "choirAnswer": "Timed pitch readings for the sung part",
     "choirSummary": "{{count}} of {{total}} notes meet the draft profile. Individual results show pitch deviation and detected coverage.",
     "choirHint": "Listen to your part alone first. Remember the opening pitch and hold each note for two beats. Sing “Ah” throughout in a comfortable octave.",
@@ -81,18 +82,19 @@
     "choirDelayMore": "Increase timing offset",
     "choirHome": "Homeward",
     "choirArch": "A small arch",
-    "choirSource": "Two original four-part miniatures in C major, newly written for Harmonia. Neither is an arrangement of another work. The “Ah” sound uses our own synthetic samples.",
+    "choirSource": "Two original four-part miniatures, first written in C major for Harmonia. Tasks also use transpositions to B-flat and D major. These are not arrangements of another work. The “Ah” sound uses our own synthetic samples.",
     "choirTempo": "{{bpm}} BPM",
     "choirChecking": "Checking microphone input …",
     "choirNoInput": "No audio data is arriving from the microphone. No answer was created. Check the input and retry, or skip this exercise.",
-    "choirInterrupted": "Capture was interrupted or incomplete and was not graded. Retry or skip this exercise."
+    "choirInterrupted": "Capture was interrupted or incomplete and was not graded. Retry or skip this exercise.",
+    "choirKey": "Key: {{key}}"
   },
   "en-GB": {
     "type_CHOIR_PART": "Choir trainer · Draft",
     "choirOpen": "Open choir trainer",
     "choirDraft": "Internal draft: the music and scoring have not had independent subject review. Reliability with real devices and headphones has not yet been accepted.",
     "choirIntro": "Choose your part. Three other parts accompany you with a synthetic “Ah”. After four count-in beats, sing eight notes, each lasting two beats. You may sing the entire piece in another octave.",
-    "choirPrompt": "Sing {{voice}} with the other three parts.",
+    "choirPrompt": "Sing {{voice}} in {{key}} with the other three voices.",
     "choirAnswer": "Timed pitch readings for the sung part",
     "choirSummary": "{{count}} of {{total}} notes meet the draft profile. Individual results show pitch deviation and detected coverage.",
     "choirHint": "Listen to your part alone first. Remember the opening pitch and hold each note for two beats. Sing “Ah” throughout in a comfortable octave.",
@@ -125,10 +127,11 @@
     "choirDelayMore": "Increase timing offset",
     "choirHome": "Homeward",
     "choirArch": "A small arch",
-    "choirSource": "Two original four-part miniatures in C major, newly written for Harmonia. Neither is an arrangement of another work. The “Ah” sound uses our own synthetic samples.",
+    "choirSource": "Two original four-part miniatures, first written in C major for Harmonia. Tasks also use transpositions to B-flat and D major. These are not arrangements of another work. The “Ah” sound uses our own synthetic samples.",
     "choirTempo": "{{bpm}} BPM",
     "choirChecking": "Checking microphone input …",
     "choirNoInput": "No audio data is arriving from the microphone. No answer was created. Check the input and retry, or skip this exercise.",
-    "choirInterrupted": "Capture was interrupted or incomplete and was not graded. Retry or skip this exercise."
+    "choirInterrupted": "Capture was interrupted or incomplete and was not graded. Retry or skip this exercise.",
+    "choirKey": "Key: {{key}}"
   }
 }

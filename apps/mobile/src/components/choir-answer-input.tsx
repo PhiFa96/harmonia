@@ -3,7 +3,7 @@ import { AppState, Platform, ScrollView, View } from 'react-native';
 import { useFocusEffect } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { engineLanguage } from '@harmonia/i18n';
-import { assessChoir, choirScore, pitchInputLabel } from '@harmonia/exercises';
+import { assessChoir, choirKeyName, choirScore, pitchInputLabel } from '@harmonia/exercises';
 import type { ChoirItem, Evaluation } from '@harmonia/exercises';
 import { eventBounds, layoutScore } from '@harmonia/notation';
 import { ScoreView } from '@harmonia/notation/native';
@@ -152,6 +152,11 @@ export function ChoirAnswerInput({
         <AppText variant="title3">
           {t('exercise.choirNotation')} · {t(`exercise.satb_${item.params.voice}`)} ·{' '}
           {t('exercise.choirTempo', { bpm: item.bpm })}
+        </AppText>
+        <AppText testID="choir-key">
+          {t('exercise.choirKey', {
+            key: choirKeyName(item, locale),
+          })}
         </AppText>
         <ScrollView
           ref={scoreScroll}

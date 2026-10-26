@@ -1,5 +1,7 @@
 # P4.19 – Stufe 5 als interner Entwurf
 
+**Katalogstand 26.10.2026:** Der Chor-Aufgaben-Weiterbau erhöht Katalog/Fähigkeitsplan auf Version 25. Lokale Stufe-5-Vorschauen mit Katalogversion 24 müssen neu gestartet werden; die Stufe-5-Aufgabensätze selbst ändern sich dadurch nicht. [ADR 0060](../decisions/0060-chor-wiederholungen-mit-anderen-zieltoenen.md). Technische P4-Vorarbeit vor formaler Freigabe, keine Veröffentlichung.
+
 Stand: 25.10.2026 · Grundentwurf `codex/p4-19-level-five-draft` (#103); Weiterbau `codex/p4-19-preview-resume-draft`
 
 **Technische P4-Vorarbeit vor der formalen Phase-4-Freigabe auf ausdrücklichen Nutzerauftrag.** Kein Deployment, keine Veröffentlichung, keine Fachabnahme. P4.01 bleibt bis F14 und Klärung der rechtlichen Voraussetzungen zurückgestellt.

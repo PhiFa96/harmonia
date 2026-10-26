@@ -2,7 +2,7 @@ import type { ExerciseSpec, ExerciseType } from './types.ts';
 
 /** Explicit parameter profiles, never question text, answers, seeds or locale. */
 export const RATING_PARAMETERS = {
-  CHOIR_PART: ['voice', 'piece'],
+  CHOIR_PART: ['voice', 'piece', 'fifths'],
   VOICE_LEADING: ['mode', 'level', 'fifths'],
   SIGHT_SING: ['clefs', 'range', 'maxAccidentals', 'level'],
   SING_INTERVAL: ['clefs', 'range', 'maxAccidentals', 'level', 'intervals'],

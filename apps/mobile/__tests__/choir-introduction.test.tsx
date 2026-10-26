@@ -1,4 +1,4 @@
-import { fireEvent, renderRouter, screen } from 'expo-router/testing-library';
+import { act, fireEvent, renderRouter, screen } from 'expo-router/testing-library';
 import { catalogue } from '@harmonia/content/authoring';
 import { UiProvider } from '@harmonia/ui/native';
 import ChoirScreen from '@/app/choir';
@@ -58,12 +58,21 @@ for (const lesson of catalogue.lessons.filter((entry) => entry.unitId === 'aural
     const props = mockTask.mock.calls[0]?.[0];
     expect(props?.item).toMatchObject({
       type: 'CHOIR_PART',
-      params: { voice: lesson.id.split('.')[3], piece: 'home' },
+      params: { voice: lesson.id.split('.')[3], piece: 'home', fifths: 0 },
     });
     expect(props?.reportSource).toMatchObject({
       lessonId: lesson.id,
-      contentVersion: 24,
+      contentVersion: 25,
       index: 0,
+    });
+    act(() => props?.onSkipVoice?.());
+    expect(mockTask.mock.calls.at(-1)?.[0].item).toMatchObject({
+      type: 'CHOIR_PART',
+      params: { voice: lesson.id.split('.')[3], piece: 'arch', fifths: 2 },
+    });
+    expect(mockTask.mock.calls.at(-1)?.[0].reportSource).toMatchObject({
+      contentVersion: 25,
+      index: 1,
     });
   });
 }

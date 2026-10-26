@@ -116,6 +116,7 @@ export const exerciseSpecSchema = z
           .object({
             voice: z.enum(['soprano', 'alto', 'tenor', 'bass']),
             piece: z.enum(['home', 'arch']),
+            fifths: z.union([z.literal(-2), z.literal(0), z.literal(2)]).optional(),
           })
           .strict(),
       })
@@ -364,7 +365,15 @@ export const exerciseSpecSchema = z
           ...(value.params.direction ? { direction: value.params.direction } : {}),
         },
       };
-    if (value.type === 'CHOIR_PART') return { type: value.type, params: value.params };
+    if (value.type === 'CHOIR_PART')
+      return {
+        type: value.type,
+        params: {
+          voice: value.params.voice,
+          piece: value.params.piece,
+          ...(value.params.fifths === undefined ? {} : { fifths: value.params.fifths }),
+        },
+      };
     if (value.type === 'VOICE_LEADING')
       return {
         type: value.type,

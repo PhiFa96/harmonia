@@ -142,6 +142,11 @@ for (const locale of ['de-DE', 'en-US', 'en-GB']) {
         })
         .click();
       await expect(page.getByText('2 / 2', { exact: true })).toBeVisible();
+      await expect(page.getByTestId('choir-key')).toHaveText(
+        createI18n(locale.startsWith('de') ? 'de' : locale).t('exercise.choirKey', {
+          key: locale.startsWith('de') ? 'D-Dur' : 'D major',
+        }),
+      );
       expect(errors).toEqual([]);
     } finally {
       await context.close();
@@ -199,7 +204,12 @@ test('choir real browser audio pipeline: synthetic singing, per-note results, re
               .textContent.match(/(60|72|80) BPM/)[1],
           );
           const start = fixture.mic.currentTime + when - this.context.currentTime;
-          [64, 67, 65, 65, 62, 62, 64, 64].forEach((pitch, index) =>
+          const pitches = document
+            .querySelector('[data-testid="choir-key"]')
+            .textContent.includes('D-Dur')
+            ? [66, 66, 67, 66, 64, 67, 66, 66]
+            : [64, 67, 65, 65, 62, 62, 64, 64];
+          pitches.forEach((pitch, index) =>
             fixture.oscillator.frequency.setValueAtTime(
               440 * 2 ** ((pitch - 69) / 12),
               start + (index * 120) / bpm,
@@ -213,6 +223,7 @@ test('choir real browser audio pipeline: synthetic singing, per-note results, re
   await onboard(page, 'de-DE');
   await page.goto('/choir');
   await startWithIntroduction(page, 'soprano', 'de-DE');
+  await expect(page.getByTestId('choir-key')).toHaveText('Tonart: C-Dur');
   await page
     .getByRole('button', { name: 'Ich trage Kopfhörer und höre die Begleitung darin', exact: true })
     .click();
@@ -231,6 +242,7 @@ test('choir real browser audio pipeline: synthetic singing, per-note results, re
   await noOverflow(page);
   await page.screenshot({ path: info.outputPath('choir-per-note-results.png'), fullPage: true });
   await page.getByTestId('exercise-next').click();
+  await expect(page.getByTestId('choir-key')).toHaveText('Tonart: D-Dur');
   await page
     .getByRole('button', { name: 'Ich trage Kopfhörer und höre die Begleitung darin', exact: true })
     .click();
@@ -241,8 +253,24 @@ test('choir real browser audio pipeline: synthetic singing, per-note results, re
   await expect(page.getByRole('button', { name: 'Prüfen', exact: true })).toBeDisabled();
   await page.getByTestId('choir-start').click();
   await expect(page.getByTestId('choir-status')).toContainText('Vorzähler');
-  await page.getByRole('button', { name: 'Zurück zum Lernen', exact: true }).click();
+  await expect(page.getByTestId('choir-status')).toContainText('Durchlauf beendet', {
+    timeout: 25000,
+  });
   await expect.poll(() => page.evaluate(() => window.choirFixture.stops)).toBe(3);
+  await page.getByRole('button', { name: 'Prüfen', exact: true }).click();
+  await expect(
+    page.getByTestId('choir-results').getByText('Getroffen', { exact: true }),
+  ).toHaveCount(8);
+  await page.screenshot({ path: info.outputPath('choir-transposed-results.png'), fullPage: true });
+  await page.getByRole('button', { name: 'Zurück zum Lernen', exact: true }).click();
+  await startWithIntroduction(page, 'soprano', 'de-DE');
+  await page
+    .getByRole('button', { name: 'Ich trage Kopfhörer und höre die Begleitung darin', exact: true })
+    .click();
+  await page.getByTestId('choir-start').click();
+  await expect(page.getByTestId('choir-status')).toContainText('Vorzähler');
+  await page.getByRole('button', { name: 'Zurück zum Lernen', exact: true }).click();
+  await expect.poll(() => page.evaluate(() => window.choirFixture.stops)).toBe(4);
   expect(errors).toEqual([]);
 });
 

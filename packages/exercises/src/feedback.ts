@@ -1,4 +1,4 @@
-import { assessChoir } from './choir.ts';
+import { assessChoir, type ChoirItem } from './choir.ts';
 import { checkSatb, satbAnswer } from './voice-leading.ts';
 import type { ContextItem } from './context.ts';
 import {
@@ -309,10 +309,14 @@ export function choiceLabel(item: ExerciseItem, answer: string, locale: TextLoca
   const pitch = { ...item.pitch, letter: letter as Pitch['letter'], alter: Number(alter) };
   return noteName(pitch, locale, false);
 }
+export function choirKeyName(item: ChoirItem, locale: TextLocale): string {
+  return keyName(keyFromFifths(item.params.fifths ?? 0), engineLanguage(locale));
+}
 export function exercisePrompt(item: ExerciseItem, locale: TextLocale): string {
   if (item.type === 'CHOIR_PART')
     return translate(locale, 'exercise.choirPrompt', {
       voice: translate(locale, `exercise.satb_${item.params.voice}`),
+      key: choirKeyName(item, locale),
     });
   if (item.type === 'VOICE_LEADING')
     return translate(locale, 'exercise.question_VOICE_LEADING', {

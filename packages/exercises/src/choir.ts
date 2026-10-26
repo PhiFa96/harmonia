@@ -1,6 +1,14 @@
 import { parseScore } from '@harmonia/notation';
 import type { Score } from '@harmonia/notation';
-import { formatPitch, midi, parsePitch } from '@harmonia/theory';
+import {
+  formatNoteName,
+  formatPitch,
+  keyFromFifths,
+  midi,
+  parseInterval,
+  parsePitch,
+  transposeBy,
+} from '@harmonia/theory';
 import type { Pitch, Rng, Voice } from '@harmonia/theory';
 import type { Evaluation } from './types.ts';
 import { SATB_VOICES } from './voice-leading.ts';
@@ -8,6 +16,8 @@ import { SATB_VOICES } from './voice-leading.ts';
 export interface ChoirParams {
   readonly voice: Voice;
   readonly piece: 'home' | 'arch';
+  /** Explicit initial key; review tasks use another of these bounded transpositions. */
+  readonly fifths?: -2 | 0 | 2;
 }
 export interface ChoirItem {
   readonly type: 'CHOIR_PART';
@@ -34,9 +44,10 @@ const PIECES = {
     bass: 'C3 C3 F3 C3 G2 G2 C3 C3',
   },
 } as const;
-export function choirScore(item: Pick<ChoirItem, 'parts'>, solo?: Voice): Score {
+export function choirScore(item: Pick<ChoirItem, 'parts' | 'params'>, solo?: Voice): Score {
+  const key = formatNoteName(keyFromFifths(item.params.fifths ?? 0).tonic);
   const staff = (clef: string, voices: readonly Voice[]) =>
-    `${clef} | key:C | 4/4 | ` +
+    `${clef} | key:${key} | 4/4 | ` +
     Array.from({ length: 4 }, (_, bar) =>
       voices
         .map((voice) =>
@@ -54,10 +65,22 @@ export function choirScore(item: Pick<ChoirItem, 'parts'>, solo?: Voice): Score 
   );
 }
 export function generateChoir(params: ChoirParams, rng: Rng): ChoirItem {
-  if (!SATB_VOICES.includes(params.voice) || !Object.hasOwn(PIECES, params.piece))
+  if (
+    !SATB_VOICES.includes(params.voice) ||
+    !Object.hasOwn(PIECES, params.piece) ||
+    (params.fifths !== undefined && ![-2, 0, 2].includes(params.fifths))
+  )
     throw new RangeError('Choir parameters');
+  const transposition = parseInterval(
+    params.fifths === -2 ? '-M2' : params.fifths === 2 ? 'M2' : 'P1',
+  );
   const parts = Object.fromEntries(
-    SATB_VOICES.map((v) => [v, PIECES[params.piece][v].split(' ').map(parsePitch)]),
+    SATB_VOICES.map((v) => [
+      v,
+      PIECES[params.piece][v]
+        .split(' ')
+        .map((name) => transposeBy(parsePitch(name), transposition)),
+    ]),
   ) as unknown as ChoirItem['parts'];
   return {
     type: 'CHOIR_PART',
@@ -65,7 +88,7 @@ export function generateChoir(params: ChoirParams, rng: Rng): ChoirItem {
     params,
     parts,
     bpm: rng.pick([60, 72, 80]),
-    score: choirScore({ parts }),
+    score: choirScore({ parts, params }),
     choices: [],
     clef: params.voice === 'bass' || params.voice === 'tenor' ? 'bass' : 'treble',
   };

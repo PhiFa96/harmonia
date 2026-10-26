@@ -1,5 +1,7 @@
 # P4.11 – Chor-Trainer: interner technischer Entwurf
 
+**Musikalischer Aufgaben-Weiterbau 26.10.2026:** `codex/p4-11-musical-retries-draft` baut auf Entwurfs-PR #127 mit fünf erfolgreichen CI-Jobs auf. Alle vier Stimmlagen beginnen mit „Heimweg“ in C-Dur und „Kleiner Bogen“ in D-Dur; Fehlerwiederholungen wechseln kanonisch zu einer anderen Tonart aus B-/C-/D-Dur (international Bb/C/D). Alle vier Stimmen werden gemeinsam um höchstens einen Ganzton aus der C-Dur-Ausgangsfassung transponiert. Notation, Tonartanzeige, Begleitung und Bewertung verwenden dieselben Tonhöhen. Übungssätze/Lektionen und Katalog/Fähigkeitsplan Version 25, Einführungskarten weiter 24. Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**, sämtliche Fassungen `entwurf`, keine Veröffentlichung. [ADR 0060](../decisions/0060-chor-wiederholungen-mit-anderen-zieltoenen.md).
+
 **Einführungs-Weiterbau 26.10.2026:** `codex/p4-11-introduction-draft` baut auf dem offenen Entwurfs-PR #120 mit fünf erfolgreichen CI-Jobs auf. Vier Karten zeigen jetzt die vollständige gewählte Einzelstimme aus beiden vorhandenen Miniaturen; der interne Direkteinstieg verwendet vor den Aufgaben dieselbe Einführung wie der Lernpfad. Karten/Lektionen und Katalog/Fähigkeitsplan Version 24, Übungssätze/Ratingquellen weiter 20. Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**, keine Veröffentlichung. [ADR 0053](../decisions/0053-chor-einfuehrungen-fuer-jede-stimmlage.md).
 
 **Weiterbau 26.10.2026:** `codex/p4-11-capture-reliability-draft` sichert fehlende/unterbrochene Mikrofon-Datenströme ab, aufbauend auf #111 (alle fünf CI-Jobs grün). Diese technische P4-Vorarbeit findet weiterhin **vor der formalen Phase-4-Freigabe** statt. Keine Veröffentlichung oder echte Geräte-/Fachabnahme. [ADR 0047](../decisions/0047-chor-aufnahme-nur-mit-vollstaendigem-datenfluss-werten.md).
@@ -9,7 +11,7 @@ Stand: 21.10.2026. Auf ausdrücklichen Nutzerauftrag erfolgt diese technische P4
 ## Implementierter Ablauf
 
 - Interner Einstieg unter Üben → Chor-Trainer; vier Entwurfslektionen für Sopran, Alt, Tenor und Bass. Der Einstieg und die direkte Route sind über den Build-Katalog gesperrt, sobald nur freigegebene Inhalte verwendet werden.
-- Zwei eigene vierstimmige Miniaturen, „Heimweg“ / “Homeward” und „Kleiner Bogen“ / “A small arch”, je vier Takte in C-Dur und acht halbe Noten pro Stimme. Neu für Harmonia geschrieben; keine Übernahme oder Bearbeitung fremder Partituren. DE, en-US und en-GB einschließlich Einführungen und Notenbeschreibungen.
+- Zwei eigene vierstimmige Miniaturen, „Heimweg“ / “Homeward” und „Kleiner Bogen“ / “A small arch”, ursprünglich je vier Takte in C-Dur und acht halbe Noten pro Stimme. Aktuelle Aufgaben verwenden auch die gemeinsamen Transpositionen nach B- und D-Dur. Neu für Harmonia geschrieben; keine Übernahme oder Bearbeitung fremder Partituren. DE, en-US und en-GB einschließlich Einführungen, Tonartanzeige und Notenbeschreibungen.
 - Eigener synthetischer „Ah“-Probenklang im bestehenden Sampler, sieben deterministisch erzeugte Mono-Proben mit Vokalformanten. Keine Sprachaufnahme, kein fremdes Sample und kein Stimmenmodell. Separate Audio-Engine verhindert Überschreiben durch nachladende Klavierproben.
 - Einzelstimme und Gesamtsatz vorhörbar; vor der Wertung zählt Vorhören als Hilfe. Kopfhörerbestätigung vor dem Start. Vier Zählschläge, danach genau die drei anderen Stimmen; die gewählte Stimme fehlt in der Begleitung.
 - Markierte aktuelle Note und pro Note Tonabweichung, Erkennungsanteil sowie Ergebnis in Textform. Abbrechen, erneuter Durchlauf, nächste Miniatur und Mikrofonaufgabe überspringen sind möglich.
@@ -18,7 +20,7 @@ Stand: 21.10.2026. Auf ausdrücklichen Nutzerauftrag erfolgt diese technische P4
 
 ## Einführung für Sopran, Alt, Tenor und Bass
 
-Jede Einführungskarte bietet „Heimweg“ und „Kleiner Bogen“ als vollständig notierte Einzelstimme an: vier 4/4-Takte, acht halbe Noten. Sopran und Alt verwenden den Violinschlüssel, Tenor und Bass den Bassschlüssel wie im vorhandenen Trainer. Die acht Beispiele übernehmen die Tonhöhen der bestehenden Aufgaben. Die schmale Ansicht erlaubt seitliches Verschieben des Notenbilds; die Notenbeschreibungen bleiben zugänglich.
+Jede Einführungskarte bietet „Heimweg“ und „Kleiner Bogen“ als vollständig notierte Einzelstimme an: vier 4/4-Takte, acht halbe Noten. Sopran und Alt verwenden den Violinschlüssel, Tenor und Bass den Bassschlüssel wie im vorhandenen Trainer. Die acht Beispiele zeigen weiterhin die C-Dur-Ausgangsfassung. Die aktuellen Aufgaben können transponiert sein und nennen ihre tatsächliche Tonart. Die schmale Ansicht erlaubt seitliches Verschieben des Notenbilds; die Notenbeschreibungen bleiben zugänglich.
 
 Der interne Ablauf ist jetzt Auswahl → Einführung mit Beispielwahl und Klang → zwei Aufgaben → Abschluss. Der gemeinsame Beispielspieler verwendet sein bisheriges Tempo von 90 Viertelschlägen pro Minute und den bestehenden Synthesizer-/Klavierpfad. Das ist getrennt von der unveränderten Tempoauswahl der Gesangsaufgaben. Die Einführung fordert keine Mikrofonberechtigung an. Beispielwechsel, Aufgabenstart und Verlassen stoppen den Klang. Nach dem Verlassen beginnt die nächste Einführung wieder bei „Heimweg“. Der Einstieg bleibt flüchtig und ohne Lernnachweise oder XP.
 
@@ -33,6 +35,16 @@ Die vier Karten und Lektionen sowie Katalog/Fähigkeitsplan sind Version 24, die
 Zehn Vorschau-Browserfälle prüfen DE/en-US/en-GB, alle vier Einführungen, Beispielwahl, acht sichtbare Noten, tatsächlichen Audiostart ohne Mikrofon, Stoppen beim Verlassen, Axe und schmale Ansichten sowie die bisherigen Mikrofon-/Skip-/Unterbrechungsabläufe. Die Audioprobe erfasst sowohl den anfänglichen Synthesizer als auch später verfügbare Klavierproben. Die synthetische Gesangsprobe erkennt weiterhin acht von acht Sollnoten. Drei zusätzliche Produktionsfälle zeigen ausschließlich die Unverfügbarkeit der Chor-Lektionen. Diese Produktionsprobe ist zusammen mit der Zeitreise-Prüfung in CI eingebunden.
 
 Typecheck, Lint, Formatierung, Sprach-/Inhalts-/Fähigkeitsgraphprüfung und Deno-Smoke sind erfolgreich. Der tatsächliche Produktions-Bundleguard bestätigt fünf JS-Dateien ohne Entwurfsdaten. KI-/Zertifikatsprüfmappen werden nur lokal neu erzeugt; das KI-Inventar umfasst zehn ungeprüfte Funktionsbereiche und 244 gebundene Dateien. Zwanzig allgemeine KI-Nachweise und 25 Zertifikatsanforderungen bleiben offen. Diese technischen Prüfungen ersetzen keine unabhängige Fach-/Sprach-, echte Kopfhörer-/Geräte- oder Veröffentlichungsabnahme.
+
+## Musikalisch andere Erst- und Wiederholungsaufgaben
+
+`CHOIR_PART` erhält ein optionales, streng begrenztes `fifths: -2 | 0 | 2`. Das entspricht B-Dur einen Ganzton unter der Ausgangsfassung, C-Dur oder D-Dur einen Ganzton darüber. Alle Stimmen behalten Rhythmus, Stimmverteilung und Intervalle untereinander. Diese Begrenzung bleibt innerhalb der bisher getesteten technischen SATB-Stimmumfänge; deren fachliche und individuelle Eignung ist weiterhin offen.
+
+Jede aktuelle Lektion enthält C-Dur und D-Dur unabhängig vom Seed. Dadurch unterscheiden sich auch die beiden Alt-Aufgaben, deren C-Dur-Ausgangsstimmen gleich sind. In der normalen Fehlerwiederholung wählt der kanonische Generator eine der beiden anderen Tonarten. Die Variantenkennung berücksichtigt dort die tatsächlichen Zieltöne statt des Tempos. Ein reiner Tempowechsel reicht nicht aus; die perfekte Antwort des Erstversuchs besteht die transponierte Wiederholung nicht. Der Wiederholungsseed rekonstruiert dieselbe Variante auf Client und Server.
+
+Spezifikationen ohne `fifths` behalten den bisherigen C-Dur-Pfad einschließlich Tempo-Zufallsverbrauch und alter Variantenkennung für Seed-Replay. Neue Spezifikationen haben getrennte Ratingprofile nach Tonart. Alle aktuellen Chor-Übungssätze und Lektionen sind Version 25; Quellen 20 und 24 werden abgewiesen. Ein laufender alter Chor-Entwurf braucht einen neuen Start. Die global erhöhte Katalogversion 25 verlangt auch für lokale Stufe-5-Vorschauen mit Version 24 einen Neustart; deren eigene Aufgabensätze werden nicht geändert.
+
+Die Einführungskarten bleiben Version 24 mit ihren bestehenden C-Dur-Beispielen. Gesangsprofil, Oktavkorrektur, Hilfe-/Skip-Regeln, PCM-Abdeckung und Mikrofon-Lebenszyklus werden nicht geändert. Keine neuen Datenbankfelder oder Audioaufnahmen. Unabhängige Kontrolle der Transpositionen, didaktische Bewertung und echte Gesangs-/Geräteprüfungen bleiben offen.
 
 ## Bewertungsprofil v1
 

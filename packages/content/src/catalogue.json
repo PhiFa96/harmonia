@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": 24,
+  "contentVersion": 25,
   "areas": [
     {
       "id": "fundament",
@@ -7282,7 +7282,7 @@
       ]
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 25,
       "status": "entwurf",
       "id": "aural.l4.choir.soprano.exercises",
       "titleKey": "content.choir.soprano",
@@ -7293,7 +7293,8 @@
             "type": "CHOIR_PART",
             "params": {
               "voice": "soprano",
-              "piece": "home"
+              "piece": "home",
+              "fifths": 0
             }
           },
           "count": 1
@@ -7303,7 +7304,8 @@
             "type": "CHOIR_PART",
             "params": {
               "voice": "soprano",
-              "piece": "arch"
+              "piece": "arch",
+              "fifths": 2
             }
           },
           "count": 1
@@ -7311,7 +7313,7 @@
       ]
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 25,
       "status": "entwurf",
       "id": "aural.l4.choir.alto.exercises",
       "titleKey": "content.choir.alto",
@@ -7322,7 +7324,8 @@
             "type": "CHOIR_PART",
             "params": {
               "voice": "alto",
-              "piece": "home"
+              "piece": "home",
+              "fifths": 0
             }
           },
           "count": 1
@@ -7332,7 +7335,8 @@
             "type": "CHOIR_PART",
             "params": {
               "voice": "alto",
-              "piece": "arch"
+              "piece": "arch",
+              "fifths": 2
             }
           },
           "count": 1
@@ -7340,7 +7344,7 @@
       ]
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 25,
       "status": "entwurf",
       "id": "aural.l4.choir.tenor.exercises",
       "titleKey": "content.choir.tenor",
@@ -7351,7 +7355,8 @@
             "type": "CHOIR_PART",
             "params": {
               "voice": "tenor",
-              "piece": "home"
+              "piece": "home",
+              "fifths": 0
             }
           },
           "count": 1
@@ -7361,7 +7366,8 @@
             "type": "CHOIR_PART",
             "params": {
               "voice": "tenor",
-              "piece": "arch"
+              "piece": "arch",
+              "fifths": 2
             }
           },
           "count": 1
@@ -7369,7 +7375,7 @@
       ]
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 25,
       "status": "entwurf",
       "id": "aural.l4.choir.bass.exercises",
       "titleKey": "content.choir.bass",
@@ -7380,7 +7386,8 @@
             "type": "CHOIR_PART",
             "params": {
               "voice": "bass",
-              "piece": "home"
+              "piece": "home",
+              "fifths": 0
             }
           },
           "count": 1
@@ -7390,7 +7397,8 @@
             "type": "CHOIR_PART",
             "params": {
               "voice": "bass",
-              "piece": "arch"
+              "piece": "arch",
+              "fifths": 2
             }
           },
           "count": 1
@@ -21345,7 +21353,7 @@
       "exerciseSetIds": ["satz.l5.writing.functions.exercises"]
     },
     {
-      "contentVersion": 24,
+      "contentVersion": 25,
       "status": "entwurf",
       "id": "aural.l4.choir.soprano.lesson",
       "titleKey": "content.choir.soprano",
@@ -21355,7 +21363,7 @@
       "exerciseSetIds": ["aural.l4.choir.soprano.exercises"]
     },
     {
-      "contentVersion": 24,
+      "contentVersion": 25,
       "status": "entwurf",
       "id": "aural.l4.choir.alto.lesson",
       "titleKey": "content.choir.alto",
@@ -21365,7 +21373,7 @@
       "exerciseSetIds": ["aural.l4.choir.alto.exercises"]
     },
     {
-      "contentVersion": 24,
+      "contentVersion": 25,
       "status": "entwurf",
       "id": "aural.l4.choir.tenor.lesson",
       "titleKey": "content.choir.tenor",
@@ -21375,7 +21383,7 @@
       "exerciseSetIds": ["aural.l4.choir.tenor.exercises"]
     },
     {
-      "contentVersion": 24,
+      "contentVersion": 25,
       "status": "entwurf",
       "id": "aural.l4.choir.bass.lesson",
       "titleKey": "content.choir.bass",

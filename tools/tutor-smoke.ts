@@ -687,6 +687,64 @@ check(
   'Cancellation after API admission is accounted',
 );
 
+// P4.11: the server reconstructs the actual transposed initial/review targets.
+{
+  for (const entry of catalogue.lessons.filter((lesson) =>
+    lesson.id.startsWith('aural.l4.choir.'),
+  )) {
+    const lesson = resolveLesson(catalogue, entry.id);
+    if (!lesson) throw new Error('Choir lesson missing');
+    const seed = 'choir-transposed-tutor';
+    const initial = createLessonSession(lesson, seed).initial.items;
+    for (const index of [0, 1])
+      for (const round of ['initial', 'review'] as const) {
+        const item = round === 'initial' ? initial[index] : lessonReviewItem(lesson, seed, index);
+        if (item?.type !== 'CHOIR_PART') throw new Error('Choir task missing');
+        const source = {
+          kind: 'lesson' as const,
+          lessonId: lesson.id,
+          contentVersion: 25,
+          seed,
+          round,
+          index,
+        };
+        for (const locale of ['de', 'en-US', 'en-GB'] as const) {
+          const bound: TutorRequest = {
+            ...request,
+            locale,
+            mode: 'explain',
+            context: { source, answer: expectedAnswer(item), checked: false },
+          };
+          const context = exerciseContext(catalogue, bound);
+          check(
+            'evaluation' in context && context.evaluation.correct,
+            'Choir tutor grades the transposed source',
+          );
+          check(
+            'solution' in context && context.solution === expectedAnswer(item),
+            'Choir tutor retains actual transposed targets',
+          );
+          for (const contentVersion of [20, 24]) {
+            let rejected = false;
+            try {
+              exerciseContext(catalogue, {
+                ...bound,
+                context: {
+                  answer: expectedAnswer(item),
+                  checked: false,
+                  source: { ...source, contentVersion },
+                },
+              });
+            } catch {
+              rejected = true;
+            }
+            check(rejected, 'Choir tutor rejects superseded task sources');
+          }
+        }
+      }
+  }
+}
+
 // P4.10: only the reconstructed checked task is available to the draft tool.
 {
   for (const record of catalogue.lessons.filter((entry) => entry.id.includes('.writing.'))) {

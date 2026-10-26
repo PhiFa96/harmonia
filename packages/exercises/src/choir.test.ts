@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { validateScore } from '@harmonia/notation';
-import { analyzeVoiceLeading, midi, parsePitch } from '@harmonia/theory';
+import { Note as TonalNote } from 'tonal';
+import { scoreTimeline, validateScore } from '@harmonia/notation';
+import { analyzeVoiceLeading, formatPitch, midi, parsePitch } from '@harmonia/theory';
 import {
   createRng,
   generateExercise,
@@ -14,6 +15,12 @@ import {
   skipVoiceExercise,
   sessionSummary,
   SATB_VOICES,
+  itemVariantKey,
+  createLessonSession,
+  answerLesson,
+  nextLessonExercise,
+  lessonReviewItem,
+  ratingBucket,
 } from './index.ts';
 import {
   assessChoir,
@@ -32,6 +39,127 @@ function required<T>(value: T | undefined | null): T {
 }
 
 describe('CHOIR_PART internal draft', () => {
+  it.each([
+    [0, [60, 60, 60], 0.1462021479383111],
+    [1, [72, 60, 72], 0.9810509674716741],
+    [42, [72, 72, 80], 0.6697340414393693],
+    ['choir-legacy', [60, 60, 60], 0.6946458027232438],
+    ['choir-tutor', [72, 80, 72], 0.8027321980334818],
+  ] as const)(
+    'preserves legacy tempos, C-major pitches and RNG consumption for %s',
+    (seed, tempos, next) => {
+      const rng = createRng(seed);
+      const items = Array.from({ length: 3 }, () =>
+        generateChoir({ voice: 'alto', piece: 'home' }, rng),
+      );
+      expect(items.map((item) => item.bpm)).toEqual(tempos);
+      expect(items.every((item) => item.params.fifths === undefined)).toBe(true);
+      expect(items[0]?.parts.alto.map((p) => formatPitch(p))).toEqual([
+        'C4',
+        'C4',
+        'C4',
+        'C4',
+        'B3',
+        'B3',
+        'C4',
+        'C4',
+      ]);
+      expect(rng.next()).toBe(next);
+    },
+  );
+
+  it('separates explicit key rating profiles without changing legacy profiles', () => {
+    const spec = { type: 'CHOIR_PART', params: { voice: 'alto', piece: 'home' } } as const;
+    expect(ratingBucket(spec, 20)).toBe('g2:1:20:CHOIR_PART:{"piece":"home","voice":"alto"}');
+    const keys = ([-2, 0, 2] as const).map((fifths) =>
+      ratingBucket({ ...spec, params: { ...spec.params, fifths } }, 25),
+    );
+    expect(new Set(keys).size).toBe(3);
+    expect(keys[1]).toBe('g2:1:25:CHOIR_PART:{"fifths":0,"piece":"home","voice":"alto"}');
+    for (const fifths of [-3, -1, 1, 3, 0.5, NaN, Infinity])
+      expect(() => generateChoir({ ...spec.params, fifths } as never, createRng(1))).toThrow();
+  });
+
+  for (const voice of SATB_VOICES)
+    for (const piece of ['home', 'arch'] as const)
+      for (const fifths of [-2, 0, 2] as const)
+        it(`${voice}/${piece}/${String(fifths)}: written key, complete score, backing and grading use the same transposition`, () => {
+          const item = generateChoir({ voice, piece, fifths }, createRng('choir-keys'));
+          const original = generateChoir({ voice, piece }, createRng('choir-keys'));
+          const shift = fifths;
+          expect(validateScore(item.score)).toEqual([]);
+          expect(item.score.staves.map((staff) => staff.keySignature.fifths)).toEqual([
+            fifths,
+            fifths,
+          ]);
+          for (const v of SATB_VOICES) {
+            expect(item.parts[v].map(midi)).toEqual(original.parts[v].map((p) => midi(p) + shift));
+            expect(item.parts[v].map((p) => formatPitch(p))).toEqual(
+              original.parts[v].map((p) =>
+                TonalNote.transpose(
+                  formatPitch(p),
+                  fifths === -2 ? '-2M' : fifths === 2 ? '2M' : '1P',
+                ),
+              ),
+            );
+            const solo = choirScore(item, v);
+            expect(validateScore(solo)).toEqual([]);
+            expect(solo.staves[0]?.keySignature.fifths).toBe(fifths);
+            expect(scoreTimeline(solo, { bpm: item.bpm }).tones.map((note) => note.pitch)).toEqual(
+              item.parts[v],
+            );
+          }
+          expect(choirEvents(item, 'backing').map((event) => event.pitches)).toEqual(
+            item.parts[voice].map((_, index) =>
+              SATB_VOICES.filter((v) => v !== voice).map((v) => item.parts[v][index]),
+            ),
+          );
+          expect(evaluateExercise(item, expectedAnswer(item)).correct).toBe(true);
+          if (fifths !== 0)
+            expect(evaluateExercise(item, expectedAnswer(original)).correct).toBe(false);
+          expect(itemVariantKey({ ...item, bpm: item.bpm === 60 ? 80 : 60 })).toBe(
+            itemVariantKey(item),
+          );
+        });
+
+  it.each(SATB_VOICES)(
+    '%s: fixed-key reviews change every target and reconstruct without relying on tempo',
+    (voice) => {
+      for (const piece of ['home', 'arch'] as const)
+        for (const fifths of [-2, 0, 2] as const)
+          for (const seed of [0, 1, 42, 'choir-review', 'other-review']) {
+            const definition = {
+              id: 'choir-review',
+              contentVersion: 25,
+              exercises: [{ type: 'CHOIR_PART', params: { voice, piece, fifths } }],
+            } as const;
+            let state = createLessonSession(definition, seed);
+            const original = required(state.initial.items[0]);
+            state = nextLessonExercise(
+              answerLesson(
+                state,
+                choirAnswerId(Array.from({ length: 8 }, () => Array<null>(12).fill(null))),
+              ),
+            );
+            expect(state.phase).toBe('review-intro');
+            const repeated = required(state.review?.items[0]);
+            if (original.type !== 'CHOIR_PART' || repeated.type !== 'CHOIR_PART')
+              throw new Error('Choir fixture');
+            expect(repeated.params.fifths).not.toBe(original.params.fifths);
+            expect(repeated.params.piece).toBe(piece);
+            expect(repeated.params.voice).toBe(voice);
+            expect(
+              repeated.parts[voice].every(
+                (p, index) => midi(p) !== midi(required(original.parts[voice][index])),
+              ),
+            ).toBe(true);
+            expect(itemVariantKey(repeated)).not.toBe(itemVariantKey(original));
+            expect(evaluateExercise(repeated, expectedAnswer(original)).correct).toBe(false);
+            expect(evaluateExercise(repeated, expectedAnswer(repeated)).correct).toBe(true);
+            expect(lessonReviewItem(definition, seed, 0)).toEqual(repeated);
+          }
+    },
+  );
   for (const voice of SATB_VOICES)
     for (const piece of ['home', 'arch'] as const) {
       it(`${voice}/${piece}: complete original score, reproducible generation and three backing parts`, () => {
@@ -164,21 +292,22 @@ describe('CHOIR_PART miniatures follow the draft part-writing profile', () => {
     [...Object.keys(profile), 'contrary-fifth', 'contrary-octave'].map((rule) => [rule, 'error']),
   );
   for (const piece of ['home', 'arch'] as const)
-    it(`${piece}: no findings under the exercise profile or the strict rule set`, () => {
-      const { parts } = generateChoir({ voice: 'soprano', piece }, createRng(1));
-      const slices = parts.soprano.map((_, i) => ({
-        soprano: required(parts.soprano[i]),
-        alto: required(parts.alto[i]),
-        tenor: required(parts.tenor[i]),
-        bass: required(parts.bass[i]),
-      }));
-      const options = {
-        ranges,
-        hiddenPerfectMotion: 'soprano-leap',
-        maxMelodicInterval: 8,
-        contraryPerfectScope: 'all',
-      } as const;
-      expect(analyzeVoiceLeading(slices, profile, options)).toEqual([]);
-      expect(analyzeVoiceLeading(slices, strict, options)).toEqual([]);
-    });
+    for (const fifths of [-2, 0, 2] as const)
+      it(`${piece}/${String(fifths)}: no findings under the exercise profile or the strict rule set`, () => {
+        const { parts } = generateChoir({ voice: 'soprano', piece, fifths }, createRng(1));
+        const slices = parts.soprano.map((_, i) => ({
+          soprano: required(parts.soprano[i]),
+          alto: required(parts.alto[i]),
+          tenor: required(parts.tenor[i]),
+          bass: required(parts.bass[i]),
+        }));
+        const options = {
+          ranges,
+          hiddenPerfectMotion: 'soprano-leap',
+          maxMelodicInterval: 8,
+          contraryPerfectScope: 'all',
+        } as const;
+        expect(analyzeVoiceLeading(slices, profile, options)).toEqual([]);
+        expect(analyzeVoiceLeading(slices, strict, options)).toEqual([]);
+      });
 });
