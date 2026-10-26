@@ -9,7 +9,8 @@ import {
 import type { HistoryChoice, HistoryStop, HistoryQuestionState } from '@harmonia/content';
 import { historyStops } from '@harmonia/content/history-journey';
 import { catalogue, knowledgeStages } from '@harmonia/content/catalogue';
-import { contentTranslator } from '@harmonia/i18n';
+import { contentTranslator, createHistoryJourneyText } from '@harmonia/i18n';
+import type { HistoryJourneyText } from '@harmonia/i18n';
 import { contentMessages } from '@harmonia/i18n/content-messages';
 import { historyJourneyMessages } from '@harmonia/i18n/history-journey';
 import { parseScore } from '@harmonia/notation';
@@ -30,11 +31,15 @@ const STEPS: readonly Step[] = ['scene', 'interview', 'knowledge', 'listening', 
 export default function HistoryJourneyScreen() {
   const { t } = useTranslation();
   const locale = useLocale();
+  const historyText = useMemo(
+    () => createHistoryJourneyText(locale, historyJourneyMessages),
+    [locale],
+  );
   const [selected, setSelected] = useState<HistoryStop | null>(null);
   const [step, setStep] = useState<Step>('scene');
   const [question, setQuestion] = useState(createHistoryQuestion);
   const [sourceError, setSourceError] = useState(false);
-  const copy = selected ? historyJourneyMessages[locale][selected.id] : null;
+  const copy = selected ? historyText(selected.id) : null;
   const chooseStop = (stop: HistoryStop | null) => {
     setSelected(stop);
     setStep('scene');
@@ -95,7 +100,7 @@ export default function HistoryJourneyScreen() {
               <Button
                 key={stop.id}
                 variant="secondary"
-                label={historyJourneyMessages[locale][stop.id].title}
+                label={historyText(stop.id).title}
                 onPress={() => {
                   chooseStop(stop);
                 }}
@@ -189,7 +194,6 @@ export default function HistoryJourneyScreen() {
   );
 }
 
-type StoryCopy = (typeof historyJourneyMessages)['de']['medieval'];
 function Question({
   stop,
   step,
@@ -201,7 +205,7 @@ function Question({
 }: {
   readonly stop: HistoryStop;
   readonly step: 'knowledge' | 'listening';
-  readonly copy: StoryCopy;
+  readonly copy: HistoryJourneyText;
   readonly question: HistoryQuestionState;
   readonly onChoice: (value: HistoryChoice) => void;
   readonly onCheck: (ready: boolean) => void;

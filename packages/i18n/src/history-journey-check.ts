@@ -5,6 +5,8 @@ import { historyJourneyMessages } from './history-journey-draft.ts';
 import type { MessageTree } from './messages/types.ts';
 import { RESOURCES } from './resources.ts';
 import type { AppLocale } from './locale.ts';
+import { createHistoryJourneyText } from './history-journey-text.ts';
+import type { HistoryJourneyMessages } from './history-journey-text.ts';
 
 const OPTIONS = ['knowledgeOptions', 'listeningOptions'] as const;
 
@@ -68,5 +70,22 @@ export function checkHistoryJourneyTranslations(input: unknown = historyJourneyM
     'en-US': localeResources('en-US'),
     'en-GB': localeResources('en-GB'),
   };
-  return [...problems, ...checkTranslations(resources)];
+  problems.push(...checkTranslations(resources));
+  if (!problems.length) {
+    const messages = source as HistoryJourneyMessages;
+    for (const locale of ['de', 'en-US', 'en-GB'] as const) {
+      const text = createHistoryJourneyText(locale, messages);
+      for (const era of Object.keys(
+        historyJourneyMessages.de,
+      ) as (keyof typeof historyJourneyMessages.de)[])
+        try {
+          text(era);
+        } catch {
+          problems.push(
+            `${locale} historyJourneyDraft:${era}: Texte oder Glossarverweise nicht auflösbar; übersetzte Antworten müssen unterschiedlich sein`,
+          );
+        }
+    }
+  }
+  return problems;
 }

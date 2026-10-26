@@ -32,6 +32,18 @@ Auf `codex/p4-12-draft-boundaries` werden die drei technischen Prüflücken aus 
 
 Neue Fragen, Hinweise und Ablenker brauchen eine unabhängige Fach-/Sprachprüfung. Die Rollen sprechen weiterhin über Lehrdossiers; ihre weitere Gestaltung und die Glossararbeit bleiben offen. Audiofreigabe nach Start ist kein Nachweis vollständigen Anhörens. [ADR 0050](../decisions/0050-zeitreise-fragen-mit-hinweisen-und-erklaerungen.md).
 
+## Glossaranbindung: Weiterbau vom 26.10.2026
+
+`codex/p4-12-glossary-draft` baut auf dem offenen Entwurfs-PR #119 mit fünf erfolgreichen CI-Jobs auf. Dies ist ausdrücklich **technische P4-Vorarbeit vor der formalen Phase-4-Freigabe**. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
+
+- Die Route bezieht Stationsübersicht, Szenen, Interview, Fragen, Antworten, Hinweise und Erklärungen über `createHistoryJourneyText(locale, messages)`. Einstimmigkeit, Mehrstimmigkeit, Imitation, Generalbass, Stimme und Phrase verwenden das gemeinsame Glossar. Die Bezeichnung „Phrase“ ergänzt das Glossar mit DE/EN-Pluralformen; sie enthält keine historische Definition. US-/UK-Begriffe und die vorhandenen britischen Textabweichungen bleiben sprachgebunden.
+- Die Bindung erhält Daten ausdrücklich und erzeugt eigene Textkopien in einer isolierten Inhaltsinstanz. Sie verändert weder Eingabe noch globale Laufzeitressourcen. Der öffentlich exportierte Helfer importiert keine Entwurfstexte zur Laufzeit. Ohne Station in der gewählten Sprache erfolgt kein Rückfall auf fremdsprachige Entwürfe.
+- Alle 14 Textfelder einschließlich einzelner Antwortoptionen werden aufgelöst. Fehlende oder unvollständige Glossarverweise, Verweise auf andere Geschichten und unaufgelöste Platzhalter werden abgewiesen. Jede Antwortgruppe verlangt auch nach der Auflösung drei unterschiedliche Texte; `check:i18n` prüft denselben Vertrag.
+- Der Bundleguard sperrt sowohl rohe Vorlagen als auch vollständig aufgelöste Entwurfstexte in allen drei Sprachen. Gemeinsame öffentliche Glossarwerte bleiben zulässig. Die Produktionsaliase bleiben leer; sämtliche privaten Geschichten und alle acht Partituren bleiben ausgeschlossen.
+- 495 Sprachtests, vier gezielte App-Tests, 253 Werkzeugtests und zwölf Deno-Bindungen sind erfolgreich. Sechs Chromium-Abläufe prüfen tatsächliche Vorschau-/Produktions-Webexports in DE/en-US/en-GB, einschließlich aufgelöster Begriffe und öffentlicher Unverfügbarkeit. Der Bundleguard bestätigt fünf JS-Dateien ohne Entwurfsdaten. Typecheck, Lint und Sprach-/Inhaltsprüfungen sind erfolgreich.
+
+Katalog/Fähigkeitsplan bleiben auf Version 23, öffentlich null Lektionen. Die sprachliche Einbettung der Begriffe, Rollen, Fragen, Hinweise und Ablenker benötigen weiterhin unabhängige Fach-/Sprachprüfung; Primärquellen- und Geräteabnahmen bleiben offen. Alle Stationen bleiben `entwurf`, keine Veröffentlichung. [ADR 0052](../decisions/0052-zeitreise-texte-mit-isolierter-glossarbindung.md).
+
 ## Quellen und offene Abnahme
 
 | Station | Quellenabschnitt (Artikel `history.l2.period-contexts.article`, P2.08) | Offene Fachprüfung |

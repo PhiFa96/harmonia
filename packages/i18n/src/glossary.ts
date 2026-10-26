@@ -298,6 +298,11 @@ export const GLOSSARY = {
     en: { term: 'basso continuo' },
     note: 'Bassgrundlage und akkordische Ausführung; nicht auf ein einzelnes Instrument festgelegt.',
   },
+  phrase: {
+    category: 'history',
+    de: { term: 'Phrase', gender: 'f', plural: 'Phrasen' },
+    en: { term: 'phrase', plural: 'phrases' },
+  },
   chromaticism: {
     category: 'pitch',
     de: { term: 'Chromatik', gender: 'f' },

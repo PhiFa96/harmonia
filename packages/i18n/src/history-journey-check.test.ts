@@ -32,6 +32,13 @@ describe('P4.12 authoring translation checks', () => {
   it('checks actual draft copy without adding it to public resources', () => {
     expect(checkHistoryJourneyTranslations()).toEqual([]);
   });
+  it('rejects distinct source options that render to the same answer', () => {
+    const copy = fresh();
+    copy.de.medieval.knowledgeOptions = ['$t(glossary:voice_one)', 'Stimme', 'Third option'];
+    expect(checkHistoryJourneyTranslations(copy)).toContain(
+      'de historyJourneyDraft:medieval: Texte oder Glossarverweise nicht auflösbar; übersetzte Antworten müssen unterschiedlich sein',
+    );
+  });
   it('reports missing translated fields', () => {
     const copy = fresh();
     Reflect.deleteProperty(copy['en-US'].medieval, 'personaReply');

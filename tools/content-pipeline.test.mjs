@@ -18,6 +18,8 @@ import {
 import { validateContentExample } from './validate-content-example.mjs';
 import historyDraft from '../packages/i18n/src/history-journey-draft.json' with { type: 'json' };
 import { historyStops } from '../packages/content/src/history-journey-draft.ts';
+import { historyJourneyMessages } from '../packages/i18n/src/history-journey-draft.ts';
+import { createHistoryJourneyText } from '../packages/i18n/src/history-journey-text.ts';
 
 function checks() {
   return {
@@ -713,7 +715,7 @@ test('Bundleprüfung weist auch Entwurfstexte ohne eine enthaltene Lektions-ID z
 test('P4.12: kurze Entwurfstexte und Antwortoptionen sind ohne Längen-Ausnahme gesperrt', () => {
   for (const text of [
     historyDraft.de.medieval.personaName,
-    historyDraft.de.medieval.listeningOptions[0],
+    createHistoryJourneyText('de', historyJourneyMessages)('medieval').listeningOptions[0],
   ]) {
     assert.ok(text.length <= 24);
     const escaped = JSON.stringify(text).replace('i', '\\u0069');
@@ -734,6 +736,17 @@ test('P4.12: alle acht Szenen- und Hörpartituren werden auch ohne Stationstexte
           assert.match(result.stderr, /P4\.12/);
         },
       );
+});
+
+test('P4.12: glossary-expanded story copy is rejected without raw templates or source IDs', () => {
+  for (const locale of ['de', 'en-US', 'en-GB']) {
+    const copy = createHistoryJourneyText(locale, historyJourneyMessages)('medieval');
+    assert.ok(!copy.scene.includes('$t('));
+    bundleFixture(`export const copy = ${JSON.stringify(copy.scene)};`, (result) => {
+      assert.equal(result.status, 1);
+      assert.match(result.stderr, /P4\.12 rendered/);
+    });
+  }
 });
 
 test('Bundleprüfung erlaubt bereits öffentliche Glossarbegriffe bei gleichnamigen Entwurfszielen', () => {

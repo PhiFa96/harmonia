@@ -11,6 +11,8 @@ import { publicCatalogue, textAt, textKeys, COLLECTIONS } from '../packages/cont
 import { contentMessages } from '../packages/i18n/src/authoring-content-messages.ts';
 import { RESOURCES } from '../packages/i18n/src/index.ts';
 import historyDraft from '../packages/i18n/src/history-journey-draft.json' with { type: 'json' };
+import { historyJourneyMessages } from '../packages/i18n/src/history-journey-draft.ts';
+import { createHistoryJourneyText } from '../packages/i18n/src/history-journey-text.ts';
 import { historyStops } from '../packages/content/src/history-journey-draft.ts';
 import { SCHOOL_DRAFT_MESSAGES } from '../packages/i18n/src/school-draft.ts';
 import { ASSIGNMENT_MESSAGES } from '../packages/i18n/src/school-assignments.ts';
@@ -80,6 +82,16 @@ for (const [locale, stories] of Object.entries(historyDraft))
       for (const text of Array.isArray(value) ? value : [value])
         if (typeof text === 'string' && text.trim() && !allowedTexts.has(text))
           forbidden.set(text, `P4.12 ${locale}.${era}.${field}`);
+// A build could contain already-rendered copy without retaining its raw glossary
+// references. Check those complete values as well, in all three resolved locales.
+for (const [locale, stories] of Object.entries(historyJourneyMessages)) {
+  const translate = createHistoryJourneyText(locale, historyJourneyMessages);
+  for (const era of Object.keys(stories))
+    for (const [field, value] of Object.entries(translate(era)))
+      for (const text of Array.isArray(value) ? value : [value])
+        if (text.trim() && !allowedTexts.has(text))
+          forbidden.set(text, `P4.12 rendered ${locale}.${era}.${field}`);
+}
 // A shared approved score may legitimately be present independently of a draft.
 const publicScores = new Set([
   ...published.knowledgeCards.flatMap((card) => card.examples.map((example) => example.score)),

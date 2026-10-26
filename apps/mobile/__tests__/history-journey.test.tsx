@@ -7,7 +7,7 @@ import {
   knowledgeChunkFingerprint,
   resolveKnowledgeArticle,
 } from '@harmonia/content';
-import { contentTranslator } from '@harmonia/i18n';
+import { contentTranslator, createHistoryJourneyText } from '@harmonia/i18n';
 import { contentMessages } from '@harmonia/i18n/content-messages';
 import { createHash } from 'node:crypto';
 import { historyJourneyMessages } from '@harmonia/i18n/history-journey';
@@ -105,7 +105,7 @@ it('allows correction, completes a station, and awards no progress', () => {
   );
   const stop = historyStops[0];
   if (!stop) throw new Error('Missing story fixture');
-  const copy = historyJourneyMessages.de[stop.id];
+  const copy = createHistoryJourneyText('de', historyJourneyMessages)(stop.id);
   const wrongOption = copy.knowledgeOptions[0];
   const knowledgeAnswer = copy.knowledgeOptions[stop.knowledgeAnswer];
   const listeningAnswer = copy.listeningOptions[stop.listeningAnswer];
