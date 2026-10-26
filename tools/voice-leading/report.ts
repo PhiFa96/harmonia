@@ -23,6 +23,22 @@ import { createReportPositions } from './report-positions.ts';
 import { reportFindingGroups, reportGroupNotes } from './report-groups.ts';
 
 const RULES = Object.keys(VOICE_LEADING_RULE_PHASE) as [VoiceLeadingRule, ...VoiceLeadingRule[]];
+export const reportRulesSchema = z.preprocess(
+  (value, context) => {
+    if (
+      value !== null &&
+      typeof value === 'object' &&
+      !Array.isArray(value) &&
+      Object.keys(value).some((key) => !Object.hasOwn(VOICE_LEADING_RULE_PHASE, key))
+    ) {
+      // Validate before partialRecord, which otherwise omits the special __proto__ key.
+      context.addIssue({ code: 'custom', message: 'Unknown voice-leading rule' });
+      return z.NEVER;
+    }
+    return value;
+  },
+  z.partialRecord(z.enum(RULES), z.enum(['error', 'warning', 'hint'])),
+);
 
 function parsedString<T>(parse: (value: string) => T) {
   return z.string().transform((value, context) => {
@@ -71,7 +87,7 @@ const inputSchema = z.strictObject({
   title: z.string().trim().min(1).optional(),
   score: z.string().trim().min(1),
   assignment: z.strictObject({ bass: binding, tenor: binding, alto: binding, soprano: binding }),
-  rules: z.partialRecord(z.enum(RULES), z.enum(['error', 'warning', 'hint'])),
+  rules: reportRulesSchema,
   options: z
     .strictObject({
       ranges: z.strictObject({ bass: range, tenor: range, alto: range, soprano: range }).optional(),

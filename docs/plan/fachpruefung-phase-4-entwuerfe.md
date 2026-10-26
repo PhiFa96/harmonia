@@ -76,6 +76,10 @@ Das Clientfeld `checked` ist im Tutor kein Bewertungsnachweis und keine Sichtbar
 
 `augmented-melodic-interval` ergänzt den P4.09-Detektor um alle geschriebenen übermäßigen Melodieintervalle, auch mehrfach übermäßig oder oktaviert. Die Regel muss ausdrücklich aktiviert werden; Pausen unterbrechen sie. Private Berichte/Werkstatt zeigen DE/en-US/en-GB und die Ausgangs-/Zielnoten. Die alte Sekundenregel, `soprano-leap` und das P4.10-Bewertungsprofil bleiben unverändert. Der Test grenzt fehlerhafte `tonal`-Vergleichswerte ausdrücklich ab; siehe [Quellenentwurf](../quality/p4-09-quellenentwurf.md). Dies ist technische Vorarbeit vor formaler Phase-4-Freigabe, keine unabhängige Fachprüfung oder Festlegung eines Stilverbots. [ADR 0058](../decisions/0058-optionale-uebermaessige-melodieintervalle.md).
 
+## Technische Nacharbeit vom 26.10.2026: bedienbare Regelauswahl
+
+Die private P4.09-Satzwerkstatt zeigt alle 17 Kennungen mit vorhandener Regelbeschreibung und ausdrücklicher Auswahl von Aus/Fehler/Warnung/Hinweis. Auswahl und JSON bleiben synchron, andere Regeln und sämtliche Optionen erhalten. Ungültige Einstellungen sperren die Auswahl und können weiterhin als Entwurf gespeichert werden. Fehlende Fachparameter werden nicht ergänzt. Eine Änderung verwirft alte Befunde und stoppt den Klang; Import und Sprachwechsel erhalten die Konfiguration. Dies ist technische Vorarbeit vor formaler Phase-4-Freigabe, keine neue musikalische Regel oder unabhängige Fachprüfung. [ADR 0059](../decisions/0059-bedienbare-regelauswahl-in-der-satzwerkstatt.md).
+
 ## Nacharbeitsliste (nicht blockierend, offen)
 
 - **P4.12:** Die neuen Transferfragen, Hinweise und Ablenker müssen unabhängig auf fachliche und didaktische Qualität geprüft werden. Die neuen auswählbaren Interviewfragen, Ich-Antworten und Rollenperspektiven sind ebenfalls unabhängig zu prüfen. Die Kernbegriffe sind an das Glossar angebunden; ihre grammatische Einbettung, die britischen Schreibweisen und die gemeinsame englische Fassung brauchen eine unabhängige Sprachprüfung.

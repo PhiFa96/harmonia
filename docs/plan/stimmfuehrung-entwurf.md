@@ -22,6 +22,18 @@ Die [Quellenübersicht](../quality/p4-09-quellenentwurf.md) nennt direkt gelesen
 
 Pausen werden nicht als Tonhöhen ersetzt. Lage- und Bewegungsregeln prüfen nur die jeweils klingenden Stimmen; eine Pause unterbricht die Bewegung dieser Stimme, ohne andere Stimmen von der Prüfung auszunehmen. Eine Pause am ausdrücklich verlangten Auflösungsziel erfüllt eine Leitton-/Septimauflösung nicht. Auch diese Abgrenzung bleibt Teil des fachlich zu prüfenden Entwurfs.
 
+## Bedienbare Regelauswahl vom 26.10.2026
+
+`codex/p4-09-rule-controls-draft` baut auf dem offenen Entwurfs-PR #126 auf. Dies ist ausdrücklich **technische P4-Vorarbeit vor der formalen Phase-4-Freigabe**. Musikalische Regeln und Schweregrade werden hier nicht fachlich freigegeben. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
+
+„Regeln auswählen“ öffnet für alle 17 Kennungen die vorhandene DE/en-US/en-GB-Regelbeschreibung und eine native Auswahl: Aus, Fehler, Warnung oder Hinweis. Aus entfernt die jeweilige Regelkennung; ein Schweregrad schaltet genau diese Regel ein. Die vier Startregeln behalten ihre bisherigen Einstufungen. Es gibt keinen zusätzlichen voreingestellten Schweregrad.
+
+Die Auswahl aktualisiert dasselbe JSON, das im Entwurf gespeichert und vom Bericht geprüft wird. Eine Änderung erhält alle anderen Regeln sowie sämtliche vorhandenen Optionen einschließlich Harmonieangaben und Stimmumfängen. Die JSON-Formatierung kann sich dabei ändern; eine unveränderte Auswahl lässt auch den ursprünglichen Text erhalten. Fehlende oder fachlich unvollständige Parameter werden nicht ergänzt. Beispielsweise lässt sich die Bereichsregel aktivieren, eine Prüfung ohne die vier expliziten Bereiche scheitert weiterhin.
+
+Ungültiges JSON, unbekannte Regeln und ungültige Schweregrade sperren die Auswahl und zeigen „Nicht lesbar“. Der ursprüngliche Text bleibt editierbar und als unfertiger Entwurf speicherbar. Nach einer Korrektur synchronisieren sich die Felder wieder. Regeländerungen, die die bestehende Grenze von 30.000 Zeichen überschreiten würden, werden vollständig verworfen. Die gemeinsame Regelvalidierung weist auch besondere unbekannte Schlüssel wie `__proto__` ab, die der Record-Parser andernfalls auslassen würde.
+
+Erfolgreiche Regeländerungen stoppen die Wiedergabe, entfernen alte Befunde und sperren Berichtsdownload/Abspielen bis zur erneuten Prüfung. Speichern/Laden und Sprachwechsel erhalten die Konfiguration. Die Auswahl bleibt bei einer ungültigen Partitur nutzbar; sie verlangt nur lesbare Einstellungen. Das Dateiformat `harmonia-satb-draft-v1`, Berichtformat, musikalischer Detektor, P4.10-Lern-/Tutorprofil und Quellen-/Engine-Versionen bleiben unverändert, Katalog/Fähigkeitsplan weiter Version 24. Unabhängige Fach-/Sprach-/Geräte- und Screenreader-Abnahmen bleiben offen. Keine Veröffentlichung. [ADR 0059](../decisions/0059-bedienbare-regelauswahl-in-der-satzwerkstatt.md).
+
 ## Optionale übermäßige Melodieintervalle vom 26.10.2026
 
 `codex/p4-09-augmented-intervals-draft` baut auf Entwurfs-PR #125 auf. Dies ist ausdrücklich **technische P4-Vorarbeit vor der formalen Phase-4-Freigabe**. Die neue Regel ist als Entwurf zur unabhängigen Fachprüfung gekennzeichnet. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
@@ -95,7 +107,7 @@ Die gemeinsame Markierung und die Ausgangs-/Zieltabellen enthalten jede betroffe
 Der interne Ablauf:
 
 1. Sopran, Alt, Tenor und Bass in getrennten Feldern schreiben. Takte mit `|` trennen; das gemeinsame Klaviersystem entsteht daraus automatisch. Die Oberfläche nennt die internationale Eingabeschreibweise (`B` = deutsches H, `Bb` = deutsches B).
-2. Gemeinsame Taktart/Vorzeichnung wählen und die ausdrücklichen Regeln/Harmonieangaben als JSON bearbeiten. Das eigene Startbeispiel hat dieselben drei absichtlichen Funde wie der Bericht. Es ist kein freigegebenes F05-Profil.
+2. Gemeinsame Taktart/Vorzeichnung wählen. Unter „Regeln auswählen“ jede gewünschte Kennung und Einstufung setzen; weitere Parameter und Harmonieangaben im synchronisierten JSON bearbeiten. Das eigene Startbeispiel hat dieselben drei absichtlichen Funde wie der Bericht. Es ist kein freigegebenes F05-Profil.
 3. „Satz prüfen“ zeigt den aktuellen Bericht. Jede Eingabeänderung entfernt alte Befunde und sperrt den Berichtsdownload bis zur erneuten erfolgreichen Prüfung. Ungültige Notation, unterschiedliche Taktspannen und nicht passende Harmoniezeitpunkte erzeugen eine Fehlermeldung.
 4. „Entwurf herunterladen“ sichert auch unfertige Notation und unvollständiges Einstellungs-JSON. „Entwurf laden“ stellt diese Eingaben wieder her; eine beschädigte/zu große Datei ersetzt keine Eingaben. Es gibt keine automatische Speicherung. „Prüfbericht herunterladen“ sichert den zuletzt erfolgreich geprüften Stand als HTML.
 

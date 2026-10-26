@@ -20,6 +20,14 @@ const sample = () =>
   JSON.parse(readFileSync(new URL('./voice-leading/example.json', import.meta.url), 'utf8'));
 const assets = { fontBase64: 'AA==', fontLicense: 'Own fixture license' };
 
+test('report rules reject special unknown keys instead of dropping them during parsing', () => {
+  for (const key of ['__proto__', 'constructor', 'toString']) {
+    const input = sample();
+    input.rules = JSON.parse(`{"${key}":"warning"}`);
+    assert.throws(() => parseReportInput(input));
+  }
+});
+
 const octaveFixture = () => ({
   ...sample(),
   score: 'treble | E5/2 F5/2 & C5/2 D5/2\nbass | C4/2 D4/2 & C3/2 D3/2',

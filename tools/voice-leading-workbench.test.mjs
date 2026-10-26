@@ -6,12 +6,88 @@ import {
   MAX_DRAFT_BYTES,
   parseWorkbenchDraft,
   workbenchReportInput,
+  WORKBENCH_RULES,
+  parseWorkbenchSettings,
+  setWorkbenchRule,
 } from './voice-leading/workbench-model.ts';
 import { renderVoiceLeadingReport } from './voice-leading/report.ts';
 import { WORKBENCH_MESSAGES } from './voice-leading/workbench-messages.ts';
 
 const sample = () => structuredClone(STARTER_DRAFT);
 const assets = { fontBase64: 'AA==', fontLicense: 'Own test fixture' };
+
+test('rule controls change every supported rule and severity without replacing other rules or parameters', () => {
+  const original = sample().settings;
+  const configuration = JSON.parse(original);
+  assert.equal(WORKBENCH_RULES.length, 17);
+  assert.equal(new Set(WORKBENCH_RULES).size, WORKBENCH_RULES.length);
+  assert.deepEqual(parseWorkbenchSettings(original), configuration);
+  for (const rule of WORKBENCH_RULES)
+    for (const severity of ['error', 'warning', 'hint']) {
+      const updated = JSON.parse(setWorkbenchRule(original, rule, severity));
+      assert.deepEqual(updated, {
+        ...configuration,
+        rules: { ...configuration.rules, [rule]: severity },
+      });
+    }
+});
+
+test('switching off removes only that rule; an unchanged selection preserves the exact JSON', () => {
+  const original = sample().settings;
+  const expected = JSON.parse(original);
+  delete expected.rules['parallel-fifth'];
+  assert.deepEqual(JSON.parse(setWorkbenchRule(original, 'parallel-fifth', null)), expected);
+  assert.equal(setWorkbenchRule(original, 'parallel-fifth', 'error'), original);
+  const unusualSpacing = '{ "options": null, "rules": { } }';
+  assert.equal(setWorkbenchRule(unusualSpacing, 'parallel-fifth', null), unusualSpacing);
+});
+
+test('invalid or unsupported settings and runtime rule values cannot be overwritten through controls', () => {
+  for (const text of [
+    '{ unfinished',
+    'null',
+    '[]',
+    '"text"',
+    '{"options":{}}',
+    '{"rules":null}',
+    '{"rules":[]}',
+    '{"rules":{"invented":"error"}}',
+    '{"rules":{"parallel-fifth":"off"}}',
+    '{"rules":{"parallel-fifth":3}}',
+    '{"rules":{},"score":"replacement"}',
+    '{"rules":{"__proto__":"warning"}}',
+  ]) {
+    assert.throws(() => parseWorkbenchSettings(text));
+    assert.throws(() => setWorkbenchRule(text, 'parallel-fifth', 'hint'));
+  }
+  assert.throws(() => setWorkbenchRule('{"rules":{}}', 'invented', 'error'));
+  assert.throws(() => setWorkbenchRule('{"rules":{}}', '__proto__', 'error'));
+  assert.throws(() => setWorkbenchRule('{"rules":{}}', 'parallel-fifth', 'off'));
+});
+
+test('unfinished notation and musical parameters remain editable without guessed defaults', () => {
+  const draft = sample();
+  draft.parts.soprano = '';
+  draft.settings = '{"rules":{},"options":{"harmonies":[{"tonic":"unfinished"}]}}';
+  const options = JSON.parse(draft.settings).options;
+  draft.settings = setWorkbenchRule(draft.settings, 'voice-range', 'warning');
+  assert.deepEqual(JSON.parse(draft.settings).options, options);
+  assert.deepEqual(parseWorkbenchDraft(JSON.parse(JSON.stringify(draft))), draft);
+  assert.throws(() => workbenchReportInput(draft));
+  const complete = sample();
+  complete.settings = setWorkbenchRule('{"rules":{}}', 'voice-range', 'error');
+  assert.deepEqual(JSON.parse(complete.settings), { rules: { 'voice-range': 'error' } });
+  assert.throws(() => renderVoiceLeadingReport(workbenchReportInput(complete), 'de-DE', assets));
+});
+
+test('rule edits reject oversized input or formatted output before replacing an existing draft', () => {
+  const compact = JSON.stringify({ rules: {}, options: { note: 'x'.repeat(29_950) } });
+  assert.ok(compact.length <= 30_000);
+  assert.doesNotThrow(() => parseWorkbenchSettings(compact));
+  assert.throws(() => setWorkbenchRule(compact, 'augmented-melodic-interval', 'warning'));
+  assert.throws(() => parseWorkbenchSettings(' '.repeat(30_001)));
+});
+
 test('four editable voices reproduce the score findings, then react to a pitch correction', () => {
   const draft = sample();
   const report = () =>
