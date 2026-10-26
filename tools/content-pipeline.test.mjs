@@ -16,6 +16,8 @@ import {
   validateScore,
 } from '../packages/notation/src/index.ts';
 import { validateContentExample } from './validate-content-example.mjs';
+import historyDraft from '../packages/i18n/src/history-journey-draft.json' with { type: 'json' };
+import { historyStops } from '../packages/content/src/history-journey-draft.ts';
 
 function checks() {
   return {
@@ -651,6 +653,32 @@ test('Bundleprüfung weist auch Entwurfstexte ohne eine enthaltene Lektions-ID z
     assert.equal(result.status, 1);
     assert.match(result.stderr, /content.firstLesson.notesBody/);
   });
+});
+
+test('P4.12: kurze Entwurfstexte und Antwortoptionen sind ohne Längen-Ausnahme gesperrt', () => {
+  for (const text of [
+    historyDraft.de.medieval.personaName,
+    historyDraft.de.medieval.knowledgeOptions[1],
+  ]) {
+    assert.ok(text.length <= 24);
+    const escaped = JSON.stringify(text).replace('i', '\\u0069');
+    bundleFixture(`export const fragment = ${escaped};`, (result) => {
+      assert.equal(result.status, 1);
+      assert.match(result.stderr, /P4\.12/);
+    });
+  }
+});
+
+test('P4.12: alle acht Szenen- und Hörpartituren werden auch ohne Stationstexte erkannt', () => {
+  for (const stop of historyStops)
+    for (const field of ['sceneScore', 'listeningScore'])
+      bundleFixture(
+        `export const model = ${JSON.stringify(stop[field]).replace('treble', '\\u0074reble')};`,
+        (result) => {
+          assert.equal(result.status, 1);
+          assert.match(result.stderr, /P4\.12/);
+        },
+      );
 });
 
 test('Bundleprüfung erlaubt bereits öffentliche Glossarbegriffe bei gleichnamigen Entwurfszielen', () => {

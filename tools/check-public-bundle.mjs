@@ -11,6 +11,7 @@ import { publicCatalogue, textAt, textKeys, COLLECTIONS } from '../packages/cont
 import { contentMessages } from '../packages/i18n/src/authoring-content-messages.ts';
 import { RESOURCES } from '../packages/i18n/src/index.ts';
 import historyDraft from '../packages/i18n/src/history-journey-draft.json' with { type: 'json' };
+import { historyStops } from '../packages/content/src/history-journey-draft.ts';
 import { SCHOOL_DRAFT_MESSAGES } from '../packages/i18n/src/school-draft.ts';
 import { ASSIGNMENT_MESSAGES } from '../packages/i18n/src/school-assignments.ts';
 import { CERTIFICATE_DRAFT_MESSAGES } from '../packages/i18n/src/certificate-draft.ts';
@@ -77,8 +78,18 @@ for (const [locale, stories] of Object.entries(historyDraft))
   for (const [era, copy] of Object.entries(stories))
     for (const [field, value] of Object.entries(copy))
       for (const text of Array.isArray(value) ? value : [value])
-        if (typeof text === 'string' && text.length > 24 && !allowedTexts.has(text))
+        if (typeof text === 'string' && text.trim() && !allowedTexts.has(text))
           forbidden.set(text, `P4.12 ${locale}.${era}.${field}`);
+// A shared approved score may legitimately be present independently of a draft.
+const publicScores = new Set([
+  ...published.knowledgeCards.flatMap((card) => card.examples.map((example) => example.score)),
+  ...published.knowledgeArticles.flatMap((article) =>
+    article.sections.flatMap((section) => section.examples.map((example) => example.score)),
+  ),
+]);
+for (const stop of historyStops)
+  for (const field of ['sceneScore', 'listeningScore'])
+    if (!publicScores.has(stop[field])) forbidden.set(stop[field], `P4.12 ${stop.id}.${field}`);
 const files = [];
 // P4.19 teaching prompts are draft content too, even though Node's authoring
 // tools load them as exercise messages. Metro removes them from production.

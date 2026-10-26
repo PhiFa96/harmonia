@@ -171,6 +171,8 @@
 
 ### P4.12 – Zeitreise durch die Musikgeschichte
 
+**Technischer Weiterbau der Prüfungen (26.10.2026):** Die gesonderten Stations- und Antworttexte sind in `check:i18n` einbezogen. Metro sperrt tatsächlich aufgelöste interne TS-/JSON-Dateien einschließlich Symlinks; der Bundleguard prüft kurze Entwurfstexte und alle acht Partituren. DE/en-US/en-GB-Browserproben prüfen interne Vorschau und leere öffentliche Deep-Links; die Produktionsprobe ist in CI verankert. [ADR 0049](../decisions/0049-zeitreise-entwuerfe-an-den-buildgrenzen-pruefen.md). Dies bleibt ausdrücklich technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**. Fach-/Quellenprüfung, redaktionelle Nacharbeit und Geräteabnahmen bleiben offen, alle Inhalte `entwurf`, keine Veröffentlichung. P4.01 bleibt bis F14 und Rechtsklärung zurückgestellt.
+
 **Technischer Entwurf:** Vier europäische Stationen mit eigenen Klangmodellen, redaktionell geschriebenen fiktiven Interviews, Wissens- und Hörfrage und präzisem Link auf den versionierten Abschnitt des P2.08-Wissensartikels (Linkmechanismus aus P3.19). Der Ablauf ist intern spielbar; es werden keine XP oder Fortschritte vergeben. Details und offene Freigaben: [Zeitreise P4.12](zeitreise-musikgeschichte.md).
 
 - **Ziel:** Geschichte erleben statt auswendig lernen.

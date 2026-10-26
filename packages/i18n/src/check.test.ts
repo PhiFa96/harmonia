@@ -37,6 +37,14 @@ describe('Prüfung der Übersetzungen', () => {
     ]);
   });
 
+  it('liest Ressourcen bei jedem Aufruf neu, auch nach einer vorherigen Prüfung', () => {
+    const en = { a: 'A' };
+    const resources = set({ a: 'A' }, en);
+    expect(checkTranslations(resources)).toEqual([]);
+    en.a = ' ';
+    expect(checkTranslations(resources)).toEqual(['en-US translation:a: leerer Text']);
+  });
+
   it('fehlende Pluralformen', () => {
     const problems = checkTranslations(
       set({ n_one: 'eine Note', n_other: '{{count}} Noten' }, { n_other: '{{count}} notes' }),
