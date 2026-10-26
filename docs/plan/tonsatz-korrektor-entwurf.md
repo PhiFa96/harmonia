@@ -60,6 +60,14 @@ Ein erster Gesamtlauf fand den noch nicht ergänzten Ratingparameter; derselbe F
 
 Die neuen Akkordbeispiele und Beschriftungen bleiben fachlich ungeprüfte Entwürfe. Der öffentliche Katalog enthält weiterhin null Lektionen; der tatsächliche Produktionsexport wird auf Entwurfsdaten geprüft. Keine Veröffentlichung.
 
+## Tutor-Kontext: Weiterbau vom 26.10.2026
+
+`codex/p4-10-tutor-context-draft` baut auf dem offenen Entwurfs-PR #124 mit fünf erfolgreichen CI-Jobs auf. Die technische Nacharbeit entkoppelt die Tutor-Sichtbarkeit vom Clientfeld `checked`. Der Erklärmodus verlangt eine übergebene Antwort und wertet sie mit der serverseitig rekonstruierten Aufgabe aus; beide Flagwerte führen zum selben Kontext. Dies bestätigt keinen früheren lokalen Bewertungsklick. Hinweise und Chat erhalten unabhängig vom Flag keine Bewertungsfelder oder versteckten Hörbeschreibungen; das SATB-Werkzeug bleibt dort gesperrt.
+
+Die App verwendet im Chat dieselbe konservative Notenbildauswahl wie bei Hinweisen. Bestehende „Warum?“-Abläufe, expliziter Lösungsmodus, Regeln, Quellen sowie Katalog/Fähigkeitsplan Version 24 bleiben unverändert. `checked` bleibt im bestehenden Request-/Gesprächsformat als UI-Metadaten erhalten. Keine Migration, Lernnachweise oder Belohnungen; gespeicherte alte Antworten/Replays werden nicht nachträglich bereinigt.
+
+Sieben Request-/Scope-/Versionsprüfungen, zwölf App-Tests, 930 simulierte Deno-Tutor-/SDK-/Engine-Prüfungen und 265 Werkzeugtests sind erfolgreich. Die Probe vergleicht alle 28 Aufgabentypen in drei Sprachen und alle 36 P4.10-Erst-/Wiederholungsquellen. Der angepasste authentifizierte HTTP-Test wird durch die neue CI geprüft; er wurde lokal nicht erneut ausgeführt. Typecheck, Lint/Paketgraph und Sprach-/Inhalts-/Formatprüfung sind erfolgreich. Dies bleibt technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**, ohne Fach-/Modell-/Geräteabnahme oder Veröffentlichung. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt. [ADR 0057](../decisions/0057-tutor-kontext-nach-modus-und-serverwertung.md).
+
 ## Offene Abnahmen
 
 Unabhängige Literatur-/Fachprüfung der Aufgaben, Referenzsätze, Alternativwertung, Umfänge, Schweregrade und DE/EN-Erklärungen; F03/F05; reales Tutor-Modell mit Quellenprüfung; reale iOS-/Android-Geräte einschließlich Noteneingabe, Screenreader und Audio; formale Phase-4-Start-/Produktfreigabe. Der Quellenentwurf und dessen Grenzen stehen in [P4.09-Quellenentwurf](../quality/p4-09-quellenentwurf.md). Keine dieser Abnahmen wird aus grünen technischen Tests abgeleitet.

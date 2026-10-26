@@ -145,6 +145,8 @@
 
 ### P4.10 – Tonsatz-Korrektor
 
+**Technischer Tutor-Weiterbau (26.10.2026):** Der Tutor verwendet `checked` als UI-Metadaten, ohne daraus eine Bewertung oder Sichtbarkeitsfreigabe abzuleiten. Erklärungen werten die übergebene Antwort serverseitig aus; Hinweise und Chat halten versteckte Hörquellen und Bewertungsfelder unabhängig vom Clientflag zurück. Das gebundene SATB-Werkzeug bleibt in Hinweis/Chat gesperrt. [ADR 0057](../decisions/0057-tutor-kontext-nach-modus-und-serverwertung.md). Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**; Katalogversion 24, Regeln und Lernnachweise unverändert, Fach-/reale Modell-/Geräteabnahmen offen, keine Veröffentlichung. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
+
 **Technischer Weiterbau der Einführung (26.10.2026):** Sechs Einführungskarten mit zwei eigenen vierstimmigen Akkordbeispielen, DE/en-US/en-GB-Beschriftungen und Klang. Die interne Satzwerkstatt zeigt vor den Aufgaben dieselbe Einführung wie der reguläre Lernpfad. Allgemeiner Notensatz unterstützt die mehrstimmigen Karten; einfache Lernbilder bleiben geprüft. Karten/Lektionen und Katalog/Fähigkeitsplan Version 23, Übungssätze/Ratingquellen weiter 22. [ADR 0051](../decisions/0051-vierstimmige-einfuehrung-fuer-satzaufgaben.md). Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**; Inhalte Entwurf, unabhängige Fach-/Geräteabnahmen offen, keine Veröffentlichung. P4.01 bleibt bis F14 und Rechtsklärung zurückgestellt.
 
 - **Ziel:** Sätze schreiben, Fehler sehen, verstehen.

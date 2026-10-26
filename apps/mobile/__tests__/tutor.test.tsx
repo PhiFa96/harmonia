@@ -10,6 +10,7 @@ import { TutorScreen } from '@/components/tutor-screen';
 import { tutorTransport } from '@/tutor/client';
 import { TutorError } from '@/tutor/transport';
 import { newTutorConversation, openTaskTutor, resetTutor, useTutor } from '@/tutor/state';
+import { createFreePracticeSession, expectedAnswer, PRACTICE_SETS } from '@harmonia/exercises';
 
 jest.mock('expo-localization', () => ({
   getLocales: () => [{ languageCode: 'de', regionCode: 'DE' }],
@@ -312,4 +313,65 @@ it('zeigt englische Oberfläche mit gleicher KI- und Premium-Kennzeichnung', () 
   view();
   expect(screen.getByText(/You are talking to an AI/)).toBeTruthy();
   expect(screen.getByText('Practise freely')).toBeTruthy();
+});
+
+function auralTask() {
+  const seed = 'tutor-visibility';
+  for (const set of PRACTICE_SETS.filter((entry) => entry !== 'harmony')) {
+    const items = createFreePracticeSession(set, seed).items;
+    const index = items.findIndex((item) => item.type === 'INTERVAL_IDENTIFY_AURAL');
+    const item = items[index];
+    if (item)
+      return {
+        item,
+        source: { kind: 'practice' as const, set, contentVersion: 1 as const, seed, index },
+      };
+  }
+  throw new Error('Missing aural fixture');
+}
+
+for (const mode of ['hint', 'chat'] as const) {
+  it(`${mode}: zeigt trotz checked=true kein verstecktes Hör-Notenbild`, async () => {
+    signIn();
+    const { item, source } = auralTask();
+    openTaskTutor(
+      {
+        ...scope,
+        mode,
+        hintLevel: mode === 'hint' ? 2 : null,
+        context: { source, answer: expectedAnswer(item), checked: true },
+      },
+      'Aufgabenfrage',
+    );
+    view();
+    await waitFor(() => {
+      expect(screen.getByText('Heute noch 30 von 30 Fragen')).toBeTruthy();
+    });
+    expect(screen.getByText('Aufgabenfrage')).toBeTruthy();
+    expect(screen.queryByTestId('tutor-original-score')).toBeNull();
+  });
+}
+
+it('sendet eine Antwort zur Serverwertung ohne behauptete vorherige Client-Wertung', async () => {
+  signIn();
+  const { item, source } = auralTask();
+  const answer = expectedAnswer(item);
+  openTaskTutor(
+    { ...scope, mode: 'explain', context: { source, answer, checked: false } },
+    'Aufgabenfrage',
+  );
+  view();
+  await waitFor(() => {
+    expect(screen.getByText('Heute noch 30 von 30 Fragen')).toBeTruthy();
+  });
+  expect(screen.getByTestId('tutor-original-score')).toBeTruthy();
+  fireEvent.press(screen.getByText(i18n.t('tutor.taskSend_explain')));
+  await waitFor(() => {
+    expect(stream).toHaveBeenCalled();
+  });
+  const calls = stream.mock.calls as unknown[][];
+  expect(calls[0]?.[0]).toMatchObject({
+    mode: 'explain',
+    context: { source, answer, checked: false },
+  });
 });

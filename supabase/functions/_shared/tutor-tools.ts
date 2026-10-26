@@ -101,10 +101,9 @@ export function exerciseContext(catalogue: ContentCatalogue, request: TutorReque
     catalogue,
     request.context.source,
   );
-  // Wie in der App: Hörfragen zeigen ihr Notenbild erst nach der Wertung.
+  // Mode decides visibility. The legacy client flag cannot reveal an aural source.
   const hidden =
     (request.mode === 'hint' || request.mode === 'chat') &&
-    !request.context.checked &&
     isAuralExercise(item) &&
     item.type !== 'RHYTHM_TAP' &&
     item.type !== 'LISTENING_CHOICE';
@@ -127,6 +126,7 @@ export function exerciseContext(catalogue: ContentCatalogue, request: TutorReque
     };
   }
   if (request.mode === 'chat') return { ...base, solutionAllowed: false };
+  // Explain evaluates the submitted answer now; it attests no earlier client action.
   const solution = expectedAnswer(item),
     answer = request.mode === 'explain' ? (request.context.answer ?? '') : solution,
     evaluated = evaluateExercise(item, answer),

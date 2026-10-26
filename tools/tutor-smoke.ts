@@ -17,7 +17,9 @@ import {
   createLessonSession,
   lessonReviewItem,
   satbAnswerId,
+  isAuralExercise,
 } from '../packages/exercises/src/index.ts';
+import type { ExerciseItem } from '../packages/exercises/src/index.ts';
 import {
   TUTOR_TOOLS,
   toolsForTutorContext,
@@ -384,6 +386,62 @@ check(
   'answer' in wrong && wrong.answer === null && !JSON.stringify(wrong).includes('untrusted-wrong'),
   'Invalid free-text answers stay out of the trusted task block',
 );
+function checkTaskPolicy(
+  item: ExerciseItem,
+  source: NonNullable<TutorRequest['context']>['source'],
+  locale: TutorRequest['locale'],
+  checkedContext: unknown,
+) {
+  const answer = expectedAnswer(item);
+  equal(
+    exerciseContext(catalogue, {
+      ...request,
+      locale,
+      mode: 'explain',
+      context: { source, answer, checked: false },
+    }),
+    checkedContext,
+    'Explain ignores the legacy client flag: ' + item.type + ' ' + locale,
+  );
+  for (const mode of ['hint', 'chat'] as const) {
+    const input: TutorRequest = {
+      ...request,
+      locale,
+      mode,
+      hintLevel: mode === 'hint' ? 2 : null,
+      context: { source, answer, checked: false },
+    };
+    const safe = exerciseContext(catalogue, input);
+    equal(
+      exerciseContext(catalogue, { ...input, context: { source, answer, checked: true } }),
+      safe,
+      'Untrusted checked flag cannot change ' + mode + ' context: ' + item.type + ' ' + locale,
+    );
+    check(
+      !('answer' in safe) &&
+        !('solution' in safe) &&
+        !('evaluation' in safe) &&
+        !('feedback' in safe),
+      'No grading fields in ' + mode + ': ' + item.type,
+    );
+    if (isAuralExercise(item) && item.type !== 'RHYTHM_TAP' && item.type !== 'LISTENING_CHOICE')
+      check(
+        'description' in safe && safe.description === null,
+        'Aural source stays hidden in ' + mode + ': ' + item.type,
+      );
+    if (item.type === 'VOICE_LEADING') {
+      check(
+        !toolsForTutorContext(safe).some((tool) => tool.name === 'check_voice_leading'),
+        'No SATB tool advertised in ' + mode,
+      );
+      check(
+        !executeTutorTool('check_voice_leading', {}, input, checkedContext).ok,
+        'Even a graded context cannot activate the SATB tool in ' + mode,
+      );
+    }
+  }
+}
+
 const seenTypes = new Set<string>();
 for (const entry of catalogue.lessons) {
   const lesson = resolveLesson(catalogue, entry.id);
@@ -413,6 +471,7 @@ for (const entry of catalogue.lessons) {
           checked.feedback.message.length > 0,
         'Checked context ' + item.type + ' ' + locale,
       );
+      checkTaskPolicy(item, source, locale, checked);
       const hint = exerciseContext(catalogue, {
         ...request,
         locale,
@@ -460,6 +519,7 @@ for (const set of PRACTICE_SETS.filter((value) => value !== 'harmony')) {
           checked.feedback.message.length > 0,
         'Free checked context ' + item.type + ' ' + locale,
       );
+      checkTaskPolicy(item, source, locale, checked);
       const hint = exerciseContext(catalogue, {
         ...request,
         locale,
@@ -649,7 +709,7 @@ check(
         const boundRequest: TutorRequest = {
           ...request,
           mode: 'explain',
-          context: { source, answer: expectedAnswer(item), checked: true },
+          context: { source, answer: expectedAnswer(item), checked: false },
         };
         const context = exerciseContext(catalogue, boundRequest);
         const output = executeTutorTool('check_voice_leading', {}, boundRequest, context);
