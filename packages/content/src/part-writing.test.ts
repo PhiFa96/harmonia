@@ -8,6 +8,7 @@ import {
   learningPath,
   lessonEvent,
   validateLearningEvent,
+  lessonExerciseSources,
 } from './index.ts';
 import {
   activeLessonSession,
@@ -28,7 +29,7 @@ describe('P4.10 internal course integration', () => {
   it('contains six draft lessons across stages 4 and 5, with prerequisites and no public exercises', () => {
     const lessons = catalogue.lessons.filter((l) => l.id.includes('.writing.'));
     expect(lessons).toHaveLength(6);
-    expect(lessons.every((l) => l.status === 'entwurf' && l.contentVersion === 22)).toBe(true);
+    expect(lessons.every((l) => l.status === 'entwurf' && l.contentVersion === 23)).toBe(true);
     expect(curriculumPlan.units.filter((u) => u.unitId.endsWith('.writing'))).toHaveLength(2);
     expect(
       learningPath(catalogue, [])
@@ -36,10 +37,20 @@ describe('P4.10 internal course integration', () => {
         .every((u) => u.status === 'locked'),
     ).toBe(true);
     expect(publicCatalogue(catalogue).lessons).toEqual([]);
+    expect(
+      catalogue.exerciseSets
+        .filter((set) => set.id.includes('.writing.'))
+        .every((set) => set.contentVersion === 22),
+    ).toBe(true);
     for (const lesson of lessons) {
       const resolved = resolveLesson(catalogue, lesson.id);
       if (!resolved) throw new Error('Draft lesson missing');
       expect(resolved.exercises).toHaveLength(3);
+      expect(
+        lessonExerciseSources(catalogue, lesson.id)?.every(
+          (source) => source.contentVersion === 22,
+        ),
+      ).toBe(true);
       const session = createLessonSession(resolved, 'p410-content');
       for (const [index, item] of session.initial.items.entries()) {
         expect(item.type).toBe('VOICE_LEADING');
@@ -53,6 +64,7 @@ describe('P4.10 internal course integration', () => {
         };
         expect(resolveReportSource(catalogue, source).item).toEqual(item);
         expect(() => resolveReportSource(catalogue, { ...source, contentVersion: 19 })).toThrow();
+        expect(() => resolveReportSource(catalogue, { ...source, contentVersion: 22 })).toThrow();
         expect(evaluateExercise(item, expectedAnswer(item)).correct).toBe(true);
         expect(() => resolveReportSource(publicCatalogue(catalogue), source)).toThrow();
       }

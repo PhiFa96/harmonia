@@ -31,6 +31,61 @@ function checks() {
 }
 const fresh = () => structuredClone(catalogue);
 
+test('P4.10: six draft introductions show four simultaneous voices in a single chord', () => {
+  const cards = catalogue.knowledgeCards.filter((card) => card.id.includes('.writing.'));
+  assert.equal(cards.length, 6);
+  for (const card of cards) {
+    assert.equal(card.contentVersion, 23);
+    assert.equal(card.status, 'entwurf');
+    assert.equal(card.examples.length, 1);
+    const example = card.examples[0];
+    validateContentExample(example.score);
+    const score = parseScore(example.score);
+    assert.deepEqual(
+      score.staves.map((staff) => staff.clef),
+      ['treble', 'bass'],
+    );
+    for (const staff of score.staves) {
+      assert.equal(staff.measures.length, 1);
+      assert.equal(staff.measures[0].voices.length, 2);
+    }
+    const tones = scoreTimeline(score, { bpm: 90 }).tones;
+    assert.equal(tones.length, 4);
+    assert.deepEqual(
+      tones.map((tone) => keyboardMidi(tone.pitch)).sort((a, b) => a - b),
+      card.id.includes('.l4.') ? [48, 55, 60, 64] : [43, 55, 59, 65],
+    );
+    assert.ok(
+      tones.every(
+        (tone) => tone.onsetSeconds === 0 && Math.abs(tone.durationSeconds - 8 / 3) < 1e-8,
+      ),
+    );
+    assert.equal(
+      layoutScore(score).items.filter((item) => item.kind === 'glyph' && item.role === 'notehead')
+        .length,
+      4,
+    );
+  }
+});
+
+test('Polyphonic examples require valid rhythm and renderer support; keyboard targets stay bounded', () => {
+  const example = catalogue.knowledgeCards.find((card) => card.id === 'satz.l4.writing.bass.card')
+    .examples[0];
+  assert.throws(
+    () => validateContentExample(example.score, { first: 21, last: 108 }),
+    /Großes Lernsystem/,
+  );
+  assert.throws(
+    () => validateContentExample(example.score.replace('E4/1', 'E4/1 E4/2')),
+    /ungültig/,
+  );
+  assert.throws(
+    () => validateContentExample(example.score.replace('E4/1 & C4/1', 'E4/1 & C4/1 & G4/1')),
+    /voice|Stimm/i,
+  );
+  validateContentExample('treble | 4/4 | C4/1\nbass | 4/4 | r/1', { first: 48, last: 72 });
+});
+
 test('Pulsbeispiele entsprechen unabhängigen Zähl- und Tempotabellen; Klangdauer folgt dem BPM', () => {
   const table = {
     pulse: [

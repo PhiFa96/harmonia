@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": 22,
+  "contentVersion": 23,
   "areas": [
     {
       "id": "fundament",
@@ -13506,85 +13506,85 @@
     },
     {
       "id": "satz.l4.writing.bass.card",
-      "contentVersion": 19,
+      "contentVersion": 23,
       "status": "entwurf",
       "titleKey": "content.partWriting.introTitle",
       "skillIds": ["satz.l4.writing.bass"],
       "bodyKey": "content.partWriting.intro4",
       "examples": [
         {
-          "score": "treble | 4/4 | C4/1 | D4/1",
-          "captionKey": "content.partWriting.caption"
+          "score": "treble | key:C | 4/4 | E4/1 & C4/1\nbass | key:C | 4/4 | G3/1 & C3/1",
+          "captionKey": "content.partWriting.caption4"
         }
       ]
     },
     {
       "id": "satz.l4.writing.soprano.card",
-      "contentVersion": 19,
+      "contentVersion": 23,
       "status": "entwurf",
       "titleKey": "content.partWriting.introTitle",
       "skillIds": ["satz.l4.writing.soprano"],
       "bodyKey": "content.partWriting.intro4",
       "examples": [
         {
-          "score": "treble | 4/4 | C4/1 | D4/1",
-          "captionKey": "content.partWriting.caption"
+          "score": "treble | key:C | 4/4 | E4/1 & C4/1\nbass | key:C | 4/4 | G3/1 & C3/1",
+          "captionKey": "content.partWriting.caption4"
         }
       ]
     },
     {
       "id": "satz.l4.writing.functions.card",
-      "contentVersion": 19,
+      "contentVersion": 23,
       "status": "entwurf",
       "titleKey": "content.partWriting.introTitle",
       "skillIds": ["satz.l4.writing.functions"],
       "bodyKey": "content.partWriting.intro4",
       "examples": [
         {
-          "score": "treble | 4/4 | C4/1 | D4/1",
-          "captionKey": "content.partWriting.caption"
+          "score": "treble | key:C | 4/4 | E4/1 & C4/1\nbass | key:C | 4/4 | G3/1 & C3/1",
+          "captionKey": "content.partWriting.caption4"
         }
       ]
     },
     {
       "id": "satz.l5.writing.bass.card",
-      "contentVersion": 19,
+      "contentVersion": 23,
       "status": "entwurf",
       "titleKey": "content.partWriting.introTitle",
       "skillIds": ["satz.l5.writing.bass"],
       "bodyKey": "content.partWriting.intro5",
       "examples": [
         {
-          "score": "treble | 4/4 | C4/1 | D4/1",
-          "captionKey": "content.partWriting.caption"
+          "score": "treble | key:C | 4/4 | F4/1 & B3/1\nbass | key:C | 4/4 | G3/1 & G2/1",
+          "captionKey": "content.partWriting.caption5"
         }
       ]
     },
     {
       "id": "satz.l5.writing.soprano.card",
-      "contentVersion": 19,
+      "contentVersion": 23,
       "status": "entwurf",
       "titleKey": "content.partWriting.introTitle",
       "skillIds": ["satz.l5.writing.soprano"],
       "bodyKey": "content.partWriting.intro5",
       "examples": [
         {
-          "score": "treble | 4/4 | C4/1 | D4/1",
-          "captionKey": "content.partWriting.caption"
+          "score": "treble | key:C | 4/4 | F4/1 & B3/1\nbass | key:C | 4/4 | G3/1 & G2/1",
+          "captionKey": "content.partWriting.caption5"
         }
       ]
     },
     {
       "id": "satz.l5.writing.functions.card",
-      "contentVersion": 19,
+      "contentVersion": 23,
       "status": "entwurf",
       "titleKey": "content.partWriting.introTitle",
       "skillIds": ["satz.l5.writing.functions"],
       "bodyKey": "content.partWriting.intro5",
       "examples": [
         {
-          "score": "treble | 4/4 | C4/1 | D4/1",
-          "captionKey": "content.partWriting.caption"
+          "score": "treble | key:C | 4/4 | F4/1 & B3/1\nbass | key:C | 4/4 | G3/1 & G2/1",
+          "captionKey": "content.partWriting.caption5"
         }
       ]
     },
@@ -21270,7 +21270,7 @@
     },
     {
       "id": "satz.l4.writing.bass.lesson",
-      "contentVersion": 22,
+      "contentVersion": 23,
       "status": "entwurf",
       "titleKey": "content.partWriting.bass",
       "unitId": "satz.l4.writing",
@@ -21280,7 +21280,7 @@
     },
     {
       "id": "satz.l4.writing.soprano.lesson",
-      "contentVersion": 22,
+      "contentVersion": 23,
       "status": "entwurf",
       "titleKey": "content.partWriting.soprano",
       "unitId": "satz.l4.writing",
@@ -21290,7 +21290,7 @@
     },
     {
       "id": "satz.l4.writing.functions.lesson",
-      "contentVersion": 22,
+      "contentVersion": 23,
       "status": "entwurf",
       "titleKey": "content.partWriting.functions",
       "unitId": "satz.l4.writing",
@@ -21300,7 +21300,7 @@
     },
     {
       "id": "satz.l5.writing.bass.lesson",
-      "contentVersion": 22,
+      "contentVersion": 23,
       "status": "entwurf",
       "titleKey": "content.partWriting.bass",
       "unitId": "satz.l5.writing",
@@ -21310,7 +21310,7 @@
     },
     {
       "id": "satz.l5.writing.soprano.lesson",
-      "contentVersion": 22,
+      "contentVersion": 23,
       "status": "entwurf",
       "titleKey": "content.partWriting.soprano",
       "unitId": "satz.l5.writing",
@@ -21320,7 +21320,7 @@
     },
     {
       "id": "satz.l5.writing.functions.lesson",
-      "contentVersion": 22,
+      "contentVersion": 23,
       "status": "entwurf",
       "titleKey": "content.partWriting.functions",
       "unitId": "satz.l5.writing",

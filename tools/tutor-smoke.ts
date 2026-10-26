@@ -661,20 +661,22 @@ check(
           JSON.stringify(output).includes(JSON.stringify(expectedAnswer(item))),
           'SATB tutor uses the same key and pitches as the task',
         );
-        let staleRejected = false;
-        try {
-          exerciseContext(catalogue, {
-            ...boundRequest,
-            context: {
-              source: { ...source, contentVersion: 19 },
-              answer: expectedAnswer(item),
-              checked: true,
-            },
-          });
-        } catch {
-          staleRejected = true;
+        for (const contentVersion of [19, 22]) {
+          let staleRejected = false;
+          try {
+            exerciseContext(catalogue, {
+              ...boundRequest,
+              context: {
+                source: { ...source, contentVersion },
+                answer: expectedAnswer(item),
+                checked: true,
+              },
+            });
+          } catch {
+            staleRejected = true;
+          }
+          check(staleRejected, 'SATB tutor rejects the superseded task version');
         }
-        check(staleRejected, 'SATB tutor rejects the superseded task version');
       }
     }
   }

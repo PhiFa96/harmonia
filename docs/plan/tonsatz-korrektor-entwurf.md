@@ -48,6 +48,18 @@ Freie Rhythmen, Umkehrungen, Durchgangsdissonanzen, weitere Stilprofile und frei
 
 Ein erster Gesamtlauf fand den noch nicht ergänzten Ratingparameter; derselbe Fehler stoppte den ersten Vorschau-Browserlauf beim Start. Nach Ergänzung der Ratingprofile sind die betroffenen Inhaltsprüfungen und alle vier Abläufe auf einem frisch erzeugten Webexport erfolgreich. Die Ergebnisse bleiben technische Nachweise.
 
+## Einführung: Weiterbau vom 26.10.2026
+
+`codex/p4-10-introduction-draft` baut auf dem offenen Entwurfs-PR #118 mit fünf erfolgreichen CI-Jobs auf. Dies ist ausdrücklich **technische P4-Vorarbeit vor der formalen Phase-4-Freigabe**. P4.01 bleibt bis F14 und Rechtsklärung zurückgestellt.
+
+- Die sechs Einführungskarten zeigen jeweils einen vierstimmigen Akkord auf zwei Systemen: C-Dur in Stufe 4, G7 im bestehenden begrenzten Entwurfsprofil in Stufe 5. Vier Stimmen klingen gleichzeitig je eine ganze Note. Die eigenen DE/en-US/en-GB-Beschriftungen erklären Anordnung und Dauer über Glossarverweise.
+- Der interne Einstieg zeigt vor den Aufgaben dieselbe `LessonIntroduction` wie der reguläre Lernpfad. Klangbeispiel und expliziter Start führen in den vorhandenen Drei-Aufgaben-Durchgang. Verlassen der Einführung zeigt keine Aufgabe und erzeugt keinen Lernnachweis; erneutes Öffnen zeigt die Einführung neu.
+- Mehrstimmige Beispiele werden in Einführung und Artikelansicht mit dem allgemeinen Notensatz dargestellt. Die bisherigen einfachen Lernbilder behalten ihre Darstellung. Die Pipeline prüft rhythmische Gültigkeit und Layoutunterstützung; mehrstimmige Klaviatur-Lernbilder werden weiterhin abgewiesen.
+- Karten/Lektionen und Katalog/Fähigkeitsplan tragen Version 23. Übungssätze und Ratingquellen bleiben Version 22. Alte Lektionsquellen 19/22 sowie gebundene Altpläne werden zurückgewiesen; lokale Stufe-5-Vorschauentwürfe mit Katalogversion 22 müssen neu gestartet werden. [ADR 0051](../decisions/0051-vierstimmige-einfuehrung-fuer-satzaufgaben.md).
+- 1371 Inhaltsprüfungen, 17 gezielte App-/Wiedergabetests, 252 Werkzeugtests und 456 Tutor-/SDK-Prüfungen sind erfolgreich. Der Tutor läuft dabei ausschließlich mit simuliertem Anbieter. Vier Browserabläufe prüfen Einführung, vier lesbare Stimmen, tatsächlichen Klangstart, regionale Begriffe, Axe und den anschließenden Editor; der Stufe-5-Durchgang bearbeitet weiter C-, F- und G-Dur.
+
+Die neuen Akkordbeispiele und Beschriftungen bleiben fachlich ungeprüfte Entwürfe. Der öffentliche Katalog enthält weiterhin null Lektionen; der tatsächliche Produktionsexport wird auf Entwurfsdaten geprüft. Keine Veröffentlichung.
+
 ## Offene Abnahmen
 
 Unabhängige Literatur-/Fachprüfung der Aufgaben, Referenzsätze, Alternativwertung, Umfänge, Schweregrade und DE/EN-Erklärungen; F03/F05; reales Tutor-Modell mit Quellenprüfung; reale iOS-/Android-Geräte einschließlich Noteneingabe, Screenreader und Audio; formale Phase-4-Start-/Produktfreigabe. Der Quellenentwurf und dessen Grenzen stehen in [P4.09-Quellenentwurf](../quality/p4-09-quellenentwurf.md). Keine dieser Abnahmen wird aus grünen technischen Tests abgeleitet.

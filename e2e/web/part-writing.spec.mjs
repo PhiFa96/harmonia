@@ -1,6 +1,35 @@
 import { test, expect } from '@playwright/test';
 import { onboard, audit, noOverflow, copy } from './helpers.mjs';
 import { generateVoiceLeading, createRng } from '../../packages/exercises/src/index.ts';
+import { createI18n } from '../../packages/i18n/src/index.ts';
+
+async function startWithIntroduction(page, id, locale) {
+  const language = locale.startsWith('de') ? 'de' : locale;
+  const labels = createI18n(language);
+  await page.getByTestId(`satb-start-${id}`).click();
+  const example = page.getByTestId('lesson-example-scroll');
+  await expect(example.getByRole('img')).toHaveCount(4);
+  await expect(page.getByTestId('satb-editor')).toHaveCount(0);
+  await expect(
+    page.getByText(
+      language === 'de'
+        ? /Jede Stimme hält eine ganze Note/
+        : language === 'en-GB'
+          ? /upper stave.*semibreve/
+          : /upper staff.*whole note/,
+    ),
+  ).toBeVisible();
+  await audit(page);
+  await noOverflow(page);
+  await page.getByRole('button', { name: labels.t('lesson.example'), exact: true }).click();
+  await expect(
+    page.getByRole('button', { name: labels.t('exercise.stop'), exact: true }),
+  ).toBeVisible();
+  await page
+    .getByRole('button', { name: labels.t('lesson.start', { count: 3 }), exact: true })
+    .click();
+  await expect(example).toHaveCount(0);
+}
 
 for (const locale of ['de-DE', 'en-US', 'en-GB']) {
   test(`${locale} internal SATB editor: keyboard, locked voice, undo, findings and accessibility`, async ({
@@ -16,7 +45,7 @@ for (const locale of ['de-DE', 'en-US', 'en-GB']) {
     try {
       await onboard(page, locale);
       await page.goto('/part-writing');
-      await page.getByTestId('satb-start-satz.l4.writing.bass.lesson').click();
+      await startWithIntroduction(page, 'satz.l4.writing.bass.lesson', locale);
       const editor = page.getByTestId('satb-editor');
       await expect(editor).toContainText(
         locale.startsWith('de') ? 'Interner Entwurf' : 'Internal draft',
@@ -71,7 +100,7 @@ test('stage 5 function tasks: complete three distinct keys and open the final tu
 }) => {
   await onboard(page, 'de-DE');
   await page.goto('/part-writing');
-  await page.getByTestId('satb-start-satz.l5.writing.functions.lesson').click();
+  await startWithIntroduction(page, 'satz.l5.writing.functions.lesson', 'de-DE');
   const step = (p) => p.octave * 7 + 'CDEFGAB'.indexOf(p.letter);
   for (const fifths of [0, -1, 1]) {
     await expect(page.getByTestId('exercise-question')).toContainText(
