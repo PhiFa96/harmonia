@@ -2,6 +2,27 @@
 export type HistoryEraId = 'medieval' | 'renaissance' | 'baroque' | 'classical';
 export type HistoryChoice = 0 | 1 | 2;
 
+/** Local scripted dialogue only; no chat, assessment or persisted history. */
+export interface HistoryInterviewState {
+  readonly selected: HistoryChoice | null;
+  readonly asked: readonly HistoryChoice[];
+}
+
+export function createHistoryInterview(): HistoryInterviewState {
+  return { selected: null, asked: [] };
+}
+
+export function askHistoryInterview(
+  state: HistoryInterviewState,
+  choice: HistoryChoice,
+): HistoryInterviewState {
+  if (![0, 1, 2].includes(choice) || state.selected === choice) return state;
+  return {
+    selected: choice,
+    asked: state.asked.includes(choice) ? state.asked : [...state.asked, choice],
+  };
+}
+
 export interface HistoryStop {
   readonly id: HistoryEraId;
   readonly status: 'entwurf';

@@ -5,8 +5,6 @@
       "scene": "Ein fiktives Lehrdossier nennt das Werkjahr 1250. In der europäischen Übersicht gehört es zum Mittelalter. Einstimmiger liturgischer Gesang ist ein mögliches Merkmal, nicht die einzige Musik dieser Zeit: Es gab auch weltliche Traditionen und mehrstimmige Praktiken. Der Klang allein beweist weder das Jahr noch den Aufführungsort. Das Klangmodell veranschaulicht $t(glossary:monophony).",
       "modelCaption": "Eigenes einstimmiges Klangmodell; keine historische Aufnahme oder Rekonstruktion",
       "personaName": "Fiktive Schreiberin",
-      "personaPrompt": "Was kannst du über dieses Stück sicher sagen?",
-      "personaReply": "Im Lehrdossier steht 1250. Über einen konkreten Aufführungsort sagt mir das Klangmodell nichts. Für eine historische Aussage müsste ich die Quelle und ihre Datierung prüfen.",
       "knowledgePrompt": "Ein weiteres Lehrdossier ist undatiert und enthält ein einstimmiges Klangmodell. Welche Aussage ist damit begründet?",
       "knowledgeOptions": [
         "Das einstimmige Modell ordnet das Stück dem Mittelalter zu",
@@ -22,15 +20,23 @@
       ],
       "listeningExplanation": "Im Beispiel erklingt jeweils nur eine Note. Daraus folgt noch keine historische Datierung.",
       "knowledgeHint": "Prüfe, welche Information im neuen Dossier fehlt. Trenne die hörbare Eigenschaft von einer historischen Datierung.",
-      "listeningHint": "Höre noch einmal auf gleichzeitig klingende Töne. Zähle nicht die Töne nacheinander."
+      "listeningHint": "Höre noch einmal auf gleichzeitig klingende Töne. Zähle nicht die Töne nacheinander.",
+      "personaPrompts": [
+        "Woran arbeitest du?",
+        "Wie folgst du der Melodie?",
+        "Kennst du damit jede Musik deiner Zeit?"
+      ],
+      "personaReplies": [
+        "Ich schreibe eine Melodie auf. Meine Zeile hält die Töne nacheinander fest; eine zweite gleichzeitig erklingende $t(glossary:voice_one) notiere ich hier nicht.",
+        "Ich singe zuerst den Anfang langsam und wiederhole ihn. Dann verbinde ich die Töne zu einer einzigen Linie. Ich höre darauf, dass meine Melodie zusammenhängend bleibt.",
+        "Ich kann von der Melodie erzählen, die ich hier notiere. Daraus weiß ich noch nicht, welche Musik an allen anderen Orten erklingt. Meine einzelne Zeile zeigt nur einen Ausschnitt."
+      ]
     },
     "renaissance": {
       "title": "Renaissance: $t(glossary:voice_other) im Zusammenhang",
       "scene": "Ein zweites fiktives Lehrdossier nennt 1550 als Werkjahr. Die Quelle führt vokale $t(glossary:polyphony) mit $t(glossary:imitation) als verbreitetes Merkmal an. Unser eigenes Klangmodell zeigt zwei $t(glossary:voice_other), von denen die zweite den Anfang der ersten nachahmt; es ist keine Übertragung eines Renaissancewerks.",
       "modelCaption": "Eigenes zweistimmiges Klangmodell; kein historisches Werk",
       "personaName": "Fiktiver Sänger",
-      "personaPrompt": "Kann man die Epoche allein am Klang erkennen?",
-      "personaReply": "Nein. Zwei $t(glossary:voice_other) sind eine Hörbeobachtung. Für die Einordnung des Lehrdossiers verwende ich auch das genannte Werkjahr 1550 und den Quellenkontext.",
       "knowledgePrompt": "Ein undatiertes Stück lässt zwei gleichzeitig klingende $t(glossary:voice_other) hören. Welche Schlussfolgerung ist begründet?",
       "knowledgeOptions": [
         "Zwei $t(glossary:voice_other) genügen für eine eindeutige Zuordnung zur Renaissance",
@@ -46,15 +52,23 @@
       ],
       "listeningExplanation": "Zwei $t(glossary:voice_other) erklingen gleichzeitig. Das ist eine Beobachtung zum Modell, keine historische Zuschreibung.",
       "knowledgeHint": "Zähle zuerst die $t(glossary:voice_other). Überlege dann, welche weitere Information du für eine historische Einordnung bräuchtest.",
-      "listeningHint": "Achte auf gleichzeitig klingende Tonfolgen. Ein neuer Ton innerhalb einer $t(glossary:voice_one) ist nicht automatisch eine neue $t(glossary:voice_one)."
+      "listeningHint": "Achte auf gleichzeitig klingende Tonfolgen. Ein neuer Ton innerhalb einer $t(glossary:voice_one) ist nicht automatisch eine neue $t(glossary:voice_one).",
+      "personaPrompts": [
+        "Was probst du mit den anderen?",
+        "Worauf hörst du beim gemeinsamen Singen?",
+        "Steht eure Probe für jede Musik eurer Zeit?"
+      ],
+      "personaReplies": [
+        "Ich probe eine Melodie mit einer zweiten Singstimme. Ich beginne eine Wendung; meine Mitstimme übernimmt danach einen ähnlichen Anfang. Dabei klingen unsere $t(glossary:voice_other) auch zusammen.",
+        "Ich halte meine eigene Linie und höre zugleich auf den Einsatz der anderen $t(glossary:voice_one). Ein neuer Ton in meiner Melodie ist noch keine zusätzliche $t(glossary:voice_one).",
+        "Ich erzähle von unserer Probe und unseren zwei $t(glossary:voice_other). Ich kann nicht für alle Musikerinnen und Musiker an allen Orten sprechen. Andere Stücke können anders aufgebaut sein."
+      ]
     },
     "baroque": {
       "title": "Barock: Bass und Ausführung",
       "scene": "Das fiktive Lehrdossier nennt das Werkjahr 1720. Sein Abschnitt erklärt den $t(glossary:continuo) als Bassgrundlage mit akkordischer Ausführung. Unser eigens komponiertes Modell setzt jeweils einen tiefen und einen höheren Ton gleichzeitig.",
       "modelCaption": "Eigenes Bass-und-Oberstimmen-Modell; kein $t(glossary:continuo) aus einer historischen Quelle",
       "personaName": "Fiktive Continuo-Spielerin",
-      "personaPrompt": "Was zeigt das Klangmodell?",
-      "personaReply": "Du hörst tiefe und höhere Töne zusammen. Der Quellenabschnitt beschreibt den $t(glossary:continuo) allgemeiner; dieses kurze Modell beweist nicht, wie eine konkrete Aufführung im Jahr 1720 klang.",
       "knowledgePrompt": "Vergleiche das Zweitonmodell mit der $t(glossary:continuo)-Beschreibung. Welche Aussage grenzt das Modell sinnvoll ein?",
       "knowledgeOptions": [
         "Das Modell zeigt zwei Tonhöhen; die Quelle beschreibt zusätzlich Akkordausführung",
@@ -70,15 +84,23 @@
       ],
       "listeningExplanation": "Bei jedem Einsatz liegen zwei Tonhöhen übereinander. Das Modell ist keine historische Einspielung.",
       "knowledgeHint": "Vergleiche die hörbare Zahl der Tonhöhen mit der ausführlicheren Beschreibung im Quellenabschnitt.",
-      "listeningHint": "Achte auf den Beginn jedes Klangereignisses. Erklingen die Tonhöhen gleichzeitig oder nacheinander?"
+      "listeningHint": "Achte auf den Beginn jedes Klangereignisses. Erklingen die Tonhöhen gleichzeitig oder nacheinander?",
+      "personaPrompts": [
+        "Was liegt vor dir?",
+        "Wie hältst du dich mit den anderen zusammen?",
+        "Reicht dir ein einzelner höherer Ton für die Begleitung?"
+      ],
+      "personaReplies": [
+        "Ich habe eine Basslinie vor mir und füge dazu akkordische Töne hinzu. Das gehört hier zum $t(glossary:continuo). Für die Ausführung muss ich den musikalischen Zusammenhang beachten.",
+        "Ich folge meiner Basslinie und höre auf die Einsätze der anderen. Ich übe zuerst den Zusammenhang der Töne und beginne bei einer schwierigen Stelle noch einmal.",
+        "Ein einzelner höherer Ton legt meine vollständige akkordische Ausführung noch nicht fest. Ich muss wissen, was im Stück zusammengehört. Zwei gleichzeitig klingende Töne zeigen nur einen kleinen Teil."
+      ]
     },
     "classical": {
       "title": "Klassik: $t(glossary:phrase_other) beobachten",
       "scene": "Das fiktive Lehrdossier nennt 1780 als Werkjahr. Es nennt regelmäßige $t(glossary:phrase_other) als verbreitetes Lehrmerkmal und betont, dass sie keine ausschließlichen Kennzeichen aller Werke sind. Das eigene Klangmodell besteht aus zwei kurzen Vierergruppen.",
       "modelCaption": "Eigenes Modell mit zwei Vierergruppen; kein Werk der Klassik",
       "personaName": "Fiktiver Musiklehrer",
-      "personaPrompt": "Ist eine regelmäßige $t(glossary:phrase_one) ein Datumsbeweis?",
-      "personaReply": "Nein. Ich kann zwei kurze Gruppen hören und beschreiben. Für die Einordnung des Lehrdossiers beachte ich das genannte Werkjahr 1780 und weitere Quellen.",
       "knowledgePrompt": "Eine undatierte Melodie ist in regelmäßige $t(glossary:phrase_other) gegliedert. Welche historische Einordnung ist damit begründet?",
       "knowledgeOptions": [
         "Regelmäßige $t(glossary:phrase_other) erlauben bereits eine eindeutige Zuordnung zur Klassik",
@@ -94,7 +116,17 @@
       ],
       "listeningExplanation": "Es erklingen nacheinander zwei Gruppen mit je vier Tönen, durch eine Pause getrennt. Das ist eine Hörbeobachtung am Modell.",
       "knowledgeHint": "Unterscheide ein mögliches Merkmal von einem eindeutigen Datierungsbeweis.",
-      "listeningHint": "Höre auf die Pausen: Wo beginnt eine neue Gruppe? Zähle die Töne innerhalb einer Gruppe getrennt von der Zahl der Gruppen."
+      "listeningHint": "Höre auf die Pausen: Wo beginnt eine neue Gruppe? Zähle die Töne innerhalb einer Gruppe getrennt von der Zahl der Gruppen.",
+      "personaPrompts": [
+        "Wie ordnest du deine Melodie?",
+        "Worauf soll ich beim Wiederholen achten?",
+        "Muss jede Melodie so gebaut sein?"
+      ],
+      "personaReplies": [
+        "Ich teile meine kurze Übung in zwei Gruppen. Zwischen ihnen lasse ich eine Pause. So kann ich die Anfänge und das Ende jeder Gruppe beim Singen bewusst wahrnehmen.",
+        "Ich singe zunächst die erste Gruppe, dann die zweite. Ich höre auf die Pause dazwischen und halte die beiden Gruppen auseinander. Danach verbinde ich sie wieder zu meiner ganzen Übung.",
+        "Nein. Ich unterrichte hier an meiner kurzen Übung. Regelmäßige $t(glossary:phrase_other) können beim Beschreiben helfen; sie sind keine Vorschrift für jedes Stück. Andere Melodien dürfen anders gegliedert sein."
+      ]
     }
   },
   "en-US": {
@@ -103,8 +135,6 @@
       "scene": "A fictional teaching dossier gives 1250 as the year of composition. In this European overview, that places it in the medieval period. Monophonic liturgical singing is one possible feature, not the only music of the time: there were also secular traditions and polyphonic practices. Sound alone proves neither the year nor the place of performance. The sound model illustrates $t(glossary:monophony).",
       "modelCaption": "Original monophonic teaching model; not a historical recording or reconstruction",
       "personaName": "Fictional scribe",
-      "personaPrompt": "What can you say for certain about this piece?",
-      "personaReply": "The teaching dossier says 1250. This sound model tells me nothing about a particular performance venue. I would need to check the source and its dating before making a historical claim.",
       "knowledgePrompt": "Another teaching dossier is undated and contains a monophonic sound model. Which claim is supported?",
       "knowledgeOptions": [
         "The monophonic model places the piece in the medieval period",
@@ -120,15 +150,23 @@
       ],
       "listeningExplanation": "Only one note sounds at a time in this example. That does not establish a historical date.",
       "knowledgeHint": "Check which information the new dossier lacks. Separate an audible feature from a historical date.",
-      "listeningHint": "Listen again for notes sounding at the same time. Do not count successive notes."
+      "listeningHint": "Listen again for notes sounding at the same time. Do not count successive notes.",
+      "personaPrompts": [
+        "What are you working on?",
+        "How do you follow the melody?",
+        "Does this tell you about every kind of music in your time?"
+      ],
+      "personaReplies": [
+        "I am writing down a melody. My line records pitches one after another; I am not adding a second $t(glossary:voice_one) sounding at the same time here.",
+        "I sing the opening slowly and repeat it first. Then I connect the pitches into a single line. I listen for a continuous melody.",
+        "I can tell you about the melody I am writing here. This does not tell me what music sounds in every other place. My single line shows only a small part."
+      ]
     },
     "renaissance": {
       "title": "Renaissance: $t(glossary:voice_other) in context",
       "scene": "A second fictional teaching dossier gives 1550 as the year of composition. Its source names vocal $t(glossary:polyphony) with $t(glossary:imitation) as a common feature. Our original sound model has two $t(glossary:voice_other), the second imitating the opening of the first; it is not a transcription of a Renaissance work.",
       "modelCaption": "Original two-part teaching model; not a historical work",
       "personaName": "Fictional singer",
-      "personaPrompt": "Can sound alone identify the period?",
-      "personaReply": "No. Two $t(glossary:voice_other) are something I can hear. To place the teaching dossier in context I also use its stated year, 1550, and the source information.",
       "knowledgePrompt": "An undated piece has two $t(glossary:voice_other) sounding together. Which conclusion is supported?",
       "knowledgeOptions": [
         "Two $t(glossary:voice_other) suffice to assign the piece conclusively to the Renaissance",
@@ -144,15 +182,23 @@
       ],
       "listeningExplanation": "Two $t(glossary:voice_other) sound together. That describes the model, not a historical attribution.",
       "knowledgeHint": "Count the $t(glossary:voice_other) first. Then consider what further information a historical assignment would need.",
-      "listeningHint": "Listen for note sequences sounding together. A new note within a $t(glossary:voice_one) does not automatically create a new $t(glossary:voice_one)."
+      "listeningHint": "Listen for note sequences sounding together. A new note within a $t(glossary:voice_one) does not automatically create a new $t(glossary:voice_one).",
+      "personaPrompts": [
+        "What are you rehearsing with the others?",
+        "What do you listen for when singing together?",
+        "Does your rehearsal stand for all music of your time?"
+      ],
+      "personaReplies": [
+        "I rehearse a melody with a second singer. I begin a passage; my fellow singer then takes up a similar opening. Our $t(glossary:voice_other) also sound together.",
+        "I keep my own line while listening for the entry of the other $t(glossary:voice_one). A new pitch in my melody does not by itself add another $t(glossary:voice_one).",
+        "I am telling you about our rehearsal and our two $t(glossary:voice_other). I cannot speak for every musician in every place. Other pieces can be built differently."
+      ]
     },
     "baroque": {
       "title": "Baroque: bass and realization",
       "scene": "The fictional teaching dossier gives 1720 as the year of composition. Its section describes $t(glossary:continuo) as a bass foundation with chordal realization. Our original model sounds a lower and a higher note together at each onset.",
       "modelCaption": "Original bass-and-upper-note model; not $t(glossary:continuo) from a historical source",
       "personaName": "Fictional continuo player",
-      "personaPrompt": "What does the sound model show?",
-      "personaReply": "You hear lower and higher notes together. The source section describes $t(glossary:continuo) more broadly; this short model cannot prove how a particular performance sounded in 1720.",
       "knowledgePrompt": "Compare the two-note model with the description of $t(glossary:continuo). Which claim sets a reasonable limit on the model?",
       "knowledgeOptions": [
         "The model has two pitches; the source also describes chordal realization",
@@ -168,15 +214,23 @@
       ],
       "listeningExplanation": "Two pitches sound together at each onset. The model is not a historical recording.",
       "knowledgeHint": "Compare the audible pitch count with the fuller description in the source section.",
-      "listeningHint": "Focus on the start of each sound event. Do the pitches begin together or one after another?"
+      "listeningHint": "Focus on the start of each sound event. Do the pitches begin together or one after another?",
+      "personaPrompts": [
+        "What is in front of you?",
+        "How do you stay together with the others?",
+        "Is a single higher note enough to determine your accompaniment?"
+      ],
+      "personaReplies": [
+        "I have a bass line in front of me and add chord tones to it. This belongs to $t(glossary:continuo) here. My realization has to take the musical context into account.",
+        "I follow my bass line and listen for the entries of the others. I practice how the pitches connect first and start a difficult passage again.",
+        "A single higher note does not determine my complete chordal realization. I need to know how the music fits together. Two pitches sounding together show only a small part."
+      ]
     },
     "classical": {
       "title": "Classical period: hearing $t(glossary:phrase_other)",
       "scene": "The fictional teaching dossier gives 1780 as the year of composition. It mentions regular $t(glossary:phrase_other) as a common teaching feature and stresses that they are not exclusive marks of all works. The original sound model consists of two short groups of four notes.",
       "modelCaption": "Original two-group model; not a work from the Classical period",
       "personaName": "Fictional music teacher",
-      "personaPrompt": "Is a regular $t(glossary:phrase_one) proof of a date?",
-      "personaReply": "No. I can hear and describe two short groups. To place the teaching dossier in context, I consider its stated year, 1780, and other sources.",
       "knowledgePrompt": "An undated melody has regular $t(glossary:phrase_other). Which historical assignment is supported?",
       "knowledgeOptions": [
         "Regular $t(glossary:phrase_other) already allow a conclusive Classical-period assignment",
@@ -192,7 +246,17 @@
       ],
       "listeningExplanation": "There are two successive groups of four notes, separated by a rest. That is a listening observation about the model.",
       "knowledgeHint": "Distinguish a possible feature from conclusive evidence of a date.",
-      "listeningHint": "Listen for the rests: where does a new group begin? Count notes within a group separately from the number of groups."
+      "listeningHint": "Listen for the rests: where does a new group begin? Count notes within a group separately from the number of groups.",
+      "personaPrompts": [
+        "How do you arrange your melody?",
+        "What should I listen for when repeating it?",
+        "Must every melody be built this way?"
+      ],
+      "personaReplies": [
+        "I divide my short exercise into two groups. I leave a rest between them. This helps me notice the beginning and end of each group as I sing.",
+        "I sing the first group, then the second. I listen for the rest between them and keep the groups distinct. Then I join them into my complete exercise again.",
+        "No. I am teaching with my own short exercise here. Regular $t(glossary:phrase_other) can help describe music; they are not a rule for every piece. Other melodies may be grouped differently."
+      ]
     }
   },
   "en-GB": {
@@ -204,7 +268,12 @@
         "The model establishes the source’s complete historical chordal realisation",
         "The model establishes the exact historical performing forces of the dossier’s work"
       ],
-      "knowledgeExplanation": "Our model has two $t(glossary:voice_other). The article describes $t(glossary:continuo) as a bass foundation with chordal realisation. The model establishes neither the complete chordal realisation nor the historical performing forces."
+      "knowledgeExplanation": "Our model has two $t(glossary:voice_other). The article describes $t(glossary:continuo) as a bass foundation with chordal realisation. The model establishes neither the complete chordal realisation nor the historical performing forces.",
+      "personaReplies": [
+        "I have a bass line in front of me and add chord tones to it. This belongs to $t(glossary:continuo) here. My realisation has to take the musical context into account.",
+        "I follow my bass line and listen for the entries of the others. I practise how the pitches connect first and start a difficult passage again.",
+        "A single higher note does not determine my complete chordal realisation. I need to know how the music fits together. Two pitches sounding together show only a small part."
+      ]
     }
   }
 }

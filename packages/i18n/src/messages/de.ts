@@ -19,6 +19,9 @@ export const de = {
     sourceError: 'Der Quellenabschnitt ist momentan nicht verfügbar.',
     scene: 'Szene',
     interview: 'Fiktives Interview',
+    interviewChoose:
+      'Stelle der erfundenen Rolle mindestens eine Frage. Weitere Fragen sind freiwillig.',
+    interviewProgress: 'Fragen gestellt: {{count}} / {{total}}',
     knowledge: 'Wissensfrage',
     listening: 'Hörfrage',
     play: 'Klangmodell abspielen',

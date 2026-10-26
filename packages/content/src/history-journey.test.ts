@@ -3,7 +3,29 @@ import {
   chooseHistoryAnswer,
   checkHistoryQuestion,
   createHistoryQuestion,
+  createHistoryInterview,
+  askHistoryInterview,
 } from './history-journey.ts';
+import type { HistoryChoice } from './history-journey.ts';
+
+describe('local scripted interview', () => {
+  it('opens each reply and records each question once without changing the previous state', () => {
+    const initial = createHistoryInterview();
+    let state = initial;
+    for (const question of [2, 0, 1] as const) state = askHistoryInterview(state, question);
+    expect(initial).toEqual({ selected: null, asked: [] });
+    expect(state).toEqual({ selected: 1, asked: [2, 0, 1] });
+    expect(askHistoryInterview(state, 1)).toBe(state);
+    expect(askHistoryInterview(state, 2)).toEqual({ selected: 2, asked: [2, 0, 1] });
+  });
+  it('rejects unknown question indices and keeps a new interview independent', () => {
+    const state = askHistoryInterview(createHistoryInterview(), 0);
+    for (const value of [-1, 3, NaN, 1.5])
+      expect(askHistoryInterview(state, value as HistoryChoice)).toBe(state);
+    expect(createHistoryInterview()).toEqual({ selected: null, asked: [] });
+    expect(state).toEqual({ selected: 0, asked: [0] });
+  });
+});
 
 describe('ungraded history question flow', () => {
   it.each([0, 1, 2] as const)('assesses every choice against correct index %s', (correct) => {

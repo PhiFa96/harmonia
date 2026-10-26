@@ -64,7 +64,9 @@ export function createHistoryJourneyText(locale: AppLocale, messages: HistoryJou
         throw new Error('History translation unresolved');
       return translated;
     };
-    const options = (field: 'knowledgeOptions' | 'listeningOptions') => {
+    const options = (
+      field: 'knowledgeOptions' | 'listeningOptions' | 'personaPrompts' | 'personaReplies',
+    ) => {
       const values = story[field];
       if (!values || typeof values === 'string' || Object.keys(values).length !== 3)
         throw new Error('History translated answers must have three options');
@@ -75,8 +77,8 @@ export function createHistoryJourneyText(locale: AppLocale, messages: HistoryJou
       scene: text('scene'),
       modelCaption: text('modelCaption'),
       personaName: text('personaName'),
-      personaPrompt: text('personaPrompt'),
-      personaReply: text('personaReply'),
+      personaPrompts: options('personaPrompts'),
+      personaReplies: options('personaReplies'),
       knowledgePrompt: text('knowledgePrompt'),
       knowledgeOptions: options('knowledgeOptions'),
       knowledgeExplanation: text('knowledgeExplanation'),
@@ -86,7 +88,12 @@ export function createHistoryJourneyText(locale: AppLocale, messages: HistoryJou
       listeningExplanation: text('listeningExplanation'),
       listeningHint: text('listeningHint'),
     };
-    for (const options of [copy.knowledgeOptions, copy.listeningOptions])
+    for (const options of [
+      copy.knowledgeOptions,
+      copy.listeningOptions,
+      copy.personaPrompts,
+      copy.personaReplies,
+    ])
       if (options.length !== 3 || new Set(options.map((option) => option.trim())).size !== 3)
         throw new Error('History translated answers must be distinct');
     return copy;

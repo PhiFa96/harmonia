@@ -20,6 +20,9 @@ export const enUS = {
     sourceError: 'The source section is unavailable right now.',
     scene: 'Scene',
     interview: 'Fictional interview',
+    interviewChoose:
+      'Ask the invented role at least one question. The other questions are optional.',
+    interviewProgress: 'Questions asked: {{count}} / {{total}}',
     knowledge: 'Knowledge question',
     listening: 'Listening question',
     play: 'Play sound model',

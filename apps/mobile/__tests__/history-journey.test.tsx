@@ -32,6 +32,72 @@ jest.mock('@/components/article-example', () => ({
   ArticleExample: () => null,
 }));
 
+function renderJourney() {
+  renderRouter(
+    { 'history-journey': HistoryJourneyScreen, index: () => null },
+    {
+      initialUrl: '/history-journey',
+      wrapper: ({ children }) => <UiProvider scheme="light">{children}</UiProvider>,
+    },
+  );
+}
+
+for (const stop of historyStops) {
+  it(`${stop.id}: opens three scripted replies and counts each question once`, () => {
+    renderJourney();
+    const copy = createHistoryJourneyText('de', historyJourneyMessages)(stop.id);
+    fireEvent.press(screen.getByText(copy.title));
+    fireEvent.press(screen.getByText('Weiter'));
+    expect(screen.getByText(i18n.t('historyJourney.fictional'))).toBeTruthy();
+    expect(screen.getByText(copy.personaName)).toBeTruthy();
+    expect(screen.queryByTestId('history-interview-reply')).toBeNull();
+    expect(screen.getByText('Weiter')).toBeDisabled();
+    for (const index of [0, 1, 2] as const) {
+      fireEvent.press(screen.getByText(copy.personaPrompts[index] ?? ''));
+      expect(screen.getByTestId('history-interview-reply')).toHaveTextContent(
+        copy.personaReplies[index] ?? '',
+      );
+      expect(
+        screen.getByText(
+          i18n.t('historyJourney.interviewProgress', { count: index + 1, total: 3 }),
+        ),
+      ).toBeTruthy();
+      expect(screen.getByText('Weiter')).not.toBeDisabled();
+    }
+    fireEvent.press(screen.getByText(copy.personaPrompts[0] ?? ''));
+    expect(
+      screen.getByText(i18n.t('historyJourney.interviewProgress', { count: 3, total: 3 })),
+    ).toBeTruthy();
+    fireEvent.press(screen.getByText('Weiter'));
+    expect(screen.getByText(copy.knowledgePrompt)).toBeTruthy();
+    fireEvent.press(screen.getByText('Zurück'));
+    expect(screen.queryByTestId('history-interview-reply')).toBeNull();
+    expect(screen.getByText('Weiter')).toBeDisabled();
+  });
+}
+
+it('starts a fresh interview after returning to the scene or choosing another stop', () => {
+  renderJourney();
+  const medieval = createHistoryJourneyText('de', historyJourneyMessages)('medieval');
+  const baroque = createHistoryJourneyText('de', historyJourneyMessages)('baroque');
+  fireEvent.press(screen.getByText(medieval.title));
+  fireEvent.press(screen.getByText('Weiter'));
+  fireEvent.press(screen.getByText(medieval.personaPrompts[2] ?? ''));
+  fireEvent.press(screen.getByText('Zurück'));
+  fireEvent.press(screen.getByText('Weiter'));
+  expect(screen.queryByTestId('history-interview-reply')).toBeNull();
+  expect(
+    screen.getByText(i18n.t('historyJourney.interviewProgress', { count: 0, total: 3 })),
+  ).toBeTruthy();
+  fireEvent.press(screen.getByText('Zurück'));
+  fireEvent.press(screen.getByText('Zurück'));
+  fireEvent.press(screen.getByText(baroque.title));
+  fireEvent.press(screen.getByText('Weiter'));
+  expect(screen.getByText(baroque.personaName)).toBeTruthy();
+  expect(screen.queryByTestId('history-interview-reply')).toBeNull();
+  expect(screen.getByText('Weiter')).toBeDisabled();
+});
+
 it('keeps four sourced, translated stages as drafts with playable original scores', () => {
   expect(historyStops).toHaveLength(4);
   for (const stop of historyStops) {
@@ -56,7 +122,9 @@ it('keeps four sourced, translated stages as drafts with playable original score
     for (const locale of ['de', 'en-US', 'en-GB'] as const) {
       const copy = historyJourneyMessages[locale][stop.id];
       expect(copy.title.trim()).not.toBe('');
-      expect(copy.personaReply.trim()).not.toBe('');
+      expect(copy.personaPrompts).toHaveLength(3);
+      expect(copy.personaReplies).toHaveLength(3);
+      expect(copy.personaReplies.every((reply) => reply.trim())).toBe(true);
       expect(copy.knowledgeOptions).toHaveLength(3);
       expect(copy.listeningOptions).toHaveLength(3);
       expect(copy.knowledgeOptions[stop.knowledgeAnswer]).toBeTruthy();
@@ -113,7 +181,10 @@ it('allows correction, completes a station, and awards no progress', () => {
   fireEvent.press(screen.getByText(copy.title));
   expect(screen.getByText(copy.scene)).toBeTruthy();
   fireEvent.press(screen.getByText('Weiter'));
-  expect(screen.getByText(copy.personaReply)).toBeTruthy();
+  expect(screen.queryByTestId('history-interview-reply')).toBeNull();
+  expect(screen.getByText('Weiter')).toBeDisabled();
+  fireEvent.press(screen.getByText(copy.personaPrompts[0] ?? ''));
+  expect(screen.getByText(copy.personaReplies[0] ?? '')).toBeTruthy();
   fireEvent.press(screen.getByText('Weiter'));
   fireEvent.press(screen.getByText(wrongOption));
   fireEvent.press(screen.getByText('Antwort prüfen'));

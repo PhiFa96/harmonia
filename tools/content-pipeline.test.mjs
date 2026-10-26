@@ -808,6 +808,20 @@ test('P4.12: glossary-expanded story copy is rejected without raw templates or s
   }
 });
 
+test('P4.12: scripted interview replies remain private as templates and resolved copy', () => {
+  for (const locale of ['de', 'en-US', 'en-GB']) {
+    const copy = createHistoryJourneyText(locale, historyJourneyMessages)('renaissance');
+    for (const reply of [
+      historyJourneyMessages[locale].renaissance.personaReplies[0],
+      copy.personaReplies[0],
+    ])
+      bundleFixture(`export const dialogue = ${JSON.stringify(reply)};`, (result) => {
+        assert.equal(result.status, 1);
+        assert.match(result.stderr, /P4\.12/);
+      });
+  }
+});
+
 test('Bundleprüfung erlaubt bereits öffentliche Glossarbegriffe bei gleichnamigen Entwurfszielen', () => {
   bundleFixture('export const terms = ["Dreiklänge", "triads", "rhythm"];', (result) => {
     assert.equal(result.status, 0, result.stderr);

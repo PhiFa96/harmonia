@@ -6,6 +6,22 @@ const fresh = () =>
   JSON.parse(JSON.stringify(historyJourneyMessages)) as typeof historyJourneyMessages;
 
 describe('P4.12 authoring translation checks', () => {
+  it.each(['personaPrompts', 'personaReplies'] as const)(
+    '%s requires three distinct interview entries',
+    (field) => {
+      const short = fresh();
+      short.de.medieval[field].pop();
+      const label = field === 'personaPrompts' ? 'Interviewfragen' : 'Interviewantworten';
+      expect(checkHistoryJourneyTranslations(short)).toContain(
+        `de historyJourneyDraft:medieval.${field}: genau drei ${label} erwartet`,
+      );
+      const duplicate = fresh();
+      duplicate.de.medieval[field][2] = duplicate.de.medieval[field][0] ?? '';
+      expect(checkHistoryJourneyTranslations(duplicate)).toContain(
+        `de historyJourneyDraft:medieval.${field}: ${label} müssen unterschiedlich sein`,
+      );
+    },
+  );
   it('requires distinct answers and nonempty retry hints', () => {
     const copy = fresh();
     copy['en-US'].medieval.knowledgeOptions[2] = copy['en-US'].medieval.knowledgeOptions[0] ?? '';
@@ -41,9 +57,9 @@ describe('P4.12 authoring translation checks', () => {
   });
   it('reports missing translated fields', () => {
     const copy = fresh();
-    Reflect.deleteProperty(copy['en-US'].medieval, 'personaReply');
+    Reflect.deleteProperty(copy['en-US'].medieval, 'personaName');
     expect(checkHistoryJourneyTranslations(copy)).toContain(
-      'en-US historyJourneyDraft:medieval.personaReply: fehlt (vorhanden in de)',
+      'en-US historyJourneyDraft:medieval.personaName: fehlt (vorhanden in de)',
     );
   });
   it('checks individual answer texts for whitespace and interpolation placeholders', () => {

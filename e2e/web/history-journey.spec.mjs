@@ -36,6 +36,34 @@ for (const locale of ['de-DE', 'en-US', 'en-GB']) {
           await expect(
             page.getByRole('button', { name: copy[stop.id].title, exact: true }),
           ).toBeVisible();
+        for (const stop of historyStops) {
+          const story = copy[stop.id];
+          await page.getByRole('button', { name: story.title, exact: true }).click();
+          await page.getByRole('button', { name: ui.next, exact: true }).click();
+          await expect(page.getByText(ui.fictional, { exact: true })).toBeVisible();
+          await expect(page.getByTestId('history-interview-reply')).toHaveCount(0);
+          await expect(page.getByRole('button', { name: ui.next, exact: true })).toBeDisabled();
+          for (let index = 0; index < 3; index++) {
+            const prompt = page.getByRole('button', {
+              name: story.personaPrompts[index],
+              exact: true,
+            });
+            await prompt.click();
+            await expect(prompt).toHaveAttribute('aria-pressed', 'true');
+            await expect(page.getByTestId('history-interview-reply')).toHaveText(
+              story.personaReplies[index],
+            );
+            await expect(page.getByRole('button', { name: ui.next, exact: true })).toBeEnabled();
+          }
+          await expect(page.getByText(/\$t\(|glossary:/)).toHaveCount(0);
+          await audit(page);
+          await noOverflow(page);
+          await page.getByRole('button', { name: ui.back, exact: true }).click();
+          await page.getByRole('button', { name: ui.next, exact: true }).click();
+          await expect(page.getByTestId('history-interview-reply')).toHaveCount(0);
+          await page.getByRole('button', { name: ui.back, exact: true }).click();
+          await page.getByRole('button', { name: ui.back, exact: true }).click();
+        }
         await expect(page.getByText(ui.draft, { exact: true })).toBeVisible();
         if (locale === 'en-GB') {
           await page.getByRole('button', { name: copy.baroque.title, exact: true }).click();
@@ -55,6 +83,9 @@ for (const locale of ['de-DE', 'en-US', 'en-GB']) {
         await expect(page.getByText(copy.medieval.modelCaption, { exact: true })).toBeVisible();
         await page.getByRole('button', { name: ui.next, exact: true }).click();
         await expect(page.getByText(ui.fictional, { exact: true })).toBeVisible();
+        await page
+          .getByRole('button', { name: copy.medieval.personaPrompts[0], exact: true })
+          .click();
         await page.getByRole('button', { name: ui.next, exact: true }).click();
         await page
           .getByRole('button', { name: copy.medieval.knowledgeOptions[0], exact: true })

@@ -1,5 +1,7 @@
 import {
   createHistoryQuestion,
+  createHistoryInterview,
+  askHistoryInterview,
   chooseHistoryAnswer,
   checkHistoryQuestion,
   knowledgeArticleHref,
@@ -38,23 +40,27 @@ export default function HistoryJourneyScreen() {
   const [selected, setSelected] = useState<HistoryStop | null>(null);
   const [step, setStep] = useState<Step>('scene');
   const [question, setQuestion] = useState(createHistoryQuestion);
+  const [interview, setInterview] = useState(createHistoryInterview);
   const [sourceError, setSourceError] = useState(false);
   const copy = selected ? historyText(selected.id) : null;
   const chooseStop = (stop: HistoryStop | null) => {
     setSelected(stop);
     setStep('scene');
     setQuestion(createHistoryQuestion());
+    setInterview(createHistoryInterview());
     setSourceError(false);
   };
   const next = () => {
     setStep(STEPS[STEPS.indexOf(step) + 1] ?? 'complete');
     setQuestion(createHistoryQuestion());
+    setInterview(createHistoryInterview());
   };
   const back = () => {
     const previous = STEPS[STEPS.indexOf(step) - 1];
     if (previous) {
       setStep(previous);
       setQuestion(createHistoryQuestion());
+      setInterview(createHistoryInterview());
     } else chooseStop(null);
   };
   const openSource = async (stop: HistoryStop) => {
@@ -134,8 +140,33 @@ export default function HistoryJourneyScreen() {
                   </AppText>
                   <AppText>{t('historyJourney.fictional')}</AppText>
                   <MusicText variant="title3">{copy.personaName}</MusicText>
-                  <AppText>{copy.personaPrompt}</AppText>
-                  <AppText>{copy.personaReply}</AppText>
+                  <AppText>{t('historyJourney.interviewChoose')}</AppText>
+                  {copy.personaPrompts.map((prompt, index) => (
+                    <Button
+                      key={index}
+                      label={prompt}
+                      variant={interview.selected === index ? 'primary' : 'secondary'}
+                      selected={interview.selected === index}
+                      onPress={() => {
+                        setInterview((state) => askHistoryInterview(state, index as HistoryChoice));
+                      }}
+                    />
+                  ))}
+                  <AppText variant="footnote" tone="muted">
+                    {t('historyJourney.interviewProgress', {
+                      count: interview.asked.length,
+                      total: 3,
+                    })}
+                  </AppText>
+                  {interview.selected !== null ? (
+                    <AppText
+                      key={interview.selected}
+                      testID="history-interview-reply"
+                      aria-live="polite"
+                    >
+                      {copy.personaReplies[interview.selected]}
+                    </AppText>
+                  ) : null}
                 </View>
               </Card>
             ) : null}
@@ -179,7 +210,9 @@ export default function HistoryJourneyScreen() {
               <Button
                 label={t(step === 'complete' ? 'historyJourney.finish' : 'historyJourney.next')}
                 disabled={
-                  (step === 'knowledge' || step === 'listening') && question.feedback !== 'correct'
+                  (step === 'interview' && interview.selected === null) ||
+                  ((step === 'knowledge' || step === 'listening') &&
+                    question.feedback !== 'correct')
                 }
                 onPress={() => {
                   if (step === 'complete') chooseStop(null);

@@ -8,7 +8,12 @@ import type { AppLocale } from './locale.ts';
 import { createHistoryJourneyText } from './history-journey-text.ts';
 import type { HistoryJourneyMessages } from './history-journey-text.ts';
 
-const OPTIONS = ['knowledgeOptions', 'listeningOptions'] as const;
+const OPTIONS = [
+  'knowledgeOptions',
+  'listeningOptions',
+  'personaPrompts',
+  'personaReplies',
+] as const;
 
 function record(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -42,6 +47,12 @@ export function checkHistoryJourneyTranslations(input: unknown = historyJourneyM
       problems.push(`${locale} historyJourneyDraft: Stationstexte fehlen`);
     for (const [era, story] of Object.entries(stories)) {
       for (const field of OPTIONS) {
+        const label =
+          field === 'personaPrompts'
+            ? 'Interviewfragen'
+            : field === 'personaReplies'
+              ? 'Interviewantworten'
+              : 'Antworttexte';
         const options = record(story) ? story[field] : undefined;
         if (
           !Array.isArray(options) ||
@@ -49,11 +60,11 @@ export function checkHistoryJourneyTranslations(input: unknown = historyJourneyM
           !options.every((text: unknown) => typeof text === 'string')
         )
           problems.push(
-            `${locale} historyJourneyDraft:${era}.${field}: genau drei Antworttexte erwartet`,
+            `${locale} historyJourneyDraft:${era}.${field}: genau drei ${label} erwartet`,
           );
         else if (new Set(options.map((text: string) => text.trim())).size !== 3)
           problems.push(
-            `${locale} historyJourneyDraft:${era}.${field}: Antworttexte müssen unterschiedlich sein`,
+            `${locale} historyJourneyDraft:${era}.${field}: ${label} müssen unterschiedlich sein`,
           );
       }
       for (const field of ['knowledgeHint', 'listeningHint'])

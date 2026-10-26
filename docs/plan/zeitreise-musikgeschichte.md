@@ -44,6 +44,19 @@ Neue Fragen, Hinweise und Ablenker brauchen eine unabhängige Fach-/Sprachprüfu
 
 Katalog/Fähigkeitsplan bleiben auf Version 23, öffentlich null Lektionen. Die sprachliche Einbettung der Begriffe, Rollen, Fragen, Hinweise und Ablenker benötigen weiterhin unabhängige Fach-/Sprachprüfung; Primärquellen- und Geräteabnahmen bleiben offen. Alle Stationen bleiben `entwurf`, keine Veröffentlichung. [ADR 0052](../decisions/0052-zeitreise-texte-mit-isolierter-glossarbindung.md).
 
+## Auswählbare Interviews: Weiterbau vom 26.10.2026
+
+`codex/p4-12-interview-draft` baut auf dem offenen Entwurfs-PR #123 auf. Dies ist ausdrücklich **technische P4-Vorarbeit vor der formalen Phase-4-Freigabe**. Die vier Stationen bleiben `entwurf`; P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
+
+- Drei auswählbare Fragen je Station öffnen eigene fest geschriebene Antworten in DE/EN. Die erfundenen Rollen handeln in der Ich-Perspektive innerhalb ihrer Lehrszene. Die sichtbare Kennzeichnung erklärt weiterhin, dass Person und Aussagen erfunden sind und der Dialog redaktionell geschrieben ist. Es gibt keinen Modellaufruf oder freien Chat.
+- Eine Frage genügt für den nächsten Schritt; weitere Fragen sind freiwillig. Auswahl und Zahl der unterschiedlichen gestellten Fragen sind sichtbar. Wiederholung zählt dieselbe Frage nicht erneut. Schritt-/Stationswechsel setzen den flüchtigen Dialogzustand zurück; es gibt keine Speicherung, Lernnachweise oder XP.
+- `personaPrompts` und `personaReplies` ersetzen die bisherigen beiden Dialogtexte. Die isolierte Sprachbindung und `check:i18n` verlangen jeweils drei unterschiedliche Einträge und prüfen die Glossarauflösung. Die britischen Antworten verwenden „realisation“ und „practise“; die gemeinsame US-Fassung verwendet „realization“ und „practice“.
+- Quellenabschnitte, Artikelfingerabdrücke, Szenen, Klangmodelle, Quizlösungen und Katalog/Fähigkeitsplan Version 24 bleiben unverändert. Die Rollendialoge sind keine historischen Zitate oder belegten Rekonstruktionen. Der vorhandene Entwurfsartikel bleibt fachlicher Hintergrund; neue Dialoge und Rollenperspektiven brauchen gesonderte Prüfung.
+- Neun portable Ablauf-, 502 Sprach-, neun App- und 265 Werkzeugtests sind erfolgreich. Zwölf Sprach-/Stationsbindungen mit Auswahlzustand sind unter Deno ausgeführt. Sechs tatsächliche Vorschau-/Produktions-Browserfälle prüfen sämtliche zwölf Fragen je Sprache, Antwort-/Auswahlwechsel, leere Rückkehr, Axe/schmale Ansicht, vorhandenen Quiz-/Audioablauf und öffentliche Unverfügbarkeit.
+- Typecheck, Lint/Paketgraph sowie Sprach-/Inhalts- und Formatprüfung sind erfolgreich. Der Bundleguard bestätigt fünf öffentliche JS-Dateien ohne Entwurfsdaten; zusätzliche Fixtures sperren rohe und aufgelöste Interviewantworten. Die Produktionsaliase liefern weiterhin leere Stationen und Texte.
+
+Alle neuen Fragen, Antworten und Übersetzungen benötigen unabhängige Fach-/Sprachprüfung. Primärquellen-, Hör-, Screenreader- und Geräteabnahmen bleiben offen. Keine Veröffentlichung. [ADR 0056](../decisions/0056-auswaehlbare-fragen-in-der-zeitreise.md).
+
 ## Quellen und offene Abnahme
 
 | Station | Quellenabschnitt (Artikel `history.l2.period-contexts.article`, P2.08) | Offene Fachprüfung |

@@ -21,11 +21,21 @@ describe('history journey glossary rendering', () => {
           }
         expect(story.knowledgeOptions).toHaveLength(3);
         expect(story.listeningOptions).toHaveLength(3);
+        expect(story.personaPrompts).toHaveLength(3);
+        expect(story.personaReplies).toHaveLength(3);
       }
       expect(text('medieval').scene).toContain(locale === 'de' ? 'Einstimmigkeit' : 'monophony');
       expect(text('baroque').scene).toContain(locale === 'de' ? 'Generalbass' : 'basso continuo');
       if (locale !== 'de')
         expect(text('baroque').scene).toContain(locale === 'en-GB' ? 'realisation' : 'realization');
+      if (locale !== 'de') {
+        expect(text('baroque').personaReplies[0]).toContain(
+          locale === 'en-GB' ? 'realisation' : 'realization',
+        );
+        expect(text('baroque').personaReplies[1]).toContain(
+          locale === 'en-GB' ? 'practise' : 'practice',
+        );
+      }
     },
   );
   it('uses German and US/UK terms without changing global resources or the input', () => {
@@ -67,6 +77,17 @@ describe('history journey glossary rendering', () => {
     copy.de.medieval.knowledgeOptions = ['$t(glossary:voice_one)', 'Stimme', 'Third option'];
     expect(() => createHistoryJourneyText('de', copy)('medieval')).toThrow('distinct');
   });
+  it.each(['personaPrompts', 'personaReplies'] as const)(
+    '%s: rejects missing or colliding dialogue entries',
+    (field) => {
+      const short = fresh();
+      short.de.medieval[field] = ['First', 'Second'];
+      expect(() => createHistoryJourneyText('de', short)('medieval')).toThrow();
+      const collision = fresh();
+      collision.de.medieval[field] = ['$t(glossary:voice_one)', 'Stimme', 'Third'];
+      expect(() => createHistoryJourneyText('de', collision)('medieval')).toThrow('distinct');
+    },
+  );
   it('does not fall back to draft copy when the selected locale has no published stories', () => {
     const empty = createHistoryJourneyText('de', { de: {}, 'en-US': {}, 'en-GB': {} });
     expect(() => empty('medieval')).toThrow('unavailable');

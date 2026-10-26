@@ -179,6 +179,8 @@
 
 ### P4.12 – Zeitreise durch die Musikgeschichte
 
+**Technischer Interview-Weiterbau (26.10.2026):** Drei auswählbare Fragen je Station mit eigenen fest geschriebenen DE/EN-Ich-Antworten der ausdrücklich erfundenen Rollen. Flüchtige Auswahl mit einmaligem Fragenzähler; eine Frage genügt, weitere sind freiwillig. Glossar-/Sprachprüfung und Produktionsschutz erfassen alle Dialogeinträge. Quellen, Klangmodelle und Katalogversion 24 bleiben unverändert. [ADR 0056](../decisions/0056-auswaehlbare-fragen-in-der-zeitreise.md). Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**; neue Texte `entwurf`, unabhängige Fach-/Sprach-/Geräteabnahmen offen, keine Veröffentlichung. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
+
 **Technischer Weiterbau des Glossars (26.10.2026):** Alle Stationsfelder und Antwortoptionen verwenden eine isolierte, ausdrücklich mit Daten versorgte Textbindung; Kernbegriffe kommen aus dem gemeinsamen DE/EN-Glossar. Die Sprachprüfung weist auch erst nach Auflösung identische Antworten ab. Der Bundleguard prüft rohe und aufgelöste Entwurfstexte; öffentliche Stationen bleiben leer. [ADR 0052](../decisions/0052-zeitreise-texte-mit-isolierter-glossarbindung.md). Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**; unabhängige Fach-/Sprachprüfung und Geräteabnahme bleiben offen, sämtliche Inhalte `entwurf`, keine Veröffentlichung. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
 
 **Technischer Weiterbau des Quiz (26.10.2026):** Flüchtiger Fragezustand mit Hinweis nach Fehler und vollständiger Erklärung nach Korrektur, eigene DE/EN-Transferfragen und Ablenker, wahrheitsgemäße Rollenspiel-Kennzeichnung und britische Schreibweisen. [ADR 0050](../decisions/0050-zeitreise-fragen-mit-hinweisen-und-erklaerungen.md). Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**; sämtliche neuen Inhalte bleiben Entwurf bis zur unabhängigen Fach-/Sprachprüfung. Keine Veröffentlichung, P4.01 bleibt bis F14 und Rechtsklärung zurückgestellt.
@@ -192,7 +194,7 @@
 - **Umfang:** L
 - **Aufgaben:**
   - [x] Story-Modus als interne Vorschau durch vier Epochen mit eigenen, synthetisch gespielten Klangmodellen
-  - [x] Redaktionell geschriebenes fiktives Interview je Station, als erfundenes, vorab geschriebenes Rollenspiel gekennzeichnet, mit Quellenabschnitt
+  - [x] Drei auswählbare, redaktionell geschriebene Interviewfragen je Station, als erfundenes, vorab geschriebenes Rollenspiel gekennzeichnet, mit Quellenabschnitt
   - [x] Wissensfrage und Hörquiz je Station als Entwurf
   - [ ] Unabhängige Fach- und Quellenprüfung; echte Geräte-/Audioabnahme und Freigabe von mindestens vier Epochen
 - **Fertig, wenn:** Mindestens vier Epochen sind fachlich freigegeben.
