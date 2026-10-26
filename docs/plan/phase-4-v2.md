@@ -128,6 +128,8 @@
 
 ### P4.09 – Engine: Stimmführungsprüfung
 
+**Technischer Weiterbau der Berichtpositionen (26.10.2026):** Gemeinsame Anzeige für Befundüberschriften, Ausgangs-/Zieltabellen und Notenbeschreibungen: Auftakt Takt 0, folgender voller Takt 1; am Anfang notierter Taktbeginn, später ausdrücklich Bruchabstände. Lokale Werkstatt und skriptfreie DE/en-US/en-GB-Downloads sind geprüft. [ADR 0054](../decisions/0054-auftakte-und-positionen-im-satzbericht.md). Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**; Regeln, Engine-Referenzen und Katalogversion 24 bleiben unverändert. Fach-/Primärliteratur-/Geräteabnahmen bleiben offen, keine Veröffentlichung. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
+
 - **Ziel:** Regelwerk für den vierstimmigen Satz.
 - **Abhängig von:** P3.13, F05
 - **Umfang:** XL

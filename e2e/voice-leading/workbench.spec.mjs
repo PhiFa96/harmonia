@@ -179,6 +179,50 @@ test.afterEach(async ({ page }) => {
 });
 
 for (const locale of ['de-DE', 'en-US', 'en-GB']) {
+  test(`${locale}: pickup positions stay consistent in findings, evidence and downloaded reports`, async ({
+    page,
+  }) => {
+    await page.getByRole('combobox', { name: 'Sprache' }).selectOption(locale);
+    const m = WORKBENCH_MESSAGES[locale],
+      report = REPORT_MESSAGES[locale];
+    const parts = {
+      soprano: 'C4/4 | C4/2 D4/2',
+      alto: 'E4/4 | E4/2 F4/2',
+      tenor: 'G3/4 | G3/2 A3/2',
+      bass: 'C3/4 | C3/2 D3/2',
+    };
+    for (const [voice, source] of Object.entries(parts))
+      await page.getByRole('textbox', { name: report.voices[voice], exact: true }).fill(source);
+    await page
+      .getByRole('textbox', { name: m.settings, exact: true })
+      .fill('{"rules":{"voice-crossing":"error"}}');
+    await page.getByRole('button', { name: m.analyze, exact: true }).click();
+    await expect(page.locator('.finding')).toHaveCount(3);
+    const first = page.locator('#finding-1');
+    const pickup = `${report.measure} 0 (${report.pickup}) · ${report.beginning}`;
+    await expect(first.locator('summary')).toContainText(pickup);
+    await first.locator('summary').click();
+    await expect(first.locator('caption')).toHaveText(`${report.destination} · ${pickup}`);
+    await expect(first.getByRole('cell', { name: '0', exact: true })).toHaveCount(2);
+    await expect(page.locator('#finding-2 > summary')).toContainText(
+      `${report.measure} 1 · ${report.beginning}`,
+    );
+    await expect(page.locator('#finding-3 > summary')).toContainText(
+      `${report.measure} 1 · ${report.offset} 1/2`,
+    );
+    await page.getByText(report.scoreDescription, { exact: true }).click();
+    await expect(
+      page.getByText(new RegExp(`${report.voices.soprano} · ${report.measure} 0`)),
+    ).toBeVisible();
+    const pending = page.waitForEvent('download');
+    await page.getByRole('button', { name: m.export, exact: true }).click();
+    const download = await pending;
+    const saved = await readFile(await download.path(), 'utf8');
+    expect(saved).toContain(`<span>${pickup}</span>`);
+    expect(saved).not.toContain('<script');
+    expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+  });
+
   test(`${locale}: keyboard, embedded font, local computation and accessibility`, async ({
     page,
   }) => {

@@ -9,12 +9,110 @@ import { VOICE_LEADING_RULE_PHASE } from '../packages/theory/src/index.ts';
 import { REPORT_MESSAGES } from './voice-leading/messages.ts';
 import { parseReportInput, renderVoiceLeadingReport } from './voice-leading/report.ts';
 import { run, writePrivateReport } from './voice-leading-report.mjs';
+import { createReportPositions } from './voice-leading/report-positions.ts';
+import { analyzeVoiceLeadingScore, parseScore } from '../packages/notation/src/index.ts';
+import { fraction, timeSignature } from '../packages/theory/src/index.ts';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const privateBase = join(root, 'artifacts', 'voice-leading');
 const sample = () =>
   JSON.parse(readFileSync(new URL('./voice-leading/example.json', import.meta.url), 'utf8'));
 const assets = { fontBase64: 'AA==', fontLicense: 'Own fixture license' };
+
+function crossingFixture(first = 'C4/4 & E4/4', lower = 'G3/4 & C3/4') {
+  return {
+    ...sample(),
+    score: `treble | 4/4 | ${first} | C4/2 D4/2 & E4/2 F4/2\nbass | 4/4 | ${lower} | G3/2 A3/2 & C3/2 D3/2`,
+    rules: { 'voice-crossing': 'error' },
+    options: {},
+  };
+}
+
+test('pickup numbering reaches finding headers, evidence rows and accessible note descriptions', () => {
+  for (const locale of ['de-DE', 'en-US', 'en-GB']) {
+    const input = crossingFixture();
+    const { html, analysis } = renderVoiceLeadingReport(input, locale, assets);
+    const m = REPORT_MESSAGES[locale];
+    const pickup = `${m.measure} 0 (${m.pickup}) · ${m.beginning}`;
+    assert.ok(html.includes(`<span>${pickup}</span>`));
+    assert.ok(html.includes(`<caption>${m.destination} · ${pickup}</caption>`));
+    assert.ok(html.includes(`<td>C4</td><td>0</td><td>1</td>`));
+    assert.ok(
+      html.includes(`<li>${m.voices.soprano} · ${m.measure} 0 (${m.pickup}) · ${m.event} 1 ·`),
+    );
+    assert.ok(html.includes(`<span>${m.measure} 1 · ${m.beginning}</span>`));
+    assert.ok(html.includes(`<span>${m.measure} 1 · ${m.offset} 1/2</span>`));
+    assert.deepEqual(
+      analysis.findings.map((finding) => finding.position),
+      [
+        { at: fraction(0), measure: 0, offset: fraction(0) },
+        { at: fraction(1, 4), measure: 1, offset: fraction(0) },
+        { at: fraction(3, 4), measure: 1, offset: fraction(1, 2) },
+      ],
+    );
+    assert.deepEqual(
+      analysis,
+      analyzeVoiceLeadingScore(parseScore(input.score), input.assignment, input.rules, {}),
+    );
+  }
+});
+
+test('a full first measure stays measure 1 and zero offsets are labelled as the written start', () => {
+  const input = crossingFixture('C4/1 & E4/1', 'G3/1 & C3/1');
+  for (const locale of ['de-DE', 'en-US', 'en-GB']) {
+    const m = REPORT_MESSAGES[locale];
+    const { html } = renderVoiceLeadingReport(input, locale, assets);
+    assert.ok(html.includes(`<span>${m.measure} 1 · ${m.beginning}</span>`));
+    assert.ok(html.includes(`<span>${m.measure} 2 · ${m.beginning}</span>`));
+    assert.ok(!html.includes(`<span>${m.measure} 0`));
+    assert.ok(!html.includes(`${m.offset} 0</span>`));
+  }
+});
+
+test('finding positions use the assigned bass while other written parts retain their own numbering', () => {
+  const input = {
+    ...crossingFixture(),
+    score: 'treble | 4/4 | C5/1\ntreble | 4/4 | C4/4 & E4/4\nbass | 4/4 | G3/4 & C3/4',
+    assignment: {
+      soprano: { staff: 1, voice: 0 },
+      alto: { staff: 1, voice: 1 },
+      tenor: { staff: 2, voice: 0 },
+      bass: { staff: 2, voice: 1 },
+    },
+  };
+  const { html, analysis } = renderVoiceLeadingReport(input, 'de-DE', assets);
+  assert.equal(analysis.findings.length, 1);
+  assert.ok(html.includes('<span>Takt 0 (Auftakt) · Notierter Taktbeginn</span>'));
+  assert.ok(html.includes('<li>System 1 · Stimme 1 · Takt 1 · Ereignis 1 ·'));
+  assert.ok(html.includes('<li>Sopran · Takt 0 (Auftakt) · Ereignis 1 ·'));
+});
+
+test('additional voices entering after the pickup inherit their staff numbering', () => {
+  const input = crossingFixture();
+  input.score += '\ntreble | 4/4 | C5/4 | C5/1 & E5/1';
+  const { html, analysis } = renderVoiceLeadingReport(input, 'de-DE', assets);
+  assert.equal(analysis.findings.length, 3);
+  assert.ok(html.includes('<li>System 3 · Stimme 2 · Takt 1 · Ereignis 1 ·'));
+});
+
+test('pickup detection counts rests, dotted and tuplet durations against the effective first meter', () => {
+  const assignment = sample().assignment;
+  for (const [source, start] of [
+    ['treble | 6/8 | r/8 C4/8', 0],
+    ['treble | 6/8 | C4/4. D4/4.', 1],
+    ['treble | 3/4 | C4/4 D4/4 E4/4', 1],
+    ['treble | 4/4 | C4/8{3:2} D4/8{3:2} E4/8{3:2}', 0],
+  ]) {
+    const score = parseScore(source);
+    const positions = createReportPositions(score, assignment, REPORT_MESSAGES['de-DE']);
+    assert.equal(positions.number({ staff: 0, voice: 0, measure: 0 }), start);
+    assert.equal(positions.number({ staff: 0, voice: 0, measure: 1 }), start + 1);
+  }
+  const changed = parseScore('treble | 4/4 | C4/2.');
+  changed.staves[0].measures[0].changes = { timeSignature: timeSignature(3, 4) };
+  const positions = createReportPositions(changed, assignment, REPORT_MESSAGES['de-DE']);
+  assert.equal(positions.number({ staff: 0, voice: 0, measure: 0 }), 1);
+});
 
 test('own report corpus produces located findings in all three language variants', () => {
   for (const locale of ['de-DE', 'en-US', 'en-GB']) {

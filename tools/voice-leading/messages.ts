@@ -25,6 +25,8 @@ export interface ReportMessages {
   readonly event: string;
   readonly measure: string;
   readonly offset: string;
+  readonly pickup: string;
+  readonly beginning: string;
   readonly rest: string;
   readonly marker: string;
   readonly positionHelp: string;
@@ -58,12 +60,14 @@ const de: ReportMessages = {
   pitch: 'Ton oder Pause',
   event: 'Ereignis',
   measure: 'Takt',
-  offset: 'Position',
+  offset: 'Abstand in ganzen Noten:',
+  pickup: 'Auftakt',
+  beginning: 'Notierter Taktbeginn',
   rest: 'Pause',
   marker:
     'Die markierten Noten oder Pausen gehören zum Ziel dieses Befunds. Ausgangsnoten stehen, falls erforderlich, in der Tabelle.',
   positionHelp:
-    'Takte und Ereignisse werden ab 1 gezählt. Positionen sind Brüche einer ganzen Note ab Taktbeginn.',
+    'Ein unvollständiger erster Takt ist der Auftakt (Takt 0); der erste vollständige Takt ist Takt 1. Ereignisse werden ab 1 gezählt. Abstände sind exakte Brüche einer ganzen Note ab dem notierten Taktbeginn, keine Zählzeiten. Bei einem Auftakt beginnt der Abstand mit der ersten notierten Note oder Pause. Die Befundposition folgt der zugeordneten Bassstimme; Tabellen und Notenbeschreibungen zeigen die Nummer der jeweiligen notierten Stimme.',
   sourceHelp:
     'Regelgrundlage und offene Quellenfragen: docs/quality/p4-09-quellenentwurf.md. Die Texte und Beispiele dieses Berichts bleiben Entwurf.',
   license: 'Lizenz der eingebetteten Bravura-Notenschrift',
@@ -178,12 +182,14 @@ const en: ReportMessages = {
   pitch: 'Pitch or rest',
   event: 'Event',
   measure: 'Measure',
-  offset: 'Offset',
+  offset: 'Whole-note offset:',
+  pickup: 'Pickup',
+  beginning: 'Written measure start',
   rest: 'Rest',
   marker:
     'Marked notes or rests belong to the destination of this finding. Source notes, where required, are listed in the table.',
   positionHelp:
-    'Measures and events are numbered from 1. Offsets are fractions of a whole note from the start of the measure.',
+    'An incomplete first measure is the pickup (measure 0); the first complete measure is measure 1. Events are numbered from 1. Offsets are exact whole-note fractions from the written measure start, not beat numbers. In a pickup, the offset starts at the first written note or rest. Finding positions follow the assigned bass part; tables and note descriptions show the number in each written part.',
   sourceHelp:
     'Rule references and open source questions: docs/quality/p4-09-quellenentwurf.md. The text and examples in this report remain drafts.',
   license: 'License of the embedded Bravura music font',
@@ -279,9 +285,12 @@ const en: ReportMessages = {
 const uk: ReportMessages = {
   ...en,
   measure: 'Bar',
+  offset: 'Semibreve offset:',
+  pickup: 'Anacrusis',
+  beginning: 'Written bar start',
   license: 'Licence of the embedded Bravura music font',
   positionHelp:
-    'Bars and events are numbered from 1. Offsets are fractions of a semibreve from the start of the bar.',
+    'An incomplete first bar is the anacrusis (bar 0); the first complete bar is bar 1. Events are numbered from 1. Offsets are exact semibreve fractions from the written bar start, not beat numbers. In an anacrusis, the offset starts at the first written note or rest. Finding positions follow the assigned bass part; tables and note descriptions show the number in each written part.',
   rules: {
     ...en.rules,
     'voice-overlap': {

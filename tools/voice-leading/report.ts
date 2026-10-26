@@ -2,7 +2,6 @@ import { z } from 'zod';
 import {
   ALL_CHORD_TYPES,
   chord,
-  formatFraction,
   parseNoteName,
   parsePitch,
   pitchName,
@@ -17,10 +16,10 @@ import {
   layoutScore,
   layoutToSvg,
   parseScore,
-  type VoiceLeadingScorePosition,
   type VoiceLeadingScoreTone,
 } from '../../packages/notation/src/index.ts';
 import { REPORT_MESSAGES, type ReportLocale, type ReportMessages } from './messages.ts';
+import { createReportPositions } from './report-positions.ts';
 
 const RULES = Object.keys(VOICE_LEADING_RULE_PHASE) as [VoiceLeadingRule, ...VoiceLeadingRule[]];
 
@@ -131,6 +130,7 @@ export function renderVoiceLeadingReport(raw: unknown, locale: ReportLocale, ass
   const m = REPORT_MESSAGES[locale];
   const score = parseScore(input.score);
   const analysis = analyzeVoiceLeadingScore(score, input.assignment, input.rules, input.options);
+  const positions = createReportPositions(score, input.assignment, m);
   const layout = layoutScore(score);
   const svg = (notes: readonly VoiceLeadingScoreTone[] = []) =>
     layoutToSvg(layout, {
@@ -145,11 +145,11 @@ export function renderVoiceLeadingReport(raw: unknown, locale: ReportLocale, ass
       return `<details class="finding" id="finding-${String(index + 1)}"><summary>
       <strong>${String(index + 1)}. ${escapeHtml(rule.title)}</strong>
       <span>${escapeHtml(m.severity[finding.severity])}</span>
-      <span>${escapeHtml(positionText(finding.position, m))}</span>
+      <span>${escapeHtml(positions.at(finding.position))}</span>
       </summary><p>${escapeHtml(rule.description)}</p>
       <figure><div class="notation" tabindex="0">${svg(finding.notes)}</div><figcaption>${escapeHtml(m.marker)}</figcaption></figure>
-      ${finding.previous ? evidence(m.source, finding.previous.position, finding.previous.notes, m, locale) : ''}
-      ${evidence(m.destination, finding.position, finding.notes, m, locale)}
+      ${finding.previous ? evidence(m.source, positions.at(finding.previous.position), finding.previous.notes, m, locale, positions) : ''}
+      ${evidence(m.destination, positions.at(finding.position), finding.notes, m, locale, positions)}
       </details>`;
     })
     .join('\n');
@@ -167,7 +167,7 @@ export function renderVoiceLeadingReport(raw: unknown, locale: ReportLocale, ass
       const part = voice
         ? m.voices[voice]
         : `${m.staff} ${String(entry.staff + 1)} · ${m.voice} ${String(entry.voice + 1)}`;
-      return `<li>${escapeHtml(`${part} · ${m.measure} ${String(entry.measure + 1)} · ${m.event} ${String(entry.event + 1)} · ${entry.text}`)}</li>`;
+      return `<li>${escapeHtml(`${part} · ${positions.measure(entry)} · ${m.event} ${String(entry.event + 1)} · ${entry.text}`)}</li>`;
     })
     .join('');
   const html = `<!doctype html>
@@ -198,20 +198,17 @@ ${findings || `<p class="empty">${escapeHtml(enabled.length ? m.noFindings : m.n
   return { html, analysis };
 }
 
-function positionText(position: VoiceLeadingScorePosition, m: ReportMessages): string {
-  return `${m.measure} ${String(position.measure + 1)} · ${m.offset} ${formatFraction(position.offset)}`;
-}
-
 function evidence(
   title: string,
-  position: VoiceLeadingScorePosition,
+  position: string,
   notes: readonly VoiceLeadingScoreTone[],
   m: ReportMessages,
   locale: ReportLocale,
+  positions: ReturnType<typeof createReportPositions>,
 ): string {
-  return `<table><caption>${escapeHtml(`${title} · ${positionText(position, m)}`)}</caption>
+  return `<table><caption>${escapeHtml(`${title} · ${position}`)}</caption>
   <thead><tr><th scope="col">${escapeHtml(m.voice)}</th><th scope="col">${escapeHtml(m.pitch)}</th><th scope="col">${escapeHtml(m.measure)}</th><th scope="col">${escapeHtml(m.event)}</th></tr></thead>
-  <tbody>${notes.map((tone) => `<tr><th scope="row">${escapeHtml(m.voices[tone.voice])}</th><td>${escapeHtml(tone.pitch ? pitchName(tone.pitch, { system: locale === 'de-DE' ? 'de' : 'intl', octave: 'scientific' }) : m.rest)}</td><td>${String(tone.ref.measure + 1)}</td><td>${String(tone.ref.event + 1)}</td></tr>`).join('')}</tbody></table>`;
+  <tbody>${notes.map((tone) => `<tr><th scope="row">${escapeHtml(m.voices[tone.voice])}</th><td>${escapeHtml(tone.pitch ? pitchName(tone.pitch, { system: locale === 'de-DE' ? 'de' : 'intl', octave: 'scientific' }) : m.rest)}</td><td>${String(positions.number(tone.ref))}</td><td>${String(tone.ref.event + 1)}</td></tr>`).join('')}</tbody></table>`;
 }
 
 function escapeHtml(text: string): string {
