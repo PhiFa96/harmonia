@@ -49,7 +49,14 @@ export function checkHistoryJourneyTranslations(input: unknown = historyJourneyM
           problems.push(
             `${locale} historyJourneyDraft:${era}.${field}: genau drei Antworttexte erwartet`,
           );
+        else if (new Set(options.map((text: string) => text.trim())).size !== 3)
+          problems.push(
+            `${locale} historyJourneyDraft:${era}.${field}: Antworttexte müssen unterschiedlich sein`,
+          );
       }
+      for (const field of ['knowledgeHint', 'listeningHint'])
+        if (!record(story) || typeof story[field] !== 'string' || !story[field].trim())
+          problems.push(`${locale} historyJourneyDraft:${era}.${field}: Hinweistext fehlt`);
     }
     return {
       ...RESOURCES[locale],

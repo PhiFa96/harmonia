@@ -15,7 +15,7 @@ export const enUS = {
       'Four stops with sources, original sound models, and questions. This is an internal preview.',
     draft: 'Content draft: independent subject review is still pending.',
     fictional:
-      'AI fiction as a scripted role play: this person and their statements are invented. This is not a live conversation.',
+      'Scripted role play: this person and their statements are invented. The dialogue is pre-written.',
     source: 'Read source section',
     sourceError: 'The source section is unavailable right now.',
     scene: 'Scene',

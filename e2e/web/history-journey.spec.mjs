@@ -35,6 +35,11 @@ for (const locale of ['de-DE', 'en-US', 'en-GB']) {
             page.getByRole('button', { name: copy[stop.id].title, exact: true }),
           ).toBeVisible();
         await expect(page.getByText(ui.draft, { exact: true })).toBeVisible();
+        if (locale === 'en-GB') {
+          await page.getByRole('button', { name: copy.baroque.title, exact: true }).click();
+          await expect(page.getByText(copy.baroque.scene, { exact: true })).toBeVisible();
+          await page.getByRole('button', { name: ui.back, exact: true }).click();
+        }
         await page.getByRole('button', { name: copy.medieval.title, exact: true }).click();
         await expect(page.getByText(copy.medieval.scene, { exact: true })).toBeVisible();
         await expect(page.getByText(copy.medieval.modelCaption, { exact: true })).toBeVisible();
@@ -42,15 +47,47 @@ for (const locale of ['de-DE', 'en-US', 'en-GB']) {
         await expect(page.getByText(ui.fictional, { exact: true })).toBeVisible();
         await page.getByRole('button', { name: ui.next, exact: true }).click();
         await page
+          .getByRole('button', { name: copy.medieval.knowledgeOptions[0], exact: true })
+          .click();
+        await page.getByRole('button', { name: ui.check, exact: true }).click();
+        await expect(
+          page.getByText(`${ui.incorrect} ${copy.medieval.knowledgeHint}`, { exact: true }),
+        ).toBeVisible();
+        await expect(
+          page.getByText(copy.medieval.knowledgeExplanation, { exact: false }),
+        ).toHaveCount(0);
+        await expect(page.getByRole('button', { name: ui.next, exact: true })).toBeDisabled();
+        await expect(page.getByRole('button', { name: ui.check, exact: true })).toBeDisabled();
+        await page
           .getByRole('button', { name: copy.medieval.knowledgeOptions[1], exact: true })
           .click();
         await page.getByRole('button', { name: ui.check, exact: true }).click();
+        await expect(
+          page.getByText(`${ui.correct} ${copy.medieval.knowledgeExplanation}`, { exact: true }),
+        ).toBeVisible();
         await page.getByRole('button', { name: ui.next, exact: true }).click();
+        await page
+          .getByRole('button', { name: copy.medieval.listeningOptions[1], exact: true })
+          .click();
+        await expect(page.getByRole('button', { name: ui.check, exact: true })).toBeDisabled();
+        await page.getByRole('button', { name: ui.play, exact: true }).click();
+        await expect(page.getByRole('button', { name: ui.check, exact: true })).toBeEnabled();
+        await page.getByRole('button', { name: ui.check, exact: true }).click();
+        await expect(
+          page.getByText(`${ui.incorrect} ${copy.medieval.listeningHint}`, { exact: true }),
+        ).toBeVisible();
+        await expect(
+          page.getByText(copy.medieval.listeningExplanation, { exact: false }),
+        ).toHaveCount(0);
+        await expect(page.getByRole('button', { name: ui.next, exact: true })).toBeDisabled();
         await page
           .getByRole('button', { name: copy.medieval.listeningOptions[0], exact: true })
           .click();
-        await expect(page.getByRole('button', { name: ui.check, exact: true })).toBeDisabled();
-        await page.getByRole('button', { name: ui.skipListening, exact: true }).click();
+        await page.getByRole('button', { name: ui.check, exact: true }).click();
+        await expect(
+          page.getByText(`${ui.correct} ${copy.medieval.listeningExplanation}`, { exact: true }),
+        ).toBeVisible();
+        await page.getByRole('button', { name: ui.next, exact: true }).click();
         await expect(page.getByText(ui.complete, { exact: true })).toBeVisible();
       }
       await audit(page);

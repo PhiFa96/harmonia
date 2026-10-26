@@ -658,7 +658,7 @@ test('Bundleprüfung weist auch Entwurfstexte ohne eine enthaltene Lektions-ID z
 test('P4.12: kurze Entwurfstexte und Antwortoptionen sind ohne Längen-Ausnahme gesperrt', () => {
   for (const text of [
     historyDraft.de.medieval.personaName,
-    historyDraft.de.medieval.knowledgeOptions[1],
+    historyDraft.de.medieval.listeningOptions[0],
   ]) {
     assert.ok(text.length <= 24);
     const escaped = JSON.stringify(text).replace('i', '\\u0069');

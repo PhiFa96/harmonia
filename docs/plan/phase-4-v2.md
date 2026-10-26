@@ -171,6 +171,8 @@
 
 ### P4.12 – Zeitreise durch die Musikgeschichte
 
+**Technischer Weiterbau des Quiz (26.10.2026):** Flüchtiger Fragezustand mit Hinweis nach Fehler und vollständiger Erklärung nach Korrektur, eigene DE/EN-Transferfragen und Ablenker, wahrheitsgemäße Rollenspiel-Kennzeichnung und britische Schreibweisen. [ADR 0050](../decisions/0050-zeitreise-fragen-mit-hinweisen-und-erklaerungen.md). Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**; sämtliche neuen Inhalte bleiben Entwurf bis zur unabhängigen Fach-/Sprachprüfung. Keine Veröffentlichung, P4.01 bleibt bis F14 und Rechtsklärung zurückgestellt.
+
 **Technischer Weiterbau der Prüfungen (26.10.2026):** Die gesonderten Stations- und Antworttexte sind in `check:i18n` einbezogen. Metro sperrt tatsächlich aufgelöste interne TS-/JSON-Dateien einschließlich Symlinks; der Bundleguard prüft kurze Entwurfstexte und alle acht Partituren. DE/en-US/en-GB-Browserproben prüfen interne Vorschau und leere öffentliche Deep-Links; die Produktionsprobe ist in CI verankert. [ADR 0049](../decisions/0049-zeitreise-entwuerfe-an-den-buildgrenzen-pruefen.md). Dies bleibt ausdrücklich technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**. Fach-/Quellenprüfung, redaktionelle Nacharbeit und Geräteabnahmen bleiben offen, alle Inhalte `entwurf`, keine Veröffentlichung. P4.01 bleibt bis F14 und Rechtsklärung zurückgestellt.
 
 **Technischer Entwurf:** Vier europäische Stationen mit eigenen Klangmodellen, redaktionell geschriebenen fiktiven Interviews, Wissens- und Hörfrage und präzisem Link auf den versionierten Abschnitt des P2.08-Wissensartikels (Linkmechanismus aus P3.19). Der Ablauf ist intern spielbar; es werden keine XP oder Fortschritte vergeben. Details und offene Freigaben: [Zeitreise P4.12](zeitreise-musikgeschichte.md).
@@ -180,7 +182,7 @@
 - **Umfang:** L
 - **Aufgaben:**
   - [x] Story-Modus als interne Vorschau durch vier Epochen mit eigenen, synthetisch gespielten Klangmodellen
-  - [x] Redaktionell geschriebenes fiktives Interview je Station, als KI-Fiktion und ohne Live-Gespräch gekennzeichnet, mit Quellenabschnitt
+  - [x] Redaktionell geschriebenes fiktives Interview je Station, als erfundenes, vorab geschriebenes Rollenspiel gekennzeichnet, mit Quellenabschnitt
   - [x] Wissensfrage und Hörquiz je Station als Entwurf
   - [ ] Unabhängige Fach- und Quellenprüfung; echte Geräte-/Audioabnahme und Freigabe von mindestens vier Epochen
 - **Fertig, wenn:** Mindestens vier Epochen sind fachlich freigegeben.

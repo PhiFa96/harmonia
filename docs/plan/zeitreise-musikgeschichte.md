@@ -1,10 +1,10 @@
 # P4.12 – Zeitreise durch die Musikgeschichte (interner Entwurf)
 
-Vier Stationen behandeln **Mittelalter, Renaissance, Barock und Klassik** im ausdrücklich europäischen Überblick des vorhandenen Artikels `history.l2.period-contexts.article`. Jede Station durchläuft Szene → fiktives Interview → Wissensfrage → Hörfrage → Abschluss. Eine falsche Antwort kann erneut gewählt werden. Hörfragen lassen sich erst nach dem Abspielen prüfen. Der Modus schreibt weder Lernnachweise noch XP.
+Vier Stationen behandeln **Mittelalter, Renaissance, Barock und Klassik** im ausdrücklich europäischen Überblick des vorhandenen Artikels `history.l2.period-contexts.article`. Jede Station durchläuft Szene → fiktives Interview → Wissensfrage → Hörfrage → Abschluss. Nach einer falschen Antwort erscheint ein eigener Hinweis. Eine andere Auswahl erlaubt einen neuen Versuch; die vollständige Erklärung erscheint nach einer richtigen Antwort. Hörfragen lassen sich nach erfolgreichem Wiedergabestart prüfen. Der Modus schreibt weder Lernnachweise noch XP.
 
-Die Texte liegen in `packages/i18n/src/history-journey-draft.json` mit DE und EN-US; EN-GB verwendet derzeit dieselben nicht terminologiespezifischen englischen Texte. `packages/content/src/history-journey-draft.ts` enthält ausschließlich IDs, Quellenpositionen, Lösungen und eigens verfasste Notenkurzschrift. Die Audio-Engine spielt diese Kurzschrift synthetisch. **Alle Klangmodelle sind eigene Unterrichtsbeispiele; keine historische Aufführung, Rekonstruktion oder Transkription.** Die Hörfragen prüfen direkt hörbare Eigenschaften und verlangen keine Epochenerkennung allein am Klang.
+Die Texte liegen in `packages/i18n/src/history-journey-draft.json` mit DE und EN-US sowie gezielten en-GB-Abweichungen für die britische Schreibweise; weitere englische Texte werden gemeinsam verwendet. `packages/content/src/history-journey-draft.ts` enthält ausschließlich IDs, Quellenpositionen, Lösungen und eigens verfasste Notenkurzschrift. Die Audio-Engine spielt diese Kurzschrift synthetisch. **Alle Klangmodelle sind eigene Unterrichtsbeispiele; keine historische Aufführung, Rekonstruktion oder Transkription.** Die Hörfragen prüfen direkt hörbare Eigenschaften und verlangen keine Epochenerkennung allein am Klang.
 
-Die historischen Personen sind erfundene Rollen, keine Zitate realer Menschen. Die App benennt das redaktionelle Rollenspiel ausdrücklich als KI-Fiktion und bietet keinen Live-KI-Dialog an. Jede inhaltliche Aussage verweist auf den exakten Abschnitt des versionierten P2.08-Wissensartikels; der vorhandene Artikelbildschirm zeigt seinen Entwurfsstatus. Der Quellenlink wird mit demselben Text-Fingerabdruck wie P3.19 erzeugt und öffnet nur die passende Artikelfassung.
+Die historischen Personen sind erfundene Rollen, keine Zitate realer Menschen. Die App kennzeichnet das redaktionelle Rollenspiel als erfunden und vorab geschrieben. Jede inhaltliche Aussage verweist auf den exakten Abschnitt des versionierten P2.08-Wissensartikels; der vorhandene Artikelbildschirm zeigt seinen Entwurfsstatus. Der Quellenlink wird mit demselben Text-Fingerabdruck wie P3.19 erzeugt und öffnet nur die passende Artikelfassung.
 
 `@harmonia/content/history-journey` und `@harmonia/i18n/history-journey` werden für Development/Preview auf die internen Daten und für Production auf leere Daten abgebildet. Der Modus ist nur bei vorhandenen Stationen in der Übungsübersicht verlinkt. Ein Produktions-Deep-Link zeigt nur den Zustand „noch keine Station freigegeben“. Vor einem öffentlichen Release muss der Bundleguard erneut geprüft werden.
 
@@ -19,6 +19,18 @@ Auf `codex/p4-12-draft-boundaries` werden die drei technischen Prüflücken aus 
 - Sprachprüfung, Typecheck, Lint und Inhaltsprüfung sind erfolgreich; der Bundleguard bestätigt fünf JS-Dateien ohne Entwurfsdaten und der Katalog null freigegebene Lektionen. Die allgemeine Sprachprüfung bereitet große Textbäume je Aufruf nur einmal auf.
 
 [ADR 0049](../decisions/0049-zeitreise-entwuerfe-an-den-buildgrenzen-pruefen.md) beschreibt die Grenzen der Prüfungen. Die vorhandenen en-GB-Rückfalltexte, redaktionellen Fragen, Fachbegriffe und Quiz-Ablenker benötigen weiterhin gesonderte Arbeit und unabhängige Prüfung. Keine Veröffentlichung.
+
+## Quiz und Rückmeldungen: Weiterbau vom 26.10.2026
+
+`codex/p4-12-quiz-feedback-draft` baut auf dem offenen Entwurfs-PR #117 mit fünf erfolgreichen CI-Jobs auf. Dies ist ausdrücklich **technische P4-Vorarbeit vor der formalen Phase-4-Freigabe**. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
+
+- Auswahl, Rückmeldung und Versuche werden als flüchtiger, portabler Fragezustand geführt. Eine Prüfung ohne Auswahl oder erforderliche Audiofreigabe bleibt wirkungslos. Wiederholte Aktivierung prüft dieselbe Auswahl nicht erneut. Nach einem Fehler muss eine andere Antwort gewählt werden; eine richtige Antwort wird gesperrt.
+- Acht eigene Hinweistexte in DE/EN begleiten Fehler. Die vollständige Erklärung ist an die richtige Antwort gebunden. Weiter, Zurück und Stationswechsel beginnen einen leeren Fragezustand; Hörfragen dürfen ausdrücklich übersprungen werden. Dieser interne Ablauf speichert keine Versuche und vergibt keine XP oder Lernnachweise.
+- Die vier Wissensfragen verlangen das Anwenden der beschriebenen Grenzen auf undatierte Modelle. Die acht Antwortgruppen verwenden plausiblere Ablenker. Die Interviews sind als redaktionelles, fest geschriebenes Rollenspiel gekennzeichnet. Im deutschen Text wird „Stimmen“ verwendet; die britische Barockfassung verwendet „realisation“.
+- Die Sprachprüfung verlangt drei unterschiedliche Antworttexte und vorhandene Hinweise. Sie prüft weiterhin sämtliche einzelnen Antworttexte und die aufgelöste britische Fassung.
+- Sieben portable Modelltests, 483 Sprachtests, vier App-Tests und 250 Werkzeugtests sind erfolgreich. Die Browserproben prüfen in DE/en-US/en-GB Fehler, Hinweis, Korrektur und Erklärung für Wissens- und Hörfrage mit tatsächlichem Wiedergabestart. Der öffentliche Build zeigt weiterhin keine Stationen; die Inhalte bleiben Entwurf.
+
+Neue Fragen, Hinweise und Ablenker brauchen eine unabhängige Fach-/Sprachprüfung. Die Rollen sprechen weiterhin über Lehrdossiers; ihre weitere Gestaltung und die Glossararbeit bleiben offen. Audiofreigabe nach Start ist kein Nachweis vollständigen Anhörens. [ADR 0050](../decisions/0050-zeitreise-fragen-mit-hinweisen-und-erklaerungen.md).
 
 ## Quellen und offene Abnahme
 

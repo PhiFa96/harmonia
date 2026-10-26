@@ -6,6 +6,29 @@ const fresh = () =>
   JSON.parse(JSON.stringify(historyJourneyMessages)) as typeof historyJourneyMessages;
 
 describe('P4.12 authoring translation checks', () => {
+  it('requires distinct answers and nonempty retry hints', () => {
+    const copy = fresh();
+    copy['en-US'].medieval.knowledgeOptions[2] = copy['en-US'].medieval.knowledgeOptions[0] ?? '';
+    copy['en-US'].medieval.knowledgeHint = ' ';
+    const problems = checkHistoryJourneyTranslations(copy);
+    expect(problems).toContain(
+      'en-US historyJourneyDraft:medieval.knowledgeOptions: Antworttexte müssen unterschiedlich sein',
+    );
+    expect(problems).toContain(
+      'en-US historyJourneyDraft:medieval.knowledgeHint: Hinweistext fehlt',
+    );
+  });
+  it('keeps UK spellings separate and provides a retry hint for all eight questions', () => {
+    expect(historyJourneyMessages['en-US'].baroque.scene).toContain('realization');
+    expect(historyJourneyMessages['en-GB'].baroque.scene).toContain('realisation');
+    for (const copy of Object.values(historyJourneyMessages))
+      for (const story of Object.values(copy)) {
+        expect(story.knowledgeHint.trim()).not.toBe('');
+        expect(story.listeningHint.trim()).not.toBe('');
+        expect(story.knowledgeHint).not.toBe(story.knowledgeExplanation);
+        expect(story.listeningHint).not.toBe(story.listeningExplanation);
+      }
+  });
   it('checks actual draft copy without adding it to public resources', () => {
     expect(checkHistoryJourneyTranslations()).toEqual([]);
   });

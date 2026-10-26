@@ -14,7 +14,7 @@ export const de = {
       'Vier Stationen mit Quellen, eigenen Klangmodellen und Fragen. Dies ist eine interne Vorschau.',
     draft: 'Inhaltlicher Entwurf: noch nicht fachlich freigegeben.',
     fictional:
-      'KI-Fiktion als redaktionelles Rollenspiel: Diese Person und ihre Aussagen sind erfunden. Kein Live-Gespräch.',
+      'Redaktionelles Rollenspiel: Diese Person und ihre Aussagen sind erfunden. Der Dialog ist fest geschrieben.',
     source: 'Quellenabschnitt lesen',
     sourceError: 'Der Quellenabschnitt ist momentan nicht verfügbar.',
     scene: 'Szene',
