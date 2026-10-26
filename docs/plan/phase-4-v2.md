@@ -1,5 +1,7 @@
 # Phase 4 – V2 (Coaching, Schule, Profi-Features)
 
+**Technischer CI-Weiterbau (26.10.2026):** Die Supabase-Prüfung von Entwurfs-PR #129 scheiterte bereits beim Image-Download, auch nach einmaligem Neustart. Der CI-Job verwendet nun die vorgesehenen offiziellen Registry-Fallbacks der gepinnten CLI; Healthchecks und sämtliche DB-Prüfungen bleiben erforderlich. Die neue GitHub-Prüfung muss den tatsächlichen Start nachweisen. [ADR 0062](../decisions/0062-offizielle-supabase-registry-fallbacks-in-ci.md). Technische Vorbereitung **vor der formalen Phase-4-Freigabe**, keine Veröffentlichung oder Produktabnahme. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
+
 **Ziel:**
 
 - Harmonia verbindet KI und Menschen: Coach-Marktplatz mit Provision, KI-Live-Calls.

@@ -4,7 +4,7 @@ Grundlage 04.10.2026, ergänzt 13.10.2026: Die E-Mail-Code-Anmeldung aus P2.01 i
 
 ## Lokal arbeiten
 
-Voraussetzungen: Node 22, pnpm 10 und ein laufender Docker-Daemon (Docker Desktop auf macOS/Windows). Die Supabase CLI ist mit Version 2.120.0 im Lockfile gepinnt. Kein globales Supabase und kein Supabase-Cloudkonto erforderlich.
+Voraussetzungen: Node 22, pnpm 10 und ein laufender Docker-Daemon (Docker Desktop auf macOS/Windows). Die Supabase CLI ist mit Version 2.121.0 im Lockfile gepinnt. Kein globales Supabase und kein Supabase-Cloudkonto erforderlich.
 
 ```sh
 pnpm install --frozen-lockfile
@@ -19,7 +19,9 @@ pnpm db:test:email
 
 `pnpm db:stop` beendet die lokalen Dienste und behält die lokale Datenbank. `pnpm db:reset` **löscht die lokale Datenbank** und spielt sämtliche Migrationen neu ein. Nur für lokale Testdaten verwenden; die Befehle enthalten keine Verknüpfung zu staging/production. Die pgTAP-Tests laufen in einer zurückgerollten Transaktion. Der API-Test legt zwei zufällige lokale Konten an und entfernt sie anschließend, auch bei einem fehlgeschlagenen Test.
 
-In dieser Cloud-Umgebung zuerst `source /workspace/harmonia-env.sh` ausführen. Die Umgebung setzt `SUPABASE_HOME` auf ein beschreibbares Verzeichnis außerhalb des Repos und `SUPABASE_INTERNAL_IMAGE_REGISTRY=docker.io` auf die erlaubte Registry. `SUPABASE_USE_SLIM_IMAGES=1` verwendet die von der gepinnten CLI vorgesehenen kleineren Images aus `ghcr.io/supabase/cli`, damit der Docker-Speicherbedarf sinkt; die CI verwendet dieselbe Variante. Die normalen Docker-Proxy-/CA-Einstellungen bleiben erhalten. Das beschreibbare Cache-Verzeichnis ersetzt keine Nutzer-Credentials.
+In dieser Cloud-Umgebung zuerst `source /workspace/harmonia-env.sh` ausführen. Die Umgebung setzt `SUPABASE_HOME` auf ein beschreibbares Verzeichnis außerhalb des Repos und `SUPABASE_INTERNAL_IMAGE_REGISTRY=docker.io` auf die erlaubte Registry. `SUPABASE_USE_SLIM_IMAGES=1` verwendet die von der gepinnten CLI vorgesehenen kleineren Images, damit der Docker-Speicherbedarf sinkt. Die normalen Docker-Proxy-/CA-Einstellungen bleiben erhalten. Das beschreibbare Cache-Verzeichnis ersetzt keine Nutzer-Credentials.
+
+Der GitHub-Runner hat eine andere Netzkonfiguration: Dort ist `SUPABASE_INTERNAL_IMAGE_REGISTRY` seit dem CI-Weiterbau vom 26.10.2026 ausdrücklich leer. So bleibt die eingebaute Auswahl der gepinnten CLI aktiv (offizielle ECR-/GHCR-/Docker-Hub-Images), statt alle Downloads auf Docker Hub festzulegen. Slim-Images bleiben eingeschaltet. Die feste Docker-Hub-Zuordnung führte in Lauf 242 einschließlich eines Neustarts zu `registry_rate_limit`, bevor irgendein Datenbanktest ausgeführt wurde. Die Änderung betrifft ausschließlich den CI-Job und keine lokale Cloud-Netzregel. Alle Healthchecks und Datenbanktests bleiben erforderlich. [ADR 0062](../decisions/0062-offizielle-supabase-registry-fallbacks-in-ci.md).
 
 Die Cloud-Startanleitung enthält außerdem eine außerhalb des Repos installierte Docker-Aufrufhilfe: BusyBox-`wget` in den Slim-Images ignoriert `no_proxy`; ausschließlich für Healthchecks an Loopback ergänzt die Hilfe `-Y off`. So geht die interne Startprüfung direkt an den eigenen Container. Docker-Konfiguration, Registry-Anmeldung und Proxy für externe Verbindungen werden nicht verändert. Auf einem normalen lokalen Rechner und in der GitHub-CI ohne diesen Proxy ist keine Hilfe erforderlich.
 
