@@ -1,6 +1,14 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { startupFailureKinds, startupMigrationDetails } from './local-backend-diagnostics.mjs';
+import { spawnSync } from 'node:child_process';
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import {
+  startupFailureKinds,
+  startupMigrationDetails,
+  startupRegistrySources,
+} from './local-backend-diagnostics.mjs';
 test('startup classifications reveal no log data or credentials', () => {
   const secret = 'synthetic-sensitive-fixture',
     email = 'person@example.test';
@@ -47,4 +55,48 @@ test('unknown startup failures stay unknown and template failures remain diagnos
     ),
     ['heap_exhausted'],
   );
+});
+test('image diagnostics distinguish slim refs from standard registry candidates without copying URLs', () => {
+  assert.deepEqual(
+    startupRegistrySources(
+      'https://ghcr.io/supabase/cli/auth:v1@sha256:private-digest\n' +
+        'https://public.ecr.aws/supabase/cli/auth:v1?token=private-token\n' +
+        'public.ecr.aws/supabase/kong:private-tag ghcr.io/supabase/kong:private-tag\n' +
+        'registry-1.docker.io/v2/supabase/kong/manifests/private-tag\n' +
+        'private-registry.example.test/secret-image:v1',
+    ),
+    ['ghcr_slim', 'ecr_slim', 'ghcr_standard', 'ecr_standard', 'docker_hub'],
+  );
+  assert.deepEqual(startupRegistrySources('private-registry.example.test/private-image'), []);
+  assert.deepEqual(startupFailureKinds('registry ghcr.io: forbidden (403)'), [
+    'registry_access_denied',
+  ]);
+});
+test('diagnostic command never emits private startup log lines, including registry credentials', () => {
+  const directory = mkdtempSync(join(tmpdir(), 'harmonia-diagnostics-'));
+  try {
+    const path = join(directory, 'private-start.log');
+    writeFileSync(
+      path,
+      'toomanyrequests: https://synthetic-user:private-password@ghcr.io/supabase/cli/auth:private-tag\n' +
+        'Authorization: Bearer private-token\nprivate-person@example.test\n' +
+        'public.ecr.aws/supabase/kong:private-tag',
+      { mode: 0o600 },
+    );
+    const result = spawnSync(
+      process.execPath,
+      [new URL('./local-backend-diagnostics.mjs', import.meta.url).pathname, path],
+      { encoding: 'utf8', env: { ...process.env, PATH: '' }, stdio: ['ignore', 'pipe', 'pipe'] },
+    );
+    assert.equal(result.error, undefined);
+    assert.equal(result.status, 0);
+    assert.equal(result.stdout, '');
+    assert.equal(
+      result.stderr,
+      '::error::Supabase startup diagnostic: registry_rate_limit\n' +
+        '::notice::Image sources referenced: ghcr_slim, ecr_standard\n',
+    );
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
 });

@@ -271,7 +271,9 @@ jobs:
       SUPABASE_NO_UPDATE_NOTIFIER: '1'
       # A nonempty override disables the pinned CLI's official registry fallbacks.
       SUPABASE_INTERNAL_IMAGE_REGISTRY: ''
-      SUPABASE_USE_SLIM_IMAGES: '1'
+      # The pinned start path gives slim GHCR refs no registry fallback.
+      # Standard images use the CLI's ECR -> GHCR -> Docker Hub candidates.
+      SUPABASE_USE_SLIM_IMAGES: '0'
     steps:
       - uses: actions/checkout@v7
 

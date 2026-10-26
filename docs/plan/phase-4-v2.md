@@ -1,6 +1,6 @@
 # Phase 4 – V2 (Coaching, Schule, Profi-Features)
 
-**Technischer CI-Weiterbau (26.10.2026):** Die Supabase-Prüfung von Entwurfs-PR #129 scheiterte bereits beim Image-Download, auch nach einmaligem Neustart. Der CI-Job verwendet nun die vorgesehenen offiziellen Registry-Fallbacks der gepinnten CLI; Healthchecks und sämtliche DB-Prüfungen bleiben erforderlich. Die neue GitHub-Prüfung muss den tatsächlichen Start nachweisen. [ADR 0062](../decisions/0062-offizielle-supabase-registry-fallbacks-in-ci.md). Technische Vorbereitung **vor der formalen Phase-4-Freigabe**, keine Veröffentlichung oder Produktabnahme. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
+**Technischer CI-Weiterbau (26.10.2026):** Die Supabase-Prüfung von Entwurfs-PR #129 scheiterte beim Image-Download, auch nach Neustart. Das Leeren des Registry-Overrides allein reicht in PR #130 / Lauf 243 ebenfalls nicht. Der GitHub-Job verwendet nun reguläre Images mit den offiziellen Registry-Fallbacks der gepinnten CLI; im tatsächlichen Startpfad haben Slim-Referenzen keinen Fallback. Healthchecks und sämtliche DB-Prüfungen bleiben erforderlich, private Logs geschützt. Die neue GitHub-Prüfung muss Start und DB-Tests nachweisen. [ADR 0062](../decisions/0062-offizielle-supabase-registry-fallbacks-in-ci.md). Technische Vorbereitung **vor der formalen Phase-4-Freigabe**, keine Veröffentlichung oder Produktabnahme. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
 
 **Ziel:**
 

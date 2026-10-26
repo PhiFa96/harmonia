@@ -5,6 +5,8 @@ import { pathToFileURL } from 'node:url';
 export function startupFailureKinds(text) {
   const patterns = {
     registry_rate_limit: /toomanyrequests|pull rate limit|unauthenticated pull/i,
+    registry_access_denied:
+      /(?:registry|docker image|ghcr\.io|public\.ecr\.aws).*?(?:unauthorized|forbidden|\b40[13]\b)/i,
     image_unavailable: /manifest unknown|no matching manifest|pull access denied/i,
     invalid_configuration: /failed to parse config|invalid config|unknown config|cannot unmarshal/i,
     migration_failed: /failed to apply migration|applying migration[\s\S]*?ERROR:|sqlstate/i,
@@ -21,6 +23,20 @@ export function startupFailureKinds(text) {
     .map(([kind]) => kind);
   return result.length ? result : ['unclassified_startup_failure'];
 }
+// These identify referenced sources, not which pull ultimately failed. Output only fixed names:
+// never copy a URL, tag, digest, query string, credentials, or arbitrary hostname from the log.
+export function startupRegistrySources(text) {
+  const sources = {
+    ghcr_slim: /\bghcr\.io\/supabase\/cli\//i,
+    ecr_slim: /\bpublic\.ecr\.aws\/supabase\/cli\//i,
+    ghcr_standard: /\bghcr\.io\/supabase\/(?!cli\/)/i,
+    ecr_standard: /\bpublic\.ecr\.aws\/supabase\/(?!cli\/)/i,
+    docker_hub: /\b(?:registry-1\.|index\.)?docker\.io\b/i,
+  };
+  return Object.entries(sources)
+    .filter(([, pattern]) => pattern.test(text))
+    .map(([source]) => source);
+}
 // Only repository-known filenames and SQLSTATE codes are emitted, never error text.
 export function startupMigrationDetails(text, knownMigrations) {
   const known = new Set(knownMigrations);
@@ -36,6 +52,8 @@ export function diagnosticsMain(path) {
   const text = readFileSync(path, 'utf8');
   const kinds = startupFailureKinds(text);
   console.error('::error::Supabase startup diagnostic: ' + kinds.join(', '));
+  const sources = startupRegistrySources(text);
+  if (sources.length) console.error('::notice::Image sources referenced: ' + sources.join(', '));
   const details = startupMigrationDetails(
     text,
     readdirSync(new URL('../supabase/migrations/', import.meta.url)),
