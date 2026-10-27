@@ -145,7 +145,11 @@ export default function LessonScreen() {
           <AppText role="alert">
             {t(
               learning.phase === 'ready' && learning.scope === owner
-                ? 'path.lessonLocked'
+                ? learning.path.find((unit) =>
+                    unit.lessons.some((lesson) => lesson.id === content.id),
+                  )?.lessonOrder === 'independent'
+                  ? 'path.independentLessonLocked'
+                  : 'path.lessonLocked'
                 : 'path.loading',
             )}
           </AppText>

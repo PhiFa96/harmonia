@@ -76,13 +76,13 @@ describe('internal choir lessons', () => {
           const source = {
             kind: 'lesson',
             lessonId: lesson.id,
-            contentVersion: 25,
+            contentVersion: 26,
             seed,
             round: 'review',
             index,
           } as const;
           expect(resolveReportSource(catalogue, source).item).toEqual(repeated);
-          for (const contentVersion of [20, 24])
+          for (const contentVersion of [20, 24, 25])
             expect(() => resolveReportSource(catalogue, { ...source, contentVersion })).toThrow();
           state = nextLessonExercise(answerLesson(state, expectedAnswer(repeated)));
         }
@@ -112,7 +112,7 @@ describe('internal choir lessons', () => {
       const id = `aural.l4.choir.${voice}.lesson`;
       const lesson = resolveLesson(catalogue, id);
       if (!lesson) throw new Error('Missing choir lesson');
-      expect(lesson.contentVersion).toBe(25);
+      expect(lesson.contentVersion).toBe(26);
       expect(lesson.introduction).toHaveLength(1);
       expect(
         catalogue.knowledgeCards.find((card) => card.id === `aural.l4.choir.${voice}.card`),
@@ -132,13 +132,13 @@ describe('internal choir lessons', () => {
         const source = {
           kind: 'lesson',
           lessonId: id,
-          contentVersion: 25,
+          contentVersion: 26,
           seed: 'choir-introduction',
           round: 'initial',
           index,
         };
         expect(resolveReportSource(catalogue, source).item).toEqual(item);
-        for (const contentVersion of [20, 24])
+        for (const contentVersion of [20, 24, 25])
           expect(() => resolveReportSource(catalogue, { ...source, contentVersion })).toThrow();
         expect(() => resolveReportSource(publicCatalogue(catalogue), source)).toThrow();
       }

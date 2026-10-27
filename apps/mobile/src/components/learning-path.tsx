@@ -42,6 +42,30 @@ export function LearningPath() {
   );
   const group = useRef<View>(null),
     choices = ['all', ...areas.map((a) => a.id)];
+  const prerequisiteButton = (id: string) => {
+    const prerequisite = state.path.find((u) => u.id === id);
+    return prerequisite ? (
+      <Button
+        key={id}
+        variant="ghost"
+        size="medium"
+        label={t('path.prerequisite', { title: text(prerequisite.titleKey) })}
+        onPress={() => {
+          selectLearningArea(prerequisite.areaId);
+          selectLearningLevel(
+            prerequisite.level === 4
+              ? 4
+              : prerequisite.level === 3
+                ? 3
+                : prerequisite.level === 2
+                  ? 2
+                  : 1,
+          );
+          if (!state.expanded.includes(id)) toggleLearningUnit(id);
+        }}
+      />
+    ) : null;
+  };
   useWebChoiceInput(group, {
     choices,
     enabled: state.phase === 'ready',
@@ -216,30 +240,11 @@ export function LearningPath() {
                     {unit.status === 'tested' ? (
                       <AppText variant="footnote">{t('path.testedHint')}</AppText>
                     ) : null}
-                    {unit.prerequisiteUnitIds.map((id) => {
-                      const prerequisite = state.path.find((u) => u.id === id);
-                      return prerequisite ? (
-                        <Button
-                          key={id}
-                          variant="ghost"
-                          size="medium"
-                          label={t('path.prerequisite', { title: text(prerequisite.titleKey) })}
-                          onPress={() => {
-                            selectLearningArea(prerequisite.areaId);
-                            selectLearningLevel(
-                              prerequisite.level === 4
-                                ? 4
-                                : prerequisite.level === 3
-                                  ? 3
-                                  : prerequisite.level === 2
-                                    ? 2
-                                    : 1,
-                            );
-                            if (!state.expanded.includes(id)) toggleLearningUnit(id);
-                          }}
-                        />
-                      ) : null;
-                    })}
+                    {unit.lessonOrder === 'independent' ? (
+                      <AppText variant="footnote">{t('path.independentLessons')}</AppText>
+                    ) : (
+                      unit.prerequisiteUnitIds.map(prerequisiteButton)
+                    )}
                     <Button
                       variant="secondary"
                       label={t(expanded ? 'path.hideLessons' : 'path.showLessons')}
@@ -254,6 +259,7 @@ export function LearningPath() {
                       ? unit.lessons.map((lesson) => (
                           <View
                             key={lesson.id}
+                            testID={`path-lesson-${lesson.id}`}
                             style={[styles.lesson, { borderTopColor: colors.border }]}
                           >
                             <AppText variant="title3">{text(lesson.titleKey)}</AppText>
@@ -265,6 +271,9 @@ export function LearningPath() {
                             <AppText variant="small" tone="muted">
                               {t(`path.status_${lesson.status}`)}
                             </AppText>
+                            {unit.lessonOrder === 'independent'
+                              ? lesson.prerequisiteUnitIds.map(prerequisiteButton)
+                              : null}
                             <Button
                               disabled={lesson.status === 'locked'}
                               label={

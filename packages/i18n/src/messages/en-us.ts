@@ -2266,6 +2266,10 @@ export const enUS = {
     testedHint:
       'Available through your placement estimate. You can practice these lessons at any time; they count as passed only after a passing attempt.',
     prerequisite: 'Prerequisite: {{title}}',
+    independentLessons:
+      'Choose an unlocked lesson. You do not need to pass the other lessons in this unit first. Any missing prerequisites are listed with each lesson.',
+    independentLessonLocked:
+      'This lesson is still locked. First pass its prerequisites in your learning path. You do not need to pass the other lessons in this unit.',
     showLessons: 'Show lessons',
     hideLessons: 'Hide lessons',
     showNamed: 'Show lessons in {{title}}',

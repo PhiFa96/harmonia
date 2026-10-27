@@ -2315,6 +2315,10 @@ export const de = {
     testedHint:
       'Durch deine Einstufung zugänglich. Die Lektionen kannst du jederzeit üben; sie zählen erst nach einem bestandenen Versuch als bestanden.',
     prerequisite: 'Voraussetzung: {{title}}',
+    independentLessons:
+      'Wähle eine freigeschaltete Lektion. Du musst die anderen Lektionen dieser Einheit dafür nicht bestehen. Die noch fehlenden Voraussetzungen stehen bei der jeweiligen Lektion.',
+    independentLessonLocked:
+      'Diese Lektion ist noch gesperrt. Bestehe zuerst ihre Voraussetzungen im Lernpfad. Die anderen Lektionen dieser Einheit musst du dafür nicht bestehen.',
     showLessons: 'Lektionen anzeigen',
     hideLessons: 'Lektionen ausblenden',
     showNamed: 'Lektionen in {{title}} anzeigen',

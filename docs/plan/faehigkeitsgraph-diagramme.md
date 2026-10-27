@@ -2,7 +2,7 @@
 
 <!-- Erzeugt mit pnpm curriculum:render; Änderungen an Katalog, Plan oder Übersetzungen vornehmen. -->
 
-Katalog-/Planversion 25. 18 Bereiche, 39 Bereichsstufen, 65 Einheiten und 199 Fähigkeiten.
+Katalog-/Planversion 26. 18 Bereiche, 39 Bereichsstufen, 65 Einheiten und 199 Fähigkeiten.
 
 Pfeile zeigen von der Voraussetzung zum folgenden Lernziel. Die Reihenfolge ist eine mögliche Reihenfolge für die Planung; unabhängige Zweige bleiben im Graphen unabhängig. Die Tabellen zeigen alle direkten Voraussetzungen, auch über Bereichsgrenzen hinweg.
 
@@ -255,6 +255,10 @@ flowchart TD
   u48 --> u53
   u45 --> u54
   u34 --> u55
+  u1 --> u55
+  u14 --> u55
+  u6 --> u55
+  u13 --> u55
   u54 --> u56
   u30 --> u56
   u45 --> u57
@@ -703,6 +707,9 @@ flowchart TD
   s51["Zweiteilige und dreiteilige Zählzeiten in 3/4 und 6/8 unterscheiden · anderer Bereich"]
   s73["Grundstellung, erste und zweite Umkehrung bestimmen · anderer Bereich"]
   s133["Septakkordumkehrungen schreiben · anderer Bereich"]
+  s5["Stammtöne von e¹ bis f² im Violinschlüssel lesen · anderer Bereich"]
+  s43["Geltung von Versetzungszeichen im selben Takt beachten (gleicher Ton, gleiche Oktavlage) · anderer Bereich"]
+  s40["Stammtöne von c bis c¹ im Bassschlüssel lesen · anderer Bereich"]
   s28 --> s29
   s29 --> s30
   s21 -.-> s30
@@ -732,9 +739,21 @@ flowchart TD
   s159 --> s160
   s160 --> s161
   s107 --> s168
+  s5 -.-> s168
+  s43 -.-> s168
+  s21 -.-> s168
   s107 --> s169
+  s5 -.-> s169
+  s43 -.-> s169
+  s21 -.-> s169
   s107 --> s170
+  s40 -.-> s170
+  s43 -.-> s170
+  s21 -.-> s170
   s107 --> s171
+  s40 -.-> s171
+  s43 -.-> s171
+  s21 -.-> s171
 ```
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
@@ -760,10 +779,10 @@ flowchart TD
 | 4 · Gehörbildung zur Studienvorbereitung | Intervalle und Vierklänge hören | `aural.l4.preparation.s1` | Hear intervals and seventh chords | `aural.l3.dictation.s3`, `chords.l4.extensions.s2` | entwurf |
 | 4 · Gehörbildung zur Studienvorbereitung | Melodie und Rhythmus notieren | `aural.l4.preparation.s2` | Notate melody and rhythm | `aural.l4.preparation.s1` | entwurf |
 | 4 · Gehörbildung zur Studienvorbereitung | Vom Blatt singen | `aural.l4.preparation.s3` | Sight sing | `aural.l4.preparation.s2` | entwurf |
-| 4 · Chor-Trainer · Entwurf | Sopran singen | `aural.l4.choir.soprano` | Sing soprano | `aural.l3.dictation.s3` | entwurf |
-| 4 · Chor-Trainer · Entwurf | Alt singen | `aural.l4.choir.alto` | Sing alto | `aural.l3.dictation.s3` | entwurf |
-| 4 · Chor-Trainer · Entwurf | Tenor singen | `aural.l4.choir.tenor` | Sing tenor | `aural.l3.dictation.s3` | entwurf |
-| 4 · Chor-Trainer · Entwurf | Bass singen | `aural.l4.choir.bass` | Sing bass | `aural.l3.dictation.s3` | entwurf |
+| 4 · Chor-Trainer · Entwurf | Sopran singen | `aural.l4.choir.soprano` | Sing soprano | `aural.l3.dictation.s3`, `notation.treble-natural`, `notation.accidental-scope`, `rhythm.read-basic` | entwurf |
+| 4 · Chor-Trainer · Entwurf | Alt singen | `aural.l4.choir.alto` | Sing alto | `aural.l3.dictation.s3`, `notation.treble-natural`, `notation.accidental-scope`, `rhythm.read-basic` | entwurf |
+| 4 · Chor-Trainer · Entwurf | Tenor singen | `aural.l4.choir.tenor` | Sing tenor | `aural.l3.dictation.s3`, `notation.bass-natural`, `notation.accidental-scope`, `rhythm.read-basic` | entwurf |
+| 4 · Chor-Trainer · Entwurf | Bass singen | `aural.l4.choir.bass` | Sing bass | `aural.l3.dictation.s3`, `notation.bass-natural`, `notation.accidental-scope`, `rhythm.read-basic` | entwurf |
 
 ## Musikgeschichte und Quellen · `area.history`
 

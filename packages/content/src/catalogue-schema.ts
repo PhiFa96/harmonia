@@ -20,7 +20,13 @@ export const areaSchema = metadata.strict();
 export const levelSchema = metadata
   .extend({ areaId: contentIdSchema, number: z.number().int().min(1).max(6) })
   .strict();
-export const unitSchema = metadata.extend({ levelId: contentIdSchema }).strict();
+export const unitSchema = metadata
+  .extend({
+    levelId: contentIdSchema,
+    /** Omitted preserves the existing lesson sequence. Explicit skill prerequisites still apply. */
+    lessonOrder: z.enum(['sequential', 'independent']).optional(),
+  })
+  .strict();
 export const skillSchema = metadata
   .extend({ areaId: contentIdSchema, prerequisites: ids })
   .strict();

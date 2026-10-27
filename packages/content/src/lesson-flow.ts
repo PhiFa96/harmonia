@@ -36,10 +36,15 @@ function repetitionSources(catalogue: ContentCatalogue, id: string) {
   };
   record.skillIds.forEach(visit);
   const siblings = catalogue.lessons.filter((l) => l.unitId === record.unitId);
-  const earlier = siblings.slice(
-    0,
-    siblings.findIndex((l) => l.id === id),
-  );
+  // Independent choices must not import another, potentially unopened alternative as repetition.
+  const independent =
+    catalogue.units.find((unit) => unit.id === record.unitId)?.lessonOrder === 'independent';
+  const earlier = independent
+    ? []
+    : siblings.slice(
+        0,
+        siblings.findIndex((l) => l.id === id),
+      );
   return catalogue.lessons.filter(
     (l) => l.id !== id && (earlier.includes(l) || l.skillIds.every((s) => prerequisites.has(s))),
   );

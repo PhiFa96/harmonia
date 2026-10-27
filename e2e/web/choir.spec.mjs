@@ -2,6 +2,76 @@ import { test, expect } from '@playwright/test';
 import { onboard, audit, noOverflow, copy } from './helpers.mjs';
 import { createI18n, createContentI18n } from '../../packages/i18n/src/index.ts';
 import authored from '../../packages/i18n/src/authored-content.json' with { type: 'json' };
+import catalogue from '../../packages/content/src/catalogue.json' with { type: 'json' };
+
+for (const locale of ['de-DE', 'en-US', 'en-GB']) {
+  test(`${locale}: choir path lists each voice's foundations and guards direct links`, async ({
+    browser,
+  }) => {
+    const context = await browser.newContext({ locale, viewport: { width: 390, height: 900 } });
+    const page = await context.newPage();
+    const language = locale.startsWith('de') ? 'de' : locale;
+    const labels = createI18n(language),
+      text = createContentI18n(language, authored);
+    try {
+      await onboard(page, locale);
+      await page
+        .getByRole('button', { name: labels.t('path.level', { level: 4 }), exact: true })
+        .click();
+      const unit = page.getByTestId('lesson-group-aural.l4.choir');
+      await expect(
+        unit.getByText(labels.t('path.independentLessons'), { exact: true }),
+      ).toBeVisible();
+      await unit
+        .getByRole('button', {
+          name: labels.t('path.showNamed', { title: text.t('content.choir.title') }),
+          exact: true,
+        })
+        .click();
+      for (const [voice, reading] of [
+        ['soprano', 'notation.l1.staff'],
+        ['alto', 'notation.l1.staff'],
+        ['tenor', 'notation.l2.clefs-registers'],
+        ['bass', 'notation.l2.clefs-registers'],
+      ]) {
+        const row = page.getByTestId(`path-lesson-aural.l4.choir.${voice}.lesson`);
+        await expect(
+          row.getByRole('button', {
+            name: labels.t('lesson.openNamed', { title: text.t(`content.choir.${voice}`) }),
+            exact: true,
+          }),
+        ).toBeDisabled();
+        const prerequisite = catalogue.units.find((unit) => unit.id === reading);
+        if (!prerequisite) throw Error('Missing reading prerequisite');
+        await expect(
+          row.getByRole('button', {
+            name: labels.t('path.prerequisite', { title: text.t(prerequisite.titleKey) }),
+            exact: true,
+          }),
+        ).toBeVisible();
+      }
+      await audit(page);
+      await noOverflow(page);
+      const reading = catalogue.units.find((unit) => unit.id === 'notation.l2.clefs-registers');
+      await page
+        .getByTestId('path-lesson-aural.l4.choir.bass.lesson')
+        .getByRole('button', {
+          name: labels.t('path.prerequisite', { title: text.t(reading.titleKey) }),
+          exact: true,
+        })
+        .click();
+      await expect(page.getByTestId('lesson-group-notation.l2.clefs-registers')).toBeVisible();
+      await page.goto('/lesson?id=aural.l4.choir.bass.lesson');
+      await expect(page.getByRole('alert')).toHaveText(labels.t('path.independentLessonLocked'));
+      await expect(page.getByTestId('choir-trainer')).toHaveCount(0);
+      await expect(page.getByTestId('lesson-example-scroll')).toHaveCount(0);
+      await audit(page);
+      await noOverflow(page);
+    } finally {
+      await context.close();
+    }
+  });
+}
 
 async function startWithIntroduction(page, voice, locale) {
   const labels = createI18n(locale.startsWith('de') ? 'de' : locale);

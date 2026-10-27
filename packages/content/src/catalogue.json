@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": 25,
+  "contentVersion": 26,
   "areas": [
     {
       "id": "fundament",
@@ -819,11 +819,12 @@
       "levelId": "satz.level-5"
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 26,
       "status": "entwurf",
       "id": "aural.l4.choir",
       "titleKey": "content.choir.title",
-      "levelId": "aural.level-4"
+      "levelId": "aural.level-4",
+      "lessonOrder": "independent"
     },
     {
       "id": "counterpoint.l5.species",
@@ -2280,36 +2281,56 @@
       "prerequisites": ["satz.l4.writing.functions", "chords.l3.sevenths.s2"]
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 26,
       "status": "entwurf",
       "id": "aural.l4.choir.soprano",
       "titleKey": "content.choir.soprano",
       "areaId": "area.aural",
-      "prerequisites": ["aural.l3.dictation.s3"]
+      "prerequisites": [
+        "aural.l3.dictation.s3",
+        "notation.treble-natural",
+        "notation.accidental-scope",
+        "rhythm.read-basic"
+      ]
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 26,
       "status": "entwurf",
       "id": "aural.l4.choir.alto",
       "titleKey": "content.choir.alto",
       "areaId": "area.aural",
-      "prerequisites": ["aural.l3.dictation.s3"]
+      "prerequisites": [
+        "aural.l3.dictation.s3",
+        "notation.treble-natural",
+        "notation.accidental-scope",
+        "rhythm.read-basic"
+      ]
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 26,
       "status": "entwurf",
       "id": "aural.l4.choir.tenor",
       "titleKey": "content.choir.tenor",
       "areaId": "area.aural",
-      "prerequisites": ["aural.l3.dictation.s3"]
+      "prerequisites": [
+        "aural.l3.dictation.s3",
+        "notation.bass-natural",
+        "notation.accidental-scope",
+        "rhythm.read-basic"
+      ]
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 26,
       "status": "entwurf",
       "id": "aural.l4.choir.bass",
       "titleKey": "content.choir.bass",
       "areaId": "area.aural",
-      "prerequisites": ["aural.l3.dictation.s3"]
+      "prerequisites": [
+        "aural.l3.dictation.s3",
+        "notation.bass-natural",
+        "notation.accidental-scope",
+        "rhythm.read-basic"
+      ]
     },
     {
       "id": "counterpoint.l5.species.s1",
@@ -21353,7 +21374,7 @@
       "exerciseSetIds": ["satz.l5.writing.functions.exercises"]
     },
     {
-      "contentVersion": 25,
+      "contentVersion": 26,
       "status": "entwurf",
       "id": "aural.l4.choir.soprano.lesson",
       "titleKey": "content.choir.soprano",
@@ -21363,7 +21384,7 @@
       "exerciseSetIds": ["aural.l4.choir.soprano.exercises"]
     },
     {
-      "contentVersion": 25,
+      "contentVersion": 26,
       "status": "entwurf",
       "id": "aural.l4.choir.alto.lesson",
       "titleKey": "content.choir.alto",
@@ -21373,7 +21394,7 @@
       "exerciseSetIds": ["aural.l4.choir.alto.exercises"]
     },
     {
-      "contentVersion": 25,
+      "contentVersion": 26,
       "status": "entwurf",
       "id": "aural.l4.choir.tenor.lesson",
       "titleKey": "content.choir.tenor",
@@ -21383,7 +21404,7 @@
       "exerciseSetIds": ["aural.l4.choir.tenor.exercises"]
     },
     {
-      "contentVersion": 25,
+      "contentVersion": 26,
       "status": "entwurf",
       "id": "aural.l4.choir.bass.lesson",
       "titleKey": "content.choir.bass",

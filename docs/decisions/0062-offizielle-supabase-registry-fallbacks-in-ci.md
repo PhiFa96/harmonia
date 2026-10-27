@@ -1,6 +1,6 @@
 # ADR 0062 – Offizielle Supabase-Registry-Fallbacks in CI
 
-Datum: 26.10.2026. Status: technische CI-Korrektur; neuer GitHub-Nachweis erforderlich.
+Datum: 26.10.2026. Status: technische CI-Korrektur, im vollständigen GitHub-Lauf 244 erfolgreich nachgewiesen.
 
 ## Anlass und Beleg
 
@@ -27,3 +27,7 @@ Der zuvor gelesene gleichnamige Go-Helfer allein belegt das Verhalten des heutig
 Acht Setup-/Diagnosetests einschließlich eines echten CLI-Aufrufs mit synthetischem privatem Log prüfen Wrapperverhalten und ausschließlich erlaubte Diagnoseausgaben. YAML-/JavaScript-Formatprüfung und gezielter Lint ergänzen dies. Der neue GitHub-Lauf muss den tatsächlichen Start und die zuvor übersprungenen Datenbanktests nachweisen. Die roten Vorgängerläufe werden nicht nachträglich als bestanden bezeichnet.
 
 Dies ist technische Vorbereitung für die bestehenden internen P4-Entwürfe **vor der formalen Phase-4-Freigabe**. Keine Musik-/Bewertungs-/Inhaltsänderung, Produktionsmigration, Veröffentlichung oder Merge. Alle Fach-/Rechts-/Geräteabnahmen bleiben offen; P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
+
+## GitHub-Nachweis vom 27.10.2026
+
+[Lauf 244](https://github.com/PhiFa96/harmonia/actions/runs/40372773850) für Head `e4736f9187f14f22081ac822d33e49630eb8ffdc` hat alle fünf Jobs erfolgreich abgeschlossen, einschließlich Supabase-Start, Migrationen, SQL-Lint, pgTAP und sämtlicher nachfolgenden Datenbank-/API-Prüfungen. PR #130 bleibt Entwurf und ungemergt. Die roten Vorgängerversuche gelten weiterhin nicht als bestanden.

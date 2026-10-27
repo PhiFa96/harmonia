@@ -18,6 +18,7 @@ export interface PathUnit {
   readonly completed: number;
   readonly lessons: readonly PathLesson[];
   readonly prerequisiteUnitIds: readonly string[];
+  readonly lessonOrder: 'sequential' | 'independent';
 }
 /** Status ist ein abgeleiteter Stand; misslungene Wiederholungen löschen keinen bereits bestandenen Versuch. */
 export function learningPath(
@@ -71,20 +72,39 @@ export function learningPath(
       ...new Set([...unmet].map(skillUnit).filter((id) => id !== undefined)),
     ];
     const testedHere = tested.has(unit.id) && prerequisiteUnitIds.length === 0;
-    const pathLessons = lessons.map((lesson, index): PathLesson => ({
-      id: lesson.id,
-      titleKey: lesson.titleKey,
-      contentVersion: lesson.contentVersion,
-      status: passed.has(lesson.id)
-        ? 'completed'
-        : testedHere
-          ? 'tested'
-          : prerequisiteUnitIds.length === 0 &&
-              lessons.slice(0, index).every((l) => passed.has(l.id))
-            ? 'open'
-            : 'locked',
-      prerequisiteUnitIds,
-    }));
+    const independent = unit.lessonOrder === 'independent';
+    const pathLessons = lessons.map((lesson, index): PathLesson => {
+      // Independent alternatives depend on their own skills, including explicit internal edges.
+      const missing = independent
+        ? lesson.skillIds.flatMap((id) =>
+            (catalogue.skills.find((s) => s.id === id)?.prerequisites ?? []).filter(
+              (id) => !mastered.has(id),
+            ),
+          )
+        : [];
+      const ready = independent ? missing.length === 0 : prerequisiteUnitIds.length === 0;
+      return {
+        id: lesson.id,
+        titleKey: lesson.titleKey,
+        contentVersion: lesson.contentVersion,
+        status: passed.has(lesson.id)
+          ? 'completed'
+          : ready && tested.has(unit.id)
+            ? 'tested'
+            : ready && (independent || lessons.slice(0, index).every((l) => passed.has(l.id)))
+              ? 'open'
+              : 'locked',
+        prerequisiteUnitIds: independent
+          ? [
+              ...new Set(
+                missing
+                  .map(skillUnit)
+                  .filter((id): id is string => id !== undefined && id !== unit.id),
+              ),
+            ]
+          : prerequisiteUnitIds,
+      };
+    });
     const completed = pathLessons.filter((l) => l.status === 'completed').length;
     return {
       id: unit.id,
@@ -97,11 +117,12 @@ export function learningPath(
           ? 'completed'
           : testedHere
             ? 'tested'
-            : pathLessons.some((l) => l.status === 'open' || l.status === 'completed')
+            : pathLessons.some((l) => l.status !== 'locked')
               ? 'open'
               : 'locked',
       lessons: pathLessons,
       prerequisiteUnitIds,
+      lessonOrder: unit.lessonOrder ?? 'sequential',
     };
   });
   // Stabile topologische Reihenfolge der Einheiten, innerhalb einer Stufe aus dem Katalog.
