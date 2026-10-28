@@ -185,6 +185,10 @@ test('current monitored file set includes the actual model, learner tools, gradi
     'packages/theory/src/counterpoint.ts',
     'apps/mobile/src/choir/runner.ts',
     'apps/mobile/src/microphone/health.ts',
+    'apps/mobile/src/components/lesson-completion-status.tsx',
+    'apps/mobile/src/app/lesson.tsx',
+    'apps/mobile/src/state/learning.ts',
+    'supabase/functions/learning-sync/index.ts',
   ])
     assert.ok(digests[file], file);
   const result = inspectInventory(inventory, { digests, now });

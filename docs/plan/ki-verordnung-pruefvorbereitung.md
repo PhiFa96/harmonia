@@ -57,3 +57,7 @@ Der Weiterbau `codex/p4-18-review-bound-draft` führt die offenen Entwürfe #104
 ## Anschluss an P4.19 (25.10.2026)
 
 Der gemeinsame Entwurfsstand enthält jetzt den konkreten Kontrapunkt-/Analysezweck als zehnten Funktionsbereich (`advanced-analysis`), weiterhin `unreviewed`. Mobile Vorschau, getrennte Speicherung und lokale Export-/Löschpfade werden zusätzlich an den KI-Prüfstand gebunden. Alle drei Rechtsprüfungen bleiben pending. Die allgemeine und Schul-Freigabe berücksichtigen diesen internen Einsatz; der vorhandene Zertifikatsentwurf umfasst weiter nur Stufen 1–2. [Umsetzung und Grenzen](stufe-5-entwurf.md).
+
+## Ergänzung 28.10.2026: Chor-Abschlussentscheidung
+
+Die neue P4.11-Abschlussanforderung ist im bestehenden Zweck des Chor-Trainers erfasst: zusätzlich zur Quote ein anrechenbar bestandener eigener Erstversuch ohne Lösung. Abschlussanzeige, regulärer Lektionsspieler, Client-Synchronisation und serverseitige Lernnachweisfunktion sind ausdrücklich in der Codebindung enthalten. Die Gesamtbindung umfasst jetzt 249 Dateien; Tests verlangen diese tatsächlichen Entscheidungs-/Anzeigepfade. Alle zehn Funktionsbereiche bleiben ungeprüft; 20 allgemeine Nachweise, Schul-/Zertifikatsfreigaben und unabhängige Rechtsprüfung bleiben offen. Keine Veröffentlichung oder automatische KI-Einstufung.

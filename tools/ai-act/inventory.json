@@ -237,13 +237,17 @@
         "apps/mobile/src/microphone/health.ts",
         "apps/mobile/src/choir/runner.ts",
         "apps/mobile/src/app/choir.tsx",
+        "apps/mobile/src/app/lesson.tsx",
+        "apps/mobile/src/state/learning.ts",
+        "supabase/functions/learning-sync/index.ts",
+        "apps/mobile/src/components/lesson-completion-status.tsx",
         "apps/mobile/src/components/lesson-introduction.tsx",
         "apps/mobile/src/components/choir-answer-input.tsx"
       ],
       "purpose": {
-        "de": "Lokale Tonhöhen-/Zeitmessung zur Übungsrückmeldung. Der Chor-Trainer wartet vor dem Vorzähler auf PCM und verwirft bei erkannten Datenunterbrechungen den Take ohne Antwort. Stille ist gültiges PCM, keine Transportdiagnose.",
-        "en-US": "Local pitch and timing measurements for practice feedback. The choir trainer waits for PCM before count-in and discards a take without an answer after detected data interruptions. Silence is valid PCM, not a transport diagnosis.",
-        "en-GB": "Local pitch and timing measurements for practice feedback. The choir trainer waits for PCM before count-in and discards a take without an answer after detected data interruptions. Silence is valid PCM, not a transport diagnosis."
+        "de": "Lokale Tonhöhen-/Zeitmessung zur Übungsrückmeldung. Der Chor-Trainer wartet vor dem Vorzähler auf PCM und verwirft bei erkannten Datenunterbrechungen den Take ohne Antwort. Stille ist gültiges PCM, keine Transportdiagnose. Der Chorabschluss verlangt zusätzlich zur Quote einen eigenen bestandenen Erstversuch ohne Lösung; Client, Server und gekürzte Nachweise erhalten dieselbe Entscheidung.",
+        "en-US": "Local pitch and timing measurements for practice feedback. The choir trainer waits for PCM before count-in and discards a take without an answer after detected data interruptions. Silence is valid PCM, not a transport diagnosis. Choir completion additionally requires an authored singing task passed on the initial attempt without a solution; client, server and retained evidence preserve the same decision.",
+        "en-GB": "Local pitch and timing measurements for practice feedback. The choir trainer waits for PCM before count-in and discards a take without an answer after detected data interruptions. Silence is valid PCM, not a transport diagnosis. Choir completion additionally requires an authored singing task passed on the initial attempt without a solution; client, server and retained evidence preserve the same decision."
       },
       "concern": {
         "de": "Keine Gefühls-, Identitäts- oder sensiblen Persönlichkeitsmerkmale ableiten; Zweckgrenze prüfen.",
