@@ -29,6 +29,9 @@ export interface LessonDefinition {
   readonly exercises: readonly ExerciseSpec[];
   /** Versionierter Mischplan; alte Durchgänge behalten ihren ursprünglichen Aufgabensatz. */
   readonly planKey?: string;
+  /** Optional authored completion rule; mixed/review tasks cannot satisfy it. */
+  readonly minimumChoirCorrect?: 1 | undefined;
+  readonly repetitionIndices?: readonly number[];
 }
 export interface LessonSession {
   readonly lesson: LessonDefinition;

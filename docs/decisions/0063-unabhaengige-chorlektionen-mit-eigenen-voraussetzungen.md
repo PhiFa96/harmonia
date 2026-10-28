@@ -27,3 +27,7 @@ Gezielte Inhaltsprüfungen decken unabhängige Freischaltung, unterschiedliche S
 ## Freigabegrenze
 
 Dies ist ausdrücklich technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**. Alle Chor-Inhalte bleiben `entwurf`. Die automatische technische Prüfung belegt keine unabhängige Fach-/Sprachprüfung, individuelle Stimmlageneignung oder zuverlässige Verwendung mit echten Kopfhörern auf iOS/Android. Die offenen Bewertungs-/Latenzfragen aus der Fachprüfungsnacharbeit bleiben offen. Keine Veröffentlichung, Produktionsmigration oder Merge. P4.01 bleibt bis F14 und Klärung der rechtlichen Voraussetzungen zurückgestellt.
+
+## Fortführung vom 28.10.2026
+
+Die damals offene Mindest-Gesangsentscheidung ist jetzt ausdrücklich beauftragt und in [ADR 0064](0064-chorabschluss-verlangt-bestandenen-gesangsversuch.md) umgesetzt. Version 27 ergänzt den eigenen bestandenen Erstversuch zum bisherigen Quotenkriterium. Die hier beschriebene unabhängige Stimmauswahl bleibt erhalten.

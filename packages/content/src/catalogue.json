@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": 26,
+  "contentVersion": 27,
   "areas": [
     {
       "id": "fundament",
@@ -21374,44 +21374,48 @@
       "exerciseSetIds": ["satz.l5.writing.functions.exercises"]
     },
     {
-      "contentVersion": 26,
+      "contentVersion": 27,
       "status": "entwurf",
       "id": "aural.l4.choir.soprano.lesson",
       "titleKey": "content.choir.soprano",
       "unitId": "aural.l4.choir",
       "skillIds": ["aural.l4.choir.soprano"],
       "introductionCardIds": ["aural.l4.choir.soprano.card"],
-      "exerciseSetIds": ["aural.l4.choir.soprano.exercises"]
+      "exerciseSetIds": ["aural.l4.choir.soprano.exercises"],
+      "minimumChoirCorrect": 1
     },
     {
-      "contentVersion": 26,
+      "contentVersion": 27,
       "status": "entwurf",
       "id": "aural.l4.choir.alto.lesson",
       "titleKey": "content.choir.alto",
       "unitId": "aural.l4.choir",
       "skillIds": ["aural.l4.choir.alto"],
       "introductionCardIds": ["aural.l4.choir.alto.card"],
-      "exerciseSetIds": ["aural.l4.choir.alto.exercises"]
+      "exerciseSetIds": ["aural.l4.choir.alto.exercises"],
+      "minimumChoirCorrect": 1
     },
     {
-      "contentVersion": 26,
+      "contentVersion": 27,
       "status": "entwurf",
       "id": "aural.l4.choir.tenor.lesson",
       "titleKey": "content.choir.tenor",
       "unitId": "aural.l4.choir",
       "skillIds": ["aural.l4.choir.tenor"],
       "introductionCardIds": ["aural.l4.choir.tenor.card"],
-      "exerciseSetIds": ["aural.l4.choir.tenor.exercises"]
+      "exerciseSetIds": ["aural.l4.choir.tenor.exercises"],
+      "minimumChoirCorrect": 1
     },
     {
-      "contentVersion": 26,
+      "contentVersion": 27,
       "status": "entwurf",
       "id": "aural.l4.choir.bass.lesson",
       "titleKey": "content.choir.bass",
       "unitId": "aural.l4.choir",
       "skillIds": ["aural.l4.choir.bass"],
       "introductionCardIds": ["aural.l4.choir.bass.card"],
-      "exerciseSetIds": ["aural.l4.choir.bass.exercises"]
+      "exerciseSetIds": ["aural.l4.choir.bass.exercises"],
+      "minimumChoirCorrect": 1
     },
     {
       "id": "counterpoint.l5.species.lesson1",

@@ -562,6 +562,7 @@ export const lessonSchema = z
     titleKey: contentTextKeySchema,
     introduction: z.array(introductionSchema),
     exercises: z.array(exerciseSpecSchema).min(1).max(200),
+    minimumChoirCorrect: z.literal(1).optional(),
   })
   .strict();
 export type LessonContent = z.infer<typeof lessonSchema>;

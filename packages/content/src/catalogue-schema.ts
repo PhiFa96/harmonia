@@ -73,6 +73,7 @@ export const catalogueLessonSchema = metadata
     skillIds: ids.refine((values) => values.length > 0, 'Fähigkeit fehlt'),
     introductionCardIds: ids,
     exerciseSetIds: ids.refine((values) => values.length > 0, 'Übungssatz fehlt'),
+    minimumChoirCorrect: z.literal(1).optional(),
   })
   .strict();
 export const catalogueSchema = z

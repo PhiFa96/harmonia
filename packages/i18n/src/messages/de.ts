@@ -2315,6 +2315,11 @@ export const de = {
     testedHint:
       'Durch deine Einstufung zugänglich. Die Lektionen kannst du jederzeit üben; sie zählen erst nach einem bestandenen Versuch als bestanden.',
     prerequisite: 'Voraussetzung: {{title}}',
+    choirRule:
+      'Für den Chorabschluss brauchst du mindestens {{percent}} % anrechenbare richtige Erstversuchsantworten und mindestens eine im Erstversuch bestandene Gesangsaufgabe ohne angezeigte Lösung. Hinweise sind erlaubt. Mikrofonaufgaben kannst du weiter überspringen.',
+    choirRequiredResult:
+      'Noch nicht bestanden: {{correct}} von {{total}} Aufgaben zählen. Für den Chorabschluss fehlt eine im Erstversuch bestandene Gesangsaufgabe ohne angezeigte Lösung. Zusätzlich gilt die {{percent}}-%-Regel.',
+    choirProgress: 'Anrechenbar bestandene Gesangsaufgaben im Erstversuch: {{count}}.',
     independentLessons:
       'Wähle eine freigeschaltete Lektion. Du musst die anderen Lektionen dieser Einheit dafür nicht bestehen. Die noch fehlenden Voraussetzungen stehen bei der jeweiligen Lektion.',
     independentLessonLocked:

@@ -137,15 +137,22 @@ async function handler(request: Request): Promise<Response> {
     if (!parsedRows.success) return json(503, { error: 'storage' });
     const page = parsedRows.data.slice(0, 200);
     if (
-      (parsed.data.rowFormat !== 4 &&
+      (![4, 5].includes(parsed.data.rowFormat ?? 0) &&
         page.some(
           (row) =>
             row.event.kind === 'card-review' ||
             (row.event.kind === 'lesson' && row.event.lessonId === REVIEW_LESSON_ID),
         )) ||
       (parsed.data.rowFormat === undefined && page.some((row) => row.event.kind === 'retained')) ||
-      (![3, 4].includes(parsed.data.rowFormat ?? 0) &&
-        page.some((row) => row.event.kind === 'retained' && row.event.sourceKind === 'practice'))
+      (![3, 4, 5].includes(parsed.data.rowFormat ?? 0) &&
+        page.some((row) => row.event.kind === 'retained' && row.event.sourceKind === 'practice')) ||
+      (parsed.data.rowFormat !== 5 &&
+        page.some(
+          (row) =>
+            row.event.kind === 'retained' &&
+            row.event.sourceKind === 'lesson' &&
+            row.event.progress.choirCorrect !== undefined,
+        ))
     )
       return json(426, { error: 'upgrade_required' });
     return json(200, {

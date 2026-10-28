@@ -44,6 +44,7 @@ for (const lesson of catalogue.lessons.filter((entry) => entry.unitId === 'aural
   it(`${lesson.id}: shows both complete solo examples before opening the selected voice`, () => {
     open();
     fireEvent.press(screen.getByTestId(`choir-start-${lesson.id}`));
+    expect(screen.queryByText(i18n.t('path.choirRule', { percent: 80 }))).toBeNull();
     expect(screen.getAllByRole('img')).toHaveLength(8);
     expect(mockTask).not.toHaveBeenCalled();
     fireEvent.press(screen.getByText(i18n.t('lesson.example')));
@@ -62,7 +63,7 @@ for (const lesson of catalogue.lessons.filter((entry) => entry.unitId === 'aural
     });
     expect(props?.reportSource).toMatchObject({
       lessonId: lesson.id,
-      contentVersion: 26,
+      contentVersion: 27,
       index: 0,
     });
     act(() => props?.onSkipVoice?.());
@@ -71,7 +72,7 @@ for (const lesson of catalogue.lessons.filter((entry) => entry.unitId === 'aural
       params: { voice: lesson.id.split('.')[3], piece: 'arch', fifths: 2 },
     });
     expect(mockTask.mock.calls.at(-1)?.[0].reportSource).toMatchObject({
-      contentVersion: 26,
+      contentVersion: 27,
       index: 1,
     });
   });

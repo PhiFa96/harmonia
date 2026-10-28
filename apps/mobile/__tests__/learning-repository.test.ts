@@ -9,6 +9,8 @@ import {
   localReviewState,
   createLevelFivePreview,
   LEVEL_FIVE_PREVIEW_TTL,
+  validateLearningEvent,
+  lessonProgress,
 } from '@harmonia/content';
 import { blockErasedScope } from '@/privacy/guard';
 import type { LearningEvent } from '@harmonia/content';
@@ -19,6 +21,7 @@ import {
   currentItem,
   expectedAnswer,
   nextLessonExercise,
+  skipLessonVoice,
 } from '@harmonia/exercises';
 import type { LessonDatabase } from '@/storage/lesson-repository';
 import {
@@ -59,6 +62,42 @@ async function repository() {
 }
 
 describe('Lernpfad mit echter SQLite', () => {
+  it.each([false, true])(
+    'verdichtet Chor-Evidenz mit Gesang=%s ohne den Abschluss umzudeuten',
+    async (sing) => {
+      const plan = lessonPlan(catalogue, 'aural.l4.choir.alto.lesson');
+      if (!plan) throw Error('Missing choir plan');
+      let session = createLessonSession(plan, 'sqlite-choir');
+      let sung = false;
+      while (session.phase === 'initial') {
+        const active = activeLessonSession(session);
+        const item = active && currentItem(active);
+        if (!item) throw Error('Missing task');
+        if (item.type === 'CHOIR_PART' && (!sing || sung)) session = skipLessonVoice(session);
+        else {
+          if (item.type === 'CHOIR_PART') sung = true;
+          session = nextLessonExercise(answerLesson(session, expectedAnswer(item)));
+        }
+      }
+      const repo = await repository();
+      const proof = lessonEvent('choir-retention', session, 1000, 2000, 'Europe/Berlin');
+      await repo.save('choir-owner', proof);
+      await repo.compact('choir-owner', catalogue, 3000);
+      const row = (await repo.list('choir-owner'))[0];
+      expect(row?.event.kind).toBe('retained');
+      expect(validateLearningEvent(catalogue, row?.event).lesson).toEqual(lessonProgress(session));
+      expect(row?.reward).toMatchObject({
+        qualified: sing,
+        ...(sing ? {} : { amount: 0, coins: 0 }),
+      });
+      expect(JSON.stringify(row?.event)).not.toContain('choir:[');
+      expect(await repo.list('another-choir-owner')).toEqual([]);
+      await repo.compact('choir-owner', catalogue, 3000);
+      expect(
+        validateLearningEvent(catalogue, (await repo.list('choir-owner'))[0]?.event).lesson?.passed,
+      ).toBe(sing);
+    },
+  );
   it('trennt interne Vorschauen von Lernnachweisen, anderen Konten und Gastübernahme', async () => {
     const repo = await repository(),
       now = Date.now();

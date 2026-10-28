@@ -163,6 +163,7 @@ describe('Lernpfad und gesicherte Lektionszugänge', () => {
         }),
       );
       expect(screen.getByTestId('lesson-example-scroll')).toBeTruthy();
+      expect(screen.getByText(i18n.t('path.choirRule', { percent: 80 }))).toBeTruthy();
       expect(screen.queryByText(i18n.t('path.independentLessonLocked'))).toBeNull();
     },
   );

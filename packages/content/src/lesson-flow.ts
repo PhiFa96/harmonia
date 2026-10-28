@@ -98,6 +98,13 @@ function fixedLessonPlan(catalogue: ContentCatalogue, id: string) {
       }
     }
   });
+  // New choir versions include every advertised repetition. Preserve historical plans elsewhere.
+  if (content.minimumChoirCorrect)
+    for (const entry of repeats.slice(repeat)) {
+      repetitionIndices.push(exercises.length);
+      exercises.push(entry.spec);
+      exerciseSources.push(entry.origin);
+    }
   const planKey = JSON.stringify([
     'flow:1',
     content.id,
@@ -180,6 +187,7 @@ export function lessonPlan(catalogue: ContentCatalogue, id: string, key?: string
       return {
         ...first,
         id,
+        minimumChoirCorrect: undefined,
         contentVersion: catalogue.contentVersion,
         introduction: [],
         exercises: exerciseSources.map((source) => source.spec),
@@ -225,6 +233,12 @@ export function lessonPlan(catalogue: ContentCatalogue, id: string, key?: string
         }
       }
     });
+    if (fixed.minimumChoirCorrect)
+      for (const source of repeats.slice(repeat)) {
+        if (!source) throw new Error('Missing repetition source');
+        repetitionIndices.push(exerciseSources.length);
+        exerciseSources.push(source);
+      }
     return {
       ...fixed,
       planKey: key,

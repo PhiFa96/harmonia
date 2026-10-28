@@ -117,7 +117,7 @@ describe('independent choir lessons with explicit prerequisites', () => {
     if (!bass) throw Error('Missing bass lesson');
     const receipt = {
       lessonId: bass.id,
-      contentVersion: 26,
+      contentVersion: 27,
       passed: true,
       eligibleCorrect: 2,
       total: 2,
@@ -178,7 +178,7 @@ describe.each(voices)('%s: independent mixed plan, offline replay and server evi
       const forged = JSON.stringify([
         'flow:2',
         id,
-        26,
+        27,
         [0, 1],
         Array.from({ length: plan.repetitionCount }, () => [peer.id, peer.contentVersion, 0]),
       ]);
@@ -202,7 +202,7 @@ describe.each(voices)('%s: independent mixed plan, offline replay and server evi
         schemaVersion: 1,
         id: 'synthetic-choir',
         lessonId: id,
-        contentVersion: 26,
+        contentVersion: 27,
         planKey: plan.planKey,
         seed: 'choir-offline',
         startedAt: 1000,
@@ -222,7 +222,7 @@ describe.each(voices)('%s: independent mixed plan, offline replay and server evi
     const event = lessonEvent('synthetic-choir', session, 1000, 2000);
     expect(validateLearningEvent(catalogue, event).lesson).toMatchObject({
       lessonId: id,
-      contentVersion: 26,
+      contentVersion: 27,
       passed: true,
       eligibleCorrect: plan.exercises.length,
     });
@@ -230,7 +230,7 @@ describe.each(voices)('%s: independent mixed plan, offline replay and server evi
     expect(() => validateLearningEvent(publicCatalogue(catalogue), event)).toThrow();
   });
 
-  it('preserves the microphone skip rule and verifies the same mixed result on the server', () => {
+  it('allows skipping but requires a sung task for the same mixed result on client and server', () => {
     const plan = lessonPlan(catalogue, id);
     if (!plan) throw Error('Missing choir plan');
     let session = createLessonSession(plan, 'choir-without-microphone');
@@ -249,7 +249,11 @@ describe.each(voices)('%s: independent mixed plan, offline replay and server evi
               { type: 'next' },
             );
     }
-    expect(lessonProgress(session)).toMatchObject({ passed: true, voiceSkipped: 2 });
+    expect(lessonProgress(session)).toMatchObject({
+      passed: false,
+      voiceSkipped: 2,
+      choirCorrect: 0,
+    });
     expect(
       validateLearningEvent(catalogue, lessonEvent('skip-fixture', session, 1000, 2000)).lesson,
     ).toEqual(lessonProgress(session));

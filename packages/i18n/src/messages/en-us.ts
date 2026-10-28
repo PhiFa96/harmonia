@@ -2266,6 +2266,11 @@ export const enUS = {
     testedHint:
       'Available through your placement estimate. You can practice these lessons at any time; they count as passed only after a passing attempt.',
     prerequisite: 'Prerequisite: {{title}}',
+    choirRule:
+      'To pass the choir lesson, you need at least {{percent}}% eligible correct first-attempt answers and at least one singing task passed on the first attempt without revealing a solution. Hints are allowed. You can still skip microphone tasks.',
+    choirRequiredResult:
+      'Not passed yet: {{correct}} of {{total}} tasks count. You still need one singing task passed on the first attempt without revealing a solution. The {{percent}}% rule also applies.',
+    choirProgress: 'Eligible singing tasks passed on the first attempt: {{count}}.',
     independentLessons:
       'Choose an unlocked lesson. You do not need to pass the other lessons in this unit first. Any missing prerequisites are listed with each lesson.',
     independentLessonLocked:
