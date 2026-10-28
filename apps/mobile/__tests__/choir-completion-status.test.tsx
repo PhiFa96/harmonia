@@ -22,6 +22,14 @@ import { useLearningState } from '@/state/learning';
 import { useSettings } from '@/state/settings';
 import { useAuthState } from '@/auth';
 import type { StoredLearningEvent } from '@/storage/learning-repository';
+import type * as LearningModule from '@/state/learning';
+
+// Screen defaults stub writes. These resumed-route checks intentionally exercise the real writer.
+jest.mock('@/state/learning', () => ({
+  ...jest.requireActual<typeof LearningModule>('@/state/learning'),
+  initializeLearning: () => Promise.resolve(),
+  syncLearning: () => Promise.resolve(),
+}));
 
 const id = 'aural.l4.choir.bass.lesson';
 const plan = lessonPlan(catalogue, id);
