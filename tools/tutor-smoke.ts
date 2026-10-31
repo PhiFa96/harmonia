@@ -703,7 +703,7 @@ check(
         const source = {
           kind: 'lesson' as const,
           lessonId: lesson.id,
-          contentVersion: 27,
+          contentVersion: 28,
           seed,
           round,
           index,
@@ -731,7 +731,7 @@ check(
               ),
             'Choir tutor keeps the brief note summary without local window details',
           );
-          for (const contentVersion of [20, 24, 25, 26]) {
+          for (const contentVersion of [20, 24, 25, 26, 27]) {
             let rejected = false;
             try {
               exerciseContext(catalogue, {

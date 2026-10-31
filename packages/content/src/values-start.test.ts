@@ -63,9 +63,9 @@ describe('Notenwerte, Pausen und Taktfüllung', () => {
     }
   });
   it('neun Karten, 15 vollständige Hörbeispiele und ein Artikel bleiben Entwurf', () => {
-    expect(catalogue.contentVersion).toBe(27);
-    expect(curriculumPlan.contentVersion).toBe(27);
-    expect(catalogue.lessons).toHaveLength(194);
+    expect(catalogue.contentVersion).toBe(28);
+    expect(curriculumPlan.contentVersion).toBe(28);
+    expect(catalogue.lessons).toHaveLength(195);
     const cards = catalogue.knowledgeCards.filter((c) => c.id.startsWith('rhythm.l1.values.'));
     expect(cards).toHaveLength(9);
     expect(cards.flatMap((c) => c.examples)).toHaveLength(15);

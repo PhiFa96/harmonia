@@ -63,6 +63,7 @@ describe('independent choir lessons with explicit prerequisites', () => {
           : 'notation.bass-natural',
         'notation.accidental-scope',
         'rhythm.read-basic',
+        'key.signature-read-treble',
       ]);
     expect(choir([])?.lessons.every((lesson) => lesson.status === 'locked')).toBe(true);
   });
@@ -117,7 +118,7 @@ describe('independent choir lessons with explicit prerequisites', () => {
     if (!bass) throw Error('Missing bass lesson');
     const receipt = {
       lessonId: bass.id,
-      contentVersion: 27,
+      contentVersion: 28,
       passed: true,
       eligibleCorrect: 2,
       total: 2,
@@ -178,7 +179,7 @@ describe.each(voices)('%s: independent mixed plan, offline replay and server evi
       const forged = JSON.stringify([
         'flow:2',
         id,
-        27,
+        28,
         [0, 1],
         Array.from({ length: plan.repetitionCount }, () => [peer.id, peer.contentVersion, 0]),
       ]);
@@ -202,7 +203,7 @@ describe.each(voices)('%s: independent mixed plan, offline replay and server evi
         schemaVersion: 1,
         id: 'synthetic-choir',
         lessonId: id,
-        contentVersion: 27,
+        contentVersion: 28,
         planKey: plan.planKey,
         seed: 'choir-offline',
         startedAt: 1000,
@@ -214,7 +215,8 @@ describe.each(voices)('%s: independent mixed plan, offline replay and server evi
         answer: null,
       };
       expect(restoreLessonDraft(catalogue, draft).session).toEqual(session);
-      expect(() => restoreLessonDraft(catalogue, { ...draft, contentVersion: 25 })).toThrow();
+      for (const contentVersion of [25, 27])
+        expect(() => restoreLessonDraft(catalogue, { ...draft, contentVersion })).toThrow();
       session = applyLessonAction(session, { type: 'next' });
       actions.push({ type: 'next' });
     }
@@ -222,11 +224,12 @@ describe.each(voices)('%s: independent mixed plan, offline replay and server evi
     const event = lessonEvent('synthetic-choir', session, 1000, 2000);
     expect(validateLearningEvent(catalogue, event).lesson).toMatchObject({
       lessonId: id,
-      contentVersion: 27,
+      contentVersion: 28,
       passed: true,
       eligibleCorrect: plan.exercises.length,
     });
-    expect(() => validateLearningEvent(catalogue, { ...event, contentVersion: 25 })).toThrow();
+    for (const contentVersion of [25, 27])
+      expect(() => validateLearningEvent(catalogue, { ...event, contentVersion })).toThrow();
     expect(() => validateLearningEvent(publicCatalogue(catalogue), event)).toThrow();
   });
 

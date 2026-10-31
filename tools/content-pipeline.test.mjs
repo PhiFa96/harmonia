@@ -34,6 +34,40 @@ function checks() {
 }
 const fresh = () => structuredClone(catalogue);
 
+test('C8: five original treble examples sound the notes changed by their key signature', () => {
+  const cards = catalogue.knowledgeCards.filter((card) =>
+    card.id.startsWith('scales.l2.key-reading'),
+  );
+  assert.equal(cards.length, 3);
+  const alterations = new Map([
+    [-2, { B: -1, E: -1 }],
+    [-1, { B: -1 }],
+    [0, {}],
+    [1, { F: 1 }],
+    [2, { F: 1, C: 1 }],
+  ]);
+  const covered = [];
+  for (const card of cards) {
+    assert.equal(card.status, 'entwurf');
+    for (const example of card.examples) {
+      validateContentExample(example.score);
+      const score = parseScore(example.score);
+      assert.equal(score.staves[0].clef, 'treble');
+      const fifths = score.staves[0].keySignature.fifths;
+      assert.ok(alterations.has(fifths));
+      covered.push(fifths);
+      const tones = scoreTimeline(score, { bpm: 90 }).tones;
+      assert.equal(tones.length, 4);
+      for (const { pitch } of tones)
+        assert.equal(pitch.alter, alterations.get(fifths)[pitch.letter] ?? 0);
+    }
+  }
+  assert.deepEqual(
+    covered.sort((a, b) => a - b),
+    [-2, -1, 0, 1, 2],
+  );
+});
+
 test('P4.10: six draft introductions show four simultaneous voices in a single chord', () => {
   const cards = catalogue.knowledgeCards.filter((card) => card.id.includes('.writing.'));
   assert.equal(cards.length, 6);

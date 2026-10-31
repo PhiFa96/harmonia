@@ -158,7 +158,7 @@ describe.each(voices)('%s: required successful initial singing', (voice) => {
       schemaVersion: 1,
       id: 'offline-choir',
       lessonId: id,
-      contentVersion: 27,
+      contentVersion: 28,
       planKey: fixed.planKey,
       seed: 'minimum-choir',
       startedAt: 1000,
@@ -174,7 +174,7 @@ describe.each(voices)('%s: required successful initial singing', (voice) => {
     expect(restored.session).toEqual(session);
     if (!restored.session) throw Error('Missing restored session');
     expect(lessonProgress(restored.session)).toMatchObject({ passed: false, choirCorrect: 0 });
-    for (const contentVersion of [25, 26]) {
+    for (const contentVersion of [25, 26, 27]) {
       expect(() => restoreLessonDraft(catalogue, { ...draft, contentVersion })).toThrow();
       expect(() =>
         validateLearningEvent(catalogue, { ...event(session), contentVersion }),

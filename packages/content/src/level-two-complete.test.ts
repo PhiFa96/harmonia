@@ -51,16 +51,16 @@ function wrong(item: ExerciseItem): string {
   throw new Error('Keine falsche Vollantwort für ' + item.type);
 }
 describe('Stufe 2 vollständig intern', () => {
-  it('16 Einheiten, 50 Fähigkeiten, 48 Lektionen und 480 Aufgaben sind vollständig zugeordnet', () => {
-    expect(units).toHaveLength(16);
-    expect(lessons).toHaveLength(48);
+  it('17 Einheiten, 51 Fähigkeiten, 49 Lektionen und 490 Aufgaben sind vollständig zugeordnet', () => {
+    expect(units).toHaveLength(17);
+    expect(lessons).toHaveLength(49);
     const skills = new Set<string>();
     for (const u of units) {
       const plan = required(curriculumPlan.units.find((p) => p.unitId === u.id));
       const ls = lessons.filter((l) => l.unitId === u.id);
-      expect(ls.map((l) => required(resolveLesson(catalogue, l.id)).exercises.length)).toEqual([
-        8, 10, 12,
-      ]);
+      expect(ls.map((l) => required(resolveLesson(catalogue, l.id)).exercises.length)).toEqual(
+        u.id === 'scales.l2.key-reading' ? [10] : [8, 10, 12],
+      );
       for (const id of plan.skillIds) {
         skills.add(id);
         expect(ls.some((l) => l.skillIds.includes(id))).toBe(true);
@@ -68,16 +68,16 @@ describe('Stufe 2 vollständig intern', () => {
         expect(catalogue.knowledgeArticles.some((a) => a.skillIds.includes(id))).toBe(true);
       }
     }
-    expect(skills.size).toBe(50);
+    expect(skills.size).toBe(51);
     expect(
       lessons.reduce((n, l) => n + required(resolveLesson(catalogue, l.id)).exercises.length, 0),
-    ).toBe(480);
-    expect(catalogue.contentVersion).toBe(27);
-    expect(curriculumPlan.contentVersion).toBe(27);
-    expect(catalogue.lessons).toHaveLength(194);
-    expect(catalogue.knowledgeCards).toHaveLength(392);
-    expect(catalogue.knowledgeCards.flatMap((c) => c.examples)).toHaveLength(453);
-    expect(catalogue.knowledgeArticles).toHaveLength(62);
+    ).toBe(490);
+    expect(catalogue.contentVersion).toBe(28);
+    expect(curriculumPlan.contentVersion).toBe(28);
+    expect(catalogue.lessons).toHaveLength(195);
+    expect(catalogue.knowledgeCards).toHaveLength(395);
+    expect(catalogue.knowledgeCards.flatMap((c) => c.examples)).toHaveLength(458);
+    expect(catalogue.knowledgeArticles).toHaveLength(63);
     expect(publicCatalogue(catalogue)).toMatchObject({
       lessons: [],
       knowledgeCards: [],

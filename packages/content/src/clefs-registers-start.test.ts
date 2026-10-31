@@ -18,16 +18,16 @@ function required<T>(v: T | undefined): T {
 }
 const unit = 'notation.l2.clefs-registers';
 describe('Erste Stufe-2-Einheit', () => {
-  it('194 Lektionen mit 1866 Aufgaben, neue 9 Karten/15 Beispiele/Artikel und drei Fähigkeiten', () => {
-    expect(catalogue.contentVersion).toBe(27);
-    expect(curriculumPlan.contentVersion).toBe(27);
-    expect(catalogue.lessons).toHaveLength(194);
+  it('195 Lektionen mit 1876 Aufgaben, neue 9 Karten/15 Beispiele/Artikel und drei Fähigkeiten', () => {
+    expect(catalogue.contentVersion).toBe(28);
+    expect(curriculumPlan.contentVersion).toBe(28);
+    expect(catalogue.lessons).toHaveLength(195);
     expect(
       catalogue.lessons.reduce(
         (n, l) => n + required(resolveLesson(catalogue, l.id)).exercises.length,
         0,
       ),
-    ).toBe(1866);
+    ).toBe(1876);
     const cards = catalogue.knowledgeCards.filter((c) => c.id.startsWith(unit));
     expect(cards).toHaveLength(9);
     expect(cards.flatMap((c) => c.examples)).toHaveLength(15);

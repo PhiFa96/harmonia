@@ -129,7 +129,7 @@ Harte Vorbedingungen vor jeder echten Nutzung:
 - **C4:** Die Altstimme ist in beiden Stücken identisch; eine Wiederholung kann exakt die andere Erstaufgabe sein.
 - **C6:** Sehr enge und tiefe Stimmumfänge.
 - **C7:** Tenor im Bassschlüssel statt oktaviertem Violinschlüssel (nicht dokumentiert).
-- **C8:** Die Aufgaben in B- und D-Dur setzen keine Vorzeichnungs-Fähigkeit voraus. `key.signature-major` verlangt im Graphen über `notation.write-pitch` den Bassschlüssel und würde ADR 0063 (Oberstimmen ohne Bassschlüssel) aufheben. Nötig ist eine eigene Lese-Fähigkeit für Vorzeichnungen oder eine Entscheidung zum Graphen; die Änderung wurde deshalb geprüft und zurückgenommen.
+- **C8 – technisch bearbeitet, 31.10.2026:** Eine eigene Lese-Fähigkeit mit erreichbarer Stufe-2-Einheit, zehn Dur-Vorzeichnungsfragen im Violinschlüssel und eigenen DE/EN-Einführungen ist jetzt Voraussetzung aller vier Stimmen. Der neue Zugang benötigt keinen Bassschlüssel oder Schreibweg; Tenor/Bass behalten ihre Bassgrundlagen. Bestehende Lesefähigkeiten werden nicht umgedeutet. [Umsetzung und Prüfstand](chor-vorzeichenlesen.md), [ADR 0067](../decisions/0067-chor-vorzeichenlesen-ohne-bassschluessel.md). Inhalte Entwurf, keine unabhängige Fach-/Sprach-/Gerätefreigabe.
 - **C9:** Ein stummes Mikrofon mit Null-PCM zählt als Fehlversuch statt als Skip.
 - **C11:** „Erstversuch“ meint „erste geprüfte Antwort“, das steht nicht in ADR 0064.
 - **C12:** `fail()` verwirft beim Vorhören einen ungeprüften Durchlauf.
