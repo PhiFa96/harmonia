@@ -191,7 +191,7 @@ describe('CHOIR_PART internal draft', () => {
     }
   const item = generateChoir({ voice: 'soprano', piece: 'home' }, createRng(1));
   const perfect = () => required(choirAnswer(item, expectedAnswer(item))).map((row) => [...row]);
-  it('reports every window in order with exact inclusive pitch boundaries and unchanged note grading', () => {
+  it('reports every window in order with exact exclusive pitch boundaries and unchanged note grading', () => {
     const rows = perfect(),
       target = required(rows[0]?.[0]);
     rows[0] = [-51, -50, 0, 50, 51, 700, null, 0, 0, 0, 0, 0].map((offset) =>
@@ -201,7 +201,7 @@ describe('CHOIR_PART internal draft', () => {
     expect(note).toMatchObject({
       index: 0,
       detectedWindows: 11,
-      matchingWindows: 8,
+      matchingWindows: 6,
       coverage: 11 / 12,
       deviation: 0,
       passed: false,
@@ -225,9 +225,9 @@ describe('CHOIR_PART internal draft', () => {
     ]);
     expect(note.windows.map((window) => window.status)).toEqual([
       'low',
+      'low',
       'in-tune',
-      'in-tune',
-      'in-tune',
+      'high',
       'high',
       'high',
       'missing',
@@ -338,11 +338,33 @@ describe('CHOIR_PART internal draft', () => {
     const rows = perfect();
     rows[0] = required(rows[0]).map((n, i) => required(n) + (i < 8 ? 0 : 180));
     rows[1] = required(rows[1]).map((n) => required(n) + 51);
-    rows[2] = required(rows[2]).map((n) => required(n) - 50);
+    rows[2] = required(rows[2]).map((n) => required(n) - 49);
+    rows[3] = required(rows[3]).map((n) => required(n) - 50);
     const notes = assessChoir(item, choirAnswerId(rows)).notes;
     expect(notes[0]?.passed).toBe(false);
     expect(notes[1]?.passed).toBe(false);
     expect(notes[2]?.passed).toBe(true);
+    // Exactly halfway to the neighbouring semitone cannot be attributed to either note.
+    expect(notes[3]?.passed).toBe(false);
+  });
+  it('does not pass a single held pitch between two neighbouring targets', () => {
+    for (const piece of ['home', 'arch'] as const) {
+      const alto = generateChoir({ voice: 'alto', piece }, createRng(1));
+      const targets = required(choirAnswer(alto, expectedAnswer(alto)));
+      const cents = targets.flat().filter((n): n is number => n !== null);
+      const middle = (Math.min(...cents) + Math.max(...cents)) / 2;
+      const held = targets.map((row) => row.map(() => middle));
+      expect(assessChoir(alto, choirAnswerId(held)).passed).toBe(false);
+    }
+  });
+  it('limits the whole-take octave correction to two octaves', () => {
+    expect(
+      assessChoir(item, choirAnswerId(perfect().map((row) => row.map((n) => required(n) + 2400)))),
+    ).toMatchObject({ passed: true, octaveShift: 2 });
+    expect(
+      assessChoir(item, choirAnswerId(perfect().map((row) => row.map((n) => required(n) - 3600))))
+        .passed,
+    ).toBe(false);
   });
   it('rejects malformed, oversized and wrong-length readings', () => {
     for (const answer of [

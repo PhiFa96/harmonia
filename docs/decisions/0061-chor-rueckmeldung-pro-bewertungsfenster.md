@@ -27,3 +27,7 @@ Die Browserprobe umfasst zehn Vorschau- und drei Produktionsabläufe. Echte Brow
 Typecheck einschließlich abschließender App-/Werkzeug-/Funktionsprüfung, Lint/Paketgraph, Formatierung und Sprach-/Inhaltsprüfung sind erfolgreich. Der zusätzliche Browserlauf in 390 Pixel Breite ist erfolgreich und anhand eines lokalen Bildschirmbilds kontrolliert. KI-/Zertifikatsvorbereitung bleibt mit zehn ungeprüften Funktionsbereichen und nun 245 gebundenen Dateien gültig; 20 allgemeine KI-Nachweise und 25 Zertifikatsanforderungen bleiben offen. Der öffentliche Katalog enthält weiterhin null Lektionen.
 
 Dies ist ausdrücklich **technische P4-Vorarbeit vor der formalen Phase-4-Freigabe** auf Nutzerauftrag. Neue Rückmeldungstexte bleiben Entwurf; bestehende Fach-/Rechts-/Sprach-/Geräteabnahmen bleiben offen. Keine Veröffentlichung oder Bereitstellung. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
+
+## Nachtrag 31.10.2026 (Fachprüfung der Phase-4-Nacharbeit)
+
+Die Grenze ist jetzt exklusiv: passend heißt weniger als 50 Cent Abweichung. Mit der inklusiven Grenze bestand ein einziger gehaltener Ton genau zwischen den beiden Zieltönen der Altstimme (Umfang ein Halbton) alle Fenster. Die ganze Oktavkorrektur ist auf höchstens zwei Oktaven begrenzt (zum Beispiel eine Kinderstimme in der Bassstimme); vorher wurden auch drei und mehr Oktaven ausgeglichen. Der Chor-Inhalt war nie veröffentlicht, gespeicherte echte Lernnachweise gibt es nicht. Tests: `choir.test.ts` (konstanter Ton, ±49/±50, ±2/±3 Oktaven).

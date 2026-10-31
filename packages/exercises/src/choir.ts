@@ -109,7 +109,11 @@ export function choirEvents(item: ChoirItem, mode: 'backing' | 'all' | 'solo') {
 }
 /** Twelve equally spaced bins over the central 70% of each note. No raw audio is retained. */
 export const CHOIR_BINS = 12;
+/** Exclusive: exactly halfway to the neighbouring semitone belongs to neither note. */
 const CHOIR_TOLERANCE_CENTS = 50;
+const inTolerance = (deviation: number) => Math.abs(deviation) < CHOIR_TOLERANCE_CENTS;
+/** Whole-take octave correction, e.g. a child singing the bass part two octaves higher. */
+const CHOIR_MAX_OCTAVE_SHIFT = 2;
 export interface ChoirWindowAssessment {
   readonly index: number;
   /** After the same whole-take octave correction used in grading. */
@@ -161,12 +165,13 @@ export function assessChoir(item: ChoirItem, answer: string | null) {
     samples?.flatMap((row, i) =>
       row.filter((n): n is number => n !== null).map((n) => n - (targets[i] ?? 0)),
     ) ?? [];
-  const octaveShift = Math.round(median(differences) / 1200);
+  const octaveShift = Math.max(
+    -CHOIR_MAX_OCTAVE_SHIFT,
+    Math.min(CHOIR_MAX_OCTAVE_SHIFT, Math.round(median(differences) / 1200)),
+  );
   const notes = targets.map((target, index) => {
     const values = (samples?.[index] ?? []).filter((n): n is number => n !== null);
-    const inTune = values.filter(
-      (n) => Math.abs(n - target - octaveShift * 1200) <= CHOIR_TOLERANCE_CENTS,
-    ).length;
+    const inTune = values.filter((n) => inTolerance(n - target - octaveShift * 1200)).length;
     const windows = Array.from({ length: CHOIR_BINS }, (_, bin): ChoirWindowAssessment => {
       const value = samples?.[index]?.[bin];
       if (value === undefined || value === null)
@@ -175,8 +180,7 @@ export function assessChoir(item: ChoirItem, answer: string | null) {
       return {
         index: bin,
         deviation,
-        status:
-          Math.abs(deviation) <= CHOIR_TOLERANCE_CENTS ? 'in-tune' : deviation < 0 ? 'low' : 'high',
+        status: inTolerance(deviation) ? 'in-tune' : deviation < 0 ? 'low' : 'high',
       };
     });
     return {
