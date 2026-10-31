@@ -67,6 +67,15 @@ describe('bounded first-species teaching profile', () => {
       analyzeFirstSpecies([dyad('C4', 'G4'), dyad('E4', 'C5'), dyad('C4', 'C5')]),
     ).toContainEqual({ rule: 'closing-motion', at: 2 });
   });
+  it('accepts the compound minor third (m10) before a closing octave, but not a tenth of another quality', () => {
+    // Cantus ti–do below, counterpoint re–do above: B3/D5 → C4/C5.
+    expect(analyzeFirstSpecies([dyad('C4', 'C5'), dyad('B3', 'D5'), dyad('C4', 'C5')])).toEqual(
+      [],
+    );
+    expect(
+      analyzeFirstSpecies([dyad('C4', 'C5'), dyad('Bb3', 'D5'), dyad('C4', 'C5')]),
+    ).toContainEqual({ rule: 'closing-motion', at: 2 });
+  });
   it('rejects consecutive perfect classes in contrary motion and compound fifths', () => {
     expect(analyzeFirstSpecies([dyad('C4', 'G4'), dyad('B3', 'F#5')])).toContainEqual({
       rule: 'consecutive-perfect',

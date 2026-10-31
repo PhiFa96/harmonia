@@ -103,10 +103,12 @@ export function analyzeFirstSpecies(
         intervalBetween(previous.upper, dyad.upper),
       ];
       const penultimate = intervals[at - 1];
+      // Compound forms count too: ti–do below re–do into an octave is a minor tenth.
+      const penultimateSimple = penultimate ? ((penultimate.number - 1) % 7) + 1 : 0;
       const closes =
         penultimate?.direction === 1 &&
-        ((penultimate.number === 3 && penultimate.quality === 'm') ||
-          (penultimate.number === 6 && penultimate.quality === 'M'));
+        ((penultimateSimple === 3 && penultimate.quality === 'm') ||
+          (penultimateSimple === 6 && penultimate.quality === 'M'));
       if (
         motion !== 'contrary' ||
         steps.some((i) => i.number !== 2 || !['m', 'M'].includes(i.quality)) ||
