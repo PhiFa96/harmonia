@@ -1,7 +1,7 @@
 import type {
   DocumentBlockParam,
   TextCitation,
-} from 'npm:@anthropic-ai/sdk@0.133.0/resources/messages';
+} from 'npm:@anthropic-ai/sdk@1.3.0/resources/messages';
 import {
   knowledgeCitationSchema,
   knowledgeArticleHref,

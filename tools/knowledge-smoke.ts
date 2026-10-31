@@ -27,7 +27,7 @@ import { AnthropicTutorProvider } from '../supabase/functions/_shared/tutor-prov
 import { localTutorFetch } from '../supabase/functions/_shared/tutor-local-fixture.ts';
 import { runTutor } from '../supabase/functions/_shared/tutor-runtime.ts';
 import type { TutorEvent } from '../supabase/functions/_shared/tutor-runtime.ts';
-import type { TextCitation } from 'npm:@anthropic-ai/sdk@0.133.0/resources/messages';
+import type { TextCitation } from 'npm:@anthropic-ai/sdk@1.3.0/resources/messages';
 let checks = 0;
 function check(value: unknown, label: string): asserts value {
   if (!value) throw new Error(label);

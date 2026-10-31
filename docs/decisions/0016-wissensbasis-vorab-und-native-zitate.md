@@ -53,3 +53,7 @@ Die ursprüngliche Entscheidung (reine Postgres-Volltextsuche, höchstens drei A
 
 **Bekannte Schwäche (nicht behoben).** Die Schwelle 0,25 lässt Abschnitte ohne thematischen Bezug als Quelle zu: In einer Python-Nachbildung der Wortbereichs-Ähnlichkeit (nicht gegen Postgres ausgeführt) trafen „Wie programmiere ich Code in Python?“ den Titel „Coda“ (0,43), „Wie bleibe ich motiviert beim Lernen?“ den Titel „Motiv“ (0,45) und „How do I write code in Python?“ „Coda“ sowie „II–V–I“ („I“ als Pronomen). Das widerspricht dem Anspruch, ohne geeignete Quelle `no_library_source` zu melden. Die Schwelle steht in der Migration; ein Fix braucht eine neue Migration (höhere Schwelle oder Trigramm nur als Rang-Bonus bei FTS-Treffer) und einen Negativkorpus echter Off-Topic-Fragen in `db:test:knowledge:v2`. Das ist vor jeder Index-Freigabe zu beheben. Die Dokumentauswahl `selectKnowledgeChunks` ist im Deno-Smoke (`tools/knowledge-smoke.ts`) einschließlich der Artikelvielfalt der ersten Runde abgesichert; die Suche selbst nur über die Postgres-Integrationstests. Bei Katalogwachstum (CHECK-Grenze 5000 Abschnitte) ist der Seq-Scan der `OR`-Klausel neu zu messen oder ein GIN-Trigramm-Index auf Titel/Überschrift zu ergänzen.
 
+
+## Nachtrag 31.10.2026
+
+Das SDK ist inzwischen auf 1.3.0 (API-Version `2026-10-21`) umgestellt, mit ausdrücklich abgeschaltetem OpenTelemetry-Tracing; die hier genannte Version 0.133.0 ist der damalige Stand. Siehe [ADR 0065](0065-anthropic-sdk-1-und-api-version-2026-10-21.md).

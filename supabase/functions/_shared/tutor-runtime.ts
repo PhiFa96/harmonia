@@ -3,7 +3,7 @@ import type {
   ToolResultBlockParam,
   Usage,
   TextCitation,
-} from 'npm:@anthropic-ai/sdk@0.133.0/resources/messages';
+} from 'npm:@anthropic-ai/sdk@1.3.0/resources/messages';
 import type {
   TutorPolicy,
   TutorRequest,

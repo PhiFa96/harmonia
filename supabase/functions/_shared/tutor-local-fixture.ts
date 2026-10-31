@@ -1,9 +1,11 @@
 // Ausschließlich lokale SDK-Transportprobe, kein Sprachmodell und keine echte Kostenmessung.
 import type {
   MessageCreateParamsStreaming,
+  MessageParam,
   Usage,
   TextCitation,
-} from 'npm:@anthropic-ai/sdk@0.133.0/resources/messages';
+  UserMessageParam,
+} from 'npm:@anthropic-ai/sdk@1.3.0/resources/messages';
 export const LOCAL_TUTOR_URL =
   /^http:\/\/(?:127\.0\.0\.1|localhost|supabase_kong_harmonia|kong)(?::\d+)?$/;
 export function localTutorFixtureEnabled(env: (key: string) => string | undefined) {
@@ -21,6 +23,7 @@ export const fixtureUsage: Usage = {
   service_tier: 'standard',
   inference_geo: null,
   output_tokens_details: null,
+  speed: 'standard',
 };
 export const localTutorFetch: typeof fetch = (_url, options) => {
   const params = JSON.parse(
@@ -28,7 +31,7 @@ export const localTutorFetch: typeof fetch = (_url, options) => {
   ) as MessageCreateParamsStreaming;
   const first = params.messages
       .filter(
-        (m) =>
+        (m: MessageParam): m is UserMessageParam =>
           m.role === 'user' &&
           (typeof m.content === 'string' || m.content.some((b) => b.type === 'text')),
       )

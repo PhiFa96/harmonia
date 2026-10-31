@@ -2,7 +2,7 @@ import type {
   Message,
   MessageCreateParamsStreaming,
   Usage,
-} from 'npm:@anthropic-ai/sdk@0.133.0/resources/messages';
+} from 'npm:@anthropic-ai/sdk@1.3.0/resources/messages';
 import type { TutorModelProvider } from '../../supabase/functions/_shared/tutor-provider.ts';
 import { measuredTutorUsage, addTutorUsage } from '../../supabase/functions/_shared/tutor-usage.ts';
 import { EMPTY_TUTOR_USAGE, tutorToolSchemas } from '../../packages/content/src/index.ts';

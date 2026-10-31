@@ -1,11 +1,11 @@
-import Anthropic from 'npm:@anthropic-ai/sdk@0.133.0';
+import Anthropic from 'npm:@anthropic-ai/sdk@1.3.0';
 import type {
   Message,
   MessageParam,
   MessageCreateParamsStreaming,
   Usage,
   TextCitation,
-} from 'npm:@anthropic-ai/sdk@0.133.0/resources/messages';
+} from 'npm:@anthropic-ai/sdk@1.3.0/resources/messages';
 
 /** Transportgrenze: Produktions-SDK und Deno-Simulation verwenden dieselben Request-/Streamtypen. */
 export interface TutorModelProvider {
@@ -27,6 +27,8 @@ export class AnthropicTutorProvider implements TutorModelProvider {
       authToken: null,
       webhookKey: null,
       logLevel: 'off',
+      // SDK 1.x traces and propagates trace context unless told otherwise; the tutor sends neither.
+      openTelemetry: { propagation: false, traces: false },
       maxRetries: 0,
       ...(transport ? { fetch: transport } : {}),
     });

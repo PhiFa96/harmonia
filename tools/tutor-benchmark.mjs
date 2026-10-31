@@ -133,6 +133,7 @@ export function batchReader() {
     webhookKey: null,
     maxRetries: 0,
     logLevel: 'off',
+    openTelemetry: { propagation: false, traces: false },
     timeout: 30000,
   });
 }
