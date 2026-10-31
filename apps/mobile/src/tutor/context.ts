@@ -9,7 +9,7 @@ import type { ExerciseItem } from '@harmonia/exercises';
 import type { TutorScope } from '@harmonia/content';
 import type { Score } from '@harmonia/notation';
 
-/** Hinweise zeigen nur ein vorhandenes Fragebild; nach Bewertung darf die Quelle erscheinen. */
+/** Hint/chat show only question material; explain/solution may show feedback media. */
 export function taskTutorScore(
   item: ExerciseItem,
   mode: TutorScope['mode'],
@@ -22,7 +22,7 @@ export function taskTutorScore(
       item.fifths,
     );
   }
-  if (mode === 'hint') {
+  if (mode === 'hint' || mode === 'chat') {
     return !isAuralExercise(item) &&
       !isPitchInput(item) &&
       !['SCALE_BUILD', 'KEYSIG_BUILD', 'CHORD_BUILD'].includes(item.type) &&

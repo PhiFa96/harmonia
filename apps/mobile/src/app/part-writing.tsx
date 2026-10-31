@@ -5,6 +5,7 @@ import { Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { catalogue } from '@harmonia/content/catalogue';
 import { resolveLesson } from '@harmonia/content';
+import type { LessonContent } from '@harmonia/content';
 import {
   answerSession,
   createLessonSession,
@@ -16,6 +17,7 @@ import type { ExerciseSession } from '@harmonia/exercises';
 import { LAYOUT, SPACE } from '@harmonia/ui';
 import { AppText, Button, Card } from '@harmonia/ui/native';
 import { ExerciseTask } from '@/components/exercise-task';
+import { LessonIntroduction } from '@/components/lesson-introduction';
 import { useContentText } from '@/content/use-content-text';
 
 /** Preview-only catalogue entry. No progress, rewards, persistence or public authoring import. */
@@ -26,9 +28,9 @@ export default function PartWritingScreen() {
     (l) => /^satz\.l[45]\.writing\./.test(l.id) && l.status === 'entwurf',
   );
   const [active, setActive] = useState<{
-    id: string;
-    version: number;
+    lesson: LessonContent;
     seed: number;
+    started: boolean;
     session: ExerciseSession;
   } | null>(null);
   const [answer, setAnswer] = useState<string | null>(null);
@@ -61,13 +63,6 @@ export default function PartWritingScreen() {
                   {t('exercise.satbStage', { level: lesson.id.includes('.l4.') ? 4 : 5 })} ·{' '}
                   {text(lesson.titleKey)}
                 </AppText>
-                <AppText>
-                  {text(
-                    lesson.id.includes('.l4.')
-                      ? 'content.partWriting.intro4'
-                      : 'content.partWriting.intro5',
-                  )}
-                </AppText>
                 <Button
                   testID={`satb-start-${lesson.id}`}
                   label={t('exercise.satbOpen')}
@@ -77,9 +72,9 @@ export default function PartWritingScreen() {
                     const seed = Date.now();
                     setAnswer(null);
                     setActive({
-                      id: lesson.id,
-                      version: resolved.contentVersion,
+                      lesson: resolved,
                       seed,
+                      started: false,
                       session: createLessonSession(resolved, seed).initial,
                     });
                     scroll.current?.scrollTo({ y: 0, animated: false });
@@ -87,6 +82,18 @@ export default function PartWritingScreen() {
                 />
               </Card>
             ))
+          ) : !active.started ? (
+            <LessonIntroduction
+              key={`${active.lesson.id}:${String(active.seed)}`}
+              lesson={active.lesson}
+              onStart={() => {
+                setActive({ ...active, started: true });
+                scroll.current?.scrollTo({ y: 0, animated: false });
+              }}
+              onCardChange={() => {
+                scroll.current?.scrollTo({ y: 0, animated: false });
+              }}
+            />
           ) : item ? (
             <ExerciseTask
               item={item}
@@ -96,8 +103,8 @@ export default function PartWritingScreen() {
               scroll={scroll}
               reportSource={{
                 kind: 'lesson',
-                lessonId: active.id,
-                contentVersion: active.version,
+                lessonId: active.lesson.id,
+                contentVersion: active.lesson.contentVersion,
                 seed: active.seed,
                 round: 'initial',
                 index: active.session.index,

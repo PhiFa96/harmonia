@@ -1,13 +1,18 @@
 import {
-  answerHistoryQuestion,
+  createHistoryQuestion,
+  createHistoryInterview,
+  askHistoryInterview,
+  chooseHistoryAnswer,
+  checkHistoryQuestion,
   knowledgeArticleHref,
   knowledgeArticleParts,
   knowledgeChunkFingerprint,
 } from '@harmonia/content';
-import type { HistoryChoice, HistoryStop } from '@harmonia/content';
+import type { HistoryChoice, HistoryStop, HistoryQuestionState } from '@harmonia/content';
 import { historyStops } from '@harmonia/content/history-journey';
 import { catalogue, knowledgeStages } from '@harmonia/content/catalogue';
-import { contentTranslator } from '@harmonia/i18n';
+import { contentTranslator, createHistoryJourneyText } from '@harmonia/i18n';
+import type { HistoryJourneyText } from '@harmonia/i18n';
 import { contentMessages } from '@harmonia/i18n/content-messages';
 import { historyJourneyMessages } from '@harmonia/i18n/history-journey';
 import { parseScore } from '@harmonia/notation';
@@ -28,30 +33,34 @@ const STEPS: readonly Step[] = ['scene', 'interview', 'knowledge', 'listening', 
 export default function HistoryJourneyScreen() {
   const { t } = useTranslation();
   const locale = useLocale();
+  const historyText = useMemo(
+    () => createHistoryJourneyText(locale, historyJourneyMessages),
+    [locale],
+  );
   const [selected, setSelected] = useState<HistoryStop | null>(null);
   const [step, setStep] = useState<Step>('scene');
-  const [choice, setChoice] = useState<HistoryChoice | null>(null);
-  const [checked, setChecked] = useState(false);
+  const [question, setQuestion] = useState(createHistoryQuestion);
+  const [interview, setInterview] = useState(createHistoryInterview);
   const [sourceError, setSourceError] = useState(false);
-  const copy = selected ? historyJourneyMessages[locale][selected.id] : null;
+  const copy = selected ? historyText(selected.id) : null;
   const chooseStop = (stop: HistoryStop | null) => {
     setSelected(stop);
     setStep('scene');
-    setChoice(null);
-    setChecked(false);
+    setQuestion(createHistoryQuestion());
+    setInterview(createHistoryInterview());
     setSourceError(false);
   };
   const next = () => {
     setStep(STEPS[STEPS.indexOf(step) + 1] ?? 'complete');
-    setChoice(null);
-    setChecked(false);
+    setQuestion(createHistoryQuestion());
+    setInterview(createHistoryInterview());
   };
   const back = () => {
     const previous = STEPS[STEPS.indexOf(step) - 1];
     if (previous) {
       setStep(previous);
-      setChoice(null);
-      setChecked(false);
+      setQuestion(createHistoryQuestion());
+      setInterview(createHistoryInterview());
     } else chooseStop(null);
   };
   const openSource = async (stop: HistoryStop) => {
@@ -97,7 +106,7 @@ export default function HistoryJourneyScreen() {
               <Button
                 key={stop.id}
                 variant="secondary"
-                label={historyJourneyMessages[locale][stop.id].title}
+                label={historyText(stop.id).title}
                 onPress={() => {
                   chooseStop(stop);
                 }}
@@ -131,8 +140,33 @@ export default function HistoryJourneyScreen() {
                   </AppText>
                   <AppText>{t('historyJourney.fictional')}</AppText>
                   <MusicText variant="title3">{copy.personaName}</MusicText>
-                  <AppText>{copy.personaPrompt}</AppText>
-                  <AppText>{copy.personaReply}</AppText>
+                  <AppText>{t('historyJourney.interviewChoose')}</AppText>
+                  {copy.personaPrompts.map((prompt, index) => (
+                    <Button
+                      key={index}
+                      label={prompt}
+                      variant={interview.selected === index ? 'primary' : 'secondary'}
+                      selected={interview.selected === index}
+                      onPress={() => {
+                        setInterview((state) => askHistoryInterview(state, index as HistoryChoice));
+                      }}
+                    />
+                  ))}
+                  <AppText variant="footnote" tone="muted">
+                    {t('historyJourney.interviewProgress', {
+                      count: interview.asked.length,
+                      total: 3,
+                    })}
+                  </AppText>
+                  {interview.selected !== null ? (
+                    <AppText
+                      key={interview.selected}
+                      testID="history-interview-reply"
+                      aria-live="polite"
+                    >
+                      {copy.personaReplies[interview.selected]}
+                    </AppText>
+                  ) : null}
                 </View>
               </Card>
             ) : null}
@@ -142,14 +176,18 @@ export default function HistoryJourneyScreen() {
                 stop={selected}
                 step={step}
                 copy={copy}
-                choice={choice}
-                checked={checked}
+                question={question}
                 onChoice={(value) => {
-                  setChoice(value);
-                  setChecked(false);
+                  setQuestion((state) => chooseHistoryAnswer(state, value));
                 }}
-                onCheck={() => {
-                  setChecked(true);
+                onCheck={(ready) => {
+                  setQuestion((state) =>
+                    checkHistoryQuestion(
+                      state,
+                      step === 'knowledge' ? selected.knowledgeAnswer : selected.listeningAnswer,
+                      ready,
+                    ),
+                  );
                 }}
                 onSkip={next}
               />
@@ -172,13 +210,9 @@ export default function HistoryJourneyScreen() {
               <Button
                 label={t(step === 'complete' ? 'historyJourney.finish' : 'historyJourney.next')}
                 disabled={
-                  (step === 'knowledge' || step === 'listening') &&
-                  (!checked ||
-                    choice === null ||
-                    !answerHistoryQuestion(
-                      step === 'knowledge' ? selected.knowledgeAnswer : selected.listeningAnswer,
-                      choice,
-                    ))
+                  (step === 'interview' && interview.selected === null) ||
+                  ((step === 'knowledge' || step === 'listening') &&
+                    question.feedback !== 'correct')
                 }
                 onPress={() => {
                   if (step === 'complete') chooseStop(null);
@@ -193,24 +227,21 @@ export default function HistoryJourneyScreen() {
   );
 }
 
-type StoryCopy = (typeof historyJourneyMessages)['de']['medieval'];
 function Question({
   stop,
   step,
   copy,
-  choice,
-  checked,
+  question,
   onChoice,
   onCheck,
   onSkip,
 }: {
   readonly stop: HistoryStop;
   readonly step: 'knowledge' | 'listening';
-  readonly copy: StoryCopy;
-  readonly choice: HistoryChoice | null;
-  readonly checked: boolean;
+  readonly copy: HistoryJourneyText;
+  readonly question: HistoryQuestionState;
   readonly onChoice: (value: HistoryChoice) => void;
-  readonly onCheck: () => void;
+  readonly onCheck: (ready: boolean) => void;
   readonly onSkip: () => void;
 }) {
   const { t } = useTranslation();
@@ -221,7 +252,6 @@ function Question({
   const audio = useExercisePlayback(score);
   const listening = step === 'listening';
   const options = listening ? copy.listeningOptions : copy.knowledgeOptions;
-  const correct = listening ? stop.listeningAnswer : stop.knowledgeAnswer;
   return (
     <Card>
       <View style={styles.content}>
@@ -250,10 +280,10 @@ function Question({
         {options.map((option, index) => (
           <Button
             key={index}
-            variant={choice === index ? 'primary' : 'secondary'}
-            selected={choice === index}
+            variant={question.choice === index ? 'primary' : 'secondary'}
+            selected={question.choice === index}
             label={option}
-            disabled={checked && choice === correct}
+            disabled={question.feedback === 'correct'}
             onPress={() => {
               onChoice(index as HistoryChoice);
             }}
@@ -261,20 +291,32 @@ function Question({
         ))}
         <Button
           label={t('historyJourney.check')}
-          disabled={choice === null || checked || (listening && !audio.heard)}
-          onPress={onCheck}
+          disabled={
+            question.choice === null ||
+            question.feedback !== 'unanswered' ||
+            (listening && !audio.heard)
+          }
+          onPress={() => {
+            onCheck(!listening || audio.heard);
+          }}
         />
         {listening ? (
           <Button variant="ghost" label={t('historyJourney.skipListening')} onPress={onSkip} />
         ) : null}
-        {checked && choice !== null ? (
-          <AppText aria-live="polite">
+        {question.feedback !== 'unanswered' ? (
+          <AppText key={question.attempts} aria-live="polite">
             {t(
-              answerHistoryQuestion(correct, choice)
+              question.feedback === 'correct'
                 ? 'historyJourney.correct'
                 : 'historyJourney.incorrect',
             )}{' '}
-            {listening ? copy.listeningExplanation : copy.knowledgeExplanation}
+            {question.feedback === 'correct'
+              ? listening
+                ? copy.listeningExplanation
+                : copy.knowledgeExplanation
+              : listening
+                ? copy.listeningHint
+                : copy.knowledgeHint}
           </AppText>
         ) : null}
       </View>

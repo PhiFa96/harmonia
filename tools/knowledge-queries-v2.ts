@@ -1,5 +1,5 @@
 /** New P3.19 search probes: one direct and one reworded question for each upper-level article. */
-export const upperLevelKnowledgeQueries: readonly {
+export interface KnowledgeQueryPair {
   article: string;
   de: string;
   us: string;
@@ -7,7 +7,8 @@ export const upperLevelKnowledgeQueries: readonly {
   deAlternate: string;
   usAlternate: string;
   ukAlternate?: string;
-}[] = [
+}
+export const upperLevelKnowledgeQueries: readonly KnowledgeQueryPair[] = [
   {
     article: 'scales.l3.modes.article',
     de: 'Wodurch unterscheiden sich dorisch und mixolydisch?',

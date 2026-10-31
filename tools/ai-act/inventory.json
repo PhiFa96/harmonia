@@ -1,0 +1,567 @@
+{
+  "version": 1,
+  "sourcesObservedAt": "2026-10-24",
+  "legalBaseline": "official-explorer-2026-07-27; direct-eur-lex-pending",
+  "excludedPurposes": [
+    "emotion-inference-in-education",
+    "sensitive-biometric-categorisation",
+    "automated-institutional-admission",
+    "exam-proctoring"
+  ],
+  "sources": [
+    {
+      "id": "amendment",
+      "url": "https://digital-strategy.ec.europa.eu/en/news/ai-omnibus-enters-force",
+      "retrieval": "retrieved",
+      "note": {
+        "de": "Kommissionsmitteilung zur Änderung, 27.07.2026",
+        "en-US": "Commission notice on the amendment, 27 July 2026",
+        "en-GB": "Commission notice on the amendment, 27 July 2026"
+      }
+    },
+    {
+      "id": "article-113",
+      "url": "https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-113",
+      "retrieval": "retrieved",
+      "note": {
+        "de": "Amtlicher Explorer: Geltungsbeginn nach Änderung",
+        "en-US": "Official explorer: amended application dates",
+        "en-GB": "Official explorer: amended application dates"
+      }
+    },
+    {
+      "id": "article-6",
+      "url": "https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-6",
+      "retrieval": "retrieved",
+      "note": {
+        "de": "Amtlicher Explorer: Hochrisiko, Ausnahme und Profiling",
+        "en-US": "Official explorer: high-risk rules, exemption and profiling",
+        "en-GB": "Official explorer: high-risk rules, exemption and profiling"
+      }
+    },
+    {
+      "id": "annex-iii",
+      "url": "https://ai-act-service-desk.ec.europa.eu/en/ai-act/annex-3",
+      "retrieval": "retrieved",
+      "note": {
+        "de": "Amtlicher Explorer: Bildung 3(a)–(d)",
+        "en-US": "Official explorer: education, points 3(a)–(d)",
+        "en-GB": "Official explorer: education, points 3(a)–(d)"
+      }
+    },
+    {
+      "id": "article-50",
+      "url": "https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-50",
+      "retrieval": "retrieved",
+      "note": {
+        "de": "Amtlicher Explorer: Transparenz und Kennzeichnung",
+        "en-US": "Official explorer: transparency and marking",
+        "en-GB": "Official explorer: transparency and marking"
+      }
+    },
+    {
+      "id": "article-4",
+      "url": "https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-4",
+      "retrieval": "retrieved",
+      "note": {
+        "de": "Amtlicher Explorer: geänderte KI-Kompetenzregel",
+        "en-US": "Official explorer: amended AI literacy rule",
+        "en-GB": "Official explorer: amended AI literacy rule"
+      }
+    },
+    {
+      "id": "article-5",
+      "url": "https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-5",
+      "retrieval": "retrieved",
+      "note": {
+        "de": "Amtlicher Explorer: verbotene Praktiken",
+        "en-US": "Official explorer: prohibited practices",
+        "en-GB": "Official explorer: prohibited practices"
+      }
+    },
+    {
+      "id": "eur-lex-consolidated",
+      "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:02024R1689-20260727",
+      "retrieval": "blocked",
+      "note": {
+        "de": "Direktabruf durch JavaScript-/Robot-Prüfung blockiert",
+        "en-US": "Direct retrieval blocked by a JavaScript/robot check",
+        "en-GB": "Direct retrieval blocked by a JavaScript/robot check"
+      }
+    }
+  ],
+  "components": [
+    {
+      "id": "tutor",
+      "title": {
+        "de": "KI-Tutor",
+        "en-US": "AI tutor",
+        "en-GB": "AI tutor"
+      },
+      "technology": "llm",
+      "deployment": "implemented",
+      "scopes": ["general", "school", "certificates"],
+      "files": [
+        "supabase/functions/tutor/index.ts",
+        "supabase/functions/_shared/tutor-runtime.ts",
+        "supabase/functions/_shared/tutor-prompt.ts",
+        "apps/mobile/src/components/tutor-screen.tsx"
+      ],
+      "purpose": {
+        "de": "Musikalische Erklärungen und Hinweise; keine Änderung von Punkten oder Zugängen.",
+        "en-US": "Music explanations and hints; cannot change scores or access.",
+        "en-GB": "Music explanations and hints; cannot change scores or access."
+      },
+      "concern": {
+        "de": "Interaktion, Rollen und Ausgabekennzeichnung prüfen; Schulkontext gesondert bewerten.",
+        "en-US": "Review interaction disclosure, roles and output marking; assess school context separately.",
+        "en-GB": "Review interaction disclosure, roles and output marking; assess school context separately."
+      },
+      "assessment": {
+        "aiSystem": "unreviewed",
+        "annexIII": "unreviewed",
+        "profiling": "unreviewed",
+        "outcome": "unreviewed"
+      }
+    },
+    {
+      "id": "learner-planner",
+      "title": {
+        "de": "Lernstandwerkzeuge und KI-Lernplanung",
+        "en-US": "Learner tools and AI study planning",
+        "en-GB": "Learner tools and AI study planning"
+      },
+      "technology": "llm",
+      "deployment": "implemented",
+      "scopes": ["general", "school", "certificates"],
+      "files": [
+        "supabase/functions/_shared/tutor-learner.ts",
+        "supabase/functions/_shared/tutor-tools.ts",
+        "packages/content/src/learning-ratings.ts"
+      ],
+      "purpose": {
+        "de": "Verdichtete eigene Lernstände an Tutor; Vorschläge ohne automatische Freischaltung.",
+        "en-US": "Aggregated personal progress for tutor suggestions without automatic unlocking.",
+        "en-GB": "Aggregated personal progress for tutor suggestions without automatic unlocking."
+      },
+      "concern": {
+        "de": "Lernsteuerung nach Anhang III 3(b), Einstufung und Profiling nach Art. 6(3) offen.",
+        "en-US": "Learning steering under Annex III 3(b), placement and profiling under Article 6(3) remain unresolved.",
+        "en-GB": "Learning steering under Annex III 3(b), placement and profiling under Article 6(3) remain unresolved."
+      },
+      "assessment": {
+        "aiSystem": "unreviewed",
+        "annexIII": "unreviewed",
+        "profiling": "unreviewed",
+        "outcome": "unreviewed"
+      }
+    },
+    {
+      "id": "satb-feedback",
+      "title": {
+        "de": "SATB-Prüfung und Tutor-Erklärung",
+        "en-US": "SATB analysis and tutor explanation",
+        "en-GB": "SATB analysis and tutor explanation"
+      },
+      "technology": "hybrid",
+      "deployment": "internal-draft",
+      "scopes": ["general", "school", "certificates"],
+      "files": [
+        "packages/exercises/src/voice-leading.ts",
+        "supabase/functions/_shared/tutor-tools.ts"
+      ],
+      "purpose": {
+        "de": "Regelbefunde zu vier Stimmen; KI erklärt gebundene Engine-Ergebnisse.",
+        "en-US": "Rule findings for four voices; AI explains bound engine results.",
+        "en-GB": "Rule findings for four voices; AI explains bound engine results."
+      },
+      "concern": {
+        "de": "Engine und Gesamtsystem getrennt prüfen; Fachprüfung ersetzt keine rechtliche Einordnung.",
+        "en-US": "Assess engine and overall system separately; specialist review is not legal classification.",
+        "en-GB": "Assess engine and overall system separately; specialist review is not legal classification."
+      },
+      "assessment": {
+        "aiSystem": "unreviewed",
+        "annexIII": "unreviewed",
+        "profiling": "unreviewed",
+        "outcome": "unreviewed"
+      }
+    },
+    {
+      "id": "adaptive-path",
+      "title": {
+        "de": "Ratings, Einstufung und adaptive Auswahl",
+        "en-US": "Ratings, placement and adaptive selection",
+        "en-GB": "Ratings, placement and adaptive selection"
+      },
+      "technology": "statistical-rules",
+      "deployment": "implemented",
+      "scopes": ["general", "school"],
+      "files": [
+        "packages/exercises/src/adaptive.ts",
+        "packages/exercises/src/placement.ts",
+        "packages/exercises/src/glicko2.ts"
+      ],
+      "purpose": {
+        "de": "Aufgabenfolge und Einstufung aus eigenen Antworten und Ratings.",
+        "en-US": "Task ordering and placement from personal answers and ratings.",
+        "en-GB": "Task ordering and placement from personal answers and ratings."
+      },
+      "concern": {
+        "de": "KI-Definition und Profiling nicht allein wegen deterministischer Berechnung ausschließen.",
+        "en-US": "Do not exclude AI definition or profiling solely because calculations are deterministic.",
+        "en-GB": "Do not exclude AI definition or profiling solely because calculations are deterministic."
+      },
+      "assessment": {
+        "aiSystem": "unreviewed",
+        "annexIII": "unreviewed",
+        "profiling": "unreviewed",
+        "outcome": "unreviewed"
+      }
+    },
+    {
+      "id": "voice-training",
+      "title": {
+        "de": "Tonhöhenerkennung und Chor-Trainer",
+        "en-US": "Pitch detection and choir trainer",
+        "en-GB": "Pitch detection and choir trainer"
+      },
+      "technology": "signal-processing",
+      "deployment": "internal-draft",
+      "scopes": ["general", "school"],
+      "files": [
+        "packages/exercises/src/choir.ts",
+        "packages/exercises/src/pitch-input.ts",
+        "apps/mobile/src/microphone/input.web.ts",
+        "apps/mobile/src/microphone/input.ts",
+        "apps/mobile/src/microphone/health.ts",
+        "apps/mobile/src/choir/runner.ts",
+        "apps/mobile/src/app/choir.tsx",
+        "apps/mobile/src/app/lesson.tsx",
+        "apps/mobile/src/state/learning.ts",
+        "supabase/functions/learning-sync/index.ts",
+        "apps/mobile/src/components/lesson-completion-status.tsx",
+        "apps/mobile/src/components/lesson-introduction.tsx",
+        "apps/mobile/src/components/choir-answer-input.tsx"
+      ],
+      "purpose": {
+        "de": "Lokale Tonhöhen-/Zeitmessung zur Übungsrückmeldung. Der Chor-Trainer wartet vor dem Vorzähler auf PCM und verwirft bei erkannten Datenunterbrechungen den Take ohne Antwort. Stille ist gültiges PCM, keine Transportdiagnose. Der Chorabschluss verlangt zusätzlich zur Quote einen eigenen bestandenen Erstversuch ohne Lösung; Client, Server und gekürzte Nachweise erhalten dieselbe Entscheidung.",
+        "en-US": "Local pitch and timing measurements for practice feedback. The choir trainer waits for PCM before count-in and discards a take without an answer after detected data interruptions. Silence is valid PCM, not a transport diagnosis. Choir completion additionally requires an authored singing task passed on the initial attempt without a solution; client, server and retained evidence preserve the same decision.",
+        "en-GB": "Local pitch and timing measurements for practice feedback. The choir trainer waits for PCM before count-in and discards a take without an answer after detected data interruptions. Silence is valid PCM, not a transport diagnosis. Choir completion additionally requires an authored singing task passed on the initial attempt without a solution; client, server and retained evidence preserve the same decision."
+      },
+      "concern": {
+        "de": "Keine Gefühls-, Identitäts- oder sensiblen Persönlichkeitsmerkmale ableiten; Zweckgrenze prüfen.",
+        "en-US": "Do not infer emotion, identity or sensitive personal traits; review purpose boundaries.",
+        "en-GB": "Do not infer emotion, identity or sensitive personal traits; review purpose boundaries."
+      },
+      "assessment": {
+        "aiSystem": "unreviewed",
+        "annexIII": "unreviewed",
+        "profiling": "unreviewed",
+        "outcome": "unreviewed"
+      }
+    },
+    {
+      "id": "history-fiction",
+      "title": {
+        "de": "Zeitreise und fiktive Interviews",
+        "en-US": "History journey and fictional interviews",
+        "en-GB": "History journey and fictional interviews"
+      },
+      "technology": "static-content",
+      "deployment": "internal-draft",
+      "scopes": ["general", "school"],
+      "files": [
+        "packages/content/src/history-journey-draft.ts",
+        "packages/i18n/src/history-journey-draft.json"
+      ],
+      "purpose": {
+        "de": "Statische eigene Interviews und Klangmodelle; kein Laufzeit-Chatmodell.",
+        "en-US": "Static original interviews and sound models; no runtime chat model.",
+        "en-GB": "Static original interviews and sound models; no runtime chat model."
+      },
+      "concern": {
+        "de": "Fiktion, mögliche KI-Erstellung und synthetisches Audio getrennt kennzeichnen und prüfen.",
+        "en-US": "Assess fiction labels, possible AI authorship and synthetic audio separately.",
+        "en-GB": "Assess fiction labels, possible AI authorship and synthetic audio separately."
+      },
+      "assessment": {
+        "aiSystem": "unreviewed",
+        "annexIII": "unreviewed",
+        "profiling": "unreviewed",
+        "outcome": "unreviewed"
+      }
+    },
+    {
+      "id": "school-assessment",
+      "title": {
+        "de": "Schulaufgaben, Quiz und Berichte",
+        "en-US": "School assignments, quiz and reports",
+        "en-GB": "School assignments, quiz and reports"
+      },
+      "technology": "rules",
+      "deployment": "internal-draft",
+      "scopes": ["school"],
+      "files": [
+        "tools/school/assignment-service.mjs",
+        "tools/school/quiz-service.mjs",
+        "tools/school/report.ts",
+        "tools/school/license-service.mjs"
+      ],
+      "purpose": {
+        "de": "Lokale Engine-Wertungen und freigegebene Klassenberichte mit Testkonten.",
+        "en-US": "Local engine scores and shared class reports with synthetic accounts.",
+        "en-GB": "Local engine scores and shared class reports with synthetic accounts."
+      },
+      "concern": {
+        "de": "Institutionelle Verwendung, Lernbewertung und Kombinieren mit Tutor/Lernplanung prüfen.",
+        "en-US": "Review institutional use, learning assessment and combination with tutor/planning.",
+        "en-GB": "Review institutional use, learning assessment and combination with tutor/planning."
+      },
+      "assessment": {
+        "aiSystem": "unreviewed",
+        "annexIII": "unreviewed",
+        "profiling": "unreviewed",
+        "outcome": "unreviewed"
+      }
+    },
+    {
+      "id": "certificates",
+      "title": {
+        "de": "Zertifikate: lokaler Prüfungsentwurf",
+        "en-US": "Certificates: local exam draft",
+        "en-GB": "Certificates: local exam draft"
+      },
+      "technology": "rules",
+      "deployment": "internal-draft",
+      "scopes": ["certificates"],
+      "files": [
+        "tools/certificates/service.mjs",
+        "tools/certificates/profiles.ts",
+        "tools/certificates/pdf.mjs",
+        "tools/certificates/binding.mjs",
+        "tools/certificates/review.mjs",
+        "packages/content/src/exam.ts",
+        "packages/content/src/exam-templates.ts",
+        "docs/plan/phase-4-v2.md"
+      ],
+      "purpose": {
+        "de": "Lokale synthetische Prüfungsdurchgänge mit serverseitiger Engine-Bewertung, Testgrenze und ungültigem Muster-PDF. Keine Namen, Zahlungen, öffentliche Anerkennung oder produktive Identitätsprüfung.",
+        "en-US": "Local synthetic exam attempts with server-side engine grading, a test threshold and invalid sample PDFs. No names, payments, public recognition or production identity checks.",
+        "en-GB": "Local synthetic exam attempts with server-side engine grading, a test threshold and invalid sample PDFs. No names, payments, public recognition or production identity checks."
+      },
+      "concern": {
+        "de": "Bewertungs-, Zugangs- und Anerkennungszweck vor jeder Produktfreigabe prüfen.",
+        "en-US": "Assess grading, access and recognition purposes before production approval.",
+        "en-GB": "Assess grading, access and recognition purposes before production approval."
+      },
+      "assessment": {
+        "aiSystem": "unreviewed",
+        "annexIII": "unreviewed",
+        "profiling": "unreviewed",
+        "outcome": "unreviewed"
+      }
+    },
+    {
+      "id": "ai-live-call",
+      "title": {
+        "de": "Geplanter KI-Live-Call",
+        "en-US": "Planned AI live call",
+        "en-GB": "Planned AI live call"
+      },
+      "technology": "planned",
+      "deployment": "planned",
+      "scopes": ["general", "school"],
+      "files": ["docs/plan/phase-4-v2.md"],
+      "purpose": {
+        "de": "Geplante Sprachinteraktion, in diesem Stand nicht implementiert.",
+        "en-US": "Planned voice interaction, not implemented in this snapshot.",
+        "en-GB": "Planned voice interaction, not implemented in this snapshot."
+      },
+      "concern": {
+        "de": "Vor Umsetzung eigener Audio-/Biometrie-/Transparenzdurchgang erforderlich.",
+        "en-US": "Requires separate audio, biometrics and transparency review before implementation.",
+        "en-GB": "Requires separate audio, biometrics and transparency review before implementation."
+      },
+      "assessment": {
+        "aiSystem": "unreviewed",
+        "annexIII": "unreviewed",
+        "profiling": "unreviewed",
+        "outcome": "unreviewed"
+      }
+    },
+    {
+      "id": "advanced-analysis",
+      "title": {
+        "de": "Stufe 5: Kontrapunkt und Analyse",
+        "en-US": "Stage 5: counterpoint and analysis",
+        "en-GB": "Stage 5: counterpoint and analysis"
+      },
+      "technology": "rules",
+      "deployment": "internal-draft",
+      "scopes": ["general", "school"],
+      "files": [
+        "packages/theory/src/counterpoint.ts",
+        "packages/theory/src/analysis.ts",
+        "packages/exercises/src/advanced-context.ts",
+        "packages/content/src/level-five-preview.ts",
+        "apps/mobile/src/app/level-five.tsx",
+        "apps/mobile/src/storage/learning-repository.ts",
+        "apps/mobile/src/privacy/export-local.ts",
+        "apps/mobile/src/privacy/local.ts",
+        "apps/mobile/src/privacy/retention.ts"
+      ],
+      "purpose": {
+        "de": "Interne Lektionen bewerten begrenzte Kontrapunkt- und Analysefragen aus eigenen Notenquellen. Ein lokaler, getrennt gespeicherter Vorschau-Durchgang kann wiederaufgenommen werden; keine XP, Qualifikationsnachweise oder automatische Gesamtanalyse fremder Werke.",
+        "en-US": "Internal lessons grade bounded counterpoint and analysis questions from original score sources. A separately stored local preview attempt can be resumed; no XP, qualifications or automatic overall analysis of external works.",
+        "en-GB": "Internal lessons grade bounded counterpoint and analysis questions from original score sources. A separately stored local preview attempt can be resumed; no XP, qualifications or automatic overall analysis of external works."
+      },
+      "concern": {
+        "de": "Neun Prüfregeln sind keine Stil- oder Hochschulreifeprüfung. Bildungszweck, institutionelle Nutzung, gespeicherte Antworten und Grenzen automatischer Deutung unabhängig prüfen.",
+        "en-US": "Nine rules do not assess overall style or readiness for higher education. Independently review the educational purpose, institutional use, stored answers and limits of automatic interpretation.",
+        "en-GB": "Nine rules do not assess overall style or readiness for higher education. Independently review the educational purpose, institutional use, stored answers and limits of automatic interpretation."
+      },
+      "assessment": {
+        "aiSystem": "unreviewed",
+        "annexIII": "unreviewed",
+        "profiling": "unreviewed",
+        "outcome": "unreviewed"
+      }
+    }
+  ],
+  "controls": [
+    {
+      "id": "classification",
+      "title": {
+        "de": "Zweck, KI-Definition, Anhang III und Profiling schriftlich prüfen",
+        "en-US": "Review purpose, AI definition, Annex III and profiling in writing",
+        "en-GB": "Review purpose, AI definition, Annex III and profiling in writing"
+      },
+      "owner": "legal-review",
+      "waivable": false,
+      "status": "open",
+      "evidenceReference": null,
+      "rationale": null
+    },
+    {
+      "id": "roles",
+      "title": {
+        "de": "Anbieter-/Betreiberrollen und Vertragspartner festlegen",
+        "en-US": "Specify provider/deployer roles and counterparties",
+        "en-GB": "Specify provider/deployer roles and counterparties"
+      },
+      "owner": "operator",
+      "waivable": false,
+      "status": "open",
+      "evidenceReference": null,
+      "rationale": null
+    },
+    {
+      "id": "transparency",
+      "title": {
+        "de": "Interaktionshinweis und Ausgabe-/Medienkennzeichnung prüfen",
+        "en-US": "Review interaction disclosure and output/media marking",
+        "en-GB": "Review interaction disclosure and output/media marking"
+      },
+      "owner": "product",
+      "waivable": false,
+      "status": "open",
+      "evidenceReference": null,
+      "rationale": null
+    },
+    {
+      "id": "literacy",
+      "title": {
+        "de": "KI-Kompetenzmaßnahmen nach geändertem Art. 4 dokumentieren",
+        "en-US": "Document literacy measures under amended Article 4",
+        "en-GB": "Document literacy measures under amended Article 4"
+      },
+      "owner": "operator",
+      "waivable": false,
+      "status": "open",
+      "evidenceReference": null,
+      "rationale": null
+    },
+    {
+      "id": "oversight",
+      "title": {
+        "de": "Menschliche Aufsicht und Einspruch/Korrektur festlegen",
+        "en-US": "Define human oversight and challenge/correction routes",
+        "en-GB": "Define human oversight and challenge/correction routes"
+      },
+      "owner": "school-owner",
+      "waivable": false,
+      "status": "open",
+      "evidenceReference": null,
+      "rationale": null
+    },
+    {
+      "id": "data-protection",
+      "title": {
+        "de": "DSFA, Minderjährige, Datenflüsse und AVV abstimmen",
+        "en-US": "Review DPIA, minors, data flows and processing agreements",
+        "en-GB": "Review DPIA, minors, data flows and processing agreements"
+      },
+      "owner": "privacy-review",
+      "waivable": false,
+      "status": "open",
+      "evidenceReference": null,
+      "rationale": null
+    },
+    {
+      "id": "high-risk-controls",
+      "title": {
+        "de": "Bei Hochrisiko: Risikomanagement, Dokumentation, QMS, Konformität, Registrierung und ggf. Grundrechteprüfung",
+        "en-US": "For high risk: risk management, documentation, QMS, conformity, registration and where applicable rights assessment",
+        "en-GB": "For high risk: risk management, documentation, QMS, conformity, registration and where applicable rights assessment"
+      },
+      "owner": "legal-review",
+      "waivable": true,
+      "status": "open",
+      "evidenceReference": null,
+      "rationale": null
+    },
+    {
+      "id": "monitoring",
+      "title": {
+        "de": "Protokolle, Beschwerden und Vorfall-/Änderungsprozess abnehmen",
+        "en-US": "Approve records, complaints, incident and change processes",
+        "en-GB": "Approve records, complaints, incident and change processes"
+      },
+      "owner": "operations",
+      "waivable": false,
+      "status": "open",
+      "evidenceReference": null,
+      "rationale": null
+    }
+  ],
+  "reviews": {
+    "general": {
+      "status": "pending",
+      "dataKind": "draft",
+      "reviewer": null,
+      "evidenceReference": null,
+      "reviewedAt": null,
+      "validUntil": null,
+      "snapshotHash": null
+    },
+    "school": {
+      "status": "pending",
+      "dataKind": "draft",
+      "reviewer": null,
+      "evidenceReference": null,
+      "reviewedAt": null,
+      "validUntil": null,
+      "snapshotHash": null
+    },
+    "certificates": {
+      "status": "pending",
+      "dataKind": "draft",
+      "reviewer": null,
+      "evidenceReference": null,
+      "reviewedAt": null,
+      "validUntil": null,
+      "snapshotHash": null
+    }
+  }
+}

@@ -17,6 +17,7 @@ import {
   expectedAnswer,
   nextLessonExercise,
   revealLessonHint,
+  skipLessonVoice,
 } from '../packages/exercises/src/index.ts';
 const status = JSON.parse(
   execFileSync('pnpm', ['exec', 'supabase', 'status', '-o', 'json'], {
@@ -308,8 +309,102 @@ try {
       ).status,
       403,
     );
+    // P4.11: only canonical initial singing can qualify a choir completion.
+    // Use our own local accounts and synthetic answers; no real microphone recording.
+    const choirPlan = lessonPlan(catalogue, 'aural.l4.choir.bass.lesson');
+    assert.ok(choirPlan?.minimumChoirCorrect === 1);
+    const choirEvents = [false, true].map((sing) => {
+      let session = createLessonSession(choirPlan, 'choir-sync-policy');
+      let sung = false;
+      while (session.phase === 'initial') {
+        const active = activeLessonSession(session);
+        const item = active && currentItem(active);
+        assert.ok(item);
+        if (item.type === 'CHOIR_PART' && (!sing || sung)) session = skipLessonVoice(session);
+        else {
+          if (item.type === 'CHOIR_PART') sung = true;
+          session = nextLessonExercise(answerLesson(session, expectedAnswer(item)));
+        }
+      }
+      return lessonEvent('choir-' + randomUUID(), session, 1000, 2000, 'Europe/Berlin');
+    });
+    const choirSince = longPage.data.cursor;
+    const choirSync = (token, events = [], format = 5) =>
+      request('/functions/v1/learning-sync', {
+        token,
+        body: { events, since: choirSince, rewardFormat: 2, rowFormat: format },
+      });
+    const choirUpload = await choirSync(a.token, choirEvents);
+    assert.equal(choirUpload.status, 200, 'Chor-Nachweise serverseitig bewertet');
+    const ownChoir = choirUpload.data.rows.filter((row) =>
+      choirEvents.some((event) => event.id === row.event.id),
+    );
+    assert.equal(ownChoir.length, 2);
+    for (const [index, proof] of choirEvents.entries()) {
+      const row = ownChoir.find((row) => row.event.id === proof.id);
+      const progress = validateLearningEvent(catalogue, row.event).lesson;
+      assert.equal(progress.passed, index === 1);
+      assert.equal(progress.choirCorrect, index);
+      assert.equal(row.reward.qualified, index === 1);
+      if (index === 0) {
+        assert.equal(row.reward.amount, 0, 'Ohne Gesang keine XP');
+        assert.equal(row.reward.coins, 0, 'Ohne Gesang keine Coins');
+      } else assert.ok(row.reward.amount > 0, 'Gesangsabschluss erhält die geprüfte Belohnung');
+    }
+    assert.equal(
+      (
+        await choirSync(a.token, [
+          { ...choirEvents[0], id: 'forged-choir', choirCorrect: 1, passed: true },
+        ])
+      ).status,
+      400,
+    );
+    assert.equal(
+      (await choirSync(b.token)).data.rows.some((row) =>
+        choirEvents.some((event) => event.id === row.event.id),
+      ),
+      false,
+    );
+    // Age only these two fixtures. The retention service uses the summaries it stored on upload.
+    const quote = (value) => "'" + String(value).replaceAll("'", "''") + "'";
+    execFileSync(
+      'docker',
+      [
+        'exec',
+        '-i',
+        'supabase_db_harmonia',
+        'psql',
+        '-U',
+        'postgres',
+        '-d',
+        'postgres',
+        '-v',
+        'ON_ERROR_STOP=1',
+        '-Atq',
+      ],
+      {
+        input: `update learning_events set received_at=now()-interval '13 months' where user_id=${quote(a.id)} and client_id in (${choirEvents.map((event) => quote(event.id)).join(',')});`,
+        stdio: ['pipe', 'pipe', 'pipe'],
+      },
+    );
+    const retention = await request('/functions/v1/privacy-retention', { admin: true, body: {} });
+    assert.equal(retention.status, 200, 'Lokale Aufbewahrung kürzt die Chor-Fixtures');
+    const compactChoir = await choirSync(a.token);
+    assert.equal(compactChoir.status, 200);
+    for (const [index, proof] of choirEvents.entries()) {
+      const row = compactChoir.data.rows.find((row) => row.event.id === proof.id);
+      assert.equal(row.event.kind, 'retained');
+      assert.equal(row.event.progress.choirCorrect, index);
+      assert.equal(validateLearningEvent(catalogue, row.event).lesson.passed, index === 1);
+      assert.equal('initial' in row.event, false, 'Keine Detailantworten nach Verdichtung');
+    }
+    assert.equal(
+      (await choirSync(a.token, [], 4)).status,
+      426,
+      'Ältere Clients benötigen ein Update für den Chor-Abschlusszähler',
+    );
     console.log(
-      'Learning sync: Auth, Engine, RLS, 226 Offline-Versuche, Paging, zwei Geräte und atomare XP-Gutschriften bestanden.',
+      'Learning sync: Auth, Engine, RLS, 226 Offline-Versuche, Paging, zwei Geräte, atomare XP und Chor-Abschluss/Retention/Protokollgrenzen bestanden.',
     );
   }
 } finally {

@@ -2,6 +2,7 @@
 // Welche Funde im jeweiligen Stil als Fehler gelten, entscheidet erst F05.
 
 import { chordTones, type Chord } from './chord.ts';
+import { interval, isPerfectClass, semitones as intervalSemitones } from './interval.ts';
 import {
   diatonicIndex,
   midi,
@@ -29,6 +30,7 @@ export type VoiceLeadingRule =
   | 'seventh-resolution'
   | 'doubled-leading-tone'
   | 'augmented-second'
+  | 'augmented-melodic-interval'
   | 'melodic-leap';
 export type VoiceLeadingSeverity = 'error' | 'warning' | 'hint';
 
@@ -92,6 +94,7 @@ export const VOICE_LEADING_RULE_PHASE: Readonly<Record<VoiceLeadingRule, 'slice'
   'seventh-resolution': 'motion',
   'doubled-leading-tone': 'slice',
   'augmented-second': 'motion',
+  'augmented-melodic-interval': 'motion',
   'melodic-leap': 'motion',
 };
 
@@ -220,6 +223,13 @@ export function analyzeVoiceLeading(
       const semitones = midi(to) - midi(from);
       if (Math.abs(steps) === 1 && steps * semitones === 3) {
         add('augmented-second', at, [voice]);
+      }
+      if (rules['augmented-melodic-interval'] !== undefined) {
+        const size = Math.abs(steps) + 1;
+        const reference = intervalSemitones(interval(size, isPerfectClass(size) ? 'P' : 'M'));
+        // Written direction governs quality; chromatic unisons follow the sounding direction.
+        const directed = steps === 0 ? Math.abs(semitones) : Math.sign(steps) * semitones;
+        if (directed > reference) add('augmented-melodic-interval', at, [voice]);
       }
       if (
         options.maxMelodicInterval !== undefined &&

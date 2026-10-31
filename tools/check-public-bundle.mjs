@@ -1,3 +1,7 @@
+import { CERTIFICATE_REVIEW_MESSAGES } from '../packages/i18n/src/certificate-review.ts';
+import { AI_REVIEW_MESSAGES } from '../packages/i18n/src/ai-act-review.ts';
+import { LICENSE_MESSAGES } from '../packages/i18n/src/school-license.ts';
+import { QUIZ_MESSAGES } from '../packages/i18n/src/school-quiz.ts';
 // Prüft den tatsächlichen Produktions-Export, einschließlich escapeter JavaScript-Strings.
 import { readdirSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -7,6 +11,13 @@ import { publicCatalogue, textAt, textKeys, COLLECTIONS } from '../packages/cont
 import { contentMessages } from '../packages/i18n/src/authoring-content-messages.ts';
 import { RESOURCES } from '../packages/i18n/src/index.ts';
 import historyDraft from '../packages/i18n/src/history-journey-draft.json' with { type: 'json' };
+import { historyJourneyMessages } from '../packages/i18n/src/history-journey-draft.ts';
+import { createHistoryJourneyText } from '../packages/i18n/src/history-journey-text.ts';
+import { historyStops } from '../packages/content/src/history-journey-draft.ts';
+import { SCHOOL_DRAFT_MESSAGES } from '../packages/i18n/src/school-draft.ts';
+import { ASSIGNMENT_MESSAGES } from '../packages/i18n/src/school-assignments.ts';
+import { CERTIFICATE_DRAFT_MESSAGES } from '../packages/i18n/src/certificate-draft.ts';
+import levelFiveDraft from '../packages/i18n/src/messages/level-five-exercise.json' with { type: 'json' };
 
 const directory = resolve(process.argv[2] ?? 'apps/mobile/dist');
 const published = publicCatalogue(catalogue);
@@ -26,6 +37,36 @@ while (resources.length > 0) {
 for (const content of Object.values(contentMessages))
   for (const key of allowedKeys) allowedTexts.add(textAt({ content }, key));
 const forbidden = new Map();
+for (const [locale, messages] of Object.entries(CERTIFICATE_REVIEW_MESSAGES))
+  for (const key of ['title', 'draft', 'sampleLimit', 'limits'])
+    forbidden.set(messages[key], `P4.18 review ${locale}.${key}`);
+forbidden.set(
+  'official-explorer-2026-07-27; direct-eur-lex-pending',
+  'P4.17 internal legal inventory',
+);
+for (const [locale, messages] of Object.entries(AI_REVIEW_MESSAGES))
+  for (const key of ['title', 'draft', 'intro', 'limit'])
+    forbidden.set(messages[key], `P4.17 ${locale}.${key}`);
+forbidden.set('license_invoices', 'P4.16 private invoices');
+for (const [locale, messages] of Object.entries(LICENSE_MESSAGES))
+  for (const key of ['entry', 'intro', 'invoiceNote', 'practiceInfo'])
+    forbidden.set(messages[key], `P4.16 ${locale}.${key}`);
+forbidden.set('quiz_material', 'P4.15 private quiz material');
+for (const [locale, messages] of Object.entries(QUIZ_MESSAGES))
+  for (const key of ['entry', 'intro', 'codeInfo', 'projectorNote'])
+    forbidden.set(messages[key], `P4.15 ${locale}.${key}`);
+forbidden.set('assignment_material', 'P4.14 private material');
+for (const [locale, messages] of Object.entries(ASSIGNMENT_MESSAGES))
+  for (const key of ['assignments', 'intro', 'draftPolicy', 'shareNote'])
+    forbidden.set(messages[key], `P4.14 ${locale}.${key}`);
+forbidden.set('school_draft', 'P4.13 local schema');
+for (const [locale, messages] of Object.entries(SCHOOL_DRAFT_MESSAGES))
+  for (const key of ['title', 'draft', 'intro', 'privacy'])
+    forbidden.set(messages[key], `P4.13 ${locale}.${key}`);
+for (const id of ['certificate-draft-1', 'certificate-draft-2']) forbidden.set(id, `P4.18 ${id}`);
+for (const [locale, messages] of Object.entries(CERTIFICATE_DRAFT_MESSAGES))
+  for (const key of ['title', 'intro', 'policy', 'pdfTitle'])
+    forbidden.set(messages[key], `P4.18 ${locale}.${key}`);
 for (const collection of COLLECTIONS)
   for (const record of catalogue[collection])
     if (record.status !== 'freigegeben') forbidden.set(record.id, record.id);
@@ -39,9 +80,39 @@ for (const [locale, stories] of Object.entries(historyDraft))
   for (const [era, copy] of Object.entries(stories))
     for (const [field, value] of Object.entries(copy))
       for (const text of Array.isArray(value) ? value : [value])
-        if (typeof text === 'string' && text.length > 24 && !allowedTexts.has(text))
+        if (typeof text === 'string' && text.trim() && !allowedTexts.has(text))
           forbidden.set(text, `P4.12 ${locale}.${era}.${field}`);
+// A build could contain already-rendered copy without retaining its raw glossary
+// references. Check those complete values as well, in all three resolved locales.
+for (const [locale, stories] of Object.entries(historyJourneyMessages)) {
+  const translate = createHistoryJourneyText(locale, historyJourneyMessages);
+  for (const era of Object.keys(stories))
+    for (const [field, value] of Object.entries(translate(era)))
+      for (const text of Array.isArray(value) ? value : [value])
+        if (text.trim() && !allowedTexts.has(text))
+          forbidden.set(text, `P4.12 rendered ${locale}.${era}.${field}`);
+}
+// A shared approved score may legitimately be present independently of a draft.
+const publicScores = new Set([
+  ...published.knowledgeCards.flatMap((card) => card.examples.map((example) => example.score)),
+  ...published.knowledgeArticles.flatMap((article) =>
+    article.sections.flatMap((section) => section.examples.map((example) => example.score)),
+  ),
+]);
+for (const stop of historyStops)
+  for (const field of ['sceneScore', 'listeningScore'])
+    if (!publicScores.has(stop[field])) forbidden.set(stop[field], `P4.12 ${stop.id}.${field}`);
 const files = [];
+// P4.19 teaching prompts are draft content too, even though Node's authoring
+// tools load them as exercise messages. Metro removes them from production.
+for (const [locale, messages] of Object.entries(levelFiveDraft))
+  for (const [key, value] of Object.entries(messages))
+    if (
+      /^(contextQuestion_|contextHint[12]_|contextExplain_|knowledgeHistoryDefinition_|levelFive(Saving|Saved|Empty|Memory|Resume|Discard|Reload|Outdated|Conflict|LoadError|SaveError)$)/.test(
+        key,
+      )
+    )
+      forbidden.set(value, `P4.19 ${locale}.${key}`);
 function visit(path) {
   for (const entry of readdirSync(path, { withFileTypes: true })) {
     const full = resolve(path, entry.name);

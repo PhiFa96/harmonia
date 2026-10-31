@@ -11,6 +11,9 @@ export interface ReportMessages {
   readonly scope: string;
   readonly ownScore: string;
   readonly findings: string;
+  readonly groups: string;
+  readonly pairs: string;
+  readonly groupHelp: string;
   readonly noFindings: string;
   readonly noRules: string;
   readonly enabled: string;
@@ -25,6 +28,8 @@ export interface ReportMessages {
   readonly event: string;
   readonly measure: string;
   readonly offset: string;
+  readonly pickup: string;
+  readonly beginning: string;
   readonly rest: string;
   readonly marker: string;
   readonly positionHelp: string;
@@ -44,6 +49,10 @@ const de: ReportMessages = {
     'Dieser Bericht zeigt Funde der ausdrücklich eingeschalteten Regeln. Er beurteilt nicht die vollständige Richtigkeit des Satzes.',
   ownScore: 'Eigener Satz',
   findings: 'Befunde',
+  groups: 'Anzeigegruppen',
+  pairs: 'Enthaltene Stimmenpaare',
+  groupHelp:
+    'Paarbefunde derselben Regel am selben Zeitpunkt stehen in einem gemeinsamen Block. Alle Stimmenpaare bleiben aufgeführt; die Befundzahl zählt weiterhin jeden Paarbefund einzeln.',
   noFindings:
     'Unter den eingeschalteten Regeln wurden keine Befunde gefunden. Fachfreigabe und weitere Satzregeln bleiben offen.',
   noRules: 'Keine Regeln eingeschaltet. Es wurde kein Regelurteil erzeugt.',
@@ -58,12 +67,14 @@ const de: ReportMessages = {
   pitch: 'Ton oder Pause',
   event: 'Ereignis',
   measure: 'Takt',
-  offset: 'Position',
+  offset: 'Abstand in ganzen Noten:',
+  pickup: 'Auftakt',
+  beginning: 'Notierter Taktbeginn',
   rest: 'Pause',
   marker:
     'Die markierten Noten oder Pausen gehören zum Ziel dieses Befunds. Ausgangsnoten stehen, falls erforderlich, in der Tabelle.',
   positionHelp:
-    'Takte und Ereignisse werden ab 1 gezählt. Positionen sind Brüche einer ganzen Note ab Taktbeginn.',
+    'Ein unvollständiger erster Takt ist der Auftakt (Takt 0); der erste vollständige Takt ist Takt 1. Ereignisse werden ab 1 gezählt. Abstände sind exakte Brüche einer ganzen Note ab dem notierten Taktbeginn, keine Zählzeiten. Bei einem Auftakt beginnt der Abstand mit der ersten notierten Note oder Pause. Die Befundposition folgt der zugeordneten Bassstimme; Tabellen und Notenbeschreibungen zeigen die Nummer der jeweiligen notierten Stimme.',
   sourceHelp:
     'Regelgrundlage und offene Quellenfragen: docs/quality/p4-09-quellenentwurf.md. Die Texte und Beispiele dieses Berichts bleiben Entwurf.',
   license: 'Lizenz der eingebetteten Bravura-Notenschrift',
@@ -149,6 +160,11 @@ const de: ReportMessages = {
       description:
         'Eine Stimme bewegt sich um eine geschriebene Sekunde mit drei Halbtönen. Eine enharmonisch klingende kleine Terz fällt nicht unter diese Regel.',
     },
+    'augmented-melodic-interval': {
+      title: 'Übermäßiges Melodieintervall',
+      description:
+        'Zwei aufeinanderfolgende Töne derselben Stimme bilden ein geschriebenes übermäßiges Intervall, auch mehrfach übermäßig oder über eine Oktave hinaus. Diese ausdrücklich eingeschaltete Musterprüfung ist kein allgemeines Stilurteil.',
+    },
     'melodic-leap': {
       title: 'Melodischer Sprung',
       description:
@@ -164,6 +180,10 @@ const en: ReportMessages = {
     'This report shows findings from the explicitly enabled rules. It does not establish that the whole composition is correct.',
   ownScore: 'Own composition',
   findings: 'Findings',
+  groups: 'Display groups',
+  pairs: 'Included voice pairs',
+  groupHelp:
+    'Pair findings for the same rule at the same moment share a display block. Every voice pair remains listed; the finding count still counts each pair separately.',
   noFindings:
     'No findings under the enabled rules. Subject approval and further part-writing rules remain open.',
   noRules: 'No rules enabled. No rule assessment was produced.',
@@ -178,12 +198,14 @@ const en: ReportMessages = {
   pitch: 'Pitch or rest',
   event: 'Event',
   measure: 'Measure',
-  offset: 'Offset',
+  offset: 'Whole-note offset:',
+  pickup: 'Pickup',
+  beginning: 'Written measure start',
   rest: 'Rest',
   marker:
     'Marked notes or rests belong to the destination of this finding. Source notes, where required, are listed in the table.',
   positionHelp:
-    'Measures and events are numbered from 1. Offsets are fractions of a whole note from the start of the measure.',
+    'An incomplete first measure is the pickup (measure 0); the first complete measure is measure 1. Events are numbered from 1. Offsets are exact whole-note fractions from the written measure start, not beat numbers. In a pickup, the offset starts at the first written note or rest. Finding positions follow the assigned bass part; tables and note descriptions show the number in each written part.',
   sourceHelp:
     'Rule references and open source questions: docs/quality/p4-09-quellenentwurf.md. The text and examples in this report remain drafts.',
   license: 'License of the embedded Bravura music font',
@@ -268,6 +290,11 @@ const en: ReportMessages = {
       description:
         'A voice moves by a written second spanning three semitones. An enharmonically equivalent minor third is excluded from this rule.',
     },
+    'augmented-melodic-interval': {
+      title: 'Augmented melodic interval',
+      description:
+        'Two successive pitches in one voice form a spelled augmented interval, including multiple augmentation and compound intervals. This explicitly enabled pattern check is not a general stylistic judgment.',
+    },
     'melodic-leap': {
       title: 'Melodic leap',
       description:
@@ -279,9 +306,12 @@ const en: ReportMessages = {
 const uk: ReportMessages = {
   ...en,
   measure: 'Bar',
+  offset: 'Semibreve offset:',
+  pickup: 'Anacrusis',
+  beginning: 'Written bar start',
   license: 'Licence of the embedded Bravura music font',
   positionHelp:
-    'Bars and events are numbered from 1. Offsets are fractions of a semibreve from the start of the bar.',
+    'An incomplete first bar is the anacrusis (bar 0); the first complete bar is bar 1. Events are numbered from 1. Offsets are exact semibreve fractions from the written bar start, not beat numbers. In an anacrusis, the offset starts at the first written note or rest. Finding positions follow the assigned bass part; tables and note descriptions show the number in each written part.',
   rules: {
     ...en.rules,
     'voice-overlap': {

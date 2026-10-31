@@ -10,6 +10,7 @@ export const tutorContextSchema = z
   .object({
     source: reportSourceSchema,
     answer: z.string().max(4096).nullable(),
+    /** Legacy UI metadata, never proof of a previous grading action. */
     checked: z.boolean(),
   })
   .strict();
@@ -31,8 +32,11 @@ export const tutorRequestSchema = z
       ctx.addIssue({ code: 'custom', message: 'Hint level requires hint mode' });
     if (v.mode !== 'chat' && v.context === null)
       ctx.addIssue({ code: 'custom', message: 'Task mode requires context' });
-    if (v.mode === 'explain' && (!v.context?.checked || v.context.answer === null))
-      ctx.addIssue({ code: 'custom', message: 'Explanation requires a checked answer' });
+    if (v.mode === 'explain' && v.context?.answer == null)
+      ctx.addIssue({
+        code: 'custom',
+        message: 'Explanation requires an answer for server evaluation',
+      });
   });
 export type TutorRequest = z.infer<typeof tutorRequestSchema>;
 

@@ -8,6 +8,7 @@ import {
   hintText,
   exercisePrompt,
   itemVariantKey,
+  ratingBucket,
 } from './index.ts';
 import {
   checkSatb,
@@ -15,11 +16,66 @@ import {
   satbAnswer,
   satbAnswerId,
   satbScore,
+  SATB_DRAFT_RULES,
 } from './voice-leading.ts';
 import { parsePitch, transposeBy, parseInterval } from '@harmonia/theory';
 import { scoreTimeline, validateScore } from '@harmonia/notation';
 
 describe('internal VOICE_LEADING exercises', () => {
+  it('keeps the optional augmented-interval detector outside the existing grading profile', () => {
+    expect(SATB_DRAFT_RULES['augmented-melodic-interval']).toBeUndefined();
+    expect(SATB_DRAFT_RULES['augmented-second']).toBe('error');
+  });
+  it('keeps legacy rating profiles stable and binds each fixed key to its own new profile', () => {
+    const spec = {
+      type: 'VOICE_LEADING' as const,
+      params: { level: 4 as const, mode: 'bass' as const },
+    };
+    expect(ratingBucket(spec, 19)).toBe('g2:1:19:VOICE_LEADING:{"level":4,"mode":"bass"}');
+    const keys = ([-1, 0, 1] as const).map((fifths) =>
+      ratingBucket({ ...spec, params: { ...spec.params, fifths } }, 22),
+    );
+    expect(new Set(keys).size).toBe(3);
+    expect(keys[1]).toBe('g2:1:22:VOICE_LEADING:{"fifths":0,"level":4,"mode":"bass"}');
+  });
+  it.each([
+    [0, [-1, -1, -1], 0.1462021479383111],
+    [1, [0, -1, 0], 0.9810509674716741],
+    [42, [0, 0, 1], 0.6697340414393693],
+    ['p410-content', [1, -1, 1], 0.10393149964511395],
+    ['satb-tutor', [1, -1, -1], 0.5846859118901193],
+  ] as const)('preserves legacy seeded keys and RNG consumption for %s', (seed, keys, next) => {
+    const rng = createRng(seed);
+    const items = Array.from({ length: 3 }, () =>
+      generateVoiceLeading({ level: 4, mode: 'bass' }, rng),
+    );
+    expect(items.map((item) => item.fifths)).toEqual(keys);
+    expect(items.every((item) => !('fifths' in item.params))).toBe(true);
+    expect(rng.next()).toBe(next);
+  });
+  it('uses each authored key independently of the seed and preserves the draft profile', () => {
+    for (const level of [4, 5] as const)
+      for (const mode of ['bass', 'soprano', 'functions'] as const)
+        for (const fifths of [-1, 0, 1] as const)
+          for (const seed of [0, 'fixed-key']) {
+            const item = generateVoiceLeading({ level, mode, fifths }, createRng(seed));
+            expect(item.fifths).toBe(fifths);
+            expect(checkSatb(item, expectedAnswer(item))).toMatchObject({
+              valid: true,
+              complete: true,
+              passed: true,
+              issues: [],
+            });
+            expect(validateScore(satbScore(item.example, item.fifths))).toEqual([]);
+          }
+  });
+  it('rejects keys outside the bounded draft profile at runtime', () => {
+    for (const fifths of [-2, 2, 0.5, NaN, null, '0'])
+      expect(() =>
+        // @ts-expect-error Deliberately invalid runtime input.
+        generateVoiceLeading({ level: 4, mode: 'bass', fifths }, createRng(0)),
+      ).toThrow(RangeError);
+  });
   for (const level of [4, 5] as const)
     for (const mode of ['bass', 'soprano', 'functions'] as const) {
       it(`${String(level)}/${mode}: seeded reference solutions satisfy the declared profile in all keys`, () => {
@@ -131,6 +187,21 @@ describe('VOICE_LEADING accepts the standard textbook V(7)–I resolutions', () 
       ]),
     );
     expect(result).toMatchObject({ passed: true, issues: [] });
+  });
+  it('requires the tonic fifth after an incomplete V7', () => {
+    const item = cMajor(5);
+    const result = checkSatb(
+      item,
+      answer([
+        ['C5', 'E4', 'G3', 'C3'],
+        ['C5', 'F4', 'A3', 'F2'],
+        ['B4', 'F4', 'G3', 'G2'],
+        ['C5', 'E4', 'E4', 'C3'],
+      ]),
+    );
+    expect(result.issues).toContainEqual(
+      expect.objectContaining({ rule: 'chord-incomplete', at: 3 }),
+    );
   });
   it('complete V7 resolving to a complete I with the leading tone falling in an inner voice', () => {
     const item = cMajor(5);

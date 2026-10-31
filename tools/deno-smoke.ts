@@ -127,6 +127,24 @@ const contraryFifths = analyzeVoiceLeading(
 check('SATB-Gegenquinte unter Deno', contraryFifths[0]?.rule, 'contrary-fifth');
 check('SATB-Zielindex unter Deno', contraryFifths[0]?.at, 1);
 
+const augmentedMelody = (to: string) =>
+  ['C4', to].map((name) => ({
+    bass: parsePitch('C3'),
+    tenor: parsePitch('A3'),
+    alto: parsePitch('C4'),
+    soprano: parsePitch(name),
+  }));
+check(
+  'SATB-übermäßiges Melodieintervall unter Deno',
+  analyzeVoiceLeading(augmentedMelody('F#4'), { 'augmented-melodic-interval': 'hint' })[0]?.rule,
+  'augmented-melodic-interval',
+);
+check(
+  'SATB-enharmonische verminderte Quinte unter Deno',
+  analyzeVoiceLeading(augmentedMelody('Gb4'), { 'augmented-melodic-interval': 'hint' }).length,
+  0,
+);
+
 const scoreVoiceLeading = analyzeVoiceLeadingScore(
   parseScore('treble | E4/2 F4/2 & C4/1\nbass | G3/2 A3/2 & C3/2 D3/2'),
   {
@@ -161,7 +179,7 @@ const exercise = generateExercise(
   exerciseRng('deno-exercises'),
 );
 const plannedSkills = curriculumSkills(catalogue, curriculumPlan);
-check('170 interne Lektionen in Stufen 1 bis 5', catalogue.lessons.length, 170);
+check('194 interne Lektionen in Stufen 1 bis 5', catalogue.lessons.length, 194);
 let internalTasks = 0;
 for (const record of catalogue.lessons) {
   const lesson = resolveLesson(catalogue, record.id);
@@ -175,7 +193,7 @@ for (const record of catalogue.lessons) {
     throw new Error('Lernnachweis nicht unter Deno reproduzierbar');
   internalTasks += lesson.exercises.length;
 }
-check('Alle 1626 internen Aufgaben unter Deno durchspielbar', internalTasks, 1626);
+check('Alle 1866 internen Aufgaben unter Deno durchspielbar', internalTasks, 1866);
 let mixedTasks = 0;
 for (const record of catalogue.lessons) {
   const plan = lessonPlan(catalogue, record.id);
@@ -209,7 +227,7 @@ check(
   lessonDay(Date.parse('2026-03-29T22:30:00Z'), 'Europe/Berlin'),
   '2026-03-30',
 );
-check('57 graphbasierte Einheiten unter Deno', learningPath(catalogue, []).length, 57);
+check('65 graphbasierte Einheiten unter Deno', learningPath(catalogue, []).length, 65);
 const placement = placementBank(catalogue);
 for (const profile of ['assisted', 'advanced']) {
   let state = createPlacement(placement, `deno-${profile}`);

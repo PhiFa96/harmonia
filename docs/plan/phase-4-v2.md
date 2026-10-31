@@ -1,5 +1,7 @@
 # Phase 4 – V2 (Coaching, Schule, Profi-Features)
 
+**Technischer CI-Weiterbau (26.10.2026):** Die Supabase-Prüfung von Entwurfs-PR #129 scheiterte beim Image-Download, auch nach Neustart. Das Leeren des Registry-Overrides allein reicht in PR #130 / Lauf 243 ebenfalls nicht. Der GitHub-Job verwendet nun reguläre Images mit den offiziellen Registry-Fallbacks der gepinnten CLI; im tatsächlichen Startpfad haben Slim-Referenzen keinen Fallback. Healthchecks und sämtliche DB-Prüfungen bleiben erforderlich, private Logs geschützt. [GitHub-Lauf 244](https://github.com/PhiFa96/harmonia/actions/runs/40372773850) hat anschließend alle fünf Jobs einschließlich Start und vollständiger DB-Tests erfolgreich abgeschlossen. [ADR 0062](../decisions/0062-offizielle-supabase-registry-fallbacks-in-ci.md). Technische Vorbereitung **vor der formalen Phase-4-Freigabe**, keine Veröffentlichung oder Produktabnahme. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
+
 **Ziel:**
 
 - Harmonia verbindet KI und Menschen: Coach-Marktplatz mit Provision, KI-Live-Calls.
@@ -13,7 +15,7 @@
 - Die Nutzerbasis ist groß genug, um Coaches Buchungen zu versprechen.
 - Die offenen Phase-3-Abnahmen aus dem [technischen Rückblick](phase-3-rueckblick.md) sind abgeschlossen: Stufen 3–4 fachlich freigegeben und live, echte Geräte-/Realtime-/DB-Tests sowie Tutor-Quellenreview bestanden. P4.06 braucht zusätzlich eine eigene widerrufbare Lernstand-Freigabe; Harmonik-Korrekturen warten auf F03.
 
-**Interne technische Vorarbeit (21.10.2026):** Auf ausdrücklichen Nutzerauftrag entstehen Entwürfe vor der formalen Phase-4-Freigabe. Dazu zählen die gesonderte P4.12-Zeitreise, der P4.11-Chor-Trainer sowie die P4.09-Satzprüfung mit lokaler Satzwerkstatt als Eingabevorarbeit für P4.10. Diese Arbeit hebt keine Start-, Fach- oder Veröffentlichungsvoraussetzung auf. Der Produktions-Build enthält keine P4.12-Entwurfstexte oder Stationen. P4.01 bleibt bis F14 und Klärung der rechtlichen Voraussetzungen zurückgestellt.
+**Interne technische Vorarbeit (22.10.2026):** Auf ausdrücklichen Nutzerauftrag entstehen Entwürfe vor der formalen Phase-4-Freigabe. Dazu zählen die gesonderte P4.12-Zeitreise, der P4.11-Chor-Trainer, die P4.09-Satzprüfung und P4.10 sowie jetzt der [P4.19-Stufe-5-Entwurf](stufe-5-entwurf.md). Diese Arbeit hebt keine Start-, Fach- oder Veröffentlichungsvoraussetzung auf. Der Produktions-Build enthält keine P4.12-Entwurfstexte oder Stationen und keine neuen P4.19-Lerntexte/Aufgabenstellungen. P4.01 bleibt bis F14 und Klärung der rechtlichen Voraussetzungen zurückgestellt.
 
 **Blöcke:**
 
@@ -128,10 +130,18 @@
 
 ### P4.09 – Engine: Stimmführungsprüfung
 
+**Technischer Weiterbau der Regelauswahl (26.10.2026):** Die private Satzwerkstatt bietet für alle 17 Kennungen eine übersetzte Auswahl von Aus, Fehler, Warnung und Hinweis. Auswahl und JSON werden synchron gehalten; ungültiges JSON sperrt die Auswahl und bleibt als Entwurf speicherbar. Andere Regeln und Harmonie-/Bereichsparameter werden erhalten, fehlende Angaben nicht ergänzt. Änderungen verwerfen alte Befunde und stoppen die Wiedergabe; Import und Sprachwechsel erhalten die Konfiguration. [ADR 0059](../decisions/0059-bedienbare-regelauswahl-in-der-satzwerkstatt.md). Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**; musikalische Regeln, P4.10-Profil und Katalogversion 24 unverändert. Fach-/Sprach-/Geräteabnahmen offen, keine Veröffentlichung. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
+
+**Technischer Weiterbau der Melodieprüfung (26.10.2026):** Die zusätzliche, ausdrücklich einschaltbare Regel `augmented-melodic-interval` erkennt geschriebene übermäßige Melodieintervalle einschließlich mehrfacher Übermäßigkeit und Oktavierungen. Private Satzwerkstatt und skriptfreie Berichte zeigen DE/en-US/en-GB sowie Ausgangs-/Zielnoten. Die bisherige Sekundenregel und das P4.10-Bewertungsprofil bleiben unverändert; Katalog/Fähigkeitsplan weiter Version 24. [ADR 0058](../decisions/0058-optionale-uebermaessige-melodieintervalle.md). Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**; Stilwertung, F05 und unabhängige Fachprüfung offen, keine Veröffentlichung. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
+
+**Technischer Weiterbau der Befundanzeige (26.10.2026):** Zeitgleiche Paarbefunde mit gleicher Regel, Schwere und Ausgangs-/Zielposition erscheinen in einem gemeinsamen Block mit vollständiger Paarliste, Notenmarkierung und Belegen. Einzelbefunde, ursprüngliche Verweise und Engine-Zählung bleiben erhalten; die Werkstatt nennt zusätzlich die Zahl der Anzeigegruppen. DE/en-US/en-GB, Bearbeitung und skriptfreie Downloads sind geprüft. [ADR 0055](../decisions/0055-paarbefunde-im-satzbericht-gemeinsam-anzeigen.md). Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**; Regeln und Katalogversion 24 unverändert, unabhängige Fach-/Geräteabnahmen offen, keine Veröffentlichung. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
+
+**Technischer Weiterbau der Berichtpositionen (26.10.2026):** Gemeinsame Anzeige für Befundüberschriften, Ausgangs-/Zieltabellen und Notenbeschreibungen: Auftakt Takt 0, folgender voller Takt 1; am Anfang notierter Taktbeginn, später ausdrücklich Bruchabstände. Lokale Werkstatt und skriptfreie DE/en-US/en-GB-Downloads sind geprüft. [ADR 0054](../decisions/0054-auftakte-und-positionen-im-satzbericht.md). Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**; Regeln, Engine-Referenzen und Katalogversion 24 bleiben unverändert. Fach-/Primärliteratur-/Geräteabnahmen bleiben offen, keine Veröffentlichung. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
+
 - **Ziel:** Regelwerk für den vierstimmigen Satz.
 - **Abhängig von:** P3.13, F05
 - **Umfang:** XL
-- **Technische Vorarbeit vor formaler Phase-4-Freigabe:** [SATB-Musterdetektor mit 16 Regelkennungen, Partituradapter und eigenem Testkorpus](stimmfuehrung-entwurf.md) auf einem Arbeitsbranch, ohne Anbindung an Lern- oder Tutorabläufe. Der Adapter liefert exakte Zeit- und Notenbezüge bei unterschiedlichen Dauern, Haltebögen und Pausen. Der [Primärtextabgleich](../quality/p4-09-quellenentwurf.md) nennt direkt gelesene OMT-Abschnitte und offene SATB-Übertragungen. F05, passende Quellen für Stimmumfänge/Abstände und unabhängige Fachprüfung stehen aus. P4.09 ist nicht abgenommen; die Phase-4-Start- und Veröffentlichungsvoraussetzungen gelten weiter. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
+- **Technische Vorarbeit vor formaler Phase-4-Freigabe:** [SATB-Musterdetektor mit 17 Regelkennungen, Partituradapter und eigenem Testkorpus](stimmfuehrung-entwurf.md) auf einem Arbeitsbranch; die neue Melodieregel ist ausschließlich optional in der privaten Werkstatt nutzbar und gehört nicht zum P4.10-Lern-/Tutorprofil. Der Adapter liefert exakte Zeit- und Notenbezüge bei unterschiedlichen Dauern, Haltebögen und Pausen. Der [Primärtextabgleich](../quality/p4-09-quellenentwurf.md) nennt direkt gelesene OMT-Abschnitte und offene SATB-Übertragungen. F05, passende Quellen für Stimmumfänge/Abstände und unabhängige Fachprüfung stehen aus. P4.09 ist nicht abgenommen; die Phase-4-Start- und Veröffentlichungsvoraussetzungen gelten weiter. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
 - **Aufgaben:**
   - [ ] Regeln aus [theorie-engine.md](theorie-engine.md), jede mit Quelle, Schweregrad, Konfiguration
   - [ ] Testkorpus mit eigenen fehlerhaften und fehlerfreien Sätzen (technische Fixture und lokaler DE/EN-Review-Bericht vorhanden; unabhängige Abnahme offen)
@@ -140,6 +150,10 @@
   - Jede Regel ist mit ihrer Quelle belegt und fachlich geprüft.
 
 ### P4.10 – Tonsatz-Korrektor
+
+**Technischer Tutor-Weiterbau (26.10.2026):** Der Tutor verwendet `checked` als UI-Metadaten, ohne daraus eine Bewertung oder Sichtbarkeitsfreigabe abzuleiten. Erklärungen werten die übergebene Antwort serverseitig aus; Hinweise und Chat halten versteckte Hörquellen und Bewertungsfelder unabhängig vom Clientflag zurück. Das gebundene SATB-Werkzeug bleibt in Hinweis/Chat gesperrt. [ADR 0057](../decisions/0057-tutor-kontext-nach-modus-und-serverwertung.md). Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**; Katalogversion 24, Regeln und Lernnachweise unverändert, Fach-/reale Modell-/Geräteabnahmen offen, keine Veröffentlichung. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
+
+**Technischer Weiterbau der Einführung (26.10.2026):** Sechs Einführungskarten mit zwei eigenen vierstimmigen Akkordbeispielen, DE/en-US/en-GB-Beschriftungen und Klang. Die interne Satzwerkstatt zeigt vor den Aufgaben dieselbe Einführung wie der reguläre Lernpfad. Allgemeiner Notensatz unterstützt die mehrstimmigen Karten; einfache Lernbilder bleiben geprüft. Karten/Lektionen und Katalog/Fähigkeitsplan Version 23, Übungssätze/Ratingquellen weiter 22. [ADR 0051](../decisions/0051-vierstimmige-einfuehrung-fuer-satzaufgaben.md). Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**; Inhalte Entwurf, unabhängige Fach-/Geräteabnahmen offen, keine Veröffentlichung. P4.01 bleibt bis F14 und Rechtsklärung zurückgestellt.
 
 - **Ziel:** Sätze schreiben, Fehler sehen, verstehen.
 - **Abhängig von:** P4.09
@@ -152,7 +166,21 @@
 
 **Technisch als interner Entwurf implementiert, keine Produktabnahme:** [Umsetzung, Aufgabenprofil und offene Abnahmen](tonsatz-korrektor-entwurf.md). Auf ausdrücklichen Nutzerauftrag findet technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe** statt. Der grafische Editor, sechs eigene DE/EN-Entwurfslektionen in Stufe 4–5 und das serverseitig gebundene Tutor-Werkzeug sind implementiert. Die Häkchen kennzeichnen ausschließlich diese technische Umsetzung. F03/F05, unabhängige Fachprüfung, reales Tutor-Modell und Geräteabnahmen bleiben offen. Keine Veröffentlichung. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
 
+**Technischer Aufgaben-Weiterbau (26.10.2026):** Die sechs P4.10-Erstversuche enthalten C-, F- und G-Dur jeweils einmal; Fehlerwiederholungen wechseln kanonisch die Tonart. Übungssätze und Lektionen sind mit Version 22 gegen die alte Aufgabenfassung abgegrenzt. [ADR 0048](../decisions/0048-tonsatz-aufgaben-mit-drei-festen-tonarten.md). Dies ist technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**; Regel-/Fachabnahmen bleiben offen, Inhalte `entwurf`, keine Veröffentlichung. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
+
 ### P4.11 – Chor-Trainer
+
+**Abschlussregel auf Nutzerentscheidung (28.10.2026), vor formaler Phase-4-Freigabe:** Zusätzlich zur 80-%-Quote verlangt die neue Chor-Version mindestens eine anrechenbar bestandene eigene Gesangsaufgabe im Erstversuch. Überspringen bleibt möglich, erfüllt den Chorabschluss allein über Wiederholungsfragen aber nicht. Hinweise 1–2 sind erlaubt; angezeigte Lösungen und spätere Fehlerkorrekturen erfüllen die Gesangsbedingung nicht. Client-/Serverwertung, Belohnungen, DE/EN-Erklärung, Offline-Wiederaufnahme und gekürzte Nachweise verwenden dieselbe Regel. Sync-Format 5 schützt neue Chor-Zähler vor Fehlinterpretation durch ältere Clients. Katalog/Fähigkeitsplan und Chor-Lektionen 27; alle fünf angekündigten Wiederholungen sind enthalten. [ADR 0064](../decisions/0064-chorabschluss-verlangt-bestandenen-gesangsversuch.md). Die Mindest-Gesangsentscheidung ist geklärt; unabhängige Fach-/Sprach- und echte Kopfhörer-/Geräteabnahmen bleiben offen. Inhalte `entwurf`, keine Veröffentlichung. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
+
+**Technischer Lernpfad-Weiterbau (27.10.2026), vor formaler Phase-4-Freigabe:** Die vier Stimmen sind mit passenden Notenlese-/Vorzeichen-/Rhythmus- und Gehörvoraussetzungen unabhängig erreichbar. Fehlende Grundlagen werden je Lektion verlinkt; direkte Lektionslinks umgehen die Sperre nicht. Feste/adaptive Mischpläne importieren keine andere Chorstimme. Katalog/Fähigkeitsplan und Chor-Lektionen Version 26, Übungssätze/Ratingquellen weiter 25, Einführungskarten 24; alte Durchläufe benötigen einen neuen Start. [ADR 0063](../decisions/0063-unabhaengige-chorlektionen-mit-eigenen-voraussetzungen.md) und [technische Abnahmeübersicht](chor-trainer-entwurf.md). Alle Inhalte bleiben `entwurf`; Fach-/Sprach-/echte Kopfhörer-/Geräteabnahmen und die Produktentscheidung zu mindestens einer gesungenen Aufgabe bleiben offen. Keine Veröffentlichung. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
+
+**Technischer Rückmeldungs-Weiterbau (26.10.2026), vor formaler Phase-4-Freigabe:** Nach der Wertung erscheinen zwölf beschriftete Fenster je Note mit passend/zu hoch/zu tief/nicht erkannt und getrennten Erkennungs-/Trefferzahlen. Die gleiche globale Oktavkorrektur gilt für Anzeige und Wertung. DE/en-US/en-GB, Symbole statt alleiniger Farbunterscheidung; Tutor behält die bisherige knappe Zusammenfassung. Gesangsprofil, Antwortformat, Quellen und Katalogversion 25 unverändert. [ADR 0061](../decisions/0061-chor-rueckmeldung-pro-bewertungsfenster.md). Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**; unabhängige Fach-/Sprach-/Geräteabnahmen offen, keine Veröffentlichung. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
+
+**Technischer Aufgaben-Weiterbau (26.10.2026), vor formaler Phase-4-Freigabe:** Alle vier Stimmlagen erhalten unterschiedliche C-/D-Dur-Erstaufgaben und kanonische Fehlerwiederholungen in einer anderen Tonart aus B-/C-/D-Dur. Tonartanzeige, Notation, drei Begleitstimmen und Bewertung folgen denselben Zieltönen. Ein Tempowechsel allein zählt bei neuen Spezifikationen nicht als Variante; der alte Pfad ohne Tonartparameter bleibt für Seed-Replay erhalten. Übungssätze/Lektionen und Katalog/Fähigkeitsplan Version 25, Einführungskarten weiter 24. [ADR 0060](../decisions/0060-chor-wiederholungen-mit-anderen-zieltoenen.md). Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**; neue Fassungen `entwurf`, Fach-/Sprach-/Geräteabnahmen offen, keine Veröffentlichung. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
+
+**Technischer Einführungs-Weiterbau (26.10.2026), vor formaler Phase-4-Freigabe:** Vier Karten mit je zwei vollständigen, zur gewählten Stimme passenden Noten-/Klangbeispielen aus den vorhandenen eigenen Miniaturen. Der interne Einstieg zeigt dieselbe Einführung wie der Lernpfad, vor den Mikrofonaufgaben. DE/en-US/en-GB verwenden Glossarbegriffe; Karten/Lektionen und Katalog/Fähigkeitsplan Version 24, Übungssätze weiter 20. [ADR 0053](../decisions/0053-chor-einfuehrungen-fuer-jede-stimmlage.md). Technische Vorarbeit, sämtliche Inhalte `entwurf`, unabhängige Fach-/Geräteabnahmen offen, keine Veröffentlichung. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
+
+**Technischer Aufnahme-Weiterbau (26.10.2026), vor formaler Phase-4-Freigabe:** [Datenflussprüfung und offene Geräteabnahme](chor-trainer-entwurf.md) auf eigenem Branch: Begleitung erst nach PCM-Eingang, Abbruch ohne Antwort bei erkannten Datenlücken, vollständige PCM-Abdeckung der Bewertungsfenster, Web-/native Bereinigung und sicher abgewarteter Neustart. Stille bleibt gültiges PCM; musikalische Bestehensregeln und Antwortformat ändern sich nicht. Synthetische Tests ersetzen keine echten Mikrofon-/Kopfhörerprüfungen. Kein Veröffentlichungsangebot. P4.01 bleibt bis F14/Rechtsklärung zurückgestellt.
 
 - **Ziel:** Mehrstimmig singen üben.
 - **Abhängig von:** P3.09
@@ -167,6 +195,14 @@
 
 ### P4.12 – Zeitreise durch die Musikgeschichte
 
+**Technischer Interview-Weiterbau (26.10.2026):** Drei auswählbare Fragen je Station mit eigenen fest geschriebenen DE/EN-Ich-Antworten der ausdrücklich erfundenen Rollen. Flüchtige Auswahl mit einmaligem Fragenzähler; eine Frage genügt, weitere sind freiwillig. Glossar-/Sprachprüfung und Produktionsschutz erfassen alle Dialogeinträge. Quellen, Klangmodelle und Katalogversion 24 bleiben unverändert. [ADR 0056](../decisions/0056-auswaehlbare-fragen-in-der-zeitreise.md). Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**; neue Texte `entwurf`, unabhängige Fach-/Sprach-/Geräteabnahmen offen, keine Veröffentlichung. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
+
+**Technischer Weiterbau des Glossars (26.10.2026):** Alle Stationsfelder und Antwortoptionen verwenden eine isolierte, ausdrücklich mit Daten versorgte Textbindung; Kernbegriffe kommen aus dem gemeinsamen DE/EN-Glossar. Die Sprachprüfung weist auch erst nach Auflösung identische Antworten ab. Der Bundleguard prüft rohe und aufgelöste Entwurfstexte; öffentliche Stationen bleiben leer. [ADR 0052](../decisions/0052-zeitreise-texte-mit-isolierter-glossarbindung.md). Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**; unabhängige Fach-/Sprachprüfung und Geräteabnahme bleiben offen, sämtliche Inhalte `entwurf`, keine Veröffentlichung. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
+
+**Technischer Weiterbau des Quiz (26.10.2026):** Flüchtiger Fragezustand mit Hinweis nach Fehler und vollständiger Erklärung nach Korrektur, eigene DE/EN-Transferfragen und Ablenker, wahrheitsgemäße Rollenspiel-Kennzeichnung und britische Schreibweisen. [ADR 0050](../decisions/0050-zeitreise-fragen-mit-hinweisen-und-erklaerungen.md). Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**; sämtliche neuen Inhalte bleiben Entwurf bis zur unabhängigen Fach-/Sprachprüfung. Keine Veröffentlichung, P4.01 bleibt bis F14 und Rechtsklärung zurückgestellt.
+
+**Technischer Weiterbau der Prüfungen (26.10.2026):** Die gesonderten Stations- und Antworttexte sind in `check:i18n` einbezogen. Metro sperrt tatsächlich aufgelöste interne TS-/JSON-Dateien einschließlich Symlinks; der Bundleguard prüft kurze Entwurfstexte und alle acht Partituren. DE/en-US/en-GB-Browserproben prüfen interne Vorschau und leere öffentliche Deep-Links; die Produktionsprobe ist in CI verankert. [ADR 0049](../decisions/0049-zeitreise-entwuerfe-an-den-buildgrenzen-pruefen.md). Dies bleibt ausdrücklich technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**. Fach-/Quellenprüfung, redaktionelle Nacharbeit und Geräteabnahmen bleiben offen, alle Inhalte `entwurf`, keine Veröffentlichung. P4.01 bleibt bis F14 und Rechtsklärung zurückgestellt.
+
 **Technischer Entwurf:** Vier europäische Stationen mit eigenen Klangmodellen, redaktionell geschriebenen fiktiven Interviews, Wissens- und Hörfrage und präzisem Link auf den versionierten Abschnitt des P2.08-Wissensartikels (Linkmechanismus aus P3.19). Der Ablauf ist intern spielbar; es werden keine XP oder Fortschritte vergeben. Details und offene Freigaben: [Zeitreise P4.12](zeitreise-musikgeschichte.md).
 
 - **Ziel:** Geschichte erleben statt auswendig lernen.
@@ -174,7 +210,7 @@
 - **Umfang:** L
 - **Aufgaben:**
   - [x] Story-Modus als interne Vorschau durch vier Epochen mit eigenen, synthetisch gespielten Klangmodellen
-  - [x] Redaktionell geschriebenes fiktives Interview je Station, als KI-Fiktion und ohne Live-Gespräch gekennzeichnet, mit Quellenabschnitt
+  - [x] Drei auswählbare, redaktionell geschriebene Interviewfragen je Station, als erfundenes, vorab geschriebenes Rollenspiel gekennzeichnet, mit Quellenabschnitt
   - [x] Wissensfrage und Hörquiz je Station als Entwurf
   - [ ] Unabhängige Fach- und Quellenprüfung; echte Geräte-/Audioabnahme und Freigabe von mindestens vier Epochen
 - **Fertig, wenn:** Mindestens vier Epochen sind fachlich freigegeben.
@@ -182,6 +218,8 @@
 ## Block D – Schule
 
 ### P4.13 – Organisationen, Klassen, Lehrer-Dashboard
+
+**Interne technische Vorarbeit auf Nutzerauftrag (23.10.2026), vor der formalen Phase-4-Freigabe:** [Lokaler Schul-Dashboard-Entwurf](schule-dashboard-entwurf.md) mit Organisationen, Rollen, Klassen, befristeten Einladungscodes, Klassen-/Einzelübersichten und widerrufbarer klassenbezogener Freigabe. Echte PostgreSQL-RLS, pgTAP, HTTP- und DE/EN-Browserprüfungen; ausschließlich synthetische Konten und Lerndaten. Die Dashboard-Basis aus P4.01 wird nur für diesen lokalen Entwurf durch eine eigene Werkstatt ersetzt. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt. Keine Veröffentlichung, produktive Authentifizierung oder Schulabnahme. P4.17, AVV/Schulrecht, echte Lernnachweise und Pilotbetrieb bleiben offen; die Produkt-Checkliste bleibt unverändert offen.
 
 - **Ziel:** Lehrkräfte arbeiten mit ihren Klassen.
 - **Abhängig von:** P4.01 (Dashboard-Basis)
@@ -194,6 +232,8 @@
 
 ### P4.14 – Aufgaben zuweisen
 
+**Interne technische Vorarbeit auf Nutzerauftrag (24.10.2026), vor der formalen Phase-4-Freigabe:** [Klassenaufgaben-Entwurf](schulaufgaben-entwurf.md) auf der lokalen P4.13-Werkstatt: Lektionen/Übungsbausteine zusammenstellen, Empfänger und Aufgaben einfrieren, Fälligkeit, geschützter lokaler Link, Bearbeitung/Wiederaufnahme, serverseitige Engine-Bewertung und widerrufbar freigegebene Auswertung in DE/en-US/en-GB. Ausschließlich synthetische Konten; echte PostgreSQL-RLS-, HTTP- und Browserprüfungen. P4.13 ist die technische PR-Abhängigkeit. Quellen bleiben Entwurf bis zur unabhängigen Fachprüfung; keine Veröffentlichung. Die Produkt-Checkliste bleibt bis zu den Fach-, Rechts-, Identitäts- und Pilotabnahmen offen. P4.01 bleibt bis F14 und Klärung der rechtlichen Voraussetzungen zurückgestellt.
+
 - **Ziel:** Hausaufgaben für Klassen.
 - **Abhängig von:** P4.13
 - **Umfang:** M
@@ -204,6 +244,8 @@
 
 ### P4.15 – Klassen-Live-Quiz
 
+**Interne technische Vorarbeit auf Nutzerauftrag (24.10.2026), vor der formalen Phase-4-Freigabe:** [Lokaler Live-Quiz-Entwurf](klassen-live-quiz-entwurf.md) mit Lobbycode, Beameransicht, synchronisierten Runden, serverseitiger Bewertung, freiwilliger Rangliste mit Spielkürzeln und freigabegebundener Endauswertung in DE/en-US/en-GB. Aufbau auf P4.13/P4.14, ausschließlich synthetische Konten und Entwurfsquellen. Ein Lasttest prüft 30 gleichzeitige HTTP-/SSE-Clients; **die verlangte Abnahme mit 30 echten Geräten ist weiterhin offen**. Keine Veröffentlichung oder produktive Authentifizierung. Fachprüfung, P4.17, Schulrecht/AVV und Pilot bleiben offen; die Produkt-Checkliste ist deshalb nicht abgenommen. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
+
 - **Ziel:** Gemeinsames Quiz im Unterricht.
 - **Abhängig von:** P4.13
 - **Umfang:** L
@@ -213,6 +255,8 @@
 - **Fertig, wenn:** Test mit 30 gleichzeitigen Geräten läuft stabil.
 
 ### P4.16 – Schul-Lizenz
+
+**Interne technische Vorarbeit auf Nutzerauftrag (24.10.2026), vor der formalen Phase-4-Freigabe:** [Lokaler Schullizenz-Entwurf](schul-lizenz-entwurf.md) mit Rechnungsproben, simuliertem Zahlungseingang über ein getrenntes synthetisches Betreiberkonto, Platzvergabe, Laufzeiten und widerrufbaren Premium-Übungen in DE/en-US/en-GB. Datenbankzeit, RLS, Sperren und Mitgliedschaftstrigger schützen Freischaltungen. Ausschließlich Testdaten; keine echte Rechnung, Zahlung oder produktive App-Freischaltung. Die Bedingung **„Eine Pilotschule ist eingerichtet“ bleibt offen**, ebenso P4.17, Schulrecht/AVV, Identität, Rechnungs-/Steuerprüfung und Fachabnahmen. Keine Veröffentlichung. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt; die Produkt-Checkliste ist nicht abgenommen.
 
 - **Ziel:** Verkauf an Organisationen.
 - **Abhängig von:** P4.13
@@ -226,6 +270,8 @@
 
 ### P4.17 – Prüfung der KI-Verordnung
 
+**Technische Prüfvorbereitung auf Nutzerauftrag (24.10.2026), vor der formalen Phase-4-Freigabe:** [Quellenbezogene Voreinschätzung](../legal/ai-act/vorpruefung.md) und [programmierte Übergabe](ki-verordnung-pruefvorbereitung.md) mit neun Funktionsbereichen, acht Maßnahmenpaketen, DE/EN-Prüfberichten, Code-/Zweckbindung und getrennten Freigabeprüfungen für allgemeines Produkt, Schule und Zertifikate. Aktuelle amtliche Explorer-/Kommissionsquellen bestätigen die Friständerung und benennen insbesondere Lernsteuerung/Profiling als Prüfpunkte. Der direkte konsolidierte EUR-Lex-Abruf und die unabhängige schriftliche Rechtsprüfung bleiben offen. Alle juristischen Häkchen bleiben unerledigt; keine Rechts-, Schul- oder Veröffentlichungsfreigabe. P4.01 bleibt bis F14 und Rechtsklärung zurückgestellt.
+
 - **Ziel:** Rechtssichere Einordnung vor Schule und Zertifikaten.
 - **Abhängig von:** –
 - **Umfang:** M
@@ -235,6 +281,10 @@
 - **Fertig, wenn:** Schriftliche Einschätzung liegt vor; Maßnahmen sind eingeplant.
 
 ### P4.18 – Zertifikate
+
+**Technischer Entwurf und Weiterbau (25.10.2026), vor der formalen Phase-4-Freigabe:** [Lokale Zertifikatswerkstatt](zertifikate-entwurf.md) mit zwei serverbewerteten Testprofilen, Wiederaufnahme, ungültigen Muster-PDFs, Widerruf und Datenlöschung. Der Weiterbau verbindet die Entwurfsstände #104 und #109: Code-/Inhaltsbindung für Durchgänge und PDFs, eigener Zustand für veraltete Durchgänge, private DE/EN-Prüfmappe mit 72 reproduzierbaren Aufgabenbeispielen und ausdrücklich ausgewiesenen Themenlücken. `check:certificates:release` sperrt zusammen mit den offenen P4.17-Zertifikatsnachweisen. Testgrenze und Engine-Lösungen sind keine fachliche Abnahme. Keine Zahlung, gültige Urkunde, Veröffentlichung oder Integration auf main. Schriftliche Rechtsprüfung, unabhängige Fachprüfung und sämtliche Produkt-Häkchen bleiben offen. P4.01 bleibt bis F14 und Rechtsklärung zurückgestellt.
+
+**Interne technische Vorarbeit auf ausdrücklichen Nutzerauftrag (23.10.2026), vor der formalen Phase-4-Freigabe:** [Lokaler Zertifikats-Prototyp](zertifikate-entwurf.md) mit zwei Testprofilen, servergeprüfter Auswertung, ungültigem Muster-PDF und interner Codeprüfung einschließlich Widerruf. DE/EN, SQLite-Wiederaufnahme und Tests. P4.17, feste fachlich freigegebene Prüfungsinhalte, verbindliche Bestehensregeln und Zahlungsberechtigung bleiben Voraussetzungen eines Produktangebots. Keine Veröffentlichung, keine gültigen Zertifikate. Die folgenden Produkt-Abnahmefelder bleiben offen. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
 
 - **Ziel:** Bezahlte, verifizierbare Abschlussprüfungen je Stufe.
 - **Abhängig von:** P3.17, P4.17
@@ -248,10 +298,22 @@
 
 ### P4.19 – Stufe 5 (DE + EN)
 
+**Weiterbau der internen technischen Vorarbeit (25.10.2026), vor formaler Phase-4-Freigabe:** Der [Stufe-5-Entwurf](stufe-5-entwurf.md) aus #103 wird auf `codex/p4-19-preview-resume-draft` mit #110 lokal zusammengeführt und um getrennte, quellengebundene Wiederaufnahme erweitert. Ein eigener Vorschau-Durchgang je Konto/Gast, bestätigte SQLite-Speicherung, Konfliktschutz, lokale Siebentagesgrenze, Export und Löschung; ohne dauerhaften Speicher nur RAM. Einführung, Auswahl, Hinweise und Wiederholung bleiben erhalten; keine Lernnachweise, Ratings, XP, Gastübernahme oder Synchronisation. P4.17 inventarisiert Analyse und Vorschau zusätzlich, ohne Einstufungsfreigabe. Keine Integration auf main oder Veröffentlichung. Fach-/Quellen-/Geräteabnahmen und formale P4-Freigabe bleiben offen. P4.01 bleibt bis F14/Rechtsklärung zurückgestellt.
+
 - **Ziel:** Hochschulniveau: Kontrapunkt, Formenlehre, Werkanalyse, Musik des 20. und 21. Jahrhunderts.
 - **Abhängig von:** P4.09
 - **Umfang:** XL
 - **Aufgaben und Abnahme:** wie P2.07. Zusätzlich Engine-Module `counterpoint` (Grundlagen) und Analyse-Übungen.
+
+**Technisch als interner Entwurf implementiert, keine Produktabnahme:** [Umsetzung und offene Abnahmen](stufe-5-entwurf.md), [Quellenentwurf](../quality/p4-19-quellenentwurf.md), [ADR 0038](../decisions/0038-stufe-fuenf-als-begrenzter-analyseentwurf.md). Technische P4-Vorarbeit findet ausdrücklich **vor der formalen Phase-4-Freigabe** statt.
+
+- [x] Begrenzte Kontrapunkt-Engine (erste Gattung, neun Regeln) und zehn quellbasierte Analysethemen mit Tests.
+- [x] Acht neue Einheiten, 24 DE/EN-Lektionen, 240 Aufgaben, 32 eigene Karten/Notenbeispiele und acht Artikel als `entwurf`.
+- [x] Interner Prüfablauf mit Einführung, Bewertung und veränderter Fehlerwiederholung; keine XP oder gespeicherten Lernereignisse.
+- [x] Wissensindex für Stufe 5 und Produktionsausschluss der neuen Entwurfstexte vorbereitet.
+- [ ] Unabhängige Fachprüfung, vollständige Quellen-/Didaktikabnahme, reale Geräte-/Audioprüfungen und formale Freigabe.
+
+Die Häkchen kennzeichnen ausschließlich die technische Umsetzung. Keine Veröffentlichung. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
 
 ---
 

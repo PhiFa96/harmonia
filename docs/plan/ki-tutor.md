@@ -112,3 +112,5 @@ Der Tutor rechnet nicht selbst, sondern ruft die Engine auf. Werkzeuge mit stren
 - **Ablauf:** Spracherkennung → Sprachmodell (mit denselben Werkzeugen) → Sprachausgabe, über LiveKit Agents. Das React-Native-SDK läuft mit Expo-Plugin in Development Builds, nicht in Expo Go.
 - **Kosten und Grenzen:** Gesprächsminuten pro Monat im Max-Abo begrenzen.
 - **Musikalische Anteile:** Der Tutor spielt Beispiele über die App-Audio-Engine ab, nicht über synthetische Sprache.
+
+P4.17-Prüfvorbereitung (24.10.2026): Erklärfunktion und verdichtete Lernstandwerkzeuge werden im [KI-Funktionsinventar](ki-verordnung-pruefvorbereitung.md) getrennt erfasst. Lernsteuerung und Profiling im institutionellen Kontext sind ausdrücklich offene Rechtsfragen; deterministische Bewertung erteilt keine Gesamtfreigabe. Transparenz-/Markierungsfragen und der geänderte Rechtsstand sind in der [Voreinschätzung](../legal/ai-act/vorpruefung.md) belegt.

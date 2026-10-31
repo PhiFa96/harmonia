@@ -18,3 +18,7 @@ Die Mikrofonübungen (P3.10) bewerteten die Oktavlage absolut: Eine Männerstimm
 - Bei Oktavversetzung gibt die Rückmeldung keine Fehlerbotschaft mehr. Die Erkennung selbst (P3.09) bleibt unverändert; der Detektor liefert weiterhin absolute Tonhöhen.
 - Reine Gesangsaufgaben liefern damit weniger Evidenz für die Skill-Berechnung; sie fließen wie bisher über die Engine-Bewertung ein, übersprungene Aufgaben nicht.
 - Alte Lernnachweise ohne `voiceSkipped` bleiben gültig (Standard 0).
+
+## Ergänzung für Chor-Lektionen vom 28.10.2026
+
+Auf ausdrückliche Nutzerentscheidung verlangt die neue Chor-Version zusätzlich mindestens eine anrechenbar bestandene eigene Gesangsaufgabe im Erstversuch ([ADR 0064](0064-chorabschluss-verlangt-bestandenen-gesangsversuch.md)). Das Überspringen und der Quotennenner bleiben wie hier beschrieben. Die zusätzliche Abschlussanforderung betrifft ausschließlich die neu versionierten Chor-Lektionen; andere mikrofonfreie Lernwege bleiben erhalten.

@@ -2,7 +2,6 @@ import { z } from 'zod';
 import {
   ALL_CHORD_TYPES,
   chord,
-  formatFraction,
   parseNoteName,
   parsePitch,
   pitchName,
@@ -17,12 +16,29 @@ import {
   layoutScore,
   layoutToSvg,
   parseScore,
-  type VoiceLeadingScorePosition,
   type VoiceLeadingScoreTone,
 } from '../../packages/notation/src/index.ts';
 import { REPORT_MESSAGES, type ReportLocale, type ReportMessages } from './messages.ts';
+import { createReportPositions } from './report-positions.ts';
+import { reportFindingGroups, reportGroupNotes } from './report-groups.ts';
 
 const RULES = Object.keys(VOICE_LEADING_RULE_PHASE) as [VoiceLeadingRule, ...VoiceLeadingRule[]];
+export const reportRulesSchema = z.preprocess(
+  (value, context) => {
+    if (
+      value !== null &&
+      typeof value === 'object' &&
+      !Array.isArray(value) &&
+      Object.keys(value).some((key) => !Object.hasOwn(VOICE_LEADING_RULE_PHASE, key))
+    ) {
+      // Validate before partialRecord, which otherwise omits the special __proto__ key.
+      context.addIssue({ code: 'custom', message: 'Unknown voice-leading rule' });
+      return z.NEVER;
+    }
+    return value;
+  },
+  z.partialRecord(z.enum(RULES), z.enum(['error', 'warning', 'hint'])),
+);
 
 function parsedString<T>(parse: (value: string) => T) {
   return z.string().transform((value, context) => {
@@ -71,7 +87,7 @@ const inputSchema = z.strictObject({
   title: z.string().trim().min(1).optional(),
   score: z.string().trim().min(1),
   assignment: z.strictObject({ bass: binding, tenor: binding, alto: binding, soprano: binding }),
-  rules: z.partialRecord(z.enum(RULES), z.enum(['error', 'warning', 'hint'])),
+  rules: reportRulesSchema,
   options: z
     .strictObject({
       ranges: z.strictObject({ bass: range, tenor: range, alto: range, soprano: range }).optional(),
@@ -131,6 +147,7 @@ export function renderVoiceLeadingReport(raw: unknown, locale: ReportLocale, ass
   const m = REPORT_MESSAGES[locale];
   const score = parseScore(input.score);
   const analysis = analyzeVoiceLeadingScore(score, input.assignment, input.rules, input.options);
+  const positions = createReportPositions(score, input.assignment, m);
   const layout = layoutScore(score);
   const svg = (notes: readonly VoiceLeadingScoreTone[] = []) =>
     layoutToSvg(layout, {
@@ -139,17 +156,25 @@ export function renderVoiceLeadingReport(raw: unknown, locale: ReportLocale, ass
       highlights: notes.map((tone) => ({ ref: tone.ref, kind: 'active' })),
     }).replace('<svg ', '<svg aria-hidden="true" focusable="false" ');
   const enabled = RULES.filter((rule) => input.rules[rule] !== undefined);
-  const findings = analysis.findings
-    .map((finding, index) => {
+  const groups = reportFindingGroups(analysis.findings);
+  const findings = groups
+    .map((members) => {
+      const first = members[0];
+      if (!first) throw new Error('Empty report group');
+      const { finding, index } = first;
+      const grouped = members.length > 1;
+      const notes = reportGroupNotes(members);
       const rule = m.rules[finding.rule];
-      return `<details class="finding" id="finding-${String(index + 1)}"><summary>
+      return `<details class="finding" id="${grouped ? 'group' : 'finding'}-${String(index + 1)}"><summary>
       <strong>${String(index + 1)}. ${escapeHtml(rule.title)}</strong>
       <span>${escapeHtml(m.severity[finding.severity])}</span>
-      <span>${escapeHtml(positionText(finding.position, m))}</span>
+      <span>${escapeHtml(positions.at(finding.position))}</span>
+      ${grouped ? `<span>${escapeHtml(m.pairs)}: ${String(members.length)}</span>` : ''}
       </summary><p>${escapeHtml(rule.description)}</p>
-      <figure><div class="notation" tabindex="0">${svg(finding.notes)}</div><figcaption>${escapeHtml(m.marker)}</figcaption></figure>
-      ${finding.previous ? evidence(m.source, finding.previous.position, finding.previous.notes, m, locale) : ''}
-      ${evidence(m.destination, finding.position, finding.notes, m, locale)}
+      ${grouped ? `<ul class="finding-pairs">${members.map((member) => `<li id="finding-${String(member.index + 1)}">${String(member.index + 1)}. ${escapeHtml(member.finding.voices.map((voice) => m.voices[voice]).join(' / '))}</li>`).join('')}</ul>` : ''}
+      <figure><div class="notation" tabindex="0">${svg(notes)}</div><figcaption>${escapeHtml(m.marker)}</figcaption></figure>
+      ${finding.previous ? evidence(m.source, positions.at(finding.previous.position), reportGroupNotes(members, true), m, locale, positions) : ''}
+      ${evidence(m.destination, positions.at(finding.position), notes, m, locale, positions)}
       </details>`;
     })
     .join('\n');
@@ -167,7 +192,7 @@ export function renderVoiceLeadingReport(raw: unknown, locale: ReportLocale, ass
       const part = voice
         ? m.voices[voice]
         : `${m.staff} ${String(entry.staff + 1)} · ${m.voice} ${String(entry.voice + 1)}`;
-      return `<li>${escapeHtml(`${part} · ${m.measure} ${String(entry.measure + 1)} · ${m.event} ${String(entry.event + 1)} · ${entry.text}`)}</li>`;
+      return `<li>${escapeHtml(`${part} · ${positions.measure(entry)} · ${m.event} ${String(entry.event + 1)} · ${entry.text}`)}</li>`;
     })
     .join('');
   const html = `<!doctype html>
@@ -190,28 +215,26 @@ export function renderVoiceLeadingReport(raw: unknown, locale: ReportLocale, ass
     })
     .join('')}</ul>
 <h2>${escapeHtml(m.findings)} (${String(analysis.findings.length)})</h2>
+${groups.length < analysis.findings.length ? `<p class="finding-group-count">${escapeHtml(m.groups)}: ${String(groups.length)}</p><p>${escapeHtml(m.groupHelp)}</p>` : ''}
 <p>${escapeHtml(m.positionHelp)}</p>
 ${findings || `<p class="empty">${escapeHtml(enabled.length ? m.noFindings : m.noRules)}</p>`}
 <details><summary>${escapeHtml(m.configuration)}</summary><pre>${escapeHtml(JSON.stringify(raw, null, 2))}</pre></details>
 <footer><p>${escapeHtml(m.sourceHelp)}</p><details><summary>${escapeHtml(m.license)}</summary><pre>${escapeHtml(assets.fontLicense)}</pre></details></footer>
 </main></body></html>`;
-  return { html, analysis };
-}
-
-function positionText(position: VoiceLeadingScorePosition, m: ReportMessages): string {
-  return `${m.measure} ${String(position.measure + 1)} · ${m.offset} ${formatFraction(position.offset)}`;
+  return { html, analysis, groupCount: groups.length };
 }
 
 function evidence(
   title: string,
-  position: VoiceLeadingScorePosition,
+  position: string,
   notes: readonly VoiceLeadingScoreTone[],
   m: ReportMessages,
   locale: ReportLocale,
+  positions: ReturnType<typeof createReportPositions>,
 ): string {
-  return `<table><caption>${escapeHtml(`${title} · ${positionText(position, m)}`)}</caption>
+  return `<table><caption>${escapeHtml(`${title} · ${position}`)}</caption>
   <thead><tr><th scope="col">${escapeHtml(m.voice)}</th><th scope="col">${escapeHtml(m.pitch)}</th><th scope="col">${escapeHtml(m.measure)}</th><th scope="col">${escapeHtml(m.event)}</th></tr></thead>
-  <tbody>${notes.map((tone) => `<tr><th scope="row">${escapeHtml(m.voices[tone.voice])}</th><td>${escapeHtml(tone.pitch ? pitchName(tone.pitch, { system: locale === 'de-DE' ? 'de' : 'intl', octave: 'scientific' }) : m.rest)}</td><td>${String(tone.ref.measure + 1)}</td><td>${String(tone.ref.event + 1)}</td></tr>`).join('')}</tbody></table>`;
+  <tbody>${notes.map((tone) => `<tr><th scope="row">${escapeHtml(m.voices[tone.voice])}</th><td>${escapeHtml(tone.pitch ? pitchName(tone.pitch, { system: locale === 'de-DE' ? 'de' : 'intl', octave: 'scientific' }) : m.rest)}</td><td>${String(positions.number(tone.ref))}</td><td>${String(tone.ref.event + 1)}</td></tr>`).join('')}</tbody></table>`;
 }
 
 function escapeHtml(text: string): string {

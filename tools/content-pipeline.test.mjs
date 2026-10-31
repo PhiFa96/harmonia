@@ -16,6 +16,11 @@ import {
   validateScore,
 } from '../packages/notation/src/index.ts';
 import { validateContentExample } from './validate-content-example.mjs';
+import historyDraft from '../packages/i18n/src/history-journey-draft.json' with { type: 'json' };
+import { historyStops } from '../packages/content/src/history-journey-draft.ts';
+import { historyJourneyMessages } from '../packages/i18n/src/history-journey-draft.ts';
+import { createHistoryJourneyText } from '../packages/i18n/src/history-journey-text.ts';
+import { createRng, generateChoir } from '../packages/exercises/src/index.ts';
 
 function checks() {
   return {
@@ -28,6 +33,119 @@ function checks() {
   };
 }
 const fresh = () => structuredClone(catalogue);
+
+test('P4.10: six draft introductions show four simultaneous voices in a single chord', () => {
+  const cards = catalogue.knowledgeCards.filter((card) => card.id.includes('.writing.'));
+  assert.equal(cards.length, 6);
+  for (const card of cards) {
+    assert.equal(card.contentVersion, 23);
+    assert.equal(card.status, 'entwurf');
+    assert.equal(card.examples.length, 1);
+    const example = card.examples[0];
+    validateContentExample(example.score);
+    const score = parseScore(example.score);
+    assert.deepEqual(
+      score.staves.map((staff) => staff.clef),
+      ['treble', 'bass'],
+    );
+    for (const staff of score.staves) {
+      assert.equal(staff.measures.length, 1);
+      assert.equal(staff.measures[0].voices.length, 2);
+    }
+    const tones = scoreTimeline(score, { bpm: 90 }).tones;
+    assert.equal(tones.length, 4);
+    assert.deepEqual(
+      tones.map((tone) => keyboardMidi(tone.pitch)).sort((a, b) => a - b),
+      card.id.includes('.l4.') ? [48, 55, 60, 64] : [43, 55, 59, 65],
+    );
+    assert.ok(
+      tones.every(
+        (tone) => tone.onsetSeconds === 0 && Math.abs(tone.durationSeconds - 8 / 3) < 1e-8,
+      ),
+    );
+    assert.equal(
+      layoutScore(score).items.filter((item) => item.kind === 'glyph' && item.role === 'notehead')
+        .length,
+      4,
+    );
+  }
+});
+
+test('P4.11: both complete solo examples match each voice in pitch, clef and timing', () => {
+  const expected = {
+    soprano: [
+      [64, 67, 65, 65, 62, 62, 64, 64],
+      [64, 64, 65, 64, 62, 65, 64, 64],
+    ],
+    alto: [
+      [60, 60, 60, 60, 59, 59, 60, 60],
+      [60, 60, 60, 60, 59, 59, 60, 60],
+    ],
+    tenor: [
+      [55, 55, 57, 57, 55, 55, 55, 55],
+      [55, 55, 57, 55, 55, 55, 55, 55],
+    ],
+    bass: [
+      [48, 52, 53, 53, 55, 55, 48, 48],
+      [48, 48, 53, 48, 43, 43, 48, 48],
+    ],
+  };
+  for (const [voice, pieces] of Object.entries(expected)) {
+    const card = catalogue.knowledgeCards.find(
+      (entry) => entry.id === `aural.l4.choir.${voice}.card`,
+    );
+    assert.equal(card.contentVersion, 24);
+    assert.equal(card.examples.length, 2);
+    assert.equal(card.status, 'entwurf');
+    for (const [index, pitches] of pieces.entries()) {
+      const example = card.examples[index];
+      assert.match(
+        example.captionKey,
+        new RegExp(`${voice}${index === 0 ? 'Home' : 'Arch'}Caption$`),
+      );
+      validateContentExample(example.score);
+      const score = parseScore(example.score);
+      assert.equal(score.staves.length, 1);
+      assert.equal(score.staves[0].clef, voice === 'tenor' || voice === 'bass' ? 'bass' : 'treble');
+      assert.equal(score.staves[0].measures.length, 4);
+      const timeline = scoreTimeline(score, { bpm: 90 });
+      assert.deepEqual(
+        timeline.tones.map((tone) => keyboardMidi(tone.pitch)),
+        pitches,
+      );
+      timeline.tones.forEach((tone, position) => {
+        assert.ok(Math.abs(tone.onsetSeconds - (position * 4) / 3) < 1e-8);
+        assert.ok(Math.abs(tone.durationSeconds - 4 / 3) < 1e-8);
+      });
+      assert.ok(Math.abs(timeline.durationSeconds - 32 / 3) < 1e-8);
+      const exercise = generateChoir({ voice, piece: index === 0 ? 'home' : 'arch' }, createRng(1));
+      assert.deepEqual(exercise.parts[voice].map(keyboardMidi), pitches);
+      assert.equal(
+        layoutScore(score).items.filter((item) => item.kind === 'glyph' && item.role === 'notehead')
+          .length,
+        8,
+      );
+    }
+  }
+});
+
+test('Polyphonic examples require valid rhythm and renderer support; keyboard targets stay bounded', () => {
+  const example = catalogue.knowledgeCards.find((card) => card.id === 'satz.l4.writing.bass.card')
+    .examples[0];
+  assert.throws(
+    () => validateContentExample(example.score, { first: 21, last: 108 }),
+    /Großes Lernsystem/,
+  );
+  assert.throws(
+    () => validateContentExample(example.score.replace('E4/1', 'E4/1 E4/2')),
+    /ungültig/,
+  );
+  assert.throws(
+    () => validateContentExample(example.score.replace('E4/1 & C4/1', 'E4/1 & C4/1 & G4/1')),
+    /voice|Stimm/i,
+  );
+  validateContentExample('treble | 4/4 | C4/1\nbass | 4/4 | r/1', { first: 48, last: 72 });
+});
 
 test('Pulsbeispiele entsprechen unabhängigen Zähl- und Tempotabellen; Klangdauer folgt dem BPM', () => {
   const table = {
@@ -651,6 +769,57 @@ test('Bundleprüfung weist auch Entwurfstexte ohne eine enthaltene Lektions-ID z
     assert.equal(result.status, 1);
     assert.match(result.stderr, /content.firstLesson.notesBody/);
   });
+});
+
+test('P4.12: kurze Entwurfstexte und Antwortoptionen sind ohne Längen-Ausnahme gesperrt', () => {
+  for (const text of [
+    historyDraft.de.medieval.personaName,
+    createHistoryJourneyText('de', historyJourneyMessages)('medieval').listeningOptions[0],
+  ]) {
+    assert.ok(text.length <= 24);
+    const escaped = JSON.stringify(text).replace('i', '\\u0069');
+    bundleFixture(`export const fragment = ${escaped};`, (result) => {
+      assert.equal(result.status, 1);
+      assert.match(result.stderr, /P4\.12/);
+    });
+  }
+});
+
+test('P4.12: alle acht Szenen- und Hörpartituren werden auch ohne Stationstexte erkannt', () => {
+  for (const stop of historyStops)
+    for (const field of ['sceneScore', 'listeningScore'])
+      bundleFixture(
+        `export const model = ${JSON.stringify(stop[field]).replace('treble', '\\u0074reble')};`,
+        (result) => {
+          assert.equal(result.status, 1);
+          assert.match(result.stderr, /P4\.12/);
+        },
+      );
+});
+
+test('P4.12: glossary-expanded story copy is rejected without raw templates or source IDs', () => {
+  for (const locale of ['de', 'en-US', 'en-GB']) {
+    const copy = createHistoryJourneyText(locale, historyJourneyMessages)('medieval');
+    assert.ok(!copy.scene.includes('$t('));
+    bundleFixture(`export const copy = ${JSON.stringify(copy.scene)};`, (result) => {
+      assert.equal(result.status, 1);
+      assert.match(result.stderr, /P4\.12 rendered/);
+    });
+  }
+});
+
+test('P4.12: scripted interview replies remain private as templates and resolved copy', () => {
+  for (const locale of ['de', 'en-US', 'en-GB']) {
+    const copy = createHistoryJourneyText(locale, historyJourneyMessages)('renaissance');
+    for (const reply of [
+      historyJourneyMessages[locale].renaissance.personaReplies[0],
+      copy.personaReplies[0],
+    ])
+      bundleFixture(`export const dialogue = ${JSON.stringify(reply)};`, (result) => {
+        assert.equal(result.status, 1);
+        assert.match(result.stderr, /P4\.12/);
+      });
+  }
 });
 
 test('Bundleprüfung erlaubt bereits öffentliche Glossarbegriffe bei gleichnamigen Entwurfszielen', () => {

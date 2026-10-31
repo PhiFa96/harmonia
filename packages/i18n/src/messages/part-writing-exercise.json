@@ -61,7 +61,8 @@
     "satbInternal": "Interner Probelauf ohne Lernnachweis. Eingaben bleiben bis zum Verlassen dieser Seite erhalten.",
     "satbStage": "Stufe {{level}}",
     "satbNew": "Neue Aufgabe",
-    "satbDone": "Probelauf abgeschlossen."
+    "satbDone": "Probelauf abgeschlossen.",
+    "satbRule_augmented-melodic-interval": "Die Stimme geht in einem geschriebenen übermäßigen Melodieintervall weiter."
   },
   "en-US": {
     "type_VOICE_LEADING": "Four-part writing · draft",
@@ -125,7 +126,8 @@
     "satbInternal": "Internal practice without learning credit. Entries are kept until you leave this page.",
     "satbStage": "Level {{level}}",
     "satbNew": "New task",
-    "satbDone": "Practice complete."
+    "satbDone": "Practice complete.",
+    "satbRule_augmented-melodic-interval": "The voice moves by a spelled augmented melodic interval."
   },
   "en-GB": {
     "type_VOICE_LEADING": "Four-part writing · draft",
@@ -189,6 +191,7 @@
     "satbInternal": "Internal practice without learning credit. Entries are kept until you leave this page.",
     "satbStage": "Level {{level}}",
     "satbNew": "New task",
-    "satbDone": "Practice complete."
+    "satbDone": "Practice complete.",
+    "satbRule_augmented-melodic-interval": "The voice moves by a spelled augmented melodic interval."
   }
 }

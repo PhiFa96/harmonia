@@ -20,6 +20,7 @@ Dieser Plan beschreibt, wie wir Harmonia Schritt für Schritt bauen: vom leeren 
 | [Theorie-Engine](theorie-engine.md) | Fachlicher Kern: Tonhöhen, Intervalle, Akkorde, Harmonik, Stimmführung |
 | [Stimmführung P4.09 – technischer Entwurf](stimmfuehrung-entwurf.md) | SATB-Musterprüfung mit Partitur-/Notenbezug, Testkorpus, lokalem DE/EN-Bericht und bearbeitbarer Satzwerkstatt mit Gesamt-/Solo-Wiedergabe; Fachprüfung offen |
 | [Tonsatz-Korrektor P4.10 – interner Entwurf](tonsatz-korrektor-entwurf.md) | Grafischer SATB-Editor, sechs DE/EN-Lektionen in Stufe 4–5, lokalisierte Befunde und gebundenes Tutor-Werkzeug; Fach-/Produktfreigabe offen |
+| [Chor-Trainer P4.11 – interner Entwurf](chor-trainer-entwurf.md) | Eigene Chor-Miniaturen, Stimmenübung und lokale Tonhöhenprüfung; Geräte-/Produktfreigabe offen |
 | [Notation, Audio, Eingabe](notation-audio-eingabe.md) | Notendarstellung, Klang, Klaviatur, Mikrofon, MIDI |
 | [Übersetzungen und Glossar](i18n-und-glossar.md) | Texte DE/EN (US/UK), Fachglossar, Prüfungen, Sprachwahl |
 | [Audio-Latenz messen](audio-latenz-messen.md) | Messanleitung und Ergebnisvorlage für P1.16 |
@@ -45,7 +46,14 @@ Dieser Plan beschreibt, wie wir Harmonia Schritt für Schritt bauen: vom leeren 
 | [Zeitreise durch die Musikgeschichte P4.12](zeitreise-musikgeschichte.md) | Vier interne Epochenstationen mit eigenen Klangmodellen, fiktiven Interviews und Quellenbezug; Fachfreigabe offen |
 | [Stufe 3 als interner Entwurf P3.15](stufe-3-vollstaendig.md) | Zwölf Einheiten mit Formen, Instrumenten, Jazz/Pop, Geschichte und 360 Aufgaben; getrennte fachliche Freigabe offen |
 | [Stufe 4 als interner Entwurf P3.16](stufe-4-vollstaendig.md) | 13 Einheiten mit Studienvorbereitung und 390 Aufgaben; getrennte fachliche Freigabe offen |
+| [Stufe 5 als interner Entwurf P4.19](stufe-5-entwurf.md) | Kontrapunkt-Engine, 24 neue DE/EN-Lektionen, getrennte Wiederaufnahme mit Export/Löschung und Tutor-Suchprüfung; technische Vorarbeit vor formaler P4-Freigabe |
 | [Prüfungsmodus P3.17](pruefungsmodus.md) | Zwei interne Vorlagen mit Theorie/Gehörbildung, Zeitlimit, Punkten und Lernpfad-Empfehlungen; fachliche Abnahme offen |
+| [Organisationen und Klassen P4.13 – interner Entwurf](schule-dashboard-entwurf.md) | Lokales Lehrer-Dashboard, Codes, klassenbezogene Lernstandfreigaben und PostgreSQL-RLS mit synthetischen Konten; Rechts-/Produktfreigabe offen |
+| [Klassenaufgaben P4.14 – interner Entwurf](schulaufgaben-entwurf.md) | Aufgaben zusammenstellen, einfrieren, zuweisen, bearbeiten und auswerten; lokaler Link, Fristen, Engine-Bewertung und getrennte Freigabe |
+| [Klassen-Live-Quiz P4.15 – interner Entwurf](klassen-live-quiz-entwurf.md) | Lobbycode, synchronisierte Runden, Beameransicht, freiwillige Rangliste und Auswertung; 30 simulierte Netzwerkclients, echte Geräteabnahme offen |
+| [Schullizenz P4.16 – interner Entwurf](schul-lizenz-entwurf.md) | Rechnungsproben, getrennte Betreiberfreigabe, Plätze/Laufzeiten und servergesperrte Premium-Übungen; Verkauf und Pilotschule offen |
+| [KI-Verordnung P4.17 – technische Prüfvorbereitung](ki-verordnung-pruefvorbereitung.md) | Amtliche Quellen, Funktionsinventar, Code-/Zweckbindung, DE/EN-Prüfberichte und gesperrte Freigaben; unabhängige Rechtsprüfung offen |
+| [Zertifikate P4.18 – lokaler Prototyp](zertifikate-entwurf.md) | Servergeprüfte Testdurchgänge, Bindung an Prüfcode, ungültige Muster-PDFs und private DE/EN-Prüfmappe; technische Vorarbeit vor formaler P4-Freigabe |
 | [Tutor-Lernplaner P3.18](tutor-lernplaner.md) | Servergeprüfte Lernübersicht, kurze Wochenvorschläge und separater Stufe-3/4-Testkatalog; fachliche Abnahme offen |
 | [Wissensbasis v2 P3.19](wissensbasis-v2.md) | 25 Entwurfsartikel für Stufen 3–4, erweiterte Quellensuche und 150 Suchfragen; fachliche Abnahme offen |
 | [Rückblick Phase 3](phase-3-rueckblick.md) | Technischer Übergabestand, offene Freigaben und angepasste Startbedingungen für Phase 4 |

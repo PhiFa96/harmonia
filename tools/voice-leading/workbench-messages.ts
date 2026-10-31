@@ -9,6 +9,16 @@ const de = {
   notationHelp:
     'Noten z. B. C4/4, F#4/2, Bb3/8.; Pause r/4; Haltebogen ~; Taktstrich |. Eingaben verwenden internationale Tonnamen: B = deutsches H, Bb = deutsches B. Je Stimme 1–32 Takte. Vorzeichnung: C für C-Dur, c für c-Moll oder z. B. 2#.',
   settings: 'Regeln und Harmonieangaben (JSON)',
+  rulePicker: 'Regeln auswählen',
+  ruleLegend: 'Regeln und Schweregrade',
+  ruleHelp:
+    'Wähle für jede Regel ausdrücklich Aus, Fehler, Warnung oder Hinweis. Die Auswahl und das JSON gelten für denselben Entwurf. Stimmumfänge, Harmonieangaben und weitere Regelparameter trägst du im JSON ein; fehlende Angaben werden nicht ergänzt. Nach einer Änderung erneut prüfen.',
+  ruleOff: 'Aus',
+  ruleUnavailable: 'Nicht lesbar',
+  ruleInvalid:
+    'Die Regelauswahl ist gesperrt, weil das JSON oder seine Regeln ungültig sind. Korrigiere das JSON. Deine Eingabe bleibt erhalten und kann als Entwurf gespeichert werden.',
+  ruleChangeError:
+    'Die Regeländerung konnte nicht übernommen werden. Die Einstellungen bleiben erhalten. Prüfe das JSON und seine maximale Länge von 30.000 Zeichen.',
   settingsHelp:
     'Das Startbeispiel wählt vier Regeln und vier Harmoniezeitpunkte. Bei geänderten Einsatzzeiten müssen die Harmonieangaben dazu passen. Die Auswahl ist kein freigegebenes Lehrprofil. Technische Feldnamen und Parserdetails sind sprachneutral bzw. in der Sprache des Parsers.',
   analyze: 'Satz prüfen',
@@ -53,6 +63,16 @@ const en: Messages = {
   notationHelp:
     'Notes e.g. C4/4, F#4/2, Bb3/8.; rest r/4; tie ~; barline |. Input uses international pitch names: B is German H, Bb is German B. Use 1–32 measures per voice. Key signature: C for C major, c for C minor, or e.g. 2#.',
   settings: 'Rules and harmony context (JSON)',
+  rulePicker: 'Choose rules',
+  ruleLegend: 'Rules and severity levels',
+  ruleHelp:
+    'Explicitly choose Off, Error, Warning, or Hint for each rule. The selection and JSON describe the same draft. Enter voice ranges, harmony context, and other rule parameters in the JSON; missing values are not filled in. Check again after a change.',
+  ruleOff: 'Off',
+  ruleUnavailable: 'Unreadable',
+  ruleInvalid:
+    'Rule selection is locked because the JSON or its rules are invalid. Correct the JSON. Your input is preserved and can still be saved as a draft.',
+  ruleChangeError:
+    'The rule change could not be applied. Your settings are preserved. Check the JSON and its maximum length of 30,000 characters.',
   settingsHelp:
     'The starting example selects four rules and four harmony frames. If onset times change, match the harmony context to them. This selection is not an approved teaching profile. Technical field names and parser details use their original language.',
   analyze: 'Check composition',

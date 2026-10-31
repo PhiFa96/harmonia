@@ -26,6 +26,9 @@ export function ArticleExample({
   const { t } = useTranslation(),
     { colors } = useUiTheme();
   const score = useMemo(() => parseScore(example.score), [example.score]);
+  const polyphonic = score.staves.some((staff) =>
+    staff.measures.some((measure) => measure.voices.length > 1),
+  );
   const pulse = useMemo(
     () => (example.pulse ? pulseExample(score, example.pulse.bpm) : undefined),
     [score, example.pulse],
@@ -60,7 +63,7 @@ export function ArticleExample({
             }}
             {...(Platform.OS === 'web' && scrollable ? { tabIndex: 0 } : {})}
           >
-            {score.staves.length === 2 ? (
+            {score.staves.length === 2 && !polyphonic ? (
               <View accessible role="img" aria-label={example.caption}>
                 <GrandStaffView score={score} staffSpace={14} color={colors.text} />
               </View>

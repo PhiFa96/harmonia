@@ -101,10 +101,9 @@ export function exerciseContext(catalogue: ContentCatalogue, request: TutorReque
     catalogue,
     request.context.source,
   );
-  // Wie in der App: Hörfragen zeigen ihr Notenbild erst nach der Wertung.
+  // Mode decides visibility. The legacy client flag cannot reveal an aural source.
   const hidden =
     (request.mode === 'hint' || request.mode === 'chat') &&
-    !request.context.checked &&
     isAuralExercise(item) &&
     item.type !== 'RHYTHM_TAP' &&
     item.type !== 'LISTENING_CHOICE';
@@ -127,6 +126,7 @@ export function exerciseContext(catalogue: ContentCatalogue, request: TutorReque
     };
   }
   if (request.mode === 'chat') return { ...base, solutionAllowed: false };
+  // Explain evaluates the submitted answer now; it attests no earlier client action.
   const solution = expectedAnswer(item),
     answer = request.mode === 'explain' ? (request.context.answer ?? '') : solution,
     evaluated = evaluateExercise(item, answer),
@@ -134,13 +134,22 @@ export function exerciseContext(catalogue: ContentCatalogue, request: TutorReque
     shown = evaluated.validAnswer ? answer : null,
     evaluation = { ...evaluated, answer: shown };
   const satbNotes = item.type === 'VOICE_LEADING' && shown ? satbAnswer(item, shown) : undefined;
+  const choirAssessment = item.type === 'CHOIR_PART' ? assessChoir(item, answer) : undefined;
   return {
     ...base,
     solutionAllowed: true,
-    ...(item.type === 'CHOIR_PART'
+    ...(item.type === 'CHOIR_PART' && choirAssessment
       ? {
           choir: {
-            ...assessChoir(item, answer),
+            ...choirAssessment,
+            // Detailed time windows belong to the local feedback view. Preserve the brief
+            // existing tutor context rather than repeating 96 derived windows in the prompt.
+            notes: choirAssessment.notes.map(({ index, coverage, deviation, passed }) => ({
+              index,
+              coverage,
+              deviation,
+              passed,
+            })),
             voice: item.params.voice,
             limits:
               'Internal draft. Pitch-only time-window profile, not vocal quality, onset precision or specialist approval. No raw microphone audio is available.',

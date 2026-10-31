@@ -2,13 +2,11 @@ import { currentMotivation, useMotivation } from '@/state/motivation';
 import { catalogue } from '@harmonia/content/catalogue';
 import {
   lessonProgress,
-  countedTotal,
   lessonPlan,
   lessonReward,
   DEFAULT_REWARD_RULE,
   rewardRuleAt,
   validateLearningEvent,
-  PASS_PERCENT,
   adaptiveLessonPlan,
   weaknessPlan,
   WEAKNESS_LESSON_ID,
@@ -34,6 +32,7 @@ import { useTranslation } from 'react-i18next';
 import { AccessibilityInfo, Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { ExerciseTask } from '@/components/exercise-task';
 import { LessonIntroduction } from '@/components/lesson-introduction';
+import { LessonCompletionStatus } from '@/components/lesson-completion-status';
 import { useLocale } from '@/i18n';
 import { useLessonFlow } from '@/storage/use-lesson-flow';
 import { useLessonResult } from '@/storage/use-lesson-result';
@@ -145,7 +144,11 @@ export default function LessonScreen() {
           <AppText role="alert">
             {t(
               learning.phase === 'ready' && learning.scope === owner
-                ? 'path.lessonLocked'
+                ? learning.path.find((unit) =>
+                    unit.lessons.some((lesson) => lesson.id === content.id),
+                  )?.lessonOrder === 'independent'
+                  ? 'path.independentLessonLocked'
+                  : 'path.lessonLocked'
                 : 'path.loading',
             )}
           </AppText>
@@ -403,6 +406,7 @@ function LessonPlayer({
               {content.introduction.length > 0 ? (
                 <LessonIntroduction
                   lesson={content}
+                  showCompletionRule={!practice}
                   initialCard={flow.draft.introCard}
                   onCardSave={flow.card}
                   onStart={start}
@@ -544,13 +548,10 @@ function LessonPlayer({
                           {t('flow.localReward')}
                         </AppText>
                       ) : null}
-                      <AppText tone={lessonProgress(lesson).passed ? 'success' : 'default'}>
-                        {t(lessonProgress(lesson).passed ? 'path.passed' : 'path.failed', {
-                          correct: lessonProgress(lesson).eligibleCorrect,
-                          total: countedTotal(lessonProgress(lesson)),
-                          percent: PASS_PERCENT,
-                        })}
-                      </AppText>
+                      <LessonCompletionStatus
+                        progress={lessonProgress(lesson)}
+                        minimumChoirCorrect={content.minimumChoirCorrect}
+                      />
                       <AppText variant="footnote" tone="muted">
                         {t('path.resultHint')}
                       </AppText>

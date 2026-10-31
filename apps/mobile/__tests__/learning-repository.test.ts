@@ -3,7 +3,16 @@ import { mkdtempSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { firstLesson, catalogue } from '@harmonia/content/authoring';
-import { lessonEvent, lessonPlan, localReviewState } from '@harmonia/content';
+import {
+  lessonEvent,
+  lessonPlan,
+  localReviewState,
+  createLevelFivePreview,
+  LEVEL_FIVE_PREVIEW_TTL,
+  validateLearningEvent,
+  lessonProgress,
+} from '@harmonia/content';
+import { blockErasedScope } from '@/privacy/guard';
 import type { LearningEvent } from '@harmonia/content';
 import {
   activeLessonSession,
@@ -12,6 +21,7 @@ import {
   currentItem,
   expectedAnswer,
   nextLessonExercise,
+  skipLessonVoice,
 } from '@harmonia/exercises';
 import type { LessonDatabase } from '@/storage/lesson-repository';
 import {
@@ -52,6 +62,118 @@ async function repository() {
 }
 
 describe('Lernpfad mit echter SQLite', () => {
+  it.each([false, true])(
+    'verdichtet Chor-Evidenz mit Gesang=%s ohne den Abschluss umzudeuten',
+    async (sing) => {
+      const plan = lessonPlan(catalogue, 'aural.l4.choir.alto.lesson');
+      if (!plan) throw Error('Missing choir plan');
+      let session = createLessonSession(plan, 'sqlite-choir');
+      let sung = false;
+      while (session.phase === 'initial') {
+        const active = activeLessonSession(session);
+        const item = active && currentItem(active);
+        if (!item) throw Error('Missing task');
+        if (item.type === 'CHOIR_PART' && (!sing || sung)) session = skipLessonVoice(session);
+        else {
+          if (item.type === 'CHOIR_PART') sung = true;
+          session = nextLessonExercise(answerLesson(session, expectedAnswer(item)));
+        }
+      }
+      const repo = await repository();
+      const proof = lessonEvent('choir-retention', session, 1000, 2000, 'Europe/Berlin');
+      await repo.save('choir-owner', proof);
+      await repo.compact('choir-owner', catalogue, 3000);
+      const row = (await repo.list('choir-owner'))[0];
+      expect(row?.event.kind).toBe('retained');
+      expect(validateLearningEvent(catalogue, row?.event).lesson).toEqual(lessonProgress(session));
+      expect(row?.reward).toMatchObject({
+        qualified: sing,
+        ...(sing ? {} : { amount: 0, coins: 0 }),
+      });
+      expect(JSON.stringify(row?.event)).not.toContain('choir:[');
+      expect(await repo.list('another-choir-owner')).toEqual([]);
+      await repo.compact('choir-owner', catalogue, 3000);
+      expect(
+        validateLearningEvent(catalogue, (await repo.list('choir-owner'))[0]?.event).lesson?.passed,
+      ).toBe(sing);
+    },
+  );
+  it('trennt interne Vorschauen von Lernnachweisen, anderen Konten und Gastübernahme', async () => {
+    const repo = await repository(),
+      now = Date.now();
+    const a = JSON.stringify(
+      createLevelFivePreview(catalogue, 'counterpoint.l5.species.lesson3', 'preview-a', now),
+    );
+    expect(await repo.comparePreview('preview-alice', null, a)).toBe(true);
+    expect(await repo.preview('preview-bob')).toBeNull();
+    expect(await repo.drafts('preview-alice')).toEqual({});
+    expect(await repo.list('preview-alice')).toEqual([]);
+    await repo.claimGuest('preview-bob', catalogue);
+    expect(await repo.preview('preview-bob')).toBeNull();
+    expect(await repo.preview('preview-alice')).toBe(a);
+  });
+  it('verhindert veraltetes Überschreiben und Löschen durch zwei Tabs', async () => {
+    const repo = await repository(),
+      draft = createLevelFivePreview(
+        catalogue,
+        'counterpoint.l5.species.lesson3',
+        'preview-cas',
+        Date.now(),
+      );
+    const first = JSON.stringify(draft),
+      next = JSON.stringify({ ...draft, introCard: 1 });
+    expect(await repo.comparePreview('preview-tabs', null, first)).toBe(true);
+    const results = await Promise.all([
+      repo.comparePreview('preview-tabs', first, next),
+      repo.comparePreview('preview-tabs', first, null),
+    ]);
+    expect(results).toEqual([true, false]);
+    expect(await repo.preview('preview-tabs')).toBe(next);
+    expect(await repo.comparePreview('preview-tabs', first, first)).toBe(false);
+  });
+  it('löscht Vorschauen bei Kontolöschung und sperrt verzögerte Schreibversuche', async () => {
+    const repo = await repository(),
+      raw = JSON.stringify(
+        createLevelFivePreview(
+          catalogue,
+          'counterpoint.l5.species.lesson3',
+          'preview-erase',
+          Date.now(),
+        ),
+      );
+    await repo.comparePreview('preview-erased', null, raw);
+    await repo.comparePreview('preview-kept', null, raw);
+    blockErasedScope('preview-erased', []);
+    await repo.eraseScope('preview-erased');
+    expect(await repo.preview('preview-erased')).toBeNull();
+    expect(await repo.preview('preview-kept')).toBe(raw);
+    await expect(repo.comparePreview('preview-erased', null, raw)).rejects.toThrow('Erased');
+  });
+  it('entfernt abgelaufene und beschädigte Vorschauen, erhält übrige lokale Metadaten', async () => {
+    const repo = await repository(),
+      now = Date.now();
+    const draft = createLevelFivePreview(
+      catalogue,
+      'counterpoint.l5.species.lesson3',
+      'preview-retain',
+      now,
+    );
+    await repo.comparePreview('preview-new', null, JSON.stringify(draft));
+    await repo.comparePreview(
+      'preview-old',
+      null,
+      JSON.stringify({ ...draft, createdAt: now - LEVEL_FIVE_PREVIEW_TTL }),
+    );
+    db.prepare('INSERT INTO learning_meta VALUES(?,?)').run('preview:damaged', 'invalid-json');
+    db.prepare('INSERT INTO learning_meta VALUES(?,?)').run('unrelated', 'keep');
+    await repo.prunePreviews(now);
+    expect(await repo.preview('preview-old')).toBeNull();
+    expect(await repo.preview('damaged')).toBeNull();
+    expect(await repo.preview('preview-new')).not.toBeNull();
+    expect(db.prepare('SELECT value FROM learning_meta WHERE id=?').get('unrelated')).toEqual({
+      value: 'keep',
+    });
+  });
   it('bewahrt FSRS-Termine atomar beim Entfernen alter Detailantworten', async () => {
     const repo = await repository();
     await repo.save('guest', event());

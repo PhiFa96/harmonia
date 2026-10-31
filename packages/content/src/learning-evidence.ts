@@ -100,6 +100,7 @@ export const retainedLearningEventSchema = z.discriminatedUnion('sourceKind', [
           eligibleCorrect: z.number().int().nonnegative(),
           total: z.number().int().positive().max(200),
           voiceSkipped: z.number().int().nonnegative().max(200).optional(),
+          choirCorrect: z.number().int().nonnegative().max(200).optional(),
         })
         .strict(),
     })
@@ -151,7 +152,7 @@ export const learningRowSchema = z
 export const learningSyncRequestSchema = z
   .object({
     rewardFormat: z.literal(2).optional(),
-    rowFormat: z.union([z.literal(2), z.literal(3), z.literal(4)]).optional(),
+    rowFormat: z.union([z.literal(2), z.literal(3), z.literal(4), z.literal(5)]).optional(),
     since: time,
     events: z.array(learningEventSchema).max(50),
   })
@@ -180,14 +181,21 @@ export interface LessonProgress {
   readonly total: number;
   /** Übersprungene Mikrofonaufgaben zählen weder als richtig noch im Nenner der Quote. */
   readonly voiceSkipped?: number | undefined;
+  /** Eligible authored choir tasks passed in the initial round, only for lessons requiring them. */
+  readonly choirCorrect?: number | undefined;
 }
 export function countedTotal(progress: Pick<LessonProgress, 'total' | 'voiceSkipped'>): number {
   return progress.total - (progress.voiceSkipped ?? 0);
 }
 /** Die Wiederholungsrunde verändert niemals die Bestehensquote des Erstversuchs. */
 export function lessonProgress(session: LessonSession): LessonProgress {
-  const eligibleCorrect = session.initial.records.filter(
-    (r) => r.result.correct && r.hintLevel < 3,
+  const eligible = session.initial.records.filter((r) => r.result.correct && r.hintLevel < 3);
+  const eligibleCorrect = eligible.length;
+  const minimum = session.lesson.minimumChoirCorrect;
+  const choirCorrect = eligible.filter(
+    (record) =>
+      session.initial.items[record.index]?.type === 'CHOIR_PART' &&
+      !session.lesson.repetitionIndices?.includes(record.index),
   ).length;
   const voiceSkipped = session.initial.skipped.filter((index) => {
     const item = session.initial.items[index];
@@ -200,10 +208,12 @@ export function lessonProgress(session: LessonSession): LessonProgress {
     passed:
       session.phase === 'complete' &&
       counted > 0 &&
-      eligibleCorrect * 100 >= PASS_PERCENT * counted,
+      eligibleCorrect * 100 >= PASS_PERCENT * counted &&
+      (!minimum || choirCorrect >= minimum),
     eligibleCorrect,
     total: session.initial.items.length,
     ...(voiceSkipped > 0 ? { voiceSkipped } : {}),
+    ...(minimum ? { choirCorrect } : {}),
   };
 }
 function restoreRound(
@@ -257,10 +267,11 @@ export function validateLearningEvent(catalogue: ContentCatalogue, input: unknow
         throw new EvidenceError('changed');
       return { event, lesson: null, testedUnitIds: event.testedUnitIds };
     }
-    const lesson =
+    const planned =
       event.planKey === undefined
-        ? resolveLesson(catalogue, event.lessonId)
+        ? undefined
         : lessonPlan(catalogue, event.lessonId, event.planKey);
+    const lesson = event.planKey === undefined ? resolveLesson(catalogue, event.lessonId) : planned;
     if (
       lesson?.contentVersion !== event.contentVersion ||
       (event.planKey !== undefined && (!('planKey' in lesson) || lesson.planKey !== event.planKey))
@@ -271,14 +282,30 @@ export function validateLearningEvent(catalogue: ContentCatalogue, input: unknow
       ['SING_INTERVAL', 'SIGHT_SING', 'PLAY_BACK', 'CHOIR_PART'].includes(spec.type),
     ).length;
     const counted = countedTotal(p);
+    const minimum = lesson.minimumChoirCorrect;
+    const repetitions = planned?.repetitionIndices ?? [];
+    const choirItems = lesson.exercises.filter(
+      (spec, index) => spec.type === 'CHOIR_PART' && !repetitions.includes(index),
+    ).length;
+    // At least this many skips must belong to authored choir tasks, even in a mixed plan.
+    const skippedChoir = Math.max(0, (p.voiceSkipped ?? 0) - (voiceItems - choirItems));
+    const invalidChoir = minimum
+      ? p.choirCorrect === undefined ||
+        p.choirCorrect > p.eligibleCorrect ||
+        p.choirCorrect > choirItems - skippedChoir
+      : p.choirCorrect !== undefined;
     if (
       p.lessonId !== event.lessonId ||
       p.contentVersion !== event.contentVersion ||
       p.total !== lesson.exercises.length ||
       (p.voiceSkipped ?? 0) > voiceItems ||
-      counted <= 0 ||
+      counted < 0 ||
       p.eligibleCorrect > counted ||
-      p.passed !== p.eligibleCorrect * 100 >= counted * PASS_PERCENT
+      invalidChoir ||
+      p.passed !==
+        (counted > 0 &&
+          p.eligibleCorrect * 100 >= counted * PASS_PERCENT &&
+          (!minimum || (p.choirCorrect ?? 0) >= minimum))
     )
       throw new EvidenceError('invalid');
     return { event, lesson: p, testedUnitIds: [] as string[] };

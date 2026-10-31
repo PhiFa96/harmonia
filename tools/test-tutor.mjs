@@ -564,9 +564,9 @@ try {
   );
   const explained = await send(
     a.token,
-    payload({ mode: 'explain', context: { source, answer: 'untrusted-wrong', checked: true } }),
+    payload({ mode: 'explain', context: { source, answer: 'untrusted-wrong', checked: false } }),
   );
-  expect(explained.status, 200, 'Erklärung mit Engine-Bewertung');
+  expect(explained.status, 200, 'Serverwertung ohne behauptete vorherige Client-Wertung');
   expect(
     explained.events
       .filter((e) => e.type === 'text')

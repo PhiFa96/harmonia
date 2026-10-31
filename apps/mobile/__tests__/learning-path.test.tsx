@@ -125,4 +125,91 @@ describe('Lernpfad und gesicherte Lektionszugänge', () => {
     expect(screen.getByText('Your learning path')).toBeTruthy();
     expect(screen.getByText(/at least 80% correct first-attempt answers/)).toBeTruthy();
   });
+  it.each(['de', 'en-US', 'en-GB'] as const)(
+    '%s: öffnet Bass direkt ohne bestandene andere Chorstimmen',
+    (locale) => {
+      useSettings.setState({ locale });
+      const progress = catalogue.lessons
+        .filter((lesson) => lesson.unitId !== 'aural.l4.choir')
+        .map((lesson) => ({
+          lessonId: lesson.id,
+          contentVersion: lesson.contentVersion,
+          passed: true,
+          eligibleCorrect: 10,
+          total: 10,
+        }));
+      useLearningState.setState({
+        path: learningPath(catalogue, progress),
+        level: 4,
+        areaId: 'area.aural',
+        expanded: ['aural.l4.choir'],
+        memory: true,
+      });
+      renderRouter('./src/app', { initialUrl: '/' });
+      expect(screen.getByText(i18n.t('path.independentLessons'))).toBeTruthy();
+      for (const voice of ['soprano', 'alto', 'tenor', 'bass']) {
+        const row = within(screen.getByTestId(`path-lesson-aural.l4.choir.${voice}.lesson`));
+        expect(
+          row.getByRole('button', {
+            name: i18n.t('lesson.openNamed', {
+              title: title(`content.choir.${voice}`),
+            }),
+          }),
+        ).toBeEnabled();
+      }
+      fireEvent.press(
+        within(screen.getByTestId('path-lesson-aural.l4.choir.bass.lesson')).getByRole('button', {
+          name: i18n.t('lesson.openNamed', { title: title('content.choir.bass') }),
+        }),
+      );
+      expect(screen.getByTestId('lesson-example-scroll')).toBeTruthy();
+      expect(screen.getByText(i18n.t('path.choirRule', { percent: 80 }))).toBeTruthy();
+      expect(screen.queryByText(i18n.t('path.independentLessonLocked'))).toBeNull();
+    },
+  );
+  it('zeigt fehlendes Basslesen nur bei Tenor und Bass und verlinkt die richtige Grundlage', () => {
+    const progress = catalogue.lessons
+      .filter(
+        (lesson) => !['aural.l4.choir', 'notation.l2.clefs-registers'].includes(lesson.unitId),
+      )
+      .map((lesson) => ({
+        lessonId: lesson.id,
+        contentVersion: lesson.contentVersion,
+        passed: true,
+        eligibleCorrect: 10,
+        total: 10,
+      }));
+    useLearningState.setState({
+      path: learningPath(catalogue, progress),
+      level: 4,
+      areaId: 'area.aural',
+      expanded: ['aural.l4.choir'],
+    });
+    renderRouter('./src/app', { initialUrl: '/' });
+    const soprano = within(screen.getByTestId('path-lesson-aural.l4.choir.soprano.lesson'));
+    const bass = within(screen.getByTestId('path-lesson-aural.l4.choir.bass.lesson'));
+    expect(
+      soprano.getByRole('button', {
+        name: i18n.t('lesson.openNamed', { title: title('content.choir.soprano') }),
+      }),
+    ).toBeEnabled();
+    expect(
+      bass.getByRole('button', {
+        name: i18n.t('lesson.openNamed', { title: title('content.choir.bass') }),
+      }),
+    ).toBeDisabled();
+    const prerequisite = catalogue.units.find((unit) => unit.id === 'notation.l2.clefs-registers');
+    if (!prerequisite) throw Error('Missing bass reading unit');
+    const label = i18n.t('path.prerequisite', { title: title(prerequisite.titleKey) });
+    expect(soprano.queryByRole('button', { name: label })).toBeNull();
+    fireEvent.press(bass.getByRole('button', { name: label }));
+    expect(useLearningState.getState().areaId).toBe('area.notation');
+    expect(useLearningState.getState().level).toBe(2);
+    expect(useLearningState.getState().expanded).toContain(prerequisite.id);
+  });
+  it('erklärt beim direkten gesperrten Chor-Link die eigenen Voraussetzungen', () => {
+    renderRouter('./src/app', { initialUrl: '/lesson?id=aural.l4.choir.bass.lesson' });
+    expect(screen.getByText(i18n.t('path.independentLessonLocked'))).toBeTruthy();
+    expect(screen.queryByTestId('lesson-example-scroll')).toBeNull();
+  });
 });

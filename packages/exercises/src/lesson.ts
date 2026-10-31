@@ -29,6 +29,9 @@ export interface LessonDefinition {
   readonly exercises: readonly ExerciseSpec[];
   /** Versionierter Mischplan; alte Durchgänge behalten ihren ursprünglichen Aufgabensatz. */
   readonly planKey?: string;
+  /** Optional authored completion rule; mixed/review tasks cannot satisfy it. */
+  readonly minimumChoirCorrect?: 1 | undefined;
+  readonly repetitionIndices?: readonly number[];
 }
 export interface LessonSession {
   readonly lesson: LessonDefinition;
@@ -73,7 +76,12 @@ export function revealLessonHint(lesson: LessonSession): LessonSession {
 }
 /** Das Musikbeispiel muss sich ändern; bloßes Mischen der Antworten ist keine neue Variante. */
 export function itemVariantKey(item: ExerciseItem): string {
-  if (item.type === 'CHOIR_PART') return JSON.stringify([item.type, item.params, item.bpm]);
+  if (item.type === 'CHOIR_PART')
+    return JSON.stringify(
+      item.params.fifths === undefined
+        ? [item.type, item.params, item.bpm]
+        : [item.type, item.params.voice, item.parts[item.params.voice].map(midi)],
+    );
   if (item.type === 'VOICE_LEADING') return JSON.stringify([item.type, item.params, item.fifths]);
   if (item.type === 'SIGHT_SING' || item.type === 'SING_INTERVAL' || item.type === 'PLAY_BACK')
     return JSON.stringify([item.type, item.pitches.map(midi)]);
@@ -153,7 +161,34 @@ function newVariant(lesson: LessonSession, index: number): ExerciseItem {
   if (!spec || !original) throw new RangeError('Wiederholungsaufgabe fehlt');
   const rng = createRng(`${String(lesson.seed)}:review:${String(index)}`);
   for (let attempt = 0; attempt < 256; attempt++) {
-    const item = generateExercise(spec, rng);
+    // A fixed initial key must still permit a different musical review task.
+    // Keep legacy specs on their original generation path for seed replay.
+    let variantSpec = spec;
+    if (
+      spec.type === 'VOICE_LEADING' &&
+      spec.params.fifths !== undefined &&
+      original.type === 'VOICE_LEADING'
+    )
+      variantSpec = {
+        ...spec,
+        params: {
+          ...spec.params,
+          fifths: rng.pick(([-1, 0, 1] as const).filter((key) => key !== original.fifths)),
+        },
+      };
+    else if (
+      spec.type === 'CHOIR_PART' &&
+      spec.params.fifths !== undefined &&
+      original.type === 'CHOIR_PART'
+    )
+      variantSpec = {
+        ...spec,
+        params: {
+          ...spec.params,
+          fifths: rng.pick(([-2, 0, 2] as const).filter((key) => key !== original.params.fifths)),
+        },
+      };
+    const item = generateExercise(variantSpec, rng);
     if (
       itemVariantKey(item) !== itemVariantKey(original) &&
       (item.type !== 'CONTEXT_CHOICE' ||

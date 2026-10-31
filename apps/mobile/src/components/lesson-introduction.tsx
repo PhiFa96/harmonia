@@ -1,3 +1,4 @@
+import { PASS_PERCENT } from '@harmonia/content';
 import type { LessonContent } from '@harmonia/content';
 import { engineLanguage } from '@harmonia/i18n';
 import { parseScore } from '@harmonia/notation';
@@ -22,7 +23,11 @@ export function LessonIntroduction({
   onCardSave,
   hideProgress = false,
   hideContinue = false,
+  disabled = false,
+  showCompletionRule = false,
 }: {
+  readonly disabled?: boolean;
+  readonly showCompletionRule?: boolean;
   readonly hideProgress?: boolean;
   readonly hideContinue?: boolean;
   readonly lesson: LessonContent;
@@ -44,6 +49,9 @@ export function LessonIntroduction({
   const example = card.examples[exampleIndex];
   if (!example) throw new Error('Einführungsbeispiel fehlt');
   const score = useMemo(() => parseScore(example.score), [example.score]);
+  const polyphonic = score.staves.some((staff) =>
+    staff.measures.some((measure) => measure.voices.length > 1),
+  );
   const pulse = useMemo(
     () => (example.pulse ? pulseExample(score, example.pulse.bpm) : undefined),
     [score, example.pulse],
@@ -63,6 +71,9 @@ export function LessonIntroduction({
             {contentText(card.titleKey)}
           </AppText>
           <MusicText>{contentText(card.bodyKey)}</MusicText>
+          {showCompletionRule && lesson.minimumChoirCorrect ? (
+            <AppText>{t('path.choirRule', { percent: PASS_PERCENT })}</AppText>
+          ) : null}
           {card.examples.length > 1 ? (
             <View aria-label={t('lesson.chooseExample')} style={styles.examples}>
               {card.examples.map((choice, choiceIndex) => (
@@ -109,7 +120,7 @@ export function LessonIntroduction({
                 ? { tabIndex: 0, 'aria-label': t('lesson.scrollExample') }
                 : {})}
             >
-              {score.staves.length === 2 ? (
+              {score.staves.length === 2 && !polyphonic ? (
                 <View accessible role="img" aria-label={contentText(example.captionKey)}>
                   <GrandStaffView score={score} staffSpace={14} color={colors.text} />
                 </View>
@@ -155,6 +166,7 @@ export function LessonIntroduction({
       </Card>
       {hideContinue ? null : (
         <Button
+          disabled={disabled}
           label={
             index === lesson.introduction.length - 1
               ? t('lesson.start', { count: lesson.exercises.length })

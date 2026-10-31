@@ -31,6 +31,8 @@ export type VoiceLeadingMode = 'bass' | 'soprano' | 'functions';
 export interface VoiceLeadingParams {
   readonly mode: VoiceLeadingMode;
   readonly level: 4 | 5;
+  /** Authored initial key; a review uses one of the other two draft keys. */
+  readonly fifths?: -1 | 0 | 1;
 }
 export type SatbAnswer = readonly FourPartSlice[];
 export interface VoiceLeadingItem {
@@ -104,9 +106,14 @@ export function satbScore(slices: SatbAnswer, fifths: number, solo?: Voice): Sco
   );
 }
 export function generateVoiceLeading(params: VoiceLeadingParams, rng: Rng): VoiceLeadingItem {
-  if (![4, 5].includes(params.level) || !['bass', 'soprano', 'functions'].includes(params.mode))
+  if (
+    ![4, 5].includes(params.level) ||
+    !['bass', 'soprano', 'functions'].includes(params.mode) ||
+    (params.fifths !== undefined && ![-1, 0, 1].includes(params.fifths))
+  )
     throw new RangeError('SATB task parameters');
-  const fifths = rng.pick([-1, 0, 1]),
+  // Missing fifths retains the original RNG draw, including its consumption order.
+  const fifths = params.fifths ?? rng.pick([-1, 0, 1]),
     interval = parseInterval(fifths === -1 ? 'P4' : fifths === 1 ? 'P5' : 'P1');
   const pitch = (text: string) => transposeBy(parsePitch(text), interval);
   // Own four-bar, root-position exercises. Whole notes define the task rhythm.
@@ -219,7 +226,17 @@ export function checkSatb(item: VoiceLeadingItem, answer: string | null) {
       }
       // Triads complete; in V7 only the fifth may be omitted, and after a complete V7 the final
       // tonic may omit its fifth (tripled root). Bass remains the root.
-      const afterSeventh = item.params.level === 5 && at === item.chords.length - 1;
+      const previousHarmony = item.chords[at - 1];
+      const previousSlice = slices[at - 1];
+      const previousTones = previousHarmony ? chordTones(previousHarmony) : [];
+      const afterSeventh =
+        item.params.level === 5 &&
+        at === item.chords.length - 1 &&
+        previousTones.length === 4 &&
+        !!previousSlice &&
+        previousTones.every((t) =>
+          SATB_VOICES.some((v) => previousSlice[v] && sameNoteName(t, previousSlice[v])),
+        );
       const required = tones.filter((_, i) => !((tones.length === 4 || afterSeventh) && i === 2));
       if (required.some((t) => !SATB_VOICES.some((v) => slice[v] && sameNoteName(t, slice[v]))))
         issues.push({ rule: 'chord-incomplete', severity: 'error', at, voices: SATB_VOICES });

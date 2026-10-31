@@ -2,9 +2,9 @@
 // vollständige Pluralformen, gleiche Platzhalter, gültige Verweise auf das Glossar.
 // Aufruf: pnpm check:i18n (läuft in der CI)
 
-import { checkTranslations } from '../packages/i18n/src/check.ts';
+import { checkHistoryJourneyTranslations } from '../packages/i18n/src/history-journey-check.ts';
 
-const problems = checkTranslations();
+const problems = checkHistoryJourneyTranslations();
 if (problems.length > 0) {
   console.error(`Übersetzungen unvollständig (${String(problems.length)}):`);
   for (const problem of problems) {

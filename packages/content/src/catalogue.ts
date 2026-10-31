@@ -102,6 +102,15 @@ export function parseCatalogue(input: unknown, checks?: ContentChecks): ContentC
         0,
       );
     if (total > 200) problems.push(`${lesson.id}: mehr als 200 Aufgaben`);
+    if (
+      lesson.minimumChoirCorrect &&
+      !catalogue.exerciseSets.some(
+        (set) =>
+          lesson.exerciseSetIds.includes(set.id) &&
+          set.exercises.some((entry) => entry.spec.type === 'CHOIR_PART'),
+      )
+    )
+      problems.push(`${lesson.id}: Chor-Abschlussregel ohne Chor-Aufgabe`);
     const trained = new Set(lesson.skillIds);
     for (const set of catalogue.exerciseSets.filter((value) =>
       lesson.exerciseSetIds.includes(value.id),
@@ -266,6 +275,7 @@ export function resolveLesson(catalogue: ContentCatalogue, id: string): LessonCo
     titleKey: lesson.titleKey,
     introduction,
     exercises,
+    ...(lesson.minimumChoirCorrect ? { minimumChoirCorrect: lesson.minimumChoirCorrect } : {}),
   });
 }
 

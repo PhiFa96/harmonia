@@ -4,6 +4,7 @@
 
 | Datum | Entscheidung | Wo festgehalten |
 |---|---|---|
+| 28.10.2026 | P4.11: zusätzlich zu F11 mindestens eine eigene Chor-Aufgabe im Erstversuch anrechenbar bestehen; Hinweise 1–2 erlaubt, Lösungen und Fehlerwiederholung erfüllen die Gesangsbedingung nicht. | [ADR 0064](../decisions/0064-chorabschluss-verlangt-bestandenen-gesangsversuch.md) |
 | 02.10.2026 | Zielgruppe: alle, Stufen wie bei Duolingo, bis Hochschulniveau | [vision.md](../vision.md) |
 | 02.10.2026 | Tech-Stack: Expo + Supabase | [ADR 0001](../decisions/0001-plattform-und-tech-stack.md) |
 | 02.10.2026 | Engine entscheidet, KI erklärt | [ADR 0002](../decisions/0002-ki-tutor-und-fachliche-korrektheit.md) |

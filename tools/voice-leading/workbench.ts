@@ -5,8 +5,12 @@ import {
   PARTS,
   parseWorkbenchDraft,
   workbenchReportInput,
+  WORKBENCH_RULES,
+  parseWorkbenchSettings,
+  setWorkbenchRule,
   type WorkbenchDraft,
 } from './workbench-model.ts';
+import type { VoiceLeadingRule, VoiceLeadingSeverity } from '../../packages/theory/src/index.ts';
 import { WORKBENCH_MESSAGES } from './workbench-messages.ts';
 import {
   createAudioEngine,
@@ -103,6 +107,74 @@ export function startWorkbench({ draft, locale: initialLocale, assets }: Bootstr
   settings.maxLength = 30_000;
   settings.spellcheck = false;
   settings.setAttribute('aria-describedby', 'settings-help');
+  const rulePicker = document.createElement('details');
+  rulePicker.id = 'rule-picker';
+  const ruleSummary = document.createElement('summary'),
+    ruleHelp = document.createElement('p'),
+    ruleStatus = document.createElement('p');
+  ruleHelp.id = 'rule-help';
+  ruleStatus.id = 'rule-status';
+  ruleStatus.setAttribute('role', 'status');
+  const ruleFields = document.createElement('fieldset'),
+    ruleLegend = document.createElement('legend'),
+    ruleGrid = document.createElement('div');
+  ruleFields.id = 'rule-settings';
+  ruleFields.setAttribute('aria-describedby', 'rule-help rule-status');
+  ruleGrid.className = 'rule-grid';
+  const ruleSelects = new Map<VoiceLeadingRule, HTMLSelectElement>();
+  for (const rule of WORKBENCH_RULES) {
+    const card = document.createElement('div'),
+      wrapper = document.createElement('label'),
+      caption = document.createElement('span'),
+      description = document.createElement('p'),
+      control = document.createElement('select');
+    card.className = 'rule-control';
+    control.id = `rule-${rule}`;
+    description.id = `rule-description-${rule}`;
+    control.setAttribute('aria-describedby', description.id);
+    const unavailable = new Option('', 'unavailable');
+    unavailable.hidden = true;
+    unavailable.disabled = true;
+    control.add(unavailable);
+    control.add(new Option('', 'off'));
+    for (const severity of ['error', 'warning', 'hint']) control.add(new Option('', severity));
+    ruleSelects.set(rule, control);
+    translations.push(() => {
+      const m = WORKBENCH_MESSAGES[locale],
+        report = REPORT_MESSAGES[locale];
+      caption.textContent = report.rules[rule].title;
+      description.textContent = report.rules[rule].description;
+      for (const option of control.options)
+        option.textContent =
+          option.value === 'unavailable'
+            ? m.ruleUnavailable
+            : option.value === 'off'
+              ? m.ruleOff
+              : report.severity[option.value as VoiceLeadingSeverity];
+    });
+    control.addEventListener('change', () => {
+      try {
+        const next = setWorkbenchRule(
+          settings.value,
+          rule,
+          control.value === 'off' ? null : (control.value as VoiceLeadingSeverity),
+        );
+        if (next !== settings.value) {
+          settings.value = next;
+          invalidate();
+        }
+        syncRuleControls();
+      } catch {
+        syncRuleControls();
+        ruleStatus.textContent = WORKBENCH_MESSAGES[locale].ruleChangeError;
+      }
+    });
+    wrapper.append(caption, control);
+    card.append(wrapper, description);
+    ruleGrid.append(card);
+  }
+  ruleFields.append(ruleLegend, ruleGrid);
+  rulePicker.append(ruleSummary, ruleHelp, ruleStatus, ruleFields);
   const actions = document.createElement('div');
   actions.className = 'actions';
   const button = (message: 'analyze' | 'save' | 'export' | 'play' | 'stop') => {
@@ -220,6 +292,7 @@ export function startWorkbench({ draft, locale: initialLocale, assets }: Bootstr
     row,
     notationHelp,
     voices,
+    rulePicker,
     label(settings, 'settings'),
     settingsHelp,
     actions,
@@ -271,6 +344,18 @@ export function startWorkbench({ draft, locale: initialLocale, assets }: Bootstr
     details.append(summary, pre);
     error.replaceChildren(text, details);
   }
+  function syncRuleControls() {
+    try {
+      const configuration = parseWorkbenchSettings(settings.value);
+      ruleFields.disabled = false;
+      for (const [rule, control] of ruleSelects) control.value = configuration.rules[rule] ?? 'off';
+      ruleStatus.textContent = '';
+    } catch {
+      ruleFields.disabled = true;
+      for (const control of ruleSelects.values()) control.value = 'unavailable';
+      ruleStatus.textContent = WORKBENCH_MESSAGES[locale].ruleInvalid;
+    }
+  }
   function check() {
     invalidate('');
     try {
@@ -292,6 +377,8 @@ export function startWorkbench({ draft, locale: initialLocale, assets }: Bootstr
       renderPlayer(audioState);
       exportReport.disabled = false;
       status.textContent = `${WORKBENCH_MESSAGES[locale].checked} ${String(report.analysis.findings.length)}.`;
+      if (report.groupCount < report.analysis.findings.length)
+        status.textContent += ` ${REPORT_MESSAGES[locale].groups}: ${String(report.groupCount)}.`;
     } catch (reason) {
       showError(WORKBENCH_MESSAGES[locale].invalid, reason);
     }
@@ -305,6 +392,9 @@ export function startWorkbench({ draft, locale: initialLocale, assets }: Bootstr
     introduction.textContent = m.introduction;
     notationHelp.textContent = m.notationHelp;
     settingsHelp.textContent = m.settingsHelp;
+    ruleSummary.textContent = m.rulePicker;
+    ruleLegend.textContent = m.ruleLegend;
+    ruleHelp.textContent = m.ruleHelp;
     output.setAttribute('aria-label', m.results);
     soundTitle.textContent = m.listen;
     soundHelp.textContent = m.soundHelp;
@@ -318,6 +408,7 @@ export function startWorkbench({ draft, locale: initialLocale, assets }: Bootstr
     translations.forEach((translate) => {
       translate();
     });
+    syncRuleControls();
   }
   function download(text: string, name: string, type: string) {
     const url = URL.createObjectURL(new Blob([text], { type }));
@@ -329,7 +420,9 @@ export function startWorkbench({ draft, locale: initialLocale, assets }: Bootstr
       URL.revokeObjectURL(url);
     }, 1000);
   }
-  form.addEventListener('input', () => {
+  form.addEventListener('input', (event) => {
+    if (event.target instanceof Node && ruleFields.contains(event.target)) return;
+    if (event.target === settings) syncRuleControls();
     invalidate();
   });
   form.addEventListener('submit', (event) => {
@@ -400,6 +493,7 @@ export function startWorkbench({ draft, locale: initialLocale, assets }: Bootstr
         meter.value = loaded.meter;
         key.value = loaded.key;
         settings.value = loaded.settings;
+        syncRuleControls();
         for (const voice of PARTS) parts[voice].value = loaded.parts[voice];
         invalidate(WORKBENCH_MESSAGES[locale].loaded);
       } catch (reason) {

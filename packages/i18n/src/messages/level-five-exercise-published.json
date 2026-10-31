@@ -1,0 +1,38 @@
+{
+  "de": {
+    "levelFiveTitle": "Stufe 5: Kontrapunkt und Analyse",
+    "levelFiveDraft": "Interner Entwurf – unabhängige Fachprüfung und formale Phase-4-Freigabe stehen aus.",
+    "levelFiveInternal": "Diese Vorschau speichert keinen Lernfortschritt und vergibt keine XP. Beim Verlassen endet der Durchgang.",
+    "levelFiveOpen": "Stufe-5-Entwurf öffnen",
+    "levelFiveLesson": "Entwurfslektion öffnen",
+    "levelFiveNext": "Weiter",
+    "levelFiveReview": "Wiederhole die noch offenen Aufgaben mit verändertem Material.",
+    "levelFiveReviewStart": "Wiederholung starten",
+    "levelFiveDone": "Durchgang beendet: {{correct}} von {{total}} im ersten Durchgang richtig; nach Wiederholung noch {{remaining}} offen. Kein Lernfortschritt gespeichert.",
+    "levelFiveBack": "Zur Entwurfsübersicht"
+  },
+  "en-US": {
+    "levelFiveTitle": "Stage 5: counterpoint and analysis",
+    "levelFiveDraft": "Internal draft – independent specialist review and formal Phase 4 approval remain outstanding.",
+    "levelFiveInternal": "This preview saves no learning progress and awards no XP. Leaving ends the session.",
+    "levelFiveOpen": "Open the Stage 5 draft",
+    "levelFiveLesson": "Open draft lesson",
+    "levelFiveNext": "Continue",
+    "levelFiveReview": "Review the unresolved questions with changed material.",
+    "levelFiveReviewStart": "Start review",
+    "levelFiveDone": "Session complete: {{correct}} of {{total}} correct in the first round; {{remaining}} unresolved after review. No learning progress saved.",
+    "levelFiveBack": "Back to draft overview"
+  },
+  "en-GB": {
+    "levelFiveTitle": "Stage 5: counterpoint and analysis",
+    "levelFiveDraft": "Internal draft – independent specialist review and formal Phase 4 approval remain outstanding.",
+    "levelFiveInternal": "This preview saves no learning progress and awards no XP. Leaving ends the session.",
+    "levelFiveOpen": "Open the Stage 5 draft",
+    "levelFiveLesson": "Open draft lesson",
+    "levelFiveNext": "Continue",
+    "levelFiveReview": "Review the unresolved questions with changed material.",
+    "levelFiveReviewStart": "Start review",
+    "levelFiveDone": "Session complete: {{correct}} of {{total}} correct in the first round; {{remaining}} unresolved after review. No learning progress saved.",
+    "levelFiveBack": "Back to draft overview"
+  }
+}
