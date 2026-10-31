@@ -10,7 +10,7 @@ Vor Schule/Zertifikaten verlangt der Plan eine schriftliche Einordnung nach KI-V
 
 ## Entscheidung
 
-Ein internes Inventar dokumentiert neun Funktionsbereiche und acht Maßnahmenpakete. Allgemeines Produkt, Schule und Zertifikate erhalten getrennte Prüfdatensätze. Alle bleiben zunächst offen. Nur echte, zeitlich gültige Referenzen mit passendem aktuellem Snapshot können die technischen Nachweisfelder erfüllen; die Prüfung bestätigt keine juristische Richtigkeit.
+Ein internes Inventar dokumentiert zehn Funktionsbereiche und acht Maßnahmenpakete. Allgemeines Produkt, Schule und Zertifikate erhalten getrennte Prüfdatensätze. Alle bleiben zunächst offen. Nur echte, zeitlich gültige Referenzen mit passendem aktuellem Snapshot können die technischen Nachweisfelder erfüllen; die Prüfung bestätigt keine juristische Richtigkeit.
 
 Ein SHA-256-Snapshot bindet Zwecke, Klassifikation, Maßnahmen, Quellen und relevante Laufzeitdateien. Verzeichnisüberwachung erfasst auch neue Module; Änderungen machen alte Prüfreferenzen technisch unbrauchbar. Die Prüfreferenzen selbst sind ausgenommen. Offene Profiling-/Anhang-III-Fragen lassen sich nicht durch eine unzulässige Ausnahme oder synthetische Testbelege auflösen. Die Quellenkontrolle nach spätestens 90 Tagen ist eine interne Wiederprüfregel.
 
