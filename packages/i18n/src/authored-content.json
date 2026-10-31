@@ -1799,7 +1799,7 @@
           "rondoReturnCaption": "Fünftaktiges Buchstabenmodell mit A an den Positionen 1, 3 und 5; keine ausgearbeitete Rondoform.",
           "variationIdentityTitle": "Variation und Invariante",
           "variationIdentityBody": "Eine Variation verändert Merkmale eines Bezugsabschnitts und bewahrt andere. Benenne konkret, ob etwa Bassgang, Harmoniefolge, Melodiekontur oder Länge wiederkehrt. Eine bloße Ähnlichkeit ist noch kein Nachweis einer ganzen Variationenform.",
-          "variationIdentityCaption": "Anfangs- und Zielton bleiben erhalten; der zweite Takt fügt einen Durchgang ein.",
+          "variationIdentityCaption": "Anfangs- und Zielton bleiben erhalten; der zweite Takt fügt einen weiteren Ton ein und ändert den Rhythmus.",
           "sonataFunctionTitle": "Reprise und tonale Funktion",
           "sonataFunctionBody": "Eine Reprise ist nicht allein die wörtliche Wiederholung des Anfangs. Vergleiche Themenfolge, Tonarten und Schlussbildung mit der Exposition; besonders die Rückführung zuvor kontrastierender Bereiche ist relevant. Das kurze Tonmodell illustriert nur Transposition, nicht automatisch eine Reprise.",
           "sonataFunctionCaption": "Zwei transponierte Motive: für eine Sonatendeutung fehlen der größere Verlauf und die Kadenzen."
@@ -3712,7 +3712,7 @@
           "rondoReturnCaption": "A five-bar letter model with A at positions 1, 3 and 5; not a fully developed rondo.",
           "variationIdentityTitle": "Variation and invariant",
           "variationIdentityBody": "A variation changes some features of a reference section and retains others. Specify whether the bass line, harmonic sequence, melodic contour or length returns. Mere resemblance does not establish an entire variation form.",
-          "variationIdentityCaption": "The opening and goal pitches remain; the second bar inserts a passing note.",
+          "variationIdentityCaption": "The opening and goal pitches remain; the second $t(glossary:measure) adds a note and changes the rhythm.",
           "sonataFunctionTitle": "Recapitulation and tonal function",
           "sonataFunctionBody": "A recapitulation is not merely a literal return of the opening. Compare thematic order, keys and cadential closure with the exposition; the return of previously contrasting regions is especially relevant. The short pitch model illustrates transposition only, not automatically a recapitulation.",
           "sonataFunctionCaption": "Two transposed motives: a sonata interpretation needs the larger course and cadences."
@@ -5625,7 +5625,7 @@
           "rondoReturnCaption": "A five-bar letter model with A at positions 1, 3 and 5; not a fully developed rondo.",
           "variationIdentityTitle": "Variation and invariant",
           "variationIdentityBody": "A variation changes some features of a reference section and retains others. Specify whether the bass line, harmonic sequence, melodic contour or length returns. Mere resemblance does not establish an entire variation form.",
-          "variationIdentityCaption": "The opening and goal pitches remain; the second bar inserts a passing note.",
+          "variationIdentityCaption": "The opening and goal pitches remain; the second $t(glossary:measure) adds a note and changes the rhythm.",
           "sonataFunctionTitle": "Recapitulation and tonal function",
           "sonataFunctionBody": "A recapitulation is not merely a literal return of the opening. Compare thematic order, keys and cadential closure with the exposition; the return of previously contrasting regions is especially relevant. The short pitch model illustrates transposition only, not automatically a recapitulation.",
           "sonataFunctionCaption": "Two transposed motives: a sonata interpretation needs the larger course and cadences."
