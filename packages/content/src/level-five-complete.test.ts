@@ -19,6 +19,42 @@ const unitIds = new Set(units.map((unit) => unit.id));
 const lessons = catalogue.lessons.filter((lesson) => unitIds.has(lesson.unitId));
 
 describe('P4.19 internal Stage 5 curriculum', () => {
+  it('only asks context topics from units that are prerequisites of the lesson', () => {
+    const skills = new Map(catalogue.skills.map((skill) => [skill.id, skill]));
+    const ancestors = (id: string, seen = new Set<string>()): Set<string> => {
+      for (const parent of skills.get(id)?.prerequisites ?? [])
+        if (!seen.has(parent)) {
+          seen.add(parent);
+          ancestors(parent, seen);
+        }
+      return seen;
+    };
+    const topicsOf = (lesson: (typeof lessons)[number]) =>
+      lesson.exerciseSetIds.flatMap((id) =>
+        (catalogue.exerciseSets.find((set) => set.id === id)?.exercises ?? []).flatMap(
+          ({ spec }) =>
+            spec.type === 'CONTEXT_CHOICE' ? (spec.params as { topics: string[] }).topics : [],
+        ),
+      );
+    // A topic is introduced by the first unit in plan order that asks it.
+    const order = curriculumPlan.units.map((entry) => entry.unitId);
+    const introducedIn = new Map<string, string>();
+    for (const lesson of [...lessons].sort(
+      (a, b) => order.indexOf(a.unitId) - order.indexOf(b.unitId),
+    ))
+      for (const topic of topicsOf(lesson))
+        if (!introducedIn.has(topic)) introducedIn.set(topic, lesson.unitId);
+    const missing: string[] = [];
+    for (const lesson of lessons) {
+      const reach = [...new Set(lesson.skillIds.flatMap((skill) => [...ancestors(skill)]))];
+      for (const topic of topicsOf(lesson)) {
+        const unit = introducedIn.get(topic);
+        if (unit && unit !== lesson.unitId && !reach.some((skill) => skill.startsWith(`${unit}.`)))
+          missing.push(`${lesson.id}: ${topic} (introduced in ${unit})`);
+      }
+    }
+    expect(missing).toEqual([]);
+  });
   it('adds eight connected units, 24 lessons, 240 tasks and eight draft articles', () => {
     expect(units).toHaveLength(8);
     expect(lessons).toHaveLength(24);

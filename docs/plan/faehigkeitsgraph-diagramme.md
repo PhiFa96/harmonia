@@ -72,9 +72,9 @@ Die Einheiten haben noch keine vollständigen Lektionen. Technische Prüfungen e
 | 58 | 5 | Kontrapunkt | Gattungskontrapunkt: Grundlagen · `counterpoint.l5.species` | 3 |
 | 59 | 5 | Kontrapunkt | Imitation, Kanon und Fuge · `counterpoint.l5.imitation` | 3 |
 | 60 | 5 | Formenlehre | Formverläufe begründet lesen · `forms.l5.structure` | 3 |
-| 61 | 5 | Werkanalyse | Werkanalyse: Methode und Beleg · `analysis.l5.methods` | 3 |
-| 62 | 5 | Musik des 20. und 21. Jahrhunderts | Zwölftonreihen und Operationen · `contemporary.l5.serial` | 3 |
-| 63 | 5 | Musik des 20. und 21. Jahrhunderts | Tonklassenmengen und Intervalle · `contemporary.l5.sets` | 3 |
+| 61 | 5 | Musik des 20. und 21. Jahrhunderts | Zwölftonreihen und Operationen · `contemporary.l5.serial` | 3 |
+| 62 | 5 | Musik des 20. und 21. Jahrhunderts | Tonklassenmengen und Intervalle · `contemporary.l5.sets` | 3 |
+| 63 | 5 | Werkanalyse | Werkanalyse: Methode und Beleg · `analysis.l5.methods` | 3 |
 | 64 | 5 | Musik des 20. und 21. Jahrhunderts | Prozesse, Medien und Klangmodelle · `contemporary.l5.process` | 3 |
 | 65 | 5 | Musik anderer Kulturen | Musikkulturen: Quellen und Modellgrenzen · `world.l5.context` | 3 |
 
@@ -149,9 +149,9 @@ flowchart TD
     u57["Gattungskontrapunkt: Grundlagen"]
     u58["Imitation, Kanon und Fuge"]
     u59["Formverläufe begründet lesen"]
-    u60["Werkanalyse: Methode und Beleg"]
-    u61["Zwölftonreihen und Operationen"]
-    u62["Tonklassenmengen und Intervalle"]
+    u60["Zwölftonreihen und Operationen"]
+    u61["Tonklassenmengen und Intervalle"]
+    u62["Werkanalyse: Methode und Beleg"]
     u63["Prozesse, Medien und Klangmodelle"]
     u64["Musikkulturen: Quellen und Modellgrenzen"]
   end
@@ -264,10 +264,12 @@ flowchart TD
   u45 --> u57
   u57 --> u58
   u47 --> u59
+  u53 --> u60
   u48 --> u60
-  u59 --> u60
-  u53 --> u61
-  u48 --> u61
+  u60 --> u61
+  u48 --> u62
+  u59 --> u62
+  u58 --> u62
   u61 --> u62
   u42 --> u63
   u51 --> u63
@@ -1119,19 +1121,23 @@ flowchart TD
     s149["Analyse am Notenbild belegen"]
   end
   subgraph level5["Stufe 5"]
-    s184["Werkanalyse: Methode und Beleg: Begriffe und Modell"]
-    s185["Werkanalyse: Methode und Beleg: Beispiele untersuchen"]
-    s186["Werkanalyse: Methode und Beleg: Anwenden und Grenzen begründen"]
+    s190["Werkanalyse: Methode und Beleg: Begriffe und Modell"]
+    s191["Werkanalyse: Methode und Beleg: Beispiele untersuchen"]
+    s192["Werkanalyse: Methode und Beleg: Anwenden und Grenzen begründen"]
   end
   s146["Formbehauptungen belegen · anderer Bereich"]
   s183["Formverläufe begründet lesen: Anwenden und Grenzen begründen · anderer Bereich"]
+  s180["Imitation, Kanon und Fuge: Anwenden und Grenzen begründen · anderer Bereich"]
+  s189["Tonklassenmengen und Intervalle: Anwenden und Grenzen begründen · anderer Bereich"]
   s146 -.-> s147
   s147 --> s148
   s148 --> s149
-  s149 --> s184
-  s183 -.-> s184
-  s184 --> s185
-  s185 --> s186
+  s149 --> s190
+  s183 -.-> s190
+  s180 -.-> s190
+  s189 -.-> s190
+  s190 --> s191
+  s191 --> s192
 ```
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
@@ -1139,7 +1145,7 @@ flowchart TD
 | 4 · Werkbezogene Analyse | Motivbeziehungen beschreiben | `analysis.l4.score.s1` | Describe motivic relations | `forms.l4.sonata.s3` | entwurf |
 | 4 · Werkbezogene Analyse | Phrasen und Harmonik verbinden | `analysis.l4.score.s2` | Relate phrases and harmony | `analysis.l4.score.s1` | entwurf |
 | 4 · Werkbezogene Analyse | Analyse am Notenbild belegen | `analysis.l4.score.s3` | Support analysis with score evidence | `analysis.l4.score.s2` | entwurf |
-| 5 · Werkanalyse: Methode und Beleg | Werkanalyse: Methode und Beleg: Begriffe und Modell | `analysis.l5.methods.s1` | Work analysis: method and evidence: Terms and model | `analysis.l4.score.s3`, `forms.l5.structure.s3` | entwurf |
+| 5 · Werkanalyse: Methode und Beleg | Werkanalyse: Methode und Beleg: Begriffe und Modell | `analysis.l5.methods.s1` | Work analysis: method and evidence: Terms and model | `analysis.l4.score.s3`, `forms.l5.structure.s3`, `counterpoint.l5.imitation.s3`, `contemporary.l5.sets.s3` | entwurf |
 | 5 · Werkanalyse: Methode und Beleg | Werkanalyse: Methode und Beleg: Beispiele untersuchen | `analysis.l5.methods.s2` | Work analysis: method and evidence: Investigate examples | `analysis.l5.methods.s1` | entwurf |
 | 5 · Werkanalyse: Methode und Beleg | Werkanalyse: Methode und Beleg: Anwenden und Grenzen begründen | `analysis.l5.methods.s3` | Work analysis: method and evidence: Apply and justify limits | `analysis.l5.methods.s2` | entwurf |
 
@@ -1199,12 +1205,12 @@ flowchart TD
 ```mermaid
 flowchart TD
   subgraph level5["Stufe 5"]
-    s187["Zwölftonreihen und Operationen: Begriffe und Modell"]
-    s188["Zwölftonreihen und Operationen: Beispiele untersuchen"]
-    s189["Zwölftonreihen und Operationen: Anwenden und Grenzen begründen"]
-    s190["Tonklassenmengen und Intervalle: Begriffe und Modell"]
-    s191["Tonklassenmengen und Intervalle: Beispiele untersuchen"]
-    s192["Tonklassenmengen und Intervalle: Anwenden und Grenzen begründen"]
+    s184["Zwölftonreihen und Operationen: Begriffe und Modell"]
+    s185["Zwölftonreihen und Operationen: Beispiele untersuchen"]
+    s186["Zwölftonreihen und Operationen: Anwenden und Grenzen begründen"]
+    s187["Tonklassenmengen und Intervalle: Begriffe und Modell"]
+    s188["Tonklassenmengen und Intervalle: Beispiele untersuchen"]
+    s189["Tonklassenmengen und Intervalle: Anwenden und Grenzen begründen"]
     s193["Prozesse, Medien und Klangmodelle: Begriffe und Modell"]
     s194["Prozesse, Medien und Klangmodelle: Beispiele untersuchen"]
     s195["Prozesse, Medien und Klangmodelle: Anwenden und Grenzen begründen"]
@@ -1213,13 +1219,13 @@ flowchart TD
   s149["Analyse am Notenbild belegen · anderer Bereich"]
   s131["Akzentgruppen vergleichen · anderer Bereich"]
   s158["Stimmungssysteme einordnen · anderer Bereich"]
-  s164 -.-> s187
-  s149 -.-> s187
+  s164 -.-> s184
+  s149 -.-> s184
+  s184 --> s185
+  s185 --> s186
+  s186 --> s187
   s187 --> s188
   s188 --> s189
-  s189 --> s190
-  s190 --> s191
-  s191 --> s192
   s131 -.-> s193
   s158 -.-> s193
   s164 -.-> s193

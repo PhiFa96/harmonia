@@ -2410,7 +2410,12 @@
       "status": "entwurf",
       "titleKey": "content.levelFive.units.workAnalysis.skill1",
       "areaId": "area.analysis",
-      "prerequisites": ["analysis.l4.score.s3", "forms.l5.structure.s3"]
+      "prerequisites": [
+        "analysis.l4.score.s3",
+        "forms.l5.structure.s3",
+        "counterpoint.l5.imitation.s3",
+        "contemporary.l5.sets.s3"
+      ]
     },
     {
       "id": "analysis.l5.methods.s2",

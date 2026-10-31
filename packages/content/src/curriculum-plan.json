@@ -310,10 +310,6 @@
       "skillIds": ["forms.l5.structure.s1", "forms.l5.structure.s2", "forms.l5.structure.s3"]
     },
     {
-      "unitId": "analysis.l5.methods",
-      "skillIds": ["analysis.l5.methods.s1", "analysis.l5.methods.s2", "analysis.l5.methods.s3"]
-    },
-    {
       "unitId": "contemporary.l5.serial",
       "skillIds": [
         "contemporary.l5.serial.s1",
@@ -324,6 +320,10 @@
     {
       "unitId": "contemporary.l5.sets",
       "skillIds": ["contemporary.l5.sets.s1", "contemporary.l5.sets.s2", "contemporary.l5.sets.s3"]
+    },
+    {
+      "unitId": "analysis.l5.methods",
+      "skillIds": ["analysis.l5.methods.s1", "analysis.l5.methods.s2", "analysis.l5.methods.s3"]
     },
     {
       "unitId": "contemporary.l5.process",
