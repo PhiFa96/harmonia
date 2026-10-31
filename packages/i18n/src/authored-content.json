@@ -1756,10 +1756,10 @@
           "speciesConsonanceBody": "Im zweistimmigen Modell gelten reine Primen, Quinten und Oktaven sowie kleine und große Terzen und Sexten als konsonant. Die reine Quarte über dem tiefsten Ton gehört hier nicht dazu. Eine übermäßige Sekunde wird trotz gleicher Klaviertaste nicht als kleine Terz bewertet.",
           "speciesConsonanceCaption": "Gleicher temperierter Klang, verschiedene Intervallschreibweisen: kleine Terz und übermäßige Sekunde.",
           "speciesMotionTitle": "Bewegung und Unabhängigkeit",
-          "speciesMotionBody": "Gegenbewegung führt die Stimmen in entgegengesetzte Richtungen; bei Seitenbewegung bleibt eine Stimme liegen. Gleichgerichtete Bewegung umfasst hier auch Parallelbewegung. Das strenge Übungsprofil beanstandet aufeinanderfolgende gleiche perfekte Intervallklassen, direkte perfekte Konsonanzen bei gleichgerichteter Bewegung und Überlappungen.",
+          "speciesMotionBody": "Gegenbewegung führt die Stimmen in entgegengesetzte Richtungen; bei Seitenbewegung bleibt eine Stimme liegen. Gleichgerichtete Bewegung umfasst hier auch Parallelbewegung. Das strenge Übungsprofil beanstandet aufeinanderfolgende gleiche vollkommene Konsonanzen, in gleichgerichteter Bewegung erreichte vollkommene Konsonanzen (verdeckte Quinten und Oktaven) und Überlappungen.",
           "speciesMotionCaption": "Bewusstes Gegenbeispiel: beide Stimmen steigen, zwei reine Quinten folgen aufeinander.",
           "speciesClosureTitle": "Schluss und Prüfgrenzen",
-          "speciesClosureBody": "Unser Profil beginnt mit reiner Prime, Quinte oder Oktave und endet mit Prime oder Oktave, erreicht in schrittweiser Gegenbewegung aus kleiner Terz oder großer Sexte. Es prüft außerdem Konsonanz, Kreuzung, innere Prime, Abstand bis zur Duodezime, perfekte Folgen, direkte Perfektionen und Überlappung: insgesamt neun Regeln. Melodische Höhepunkte, Modus, vollständige Singbarkeit und spätere Gattungen benötigen eigene Prüfung.",
+          "speciesClosureBody": "Unser Profil beginnt mit reiner Prime, Quinte oder Oktave und endet mit Prime oder Oktave, erreicht in schrittweiser Gegenbewegung aus kleiner Terz (auch als kleine Dezime) oder großer Sexte. Es prüft außerdem Konsonanz, Kreuzung, innere Prime, Abstand bis zur Duodezime, Folgen vollkommener Konsonanzen, verdeckte Quinten und Oktaven sowie Überlappung: insgesamt neun Regeln. Melodische Höhepunkte, Modus, vollständige Singbarkeit und spätere Gattungen benötigen eigene Prüfung.",
           "speciesClosureCaption": "Die große Sexte öffnet sich in Gegenbewegung zur Oktave. Dies zeigt nur den Schluss."
         },
         "imitationStudy": {
@@ -3672,7 +3672,7 @@
           "speciesMotionBody": "Contrary motion sends the parts in opposite directions; in oblique motion one part stays still. Similar motion here also includes parallel motion. The strict exercise profile flags consecutive identical perfect interval classes, direct perfect consonances in similar motion, and overlap.",
           "speciesMotionCaption": "Deliberate counterexample: both parts rise and two perfect fifths follow one another.",
           "speciesClosureTitle": "Closure and assessment limits",
-          "speciesClosureBody": "Our profile begins with a perfect unison, fifth or octave and ends with a unison or octave, approached in contrary steps from a minor third or major sixth. It also checks consonance, crossing, interior unisons, spacing up to a twelfth, consecutive perfect classes, direct perfect consonances and overlap: nine rules in total. Melodic climaxes, mode, complete singability and later species need separate assessment.",
+          "speciesClosureBody": "Our profile begins with a perfect unison, fifth or octave and ends with a unison or octave, approached in contrary steps from a minor third (or minor tenth) or major sixth. It also checks consonance, crossing, interior unisons, spacing up to a twelfth, consecutive perfect classes, direct perfect consonances and overlap: nine rules in total. Melodic climaxes, mode, complete singability and later species need separate assessment.",
           "speciesClosureCaption": "The major sixth opens in contrary motion to the octave. This illustrates only the ending."
         },
         "imitationStudy": {
@@ -5585,7 +5585,7 @@
           "speciesMotionBody": "Contrary motion sends the parts in opposite directions; in oblique motion one part stays still. Similar motion here also includes parallel motion. The strict exercise profile flags consecutive identical perfect interval classes, direct perfect consonances in similar motion, and overlap.",
           "speciesMotionCaption": "Deliberate counterexample: both parts rise and two perfect fifths follow one another.",
           "speciesClosureTitle": "Closure and assessment limits",
-          "speciesClosureBody": "Our profile begins with a perfect unison, fifth or octave and ends with a unison or octave, approached in contrary steps from a minor third or major sixth. It also checks consonance, crossing, interior unisons, spacing up to a twelfth, consecutive perfect classes, direct perfect consonances and overlap: nine rules in total. Melodic climaxes, mode, complete singability and later species need separate assessment.",
+          "speciesClosureBody": "Our profile begins with a perfect unison, fifth or octave and ends with a unison or octave, approached in contrary steps from a minor third (or minor tenth) or major sixth. It also checks consonance, crossing, interior unisons, spacing up to a twelfth, consecutive perfect classes, direct perfect consonances and overlap: nine rules in total. Melodic climaxes, mode, complete singability and later species need separate assessment.",
           "speciesClosureCaption": "The major sixth opens in contrary motion to the octave. This illustrates only the ending."
         },
         "imitationStudy": {
