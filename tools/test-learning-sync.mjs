@@ -328,7 +328,10 @@ try {
       403,
     );
     // C8: the new prerequisite has a real, versioned, server-graded reading lesson.
-    const readingUpload = await sync(a.token, [readingEvent], longPage.data.cursor);
+    const readingUpload = await request('/functions/v1/learning-sync', {
+      token: a.token,
+      body: { events: [readingEvent], since: longPage.data.cursor, rewardFormat: 2, rowFormat: 5 },
+    });
     assert.equal(readingUpload.status, 200, 'Neue Vorzeichenlektion serverseitig bewertet');
     const readingRow = readingUpload.data.rows.find((row) => row.event.id === readingEvent.id);
     assert.ok(readingRow);
