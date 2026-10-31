@@ -31,3 +31,7 @@ Der Texttutor gehört gemäß Geschäftsmodell zu Premium und Max. Free erhält 
 Die lokale API-Simulation benötigt ein ausdrücklich gesetztes Serverflag und eine lokale Supabase-URL. Sie benutzt denselben SDK-SSE-Parser und dieselbe Datenbanklogik, ist aber kein Sprachmodell. Ihre Token und Preise sind künstliche Testwerte. Der echte Test wird getrennt von CI ausgelöst. Der lokale Docker-Adapter bindet einen Live-Schlüssel ausschließlich über seinen Umgebungsnamen und nur im eigenen Edge-Container; er schreibt keinen Schlüssel in Argumente oder temporäre env-Dateien.
 
 Die üblichen TCP-/Proxy-Abbrüche können eine Modellanfrage erst über das serverseitige Zeitlimit beenden. Der SDK-Abbruch wird propagiert und geprüft; eine sofortige Erkennung jeder getrennten Browserverbindung wird nicht zugesagt. Bereits berechnete und unbekannte Token bleiben kontingentwirksam. Es gibt keine Tutor-Buchung von XP, Münzen oder Freischaltungen. P2.17 muss beim Anzeigen einer ungeprüften Aufgabenlösung den vorhandenen Hinweis-3-/Lösungsstatus der Lektion setzen.
+
+## Nachtrag 31.10.2026
+
+Das SDK ist inzwischen auf 1.1.0 (API-Version `2026-10-21`) umgestellt, mit ausdrücklich abgeschaltetem OpenTelemetry-Tracing; die hier genannte Version 0.133.0 ist der damalige Stand. Siehe [ADR 0065](0065-anthropic-sdk-1-und-api-version-2026-10-21.md).
