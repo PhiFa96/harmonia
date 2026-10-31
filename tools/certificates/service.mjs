@@ -14,11 +14,7 @@ import {
   currentItem,
   isAuralExercise,
 } from '../../packages/exercises/src/index.ts';
-import {
-  layoutScore,
-  layoutToSvg,
-  scoreTimeline,
-} from '../../packages/notation/src/index.ts';
+import { layoutScore, layoutToSvg, scoreTimeline } from '../../packages/notation/src/index.ts';
 import { CERTIFICATE_PROFILES } from './profiles.ts';
 import { certificateSourceHash, SOURCE_HASH } from './binding.mjs';
 
