@@ -36,8 +36,8 @@ function check(value: unknown, label: string): asserts value {
 const preview = await currentKnowledgeSnapshot('preview'),
   published = await currentKnowledgeSnapshot('published');
 check(
-  preview.articleCount === 62 &&
-    preview.chunks.length === 1110 &&
+  preview.articleCount === 63 &&
+    preview.chunks.length === 1119 &&
     preview.chunks.filter((chunk) => chunk.stage === 3).length === 144 &&
     preview.chunks.filter((chunk) => chunk.stage === 4).length === 156 &&
     preview.chunks.filter((chunk) => chunk.stage === 5).length === 96,

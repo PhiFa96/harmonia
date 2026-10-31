@@ -2,7 +2,7 @@
 
 <!-- Erzeugt mit pnpm curriculum:render; Änderungen an Katalog, Plan oder Übersetzungen vornehmen. -->
 
-Katalog-/Planversion 27. 18 Bereiche, 39 Bereichsstufen, 65 Einheiten und 199 Fähigkeiten.
+Katalog-/Planversion 28. 18 Bereiche, 39 Bereichsstufen, 66 Einheiten und 200 Fähigkeiten.
 
 Pfeile zeigen von der Voraussetzung zum folgenden Lernziel. Die Reihenfolge ist eine mögliche Reihenfolge für die Planung; unabhängige Zweige bleiben im Graphen unabhängig. Die Tabellen zeigen alle direkten Voraussetzungen, auch über Bereichsgrenzen hinweg.
 
@@ -31,52 +31,53 @@ Die Einheiten haben noch keine vollständigen Lektionen. Technische Prüfungen e
 | 17 | 2 | Rhythmus und Metrum | Zwei- und Dreiteilung der Zählzeit · `rhythm.l2.subdivision` | 3 |
 | 18 | 2 | Intervalle | Intervalle bestimmen und bilden · `intervals.l2.qualities-build` | 3 |
 | 19 | 2 | Intervalle | Umkehrung, Richtung und Erweiterung · `intervals.l2.inversion` | 3 |
-| 20 | 2 | Tonleitern und Tonarten | Dur aufbauen · `scales.l2.major` | 3 |
-| 21 | 2 | Tonleitern und Tonarten | Die Mollformen · `scales.l2.minor` | 3 |
-| 22 | 2 | Tonleitern und Tonarten | Tonartvorzeichnungen und verwandte Tonarten · `scales.l2.keys` | 4 |
-| 23 | 2 | Dreiklänge | Dreiklangsaufbau und Qualitäten · `chords.l2.qualities` | 3 |
-| 24 | 2 | Dreiklänge | Basston, Umkehrungen und leitereigene Dreiklänge · `chords.l2.inversions` | 3 |
-| 25 | 2 | Gehörbildung | Rhythmus genauer hören · `aural.l2.rhythm-detail` | 3 |
-| 26 | 2 | Gehörbildung | Intervalle, Tonleitern und Tonfolgen hören · `aural.l2.melody` | 3 |
-| 27 | 2 | Gehörbildung | Dreiklänge hören · `aural.l2.triads` | 3 |
-| 28 | 2 | Musikgeschichte und Quellen | Europäische Kunstmusik im Kontext · `history.l2.period-contexts` | 3 |
-| 29 | 2 | Musikgeschichte und Quellen | Jazz, Pop und Quellenvergleich · `history.l2.jazz-pop-sources` | 3 |
-| 30 | 3 | Tonleitern und Tonarten | Modale Tonleitern · `scales.l3.modes` | 3 |
-| 31 | 3 | Dreiklänge | Septakkorde · `chords.l3.sevenths` | 3 |
-| 32 | 3 | Harmonielehre | Stufen und Funktionen · `harmony.l3.functions` | 3 |
-| 33 | 3 | Harmonielehre | Einfache Kadenzen · `harmony.l3.cadences` | 3 |
-| 34 | 3 | Harmonielehre | Tonartwechsel als Einstieg · `harmony.l3.modulation` | 3 |
-| 35 | 3 | Gehörbildung | Diktat und Blattsingen · `aural.l3.dictation` | 3 |
-| 36 | 3 | Formenlehre | Motiv und Phrase · `forms.l3.phrases` | 3 |
-| 37 | 3 | Formenlehre | Kleine Formen · `forms.l3.designs` | 3 |
-| 38 | 3 | Instrumentenkunde | Instrumentenfamilien · `instruments.l3.families` | 3 |
-| 39 | 3 | Instrumentenkunde | Partitur und Transposition · `instruments.l3.scores` | 3 |
-| 40 | 3 | Jazz und Pop | Jazz- und Pop-Grundlagen · `jazzpop.l3.harmony` | 3 |
-| 41 | 3 | Musikgeschichte und Quellen | Musikgeschichte aus Quellen · `history.l3.methods` | 3 |
-| 42 | 4 | Notation und Tonhöhen | Mehrstimmige Partitur · `notation.l4.multivoice` | 3 |
-| 43 | 4 | Rhythmus und Metrum | Komplexere Rhythmik · `rhythm.l4.complex` | 3 |
-| 44 | 4 | Dreiklänge | Erweiterte Akkorde · `chords.l4.extensions` | 3 |
-| 45 | 4 | Harmonielehre | Angewandte Harmonik · `harmony.l4.applied` | 3 |
-| 46 | 4 | Tonsatz und Stimmführung | Vierstimmiger Satz · `satz.l4.voice-leading` | 3 |
-| 47 | 4 | Tonsatz und Stimmführung | Generalbass-Grundlagen · `satz.l4.figured-bass` | 3 |
-| 48 | 4 | Formenlehre | Sonatenform als Modell · `forms.l4.sonata` | 3 |
-| 49 | 4 | Werkanalyse | Werkbezogene Analyse · `analysis.l4.score` | 3 |
-| 50 | 4 | Jazz und Pop | Jazz-Voicings und Lead Sheets · `jazzpop.l4.voicings` | 3 |
-| 51 | 4 | Instrumentenkunde | Instrumentieren und Partitur · `instruments.l4.orchestration` | 3 |
-| 52 | 4 | Akustik und Stimmungen | Akustik und Stimmungen · `acoustics.l4.tuning` | 3 |
-| 53 | 4 | Gehörbildung | Gehörbildung zur Studienvorbereitung · `aural.l4.preparation` | 3 |
-| 54 | 4 | Musikgeschichte und Quellen | Historische Werke einordnen · `history.l4.survey` | 3 |
-| 55 | 4 | Tonsatz und Stimmführung | Vierstimmige Dreiklänge · `satz.l4.writing` | 3 |
-| 56 | 4 | Gehörbildung | Chor-Trainer · Entwurf · `aural.l4.choir` | 4 |
-| 57 | 5 | Tonsatz und Stimmführung | Dominantseptakkord im Satz · `satz.l5.writing` | 3 |
-| 58 | 5 | Kontrapunkt | Gattungskontrapunkt: Grundlagen · `counterpoint.l5.species` | 3 |
-| 59 | 5 | Kontrapunkt | Imitation, Kanon und Fuge · `counterpoint.l5.imitation` | 3 |
-| 60 | 5 | Formenlehre | Formverläufe begründet lesen · `forms.l5.structure` | 3 |
-| 61 | 5 | Musik des 20. und 21. Jahrhunderts | Zwölftonreihen und Operationen · `contemporary.l5.serial` | 3 |
-| 62 | 5 | Musik des 20. und 21. Jahrhunderts | Tonklassenmengen und Intervalle · `contemporary.l5.sets` | 3 |
-| 63 | 5 | Werkanalyse | Werkanalyse: Methode und Beleg · `analysis.l5.methods` | 3 |
-| 64 | 5 | Musik des 20. und 21. Jahrhunderts | Prozesse, Medien und Klangmodelle · `contemporary.l5.process` | 3 |
-| 65 | 5 | Musik anderer Kulturen | Musikkulturen: Quellen und Modellgrenzen · `world.l5.context` | 3 |
+| 20 | 2 | Tonleitern und Tonarten | Tonartvorzeichnungen im Violinschlüssel · `scales.l2.key-reading` | 1 |
+| 21 | 2 | Tonleitern und Tonarten | Dur aufbauen · `scales.l2.major` | 3 |
+| 22 | 2 | Tonleitern und Tonarten | Die Mollformen · `scales.l2.minor` | 3 |
+| 23 | 2 | Tonleitern und Tonarten | Tonartvorzeichnungen und verwandte Tonarten · `scales.l2.keys` | 4 |
+| 24 | 2 | Dreiklänge | Dreiklangsaufbau und Qualitäten · `chords.l2.qualities` | 3 |
+| 25 | 2 | Dreiklänge | Basston, Umkehrungen und leitereigene Dreiklänge · `chords.l2.inversions` | 3 |
+| 26 | 2 | Gehörbildung | Rhythmus genauer hören · `aural.l2.rhythm-detail` | 3 |
+| 27 | 2 | Gehörbildung | Intervalle, Tonleitern und Tonfolgen hören · `aural.l2.melody` | 3 |
+| 28 | 2 | Gehörbildung | Dreiklänge hören · `aural.l2.triads` | 3 |
+| 29 | 2 | Musikgeschichte und Quellen | Europäische Kunstmusik im Kontext · `history.l2.period-contexts` | 3 |
+| 30 | 2 | Musikgeschichte und Quellen | Jazz, Pop und Quellenvergleich · `history.l2.jazz-pop-sources` | 3 |
+| 31 | 3 | Tonleitern und Tonarten | Modale Tonleitern · `scales.l3.modes` | 3 |
+| 32 | 3 | Dreiklänge | Septakkorde · `chords.l3.sevenths` | 3 |
+| 33 | 3 | Harmonielehre | Stufen und Funktionen · `harmony.l3.functions` | 3 |
+| 34 | 3 | Harmonielehre | Einfache Kadenzen · `harmony.l3.cadences` | 3 |
+| 35 | 3 | Harmonielehre | Tonartwechsel als Einstieg · `harmony.l3.modulation` | 3 |
+| 36 | 3 | Gehörbildung | Diktat und Blattsingen · `aural.l3.dictation` | 3 |
+| 37 | 3 | Formenlehre | Motiv und Phrase · `forms.l3.phrases` | 3 |
+| 38 | 3 | Formenlehre | Kleine Formen · `forms.l3.designs` | 3 |
+| 39 | 3 | Instrumentenkunde | Instrumentenfamilien · `instruments.l3.families` | 3 |
+| 40 | 3 | Instrumentenkunde | Partitur und Transposition · `instruments.l3.scores` | 3 |
+| 41 | 3 | Jazz und Pop | Jazz- und Pop-Grundlagen · `jazzpop.l3.harmony` | 3 |
+| 42 | 3 | Musikgeschichte und Quellen | Musikgeschichte aus Quellen · `history.l3.methods` | 3 |
+| 43 | 4 | Notation und Tonhöhen | Mehrstimmige Partitur · `notation.l4.multivoice` | 3 |
+| 44 | 4 | Rhythmus und Metrum | Komplexere Rhythmik · `rhythm.l4.complex` | 3 |
+| 45 | 4 | Dreiklänge | Erweiterte Akkorde · `chords.l4.extensions` | 3 |
+| 46 | 4 | Harmonielehre | Angewandte Harmonik · `harmony.l4.applied` | 3 |
+| 47 | 4 | Tonsatz und Stimmführung | Vierstimmiger Satz · `satz.l4.voice-leading` | 3 |
+| 48 | 4 | Tonsatz und Stimmführung | Generalbass-Grundlagen · `satz.l4.figured-bass` | 3 |
+| 49 | 4 | Formenlehre | Sonatenform als Modell · `forms.l4.sonata` | 3 |
+| 50 | 4 | Werkanalyse | Werkbezogene Analyse · `analysis.l4.score` | 3 |
+| 51 | 4 | Jazz und Pop | Jazz-Voicings und Lead Sheets · `jazzpop.l4.voicings` | 3 |
+| 52 | 4 | Instrumentenkunde | Instrumentieren und Partitur · `instruments.l4.orchestration` | 3 |
+| 53 | 4 | Akustik und Stimmungen | Akustik und Stimmungen · `acoustics.l4.tuning` | 3 |
+| 54 | 4 | Gehörbildung | Gehörbildung zur Studienvorbereitung · `aural.l4.preparation` | 3 |
+| 55 | 4 | Musikgeschichte und Quellen | Historische Werke einordnen · `history.l4.survey` | 3 |
+| 56 | 4 | Tonsatz und Stimmführung | Vierstimmige Dreiklänge · `satz.l4.writing` | 3 |
+| 57 | 4 | Gehörbildung | Chor-Trainer · Entwurf · `aural.l4.choir` | 4 |
+| 58 | 5 | Tonsatz und Stimmführung | Dominantseptakkord im Satz · `satz.l5.writing` | 3 |
+| 59 | 5 | Kontrapunkt | Gattungskontrapunkt: Grundlagen · `counterpoint.l5.species` | 3 |
+| 60 | 5 | Kontrapunkt | Imitation, Kanon und Fuge · `counterpoint.l5.imitation` | 3 |
+| 61 | 5 | Formenlehre | Formverläufe begründet lesen · `forms.l5.structure` | 3 |
+| 62 | 5 | Musik des 20. und 21. Jahrhunderts | Zwölftonreihen und Operationen · `contemporary.l5.serial` | 3 |
+| 63 | 5 | Musik des 20. und 21. Jahrhunderts | Tonklassenmengen und Intervalle · `contemporary.l5.sets` | 3 |
+| 64 | 5 | Werkanalyse | Werkanalyse: Methode und Beleg · `analysis.l5.methods` | 3 |
+| 65 | 5 | Musik des 20. und 21. Jahrhunderts | Prozesse, Medien und Klangmodelle · `contemporary.l5.process` | 3 |
+| 66 | 5 | Musik anderer Kulturen | Musikkulturen: Quellen und Modellgrenzen · `world.l5.context` | 3 |
 
 ```mermaid
 flowchart TD
@@ -102,58 +103,59 @@ flowchart TD
     u16["Zwei- und Dreiteilung der Zählzeit"]
     u17["Intervalle bestimmen und bilden"]
     u18["Umkehrung, Richtung und Erweiterung"]
-    u19["Dur aufbauen"]
-    u20["Die Mollformen"]
-    u21["Tonartvorzeichnungen und verwandte Tonarten"]
-    u22["Dreiklangsaufbau und Qualitäten"]
-    u23["Basston, Umkehrungen und leitereigene Dreiklänge"]
-    u24["Rhythmus genauer hören"]
-    u25["Intervalle, Tonleitern und Tonfolgen hören"]
-    u26["Dreiklänge hören"]
-    u27["Europäische Kunstmusik im Kontext"]
-    u28["Jazz, Pop und Quellenvergleich"]
+    u19["Tonartvorzeichnungen im Violinschlüssel"]
+    u20["Dur aufbauen"]
+    u21["Die Mollformen"]
+    u22["Tonartvorzeichnungen und verwandte Tonarten"]
+    u23["Dreiklangsaufbau und Qualitäten"]
+    u24["Basston, Umkehrungen und leitereigene Dreiklänge"]
+    u25["Rhythmus genauer hören"]
+    u26["Intervalle, Tonleitern und Tonfolgen hören"]
+    u27["Dreiklänge hören"]
+    u28["Europäische Kunstmusik im Kontext"]
+    u29["Jazz, Pop und Quellenvergleich"]
   end
   subgraph level3["Stufe 3"]
-    u29["Modale Tonleitern"]
-    u30["Septakkorde"]
-    u31["Stufen und Funktionen"]
-    u32["Einfache Kadenzen"]
-    u33["Tonartwechsel als Einstieg"]
-    u34["Diktat und Blattsingen"]
-    u35["Motiv und Phrase"]
-    u36["Kleine Formen"]
-    u37["Instrumentenfamilien"]
-    u38["Partitur und Transposition"]
-    u39["Jazz- und Pop-Grundlagen"]
-    u40["Musikgeschichte aus Quellen"]
+    u30["Modale Tonleitern"]
+    u31["Septakkorde"]
+    u32["Stufen und Funktionen"]
+    u33["Einfache Kadenzen"]
+    u34["Tonartwechsel als Einstieg"]
+    u35["Diktat und Blattsingen"]
+    u36["Motiv und Phrase"]
+    u37["Kleine Formen"]
+    u38["Instrumentenfamilien"]
+    u39["Partitur und Transposition"]
+    u40["Jazz- und Pop-Grundlagen"]
+    u41["Musikgeschichte aus Quellen"]
   end
   subgraph level4["Stufe 4"]
-    u41["Mehrstimmige Partitur"]
-    u42["Komplexere Rhythmik"]
-    u43["Erweiterte Akkorde"]
-    u44["Angewandte Harmonik"]
-    u45["Vierstimmiger Satz"]
-    u46["Generalbass-Grundlagen"]
-    u47["Sonatenform als Modell"]
-    u48["Werkbezogene Analyse"]
-    u49["Jazz-Voicings und Lead Sheets"]
-    u50["Instrumentieren und Partitur"]
-    u51["Akustik und Stimmungen"]
-    u52["Gehörbildung zur Studienvorbereitung"]
-    u53["Historische Werke einordnen"]
-    u54["Vierstimmige Dreiklänge"]
-    u55["Chor-Trainer · Entwurf"]
+    u42["Mehrstimmige Partitur"]
+    u43["Komplexere Rhythmik"]
+    u44["Erweiterte Akkorde"]
+    u45["Angewandte Harmonik"]
+    u46["Vierstimmiger Satz"]
+    u47["Generalbass-Grundlagen"]
+    u48["Sonatenform als Modell"]
+    u49["Werkbezogene Analyse"]
+    u50["Jazz-Voicings und Lead Sheets"]
+    u51["Instrumentieren und Partitur"]
+    u52["Akustik und Stimmungen"]
+    u53["Gehörbildung zur Studienvorbereitung"]
+    u54["Historische Werke einordnen"]
+    u55["Vierstimmige Dreiklänge"]
+    u56["Chor-Trainer · Entwurf"]
   end
   subgraph level5["Stufe 5"]
-    u56["Dominantseptakkord im Satz"]
-    u57["Gattungskontrapunkt: Grundlagen"]
-    u58["Imitation, Kanon und Fuge"]
-    u59["Formverläufe begründet lesen"]
-    u60["Zwölftonreihen und Operationen"]
-    u61["Tonklassenmengen und Intervalle"]
-    u62["Werkanalyse: Methode und Beleg"]
-    u63["Prozesse, Medien und Klangmodelle"]
-    u64["Musikkulturen: Quellen und Modellgrenzen"]
+    u57["Dominantseptakkord im Satz"]
+    u58["Gattungskontrapunkt: Grundlagen"]
+    u59["Imitation, Kanon und Fuge"]
+    u60["Formverläufe begründet lesen"]
+    u61["Zwölftonreihen und Operationen"]
+    u62["Tonklassenmengen und Intervalle"]
+    u63["Werkanalyse: Methode und Beleg"]
+    u64["Prozesse, Medien und Klangmodelle"]
+    u65["Musikkulturen: Quellen und Modellgrenzen"]
   end
   u1 --> u2
   u1 --> u3
@@ -185,96 +187,100 @@ flowchart TD
   u17 --> u18
   u7 --> u18
   u3 --> u18
+  u1 --> u19
   u2 --> u19
-  u7 --> u19
-  u14 --> u19
-  u19 --> u20
+  u3 --> u19
+  u2 --> u20
+  u7 --> u20
   u14 --> u20
-  u19 --> u21
-  u14 --> u21
   u20 --> u21
-  u17 --> u22
-  u8 --> u22
-  u22 --> u23
-  u19 --> u23
-  u20 --> u23
-  u9 --> u24
-  u15 --> u24
-  u16 --> u24
-  u6 --> u24
-  u10 --> u25
-  u25 --> u26
-  u23 --> u26
-  u12 --> u27
-  u11 --> u28
-  u20 --> u29
-  u19 --> u29
-  u23 --> u30
-  u22 --> u30
-  u17 --> u30
+  u14 --> u21
+  u20 --> u22
+  u14 --> u22
+  u21 --> u22
+  u17 --> u23
+  u8 --> u23
+  u23 --> u24
+  u20 --> u24
+  u21 --> u24
+  u9 --> u25
+  u15 --> u25
+  u16 --> u25
+  u6 --> u25
+  u10 --> u26
+  u26 --> u27
+  u24 --> u27
+  u12 --> u28
+  u11 --> u29
+  u21 --> u30
+  u20 --> u30
+  u24 --> u31
   u23 --> u31
-  u21 --> u31
-  u31 --> u32
+  u17 --> u31
+  u24 --> u32
+  u22 --> u32
   u32 --> u33
-  u21 --> u33
-  u25 --> u34
-  u24 --> u34
-  u1 --> u35
-  u6 --> u35
-  u35 --> u36
-  u11 --> u37
-  u37 --> u38
-  u13 --> u38
-  u18 --> u38
-  u30 --> u39
-  u28 --> u39
-  u28 --> u40
-  u27 --> u40
-  u38 --> u41
-  u34 --> u42
-  u15 --> u42
-  u16 --> u42
-  u30 --> u43
-  u18 --> u43
-  u23 --> u43
-  u33 --> u44
-  u30 --> u44
-  u23 --> u45
-  u32 --> u45
-  u45 --> u46
-  u23 --> u46
-  u36 --> u47
-  u44 --> u47
-  u47 --> u48
-  u39 --> u49
-  u38 --> u50
-  u17 --> u51
-  u34 --> u52
-  u43 --> u52
-  u40 --> u53
-  u48 --> u53
-  u45 --> u54
-  u34 --> u55
-  u1 --> u55
-  u14 --> u55
-  u6 --> u55
-  u13 --> u55
-  u54 --> u56
-  u30 --> u56
-  u45 --> u57
-  u57 --> u58
-  u47 --> u59
-  u53 --> u60
+  u33 --> u34
+  u22 --> u34
+  u26 --> u35
+  u25 --> u35
+  u1 --> u36
+  u6 --> u36
+  u36 --> u37
+  u11 --> u38
+  u38 --> u39
+  u13 --> u39
+  u18 --> u39
+  u31 --> u40
+  u29 --> u40
+  u29 --> u41
+  u28 --> u41
+  u39 --> u42
+  u35 --> u43
+  u15 --> u43
+  u16 --> u43
+  u31 --> u44
+  u18 --> u44
+  u24 --> u44
+  u34 --> u45
+  u31 --> u45
+  u24 --> u46
+  u33 --> u46
+  u46 --> u47
+  u24 --> u47
+  u37 --> u48
+  u45 --> u48
+  u48 --> u49
+  u40 --> u50
+  u39 --> u51
+  u17 --> u52
+  u35 --> u53
+  u44 --> u53
+  u41 --> u54
+  u49 --> u54
+  u46 --> u55
+  u35 --> u56
+  u1 --> u56
+  u14 --> u56
+  u6 --> u56
+  u19 --> u56
+  u13 --> u56
+  u55 --> u57
+  u31 --> u57
+  u46 --> u58
+  u58 --> u59
   u48 --> u60
-  u60 --> u61
-  u48 --> u62
-  u59 --> u62
-  u58 --> u62
+  u54 --> u61
+  u49 --> u61
   u61 --> u62
-  u42 --> u63
-  u51 --> u63
-  u53 --> u63
-  u53 --> u64
+  u49 --> u63
+  u60 --> u63
+  u59 --> u63
+  u62 --> u63
+  u43 --> u64
+  u52 --> u64
+  u54 --> u64
+  u54 --> u65
 ```
 
 ## Grundlagen · `fundament`
@@ -320,12 +326,12 @@ flowchart TD
     s45["Töne in Violin- und Bassschlüssel mit einfachen Versetzungszeichen setzen"]
   end
   subgraph level4["Stufe 4"]
-    s126["Stimmen zeitlich zuordnen"]
-    s127["Alt- und Tenorschlüssel lesen"]
-    s128["Systeme im Partiturverlauf verfolgen"]
+    s127["Stimmen zeitlich zuordnen"]
+    s128["Alt- und Tenorschlüssel lesen"]
+    s129["Systeme im Partiturverlauf verfolgen"]
   end
   s18["Taktstriche und Schlussstrich lesen · anderer Bereich"]
-  s119["Partiturlese-Hinweise erklären · anderer Bereich"]
+  s120["Partiturlese-Hinweise erklären · anderer Bereich"]
   s3 --> s4
   s4 --> s5
   s6 --> s7
@@ -352,9 +358,9 @@ flowchart TD
   s10 --> s45
   s40 --> s45
   s43 --> s45
-  s119 -.-> s126
-  s126 --> s127
+  s120 -.-> s127
   s127 --> s128
+  s128 --> s129
 ```
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
@@ -404,11 +410,11 @@ flowchart TD
     s52["Achtel in 6/8 nach Zählzeiten gruppieren"]
   end
   subgraph level4["Stufe 4"]
-    s129["Unterteilungen zählen"]
-    s130["Triolen und Synkopen ausführen"]
-    s131["Akzentgruppen vergleichen"]
+    s130["Unterteilungen zählen"]
+    s131["Triolen und Synkopen ausführen"]
+    s132["Akzentgruppen vergleichen"]
   end
-  s106["Kurze Rhythmen notieren · anderer Bereich"]
+  s107["Kurze Rhythmen notieren · anderer Bereich"]
   s12 --> s13
   s12 --> s14
   s12 --> s15
@@ -436,13 +442,13 @@ flowchart TD
   s46 --> s51
   s51 --> s52
   s21 --> s52
-  s106 -.-> s129
-  s48 --> s129
-  s129 --> s130
-  s50 --> s130
-  s49 --> s130
+  s107 -.-> s130
+  s48 --> s130
   s130 --> s131
-  s51 --> s131
+  s50 --> s131
+  s49 --> s131
+  s131 --> s132
+  s51 --> s132
 ```
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
@@ -539,52 +545,60 @@ flowchart TD
 ```mermaid
 flowchart TD
   subgraph level2["Stufe 2"]
-    s59["Ganz- und Halbtonfolge einer Dur-Tonleiter zuordnen"]
-    s60["Dur-Tonleitern mit bis zu drei Vorzeichen (Kreuzen oder b) schreiben"]
-    s61["Grundton und Tonleiterstufen einer Dur-Tonleiter zuordnen"]
-    s62["Natürliches Moll aufbauen"]
-    s63["Harmonisches Moll aus natürlichem Moll bilden"]
-    s64["Melodisches Moll in klassischer Lehre auf- und abwärts schreiben"]
-    s65["Dur-Tonarten mit bis zu drei Vorzeichen zuordnen"]
-    s66["Benachbarte Tonarten im Quintenzirkel finden"]
-    s67["Moll-Tonarten mit bis zu drei Vorzeichen zuordnen"]
-    s68["Paralleltonarten unterscheiden und zuordnen"]
+    s59["Dur-Tonartvorzeichnungen mit bis zu zwei Kreuze oder b im Violinschlüssel zuordnen"]
+    s60["Ganz- und Halbtonfolge einer Dur-Tonleiter zuordnen"]
+    s61["Dur-Tonleitern mit bis zu drei Vorzeichen (Kreuzen oder b) schreiben"]
+    s62["Grundton und Tonleiterstufen einer Dur-Tonleiter zuordnen"]
+    s63["Natürliches Moll aufbauen"]
+    s64["Harmonisches Moll aus natürlichem Moll bilden"]
+    s65["Melodisches Moll in klassischer Lehre auf- und abwärts schreiben"]
+    s66["Dur-Tonarten mit bis zu drei Vorzeichen zuordnen"]
+    s67["Benachbarte Tonarten im Quintenzirkel finden"]
+    s68["Moll-Tonarten mit bis zu drei Vorzeichen zuordnen"]
+    s69["Paralleltonarten unterscheiden und zuordnen"]
   end
   subgraph level3["Stufe 3"]
-    s90["Ionisch und Äolisch vergleichen"]
-    s91["Dorisch und Mixolydisch erklären"]
-    s92["Modi über den Grundton unterscheiden"]
+    s91["Ionisch und Äolisch vergleichen"]
+    s92["Dorisch und Mixolydisch erklären"]
+    s93["Modi über den Grundton unterscheiden"]
   end
+  s5["Stammtöne von e¹ bis f² im Violinschlüssel lesen · anderer Bereich"]
+  s8["Einfaches Kreuz, b und Auflösungszeichen lesen · anderer Bereich"]
+  s9["Benachbarte Oktavlagen unterscheiden · anderer Bereich"]
   s7["Halbton und Ganzton auf der Klaviatur unterscheiden · anderer Bereich"]
   s22["Intervallnummern von Prime bis Oktave abzählen · anderer Bereich"]
   s45["Töne in Violin- und Bassschlüssel mit einfachen Versetzungszeichen setzen · anderer Bereich"]
   s43["Geltung von Versetzungszeichen im selben Takt beachten (gleicher Ton, gleiche Oktavlage) · anderer Bereich"]
-  s7 -.-> s59
-  s22 -.-> s59
-  s59 --> s60
-  s45 -.-> s60
+  s5 -.-> s59
+  s8 -.-> s59
+  s9 -.-> s59
+  s7 -.-> s60
+  s22 -.-> s60
   s60 --> s61
-  s59 --> s62
+  s45 -.-> s61
   s61 --> s62
+  s60 --> s63
   s62 --> s63
-  s45 -.-> s63
   s63 --> s64
-  s60 --> s65
-  s43 -.-> s65
-  s65 --> s66
-  s62 --> s67
+  s45 -.-> s64
+  s64 --> s65
+  s61 --> s66
+  s43 -.-> s66
   s66 --> s67
+  s63 --> s68
   s67 --> s68
-  s62 --> s68
-  s64 --> s90
-  s62 --> s90
-  s61 --> s90
-  s90 --> s91
+  s68 --> s69
+  s63 --> s69
+  s65 --> s91
+  s63 --> s91
+  s62 --> s91
   s91 --> s92
+  s92 --> s93
 ```
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
 |---|---|---|---|---|---|
+| 2 · Tonartvorzeichnungen im Violinschlüssel | Dur-Tonartvorzeichnungen mit bis zu zwei Kreuze oder b im Violinschlüssel zuordnen | `key.signature-read-treble` | Identify major key signatures with up to two sharps or flats in the treble clef | `notation.treble-natural`, `notation.accidentals`, `notation.octave-register` | entwurf |
 | 2 · Dur aufbauen | Ganz- und Halbtonfolge einer Dur-Tonleiter zuordnen | `scale.major-pattern` | Identify the whole step and half step pattern of a major scale / Identify the tone and semitone pattern of a major scale | `notation.semitone`, `interval.generic-size` | entwurf |
 | 2 · Dur aufbauen | Dur-Tonleitern mit bis zu drei Vorzeichen (Kreuzen oder b) schreiben | `scale.major-build` | Write major scales with up to three sharps or flats | `scale.major-pattern`, `notation.write-pitch` | entwurf |
 | 2 · Dur aufbauen | Grundton und Tonleiterstufen einer Dur-Tonleiter zuordnen | `scale.tonic` | Identify the tonic and scale degrees of a major scale | `scale.major-build` | entwurf |
@@ -604,52 +618,52 @@ flowchart TD
 ```mermaid
 flowchart TD
   subgraph level2["Stufe 2"]
-    s69["Grundton, Terz und Quinte eines Dreiklangs zuordnen"]
-    s70["Dur- und Moll-Dreiklänge bestimmen und bauen"]
-    s71["Verminderte und übermäßige Dreiklänge bestimmen und bauen"]
-    s72["Akkordgrundton und Basston auseinanderhalten"]
-    s73["Grundstellung, erste und zweite Umkehrung bestimmen"]
-    s74["Leitereigene Dreiklänge in Dur und natürlichem Moll bauen"]
+    s70["Grundton, Terz und Quinte eines Dreiklangs zuordnen"]
+    s71["Dur- und Moll-Dreiklänge bestimmen und bauen"]
+    s72["Verminderte und übermäßige Dreiklänge bestimmen und bauen"]
+    s73["Akkordgrundton und Basston auseinanderhalten"]
+    s74["Grundstellung, erste und zweite Umkehrung bestimmen"]
+    s75["Leitereigene Dreiklänge in Dur und natürlichem Moll bauen"]
   end
   subgraph level3["Stufe 3"]
-    s93["Septakkordtypen erkennen"]
-    s94["Septakkorde schreiben"]
-    s95["Vierklänge im Kontext vergleichen"]
+    s94["Septakkordtypen erkennen"]
+    s95["Septakkorde schreiben"]
+    s96["Vierklänge im Kontext vergleichen"]
   end
   subgraph level4["Stufe 4"]
-    s132["Nonen und Alterationen erklären"]
-    s133["Septakkordumkehrungen schreiben"]
-    s134["Lagen und Verdopplungen vergleichen"]
+    s133["Nonen und Alterationen erklären"]
+    s134["Septakkordumkehrungen schreiben"]
+    s135["Lagen und Verdopplungen vergleichen"]
   end
   s54["Intervalle bis zur Oktave von einem Ton aufwärts bilden · anderer Bereich"]
   s26["Kleine und große Terzen im Notenbild unterscheiden · anderer Bereich"]
   s53["Intervallnummer und Qualität (rein, klein, groß; Tritonus) bis zur Oktave bestimmen · anderer Bereich"]
-  s60["Dur-Tonleitern mit bis zu drei Vorzeichen (Kreuzen oder b) schreiben · anderer Bereich"]
-  s62["Natürliches Moll aufbauen · anderer Bereich"]
+  s61["Dur-Tonleitern mit bis zu drei Vorzeichen (Kreuzen oder b) schreiben · anderer Bereich"]
+  s63["Natürliches Moll aufbauen · anderer Bereich"]
   s58["Einfache und zusammengesetzte Intervalle zuordnen · anderer Bereich"]
-  s54 -.-> s69
-  s69 --> s70
-  s26 -.-> s70
+  s54 -.-> s70
   s70 --> s71
-  s53 -.-> s71
-  s69 --> s72
-  s72 --> s73
+  s26 -.-> s71
+  s71 --> s72
+  s53 -.-> s72
   s70 --> s73
-  s60 -.-> s74
-  s62 -.-> s74
-  s69 --> s74
+  s73 --> s74
   s71 --> s74
-  s74 --> s93
-  s71 --> s93
-  s73 --> s93
-  s53 -.-> s93
-  s93 --> s94
+  s61 -.-> s75
+  s63 -.-> s75
+  s70 --> s75
+  s72 --> s75
+  s75 --> s94
+  s72 --> s94
+  s74 --> s94
+  s53 -.-> s94
   s94 --> s95
-  s95 --> s132
-  s58 -.-> s132
-  s132 --> s133
-  s73 --> s133
+  s95 --> s96
+  s96 --> s133
+  s58 -.-> s133
   s133 --> s134
+  s74 --> s134
+  s134 --> s135
 ```
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
@@ -680,82 +694,87 @@ flowchart TD
     s33["Kleine und große Terz sowie reine Quarte und Quinte aufwärts hören"]
   end
   subgraph level2["Stufe 2"]
-    s75["Gehörte punktierte Rhythmen einem Notenbild zuordnen"]
-    s76["Zwei- und dreiteilige Zählzeiten hören"]
-    s77["Fehlenden Rhythmusbaustein nach Gehör auswählen"]
-    s78["Reine, kleine und große Intervalle bis zur Oktave hören"]
-    s79["Dur und natürliches Moll in Tonfolgen unterscheiden"]
-    s80["Kurze Tonfolge wiedererkennen und eine geänderte Stelle finden"]
-    s81["Dur- und Moll-Dreiklänge nach Gehör unterscheiden"]
-    s82["Dur-, Moll-, verminderte und übermäßige Dreiklänge nach Gehör zuordnen"]
-    s83["Dreiklangsumkehrungen in enger Lage nach Gehör zuordnen"]
+    s76["Gehörte punktierte Rhythmen einem Notenbild zuordnen"]
+    s77["Zwei- und dreiteilige Zählzeiten hören"]
+    s78["Fehlenden Rhythmusbaustein nach Gehör auswählen"]
+    s79["Reine, kleine und große Intervalle bis zur Oktave hören"]
+    s80["Dur und natürliches Moll in Tonfolgen unterscheiden"]
+    s81["Kurze Tonfolge wiedererkennen und eine geänderte Stelle finden"]
+    s82["Dur- und Moll-Dreiklänge nach Gehör unterscheiden"]
+    s83["Dur-, Moll-, verminderte und übermäßige Dreiklänge nach Gehör zuordnen"]
+    s84["Dreiklangsumkehrungen in enger Lage nach Gehör zuordnen"]
   end
   subgraph level3["Stufe 3"]
-    s105["Kurze Melodien notieren"]
-    s106["Kurze Rhythmen notieren"]
-    s107["Tonhöhen singend oder spielend prüfen"]
+    s106["Kurze Melodien notieren"]
+    s107["Kurze Rhythmen notieren"]
+    s108["Tonhöhen singend oder spielend prüfen"]
   end
   subgraph level4["Stufe 4"]
-    s159["Intervalle und Vierklänge hören"]
-    s160["Melodie und Rhythmus notieren"]
-    s161["Vom Blatt singen"]
-    s168["Sopran singen"]
-    s169["Alt singen"]
-    s170["Tenor singen"]
-    s171["Bass singen"]
+    s160["Intervalle und Vierklänge hören"]
+    s161["Melodie und Rhythmus notieren"]
+    s162["Vom Blatt singen"]
+    s169["Sopran singen"]
+    s170["Alt singen"]
+    s171["Tenor singen"]
+    s172["Bass singen"]
   end
   s21["Kurze Rhythmen mit Viertelnoten, Achtelnoten und Pausen lesen · anderer Bereich"]
   s46["Einfach punktierte Notenwerte zusammensetzen · anderer Bereich"]
   s51["Zweiteilige und dreiteilige Zählzeiten in 3/4 und 6/8 unterscheiden · anderer Bereich"]
-  s73["Grundstellung, erste und zweite Umkehrung bestimmen · anderer Bereich"]
-  s133["Septakkordumkehrungen schreiben · anderer Bereich"]
+  s74["Grundstellung, erste und zweite Umkehrung bestimmen · anderer Bereich"]
+  s134["Septakkordumkehrungen schreiben · anderer Bereich"]
   s5["Stammtöne von e¹ bis f² im Violinschlüssel lesen · anderer Bereich"]
   s43["Geltung von Versetzungszeichen im selben Takt beachten (gleicher Ton, gleiche Oktavlage) · anderer Bereich"]
+  s59["Dur-Tonartvorzeichnungen mit bis zu zwei Kreuze oder b im Violinschlüssel zuordnen · anderer Bereich"]
   s40["Stammtöne von c bis c¹ im Bassschlüssel lesen · anderer Bereich"]
   s28 --> s29
   s29 --> s30
   s21 -.-> s30
   s31 --> s32
   s31 --> s33
-  s30 --> s75
-  s46 -.-> s75
-  s28 --> s76
-  s51 -.-> s76
-  s75 --> s77
-  s21 -.-> s77
-  s33 --> s78
-  s32 --> s79
+  s30 --> s76
+  s46 -.-> s76
+  s28 --> s77
+  s51 -.-> s77
+  s76 --> s78
+  s21 -.-> s78
+  s33 --> s79
   s32 --> s80
-  s78 --> s80
+  s32 --> s81
   s79 --> s81
-  s81 --> s82
-  s78 --> s82
+  s80 --> s82
   s82 --> s83
-  s73 -.-> s83
-  s80 --> s105
-  s77 --> s105
-  s105 --> s106
+  s79 --> s83
+  s83 --> s84
+  s74 -.-> s84
+  s81 --> s106
+  s78 --> s106
   s106 --> s107
-  s107 --> s159
-  s133 -.-> s159
-  s159 --> s160
+  s107 --> s108
+  s108 --> s160
+  s134 -.-> s160
   s160 --> s161
-  s107 --> s168
-  s5 -.-> s168
-  s43 -.-> s168
-  s21 -.-> s168
-  s107 --> s169
+  s161 --> s162
+  s108 --> s169
   s5 -.-> s169
   s43 -.-> s169
   s21 -.-> s169
-  s107 --> s170
-  s40 -.-> s170
+  s59 -.-> s169
+  s108 --> s170
+  s5 -.-> s170
   s43 -.-> s170
   s21 -.-> s170
-  s107 --> s171
+  s59 -.-> s170
+  s108 --> s171
   s40 -.-> s171
   s43 -.-> s171
   s21 -.-> s171
+  s59 -.-> s171
+  s108 --> s172
+  s40 -.-> s172
+  s43 -.-> s172
+  s21 -.-> s172
+  s59 -.-> s172
 ```
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
@@ -781,10 +800,10 @@ flowchart TD
 | 4 · Gehörbildung zur Studienvorbereitung | Intervalle und Vierklänge hören | `aural.l4.preparation.s1` | Hear intervals and seventh chords | `aural.l3.dictation.s3`, `chords.l4.extensions.s2` | entwurf |
 | 4 · Gehörbildung zur Studienvorbereitung | Melodie und Rhythmus notieren | `aural.l4.preparation.s2` | Notate melody and rhythm | `aural.l4.preparation.s1` | entwurf |
 | 4 · Gehörbildung zur Studienvorbereitung | Vom Blatt singen | `aural.l4.preparation.s3` | Sight sing | `aural.l4.preparation.s2` | entwurf |
-| 4 · Chor-Trainer · Entwurf | Sopran singen | `aural.l4.choir.soprano` | Sing soprano | `aural.l3.dictation.s3`, `notation.treble-natural`, `notation.accidental-scope`, `rhythm.read-basic` | entwurf |
-| 4 · Chor-Trainer · Entwurf | Alt singen | `aural.l4.choir.alto` | Sing alto | `aural.l3.dictation.s3`, `notation.treble-natural`, `notation.accidental-scope`, `rhythm.read-basic` | entwurf |
-| 4 · Chor-Trainer · Entwurf | Tenor singen | `aural.l4.choir.tenor` | Sing tenor | `aural.l3.dictation.s3`, `notation.bass-natural`, `notation.accidental-scope`, `rhythm.read-basic` | entwurf |
-| 4 · Chor-Trainer · Entwurf | Bass singen | `aural.l4.choir.bass` | Sing bass | `aural.l3.dictation.s3`, `notation.bass-natural`, `notation.accidental-scope`, `rhythm.read-basic` | entwurf |
+| 4 · Chor-Trainer · Entwurf | Sopran singen | `aural.l4.choir.soprano` | Sing soprano | `aural.l3.dictation.s3`, `notation.treble-natural`, `notation.accidental-scope`, `rhythm.read-basic`, `key.signature-read-treble` | entwurf |
+| 4 · Chor-Trainer · Entwurf | Alt singen | `aural.l4.choir.alto` | Sing alto | `aural.l3.dictation.s3`, `notation.treble-natural`, `notation.accidental-scope`, `rhythm.read-basic`, `key.signature-read-treble` | entwurf |
+| 4 · Chor-Trainer · Entwurf | Tenor singen | `aural.l4.choir.tenor` | Sing tenor | `aural.l3.dictation.s3`, `notation.bass-natural`, `notation.accidental-scope`, `rhythm.read-basic`, `key.signature-read-treble` | entwurf |
+| 4 · Chor-Trainer · Entwurf | Bass singen | `aural.l4.choir.bass` | Sing bass | `aural.l3.dictation.s3`, `notation.bass-natural`, `notation.accidental-scope`, `rhythm.read-basic`, `key.signature-read-treble` | entwurf |
 
 ## Musikgeschichte und Quellen · `area.history`
 
@@ -799,47 +818,47 @@ flowchart TD
     s39["Hörbeobachtung von historischer Schlussfolgerung unterscheiden"]
   end
   subgraph level2["Stufe 2"]
-    s84["Beispiele aus Mittelalter und Renaissance anhand von Kontext und Merkmalen einordnen"]
-    s85["Beispiele aus Barock und Klassik anhand von Kontext und Merkmalen einordnen"]
-    s86["Beispiele aus Romantik und neuerer Musik anhand von Kontext und Merkmalen einordnen"]
-    s87["Quellen zu den Anfängen des Jazz in ihren sozialen Kontext einordnen"]
-    s88["Aufnahme, Medien und Gesellschaft an Pop-Beispielen verbinden"]
-    s89["Zwei Quellen zu einem Musikbeispiel vergleichen und Unsicherheiten benennen"]
+    s85["Beispiele aus Mittelalter und Renaissance anhand von Kontext und Merkmalen einordnen"]
+    s86["Beispiele aus Barock und Klassik anhand von Kontext und Merkmalen einordnen"]
+    s87["Beispiele aus Romantik und neuerer Musik anhand von Kontext und Merkmalen einordnen"]
+    s88["Quellen zu den Anfängen des Jazz in ihren sozialen Kontext einordnen"]
+    s89["Aufnahme, Medien und Gesellschaft an Pop-Beispielen verbinden"]
+    s90["Zwei Quellen zu einem Musikbeispiel vergleichen und Unsicherheiten benennen"]
   end
   subgraph level3["Stufe 3"]
-    s123["Handschriften und Editionen unterscheiden"]
-    s124["Werk- und Aufnahmedatum trennen"]
-    s125["Mündliche Geschichte kritisch lesen"]
+    s124["Handschriften und Editionen unterscheiden"]
+    s125["Werk- und Aufnahmedatum trennen"]
+    s126["Mündliche Geschichte kritisch lesen"]
   end
   subgraph level4["Stufe 4"]
-    s162["Werk und Kontext trennen"]
-    s163["Editionen und Aufnahmen vergleichen"]
-    s164["Unsicherheit aus Quellen benennen"]
+    s163["Werk und Kontext trennen"]
+    s164["Editionen und Aufnahmen vergleichen"]
+    s165["Unsicherheit aus Quellen benennen"]
   end
-  s149["Analyse am Notenbild belegen · anderer Bereich"]
+  s150["Analyse am Notenbild belegen · anderer Bereich"]
   s34 --> s35
   s35 --> s36
   s36 --> s37
   s36 --> s38
   s35 --> s39
   s36 --> s39
-  s37 --> s84
-  s38 --> s84
-  s84 --> s85
+  s37 --> s85
+  s38 --> s85
   s85 --> s86
-  s36 --> s87
-  s35 --> s87
-  s87 --> s88
-  s35 --> s89
+  s86 --> s87
+  s36 --> s88
+  s35 --> s88
   s88 --> s89
-  s89 --> s123
-  s86 --> s123
-  s123 --> s124
+  s35 --> s90
+  s89 --> s90
+  s90 --> s124
+  s87 --> s124
   s124 --> s125
-  s125 --> s162
-  s149 -.-> s162
-  s162 --> s163
+  s125 --> s126
+  s126 --> s163
+  s150 -.-> s163
   s163 --> s164
+  s164 --> s165
 ```
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
@@ -868,40 +887,40 @@ flowchart TD
 ```mermaid
 flowchart TD
   subgraph level3["Stufe 3"]
-    s96["Tonika und Dominante bestimmen"]
-    s97["Subdominante und Nebenstufen lesen"]
-    s98["Stufen- und Funktionszeichen vergleichen"]
-    s99["Ganzschluss und Plagalschluss unterscheiden"]
-    s100["Halb- und Trugschluss bestimmen"]
-    s101["Kadenzfolgen im Tonartbezug vergleichen"]
-    s102["Gemeinsame Akkorde erkennen"]
-    s103["Tonikalisierung von Modulation trennen"]
-    s104["Hinweise auf eine neue Tonika prüfen"]
+    s97["Tonika und Dominante bestimmen"]
+    s98["Subdominante und Nebenstufen lesen"]
+    s99["Stufen- und Funktionszeichen vergleichen"]
+    s100["Ganzschluss und Plagalschluss unterscheiden"]
+    s101["Halb- und Trugschluss bestimmen"]
+    s102["Kadenzfolgen im Tonartbezug vergleichen"]
+    s103["Gemeinsame Akkorde erkennen"]
+    s104["Tonikalisierung von Modulation trennen"]
+    s105["Hinweise auf eine neue Tonika prüfen"]
   end
   subgraph level4["Stufe 4"]
-    s135["Zwischendominanten erkennen"]
-    s136["Gemeinsame Akkorde in zwei Tonarten lesen"]
-    s137["Neue Tonika mit Kadenz begründen"]
+    s136["Zwischendominanten erkennen"]
+    s137["Gemeinsame Akkorde in zwei Tonarten lesen"]
+    s138["Neue Tonika mit Kadenz begründen"]
   end
-  s74["Leitereigene Dreiklänge in Dur und natürlichem Moll bauen · anderer Bereich"]
-  s68["Paralleltonarten unterscheiden und zuordnen · anderer Bereich"]
-  s66["Benachbarte Tonarten im Quintenzirkel finden · anderer Bereich"]
-  s93["Septakkordtypen erkennen · anderer Bereich"]
-  s74 -.-> s96
-  s68 -.-> s96
-  s96 --> s97
+  s75["Leitereigene Dreiklänge in Dur und natürlichem Moll bauen · anderer Bereich"]
+  s69["Paralleltonarten unterscheiden und zuordnen · anderer Bereich"]
+  s67["Benachbarte Tonarten im Quintenzirkel finden · anderer Bereich"]
+  s94["Septakkordtypen erkennen · anderer Bereich"]
+  s75 -.-> s97
+  s69 -.-> s97
   s97 --> s98
   s98 --> s99
   s99 --> s100
   s100 --> s101
   s101 --> s102
-  s66 -.-> s102
   s102 --> s103
+  s67 -.-> s103
   s103 --> s104
-  s104 --> s135
-  s93 -.-> s135
-  s135 --> s136
+  s104 --> s105
+  s105 --> s136
+  s94 -.-> s136
   s136 --> s137
+  s137 --> s138
 ```
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
@@ -924,40 +943,40 @@ flowchart TD
 ```mermaid
 flowchart TD
   subgraph level3["Stufe 3"]
-    s108["Motive beschreiben"]
-    s109["Phrasen gliedern"]
-    s110["Vorder- und Nachsatz vergleichen"]
-    s111["Zweiteilige Form erkennen"]
-    s112["Wiederkehr in dreiteiligen Formen erkennen"]
-    s113["Rondo und Variation unterscheiden"]
+    s109["Motive beschreiben"]
+    s110["Phrasen gliedern"]
+    s111["Vorder- und Nachsatz vergleichen"]
+    s112["Zweiteilige Form erkennen"]
+    s113["Wiederkehr in dreiteiligen Formen erkennen"]
+    s114["Rondo und Variation unterscheiden"]
   end
   subgraph level4["Stufe 4"]
-    s144["Exposition einordnen"]
-    s145["Durchführung und Reprise unterscheiden"]
-    s146["Formbehauptungen belegen"]
+    s145["Exposition einordnen"]
+    s146["Durchführung und Reprise unterscheiden"]
+    s147["Formbehauptungen belegen"]
   end
   subgraph level5["Stufe 5"]
-    s181["Formverläufe begründet lesen: Begriffe und Modell"]
-    s182["Formverläufe begründet lesen: Beispiele untersuchen"]
-    s183["Formverläufe begründet lesen: Anwenden und Grenzen begründen"]
+    s182["Formverläufe begründet lesen: Begriffe und Modell"]
+    s183["Formverläufe begründet lesen: Beispiele untersuchen"]
+    s184["Formverläufe begründet lesen: Anwenden und Grenzen begründen"]
   end
   s5["Stammtöne von e¹ bis f² im Violinschlüssel lesen · anderer Bereich"]
   s21["Kurze Rhythmen mit Viertelnoten, Achtelnoten und Pausen lesen · anderer Bereich"]
-  s137["Neue Tonika mit Kadenz begründen · anderer Bereich"]
-  s5 -.-> s108
-  s21 -.-> s108
-  s108 --> s109
+  s138["Neue Tonika mit Kadenz begründen · anderer Bereich"]
+  s5 -.-> s109
+  s21 -.-> s109
   s109 --> s110
   s110 --> s111
   s111 --> s112
   s112 --> s113
-  s113 --> s144
-  s137 -.-> s144
-  s144 --> s145
+  s113 --> s114
+  s114 --> s145
+  s138 -.-> s145
   s145 --> s146
-  s146 --> s181
-  s181 --> s182
+  s146 --> s147
+  s147 --> s182
   s182 --> s183
+  s183 --> s184
 ```
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
@@ -980,32 +999,32 @@ flowchart TD
 ```mermaid
 flowchart TD
   subgraph level3["Stufe 3"]
-    s114["Streicher und Holzbläser zuordnen"]
-    s115["Blechbläser und Schlaginstrumente zuordnen"]
-    s116["Familiengrenzen und Klangquellen erklären"]
-    s117["Notierte und klingende Höhe unterscheiden"]
-    s118["Einfache B-Transposition erklären"]
-    s119["Partiturlese-Hinweise erklären"]
+    s115["Streicher und Holzbläser zuordnen"]
+    s116["Blechbläser und Schlaginstrumente zuordnen"]
+    s117["Familiengrenzen und Klangquellen erklären"]
+    s118["Notierte und klingende Höhe unterscheiden"]
+    s119["Einfache B-Transposition erklären"]
+    s120["Partiturlese-Hinweise erklären"]
   end
   subgraph level4["Stufe 4"]
-    s153["Tonumfänge prüfen"]
-    s154["Verdopplungen vergleichen"]
-    s155["Transponierende Stimmen kontrollieren"]
+    s154["Tonumfänge prüfen"]
+    s155["Verdopplungen vergleichen"]
+    s156["Transponierende Stimmen kontrollieren"]
   end
   s34["Klangerzeuger (Stimme, Instrument, Elektronik) von der Aufnahme als Wiedergabemedium unterscheiden · anderer Bereich"]
   s41["Töne zwischen Violin- und Bassschlüssel zuordnen · anderer Bereich"]
   s57["Intervalle von einem Ton abwärts bilden · anderer Bereich"]
-  s34 -.-> s114
-  s114 --> s115
+  s34 -.-> s115
   s115 --> s116
   s116 --> s117
-  s41 -.-> s117
   s117 --> s118
-  s57 -.-> s118
+  s41 -.-> s118
   s118 --> s119
-  s119 --> s153
-  s153 --> s154
+  s57 -.-> s119
+  s119 --> s120
+  s120 --> s154
   s154 --> s155
+  s155 --> s156
 ```
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
@@ -1025,24 +1044,24 @@ flowchart TD
 ```mermaid
 flowchart TD
   subgraph level3["Stufe 3"]
-    s120["Lead-Sheet-Symbole lesen"]
-    s121["II–V–I mit Septakkorden vergleichen"]
-    s122["Backbeat und Loops einordnen"]
+    s121["Lead-Sheet-Symbole lesen"]
+    s122["II–V–I mit Septakkorden vergleichen"]
+    s123["Backbeat und Loops einordnen"]
   end
   subgraph level4["Stufe 4"]
-    s150["Terz und Septime führen"]
-    s151["Optionstöne einordnen"]
-    s152["II–V–I in Tonarten prüfen"]
+    s151["Terz und Septime führen"]
+    s152["Optionstöne einordnen"]
+    s153["II–V–I in Tonarten prüfen"]
   end
-  s95["Vierklänge im Kontext vergleichen · anderer Bereich"]
-  s87["Quellen zu den Anfängen des Jazz in ihren sozialen Kontext einordnen · anderer Bereich"]
-  s95 -.-> s120
-  s87 -.-> s120
-  s120 --> s121
+  s96["Vierklänge im Kontext vergleichen · anderer Bereich"]
+  s88["Quellen zu den Anfängen des Jazz in ihren sozialen Kontext einordnen · anderer Bereich"]
+  s96 -.-> s121
+  s88 -.-> s121
   s121 --> s122
-  s122 --> s150
-  s150 --> s151
+  s122 --> s123
+  s123 --> s151
   s151 --> s152
+  s152 --> s153
 ```
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
@@ -1059,41 +1078,41 @@ flowchart TD
 ```mermaid
 flowchart TD
   subgraph level4["Stufe 4"]
-    s138["Gemeinsame Töne führen"]
-    s139["Leittöne und Parallelen prüfen"]
-    s140["Stimmumfänge kontrollieren"]
-    s141["Ziffern über dem Bass lesen"]
-    s142["Sext- und Quartsextlagen erklären"]
-    s143["Eine einfache Aussetzung prüfen"]
-    s165["Bass vorgegeben"]
-    s166["Sopran vorgegeben"]
-    s167["Funktionen aussetzen"]
+    s139["Gemeinsame Töne führen"]
+    s140["Leittöne und Parallelen prüfen"]
+    s141["Stimmumfänge kontrollieren"]
+    s142["Ziffern über dem Bass lesen"]
+    s143["Sext- und Quartsextlagen erklären"]
+    s144["Eine einfache Aussetzung prüfen"]
+    s166["Bass vorgegeben"]
+    s167["Sopran vorgegeben"]
+    s168["Funktionen aussetzen"]
   end
   subgraph level5["Stufe 5"]
-    s172["Bass vorgegeben"]
-    s173["Sopran vorgegeben"]
-    s174["Funktionen aussetzen"]
+    s173["Bass vorgegeben"]
+    s174["Sopran vorgegeben"]
+    s175["Funktionen aussetzen"]
   end
-  s73["Grundstellung, erste und zweite Umkehrung bestimmen · anderer Bereich"]
-  s101["Kadenzfolgen im Tonartbezug vergleichen · anderer Bereich"]
-  s94["Septakkorde schreiben · anderer Bereich"]
-  s73 -.-> s138
-  s101 -.-> s138
-  s138 --> s139
+  s74["Grundstellung, erste und zweite Umkehrung bestimmen · anderer Bereich"]
+  s102["Kadenzfolgen im Tonartbezug vergleichen · anderer Bereich"]
+  s95["Septakkorde schreiben · anderer Bereich"]
+  s74 -.-> s139
+  s102 -.-> s139
   s139 --> s140
   s140 --> s141
-  s73 -.-> s141
   s141 --> s142
+  s74 -.-> s142
   s142 --> s143
-  s140 --> s165
-  s140 --> s166
-  s140 --> s167
-  s165 --> s172
-  s94 -.-> s172
+  s143 --> s144
+  s141 --> s166
+  s141 --> s167
+  s141 --> s168
   s166 --> s173
-  s94 -.-> s173
+  s95 -.-> s173
   s167 --> s174
-  s94 -.-> s174
+  s95 -.-> s174
+  s168 --> s175
+  s95 -.-> s175
 ```
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
@@ -1116,28 +1135,28 @@ flowchart TD
 ```mermaid
 flowchart TD
   subgraph level4["Stufe 4"]
-    s147["Motivbeziehungen beschreiben"]
-    s148["Phrasen und Harmonik verbinden"]
-    s149["Analyse am Notenbild belegen"]
+    s148["Motivbeziehungen beschreiben"]
+    s149["Phrasen und Harmonik verbinden"]
+    s150["Analyse am Notenbild belegen"]
   end
   subgraph level5["Stufe 5"]
-    s190["Werkanalyse: Methode und Beleg: Begriffe und Modell"]
-    s191["Werkanalyse: Methode und Beleg: Beispiele untersuchen"]
-    s192["Werkanalyse: Methode und Beleg: Anwenden und Grenzen begründen"]
+    s191["Werkanalyse: Methode und Beleg: Begriffe und Modell"]
+    s192["Werkanalyse: Methode und Beleg: Beispiele untersuchen"]
+    s193["Werkanalyse: Methode und Beleg: Anwenden und Grenzen begründen"]
   end
-  s146["Formbehauptungen belegen · anderer Bereich"]
-  s183["Formverläufe begründet lesen: Anwenden und Grenzen begründen · anderer Bereich"]
-  s180["Imitation, Kanon und Fuge: Anwenden und Grenzen begründen · anderer Bereich"]
-  s189["Tonklassenmengen und Intervalle: Anwenden und Grenzen begründen · anderer Bereich"]
-  s146 -.-> s147
-  s147 --> s148
+  s147["Formbehauptungen belegen · anderer Bereich"]
+  s184["Formverläufe begründet lesen: Anwenden und Grenzen begründen · anderer Bereich"]
+  s181["Imitation, Kanon und Fuge: Anwenden und Grenzen begründen · anderer Bereich"]
+  s190["Tonklassenmengen und Intervalle: Anwenden und Grenzen begründen · anderer Bereich"]
+  s147 -.-> s148
   s148 --> s149
-  s149 --> s190
-  s183 -.-> s190
-  s180 -.-> s190
-  s189 -.-> s190
-  s190 --> s191
+  s149 --> s150
+  s150 --> s191
+  s184 -.-> s191
+  s181 -.-> s191
+  s190 -.-> s191
   s191 --> s192
+  s192 --> s193
 ```
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
@@ -1154,14 +1173,14 @@ flowchart TD
 ```mermaid
 flowchart TD
   subgraph level4["Stufe 4"]
-    s156["Obertonverhältnisse erklären"]
-    s157["Reine und gleichstufige Quinten vergleichen"]
-    s158["Stimmungssysteme einordnen"]
+    s157["Obertonverhältnisse erklären"]
+    s158["Reine und gleichstufige Quinten vergleichen"]
+    s159["Stimmungssysteme einordnen"]
   end
   s53["Intervallnummer und Qualität (rein, klein, groß; Tritonus) bis zur Oktave bestimmen · anderer Bereich"]
-  s53 -.-> s156
-  s156 --> s157
+  s53 -.-> s157
   s157 --> s158
+  s158 --> s159
 ```
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
@@ -1175,20 +1194,20 @@ flowchart TD
 ```mermaid
 flowchart TD
   subgraph level5["Stufe 5"]
-    s175["Gattungskontrapunkt: Grundlagen: Begriffe und Modell"]
-    s176["Gattungskontrapunkt: Grundlagen: Beispiele untersuchen"]
-    s177["Gattungskontrapunkt: Grundlagen: Anwenden und Grenzen begründen"]
-    s178["Imitation, Kanon und Fuge: Begriffe und Modell"]
-    s179["Imitation, Kanon und Fuge: Beispiele untersuchen"]
-    s180["Imitation, Kanon und Fuge: Anwenden und Grenzen begründen"]
+    s176["Gattungskontrapunkt: Grundlagen: Begriffe und Modell"]
+    s177["Gattungskontrapunkt: Grundlagen: Beispiele untersuchen"]
+    s178["Gattungskontrapunkt: Grundlagen: Anwenden und Grenzen begründen"]
+    s179["Imitation, Kanon und Fuge: Begriffe und Modell"]
+    s180["Imitation, Kanon und Fuge: Beispiele untersuchen"]
+    s181["Imitation, Kanon und Fuge: Anwenden und Grenzen begründen"]
   end
-  s140["Stimmumfänge kontrollieren · anderer Bereich"]
-  s140 -.-> s175
-  s175 --> s176
+  s141["Stimmumfänge kontrollieren · anderer Bereich"]
+  s141 -.-> s176
   s176 --> s177
   s177 --> s178
   s178 --> s179
   s179 --> s180
+  s180 --> s181
 ```
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
@@ -1205,32 +1224,32 @@ flowchart TD
 ```mermaid
 flowchart TD
   subgraph level5["Stufe 5"]
-    s184["Zwölftonreihen und Operationen: Begriffe und Modell"]
-    s185["Zwölftonreihen und Operationen: Beispiele untersuchen"]
-    s186["Zwölftonreihen und Operationen: Anwenden und Grenzen begründen"]
-    s187["Tonklassenmengen und Intervalle: Begriffe und Modell"]
-    s188["Tonklassenmengen und Intervalle: Beispiele untersuchen"]
-    s189["Tonklassenmengen und Intervalle: Anwenden und Grenzen begründen"]
-    s193["Prozesse, Medien und Klangmodelle: Begriffe und Modell"]
-    s194["Prozesse, Medien und Klangmodelle: Beispiele untersuchen"]
-    s195["Prozesse, Medien und Klangmodelle: Anwenden und Grenzen begründen"]
+    s185["Zwölftonreihen und Operationen: Begriffe und Modell"]
+    s186["Zwölftonreihen und Operationen: Beispiele untersuchen"]
+    s187["Zwölftonreihen und Operationen: Anwenden und Grenzen begründen"]
+    s188["Tonklassenmengen und Intervalle: Begriffe und Modell"]
+    s189["Tonklassenmengen und Intervalle: Beispiele untersuchen"]
+    s190["Tonklassenmengen und Intervalle: Anwenden und Grenzen begründen"]
+    s194["Prozesse, Medien und Klangmodelle: Begriffe und Modell"]
+    s195["Prozesse, Medien und Klangmodelle: Beispiele untersuchen"]
+    s196["Prozesse, Medien und Klangmodelle: Anwenden und Grenzen begründen"]
   end
-  s164["Unsicherheit aus Quellen benennen · anderer Bereich"]
-  s149["Analyse am Notenbild belegen · anderer Bereich"]
-  s131["Akzentgruppen vergleichen · anderer Bereich"]
-  s158["Stimmungssysteme einordnen · anderer Bereich"]
-  s164 -.-> s184
-  s149 -.-> s184
-  s184 --> s185
+  s165["Unsicherheit aus Quellen benennen · anderer Bereich"]
+  s150["Analyse am Notenbild belegen · anderer Bereich"]
+  s132["Akzentgruppen vergleichen · anderer Bereich"]
+  s159["Stimmungssysteme einordnen · anderer Bereich"]
+  s165 -.-> s185
+  s150 -.-> s185
   s185 --> s186
   s186 --> s187
   s187 --> s188
   s188 --> s189
-  s131 -.-> s193
-  s158 -.-> s193
-  s164 -.-> s193
-  s193 --> s194
+  s189 --> s190
+  s132 -.-> s194
+  s159 -.-> s194
+  s165 -.-> s194
   s194 --> s195
+  s195 --> s196
 ```
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |
@@ -1250,14 +1269,14 @@ flowchart TD
 ```mermaid
 flowchart TD
   subgraph level5["Stufe 5"]
-    s196["Musikkulturen: Quellen und Modellgrenzen: Begriffe und Modell"]
-    s197["Musikkulturen: Quellen und Modellgrenzen: Beispiele untersuchen"]
-    s198["Musikkulturen: Quellen und Modellgrenzen: Anwenden und Grenzen begründen"]
+    s197["Musikkulturen: Quellen und Modellgrenzen: Begriffe und Modell"]
+    s198["Musikkulturen: Quellen und Modellgrenzen: Beispiele untersuchen"]
+    s199["Musikkulturen: Quellen und Modellgrenzen: Anwenden und Grenzen begründen"]
   end
-  s164["Unsicherheit aus Quellen benennen · anderer Bereich"]
-  s164 -.-> s196
-  s196 --> s197
+  s165["Unsicherheit aus Quellen benennen · anderer Bereich"]
+  s165 -.-> s197
   s197 --> s198
+  s198 --> s199
 ```
 
 | Stufe / Einheit | Fähigkeit (DE) | Skill-ID | Ziel (EN-US / EN-GB) | Direkte Voraussetzungen | Status |

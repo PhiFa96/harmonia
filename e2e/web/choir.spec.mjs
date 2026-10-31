@@ -35,6 +35,16 @@ for (const locale of ['de-DE', 'en-US', 'en-GB']) {
         ['bass', 'notation.l2.clefs-registers'],
       ]) {
         const row = page.getByTestId(`path-lesson-aural.l4.choir.${voice}.lesson`);
+        const signatureReading = catalogue.units.find(
+          (unit) => unit.id === 'scales.l2.key-reading',
+        );
+        if (!signatureReading) throw Error('Missing key-signature reading prerequisite');
+        await expect(
+          row.getByRole('button', {
+            name: labels.t('path.prerequisite', { title: text.t(signatureReading.titleKey) }),
+            exact: true,
+          }),
+        ).toBeVisible();
         await expect(
           row.getByRole('button', {
             name: labels.t('lesson.openNamed', { title: text.t(`content.choir.${voice}`) }),
@@ -62,6 +72,10 @@ for (const locale of ['de-DE', 'en-US', 'en-GB']) {
         .click();
       await expect(page.getByTestId('lesson-group-notation.l2.clefs-registers')).toBeVisible();
       await page.goto('/lesson?id=aural.l4.choir.bass.lesson');
+      await expect(page.getByRole('alert')).toHaveText(labels.t('path.independentLessonLocked'));
+      await expect(page.getByTestId('choir-trainer')).toHaveCount(0);
+      await expect(page.getByTestId('lesson-example-scroll')).toHaveCount(0);
+      await page.goto('/lesson?id=aural.l4.choir.soprano.lesson');
       await expect(page.getByRole('alert')).toHaveText(labels.t('path.independentLessonLocked'));
       await expect(page.getByTestId('choir-trainer')).toHaveCount(0);
       await expect(page.getByTestId('lesson-example-scroll')).toHaveCount(0);

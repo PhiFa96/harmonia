@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": 27,
+  "contentVersion": 28,
   "scopeLevels": [1, 2, 3, 4, 5],
   "units": [
     {
@@ -99,6 +99,10 @@
     {
       "unitId": "intervals.l2.inversion",
       "skillIds": ["interval.inversion", "interval.descending", "interval.simple-compound"]
+    },
+    {
+      "unitId": "scales.l2.key-reading",
+      "skillIds": ["key.signature-read-treble"]
     },
     {
       "unitId": "scales.l2.major",

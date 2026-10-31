@@ -1910,6 +1910,23 @@
           "modelBoundaryCaption": "Vier Töne im gleichstufigen App-Raster; keine universelle Darstellung musikalischer Tonhöhen."
         }
       }
+    },
+    "signatureReading": {
+      "unitTitle": "$t(glossary:keySignature_other) im $t(glossary:trebleClef_one)",
+      "lessonTitle": "$t(glossary:keySignature_other) mit null bis zwei Zeichen",
+      "skillTitle": "$t(glossary:major)-$t(glossary:keySignature_other) mit bis zu zwei $t(glossary:sharp_other) oder $t(glossary:flat_other) im $t(glossary:trebleClef_one) zuordnen",
+      "scopeTitle": "Vorzeichnung und einzelne Zeichen unterscheiden",
+      "scopeBody": "Die $t(glossary:keySignature_one) steht nach dem $t(glossary:clef_one). Ihre Zeichen gelten für die betreffenden Stammtöne in allen $t(glossary:octave_other), bis die $t(glossary:keySignature_one) geändert wird. Ein einzelnes $t(glossary:accidental_one) kann diese Vorgabe innerhalb des $t(glossary:measure_one) verändern. Die Aufgaben geben $t(glossary:major) ausdrücklich vor: Ohne Vorzeichen wählst du C-Dur. Eine $t(glossary:keySignature_one) allein bestimmt noch nicht sicher die Tonart eines ganzen Stücks.",
+      "scopeCaption": "C-Dur: F, G, A und H bleiben ohne Erhöhung oder Erniedrigung",
+      "sharpsTitle": "Ein $t(glossary:sharp_one), zwei $t(glossary:sharp_other)",
+      "sharpsBody": "Ein $t(glossary:sharp_one) auf F bedeutet in diesen Duraufgaben G-Dur. Zwei $t(glossary:sharp_other) stehen auf F und C: D-Dur. Die $t(glossary:keySignature_one) gilt für jedes F beziehungsweise C, auch in einer anderen $t(glossary:octave_one). Lies die Zeichen nach dem $t(glossary:clef_one); du musst dafür noch keine $t(glossary:keySignature_one) selbst setzen.",
+      "gCaption": "G-Dur: Fis in zwei Oktavlagen",
+      "dCaption": "D-Dur: Fis und Cis aus der $t(glossary:keySignature_one)",
+      "flatsTitle": "Ein $t(glossary:flat_one), zwei $t(glossary:flat_other)",
+      "flatsBody": "Ein $t(glossary:flat_one) auf H bedeutet in diesen Duraufgaben F-Dur. Zwei $t(glossary:flat_other) stehen auf H und E: B-Dur. Dabei werden H zu B und E zu Es. International heißt das deutsche H „B“ und das deutsche B „B♭“. Das Vorzeichen am Anfang gilt für alle Oktavlagen des betreffenden Stammtons.",
+      "fCaption": "F-Dur: B statt H",
+      "bbCaption": "B-Dur: B und Es aus der $t(glossary:keySignature_one)",
+      "articleTitle": "$t(glossary:keySignature_other) mit bis zu zwei Zeichen lesen"
     }
   },
   "en-US": {
@@ -3823,6 +3840,23 @@
           "modelBoundaryCaption": "Four notes on the app's equal-$t(glossary:semitone_one) grid; not a universal representation of musical pitch."
         }
       }
+    },
+    "signatureReading": {
+      "unitTitle": "$t(glossary:keySignature_other) in the $t(glossary:trebleClef_one)",
+      "lessonTitle": "Read up to two $t(glossary:sharp_other) or $t(glossary:flat_other)",
+      "skillTitle": "Identify $t(glossary:major) $t(glossary:keySignature_other) with up to two $t(glossary:sharp_other) or $t(glossary:flat_other) in the $t(glossary:trebleClef_one)",
+      "scopeTitle": "Distinguish the key signature from individual signs",
+      "scopeBody": "The $t(glossary:keySignature_one) follows the $t(glossary:clef_one). Its signs apply to the relevant letter names in every $t(glossary:octave_one) until the $t(glossary:keySignature_one) changes. An individual $t(glossary:accidental_one) can change this instruction within a $t(glossary:measure_one). These questions explicitly ask for $t(glossary:major): with no sharps or flats, choose C major. A $t(glossary:keySignature_one) alone does not establish the actual key of an entire piece.",
+      "scopeCaption": "C major: F, G, A and B are neither raised nor lowered",
+      "sharpsTitle": "One $t(glossary:sharp_one), two $t(glossary:sharp_other)",
+      "sharpsBody": "One $t(glossary:sharp_one) on F means G major in these major-key questions. Two $t(glossary:sharp_other) appear on F and C: D major. The $t(glossary:keySignature_one) applies to every F or C, including other $t(glossary:octave_other). Read the signs after the $t(glossary:clef_one); you do not need to write a $t(glossary:keySignature_one) yet.",
+      "gCaption": "G major: F sharp in two $t(glossary:octave_other)",
+      "dCaption": "D major: F sharp and C sharp from the $t(glossary:keySignature_one)",
+      "flatsTitle": "One $t(glossary:flat_one), two $t(glossary:flat_other)",
+      "flatsBody": "One $t(glossary:flat_one) on B means F major in these major-key questions. Two $t(glossary:flat_other) appear on B and E: B-flat major. They change B to B flat and E to E flat. German notation calls B natural “H” and B flat “B”. The sign at the beginning applies to every $t(glossary:octave_one) of the relevant letter name.",
+      "fCaption": "F major: B flat instead of B natural",
+      "bbCaption": "B-flat major: B flat and E flat from the $t(glossary:keySignature_one)",
+      "articleTitle": "Read $t(glossary:keySignature_other) with up to two signs"
     }
   },
   "en-GB": {
@@ -5736,6 +5770,23 @@
           "modelBoundaryCaption": "Four notes on the app's equal-$t(glossary:semitone_one) grid; not a universal representation of musical pitch."
         }
       }
+    },
+    "signatureReading": {
+      "unitTitle": "$t(glossary:keySignature_other) in the $t(glossary:trebleClef_one)",
+      "lessonTitle": "Read up to two $t(glossary:sharp_other) or $t(glossary:flat_other)",
+      "skillTitle": "Identify $t(glossary:major) $t(glossary:keySignature_other) with up to two $t(glossary:sharp_other) or $t(glossary:flat_other) in the $t(glossary:trebleClef_one)",
+      "scopeTitle": "Distinguish the key signature from individual signs",
+      "scopeBody": "The $t(glossary:keySignature_one) follows the $t(glossary:clef_one). Its signs apply to the relevant letter names in every $t(glossary:octave_one) until the $t(glossary:keySignature_one) changes. An individual $t(glossary:accidental_one) can change this instruction within a $t(glossary:measure_one). These questions explicitly ask for $t(glossary:major): with no sharps or flats, choose C major. A $t(glossary:keySignature_one) alone does not establish the actual key of an entire piece.",
+      "scopeCaption": "C major: F, G, A and B are neither raised nor lowered",
+      "sharpsTitle": "One $t(glossary:sharp_one), two $t(glossary:sharp_other)",
+      "sharpsBody": "One $t(glossary:sharp_one) on F means G major in these major-key questions. Two $t(glossary:sharp_other) appear on F and C: D major. The $t(glossary:keySignature_one) applies to every F or C, including other $t(glossary:octave_other). Read the signs after the $t(glossary:clef_one); you do not need to write a $t(glossary:keySignature_one) yet.",
+      "gCaption": "G major: F sharp in two $t(glossary:octave_other)",
+      "dCaption": "D major: F sharp and C sharp from the $t(glossary:keySignature_one)",
+      "flatsTitle": "One $t(glossary:flat_one), two $t(glossary:flat_other)",
+      "flatsBody": "One $t(glossary:flat_one) on B means F major in these major-key questions. Two $t(glossary:flat_other) appear on B and E: B-flat major. They change B to B flat and E to E flat. German notation calls B natural “H” and B flat “B”. The sign at the beginning applies to every $t(glossary:octave_one) of the relevant letter name.",
+      "fCaption": "F major: B flat instead of B natural",
+      "bbCaption": "B-flat major: B flat and E flat from the $t(glossary:keySignature_one)",
+      "articleTitle": "Read $t(glossary:keySignature_other) with up to two signs"
     }
   }
 }
