@@ -62,18 +62,28 @@ export function analyzeFirstSpecies(
   const intervals = dyads.map(({ lower, upper }) =>
     intervalBetween(checked(lower), checked(upper)),
   );
+  // Consonance and perfect classes are judged by the sounding interval, so
+  // crossed voices are reported once as 'crossing' and parallels still count.
+  const sounding = dyads.map(({ lower, upper }) =>
+    midi(checked(upper)) < midi(checked(lower)) ? { lower: upper, upper: lower } : { lower, upper },
+  );
+  const soundingIntervals = sounding.map(({ lower, upper }) =>
+    intervalBetween(checked(lower), checked(upper)),
+  );
   const findings: CounterpointFinding[] = [];
   const add = (rule: CounterpointRule, at: number) => {
     findings.push({ rule, at });
   };
   const perfectClass = (at: number) => {
-    const i = intervals[at];
+    const i = soundingIntervals[at];
     return i?.direction === 1 && i.quality === 'P' ? ((i.number - 1) % 7) + 1 : 0;
   };
   dyads.forEach((dyad, at) => {
     const interval = intervals[at];
     if (!interval) throw new RangeError('Missing interval');
-    if (!isCounterpointConsonance(dyad.lower, dyad.upper)) add('consonance', at);
+    const heard = sounding[at];
+    if (!heard) throw new RangeError('Missing dyad');
+    if (!isCounterpointConsonance(heard.lower, heard.upper)) add('consonance', at);
     if (midi(dyad.upper) < midi(dyad.lower)) add('crossing', at);
     if (at > 0 && at < dyads.length - 1 && interval.number === 1 && interval.quality === 'P')
       add('interior-unison', at);
