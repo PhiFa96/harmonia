@@ -696,6 +696,11 @@ export const enUS = {
     error_history:
       'The answer is complete, but its saved history could not be loaded. Retrieve the same request again.',
     error_storage: 'Completion was not confirmed. Retrieve the same request again.',
+    error_attempt_required:
+      'Check an answer to this exercise first. You can then ask the AI for an explanation or solution.',
+    error_attempt_invalid:
+      'Your answer could not be confirmed. Open the exercise again and check your answer.',
+    error_attempt_expired: 'Your answer confirmation has expired. Send your question again.',
   },
   article: {
     title: 'Library source',

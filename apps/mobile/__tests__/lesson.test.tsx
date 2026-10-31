@@ -168,7 +168,7 @@ describe('Vollständige Lektion', () => {
     });
     expect(mockSave).not.toHaveBeenCalled();
   });
-  it('KI-Hinweise bewahren die verwendete Stufe; KI-Lösung wird erst nach festem Hinweis 3 angeboten', async () => {
+  it('KI-Hinweise bewahren die Stufe; feste Lösung bleibt verfügbar und KI-Lösung benötigt eine geprüfte Antwort', async () => {
     await start();
     expect(screen.queryByText('KI-Hinweis 1 ergänzen')).toBeNull();
     fireEvent.press(screen.getByText('Hinweis 1'));
@@ -188,11 +188,15 @@ describe('Vollständige Lektion', () => {
       navigation.back();
     });
     fireEvent.press(screen.getByText('Lösung erklären'));
+    expect(screen.queryByText('Lösung mit KI erklären')).toBeNull();
+    const checkedAnswer = expectedAnswer(itemOf(createLessonSession(firstLesson, SEED)));
+    fireEvent.press(screen.getByTestId(`answer-${checkedAnswer}`));
+    fireEvent.press(screen.getByText('Prüfen'));
     fireEvent.press(screen.getByText('Lösung mit KI erklären'));
     expect(useTutor.getState().scope).toMatchObject({
       mode: 'solution',
       hintLevel: null,
-      context: { checked: false },
+      context: { checked: true, answer: checkedAnswer },
     });
     await waitFor(() => {
       expect(screen.getByText(/Melde dich mit deinem Konto/)).toBeTruthy();

@@ -21,7 +21,7 @@ import type {
 import type { Score } from '@harmonia/notation';
 import type { AppLocale } from '@harmonia/i18n';
 import { useAuthState } from '@/auth';
-import { tutorActor, tutorTransport } from './client.ts';
+import { tutorActor, tutorTransport, verifyTutorRequest } from './client.ts';
 import { TutorError } from './transport.ts';
 interface Entry {
   owner: string | null;
@@ -360,7 +360,16 @@ export async function sendTutor(message: string, retry = false) {
     },
   });
   try {
-    await tutorTransport.stream(request, controller.signal, (event) => {
+    const verified = await verifyTutorRequest(request, controller.signal);
+    if (!valid(actor, token)) return;
+    if (controller.signal.aborted) throw new TutorError('cancelled');
+    const current = useTutor.getState().current;
+    if (!current) throw new TutorError('cancelled');
+    useTutor.setState({
+      retry: verified,
+      current: { request: verified, answer: current.answer },
+    });
+    await tutorTransport.stream(verified, controller.signal, (event) => {
       if (valid(actor, token)) accept(event);
     });
     if (!valid(actor, token)) return;
@@ -371,7 +380,18 @@ export async function sendTutor(message: string, retry = false) {
       if (valid(actor, token)) useTutor.setState({ error: 'history' });
     }
   } catch (error) {
-    if (valid(actor, token)) useTutor.setState({ sending: false, error: codeOf(error) });
+    if (valid(actor, token)) {
+      const code = codeOf(error);
+      useTutor.setState({
+        sending: false,
+        error: code,
+        // These refusals happen before any model reservation. A new send can obtain
+        // a fresh receipt/new request ID; retrying the expired signature cannot help.
+        ...(['attempt_required', 'attempt_invalid', 'attempt_expired'].includes(code)
+          ? { retry: null, current: null }
+          : {}),
+      });
+    }
   } finally {
     controllers.delete(controller);
     if (active === controller) active = null;

@@ -2,6 +2,8 @@
 
 Grundsatz aus [ADR 0002](../decisions/0002-ki-tutor-und-fachliche-korrektheit.md): **Die Engine entscheidet, die KI erklärt.**
 
+**Technische Absicherung E2 (31.10.2026):** Neue Erklärungen und KI-Lösungen verlangen einen kurzlebigen serverseitigen Versuchsnachweis, gebunden an Konto, Aufgabenquelle und eingesandte Antwort. `checked` ist weiterhin keine Berechtigung. Ablauf, Datenschutz, Kompatibilität und Prüfstand: [Tutor-Versuchsnachweise](tutor-versuchsnachweise.md). Technische P4-Vorarbeit vor formaler Freigabe; kein Deployment oder Inhaltsrelease.
+
 ## Rollen des Tutors
 
 | Rolle | Wo | Phase |
@@ -70,7 +72,7 @@ Der Tutor rechnet nicht selbst, sondern ruft die Engine auf. Werkzeuge mit stren
 
 ## Pädagogische Regeln (Systemprompt)
 
-- Im Aufgabenkontext: zuerst Denkanstoß, dann konkreter Hinweis, dann Lösung mit Erklärung. Die Lösung sofort, wenn ausdrücklich gewünscht.
+- Im Aufgabenkontext: zuerst Denkanstoß, dann konkreter Hinweis, dann Lösung mit Erklärung. Die feste Lösung ist ausdrücklich abrufbar; KI-Erklärung und KI-Lösung setzen eine serverseitig geprüfte Antwort voraus.
 - Im freien Chat: direkt und klar antworten.
 - Immer in der Sprache des Nutzers; Fachbegriffe nach Glossar und gewählter Tonnamen-Einstellung.
 - Musikalische Fakten nur mit Engine-Ergebnis oder Quelle.

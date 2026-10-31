@@ -100,7 +100,7 @@ Harte Vorbedingungen vor jeder echten Nutzung:
 - **D-F13:** Testlücken zu F4–F7 und F9.
 
 **Zertifikat/KI:**
-- **E2:** Tutor-Modi `explain`/`solution` enthalten Lösung und Rückmeldung ohne serverseitigen Versuchsnachweis. Das war mit `checked:true` schon vorher möglich; #125 entfernt nur das wirkungslose Flag und behebt das Vertrauensproblem nicht.
+- **E2 – technisch bearbeitet, 31.10.2026:** Neue Tutor-Erklärungen und -Lösungen verlangen jetzt einen signierten Nachweis einer Serverwertung, gebunden an Konto, Quelle und Antwort. Das vorher wirkungslose `checked` bleibt UI-Metadatum. App-/Signatur-/Protokolltests und erweiterte echte HTTP-/DB-Prüfungen: [Übergabe und Ausführungsstand](tutor-versuchsnachweise.md). Keine unabhängige Modell-/Fachabnahme oder Produktfreigabe; der Nachweis attestiert keine menschliche Bearbeitung.
 - **E3:** Die Prüfbindung hasht `playback.ts`, aber nicht dessen Importe.
 - **E4:** Ein veralteter Datensatz blockiert alle Durchgänge des Besitzers (409).
 

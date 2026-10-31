@@ -20,6 +20,7 @@ import { AppState } from 'react-native';
 import { createPitchInputSession, createPracticeSession } from '@/exercises/practice';
 import { i18n } from '@/i18n';
 import { useSettings } from '@/state/settings';
+import { useTutor } from '@/tutor/state';
 
 jest.mock('expo-localization', () => ({
   getLocales: () => [{ languageCode: 'de', regionCode: 'DE' }],
@@ -115,6 +116,24 @@ function tapStaff(
 }
 
 describe('Aufgaben-Screen', () => {
+  it('bietet KI-Lösungen erst nach einer geprüften Antwort an und bindet die Antwort an den Dialog', async () => {
+    await start();
+    const state = createPracticeSession(SEED);
+    expect(screen.queryByText(i18n.t('tutor.aiSolution'))).toBeNull();
+    fireEvent.press(screen.getByRole('button', { name: i18n.t('exercise.hint', { level: 1 }) }));
+    expect(screen.getByText(i18n.t('tutor.aiHint', { level: 1 }))).toBeTruthy();
+    fireEvent.press(screen.getByRole('button', { name: i18n.t('exercise.hint', { level: 2 }) }));
+    fireEvent.press(screen.getByRole('button', { name: i18n.t('exercise.solution') }));
+    expect(screen.getByText(i18n.t('exercise.solution'))).toBeDisabled();
+    expect(screen.queryByText(i18n.t('tutor.aiSolution'))).toBeNull();
+    const answer = expectedAnswer(itemAt(state));
+    check(state, answer);
+    fireEvent.press(screen.getByText(i18n.t('tutor.aiSolution')));
+    expect(useTutor.getState().scope).toMatchObject({
+      mode: 'solution',
+      context: { answer, checked: true, source: { kind: 'practice', index: 0 } },
+    });
+  });
   it('Prüfen braucht eine Antwort; falsche Antwort bleibt gewertet und wird zusammen mit der Lösung markiert', async () => {
     await start();
     const state = createPracticeSession(SEED);

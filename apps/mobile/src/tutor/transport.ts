@@ -84,6 +84,9 @@ const serverCodes = new Set([
   'content',
   'size',
   'schema',
+  'attempt_required',
+  'attempt_invalid',
+  'attempt_expired',
 ]);
 export class TutorTransport {
   private credentials: () => TutorCredentials;
