@@ -5,6 +5,7 @@ import { buildWorkbench, STARTER_DRAFT } from '../../tools/voice-leading-workben
 import { WORKBENCH_MESSAGES } from '../../tools/voice-leading/workbench-messages.ts';
 import { REPORT_MESSAGES } from '../../tools/voice-leading/messages.ts';
 import { MAX_DRAFT_BYTES } from '../../tools/voice-leading/workbench-model.ts';
+import { WORKBENCH_RULES } from '../../tools/voice-leading/workbench-model.ts';
 
 let html;
 const runtime = new WeakMap();
@@ -179,6 +180,298 @@ test.afterEach(async ({ page }) => {
 });
 
 for (const locale of ['de-DE', 'en-US', 'en-GB']) {
+  test(`${locale}: rule controls synchronize JSON, invalidate results and survive draft import and language changes`, async ({
+    page,
+  }) => {
+    await page.getByRole('combobox', { name: 'Sprache' }).selectOption(locale);
+    const m = WORKBENCH_MESSAGES[locale],
+      report = REPORT_MESSAGES[locale];
+    await page.getByText(m.rulePicker, { exact: true }).click();
+    const controls = page.locator('#rule-settings select');
+    await expect(controls).toHaveCount(17);
+    const startingRules = JSON.parse(STARTER_DRAFT.settings).rules;
+    for (const rule of WORKBENCH_RULES)
+      await expect(
+        page.getByRole('combobox', { name: report.rules[rule].title, exact: true }),
+      ).toHaveValue(startingRules[rule] ?? 'off');
+    const parts = { soprano: 'C4/2 F#4/2', alto: 'G3/1', tenor: 'E3/1', bass: 'C3/1' };
+    for (const [voice, source] of Object.entries(parts))
+      await page.getByRole('textbox', { name: report.voices[voice], exact: true }).fill(source);
+    const configuration = {
+      rules: { 'augmented-second': 'error' },
+      options: {
+        maxMelodicInterval: 8,
+        contraryPerfectScope: 'outer',
+        harmonies: [
+          { tonic: 'C', chord: null },
+          { tonic: 'C', chord: null },
+        ],
+      },
+    };
+    const settings = page.getByRole('textbox', { name: m.settings, exact: true });
+    await settings.fill(JSON.stringify(configuration));
+    const melodic = page.getByRole('combobox', {
+      name: report.rules['augmented-melodic-interval'].title,
+      exact: true,
+    });
+    await melodic.selectOption('hint');
+    await expect(page.locator('.finding')).toHaveCount(0);
+    await expect(page.getByRole('button', { name: m.export, exact: true })).toBeDisabled();
+    expect(JSON.parse(await settings.inputValue())).toEqual({
+      ...configuration,
+      rules: { ...configuration.rules, 'augmented-melodic-interval': 'hint' },
+    });
+    await page.getByRole('button', { name: m.analyze, exact: true }).click();
+    await expect(page.locator('.finding')).toHaveCount(1);
+    await expect(page.locator('#finding-1 > summary')).toContainText(report.severity.hint);
+    await melodic.selectOption('error');
+    await expect(page.locator('.finding')).toHaveCount(0);
+    await expect(page.getByRole('button', { name: m.export, exact: true })).toBeDisabled();
+    await page.getByRole('button', { name: m.analyze, exact: true }).click();
+    await expect(page.locator('#finding-1 > summary')).toContainText(report.severity.error);
+    // Native select keyboard operation; Off removes the key rather than inventing a severity.
+    await melodic.focus();
+    await page.keyboard.press('Home');
+    await expect(melodic).toHaveValue('off');
+    expect(JSON.parse(await settings.inputValue())).toEqual(configuration);
+    await page.getByRole('button', { name: m.analyze, exact: true }).click();
+    await expect(page.locator('#check-status')).toHaveText(`${m.checked} 0.`);
+    await melodic.selectOption('warning');
+    const pending = page.waitForEvent('download');
+    await page.getByRole('button', { name: m.save, exact: true }).click();
+    const saved = await readFile(await (await pending).path(), 'utf8');
+    const savedDraft = JSON.parse(saved);
+    expect(JSON.parse(savedDraft.settings).options).toEqual(configuration.options);
+    await settings.fill('{"rules":{}}');
+    await expect(melodic).toHaveValue('off');
+    await page.getByLabel(m.load).setInputFiles({
+      name: 'rules.json',
+      mimeType: 'application/json',
+      buffer: Buffer.from(saved),
+    });
+    await expect(page.locator('#check-status')).toHaveText(m.loaded);
+    await expect(melodic).toHaveValue('warning');
+    await expect(settings).toHaveValue(savedDraft.settings);
+    const nextLocale = locale === 'de-DE' ? 'en-GB' : 'de-DE';
+    await page.getByLabel(m.language).selectOption(nextLocale);
+    await expect(
+      page.getByRole('combobox', {
+        name: REPORT_MESSAGES[nextLocale].rules['augmented-melodic-interval'].title,
+        exact: true,
+      }),
+    ).toHaveValue('warning');
+    await expect(
+      page.getByRole('textbox', {
+        name: WORKBENCH_MESSAGES[nextLocale].settings,
+        exact: true,
+      }),
+    ).toHaveValue(savedDraft.settings);
+    await page.getByLabel(WORKBENCH_MESSAGES[nextLocale].language).selectOption(locale);
+    await page.getByRole('button', { name: m.analyze, exact: true }).click();
+    await expect(page.locator('#finding-1 > summary')).toContainText(report.severity.warning);
+    await page.getByRole('button', { name: m.play, exact: true }).click();
+    await expect(page.locator('#playback-status')).toHaveText(m.audioPlaying);
+    await melodic.selectOption('off');
+    await expect(page.locator('#playback-status')).toHaveText(m.audioStopped);
+    await expect(page.getByRole('button', { name: m.play, exact: true })).toBeDisabled();
+    await page.addStyleTag({ content: '*{font-family:"DejaVu Sans",sans-serif !important}' });
+    await page.setViewportSize({ width: 390, height: 900 });
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
+    ).toBe(true);
+    expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+  });
+
+  test(`${locale}: invalid JSON locks controls without data loss; missing musical parameters stay missing`, async ({
+    page,
+  }) => {
+    await page.getByRole('combobox', { name: 'Sprache' }).selectOption(locale);
+    const m = WORKBENCH_MESSAGES[locale],
+      report = REPORT_MESSAGES[locale];
+    await page.getByText(m.rulePicker, { exact: true }).click();
+    const settings = page.getByRole('textbox', { name: m.settings, exact: true });
+    for (const invalid of ['{ unfinished', '{"rules":{"invented":"warning"}}']) {
+      await settings.fill(invalid);
+      await expect(page.locator('#rule-status')).toHaveText(m.ruleInvalid);
+      for (const control of await page.locator('#rule-settings select').all()) {
+        await expect(control).toBeDisabled();
+        await expect(control).toHaveValue('unavailable');
+      }
+      const pending = page.waitForEvent('download');
+      await page.getByRole('button', { name: m.save, exact: true }).click();
+      expect(JSON.parse(await readFile(await (await pending).path(), 'utf8')).settings).toBe(
+        invalid,
+      );
+      await expect(settings).toHaveValue(invalid);
+    }
+    await settings.fill('{"rules":{}}');
+    const range = page.getByRole('combobox', {
+      name: report.rules['voice-range'].title,
+      exact: true,
+    });
+    await expect(range).toBeEnabled();
+    await expect(page.locator('#rule-status')).toBeEmpty();
+    await range.selectOption('error');
+    expect(JSON.parse(await settings.inputValue())).toEqual({ rules: { 'voice-range': 'error' } });
+    await page.getByRole('button', { name: m.analyze, exact: true }).click();
+    await expect(page.getByRole('alert')).toContainText(m.invalid);
+    await expect(page.getByRole('button', { name: m.export, exact: true })).toBeDisabled();
+    await range.selectOption('off');
+    await page.getByRole('button', { name: m.analyze, exact: true }).click();
+    await expect(page.locator('#check-status')).toHaveText(`${m.checked} 0.`);
+    await expect(page.getByRole('alert')).toBeEmpty();
+    await expect(settings).toHaveValue('{\n  "rules": {}\n}');
+  });
+
+  test(`${locale}: optional augmented intervals show evidence and respect an enharmonic edit`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 900 });
+    await page.getByRole('combobox', { name: 'Sprache' }).selectOption(locale);
+    const m = WORKBENCH_MESSAGES[locale],
+      report = REPORT_MESSAGES[locale];
+    const parts = { soprano: 'C4/2 F#4/2', alto: 'G3/1', tenor: 'E3/1', bass: 'C3/1' };
+    for (const [voice, source] of Object.entries(parts))
+      await page.getByRole('textbox', { name: report.voices[voice], exact: true }).fill(source);
+    await page
+      .getByRole('textbox', { name: m.settings, exact: true })
+      .fill('{"rules":{"augmented-melodic-interval":"warning"}}');
+    await page.getByRole('button', { name: m.analyze, exact: true }).click();
+    await expect(page.locator('.finding')).toHaveCount(1);
+    const finding = page.locator('#finding-1');
+    await expect(finding.locator('summary')).toContainText(
+      report.rules['augmented-melodic-interval'].title,
+    );
+    await finding.locator('summary').click();
+    await expect(finding.locator('caption')).toHaveText([
+      `${report.source} · ${report.measure} 1 · ${report.beginning}`,
+      `${report.destination} · ${report.measure} 1 · ${report.offset} 1/2`,
+    ]);
+    for (const table of await finding.locator('table').all())
+      await expect(table.locator('tbody tr')).toHaveCount(1);
+    const pending = page.waitForEvent('download');
+    await page.getByRole('button', { name: m.export, exact: true }).click();
+    const saved = await readFile(await (await pending).path(), 'utf8');
+    expect(saved).toContain(report.rules['augmented-melodic-interval'].description);
+    expect(saved).toContain(report.draft);
+    expect(saved).not.toContain('<script');
+    expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
+    ).toBe(true);
+    await page
+      .getByRole('textbox', { name: report.voices.soprano, exact: true })
+      .fill('C4/2 Gb4/2');
+    await expect(page.locator('.finding')).toHaveCount(0);
+    await expect(page.getByRole('button', { name: m.export, exact: true })).toBeDisabled();
+    await page.getByRole('button', { name: m.analyze, exact: true }).click();
+    await expect(page.locator('.finding')).toHaveCount(0);
+    await expect(page.locator('#check-status')).toHaveText(`${m.checked} 0.`);
+  });
+
+  test(`${locale}: simultaneous octave pairs share evidence and regroup after editing`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 900 });
+    await page.getByRole('combobox', { name: 'Sprache' }).selectOption(locale);
+    const m = WORKBENCH_MESSAGES[locale],
+      report = REPORT_MESSAGES[locale];
+    const parts = {
+      soprano: 'E5/2 F5/2',
+      alto: 'C5/2 D5/2',
+      tenor: 'C4/2 D4/2',
+      bass: 'C3/2 D3/2',
+    };
+    for (const [voice, source] of Object.entries(parts))
+      await page.getByRole('textbox', { name: report.voices[voice], exact: true }).fill(source);
+    await page
+      .getByRole('textbox', { name: m.settings, exact: true })
+      .fill('{"rules":{"parallel-octave":"error"}}');
+    await page.getByRole('button', { name: m.analyze, exact: true }).click();
+    await expect(page.locator('.finding')).toHaveCount(1);
+    await expect(page.locator('.finding-group-count')).toHaveText(`${report.groups}: 1`);
+    await expect(page.locator('#check-status')).toContainText(
+      `${m.checked} 3. ${report.groups}: 1.`,
+    );
+    const group = page.locator('#group-1');
+    await group.locator('summary').click();
+    await expect(group.locator('.finding-pairs li')).toHaveText([
+      `1. ${report.voices.bass} / ${report.voices.tenor}`,
+      `2. ${report.voices.bass} / ${report.voices.alto}`,
+      `3. ${report.voices.tenor} / ${report.voices.alto}`,
+    ]);
+    await expect(group.locator('table')).toHaveCount(2);
+    for (const table of await group.locator('table').all())
+      await expect(table.locator('tbody tr')).toHaveCount(3);
+    for (let index = 1; index <= 3; index++)
+      await expect(group.locator(`#finding-${index}`)).toHaveCount(1);
+    const pending = page.waitForEvent('download');
+    await page.getByRole('button', { name: m.export, exact: true }).click();
+    const download = await pending;
+    const saved = await readFile(await download.path(), 'utf8');
+    expect(saved).toContain(`${report.groups}: 1`);
+    expect(saved).toContain('id="finding-3"');
+    expect(saved).not.toContain('<script');
+    expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
+    ).toBe(true);
+    await page.getByRole('textbox', { name: report.voices.alto, exact: true }).fill('C5/2 E5/2');
+    await expect(page.locator('.finding')).toHaveCount(0);
+    await expect(page.getByRole('button', { name: m.export, exact: true })).toBeDisabled();
+    await page.getByRole('button', { name: m.analyze, exact: true }).click();
+    await expect(page.locator('.finding')).toHaveCount(1);
+    await expect(page.locator('#finding-1 > summary')).toBeVisible();
+    await expect(page.locator('#finding-2')).toHaveCount(0);
+    await expect(page.locator('#group-1')).toHaveCount(0);
+    await expect(page.locator('.finding-group-count')).toHaveCount(0);
+    await expect(page.locator('#check-status')).toHaveText(`${m.checked} 1.`);
+  });
+
+  test(`${locale}: pickup positions stay consistent in findings, evidence and downloaded reports`, async ({
+    page,
+  }) => {
+    await page.getByRole('combobox', { name: 'Sprache' }).selectOption(locale);
+    const m = WORKBENCH_MESSAGES[locale],
+      report = REPORT_MESSAGES[locale];
+    const parts = {
+      soprano: 'C4/4 | C4/2 D4/2',
+      alto: 'E4/4 | E4/2 F4/2',
+      tenor: 'G3/4 | G3/2 A3/2',
+      bass: 'C3/4 | C3/2 D3/2',
+    };
+    for (const [voice, source] of Object.entries(parts))
+      await page.getByRole('textbox', { name: report.voices[voice], exact: true }).fill(source);
+    await page
+      .getByRole('textbox', { name: m.settings, exact: true })
+      .fill('{"rules":{"voice-crossing":"error"}}');
+    await page.getByRole('button', { name: m.analyze, exact: true }).click();
+    await expect(page.locator('.finding')).toHaveCount(3);
+    const first = page.locator('#finding-1');
+    const pickup = `${report.measure} 0 (${report.pickup}) · ${report.beginning}`;
+    await expect(first.locator('summary')).toContainText(pickup);
+    await first.locator('summary').click();
+    await expect(first.locator('caption')).toHaveText(`${report.destination} · ${pickup}`);
+    await expect(first.getByRole('cell', { name: '0', exact: true })).toHaveCount(2);
+    await expect(page.locator('#finding-2 > summary')).toContainText(
+      `${report.measure} 1 · ${report.beginning}`,
+    );
+    await expect(page.locator('#finding-3 > summary')).toContainText(
+      `${report.measure} 1 · ${report.offset} 1/2`,
+    );
+    await page.getByText(report.scoreDescription, { exact: true }).click();
+    await expect(
+      page.getByText(new RegExp(`${report.voices.soprano} · ${report.measure} 0`)),
+    ).toBeVisible();
+    const pending = page.waitForEvent('download');
+    await page.getByRole('button', { name: m.export, exact: true }).click();
+    const download = await pending;
+    const saved = await readFile(await download.path(), 'utf8');
+    expect(saved).toContain(`<span>${pickup}</span>`);
+    expect(saved).not.toContain('<script');
+    expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+  });
+
   test(`${locale}: keyboard, embedded font, local computation and accessibility`, async ({
     page,
   }) => {

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": 20,
+  "contentVersion": 27,
   "areas": [
     {
       "id": "fundament",
@@ -91,6 +91,24 @@
       "contentVersion": 16,
       "status": "entwurf",
       "titleKey": "content.levelFour.areas.acoustics"
+    },
+    {
+      "id": "area.counterpoint",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.areas.counterpoint"
+    },
+    {
+      "id": "area.contemporary",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.areas.contemporary"
+    },
+    {
+      "id": "area.world",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.areas.world"
     }
   ],
   "levels": [
@@ -364,6 +382,46 @@
       "status": "entwurf",
       "titleKey": "content.partWriting.level5",
       "areaId": "area.satz",
+      "number": 5
+    },
+    {
+      "id": "counterpoint.level-5",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.levelTitle",
+      "areaId": "area.counterpoint",
+      "number": 5
+    },
+    {
+      "id": "forms.level-5",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.levelTitle",
+      "areaId": "area.forms",
+      "number": 5
+    },
+    {
+      "id": "analysis.level-5",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.levelTitle",
+      "areaId": "area.analysis",
+      "number": 5
+    },
+    {
+      "id": "contemporary.level-5",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.levelTitle",
+      "areaId": "area.contemporary",
+      "number": 5
+    },
+    {
+      "id": "world.level-5",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.levelTitle",
+      "areaId": "area.world",
       "number": 5
     }
   ],
@@ -761,11 +819,68 @@
       "levelId": "satz.level-5"
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 26,
       "status": "entwurf",
       "id": "aural.l4.choir",
       "titleKey": "content.choir.title",
-      "levelId": "aural.level-4"
+      "levelId": "aural.level-4",
+      "lessonOrder": "independent"
+    },
+    {
+      "id": "counterpoint.l5.species",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.speciesBasics.unitTitle",
+      "levelId": "counterpoint.level-5"
+    },
+    {
+      "id": "counterpoint.l5.imitation",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.imitationStudy.unitTitle",
+      "levelId": "counterpoint.level-5"
+    },
+    {
+      "id": "forms.l5.structure",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.advancedForms.unitTitle",
+      "levelId": "forms.level-5"
+    },
+    {
+      "id": "analysis.l5.methods",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.workAnalysis.unitTitle",
+      "levelId": "analysis.level-5"
+    },
+    {
+      "id": "contemporary.l5.serial",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.serialStudy.unitTitle",
+      "levelId": "contemporary.level-5"
+    },
+    {
+      "id": "contemporary.l5.sets",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.setStudy.unitTitle",
+      "levelId": "contemporary.level-5"
+    },
+    {
+      "id": "contemporary.l5.process",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.processStudy.unitTitle",
+      "levelId": "contemporary.level-5"
+    },
+    {
+      "id": "world.l5.context",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.worldStudy.unitTitle",
+      "levelId": "world.level-5"
     }
   ],
   "skills": [
@@ -2166,36 +2281,253 @@
       "prerequisites": ["satz.l4.writing.functions", "chords.l3.sevenths.s2"]
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 26,
       "status": "entwurf",
       "id": "aural.l4.choir.soprano",
       "titleKey": "content.choir.soprano",
       "areaId": "area.aural",
-      "prerequisites": ["aural.l3.dictation.s3"]
+      "prerequisites": [
+        "aural.l3.dictation.s3",
+        "notation.treble-natural",
+        "notation.accidental-scope",
+        "rhythm.read-basic"
+      ]
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 26,
       "status": "entwurf",
       "id": "aural.l4.choir.alto",
       "titleKey": "content.choir.alto",
       "areaId": "area.aural",
-      "prerequisites": ["aural.l3.dictation.s3"]
+      "prerequisites": [
+        "aural.l3.dictation.s3",
+        "notation.treble-natural",
+        "notation.accidental-scope",
+        "rhythm.read-basic"
+      ]
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 26,
       "status": "entwurf",
       "id": "aural.l4.choir.tenor",
       "titleKey": "content.choir.tenor",
       "areaId": "area.aural",
-      "prerequisites": ["aural.l3.dictation.s3"]
+      "prerequisites": [
+        "aural.l3.dictation.s3",
+        "notation.bass-natural",
+        "notation.accidental-scope",
+        "rhythm.read-basic"
+      ]
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 26,
       "status": "entwurf",
       "id": "aural.l4.choir.bass",
       "titleKey": "content.choir.bass",
       "areaId": "area.aural",
-      "prerequisites": ["aural.l3.dictation.s3"]
+      "prerequisites": [
+        "aural.l3.dictation.s3",
+        "notation.bass-natural",
+        "notation.accidental-scope",
+        "rhythm.read-basic"
+      ]
+    },
+    {
+      "id": "counterpoint.l5.species.s1",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.speciesBasics.skill1",
+      "areaId": "area.counterpoint",
+      "prerequisites": ["satz.l4.voice-leading.s3"]
+    },
+    {
+      "id": "counterpoint.l5.species.s2",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.speciesBasics.skill2",
+      "areaId": "area.counterpoint",
+      "prerequisites": ["counterpoint.l5.species.s1"]
+    },
+    {
+      "id": "counterpoint.l5.species.s3",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.speciesBasics.skill3",
+      "areaId": "area.counterpoint",
+      "prerequisites": ["counterpoint.l5.species.s2"]
+    },
+    {
+      "id": "counterpoint.l5.imitation.s1",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.imitationStudy.skill1",
+      "areaId": "area.counterpoint",
+      "prerequisites": ["counterpoint.l5.species.s3"]
+    },
+    {
+      "id": "counterpoint.l5.imitation.s2",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.imitationStudy.skill2",
+      "areaId": "area.counterpoint",
+      "prerequisites": ["counterpoint.l5.imitation.s1"]
+    },
+    {
+      "id": "counterpoint.l5.imitation.s3",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.imitationStudy.skill3",
+      "areaId": "area.counterpoint",
+      "prerequisites": ["counterpoint.l5.imitation.s2"]
+    },
+    {
+      "id": "forms.l5.structure.s1",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.advancedForms.skill1",
+      "areaId": "area.forms",
+      "prerequisites": ["forms.l4.sonata.s3"]
+    },
+    {
+      "id": "forms.l5.structure.s2",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.advancedForms.skill2",
+      "areaId": "area.forms",
+      "prerequisites": ["forms.l5.structure.s1"]
+    },
+    {
+      "id": "forms.l5.structure.s3",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.advancedForms.skill3",
+      "areaId": "area.forms",
+      "prerequisites": ["forms.l5.structure.s2"]
+    },
+    {
+      "id": "analysis.l5.methods.s1",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.workAnalysis.skill1",
+      "areaId": "area.analysis",
+      "prerequisites": [
+        "analysis.l4.score.s3",
+        "forms.l5.structure.s3",
+        "counterpoint.l5.imitation.s3",
+        "contemporary.l5.sets.s3"
+      ]
+    },
+    {
+      "id": "analysis.l5.methods.s2",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.workAnalysis.skill2",
+      "areaId": "area.analysis",
+      "prerequisites": ["analysis.l5.methods.s1"]
+    },
+    {
+      "id": "analysis.l5.methods.s3",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.workAnalysis.skill3",
+      "areaId": "area.analysis",
+      "prerequisites": ["analysis.l5.methods.s2"]
+    },
+    {
+      "id": "contemporary.l5.serial.s1",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.serialStudy.skill1",
+      "areaId": "area.contemporary",
+      "prerequisites": ["history.l4.survey.s3", "analysis.l4.score.s3"]
+    },
+    {
+      "id": "contemporary.l5.serial.s2",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.serialStudy.skill2",
+      "areaId": "area.contemporary",
+      "prerequisites": ["contemporary.l5.serial.s1"]
+    },
+    {
+      "id": "contemporary.l5.serial.s3",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.serialStudy.skill3",
+      "areaId": "area.contemporary",
+      "prerequisites": ["contemporary.l5.serial.s2"]
+    },
+    {
+      "id": "contemporary.l5.sets.s1",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.setStudy.skill1",
+      "areaId": "area.contemporary",
+      "prerequisites": ["contemporary.l5.serial.s3"]
+    },
+    {
+      "id": "contemporary.l5.sets.s2",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.setStudy.skill2",
+      "areaId": "area.contemporary",
+      "prerequisites": ["contemporary.l5.sets.s1"]
+    },
+    {
+      "id": "contemporary.l5.sets.s3",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.setStudy.skill3",
+      "areaId": "area.contemporary",
+      "prerequisites": ["contemporary.l5.sets.s2"]
+    },
+    {
+      "id": "contemporary.l5.process.s1",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.processStudy.skill1",
+      "areaId": "area.contemporary",
+      "prerequisites": ["rhythm.l4.complex.s3", "acoustics.l4.tuning.s3", "history.l4.survey.s3"]
+    },
+    {
+      "id": "contemporary.l5.process.s2",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.processStudy.skill2",
+      "areaId": "area.contemporary",
+      "prerequisites": ["contemporary.l5.process.s1"]
+    },
+    {
+      "id": "contemporary.l5.process.s3",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.processStudy.skill3",
+      "areaId": "area.contemporary",
+      "prerequisites": ["contemporary.l5.process.s2"]
+    },
+    {
+      "id": "world.l5.context.s1",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.worldStudy.skill1",
+      "areaId": "area.world",
+      "prerequisites": ["history.l4.survey.s3"]
+    },
+    {
+      "id": "world.l5.context.s2",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.worldStudy.skill2",
+      "areaId": "area.world",
+      "prerequisites": ["world.l5.context.s1"]
+    },
+    {
+      "id": "world.l5.context.s3",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.worldStudy.skill3",
+      "areaId": "area.world",
+      "prerequisites": ["world.l5.context.s2"]
     }
   ],
   "exerciseSets": [
@@ -6725,7 +7057,7 @@
     },
     {
       "id": "satz.l4.writing.bass.exercises",
-      "contentVersion": 19,
+      "contentVersion": 22,
       "status": "entwurf",
       "titleKey": "content.partWriting.bass",
       "skillIds": ["satz.l4.writing.bass"],
@@ -6735,16 +7067,39 @@
             "type": "VOICE_LEADING",
             "params": {
               "level": 4,
-              "mode": "bass"
+              "mode": "bass",
+              "fifths": 0
             }
           },
-          "count": 3
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "VOICE_LEADING",
+            "params": {
+              "level": 4,
+              "mode": "bass",
+              "fifths": -1
+            }
+          },
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "VOICE_LEADING",
+            "params": {
+              "level": 4,
+              "mode": "bass",
+              "fifths": 1
+            }
+          },
+          "count": 1
         }
       ]
     },
     {
       "id": "satz.l4.writing.soprano.exercises",
-      "contentVersion": 19,
+      "contentVersion": 22,
       "status": "entwurf",
       "titleKey": "content.partWriting.soprano",
       "skillIds": ["satz.l4.writing.soprano"],
@@ -6754,16 +7109,39 @@
             "type": "VOICE_LEADING",
             "params": {
               "level": 4,
-              "mode": "soprano"
+              "mode": "soprano",
+              "fifths": 0
             }
           },
-          "count": 3
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "VOICE_LEADING",
+            "params": {
+              "level": 4,
+              "mode": "soprano",
+              "fifths": -1
+            }
+          },
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "VOICE_LEADING",
+            "params": {
+              "level": 4,
+              "mode": "soprano",
+              "fifths": 1
+            }
+          },
+          "count": 1
         }
       ]
     },
     {
       "id": "satz.l4.writing.functions.exercises",
-      "contentVersion": 19,
+      "contentVersion": 22,
       "status": "entwurf",
       "titleKey": "content.partWriting.functions",
       "skillIds": ["satz.l4.writing.functions"],
@@ -6773,16 +7151,39 @@
             "type": "VOICE_LEADING",
             "params": {
               "level": 4,
-              "mode": "functions"
+              "mode": "functions",
+              "fifths": 0
             }
           },
-          "count": 3
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "VOICE_LEADING",
+            "params": {
+              "level": 4,
+              "mode": "functions",
+              "fifths": -1
+            }
+          },
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "VOICE_LEADING",
+            "params": {
+              "level": 4,
+              "mode": "functions",
+              "fifths": 1
+            }
+          },
+          "count": 1
         }
       ]
     },
     {
       "id": "satz.l5.writing.bass.exercises",
-      "contentVersion": 19,
+      "contentVersion": 22,
       "status": "entwurf",
       "titleKey": "content.partWriting.bass",
       "skillIds": ["satz.l5.writing.bass"],
@@ -6792,16 +7193,39 @@
             "type": "VOICE_LEADING",
             "params": {
               "level": 5,
-              "mode": "bass"
+              "mode": "bass",
+              "fifths": 0
             }
           },
-          "count": 3
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "VOICE_LEADING",
+            "params": {
+              "level": 5,
+              "mode": "bass",
+              "fifths": -1
+            }
+          },
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "VOICE_LEADING",
+            "params": {
+              "level": 5,
+              "mode": "bass",
+              "fifths": 1
+            }
+          },
+          "count": 1
         }
       ]
     },
     {
       "id": "satz.l5.writing.soprano.exercises",
-      "contentVersion": 19,
+      "contentVersion": 22,
       "status": "entwurf",
       "titleKey": "content.partWriting.soprano",
       "skillIds": ["satz.l5.writing.soprano"],
@@ -6811,16 +7235,39 @@
             "type": "VOICE_LEADING",
             "params": {
               "level": 5,
-              "mode": "soprano"
+              "mode": "soprano",
+              "fifths": 0
             }
           },
-          "count": 3
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "VOICE_LEADING",
+            "params": {
+              "level": 5,
+              "mode": "soprano",
+              "fifths": -1
+            }
+          },
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "VOICE_LEADING",
+            "params": {
+              "level": 5,
+              "mode": "soprano",
+              "fifths": 1
+            }
+          },
+          "count": 1
         }
       ]
     },
     {
       "id": "satz.l5.writing.functions.exercises",
-      "contentVersion": 19,
+      "contentVersion": 22,
       "status": "entwurf",
       "titleKey": "content.partWriting.functions",
       "skillIds": ["satz.l5.writing.functions"],
@@ -6830,15 +7277,38 @@
             "type": "VOICE_LEADING",
             "params": {
               "level": 5,
-              "mode": "functions"
+              "mode": "functions",
+              "fifths": 0
             }
           },
-          "count": 3
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "VOICE_LEADING",
+            "params": {
+              "level": 5,
+              "mode": "functions",
+              "fifths": -1
+            }
+          },
+          "count": 1
+        },
+        {
+          "spec": {
+            "type": "VOICE_LEADING",
+            "params": {
+              "level": 5,
+              "mode": "functions",
+              "fifths": 1
+            }
+          },
+          "count": 1
         }
       ]
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 25,
       "status": "entwurf",
       "id": "aural.l4.choir.soprano.exercises",
       "titleKey": "content.choir.soprano",
@@ -6849,7 +7319,8 @@
             "type": "CHOIR_PART",
             "params": {
               "voice": "soprano",
-              "piece": "home"
+              "piece": "home",
+              "fifths": 0
             }
           },
           "count": 1
@@ -6859,7 +7330,8 @@
             "type": "CHOIR_PART",
             "params": {
               "voice": "soprano",
-              "piece": "arch"
+              "piece": "arch",
+              "fifths": 2
             }
           },
           "count": 1
@@ -6867,7 +7339,7 @@
       ]
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 25,
       "status": "entwurf",
       "id": "aural.l4.choir.alto.exercises",
       "titleKey": "content.choir.alto",
@@ -6878,7 +7350,8 @@
             "type": "CHOIR_PART",
             "params": {
               "voice": "alto",
-              "piece": "home"
+              "piece": "home",
+              "fifths": 0
             }
           },
           "count": 1
@@ -6888,7 +7361,8 @@
             "type": "CHOIR_PART",
             "params": {
               "voice": "alto",
-              "piece": "arch"
+              "piece": "arch",
+              "fifths": 2
             }
           },
           "count": 1
@@ -6896,7 +7370,7 @@
       ]
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 25,
       "status": "entwurf",
       "id": "aural.l4.choir.tenor.exercises",
       "titleKey": "content.choir.tenor",
@@ -6907,7 +7381,8 @@
             "type": "CHOIR_PART",
             "params": {
               "voice": "tenor",
-              "piece": "home"
+              "piece": "home",
+              "fifths": 0
             }
           },
           "count": 1
@@ -6917,7 +7392,8 @@
             "type": "CHOIR_PART",
             "params": {
               "voice": "tenor",
-              "piece": "arch"
+              "piece": "arch",
+              "fifths": 2
             }
           },
           "count": 1
@@ -6925,7 +7401,7 @@
       ]
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 25,
       "status": "entwurf",
       "id": "aural.l4.choir.bass.exercises",
       "titleKey": "content.choir.bass",
@@ -6936,7 +7412,8 @@
             "type": "CHOIR_PART",
             "params": {
               "voice": "bass",
-              "piece": "home"
+              "piece": "home",
+              "fifths": 0
             }
           },
           "count": 1
@@ -6946,10 +7423,688 @@
             "type": "CHOIR_PART",
             "params": {
               "voice": "bass",
-              "piece": "arch"
+              "piece": "arch",
+              "fifths": 2
             }
           },
           "count": 1
+        }
+      ]
+    },
+    {
+      "id": "counterpoint.l5.species.lesson1.exercises",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.speciesBasics.lesson1",
+      "skillIds": [
+        "counterpoint.l5.species.s1",
+        "counterpoint.l5.species.s2",
+        "counterpoint.l5.species.s3"
+      ],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["speciesBasics"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["counterpoint-consonance"]
+            }
+          },
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": "counterpoint.l5.species.lesson2.exercises",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.speciesBasics.lesson2",
+      "skillIds": [
+        "counterpoint.l5.species.s1",
+        "counterpoint.l5.species.s2",
+        "counterpoint.l5.species.s3"
+      ],
+      "exercises": [
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["speciesBasics"],
+              "count": 3
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["counterpoint-motion"]
+            }
+          },
+          "count": 6
+        }
+      ]
+    },
+    {
+      "id": "counterpoint.l5.species.lesson3.exercises",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.speciesBasics.lesson3",
+      "skillIds": [
+        "counterpoint.l5.species.s1",
+        "counterpoint.l5.species.s2",
+        "counterpoint.l5.species.s3"
+      ],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["speciesBasics"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["counterpoint-check"]
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "id": "counterpoint.l5.imitation.lesson1.exercises",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.imitationStudy.lesson1",
+      "skillIds": [
+        "counterpoint.l5.imitation.s1",
+        "counterpoint.l5.imitation.s2",
+        "counterpoint.l5.imitation.s3"
+      ],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["imitationStudy"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["motif-transform"]
+            }
+          },
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": "counterpoint.l5.imitation.lesson2.exercises",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.imitationStudy.lesson2",
+      "skillIds": [
+        "counterpoint.l5.imitation.s1",
+        "counterpoint.l5.imitation.s2",
+        "counterpoint.l5.imitation.s3"
+      ],
+      "exercises": [
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["imitationStudy"],
+              "count": 3
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["motif-transform"]
+            }
+          },
+          "count": 6
+        }
+      ]
+    },
+    {
+      "id": "counterpoint.l5.imitation.lesson3.exercises",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.imitationStudy.lesson3",
+      "skillIds": [
+        "counterpoint.l5.imitation.s1",
+        "counterpoint.l5.imitation.s2",
+        "counterpoint.l5.imitation.s3"
+      ],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["imitationStudy"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["motif-transform"]
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "id": "forms.l5.structure.lesson1.exercises",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.advancedForms.lesson1",
+      "skillIds": ["forms.l5.structure.s1", "forms.l5.structure.s2", "forms.l5.structure.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["advancedForms"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["form-sections"]
+            }
+          },
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": "forms.l5.structure.lesson2.exercises",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.advancedForms.lesson2",
+      "skillIds": ["forms.l5.structure.s1", "forms.l5.structure.s2", "forms.l5.structure.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["advancedForms"],
+              "count": 3
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["form-sections"]
+            }
+          },
+          "count": 6
+        }
+      ]
+    },
+    {
+      "id": "forms.l5.structure.lesson3.exercises",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.advancedForms.lesson3",
+      "skillIds": ["forms.l5.structure.s1", "forms.l5.structure.s2", "forms.l5.structure.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["advancedForms"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["form-sections"]
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "id": "analysis.l5.methods.lesson1.exercises",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.workAnalysis.lesson1",
+      "skillIds": ["analysis.l5.methods.s1", "analysis.l5.methods.s2", "analysis.l5.methods.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["workAnalysis"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["motif-transform"]
+            }
+          },
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": "analysis.l5.methods.lesson2.exercises",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.workAnalysis.lesson2",
+      "skillIds": ["analysis.l5.methods.s1", "analysis.l5.methods.s2", "analysis.l5.methods.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["workAnalysis"],
+              "count": 3
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["set-cardinality"]
+            }
+          },
+          "count": 6
+        }
+      ]
+    },
+    {
+      "id": "analysis.l5.methods.lesson3.exercises",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.workAnalysis.lesson3",
+      "skillIds": ["analysis.l5.methods.s1", "analysis.l5.methods.s2", "analysis.l5.methods.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["workAnalysis"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["form-sections"]
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "id": "contemporary.l5.serial.lesson1.exercises",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.serialStudy.lesson1",
+      "skillIds": [
+        "contemporary.l5.serial.s1",
+        "contemporary.l5.serial.s2",
+        "contemporary.l5.serial.s3"
+      ],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["serialStudy"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["row-validity"]
+            }
+          },
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": "contemporary.l5.serial.lesson2.exercises",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.serialStudy.lesson2",
+      "skillIds": [
+        "contemporary.l5.serial.s1",
+        "contemporary.l5.serial.s2",
+        "contemporary.l5.serial.s3"
+      ],
+      "exercises": [
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["serialStudy"],
+              "count": 3
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["row-transform"]
+            }
+          },
+          "count": 6
+        }
+      ]
+    },
+    {
+      "id": "contemporary.l5.serial.lesson3.exercises",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.serialStudy.lesson3",
+      "skillIds": [
+        "contemporary.l5.serial.s1",
+        "contemporary.l5.serial.s2",
+        "contemporary.l5.serial.s3"
+      ],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["serialStudy"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["row-transform"]
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "id": "contemporary.l5.sets.lesson1.exercises",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.setStudy.lesson1",
+      "skillIds": ["contemporary.l5.sets.s1", "contemporary.l5.sets.s2", "contemporary.l5.sets.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["setStudy"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["set-cardinality"]
+            }
+          },
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": "contemporary.l5.sets.lesson2.exercises",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.setStudy.lesson2",
+      "skillIds": ["contemporary.l5.sets.s1", "contemporary.l5.sets.s2", "contemporary.l5.sets.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["setStudy"],
+              "count": 3
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["set-vector"]
+            }
+          },
+          "count": 6
+        }
+      ]
+    },
+    {
+      "id": "contemporary.l5.sets.lesson3.exercises",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.setStudy.lesson3",
+      "skillIds": ["contemporary.l5.sets.s1", "contemporary.l5.sets.s2", "contemporary.l5.sets.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["setStudy"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["set-vector"]
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "id": "contemporary.l5.process.lesson1.exercises",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.processStudy.lesson1",
+      "skillIds": [
+        "contemporary.l5.process.s1",
+        "contemporary.l5.process.s2",
+        "contemporary.l5.process.s3"
+      ],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["processStudy"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["minimal-phase"]
+            }
+          },
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": "contemporary.l5.process.lesson2.exercises",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.processStudy.lesson2",
+      "skillIds": [
+        "contemporary.l5.process.s1",
+        "contemporary.l5.process.s2",
+        "contemporary.l5.process.s3"
+      ],
+      "exercises": [
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["processStudy"],
+              "count": 3
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["minimal-phase"]
+            }
+          },
+          "count": 6
+        }
+      ]
+    },
+    {
+      "id": "contemporary.l5.process.lesson3.exercises",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.processStudy.lesson3",
+      "skillIds": [
+        "contemporary.l5.process.s1",
+        "contemporary.l5.process.s2",
+        "contemporary.l5.process.s3"
+      ],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["processStudy"]
+            }
+          },
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "CONTEXT_CHOICE",
+            "params": {
+              "topics": ["minimal-phase"]
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "id": "world.l5.context.lesson1.exercises",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.worldStudy.lesson1",
+      "skillIds": ["world.l5.context.s1", "world.l5.context.s2", "world.l5.context.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["worldStudy"]
+            }
+          },
+          "count": 8
+        }
+      ]
+    },
+    {
+      "id": "world.l5.context.lesson2.exercises",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.worldStudy.lesson2",
+      "skillIds": ["world.l5.context.s1", "world.l5.context.s2", "world.l5.context.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["worldStudy"],
+              "count": 3
+            }
+          },
+          "count": 10
+        }
+      ]
+    },
+    {
+      "id": "world.l5.context.lesson3.exercises",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.worldStudy.lesson3",
+      "skillIds": ["world.l5.context.s1", "world.l5.context.s2", "world.l5.context.s3"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["worldStudy"]
+            }
+          },
+          "count": 12
         }
       ]
     }
@@ -12385,141 +13540,605 @@
     },
     {
       "id": "satz.l4.writing.bass.card",
-      "contentVersion": 19,
+      "contentVersion": 23,
       "status": "entwurf",
       "titleKey": "content.partWriting.introTitle",
       "skillIds": ["satz.l4.writing.bass"],
       "bodyKey": "content.partWriting.intro4",
       "examples": [
         {
-          "score": "treble | 4/4 | C4/1 | D4/1",
-          "captionKey": "content.partWriting.caption"
+          "score": "treble | key:C | 4/4 | E4/1 & C4/1\nbass | key:C | 4/4 | G3/1 & C3/1",
+          "captionKey": "content.partWriting.caption4"
         }
       ]
     },
     {
       "id": "satz.l4.writing.soprano.card",
-      "contentVersion": 19,
+      "contentVersion": 23,
       "status": "entwurf",
       "titleKey": "content.partWriting.introTitle",
       "skillIds": ["satz.l4.writing.soprano"],
       "bodyKey": "content.partWriting.intro4",
       "examples": [
         {
-          "score": "treble | 4/4 | C4/1 | D4/1",
-          "captionKey": "content.partWriting.caption"
+          "score": "treble | key:C | 4/4 | E4/1 & C4/1\nbass | key:C | 4/4 | G3/1 & C3/1",
+          "captionKey": "content.partWriting.caption4"
         }
       ]
     },
     {
       "id": "satz.l4.writing.functions.card",
-      "contentVersion": 19,
+      "contentVersion": 23,
       "status": "entwurf",
       "titleKey": "content.partWriting.introTitle",
       "skillIds": ["satz.l4.writing.functions"],
       "bodyKey": "content.partWriting.intro4",
       "examples": [
         {
-          "score": "treble | 4/4 | C4/1 | D4/1",
-          "captionKey": "content.partWriting.caption"
+          "score": "treble | key:C | 4/4 | E4/1 & C4/1\nbass | key:C | 4/4 | G3/1 & C3/1",
+          "captionKey": "content.partWriting.caption4"
         }
       ]
     },
     {
       "id": "satz.l5.writing.bass.card",
-      "contentVersion": 19,
+      "contentVersion": 23,
       "status": "entwurf",
       "titleKey": "content.partWriting.introTitle",
       "skillIds": ["satz.l5.writing.bass"],
       "bodyKey": "content.partWriting.intro5",
       "examples": [
         {
-          "score": "treble | 4/4 | C4/1 | D4/1",
-          "captionKey": "content.partWriting.caption"
+          "score": "treble | key:C | 4/4 | F4/1 & B3/1\nbass | key:C | 4/4 | G3/1 & G2/1",
+          "captionKey": "content.partWriting.caption5"
         }
       ]
     },
     {
       "id": "satz.l5.writing.soprano.card",
-      "contentVersion": 19,
+      "contentVersion": 23,
       "status": "entwurf",
       "titleKey": "content.partWriting.introTitle",
       "skillIds": ["satz.l5.writing.soprano"],
       "bodyKey": "content.partWriting.intro5",
       "examples": [
         {
-          "score": "treble | 4/4 | C4/1 | D4/1",
-          "captionKey": "content.partWriting.caption"
+          "score": "treble | key:C | 4/4 | F4/1 & B3/1\nbass | key:C | 4/4 | G3/1 & G2/1",
+          "captionKey": "content.partWriting.caption5"
         }
       ]
     },
     {
       "id": "satz.l5.writing.functions.card",
-      "contentVersion": 19,
+      "contentVersion": 23,
       "status": "entwurf",
       "titleKey": "content.partWriting.introTitle",
       "skillIds": ["satz.l5.writing.functions"],
       "bodyKey": "content.partWriting.intro5",
       "examples": [
         {
-          "score": "treble | 4/4 | C4/1 | D4/1",
-          "captionKey": "content.partWriting.caption"
+          "score": "treble | key:C | 4/4 | F4/1 & B3/1\nbass | key:C | 4/4 | G3/1 & G2/1",
+          "captionKey": "content.partWriting.caption5"
         }
       ]
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 24,
       "status": "entwurf",
       "id": "aural.l4.choir.soprano.card",
-      "titleKey": "content.choir.title",
+      "titleKey": "content.choir.soprano",
       "skillIds": ["aural.l4.choir.soprano"],
       "bodyKey": "content.choir.intro",
       "examples": [
         {
-          "score": "treble | 4/4 | E4/2 G4/2 | F4/2 F4/2",
-          "captionKey": "content.choir.caption"
+          "score": "treble | key:C | 4/4 | E4/2 G4/2 | F4/2 F4/2 | D4/2 D4/2 | E4/2 E4/2",
+          "captionKey": "content.choir.sopranoHomeCaption"
+        },
+        {
+          "score": "treble | key:C | 4/4 | E4/2 E4/2 | F4/2 E4/2 | D4/2 F4/2 | E4/2 E4/2",
+          "captionKey": "content.choir.sopranoArchCaption"
         }
       ]
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 24,
       "status": "entwurf",
       "id": "aural.l4.choir.alto.card",
-      "titleKey": "content.choir.title",
+      "titleKey": "content.choir.alto",
       "skillIds": ["aural.l4.choir.alto"],
       "bodyKey": "content.choir.intro",
       "examples": [
         {
-          "score": "treble | 4/4 | E4/2 G4/2 | F4/2 F4/2",
-          "captionKey": "content.choir.caption"
+          "score": "treble | key:C | 4/4 | C4/2 C4/2 | C4/2 C4/2 | B3/2 B3/2 | C4/2 C4/2",
+          "captionKey": "content.choir.altoHomeCaption"
+        },
+        {
+          "score": "treble | key:C | 4/4 | C4/2 C4/2 | C4/2 C4/2 | B3/2 B3/2 | C4/2 C4/2",
+          "captionKey": "content.choir.altoArchCaption"
         }
       ]
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 24,
       "status": "entwurf",
       "id": "aural.l4.choir.tenor.card",
-      "titleKey": "content.choir.title",
+      "titleKey": "content.choir.tenor",
       "skillIds": ["aural.l4.choir.tenor"],
       "bodyKey": "content.choir.intro",
       "examples": [
         {
-          "score": "treble | 4/4 | E4/2 G4/2 | F4/2 F4/2",
-          "captionKey": "content.choir.caption"
+          "score": "bass | key:C | 4/4 | G3/2 G3/2 | A3/2 A3/2 | G3/2 G3/2 | G3/2 G3/2",
+          "captionKey": "content.choir.tenorHomeCaption"
+        },
+        {
+          "score": "bass | key:C | 4/4 | G3/2 G3/2 | A3/2 G3/2 | G3/2 G3/2 | G3/2 G3/2",
+          "captionKey": "content.choir.tenorArchCaption"
         }
       ]
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 24,
       "status": "entwurf",
       "id": "aural.l4.choir.bass.card",
-      "titleKey": "content.choir.title",
+      "titleKey": "content.choir.bass",
       "skillIds": ["aural.l4.choir.bass"],
       "bodyKey": "content.choir.intro",
       "examples": [
         {
-          "score": "treble | 4/4 | E4/2 G4/2 | F4/2 F4/2",
-          "captionKey": "content.choir.caption"
+          "score": "bass | key:C | 4/4 | C3/2 E3/2 | F3/2 F3/2 | G3/2 G3/2 | C3/2 C3/2",
+          "captionKey": "content.choir.bassHomeCaption"
+        },
+        {
+          "score": "bass | key:C | 4/4 | C3/2 C3/2 | F3/2 C3/2 | G2/2 G2/2 | C3/2 C3/2",
+          "captionKey": "content.choir.bassArchCaption"
+        }
+      ]
+    },
+    {
+      "id": "counterpoint.l5.species.card-oneagainstone",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.speciesBasics.oneAgainstOneTitle",
+      "skillIds": ["counterpoint.l5.species.s1"],
+      "bodyKey": "content.levelFive.units.speciesBasics.oneAgainstOneBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | (C4 G4)/1 | (E4 G4)/1 | (D4 B4)/1 | (C4 C5)/1",
+          "captionKey": "content.levelFive.units.speciesBasics.oneAgainstOneCaption"
+        }
+      ]
+    },
+    {
+      "id": "counterpoint.l5.species.card-speciesconsonance",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.speciesBasics.speciesConsonanceTitle",
+      "skillIds": ["counterpoint.l5.species.s2"],
+      "bodyKey": "content.levelFive.units.speciesBasics.speciesConsonanceBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | (C4 Eb4)/1 | (C4 D#4)/1",
+          "captionKey": "content.levelFive.units.speciesBasics.speciesConsonanceCaption"
+        }
+      ]
+    },
+    {
+      "id": "counterpoint.l5.species.card-speciesmotion",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.speciesBasics.speciesMotionTitle",
+      "skillIds": ["counterpoint.l5.species.s3"],
+      "bodyKey": "content.levelFive.units.speciesBasics.speciesMotionBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | (C4 G4)/1 | (D4 A4)/1",
+          "captionKey": "content.levelFive.units.speciesBasics.speciesMotionCaption"
+        }
+      ]
+    },
+    {
+      "id": "counterpoint.l5.species.card-speciesclosure",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.speciesBasics.speciesClosureTitle",
+      "skillIds": ["counterpoint.l5.species.s3"],
+      "bodyKey": "content.levelFive.units.speciesBasics.speciesClosureBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | (D4 B4)/1 | (C4 C5)/1",
+          "captionKey": "content.levelFive.units.speciesBasics.speciesClosureCaption"
+        }
+      ]
+    },
+    {
+      "id": "counterpoint.l5.imitation.card-canonentry",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.imitationStudy.canonEntryTitle",
+      "skillIds": ["counterpoint.l5.imitation.s1"],
+      "bodyKey": "content.levelFive.units.imitationStudy.canonEntryBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 D4/4 F4/4 E4/4 | G4/4 A4/4 C5/4 B4/4",
+          "captionKey": "content.levelFive.units.imitationStudy.canonEntryCaption"
+        }
+      ]
+    },
+    {
+      "id": "counterpoint.l5.imitation.card-subjectanswer",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.imitationStudy.subjectAnswerTitle",
+      "skillIds": ["counterpoint.l5.imitation.s2"],
+      "bodyKey": "content.levelFive.units.imitationStudy.subjectAnswerBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 E4/4 G4/4 F4/4 | G4/4 B4/4 D5/4 C5/4",
+          "captionKey": "content.levelFive.units.imitationStudy.subjectAnswerCaption"
+        }
+      ]
+    },
+    {
+      "id": "counterpoint.l5.imitation.card-motifinversion",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.imitationStudy.motifInversionTitle",
+      "skillIds": ["counterpoint.l5.imitation.s3"],
+      "bodyKey": "content.levelFive.units.imitationStudy.motifInversionBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 D4/4 F4/4 E4/4 | G4/4 F4/4 D4/4 Eb4/4",
+          "captionKey": "content.levelFive.units.imitationStudy.motifInversionCaption"
+        }
+      ]
+    },
+    {
+      "id": "counterpoint.l5.imitation.card-retrograde",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.imitationStudy.retrogradeTitle",
+      "skillIds": ["counterpoint.l5.imitation.s3"],
+      "bodyKey": "content.levelFive.units.imitationStudy.retrogradeBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 D4/4 F4/4 E4/4 | E4/4 F4/4 D4/4 C4/4",
+          "captionKey": "content.levelFive.units.imitationStudy.retrogradeCaption"
+        }
+      ]
+    },
+    {
+      "id": "forms.l5.structure.card-sectionidentity",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.advancedForms.sectionIdentityTitle",
+      "skillIds": ["forms.l5.structure.s1"],
+      "bodyKey": "content.levelFive.units.advancedForms.sectionIdentityBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 D4/4 E4/4 G4/4 | D4/4 E4/4 F#4/4 A4/4 | C4/4 D4/4 E4/4 G4/4",
+          "captionKey": "content.levelFive.units.advancedForms.sectionIdentityCaption"
+        }
+      ]
+    },
+    {
+      "id": "forms.l5.structure.card-rondoreturn",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.advancedForms.rondoReturnTitle",
+      "skillIds": ["forms.l5.structure.s2"],
+      "bodyKey": "content.levelFive.units.advancedForms.rondoReturnBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/1 | D4/1 | C4/1 | E4/1 | C4/1",
+          "captionKey": "content.levelFive.units.advancedForms.rondoReturnCaption"
+        }
+      ]
+    },
+    {
+      "id": "forms.l5.structure.card-variationidentity",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.advancedForms.variationIdentityTitle",
+      "skillIds": ["forms.l5.structure.s3"],
+      "bodyKey": "content.levelFive.units.advancedForms.variationIdentityBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/2 G4/2 | C4/4 D4/4 G4/2",
+          "captionKey": "content.levelFive.units.advancedForms.variationIdentityCaption"
+        }
+      ]
+    },
+    {
+      "id": "forms.l5.structure.card-sonatafunction",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.advancedForms.sonataFunctionTitle",
+      "skillIds": ["forms.l5.structure.s3"],
+      "bodyKey": "content.levelFive.units.advancedForms.sonataFunctionBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 A4/4 B4/4 D5/4 | C4/4 D4/4 E4/4 G4/4",
+          "captionKey": "content.levelFive.units.advancedForms.sonataFunctionCaption"
+        }
+      ]
+    },
+    {
+      "id": "analysis.l5.methods.card-analyticalquestion",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.workAnalysis.analyticalQuestionTitle",
+      "skillIds": ["analysis.l5.methods.s1"],
+      "bodyKey": "content.levelFive.units.workAnalysis.analyticalQuestionBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 E4/4 G4/4 F4/4 | D4/4 F#4/4 A4/4 G4/4",
+          "captionKey": "content.levelFive.units.workAnalysis.analyticalQuestionCaption"
+        }
+      ]
+    },
+    {
+      "id": "analysis.l5.methods.card-pitchevidence",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.workAnalysis.pitchEvidenceTitle",
+      "skillIds": ["analysis.l5.methods.s2"],
+      "bodyKey": "content.levelFive.units.workAnalysis.pitchEvidenceBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 D4/4 F4/4 E4/4 | G4/4 F4/4 D4/4 Eb4/4",
+          "captionKey": "content.levelFive.units.workAnalysis.pitchEvidenceCaption"
+        }
+      ]
+    },
+    {
+      "id": "analysis.l5.methods.card-reductionlimits",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.workAnalysis.reductionLimitsTitle",
+      "skillIds": ["analysis.l5.methods.s3"],
+      "bodyKey": "content.levelFive.units.workAnalysis.reductionLimitsBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 E4/4 G4/4 C5/4 | G4/4 E4/4 C4/4 C4/4",
+          "captionKey": "content.levelFive.units.workAnalysis.reductionLimitsCaption"
+        }
+      ]
+    },
+    {
+      "id": "analysis.l5.methods.card-analysisargument",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.workAnalysis.analysisArgumentTitle",
+      "skillIds": ["analysis.l5.methods.s3"],
+      "bodyKey": "content.levelFive.units.workAnalysis.analysisArgumentBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/1 | D4/1 | C4/1",
+          "captionKey": "content.levelFive.units.workAnalysis.analysisArgumentCaption"
+        }
+      ]
+    },
+    {
+      "id": "contemporary.l5.serial.card-roworder",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.serialStudy.rowOrderTitle",
+      "skillIds": ["contemporary.l5.serial.s1"],
+      "bodyKey": "content.levelFive.units.serialStudy.rowOrderBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 C#4/4 E4/4 D4/4 | G4/4 F4/4 G#4/4 F#4/4 | B4/4 A4/4 D#4/4 A#4/4",
+          "captionKey": "content.levelFive.units.serialStudy.rowOrderCaption"
+        }
+      ]
+    },
+    {
+      "id": "contemporary.l5.serial.card-rowoperations",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.serialStudy.rowOperationsTitle",
+      "skillIds": ["contemporary.l5.serial.s2"],
+      "bodyKey": "content.levelFive.units.serialStudy.rowOperationsBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 C#4/4 E4/4 D4/4 | D4/4 D#4/4 F#4/4 E4/4",
+          "captionKey": "content.levelFive.units.serialStudy.rowOperationsCaption"
+        }
+      ]
+    },
+    {
+      "id": "contemporary.l5.serial.card-serialscope",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.serialStudy.serialScopeTitle",
+      "skillIds": ["contemporary.l5.serial.s3"],
+      "bodyKey": "content.levelFive.units.serialStudy.serialScopeBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 C#4/4 E4/4 D4/4",
+          "captionKey": "content.levelFive.units.serialStudy.serialScopeCaption"
+        }
+      ]
+    },
+    {
+      "id": "contemporary.l5.serial.card-rowcontext",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.serialStudy.rowContextTitle",
+      "skillIds": ["contemporary.l5.serial.s3"],
+      "bodyKey": "content.levelFive.units.serialStudy.rowContextBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | G4/4 F4/4 G#4/4 F#4/4",
+          "captionKey": "content.levelFive.units.serialStudy.rowContextCaption"
+        }
+      ]
+    },
+    {
+      "id": "contemporary.l5.sets.card-setidentity",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.setStudy.setIdentityTitle",
+      "skillIds": ["contemporary.l5.sets.s1"],
+      "bodyKey": "content.levelFive.units.setStudy.setIdentityBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 E4/4 G4/4 C5/4",
+          "captionKey": "content.levelFive.units.setStudy.setIdentityCaption"
+        }
+      ]
+    },
+    {
+      "id": "contemporary.l5.sets.card-intervalclass",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.setStudy.intervalClassTitle",
+      "skillIds": ["contemporary.l5.sets.s2"],
+      "bodyKey": "content.levelFive.units.setStudy.intervalClassBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/2 G4/2",
+          "captionKey": "content.levelFive.units.setStudy.intervalClassCaption"
+        }
+      ]
+    },
+    {
+      "id": "contemporary.l5.sets.card-intervalvector",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.setStudy.intervalVectorTitle",
+      "skillIds": ["contemporary.l5.sets.s3"],
+      "bodyKey": "content.levelFive.units.setStudy.intervalVectorBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 E4/4 G4/4 C5/4",
+          "captionKey": "content.levelFive.units.setStudy.intervalVectorCaption"
+        }
+      ]
+    },
+    {
+      "id": "contemporary.l5.sets.card-setlimits",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.setStudy.setLimitsTitle",
+      "skillIds": ["contemporary.l5.sets.s3"],
+      "bodyKey": "content.levelFive.units.setStudy.setLimitsBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 E4/4 G4/4 C5/4 | D4/4 F#4/4 A4/4 D5/4",
+          "captionKey": "content.levelFive.units.setStudy.setLimitsCaption"
+        }
+      ]
+    },
+    {
+      "id": "contemporary.l5.process.card-discretephase",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.processStudy.discretePhaseTitle",
+      "skillIds": ["contemporary.l5.process.s1"],
+      "bodyKey": "content.levelFive.units.processStudy.discretePhaseBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 D4/4 F4/4 E4/4 | D4/4 F4/4 E4/4 C4/4",
+          "captionKey": "content.levelFive.units.processStudy.discretePhaseCaption"
+        }
+      ]
+    },
+    {
+      "id": "contemporary.l5.process.card-additiveprocess",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.processStudy.additiveProcessTitle",
+      "skillIds": ["contemporary.l5.process.s2"],
+      "bodyKey": "content.levelFive.units.processStudy.additiveProcessBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 D4/4 r/2 | C4/4 D4/4 F4/4 r/4",
+          "captionKey": "content.levelFive.units.processStudy.additiveProcessCaption"
+        }
+      ]
+    },
+    {
+      "id": "contemporary.l5.process.card-electroacoustic",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.processStudy.electroacousticTitle",
+      "skillIds": ["contemporary.l5.process.s3"],
+      "bodyKey": "content.levelFive.units.processStudy.electroacousticBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 r/4 C4/4 r/4",
+          "captionKey": "content.levelFive.units.processStudy.electroacousticCaption"
+        }
+      ]
+    },
+    {
+      "id": "contemporary.l5.process.card-spectralmodel",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.processStudy.spectralModelTitle",
+      "skillIds": ["contemporary.l5.process.s3"],
+      "bodyKey": "content.levelFive.units.processStudy.spectralModelBody",
+      "examples": [
+        {
+          "score": "bass | 4/4 | C3/4 C4/4 G4/4 C5/4",
+          "captionKey": "content.levelFive.units.processStudy.spectralModelCaption"
+        }
+      ]
+    },
+    {
+      "id": "world.l5.context.card-maqamcontext",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.worldStudy.maqamContextTitle",
+      "skillIds": ["world.l5.context.s1"],
+      "bodyKey": "content.levelFive.units.worldStudy.maqamContextBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 D4/4 E4/4 F4/4",
+          "captionKey": "content.levelFive.units.worldStudy.maqamContextCaption"
+        }
+      ]
+    },
+    {
+      "id": "world.l5.context.card-ragacontext",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.worldStudy.ragaContextTitle",
+      "skillIds": ["world.l5.context.s2"],
+      "bodyKey": "content.levelFive.units.worldStudy.ragaContextBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 D4/4 E4/4 G4/4",
+          "captionKey": "content.levelFive.units.worldStudy.ragaContextCaption"
+        }
+      ]
+    },
+    {
+      "id": "world.l5.context.card-situatedsource",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.worldStudy.situatedSourceTitle",
+      "skillIds": ["world.l5.context.s3"],
+      "bodyKey": "content.levelFive.units.worldStudy.situatedSourceBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/2 G4/2",
+          "captionKey": "content.levelFive.units.worldStudy.situatedSourceCaption"
+        }
+      ]
+    },
+    {
+      "id": "world.l5.context.card-modelboundary",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.worldStudy.modelBoundaryTitle",
+      "skillIds": ["world.l5.context.s3"],
+      "bodyKey": "content.levelFive.units.worldStudy.modelBoundaryBody",
+      "examples": [
+        {
+          "score": "treble | 4/4 | C4/4 C#4/4 D4/4 D#4/4",
+          "captionKey": "content.levelFive.units.worldStudy.modelBoundaryCaption"
         }
       ]
     }
@@ -16915,6 +18534,414 @@
           ]
         }
       ]
+    },
+    {
+      "id": "counterpoint.l5.species.article",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.speciesBasics.unitTitle",
+      "skillIds": [
+        "counterpoint.l5.species.s1",
+        "counterpoint.l5.species.s2",
+        "counterpoint.l5.species.s3"
+      ],
+      "sections": [
+        {
+          "headingKey": "content.levelFive.units.speciesBasics.oneAgainstOneTitle",
+          "bodyKey": "content.levelFive.units.speciesBasics.oneAgainstOneBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (C4 G4)/1 | (E4 G4)/1 | (D4 B4)/1 | (C4 C5)/1",
+              "captionKey": "content.levelFive.units.speciesBasics.oneAgainstOneCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelFive.units.speciesBasics.speciesConsonanceTitle",
+          "bodyKey": "content.levelFive.units.speciesBasics.speciesConsonanceBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (C4 Eb4)/1 | (C4 D#4)/1",
+              "captionKey": "content.levelFive.units.speciesBasics.speciesConsonanceCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelFive.units.speciesBasics.speciesMotionTitle",
+          "bodyKey": "content.levelFive.units.speciesBasics.speciesMotionBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (C4 G4)/1 | (D4 A4)/1",
+              "captionKey": "content.levelFive.units.speciesBasics.speciesMotionCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelFive.units.speciesBasics.speciesClosureTitle",
+          "bodyKey": "content.levelFive.units.speciesBasics.speciesClosureBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | (D4 B4)/1 | (C4 C5)/1",
+              "captionKey": "content.levelFive.units.speciesBasics.speciesClosureCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "counterpoint.l5.imitation.article",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.imitationStudy.unitTitle",
+      "skillIds": [
+        "counterpoint.l5.imitation.s1",
+        "counterpoint.l5.imitation.s2",
+        "counterpoint.l5.imitation.s3"
+      ],
+      "sections": [
+        {
+          "headingKey": "content.levelFive.units.imitationStudy.canonEntryTitle",
+          "bodyKey": "content.levelFive.units.imitationStudy.canonEntryBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 D4/4 F4/4 E4/4 | G4/4 A4/4 C5/4 B4/4",
+              "captionKey": "content.levelFive.units.imitationStudy.canonEntryCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelFive.units.imitationStudy.subjectAnswerTitle",
+          "bodyKey": "content.levelFive.units.imitationStudy.subjectAnswerBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 E4/4 G4/4 F4/4 | G4/4 B4/4 D5/4 C5/4",
+              "captionKey": "content.levelFive.units.imitationStudy.subjectAnswerCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelFive.units.imitationStudy.motifInversionTitle",
+          "bodyKey": "content.levelFive.units.imitationStudy.motifInversionBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 D4/4 F4/4 E4/4 | G4/4 F4/4 D4/4 Eb4/4",
+              "captionKey": "content.levelFive.units.imitationStudy.motifInversionCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelFive.units.imitationStudy.retrogradeTitle",
+          "bodyKey": "content.levelFive.units.imitationStudy.retrogradeBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 D4/4 F4/4 E4/4 | E4/4 F4/4 D4/4 C4/4",
+              "captionKey": "content.levelFive.units.imitationStudy.retrogradeCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "forms.l5.structure.article",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.advancedForms.unitTitle",
+      "skillIds": ["forms.l5.structure.s1", "forms.l5.structure.s2", "forms.l5.structure.s3"],
+      "sections": [
+        {
+          "headingKey": "content.levelFive.units.advancedForms.sectionIdentityTitle",
+          "bodyKey": "content.levelFive.units.advancedForms.sectionIdentityBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 D4/4 E4/4 G4/4 | D4/4 E4/4 F#4/4 A4/4 | C4/4 D4/4 E4/4 G4/4",
+              "captionKey": "content.levelFive.units.advancedForms.sectionIdentityCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelFive.units.advancedForms.rondoReturnTitle",
+          "bodyKey": "content.levelFive.units.advancedForms.rondoReturnBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/1 | D4/1 | C4/1 | E4/1 | C4/1",
+              "captionKey": "content.levelFive.units.advancedForms.rondoReturnCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelFive.units.advancedForms.variationIdentityTitle",
+          "bodyKey": "content.levelFive.units.advancedForms.variationIdentityBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/2 G4/2 | C4/4 D4/4 G4/2",
+              "captionKey": "content.levelFive.units.advancedForms.variationIdentityCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelFive.units.advancedForms.sonataFunctionTitle",
+          "bodyKey": "content.levelFive.units.advancedForms.sonataFunctionBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 A4/4 B4/4 D5/4 | C4/4 D4/4 E4/4 G4/4",
+              "captionKey": "content.levelFive.units.advancedForms.sonataFunctionCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "analysis.l5.methods.article",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.workAnalysis.unitTitle",
+      "skillIds": ["analysis.l5.methods.s1", "analysis.l5.methods.s2", "analysis.l5.methods.s3"],
+      "sections": [
+        {
+          "headingKey": "content.levelFive.units.workAnalysis.analyticalQuestionTitle",
+          "bodyKey": "content.levelFive.units.workAnalysis.analyticalQuestionBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 E4/4 G4/4 F4/4 | D4/4 F#4/4 A4/4 G4/4",
+              "captionKey": "content.levelFive.units.workAnalysis.analyticalQuestionCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelFive.units.workAnalysis.pitchEvidenceTitle",
+          "bodyKey": "content.levelFive.units.workAnalysis.pitchEvidenceBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 D4/4 F4/4 E4/4 | G4/4 F4/4 D4/4 Eb4/4",
+              "captionKey": "content.levelFive.units.workAnalysis.pitchEvidenceCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelFive.units.workAnalysis.reductionLimitsTitle",
+          "bodyKey": "content.levelFive.units.workAnalysis.reductionLimitsBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 E4/4 G4/4 C5/4 | G4/4 E4/4 C4/4 C4/4",
+              "captionKey": "content.levelFive.units.workAnalysis.reductionLimitsCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelFive.units.workAnalysis.analysisArgumentTitle",
+          "bodyKey": "content.levelFive.units.workAnalysis.analysisArgumentBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/1 | D4/1 | C4/1",
+              "captionKey": "content.levelFive.units.workAnalysis.analysisArgumentCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "contemporary.l5.serial.article",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.serialStudy.unitTitle",
+      "skillIds": [
+        "contemporary.l5.serial.s1",
+        "contemporary.l5.serial.s2",
+        "contemporary.l5.serial.s3"
+      ],
+      "sections": [
+        {
+          "headingKey": "content.levelFive.units.serialStudy.rowOrderTitle",
+          "bodyKey": "content.levelFive.units.serialStudy.rowOrderBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 C#4/4 E4/4 D4/4 | G4/4 F4/4 G#4/4 F#4/4 | B4/4 A4/4 D#4/4 A#4/4",
+              "captionKey": "content.levelFive.units.serialStudy.rowOrderCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelFive.units.serialStudy.rowOperationsTitle",
+          "bodyKey": "content.levelFive.units.serialStudy.rowOperationsBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 C#4/4 E4/4 D4/4 | D4/4 D#4/4 F#4/4 E4/4",
+              "captionKey": "content.levelFive.units.serialStudy.rowOperationsCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelFive.units.serialStudy.serialScopeTitle",
+          "bodyKey": "content.levelFive.units.serialStudy.serialScopeBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 C#4/4 E4/4 D4/4",
+              "captionKey": "content.levelFive.units.serialStudy.serialScopeCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelFive.units.serialStudy.rowContextTitle",
+          "bodyKey": "content.levelFive.units.serialStudy.rowContextBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | G4/4 F4/4 G#4/4 F#4/4",
+              "captionKey": "content.levelFive.units.serialStudy.rowContextCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "contemporary.l5.sets.article",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.setStudy.unitTitle",
+      "skillIds": ["contemporary.l5.sets.s1", "contemporary.l5.sets.s2", "contemporary.l5.sets.s3"],
+      "sections": [
+        {
+          "headingKey": "content.levelFive.units.setStudy.setIdentityTitle",
+          "bodyKey": "content.levelFive.units.setStudy.setIdentityBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 E4/4 G4/4 C5/4",
+              "captionKey": "content.levelFive.units.setStudy.setIdentityCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelFive.units.setStudy.intervalClassTitle",
+          "bodyKey": "content.levelFive.units.setStudy.intervalClassBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/2 G4/2",
+              "captionKey": "content.levelFive.units.setStudy.intervalClassCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelFive.units.setStudy.intervalVectorTitle",
+          "bodyKey": "content.levelFive.units.setStudy.intervalVectorBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 E4/4 G4/4 C5/4",
+              "captionKey": "content.levelFive.units.setStudy.intervalVectorCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelFive.units.setStudy.setLimitsTitle",
+          "bodyKey": "content.levelFive.units.setStudy.setLimitsBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 E4/4 G4/4 C5/4 | D4/4 F#4/4 A4/4 D5/4",
+              "captionKey": "content.levelFive.units.setStudy.setLimitsCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "contemporary.l5.process.article",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.processStudy.unitTitle",
+      "skillIds": [
+        "contemporary.l5.process.s1",
+        "contemporary.l5.process.s2",
+        "contemporary.l5.process.s3"
+      ],
+      "sections": [
+        {
+          "headingKey": "content.levelFive.units.processStudy.discretePhaseTitle",
+          "bodyKey": "content.levelFive.units.processStudy.discretePhaseBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 D4/4 F4/4 E4/4 | D4/4 F4/4 E4/4 C4/4",
+              "captionKey": "content.levelFive.units.processStudy.discretePhaseCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelFive.units.processStudy.additiveProcessTitle",
+          "bodyKey": "content.levelFive.units.processStudy.additiveProcessBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 D4/4 r/2 | C4/4 D4/4 F4/4 r/4",
+              "captionKey": "content.levelFive.units.processStudy.additiveProcessCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelFive.units.processStudy.electroacousticTitle",
+          "bodyKey": "content.levelFive.units.processStudy.electroacousticBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 r/4 C4/4 r/4",
+              "captionKey": "content.levelFive.units.processStudy.electroacousticCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelFive.units.processStudy.spectralModelTitle",
+          "bodyKey": "content.levelFive.units.processStudy.spectralModelBody",
+          "examples": [
+            {
+              "score": "bass | 4/4 | C3/4 C4/4 G4/4 C5/4",
+              "captionKey": "content.levelFive.units.processStudy.spectralModelCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "world.l5.context.article",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.worldStudy.unitTitle",
+      "skillIds": ["world.l5.context.s1", "world.l5.context.s2", "world.l5.context.s3"],
+      "sections": [
+        {
+          "headingKey": "content.levelFive.units.worldStudy.maqamContextTitle",
+          "bodyKey": "content.levelFive.units.worldStudy.maqamContextBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 D4/4 E4/4 F4/4",
+              "captionKey": "content.levelFive.units.worldStudy.maqamContextCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelFive.units.worldStudy.ragaContextTitle",
+          "bodyKey": "content.levelFive.units.worldStudy.ragaContextBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 D4/4 E4/4 G4/4",
+              "captionKey": "content.levelFive.units.worldStudy.ragaContextCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelFive.units.worldStudy.situatedSourceTitle",
+          "bodyKey": "content.levelFive.units.worldStudy.situatedSourceBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/2 G4/2",
+              "captionKey": "content.levelFive.units.worldStudy.situatedSourceCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.levelFive.units.worldStudy.modelBoundaryTitle",
+          "bodyKey": "content.levelFive.units.worldStudy.modelBoundaryBody",
+          "examples": [
+            {
+              "score": "treble | 4/4 | C4/4 C#4/4 D4/4 D#4/4",
+              "captionKey": "content.levelFive.units.worldStudy.modelBoundaryCaption"
+            }
+          ]
+        }
+      ]
     }
   ],
   "lessons": [
@@ -19293,7 +21320,7 @@
     },
     {
       "id": "satz.l4.writing.bass.lesson",
-      "contentVersion": 19,
+      "contentVersion": 23,
       "status": "entwurf",
       "titleKey": "content.partWriting.bass",
       "unitId": "satz.l4.writing",
@@ -19303,7 +21330,7 @@
     },
     {
       "id": "satz.l4.writing.soprano.lesson",
-      "contentVersion": 19,
+      "contentVersion": 23,
       "status": "entwurf",
       "titleKey": "content.partWriting.soprano",
       "unitId": "satz.l4.writing",
@@ -19313,7 +21340,7 @@
     },
     {
       "id": "satz.l4.writing.functions.lesson",
-      "contentVersion": 19,
+      "contentVersion": 23,
       "status": "entwurf",
       "titleKey": "content.partWriting.functions",
       "unitId": "satz.l4.writing",
@@ -19323,7 +21350,7 @@
     },
     {
       "id": "satz.l5.writing.bass.lesson",
-      "contentVersion": 19,
+      "contentVersion": 23,
       "status": "entwurf",
       "titleKey": "content.partWriting.bass",
       "unitId": "satz.l5.writing",
@@ -19333,7 +21360,7 @@
     },
     {
       "id": "satz.l5.writing.soprano.lesson",
-      "contentVersion": 19,
+      "contentVersion": 23,
       "status": "entwurf",
       "titleKey": "content.partWriting.soprano",
       "unitId": "satz.l5.writing",
@@ -19343,7 +21370,7 @@
     },
     {
       "id": "satz.l5.writing.functions.lesson",
-      "contentVersion": 19,
+      "contentVersion": 23,
       "status": "entwurf",
       "titleKey": "content.partWriting.functions",
       "unitId": "satz.l5.writing",
@@ -19352,44 +21379,456 @@
       "exerciseSetIds": ["satz.l5.writing.functions.exercises"]
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 27,
       "status": "entwurf",
       "id": "aural.l4.choir.soprano.lesson",
       "titleKey": "content.choir.soprano",
       "unitId": "aural.l4.choir",
       "skillIds": ["aural.l4.choir.soprano"],
       "introductionCardIds": ["aural.l4.choir.soprano.card"],
-      "exerciseSetIds": ["aural.l4.choir.soprano.exercises"]
+      "exerciseSetIds": ["aural.l4.choir.soprano.exercises"],
+      "minimumChoirCorrect": 1
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 27,
       "status": "entwurf",
       "id": "aural.l4.choir.alto.lesson",
       "titleKey": "content.choir.alto",
       "unitId": "aural.l4.choir",
       "skillIds": ["aural.l4.choir.alto"],
       "introductionCardIds": ["aural.l4.choir.alto.card"],
-      "exerciseSetIds": ["aural.l4.choir.alto.exercises"]
+      "exerciseSetIds": ["aural.l4.choir.alto.exercises"],
+      "minimumChoirCorrect": 1
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 27,
       "status": "entwurf",
       "id": "aural.l4.choir.tenor.lesson",
       "titleKey": "content.choir.tenor",
       "unitId": "aural.l4.choir",
       "skillIds": ["aural.l4.choir.tenor"],
       "introductionCardIds": ["aural.l4.choir.tenor.card"],
-      "exerciseSetIds": ["aural.l4.choir.tenor.exercises"]
+      "exerciseSetIds": ["aural.l4.choir.tenor.exercises"],
+      "minimumChoirCorrect": 1
     },
     {
-      "contentVersion": 20,
+      "contentVersion": 27,
       "status": "entwurf",
       "id": "aural.l4.choir.bass.lesson",
       "titleKey": "content.choir.bass",
       "unitId": "aural.l4.choir",
       "skillIds": ["aural.l4.choir.bass"],
       "introductionCardIds": ["aural.l4.choir.bass.card"],
-      "exerciseSetIds": ["aural.l4.choir.bass.exercises"]
+      "exerciseSetIds": ["aural.l4.choir.bass.exercises"],
+      "minimumChoirCorrect": 1
+    },
+    {
+      "id": "counterpoint.l5.species.lesson1",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.speciesBasics.lesson1",
+      "unitId": "counterpoint.l5.species",
+      "skillIds": [
+        "counterpoint.l5.species.s1",
+        "counterpoint.l5.species.s2",
+        "counterpoint.l5.species.s3"
+      ],
+      "introductionCardIds": [
+        "counterpoint.l5.species.card-oneagainstone",
+        "counterpoint.l5.species.card-speciesconsonance",
+        "counterpoint.l5.species.card-speciesmotion",
+        "counterpoint.l5.species.card-speciesclosure"
+      ],
+      "exerciseSetIds": ["counterpoint.l5.species.lesson1.exercises"]
+    },
+    {
+      "id": "counterpoint.l5.species.lesson2",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.speciesBasics.lesson2",
+      "unitId": "counterpoint.l5.species",
+      "skillIds": [
+        "counterpoint.l5.species.s1",
+        "counterpoint.l5.species.s2",
+        "counterpoint.l5.species.s3"
+      ],
+      "introductionCardIds": [
+        "counterpoint.l5.species.card-oneagainstone",
+        "counterpoint.l5.species.card-speciesconsonance",
+        "counterpoint.l5.species.card-speciesmotion",
+        "counterpoint.l5.species.card-speciesclosure"
+      ],
+      "exerciseSetIds": ["counterpoint.l5.species.lesson2.exercises"]
+    },
+    {
+      "id": "counterpoint.l5.species.lesson3",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.speciesBasics.lesson3",
+      "unitId": "counterpoint.l5.species",
+      "skillIds": [
+        "counterpoint.l5.species.s1",
+        "counterpoint.l5.species.s2",
+        "counterpoint.l5.species.s3"
+      ],
+      "introductionCardIds": [
+        "counterpoint.l5.species.card-oneagainstone",
+        "counterpoint.l5.species.card-speciesconsonance",
+        "counterpoint.l5.species.card-speciesmotion",
+        "counterpoint.l5.species.card-speciesclosure"
+      ],
+      "exerciseSetIds": ["counterpoint.l5.species.lesson3.exercises"]
+    },
+    {
+      "id": "counterpoint.l5.imitation.lesson1",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.imitationStudy.lesson1",
+      "unitId": "counterpoint.l5.imitation",
+      "skillIds": [
+        "counterpoint.l5.imitation.s1",
+        "counterpoint.l5.imitation.s2",
+        "counterpoint.l5.imitation.s3"
+      ],
+      "introductionCardIds": [
+        "counterpoint.l5.imitation.card-canonentry",
+        "counterpoint.l5.imitation.card-subjectanswer",
+        "counterpoint.l5.imitation.card-motifinversion",
+        "counterpoint.l5.imitation.card-retrograde"
+      ],
+      "exerciseSetIds": ["counterpoint.l5.imitation.lesson1.exercises"]
+    },
+    {
+      "id": "counterpoint.l5.imitation.lesson2",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.imitationStudy.lesson2",
+      "unitId": "counterpoint.l5.imitation",
+      "skillIds": [
+        "counterpoint.l5.imitation.s1",
+        "counterpoint.l5.imitation.s2",
+        "counterpoint.l5.imitation.s3"
+      ],
+      "introductionCardIds": [
+        "counterpoint.l5.imitation.card-canonentry",
+        "counterpoint.l5.imitation.card-subjectanswer",
+        "counterpoint.l5.imitation.card-motifinversion",
+        "counterpoint.l5.imitation.card-retrograde"
+      ],
+      "exerciseSetIds": ["counterpoint.l5.imitation.lesson2.exercises"]
+    },
+    {
+      "id": "counterpoint.l5.imitation.lesson3",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.imitationStudy.lesson3",
+      "unitId": "counterpoint.l5.imitation",
+      "skillIds": [
+        "counterpoint.l5.imitation.s1",
+        "counterpoint.l5.imitation.s2",
+        "counterpoint.l5.imitation.s3"
+      ],
+      "introductionCardIds": [
+        "counterpoint.l5.imitation.card-canonentry",
+        "counterpoint.l5.imitation.card-subjectanswer",
+        "counterpoint.l5.imitation.card-motifinversion",
+        "counterpoint.l5.imitation.card-retrograde"
+      ],
+      "exerciseSetIds": ["counterpoint.l5.imitation.lesson3.exercises"]
+    },
+    {
+      "id": "forms.l5.structure.lesson1",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.advancedForms.lesson1",
+      "unitId": "forms.l5.structure",
+      "skillIds": ["forms.l5.structure.s1", "forms.l5.structure.s2", "forms.l5.structure.s3"],
+      "introductionCardIds": [
+        "forms.l5.structure.card-sectionidentity",
+        "forms.l5.structure.card-rondoreturn",
+        "forms.l5.structure.card-variationidentity",
+        "forms.l5.structure.card-sonatafunction"
+      ],
+      "exerciseSetIds": ["forms.l5.structure.lesson1.exercises"]
+    },
+    {
+      "id": "forms.l5.structure.lesson2",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.advancedForms.lesson2",
+      "unitId": "forms.l5.structure",
+      "skillIds": ["forms.l5.structure.s1", "forms.l5.structure.s2", "forms.l5.structure.s3"],
+      "introductionCardIds": [
+        "forms.l5.structure.card-sectionidentity",
+        "forms.l5.structure.card-rondoreturn",
+        "forms.l5.structure.card-variationidentity",
+        "forms.l5.structure.card-sonatafunction"
+      ],
+      "exerciseSetIds": ["forms.l5.structure.lesson2.exercises"]
+    },
+    {
+      "id": "forms.l5.structure.lesson3",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.advancedForms.lesson3",
+      "unitId": "forms.l5.structure",
+      "skillIds": ["forms.l5.structure.s1", "forms.l5.structure.s2", "forms.l5.structure.s3"],
+      "introductionCardIds": [
+        "forms.l5.structure.card-sectionidentity",
+        "forms.l5.structure.card-rondoreturn",
+        "forms.l5.structure.card-variationidentity",
+        "forms.l5.structure.card-sonatafunction"
+      ],
+      "exerciseSetIds": ["forms.l5.structure.lesson3.exercises"]
+    },
+    {
+      "id": "analysis.l5.methods.lesson1",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.workAnalysis.lesson1",
+      "unitId": "analysis.l5.methods",
+      "skillIds": ["analysis.l5.methods.s1", "analysis.l5.methods.s2", "analysis.l5.methods.s3"],
+      "introductionCardIds": [
+        "analysis.l5.methods.card-analyticalquestion",
+        "analysis.l5.methods.card-pitchevidence",
+        "analysis.l5.methods.card-reductionlimits",
+        "analysis.l5.methods.card-analysisargument"
+      ],
+      "exerciseSetIds": ["analysis.l5.methods.lesson1.exercises"]
+    },
+    {
+      "id": "analysis.l5.methods.lesson2",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.workAnalysis.lesson2",
+      "unitId": "analysis.l5.methods",
+      "skillIds": ["analysis.l5.methods.s1", "analysis.l5.methods.s2", "analysis.l5.methods.s3"],
+      "introductionCardIds": [
+        "analysis.l5.methods.card-analyticalquestion",
+        "analysis.l5.methods.card-pitchevidence",
+        "analysis.l5.methods.card-reductionlimits",
+        "analysis.l5.methods.card-analysisargument"
+      ],
+      "exerciseSetIds": ["analysis.l5.methods.lesson2.exercises"]
+    },
+    {
+      "id": "analysis.l5.methods.lesson3",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.workAnalysis.lesson3",
+      "unitId": "analysis.l5.methods",
+      "skillIds": ["analysis.l5.methods.s1", "analysis.l5.methods.s2", "analysis.l5.methods.s3"],
+      "introductionCardIds": [
+        "analysis.l5.methods.card-analyticalquestion",
+        "analysis.l5.methods.card-pitchevidence",
+        "analysis.l5.methods.card-reductionlimits",
+        "analysis.l5.methods.card-analysisargument"
+      ],
+      "exerciseSetIds": ["analysis.l5.methods.lesson3.exercises"]
+    },
+    {
+      "id": "contemporary.l5.serial.lesson1",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.serialStudy.lesson1",
+      "unitId": "contemporary.l5.serial",
+      "skillIds": [
+        "contemporary.l5.serial.s1",
+        "contemporary.l5.serial.s2",
+        "contemporary.l5.serial.s3"
+      ],
+      "introductionCardIds": [
+        "contemporary.l5.serial.card-roworder",
+        "contemporary.l5.serial.card-rowoperations",
+        "contemporary.l5.serial.card-serialscope",
+        "contemporary.l5.serial.card-rowcontext"
+      ],
+      "exerciseSetIds": ["contemporary.l5.serial.lesson1.exercises"]
+    },
+    {
+      "id": "contemporary.l5.serial.lesson2",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.serialStudy.lesson2",
+      "unitId": "contemporary.l5.serial",
+      "skillIds": [
+        "contemporary.l5.serial.s1",
+        "contemporary.l5.serial.s2",
+        "contemporary.l5.serial.s3"
+      ],
+      "introductionCardIds": [
+        "contemporary.l5.serial.card-roworder",
+        "contemporary.l5.serial.card-rowoperations",
+        "contemporary.l5.serial.card-serialscope",
+        "contemporary.l5.serial.card-rowcontext"
+      ],
+      "exerciseSetIds": ["contemporary.l5.serial.lesson2.exercises"]
+    },
+    {
+      "id": "contemporary.l5.serial.lesson3",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.serialStudy.lesson3",
+      "unitId": "contemporary.l5.serial",
+      "skillIds": [
+        "contemporary.l5.serial.s1",
+        "contemporary.l5.serial.s2",
+        "contemporary.l5.serial.s3"
+      ],
+      "introductionCardIds": [
+        "contemporary.l5.serial.card-roworder",
+        "contemporary.l5.serial.card-rowoperations",
+        "contemporary.l5.serial.card-serialscope",
+        "contemporary.l5.serial.card-rowcontext"
+      ],
+      "exerciseSetIds": ["contemporary.l5.serial.lesson3.exercises"]
+    },
+    {
+      "id": "contemporary.l5.sets.lesson1",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.setStudy.lesson1",
+      "unitId": "contemporary.l5.sets",
+      "skillIds": ["contemporary.l5.sets.s1", "contemporary.l5.sets.s2", "contemporary.l5.sets.s3"],
+      "introductionCardIds": [
+        "contemporary.l5.sets.card-setidentity",
+        "contemporary.l5.sets.card-intervalclass",
+        "contemporary.l5.sets.card-intervalvector",
+        "contemporary.l5.sets.card-setlimits"
+      ],
+      "exerciseSetIds": ["contemporary.l5.sets.lesson1.exercises"]
+    },
+    {
+      "id": "contemporary.l5.sets.lesson2",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.setStudy.lesson2",
+      "unitId": "contemporary.l5.sets",
+      "skillIds": ["contemporary.l5.sets.s1", "contemporary.l5.sets.s2", "contemporary.l5.sets.s3"],
+      "introductionCardIds": [
+        "contemporary.l5.sets.card-setidentity",
+        "contemporary.l5.sets.card-intervalclass",
+        "contemporary.l5.sets.card-intervalvector",
+        "contemporary.l5.sets.card-setlimits"
+      ],
+      "exerciseSetIds": ["contemporary.l5.sets.lesson2.exercises"]
+    },
+    {
+      "id": "contemporary.l5.sets.lesson3",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.setStudy.lesson3",
+      "unitId": "contemporary.l5.sets",
+      "skillIds": ["contemporary.l5.sets.s1", "contemporary.l5.sets.s2", "contemporary.l5.sets.s3"],
+      "introductionCardIds": [
+        "contemporary.l5.sets.card-setidentity",
+        "contemporary.l5.sets.card-intervalclass",
+        "contemporary.l5.sets.card-intervalvector",
+        "contemporary.l5.sets.card-setlimits"
+      ],
+      "exerciseSetIds": ["contemporary.l5.sets.lesson3.exercises"]
+    },
+    {
+      "id": "contemporary.l5.process.lesson1",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.processStudy.lesson1",
+      "unitId": "contemporary.l5.process",
+      "skillIds": [
+        "contemporary.l5.process.s1",
+        "contemporary.l5.process.s2",
+        "contemporary.l5.process.s3"
+      ],
+      "introductionCardIds": [
+        "contemporary.l5.process.card-discretephase",
+        "contemporary.l5.process.card-additiveprocess",
+        "contemporary.l5.process.card-electroacoustic",
+        "contemporary.l5.process.card-spectralmodel"
+      ],
+      "exerciseSetIds": ["contemporary.l5.process.lesson1.exercises"]
+    },
+    {
+      "id": "contemporary.l5.process.lesson2",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.processStudy.lesson2",
+      "unitId": "contemporary.l5.process",
+      "skillIds": [
+        "contemporary.l5.process.s1",
+        "contemporary.l5.process.s2",
+        "contemporary.l5.process.s3"
+      ],
+      "introductionCardIds": [
+        "contemporary.l5.process.card-discretephase",
+        "contemporary.l5.process.card-additiveprocess",
+        "contemporary.l5.process.card-electroacoustic",
+        "contemporary.l5.process.card-spectralmodel"
+      ],
+      "exerciseSetIds": ["contemporary.l5.process.lesson2.exercises"]
+    },
+    {
+      "id": "contemporary.l5.process.lesson3",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.processStudy.lesson3",
+      "unitId": "contemporary.l5.process",
+      "skillIds": [
+        "contemporary.l5.process.s1",
+        "contemporary.l5.process.s2",
+        "contemporary.l5.process.s3"
+      ],
+      "introductionCardIds": [
+        "contemporary.l5.process.card-discretephase",
+        "contemporary.l5.process.card-additiveprocess",
+        "contemporary.l5.process.card-electroacoustic",
+        "contemporary.l5.process.card-spectralmodel"
+      ],
+      "exerciseSetIds": ["contemporary.l5.process.lesson3.exercises"]
+    },
+    {
+      "id": "world.l5.context.lesson1",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.worldStudy.lesson1",
+      "unitId": "world.l5.context",
+      "skillIds": ["world.l5.context.s1", "world.l5.context.s2", "world.l5.context.s3"],
+      "introductionCardIds": [
+        "world.l5.context.card-maqamcontext",
+        "world.l5.context.card-ragacontext",
+        "world.l5.context.card-situatedsource",
+        "world.l5.context.card-modelboundary"
+      ],
+      "exerciseSetIds": ["world.l5.context.lesson1.exercises"]
+    },
+    {
+      "id": "world.l5.context.lesson2",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.worldStudy.lesson2",
+      "unitId": "world.l5.context",
+      "skillIds": ["world.l5.context.s1", "world.l5.context.s2", "world.l5.context.s3"],
+      "introductionCardIds": [
+        "world.l5.context.card-maqamcontext",
+        "world.l5.context.card-ragacontext",
+        "world.l5.context.card-situatedsource",
+        "world.l5.context.card-modelboundary"
+      ],
+      "exerciseSetIds": ["world.l5.context.lesson2.exercises"]
+    },
+    {
+      "id": "world.l5.context.lesson3",
+      "contentVersion": 21,
+      "status": "entwurf",
+      "titleKey": "content.levelFive.units.worldStudy.lesson3",
+      "unitId": "world.l5.context",
+      "skillIds": ["world.l5.context.s1", "world.l5.context.s2", "world.l5.context.s3"],
+      "introductionCardIds": [
+        "world.l5.context.card-maqamcontext",
+        "world.l5.context.card-ragacontext",
+        "world.l5.context.card-situatedsource",
+        "world.l5.context.card-modelboundary"
+      ],
+      "exerciseSetIds": ["world.l5.context.lesson3.exercises"]
     }
   ]
 }

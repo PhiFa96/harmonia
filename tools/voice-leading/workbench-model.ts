@@ -1,6 +1,11 @@
 import { z } from 'zod';
 import { parseScore, formatScore, type Staff } from '../../packages/notation/src/index.ts';
-import { parseReportInput } from './report.ts';
+import { parseReportInput, reportRulesSchema } from './report.ts';
+import {
+  VOICE_LEADING_RULE_PHASE,
+  type VoiceLeadingRule,
+  type VoiceLeadingSeverity,
+} from '../../packages/theory/src/index.ts';
 
 export const PARTS = ['soprano', 'alto', 'tenor', 'bass'] as const;
 // Auch maximal lange, JSON-maskierte Feldwerte müssen wieder ladbar sein.
@@ -15,6 +20,35 @@ const draftSchema = z.strictObject({
   settings: z.string().max(30_000),
 });
 export type WorkbenchDraft = z.infer<typeof draftSchema>;
+export const WORKBENCH_RULES = Object.keys(VOICE_LEADING_RULE_PHASE) as VoiceLeadingRule[];
+const settingsSchema = z.strictObject({
+  rules: reportRulesSchema,
+  options: z.unknown().optional(),
+});
+
+/** Rule controls do not need valid notation or complete musical parameters. */
+export function parseWorkbenchSettings(text: string) {
+  const raw: unknown = JSON.parse(z.string().max(30_000).parse(text));
+  return settingsSchema.parse(raw);
+}
+
+/** Change one explicit rule atomically; preserve all other settings and reject oversized output. */
+export function setWorkbenchRule(
+  text: string,
+  rule: VoiceLeadingRule,
+  severity: VoiceLeadingSeverity | null,
+): string {
+  const configuration = parseWorkbenchSettings(text);
+  if (!Object.hasOwn(VOICE_LEADING_RULE_PHASE, rule)) throw new RangeError('Unknown rule');
+  if (configuration.rules[rule] === (severity ?? undefined)) return text;
+  const rules =
+    severity === null
+      ? Object.fromEntries(Object.entries(configuration.rules).filter(([key]) => key !== rule))
+      : { ...configuration.rules, [rule]: severity };
+  const updated = JSON.stringify({ ...configuration, rules }, null, 2);
+  parseWorkbenchSettings(updated);
+  return updated;
+}
 
 /** Unfertige Notation/JSON-Einstellungen bleiben als Entwurf speicherbar. */
 export function parseWorkbenchDraft(raw: unknown): WorkbenchDraft {

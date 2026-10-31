@@ -5,6 +5,7 @@ import { randomUUID } from 'node:crypto';
 import { DEFAULT_TUTOR_POLICY } from '../packages/content/src/index.ts';
 import { knowledgeQueries } from './knowledge-queries.ts';
 import { upperLevelKnowledgeQueries } from './knowledge-queries-v2.ts';
+import { levelFiveKnowledgeQueries } from './knowledge-queries-level-five.ts';
 import {
   currentKnowledgeSnapshot,
   selectKnowledgeChunks,
@@ -109,7 +110,7 @@ try {
   const failures = [],
     durations = [];
   const questions = upperLevel
-    ? upperLevelKnowledgeQueries.flatMap((query) => [
+    ? [...upperLevelKnowledgeQueries, ...levelFiveKnowledgeQueries].flatMap((query) => [
         { article: query.article, de: query.de, us: query.us, uk: query.uk },
         {
           article: query.article,

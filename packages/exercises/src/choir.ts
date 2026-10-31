@@ -1,6 +1,14 @@
 import { parseScore } from '@harmonia/notation';
 import type { Score } from '@harmonia/notation';
-import { formatPitch, midi, parsePitch } from '@harmonia/theory';
+import {
+  formatNoteName,
+  formatPitch,
+  keyFromFifths,
+  midi,
+  parseInterval,
+  parsePitch,
+  transposeBy,
+} from '@harmonia/theory';
 import type { Pitch, Rng, Voice } from '@harmonia/theory';
 import type { Evaluation } from './types.ts';
 import { SATB_VOICES } from './voice-leading.ts';
@@ -8,6 +16,8 @@ import { SATB_VOICES } from './voice-leading.ts';
 export interface ChoirParams {
   readonly voice: Voice;
   readonly piece: 'home' | 'arch';
+  /** Explicit initial key; review tasks use another of these bounded transpositions. */
+  readonly fifths?: -2 | 0 | 2;
 }
 export interface ChoirItem {
   readonly type: 'CHOIR_PART';
@@ -34,9 +44,10 @@ const PIECES = {
     bass: 'C3 C3 F3 C3 G2 G2 C3 C3',
   },
 } as const;
-export function choirScore(item: Pick<ChoirItem, 'parts'>, solo?: Voice): Score {
+export function choirScore(item: Pick<ChoirItem, 'parts' | 'params'>, solo?: Voice): Score {
+  const key = formatNoteName(keyFromFifths(item.params.fifths ?? 0).tonic);
   const staff = (clef: string, voices: readonly Voice[]) =>
-    `${clef} | key:C | 4/4 | ` +
+    `${clef} | key:${key} | 4/4 | ` +
     Array.from({ length: 4 }, (_, bar) =>
       voices
         .map((voice) =>
@@ -54,10 +65,22 @@ export function choirScore(item: Pick<ChoirItem, 'parts'>, solo?: Voice): Score 
   );
 }
 export function generateChoir(params: ChoirParams, rng: Rng): ChoirItem {
-  if (!SATB_VOICES.includes(params.voice) || !Object.hasOwn(PIECES, params.piece))
+  if (
+    !SATB_VOICES.includes(params.voice) ||
+    !Object.hasOwn(PIECES, params.piece) ||
+    (params.fifths !== undefined && ![-2, 0, 2].includes(params.fifths))
+  )
     throw new RangeError('Choir parameters');
+  const transposition = parseInterval(
+    params.fifths === -2 ? '-M2' : params.fifths === 2 ? 'M2' : 'P1',
+  );
   const parts = Object.fromEntries(
-    SATB_VOICES.map((v) => [v, PIECES[params.piece][v].split(' ').map(parsePitch)]),
+    SATB_VOICES.map((v) => [
+      v,
+      PIECES[params.piece][v]
+        .split(' ')
+        .map((name) => transposeBy(parsePitch(name), transposition)),
+    ]),
   ) as unknown as ChoirItem['parts'];
   return {
     type: 'CHOIR_PART',
@@ -65,7 +88,7 @@ export function generateChoir(params: ChoirParams, rng: Rng): ChoirItem {
     params,
     parts,
     bpm: rng.pick([60, 72, 80]),
-    score: choirScore({ parts }),
+    score: choirScore({ parts, params }),
     choices: [],
     clef: params.voice === 'bass' || params.voice === 'tenor' ? 'bass' : 'treble',
   };
@@ -86,6 +109,17 @@ export function choirEvents(item: ChoirItem, mode: 'backing' | 'all' | 'solo') {
 }
 /** Twelve equally spaced bins over the central 70% of each note. No raw audio is retained. */
 export const CHOIR_BINS = 12;
+/** Exclusive: exactly halfway to the neighbouring semitone belongs to neither note. */
+const CHOIR_TOLERANCE_CENTS = 50;
+const inTolerance = (deviation: number) => Math.abs(deviation) < CHOIR_TOLERANCE_CENTS;
+/** Whole-take octave correction, e.g. a child singing the bass part two octaves higher. */
+const CHOIR_MAX_OCTAVE_SHIFT = 2;
+export interface ChoirWindowAssessment {
+  readonly index: number;
+  /** After the same whole-take octave correction used in grading. */
+  readonly deviation: number | null;
+  readonly status: 'missing' | 'in-tune' | 'low' | 'high';
+}
 export type ChoirSamples = readonly (readonly (number | null)[])[];
 export function choirAnswerId(samples: ChoirSamples): string {
   return `choir:${JSON.stringify(samples)}`;
@@ -131,15 +165,32 @@ export function assessChoir(item: ChoirItem, answer: string | null) {
     samples?.flatMap((row, i) =>
       row.filter((n): n is number => n !== null).map((n) => n - (targets[i] ?? 0)),
     ) ?? [];
-  const octaveShift = Math.round(median(differences) / 1200);
+  const octaveShift = Math.max(
+    -CHOIR_MAX_OCTAVE_SHIFT,
+    Math.min(CHOIR_MAX_OCTAVE_SHIFT, Math.round(median(differences) / 1200)),
+  );
   const notes = targets.map((target, index) => {
     const values = (samples?.[index] ?? []).filter((n): n is number => n !== null);
-    const inTune = values.filter((n) => Math.abs(n - target - octaveShift * 1200) <= 50).length;
+    const inTune = values.filter((n) => inTolerance(n - target - octaveShift * 1200)).length;
+    const windows = Array.from({ length: CHOIR_BINS }, (_, bin): ChoirWindowAssessment => {
+      const value = samples?.[index]?.[bin];
+      if (value === undefined || value === null)
+        return { index: bin, deviation: null, status: 'missing' };
+      const deviation = value - target - octaveShift * 1200;
+      return {
+        index: bin,
+        deviation,
+        status: inTolerance(deviation) ? 'in-tune' : deviation < 0 ? 'low' : 'high',
+      };
+    });
     return {
       index,
       coverage: values.length / CHOIR_BINS,
       deviation: values.length ? median(values) - target - octaveShift * 1200 : null,
       passed: values.length >= 8 && inTune / values.length >= 0.75,
+      detectedWindows: values.length,
+      matchingWindows: inTune,
+      windows,
     };
   });
   return {
@@ -149,6 +200,7 @@ export function assessChoir(item: ChoirItem, answer: string | null) {
     passed: !!samples && notes.every((n) => n.passed),
   };
 }
+export type ChoirNoteAssessment = ReturnType<typeof assessChoir>['notes'][number];
 export function evaluateChoir(item: ChoirItem, answer: string): Evaluation {
   const report = assessChoir(item, answer);
   return {
@@ -164,24 +216,28 @@ export function createChoirCollector(item: ChoirItem) {
   const bins = item.parts[item.params.voice].map(() =>
     Array.from({ length: CHOIR_BINS }, () => [] as number[]),
   );
+  const received = bins.map((row) => row.map(() => false));
   return {
     add(seconds: number, pitchCents: number | null) {
+      if (!Number.isFinite(seconds) || seconds < 0) return;
+      const index = Math.floor(seconds / duration),
+        fraction = seconds / duration - index;
+      if (fraction < 0.15 || fraction >= 0.85) return;
+      const slot = Math.floor(((fraction - 0.15) / 0.7) * CHOIR_BINS);
+      const row = received[index];
+      if (row && slot >= 0 && slot < row.length) row[slot] = true;
       if (
-        !Number.isFinite(seconds) ||
-        seconds < 0 ||
         pitchCents === null ||
         !Number.isFinite(pitchCents) ||
         pitchCents < 2100 ||
         pitchCents > 10800
       )
         return;
-      const index = Math.floor(seconds / duration),
-        fraction = seconds / duration - index;
-      if (fraction < 0.15 || fraction >= 0.85) return;
-      const bin = bins[index]?.[Math.floor(((fraction - 0.15) / 0.7) * CHOIR_BINS)];
+      const bin = bins[index]?.[slot];
       // Bounded memory; many callbacks cannot manufacture more temporal coverage.
       if (bin && bin.length < 8) bin.push(Math.round(pitchCents));
     },
+    inputComplete: () => received.every((row) => row.every(Boolean)),
     answer: () =>
       choirAnswerId(bins.map((row) => row.map((bin) => (bin.length ? median(bin) : null)))),
   };

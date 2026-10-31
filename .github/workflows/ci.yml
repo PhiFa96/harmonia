@@ -56,6 +56,12 @@ jobs:
           NODE_OPTIONS: --max-old-space-size=4096
         run: pnpm exec jest --runInBand
 
+      - name: KI-Verordnungsinventar und Codebindung prüfen
+        run: pnpm check:ai
+
+      - name: Zertifikatsentwurf, Quellenbindung und offene Freigaben prüfen
+        run: pnpm check:certificates
+
       - name: Rechtliche Freigabefelder und geschlossene Vorbereitung prüfen
         run: pnpm check:legal
 
@@ -121,7 +127,8 @@ jobs:
   web:
     name: Web-Build der App
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # Chromium installation took ten minutes in run 210; retain time for the complete suite.
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
 
@@ -147,6 +154,20 @@ jobs:
       - name: Lokale Satzwerkstatt mit eigenen Entwürfen prüfen
         run: pnpm voice-leading:test:web
 
+      - name: Internes Schul-Dashboard mit isoliertem PostgreSQL prüfen
+        run: pnpm school:test:web
+
+      - name: Synthetische Schul-Dashboard-Prüfungen aufbewahren
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: school-draft-fixtures
+          path: artifacts/quality/school
+          if-no-files-found: ignore
+          retention-days: 7
+      - name: Internen Zertifikats-Prototyp mit eigenem lokalem Server prüfen
+        run: pnpm certificates:test:web
+
       - name: Privaten Beta-Zugang und Testhinweise mit eigenen Fixtures prüfen
         env:
           HARMONIA_QA_OUTPUT: artifacts/quality/beta-playwright
@@ -158,6 +179,15 @@ jobs:
         with:
           name: web-quality-fixtures
           path: artifacts/quality/playwright
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: Synthetische Zertifikatsprüfungen und Muster-PDFs aufbewahren
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: certificate-draft-fixtures
+          path: artifacts/quality/certificates
           if-no-files-found: ignore
           retention-days: 7
 
@@ -180,6 +210,21 @@ jobs:
 
       - name: Tatsächlichen Export auf Entwurfsdaten, Texte und Größenbudgets prüfen
         run: pnpm check:content:bundle && pnpm qa:bundle
+
+      - name: Öffentliche Zeitreise und Chor-Route verweigern Entwürfe in DE und EN
+        env:
+          HARMONIA_QA_VARIANT: production
+          HARMONIA_QA_OUTPUT: artifacts/quality/drafts-production
+        run: pnpm qa:web e2e/web/history-journey.spec.mjs e2e/web/choir-production.spec.mjs
+
+      - name: Öffentliche Entwurfsprüfungen aufbewahren
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: drafts-production-fixtures
+          path: artifacts/quality/drafts-production
+          if-no-files-found: ignore
+          retention-days: 7
 
   deno:
     name: Deno-Kompatibilität
@@ -212,7 +257,7 @@ jobs:
           deno check --config tools/deno.json tools/knowledge-smoke.ts
           deno run --config tools/deno.json --allow-env=ANTHROPIC_CUSTOM_HEADERS tools/knowledge-smoke.ts
 
-      - name: Artikel der Stufen 3–4 und Suchfragen-Abdeckung prüfen
+      - name: Artikel der Stufen 3–5 und Suchfragen-Abdeckung prüfen
         run: |
           deno check --config tools/deno.json tools/knowledge-v2-smoke.ts
           deno run --config tools/deno.json tools/knowledge-v2-smoke.ts
@@ -224,8 +269,11 @@ jobs:
     env:
       SUPABASE_TELEMETRY_DISABLED: '1'
       SUPABASE_NO_UPDATE_NOTIFIER: '1'
-      SUPABASE_INTERNAL_IMAGE_REGISTRY: docker.io
-      SUPABASE_USE_SLIM_IMAGES: '1'
+      # A nonempty override disables the pinned CLI's official registry fallbacks.
+      SUPABASE_INTERNAL_IMAGE_REGISTRY: ''
+      # The pinned start path gives slim GHCR refs no registry fallback.
+      # Standard images use the CLI's ECR -> GHCR -> Docker Hub candidates.
+      SUPABASE_USE_SLIM_IMAGES: '0'
     steps:
       - uses: actions/checkout@v7
 
@@ -255,6 +303,9 @@ jobs:
 
       - name: pgTAP-Zugriffstests
         run: pnpm db:test
+
+      - name: Internes Schulmodell mit pgTAP und echten HTTP-/DB-Tests prüfen
+        run: pnpm school:test:db --supabase && pnpm school:test
 
       - name: Auth- und REST-API mit zwei Konten prüfen
         run: pnpm db:test:api
@@ -309,7 +360,7 @@ jobs:
       - name: Volltextsuche, Quellenrückzug, Zitate und Konto-Zugriff lokal prüfen
         run: pnpm db:test:knowledge
 
-      - name: Trigramm-Suche mit 150 Fragen zu den Artikeln der Stufen 3–4 lokal prüfen
+      - name: Trigramm-Suche mit 198 Fragen zu den Artikeln der Stufen 3–5 lokal prüfen
         run: pnpm db:test:knowledge:v2
 
       - name: Abo-Webhooks, Konto-Isolation und ersetzten RevenueCat-Kontostand prüfen

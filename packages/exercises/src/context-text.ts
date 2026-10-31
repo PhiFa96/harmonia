@@ -14,6 +14,7 @@ import {
 } from '@harmonia/theory';
 import type { ContextItem } from './context.ts';
 import { contextAnswer } from './context.ts';
+import { counterpointContextFindings } from './advanced-context.ts';
 const engines = new Map<string, ReturnType<typeof createI18n>>();
 function t(
   locale: TextLocale,
@@ -43,6 +44,17 @@ export function contextValues(
   const source = item.source;
   if (source.kind === 'score')
     return {
+      findings:
+        item.topic === 'counterpoint-check'
+          ? counterpointContextFindings(source.score)
+              .map((finding) =>
+                t(locale, 'exercise.counterpointFinding', {
+                  measure: finding.at + 1,
+                  rule: t(locale, `exercise.counterpointRule_${finding.rule}`),
+                }),
+              )
+              .join(' ') || t(locale, 'exercise.counterpointNoFinding')
+          : '',
       target: (source.target ?? 0) + 1,
       focus: source.focus
         ? named(
@@ -96,6 +108,20 @@ export function contextChoiceLabel(item: ContextItem, answer: string, locale: Te
     kind = parts[0],
     value = parts[1] ?? '';
   if (kind === 'pitch') return named(value, locale);
+  if (kind === 'transform' && ['T', 'I', 'R', 'RI'].includes(value))
+    return t(locale, `exercise.analysisTransform_${value as 'T' | 'I' | 'R' | 'RI'}`);
+  if (kind === 'motion' && ['contrary', 'similar', 'oblique', 'static'].includes(value))
+    return t(
+      locale,
+      `exercise.analysisMotion_${value as 'contrary' | 'similar' | 'oblique' | 'static'}`,
+    );
+  if (kind === 'cardinality')
+    return t(locale, 'exercise.analysisCardinality', { count: Number(value) });
+  if (kind === 'vector')
+    return t(locale, 'exercise.analysisVector', { vector: value.replaceAll(',', ', ') });
+  if (kind === 'sections')
+    return t(locale, 'exercise.analysisSections', { sections: Array.from(value).join('–') });
+  if (kind === 'rotation') return t(locale, 'exercise.analysisRotation', { count: Number(value) });
   if (kind === 'note')
     return pitchName(
       { ...parseNoteName(value), octave: 4 },

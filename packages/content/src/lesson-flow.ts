@@ -36,10 +36,15 @@ function repetitionSources(catalogue: ContentCatalogue, id: string) {
   };
   record.skillIds.forEach(visit);
   const siblings = catalogue.lessons.filter((l) => l.unitId === record.unitId);
-  const earlier = siblings.slice(
-    0,
-    siblings.findIndex((l) => l.id === id),
-  );
+  // Independent choices must not import another, potentially unopened alternative as repetition.
+  const independent =
+    catalogue.units.find((unit) => unit.id === record.unitId)?.lessonOrder === 'independent';
+  const earlier = independent
+    ? []
+    : siblings.slice(
+        0,
+        siblings.findIndex((l) => l.id === id),
+      );
   return catalogue.lessons.filter(
     (l) => l.id !== id && (earlier.includes(l) || l.skillIds.every((s) => prerequisites.has(s))),
   );
@@ -93,6 +98,13 @@ function fixedLessonPlan(catalogue: ContentCatalogue, id: string) {
       }
     }
   });
+  // New choir versions include every advertised repetition. Preserve historical plans elsewhere.
+  if (content.minimumChoirCorrect)
+    for (const entry of repeats.slice(repeat)) {
+      repetitionIndices.push(exercises.length);
+      exercises.push(entry.spec);
+      exerciseSources.push(entry.origin);
+    }
   const planKey = JSON.stringify([
     'flow:1',
     content.id,
@@ -175,6 +187,7 @@ export function lessonPlan(catalogue: ContentCatalogue, id: string, key?: string
       return {
         ...first,
         id,
+        minimumChoirCorrect: undefined,
         contentVersion: catalogue.contentVersion,
         introduction: [],
         exercises: exerciseSources.map((source) => source.spec),
@@ -220,6 +233,12 @@ export function lessonPlan(catalogue: ContentCatalogue, id: string, key?: string
         }
       }
     });
+    if (fixed.minimumChoirCorrect)
+      for (const source of repeats.slice(repeat)) {
+        if (!source) throw new Error('Missing repetition source');
+        repetitionIndices.push(exerciseSources.length);
+        exerciseSources.push(source);
+      }
     return {
       ...fixed,
       planKey: key,

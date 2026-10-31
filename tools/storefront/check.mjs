@@ -1,3 +1,4 @@
+import { aiActReleaseProblems } from '../ai-act/model.mjs';
 import { readFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { catalog, readiness, validateCatalog, validateConfig, releaseProblems } from './model.mjs';
@@ -20,6 +21,7 @@ export function actualReleaseProblems(target, media = null, config = readiness) 
       JSON.parse(readFileSync(new URL('../qa/device-readiness.json', import.meta.url), 'utf8')),
     ),
   });
+  missing.push(...aiActReleaseProblems().map((p) => 'aiAct.' + p));
   const published = JSON.parse(
     readFileSync(new URL('../../packages/content/src/published.json', import.meta.url), 'utf8'),
   );

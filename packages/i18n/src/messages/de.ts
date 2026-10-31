@@ -1,3 +1,4 @@
+import levelFiveExercise from './level-five-exercise.json' with { type: 'json' };
 import choirExercise from './choir-exercise.json' with { type: 'json' };
 import partWritingExercise from './part-writing-exercise.json' with { type: 'json' };
 import { contentMessages } from '@harmonia/i18n/content-messages';
@@ -13,11 +14,14 @@ export const de = {
       'Vier Stationen mit Quellen, eigenen Klangmodellen und Fragen. Dies ist eine interne Vorschau.',
     draft: 'Inhaltlicher Entwurf: noch nicht fachlich freigegeben.',
     fictional:
-      'KI-Fiktion als redaktionelles Rollenspiel: Diese Person und ihre Aussagen sind erfunden. Kein Live-Gespräch.',
+      'Redaktionelles Rollenspiel: Diese Person und ihre Aussagen sind erfunden. Der Dialog ist fest geschrieben.',
     source: 'Quellenabschnitt lesen',
     sourceError: 'Der Quellenabschnitt ist momentan nicht verfügbar.',
     scene: 'Szene',
     interview: 'Fiktives Interview',
+    interviewChoose:
+      'Stelle der erfundenen Rolle mindestens eine Frage. Weitere Fragen sind freiwillig.',
+    interviewProgress: 'Fragen gestellt: {{count}} / {{total}}',
     knowledge: 'Wissensfrage',
     listening: 'Hörfrage',
     play: 'Klangmodell abspielen',
@@ -1080,6 +1084,7 @@ export const de = {
     ...partWritingExercise.de,
     ...levelThreeExercise.de,
     ...levelFourExercise.de,
+    ...levelFiveExercise.de,
     type_SIGHT_SING: 'Vom Blatt singen',
     type_SING_INTERVAL: 'Intervall singen',
     type_PLAY_BACK: 'Melodie nachsingen',
@@ -2310,6 +2315,15 @@ export const de = {
     testedHint:
       'Durch deine Einstufung zugänglich. Die Lektionen kannst du jederzeit üben; sie zählen erst nach einem bestandenen Versuch als bestanden.',
     prerequisite: 'Voraussetzung: {{title}}',
+    choirRule:
+      'Für den Chorabschluss brauchst du mindestens {{percent}} % anrechenbare richtige Erstversuchsantworten und mindestens eine im Erstversuch bestandene Gesangsaufgabe ohne angezeigte Lösung. Hinweise sind erlaubt. Mikrofonaufgaben kannst du weiter überspringen.',
+    choirRequiredResult:
+      'Noch nicht bestanden: {{correct}} von {{total}} Aufgaben zählen. Für den Chorabschluss fehlt eine im Erstversuch bestandene Gesangsaufgabe ohne angezeigte Lösung. Zusätzlich gilt die {{percent}}-%-Regel.',
+    choirProgress: 'Anrechenbar bestandene Gesangsaufgaben im Erstversuch: {{count}}.',
+    independentLessons:
+      'Wähle eine freigeschaltete Lektion. Du musst die anderen Lektionen dieser Einheit dafür nicht bestehen. Die noch fehlenden Voraussetzungen stehen bei der jeweiligen Lektion.',
+    independentLessonLocked:
+      'Diese Lektion ist noch gesperrt. Bestehe zuerst ihre Voraussetzungen im Lernpfad. Die anderen Lektionen dieser Einheit musst du dafür nicht bestehen.',
     showLessons: 'Lektionen anzeigen',
     hideLessons: 'Lektionen ausblenden',
     showNamed: 'Lektionen in {{title}} anzeigen',

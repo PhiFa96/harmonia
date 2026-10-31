@@ -15,8 +15,11 @@ import {
   PRACTICE_CONTENT_VERSION,
   expectedAnswer,
   createLessonSession,
+  lessonReviewItem,
   satbAnswerId,
+  isAuralExercise,
 } from '../packages/exercises/src/index.ts';
+import type { ExerciseItem } from '../packages/exercises/src/index.ts';
 import {
   TUTOR_TOOLS,
   toolsForTutorContext,
@@ -383,6 +386,62 @@ check(
   'answer' in wrong && wrong.answer === null && !JSON.stringify(wrong).includes('untrusted-wrong'),
   'Invalid free-text answers stay out of the trusted task block',
 );
+function checkTaskPolicy(
+  item: ExerciseItem,
+  source: NonNullable<TutorRequest['context']>['source'],
+  locale: TutorRequest['locale'],
+  checkedContext: unknown,
+) {
+  const answer = expectedAnswer(item);
+  equal(
+    exerciseContext(catalogue, {
+      ...request,
+      locale,
+      mode: 'explain',
+      context: { source, answer, checked: false },
+    }),
+    checkedContext,
+    'Explain ignores the legacy client flag: ' + item.type + ' ' + locale,
+  );
+  for (const mode of ['hint', 'chat'] as const) {
+    const input: TutorRequest = {
+      ...request,
+      locale,
+      mode,
+      hintLevel: mode === 'hint' ? 2 : null,
+      context: { source, answer, checked: false },
+    };
+    const safe = exerciseContext(catalogue, input);
+    equal(
+      exerciseContext(catalogue, { ...input, context: { source, answer, checked: true } }),
+      safe,
+      'Untrusted checked flag cannot change ' + mode + ' context: ' + item.type + ' ' + locale,
+    );
+    check(
+      !('answer' in safe) &&
+        !('solution' in safe) &&
+        !('evaluation' in safe) &&
+        !('feedback' in safe),
+      'No grading fields in ' + mode + ': ' + item.type,
+    );
+    if (isAuralExercise(item) && item.type !== 'RHYTHM_TAP' && item.type !== 'LISTENING_CHOICE')
+      check(
+        'description' in safe && safe.description === null,
+        'Aural source stays hidden in ' + mode + ': ' + item.type,
+      );
+    if (item.type === 'VOICE_LEADING') {
+      check(
+        !toolsForTutorContext(safe).some((tool) => tool.name === 'check_voice_leading'),
+        'No SATB tool advertised in ' + mode,
+      );
+      check(
+        !executeTutorTool('check_voice_leading', {}, input, checkedContext).ok,
+        'Even a graded context cannot activate the SATB tool in ' + mode,
+      );
+    }
+  }
+}
+
 const seenTypes = new Set<string>();
 for (const entry of catalogue.lessons) {
   const lesson = resolveLesson(catalogue, entry.id);
@@ -412,6 +471,7 @@ for (const entry of catalogue.lessons) {
           checked.feedback.message.length > 0,
         'Checked context ' + item.type + ' ' + locale,
       );
+      checkTaskPolicy(item, source, locale, checked);
       const hint = exerciseContext(catalogue, {
         ...request,
         locale,
@@ -459,6 +519,7 @@ for (const set of PRACTICE_SETS.filter((value) => value !== 'harmony')) {
           checked.feedback.message.length > 0,
         'Free checked context ' + item.type + ' ' + locale,
       );
+      checkTaskPolicy(item, source, locale, checked);
       const hint = exerciseContext(catalogue, {
         ...request,
         locale,
@@ -626,8 +687,124 @@ check(
   'Cancellation after API admission is accounted',
 );
 
+// P4.11: the server reconstructs the actual transposed initial/review targets.
+{
+  for (const entry of catalogue.lessons.filter((lesson) =>
+    lesson.id.startsWith('aural.l4.choir.'),
+  )) {
+    const lesson = resolveLesson(catalogue, entry.id);
+    if (!lesson) throw new Error('Choir lesson missing');
+    const seed = 'choir-transposed-tutor';
+    const initial = createLessonSession(lesson, seed).initial.items;
+    for (const index of [0, 1])
+      for (const round of ['initial', 'review'] as const) {
+        const item = round === 'initial' ? initial[index] : lessonReviewItem(lesson, seed, index);
+        if (item?.type !== 'CHOIR_PART') throw new Error('Choir task missing');
+        const source = {
+          kind: 'lesson' as const,
+          lessonId: lesson.id,
+          contentVersion: 27,
+          seed,
+          round,
+          index,
+        };
+        for (const locale of ['de', 'en-US', 'en-GB'] as const) {
+          const bound: TutorRequest = {
+            ...request,
+            locale,
+            mode: 'explain',
+            context: { source, answer: expectedAnswer(item), checked: false },
+          };
+          const context = exerciseContext(catalogue, bound);
+          check(
+            'evaluation' in context && context.evaluation.correct,
+            'Choir tutor grades the transposed source',
+          );
+          check(
+            'solution' in context && context.solution === expectedAnswer(item),
+            'Choir tutor retains actual transposed targets',
+          );
+          check(
+            'choir' in context &&
+              context.choir.notes.every(
+                (note) => Object.keys(note).sort().join() === 'coverage,deviation,index,passed',
+              ),
+            'Choir tutor keeps the brief note summary without local window details',
+          );
+          for (const contentVersion of [20, 24, 25, 26]) {
+            let rejected = false;
+            try {
+              exerciseContext(catalogue, {
+                ...bound,
+                context: {
+                  answer: expectedAnswer(item),
+                  checked: false,
+                  source: { ...source, contentVersion },
+                },
+              });
+            } catch {
+              rejected = true;
+            }
+            check(rejected, 'Choir tutor rejects superseded task sources');
+          }
+        }
+      }
+  }
+}
+
 // P4.10: only the reconstructed checked task is available to the draft tool.
 {
+  for (const record of catalogue.lessons.filter((entry) => entry.id.includes('.writing.'))) {
+    const lesson = resolveLesson(catalogue, record.id);
+    if (!lesson) throw new Error('SATB lesson missing');
+    const seed = 'satb-key-source';
+    const initial = createLessonSession(lesson, seed).initial.items;
+    for (const index of [0, 1, 2]) {
+      for (const round of ['initial', 'review'] as const) {
+        const item = round === 'initial' ? initial[index] : lessonReviewItem(lesson, seed, index);
+        if (item?.type !== 'VOICE_LEADING') throw new Error('SATB source task missing');
+        const source = {
+          kind: 'lesson' as const,
+          lessonId: lesson.id,
+          contentVersion: lesson.contentVersion,
+          seed,
+          round,
+          index,
+        };
+        const boundRequest: TutorRequest = {
+          ...request,
+          mode: 'explain',
+          context: { source, answer: expectedAnswer(item), checked: false },
+        };
+        const context = exerciseContext(catalogue, boundRequest);
+        const output = executeTutorTool('check_voice_leading', {}, boundRequest, context);
+        check(
+          output.ok && JSON.stringify(output).includes('"passed":true'),
+          `SATB tutor reconstructs ${lesson.id}/${round}/${String(index)}`,
+        );
+        check(
+          JSON.stringify(output).includes(JSON.stringify(expectedAnswer(item))),
+          'SATB tutor uses the same key and pitches as the task',
+        );
+        for (const contentVersion of [19, 22]) {
+          let staleRejected = false;
+          try {
+            exerciseContext(catalogue, {
+              ...boundRequest,
+              context: {
+                source: { ...source, contentVersion },
+                answer: expectedAnswer(item),
+                checked: true,
+              },
+            });
+          } catch {
+            staleRejected = true;
+          }
+          check(staleRejected, 'SATB tutor rejects the superseded task version');
+        }
+      }
+    }
+  }
   const lesson = resolveLesson(catalogue, 'satz.l5.writing.bass.lesson');
   check(!!lesson, 'SATB draft lesson exists');
   if (!lesson) throw new Error('SATB draft lesson missing');

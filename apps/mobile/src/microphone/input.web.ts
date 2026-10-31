@@ -27,17 +27,41 @@ export async function startMicrophone(
   let source: MediaStreamAudioSourceNode | null = null;
   let timer: ReturnType<typeof setInterval> | null = null;
   let stopped = false;
-  const stop = async () => {
+  let closing: Promise<void> | undefined;
+  let track: MediaStreamTrack | undefined;
+  let received = false;
+  const interrupted = () => {
     if (stopped) return;
+    void stop().catch(() => undefined);
+    onError('interrupted');
+  };
+  const muted = () => {
+    if (received) interrupted();
+  };
+  const stateChanged = () => {
+    if (context?.state !== 'running') interrupted();
+  };
+  const stop = () => {
+    if (closing) return closing;
     stopped = true;
     if (timer) clearInterval(timer);
-    source?.disconnect();
-    for (const track of stream.getTracks()) track.stop();
-    if (context) await context.close();
+    track?.removeEventListener('ended', interrupted);
+    track?.removeEventListener('mute', muted);
+    context?.removeEventListener('statechange', stateChanged);
+    closing = (async () => {
+      try {
+        source?.disconnect();
+      } finally {
+        for (const track of stream.getTracks()) track.stop();
+        if (context) await context.close();
+      }
+    })();
+    return closing;
   };
   try {
     context = new AudioContext();
-    if (stream.getAudioTracks().length === 0) throw new MicrophoneError('unavailable');
+    track = stream.getAudioTracks()[0];
+    if (!track || track.readyState === 'ended') throw new MicrophoneError('unavailable');
     source = context.createMediaStreamSource(stream);
     const analyser = context.createAnalyser();
     analyser.fftSize = PITCH_WINDOW;
@@ -45,13 +69,22 @@ export async function startMicrophone(
     const frame = new Float32Array(PITCH_WINDOW);
     await context.resume();
     if (context.state !== 'running') throw new MicrophoneError('unavailable');
-    stream.getAudioTracks()[0]?.addEventListener('ended', () => {
-      onError('interrupted');
-    });
+    track.addEventListener('ended', interrupted);
+    track.addEventListener('mute', muted);
+    context.addEventListener('statechange', stateChanged);
     timer = setInterval(() => {
       if (stopped) return;
+      if (context?.state !== 'running' || track?.readyState !== 'live' || !track.enabled) {
+        interrupted();
+        return;
+      }
+      if (track.muted) {
+        muted();
+        return;
+      }
       analyser.getFloatTimeDomainData(frame);
-      onFrame(frame, context?.sampleRate ?? 48000, performance.now());
+      received = true;
+      onFrame(frame, context.sampleRate, performance.now());
     }, 40);
     return { stop };
   } catch (error) {

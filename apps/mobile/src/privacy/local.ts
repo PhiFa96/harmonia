@@ -1,4 +1,5 @@
 import { clearRush, useRush } from '@/state/rush';
+import { erasePreviewMemory } from '@/preview/memory';
 import { clearDuel, useDuel } from '@/state/duel';
 import { clearDailyPuzzle, useDailyPuzzle } from '@/state/daily-puzzle';
 import { clearFriends, useFriends } from '@/state/friends';
@@ -47,6 +48,7 @@ export async function eraseLocalAccount(scope: string) {
     ...(activeState.scope === scope ? activeState.rows.map((row) => row.event.id) : []),
   ];
   blockErasedScope(scope, ids);
+  erasePreviewMemory(scope);
   await flushPlacementWrites().catch(() => undefined);
   await (await getLessonRepository()).eraseIds(ids);
   await learning.eraseScope(scope);

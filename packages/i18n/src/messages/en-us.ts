@@ -1,3 +1,4 @@
+import levelFiveExercise from './level-five-exercise.json' with { type: 'json' };
 import choirExercise from './choir-exercise.json' with { type: 'json' };
 import partWritingExercise from './part-writing-exercise.json' with { type: 'json' };
 import { contentMessages } from '@harmonia/i18n/content-messages';
@@ -14,11 +15,14 @@ export const enUS = {
       'Four stops with sources, original sound models, and questions. This is an internal preview.',
     draft: 'Content draft: independent subject review is still pending.',
     fictional:
-      'AI fiction as a scripted role play: this person and their statements are invented. This is not a live conversation.',
+      'Scripted role play: this person and their statements are invented. The dialogue is pre-written.',
     source: 'Read source section',
     sourceError: 'The source section is unavailable right now.',
     scene: 'Scene',
     interview: 'Fictional interview',
+    interviewChoose:
+      'Ask the invented role at least one question. The other questions are optional.',
+    interviewProgress: 'Questions asked: {{count}} / {{total}}',
     knowledge: 'Knowledge question',
     listening: 'Listening question',
     play: 'Play sound model',
@@ -1054,6 +1058,7 @@ export const enUS = {
     ...partWritingExercise['en-US'],
     ...levelThreeExercise['en-US'],
     ...levelFourExercise['en-US'],
+    ...levelFiveExercise['en-US'],
     type_SIGHT_SING: 'Sight singing',
     type_SING_INTERVAL: 'Sing an interval',
     type_PLAY_BACK: 'Sing back a melody',
@@ -2261,6 +2266,15 @@ export const enUS = {
     testedHint:
       'Available through your placement estimate. You can practice these lessons at any time; they count as passed only after a passing attempt.',
     prerequisite: 'Prerequisite: {{title}}',
+    choirRule:
+      'To pass the choir lesson, you need at least {{percent}}% eligible correct first-attempt answers and at least one singing task passed on the first attempt without revealing a solution. Hints are allowed. You can still skip microphone tasks.',
+    choirRequiredResult:
+      'Not passed yet: {{correct}} of {{total}} tasks count. You still need one singing task passed on the first attempt without revealing a solution. The {{percent}}% rule also applies.',
+    choirProgress: 'Eligible singing tasks passed on the first attempt: {{count}}.',
+    independentLessons:
+      'Choose an unlocked lesson. You do not need to pass the other lessons in this unit first. Any missing prerequisites are listed with each lesson.',
+    independentLessonLocked:
+      'This lesson is still locked. First pass its prerequisites in your learning path. You do not need to pass the other lessons in this unit.',
     showLessons: 'Show lessons',
     hideLessons: 'Hide lessons',
     showNamed: 'Show lessons in {{title}}',

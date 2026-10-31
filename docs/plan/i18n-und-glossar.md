@@ -29,6 +29,12 @@ In der App richtet `apps/mobile/src/i18n` die Instanz mit `react-i18next` ein. K
 - **Pluralformen:** i18next-Schlüssel mit Endung `_one`/`_other` (Kategorien nach CLDR über `Intl.PluralRules`; Deutsch und Englisch haben beide `one` und `other`). Aufruf: `t('key', { count })`.
 - **Sprachnamen** (Deutsch, English (US), English (UK)) stehen in jeder Oberfläche in der eigenen Sprache (`LOCALE_NAMES`) und werden nicht übersetzt.
 
+### Gesonderte Zeitreise-Texte (P4.12)
+
+`createHistoryJourneyText(locale, messages)` bindet ausdrücklich übergebene Stationstexte an eine eigene Inhaltsinstanz mit dem gemeinsamen Glossar. Die Route verwendet den Helfer für alle Textfelder und Antwortoptionen. Die Eingabe wird kopiert; globale Laufzeitressourcen werden nicht verändert. Der öffentlich exportierte Helfer importiert keine Entwurfstexte zur Laufzeit. Produktionsaliase liefern weiterhin leere Daten.
+
+Nur vorhandene `$t(glossary:…)`-Verweise sind zulässig. Fehlende Stationen in der gewählten Sprache, unaufgelöste Verweise/Platzhalter und Antwortgruppen ohne genau drei unterschiedliche aufgelöste Texte werden abgewiesen. `check:i18n` prüft die Auflösung zusätzlich zur bisherigen Strukturprüfung. Der Bundleguard kontrolliert rohe und aufgelöste Entwurfstexte. Die neue Bezeichnung „Phrase“ enthält nur DE/EN-Wortformen; historische Aussagen bleiben in den privaten Entwurfstexten. Unabhängige Prüfung ihrer sprachlichen Einbettung und fachlichen Aussagen steht aus. [ADR 0052](../decisions/0052-zeitreise-texte-mit-isolierter-glossarbindung.md).
+
 ## Prüfungen
 
 1. **Compiler:** en-US muss die Form von `de.ts` haben (`satisfies Messages`), en-GB darf nur vorhandene Schlüssel überschreiben.

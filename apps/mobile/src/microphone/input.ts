@@ -19,6 +19,8 @@ export async function startMicrophone(
   const recorder = new AudioRecorder();
   const framer = new PitchFramer();
   let stopped = false;
+  let closing: Promise<void> | undefined;
+  const isStopped = (): boolean => stopped;
   const restorePlayback = () => {
     AudioManager.setAudioSessionOptions({
       iosCategory: 'playback',
@@ -26,19 +28,24 @@ export async function startMicrophone(
       iosOptions: ['mixWithOthers'],
     });
   };
-  const stop = async () => {
-    if (stopped) return;
+  const stop = () => {
+    if (closing) return closing;
     stopped = true;
-    recorder.clearOnAudioReady();
-    recorder.clearOnError();
-    try {
-      await recorder.stop();
-    } finally {
-      restorePlayback();
-    }
+    closing = (async () => {
+      recorder.clearOnAudioReady();
+      recorder.clearOnError();
+      try {
+        await recorder.stop();
+      } finally {
+        restorePlayback();
+      }
+    })();
+    return closing;
   };
   try {
     recorder.onError(() => {
+      if (stopped) return;
+      void stop().catch(() => undefined);
       onError('interrupted');
     });
     const callback = recorder.onAudioReady(
@@ -56,6 +63,8 @@ export async function startMicrophone(
     if (callback.status === 'error') throw new MicrophoneError('unavailable');
     const started = await recorder.start();
     if (started.status === 'error') throw new MicrophoneError('unavailable');
+    // onError can stop the recorder while its start promise is still pending.
+    if (isStopped()) throw new MicrophoneError('interrupted');
     return { stop };
   } catch (error) {
     await stop();

@@ -18,15 +18,15 @@ export interface ExamQuestion {
   readonly sourceIndex: number;
   readonly area: ExamArea;
 }
-export interface ExamTemplate {
-  readonly id: ExamTemplateId;
+export interface ExamTemplate<Id extends string = ExamTemplateId> {
+  readonly id: Id;
   readonly minutes: number;
   readonly pointsPerQuestion: number;
   readonly questions: readonly ExamQuestion[];
 }
 
-export interface ExamRun {
-  readonly template: ExamTemplate;
+export interface ExamRun<Id extends string = ExamTemplateId> {
+  readonly template: ExamTemplate<Id>;
   readonly contentVersion: number;
   readonly seed: string | number;
   readonly startedAt: number;
@@ -37,10 +37,10 @@ export interface ExamRun {
 }
 
 /** A template is available only if every source lesson survived publication. */
-export function availableExamTemplates(
+export function availableExamTemplates<Id extends string>(
   catalogue: ContentCatalogue,
-  templates: readonly ExamTemplate[],
-): readonly ExamTemplate[] {
+  templates: readonly ExamTemplate<Id>[],
+): readonly ExamTemplate<Id>[] {
   return templates.filter((template) =>
     template.questions.every(
       (question) => lessonExerciseSources(catalogue, question.lessonId)?.[question.sourceIndex],
@@ -48,13 +48,13 @@ export function availableExamTemplates(
   );
 }
 
-export function createExamRun(
+export function createExamRun<Id extends string>(
   catalogue: ContentCatalogue,
-  templates: readonly ExamTemplate[],
-  templateId: ExamTemplateId,
+  templates: readonly ExamTemplate<Id>[],
+  templateId: Id,
   seed: string | number,
   now: number,
-): ExamRun {
+): ExamRun<Id> {
   const template = availableExamTemplates(catalogue, templates).find(
     (entry) => entry.id === templateId,
   );
@@ -82,7 +82,7 @@ export function createExamRun(
   };
 }
 
-export function finishExam(run: ExamRun, now: number): ExamRun {
+export function finishExam<Id extends string>(run: ExamRun<Id>, now: number): ExamRun<Id> {
   if (run.endedAt !== undefined) return run;
   return {
     ...run,
@@ -92,7 +92,11 @@ export function finishExam(run: ExamRun, now: number): ExamRun {
   };
 }
 
-export function answerExam(run: ExamRun, answer: string, now: number): ExamRun {
+export function answerExam<Id extends string>(
+  run: ExamRun<Id>,
+  answer: string,
+  now: number,
+): ExamRun<Id> {
   if (run.endedAt !== undefined) return run;
   if (now >= run.deadlineAt) return finishExam(run, now);
   const answered = answerSession(run.session, answer);
@@ -102,7 +106,7 @@ export function answerExam(run: ExamRun, answer: string, now: number): ExamRun {
   return currentItem(advanced) ? next : finishExam(next, now);
 }
 
-export function skipExamAural(run: ExamRun, now: number): ExamRun {
+export function skipExamAural<Id extends string>(run: ExamRun<Id>, now: number): ExamRun<Id> {
   if (run.endedAt !== undefined) return run;
   if (now >= run.deadlineAt) return finishExam(run, now);
   const next = { ...run, session: skipAuralExercises(run.session) };
@@ -111,7 +115,7 @@ export function skipExamAural(run: ExamRun, now: number): ExamRun {
 
 /** Abschlusstext nach tatsächlichem Verlauf: „alle bearbeitet“ nur ohne übersprungene Fragen. */
 export function examEndKey(
-  run: ExamRun,
+  run: ExamRun<string>,
   result: Pick<ReturnType<typeof examResult>, 'skipped'>,
 ): 'completed' | 'skippedAural' | 'submitted' | 'timeout' {
   if (run.endReason === 'timeout') return 'timeout';
@@ -119,7 +123,7 @@ export function examEndKey(
   return 'submitted';
 }
 
-export function examResult(run: ExamRun) {
+export function examResult(run: ExamRun<string>) {
   const areas = (['theory', 'aural'] as const).map((area) => {
     const indices = run.template.questions.flatMap((question, index) =>
       question.area === area ? [index] : [],

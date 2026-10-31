@@ -2,6 +2,7 @@ import { registerDevice } from '../supabase/functions/_shared/motivation.ts';
 import { createClient } from 'npm:@supabase/supabase-js@2.117.3';
 import { dispatchReminders } from '../supabase/functions/_shared/reminder-job.ts';
 import { lessonDay } from '../packages/content/src/calendar.ts';
+import { lateBerlinReminderInstant } from './reminder-smoke-clock.ts';
 import type { PushMessage } from '../supabase/functions/_shared/push.ts';
 const url = Deno.env.get('HARMONIA_TEST_LOCAL_URL') ?? '';
 if (new URL(url).hostname !== '127.0.0.1') throw new Error('Nur lokale API erlaubt');
@@ -10,7 +11,7 @@ const client = createClient(url, Deno.env.get('HARMONIA_TEST_LOCAL_KEY') ?? '', 
 });
 const users: string[] = [],
   messages: PushMessage[] = [];
-const now = Date.parse(`${lessonDay(Date.now(), 'Europe/Berlin')}T18:59:30Z`);
+const now = lateBerlinReminderInstant(Date.now());
 let checks = 0;
 function check(value: boolean, label: string) {
   if (!value) throw new Error(label);

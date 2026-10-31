@@ -116,6 +116,7 @@ export const exerciseSpecSchema = z
           .object({
             voice: z.enum(['soprano', 'alto', 'tenor', 'bass']),
             piece: z.enum(['home', 'arch']),
+            fifths: z.union([z.literal(-2), z.literal(0), z.literal(2)]).optional(),
           })
           .strict(),
       })
@@ -127,6 +128,7 @@ export const exerciseSpecSchema = z
           .object({
             mode: z.enum(['bass', 'soprano', 'functions']),
             level: z.union([z.literal(4), z.literal(5)]),
+            fifths: z.union([z.literal(-1), z.literal(0), z.literal(1)]).optional(),
           })
           .strict(),
       })
@@ -363,8 +365,24 @@ export const exerciseSpecSchema = z
           ...(value.params.direction ? { direction: value.params.direction } : {}),
         },
       };
-    if (value.type === 'CHOIR_PART') return { type: value.type, params: value.params };
-    if (value.type === 'VOICE_LEADING') return { type: value.type, params: value.params };
+    if (value.type === 'CHOIR_PART')
+      return {
+        type: value.type,
+        params: {
+          voice: value.params.voice,
+          piece: value.params.piece,
+          ...(value.params.fifths === undefined ? {} : { fifths: value.params.fifths }),
+        },
+      };
+    if (value.type === 'VOICE_LEADING')
+      return {
+        type: value.type,
+        params: {
+          mode: value.params.mode,
+          level: value.params.level,
+          ...(value.params.fifths === undefined ? {} : { fifths: value.params.fifths }),
+        },
+      };
     if (value.type === 'CADENCE_IDENTIFY')
       return {
         type: value.type,
@@ -544,6 +562,7 @@ export const lessonSchema = z
     titleKey: contentTextKeySchema,
     introduction: z.array(introductionSchema),
     exercises: z.array(exerciseSpecSchema).min(1).max(200),
+    minimumChoirCorrect: z.literal(1).optional(),
   })
   .strict();
 export type LessonContent = z.infer<typeof lessonSchema>;

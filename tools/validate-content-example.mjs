@@ -1,5 +1,6 @@
 import {
   grandStaffTarget,
+  layoutScore,
   keyboardMidi,
   parseScore,
   scoreTimeline,
@@ -12,7 +13,15 @@ export function validateContentExample(source, keyboard, pulse) {
   const score = parseScore(source);
   if (validateScore(score).length > 0)
     throw new Error('Notenbeispiel ist rhythmisch oder strukturell ungültig');
-  if (score.staves.length === 2) grandStaffTarget(score);
+  if (score.staves.length === 2) {
+    const polyphonic = score.staves.some((staff) =>
+      staff.measures.some((measure) => measure.voices.length > 1),
+    );
+    // Keyboard learning images retain their single-target contract. Polyphonic
+    // reading examples use the same general layout as the app.
+    if (polyphonic && !keyboard) layoutScore(score);
+    else grandStaffTarget(score);
+  }
   if (pulse) pulseExample(score, pulse.bpm);
   if (
     keyboard &&

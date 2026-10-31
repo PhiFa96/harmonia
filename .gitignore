@@ -36,7 +36,11 @@ coverage/
 # Local quality evidence; guest fixtures and screenshots are not a public app bundle
 /artifacts/quality/
 /artifacts/voice-leading/
+/artifacts/certificates/
 /artifacts/beta/
 /playwright-report/
 /test-results/
 .claude/worktrees/
+
+# Internal AI Act evidence packs; never public app output
+/artifacts/ai-act/

@@ -3,7 +3,7 @@ import { AppState, Platform, ScrollView, View } from 'react-native';
 import { useFocusEffect } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { engineLanguage } from '@harmonia/i18n';
-import { assessChoir, choirScore, pitchInputLabel } from '@harmonia/exercises';
+import { assessChoir, choirKeyName, choirScore, pitchInputLabel } from '@harmonia/exercises';
 import type { ChoirItem, Evaluation } from '@harmonia/exercises';
 import { eventBounds, layoutScore } from '@harmonia/notation';
 import { ScoreView } from '@harmonia/notation/native';
@@ -16,6 +16,7 @@ import { getAudioEngine } from '@/audio';
 import { startMicrophone } from '@/microphone/input';
 import { createChoirRunner } from '@/choir/runner';
 import type { ChoirState } from '@/choir/runner';
+import { ChoirNoteFeedback } from '@/choir/note-feedback';
 
 interface Props {
   readonly item: ChoirItem;
@@ -124,7 +125,7 @@ export function ChoirAnswerInput({
       setError('unavailable');
     }
   };
-  const busy = ['requesting', 'countIn', 'singing', 'preview'].includes(state.phase);
+  const busy = ['requesting', 'checking', 'countIn', 'singing', 'preview'].includes(state.phase);
   const scoreScroll = useRef<ScrollView>(null);
   const [scoreWidth, setScoreWidth] = useState(300);
   const solo = useMemo(() => choirScore(item, item.params.voice), [item]);
@@ -152,6 +153,11 @@ export function ChoirAnswerInput({
         <AppText variant="title3">
           {t('exercise.choirNotation')} · {t(`exercise.satb_${item.params.voice}`)} ·{' '}
           {t('exercise.choirTempo', { bpm: item.bpm })}
+        </AppText>
+        <AppText testID="choir-key">
+          {t('exercise.choirKey', {
+            key: choirKeyName(item, locale),
+          })}
         </AppText>
         <ScrollView
           ref={scoreScroll}
@@ -263,20 +269,24 @@ export function ChoirAnswerInput({
             ? t('exercise.choirSinging', { note: state.note + 1 })
             : state.phase === 'requesting'
               ? t('exercise.choirRequesting')
-              : state.phase === 'preview'
-                ? t('exercise.choirPreview')
-                : state.phase === 'done'
-                  ? t('exercise.choirDone')
-                  : ''}
+              : state.phase === 'checking'
+                ? t('exercise.choirChecking')
+                : state.phase === 'preview'
+                  ? t('exercise.choirPreview')
+                  : state.phase === 'done'
+                    ? t('exercise.choirDone')
+                    : ''}
       </AppText>
       {error ? (
         <AppText tone="danger" aria-live="polite">
           {t(
-            error === 'permission'
-              ? 'tuner.permission'
-              : error === 'interrupted'
-                ? 'tuner.interrupted'
-                : 'tuner.unavailable',
+            error === 'no-input'
+              ? 'exercise.choirNoInput'
+              : error === 'permission'
+                ? 'tuner.permission'
+                : error === 'interrupted'
+                  ? 'exercise.choirInterrupted'
+                  : 'tuner.unavailable',
           )}
         </AppText>
       ) : null}
@@ -284,35 +294,15 @@ export function ChoirAnswerInput({
       {report ? (
         <View style={{ gap: SPACE.s }} testID="choir-results">
           <AppText>{t('exercise.choirOctave', { shift: report.octaveShift })}</AppText>
+          <AppText variant="small">{t('exercise.choirWindowsHelp')}</AppText>
           {report.notes.map((n) => {
             const pitch = item.parts[item.params.voice][n.index];
             return (
-              <Card key={n.index}>
-                <AppText variant="title3">
-                  {t('exercise.choirNote', {
-                    note: n.index + 1,
-                    bar: Math.floor(n.index / 2) + 1,
-                    pitch: pitch ? pitchInputLabel(pitch, locale) : '',
-                  })}
-                </AppText>
-                <AppText>
-                  {t(
-                    n.passed
-                      ? 'exercise.choirPass'
-                      : n.coverage < 8 / 12
-                        ? 'exercise.choirMissing'
-                        : 'exercise.choirMiss',
-                  )}
-                </AppText>
-                <AppText>
-                  {n.deviation === null
-                    ? t('exercise.choirNoPitch')
-                    : t('exercise.choirDeviation', {
-                        cents: n.deviation,
-                        coverage: Math.round(n.coverage * 100),
-                      })}
-                </AppText>
-              </Card>
+              <ChoirNoteFeedback
+                key={n.index}
+                note={n}
+                pitch={pitch ? pitchInputLabel(pitch, locale) : ''}
+              />
             );
           })}
         </View>

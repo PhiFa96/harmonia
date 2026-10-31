@@ -25,9 +25,25 @@ export function checkTranslations(resources: ResourceSet = RESOURCES): string[] 
   const problems: string[] = [];
   const [reference = 'de'] = COMPLETE;
   const namespaces = Object.keys(resources[reference]);
+  // Flatten once per locale/namespace in this invocation. Glossary references
+  // otherwise rebuild the entire text tree for every referenced term.
+  const flattened = new Map<AppLocale, Map<string, Flat>>();
+  const flatResource = (locale: AppLocale, ns: string): Flat => {
+    let byNamespace = flattened.get(locale);
+    if (!byNamespace) {
+      byNamespace = new Map();
+      flattened.set(locale, byNamespace);
+    }
+    let result = byNamespace.get(ns);
+    if (!result) {
+      result = flatten(resources[locale][ns] ?? {});
+      byNamespace.set(ns, result);
+    }
+    return result;
+  };
 
   for (const ns of namespaces) {
-    const flat = (locale: AppLocale): Flat => flatten(resources[locale][ns] ?? {});
+    const flat = (locale: AppLocale): Flat => flatResource(locale, ns);
     const where = (locale: AppLocale, key: string): string => `${locale} ${ns}:${key}`;
 
     for (const locale of [...COMPLETE, ...(Object.keys(PARTIAL) as AppLocale[])]) {
@@ -101,12 +117,12 @@ export function checkTranslations(resources: ResourceSet = RESOURCES): string[] 
     const lookup = (ns: string, key: string): boolean => {
       const chain = [locale, ...(PARTIAL[locale] ? [PARTIAL[locale]] : [])];
       return chain.some((l) => {
-        const flat = flatten(resources[l][ns] ?? {});
+        const flat = flatResource(l, ns);
         return flat.has(key) || [...flat.keys()].some((k) => baseKey(k) === key);
       });
     };
     for (const ns of namespaces) {
-      for (const [key, value] of flatten(resources[locale][ns] ?? {})) {
+      for (const [key, value] of flatResource(locale, ns)) {
         for (const [, reference = ''] of value.matchAll(NESTING)) {
           const [targetNs, targetKey] = reference.includes(':')
             ? (reference.split(':', 2) as [string, string])
