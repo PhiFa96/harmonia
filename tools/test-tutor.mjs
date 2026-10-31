@@ -604,13 +604,13 @@ try {
       beforeAttempt,
       'Weder Ablehnungen noch Nachweisausgabe verbrauchen Modellkontingent',
     );
-    for (const body of [
-      { source, answer: 'untrusted-wrong' },
-      { source: { ...source, contentVersion: 999 }, answer },
+    for (const [body, expectedStatus] of [
+      [{ source, answer: 'untrusted-wrong' }, 422],
+      [{ source: { ...source, contentVersion: 999 }, answer }, 400],
     ])
       expect(
         (await call(endpoint + '?view=attempt', { token: a.token, body })).status,
-        422,
+        expectedStatus,
         'Kein Nachweis für ungültige Antwort oder Quelle',
       );
     expect(

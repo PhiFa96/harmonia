@@ -380,7 +380,18 @@ export async function sendTutor(message: string, retry = false) {
       if (valid(actor, token)) useTutor.setState({ error: 'history' });
     }
   } catch (error) {
-    if (valid(actor, token)) useTutor.setState({ sending: false, error: codeOf(error) });
+    if (valid(actor, token)) {
+      const code = codeOf(error);
+      useTutor.setState({
+        sending: false,
+        error: code,
+        // These refusals happen before any model reservation. A new send can obtain
+        // a fresh receipt/new request ID; retrying the expired signature cannot help.
+        ...(['attempt_required', 'attempt_invalid', 'attempt_expired'].includes(code)
+          ? { retry: null, current: null }
+          : {}),
+      });
+    }
   } finally {
     controllers.delete(controller);
     if (active === controller) active = null;

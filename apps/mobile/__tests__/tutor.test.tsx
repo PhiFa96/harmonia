@@ -1,4 +1,5 @@
 import type { Session } from '@supabase/supabase-js';
+import { randomUUID } from 'expo-crypto';
 import type { TutorRequest, TutorStreamEvent } from '@harmonia/content';
 import { parseScore, scoreTimeline } from '@harmonia/notation';
 import { UiProvider } from '@harmonia/ui/native';
@@ -21,6 +22,9 @@ import { createFreePracticeSession, expectedAnswer, PRACTICE_SETS } from '@harmo
 
 jest.mock('expo-localization', () => ({
   getLocales: () => [{ languageCode: 'de', regionCode: 'DE' }],
+}));
+jest.mock('expo-crypto', () => ({
+  randomUUID: jest.fn(() => '00000000-0000-4000-8000-000000000001'),
 }));
 const mockPlay = jest.fn(() => Promise.resolve());
 jest.mock('@/components/use-exercise-playback', () => ({
@@ -67,6 +71,7 @@ function view() {
 }
 let json: jest.SpyInstance, stream: jest.SpyInstance;
 beforeEach(() => {
+  jest.mocked(randomUUID).mockReset().mockReturnValue('00000000-0000-4000-8000-000000000001');
   useAuthState.setState({ session: null, ready: true, error: false });
   resetTutor();
   useSettings.setState({ locale: null });
@@ -427,6 +432,33 @@ it('verifiziert Wiederholungen mit derselben Anfrage und demselben Nachweis', as
   await sendTutor('', true);
   expect(calls[1]?.[0]).toEqual(first);
   expect(json.mock.calls.filter((call: unknown[]) => call[0] === '?view=attempt')).toHaveLength(1);
+});
+it('entsperrt nach abgelaufenem Nachweis eine neue Anfrage mit neuer Prüfung', async () => {
+  signIn();
+  const { source, item } = auralTask();
+  openTaskTutor(
+    { ...scope, mode: 'explain', context: { source, answer: expectedAnswer(item), checked: true } },
+    'Aufgabe',
+  );
+  // The global screen fixture always returns the same UUID; model distinct sends here.
+  jest
+    .mocked(randomUUID)
+    .mockReturnValueOnce('11111111-1111-4111-8111-111111111111')
+    .mockReturnValueOnce('22222222-2222-4222-8222-222222222222');
+  stream.mockRejectedValueOnce(new TutorError('attempt_expired'));
+  await sendTutor('Warum?');
+  expect(useTutor.getState()).toMatchObject({
+    sending: false,
+    retry: null,
+    current: null,
+    error: 'attempt_expired',
+  });
+  await sendTutor('Noch einmal bitte');
+  const calls = stream.mock.calls as unknown[][];
+  const first = calls[0]?.[0] as TutorRequest;
+  const second = calls[1]?.[0] as TutorRequest;
+  expect(second.id).not.toEqual(first.id);
+  expect(json.mock.calls.filter((call: unknown[]) => call[0] === '?view=attempt')).toHaveLength(2);
 });
 it.each(['switch', 'stop'] as const)(
   'kein später Modellaufruf nach %s während der Nachweisprüfung',
