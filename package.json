@@ -101,7 +101,7 @@
     "certificates:review": "node tools/certificates/check.mjs --report"
   },
   "devDependencies": {
-    "@anthropic-ai/sdk": "1.1.0",
+    "@anthropic-ai/sdk": "1.3.0",
     "@axe-core/playwright": "4.14.0",
     "@eslint/js": "catalog:",
     "@harmonia/config": "workspace:*",

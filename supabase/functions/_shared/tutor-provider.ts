@@ -1,11 +1,11 @@
-import Anthropic from 'npm:@anthropic-ai/sdk@1.1.0';
+import Anthropic from 'npm:@anthropic-ai/sdk@1.3.0';
 import type {
   Message,
   MessageParam,
   MessageCreateParamsStreaming,
   Usage,
   TextCitation,
-} from 'npm:@anthropic-ai/sdk@1.1.0/resources/messages';
+} from 'npm:@anthropic-ai/sdk@1.3.0/resources/messages';
 
 /** Transportgrenze: Produktions-SDK und Deno-Simulation verwenden dieselben Request-/Streamtypen. */
 export interface TutorModelProvider {

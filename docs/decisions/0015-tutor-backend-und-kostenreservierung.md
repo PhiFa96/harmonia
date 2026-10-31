@@ -34,4 +34,4 @@ Die üblichen TCP-/Proxy-Abbrüche können eine Modellanfrage erst über das ser
 
 ## Nachtrag 31.10.2026
 
-Das SDK ist inzwischen auf 1.1.0 (API-Version `2026-10-21`) umgestellt, mit ausdrücklich abgeschaltetem OpenTelemetry-Tracing; die hier genannte Version 0.133.0 ist der damalige Stand. Siehe [ADR 0065](0065-anthropic-sdk-1-und-api-version-2026-10-21.md).
+Das SDK ist inzwischen auf 1.3.0 (API-Version `2026-10-21`) umgestellt, mit ausdrücklich abgeschaltetem OpenTelemetry-Tracing; die hier genannte Version 0.133.0 ist der damalige Stand. Siehe [ADR 0065](0065-anthropic-sdk-1-und-api-version-2026-10-21.md).

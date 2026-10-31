@@ -5,7 +5,7 @@ import type {
   Usage,
   TextCitation,
   UserMessageParam,
-} from 'npm:@anthropic-ai/sdk@1.1.0/resources/messages';
+} from 'npm:@anthropic-ai/sdk@1.3.0/resources/messages';
 export const LOCAL_TUTOR_URL =
   /^http:\/\/(?:127\.0\.0\.1|localhost|supabase_kong_harmonia|kong)(?::\d+)?$/;
 export function localTutorFixtureEnabled(env: (key: string) => string | undefined) {

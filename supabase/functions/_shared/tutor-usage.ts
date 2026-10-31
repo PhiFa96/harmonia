@@ -1,5 +1,5 @@
 // Gemeinsame Kostenrechnung für Streaming und Batch-Kalibrierung; keine SDK-Instanz.
-import type { Usage } from 'npm:@anthropic-ai/sdk@1.1.0/resources/messages';
+import type { Usage } from 'npm:@anthropic-ai/sdk@1.3.0/resources/messages';
 import type { TutorPolicy, TutorTariff, TutorUsage } from '../../../packages/content/src/index.ts';
 import { EMPTY_TUTOR_USAGE, tutorUsageSchema } from '../../../packages/content/src/index.ts';
 export type BillableUsage = Pick<

@@ -1,4 +1,4 @@
-# ADR 0065: Anthropic-SDK 1.1.0 und API-Version 2026-10-21
+# ADR 0065: Anthropic-SDK 1.x (1.3.0) und API-Version 2026-10-21
 
 Status: angenommen (31.10.2026)
 
@@ -16,7 +16,7 @@ Ab 1.0.0 sendet das TypeScript-SDK die API-Version `2026-10-21` statt `2023-06-0
 
 ## Entscheidung
 
-- **Umstellung:** Root-`package.json`, alle `npm:`-Specifier und die tsconfig-`paths` stehen einheitlich auf 1.1.0.
+- **Umstellung:** Root-`package.json`, alle `npm:`-Specifier und die tsconfig-`paths` stehen einheitlich auf 1.3.0. Abgenommen wurde zuerst 1.1.0; laut offiziellem Changelog bringen 1.2.0 und 1.3.0 nur neue Endpunkte (Message Threads, Nutzungsberichte, Claude Tag) und Bugfixes ohne Breaking Changes. Alle Prüfungen sind mit 1.3.0 wiederholt.
 - **Bestandsaufnahme zu den Punkten 1–4:**
   - keine Sampling-Parameter;
   - Wissensdokumente nur in `user`-Nachrichten;
