@@ -37,3 +37,7 @@ Neue HTTP-/DB-Fälle wurden hier nicht lokal ausgeführt; der tatsächliche Nach
 - Die echte lokale Auth-/DB-/API-Prüfung in CI ist um den neuen Leseabschluss, geprüfte Belohnung, Konto-Isolation, veraltete Quellen und öffentlichen Ausschluss ergänzt. Ausführungsstatus und konkrete Testergebnisse werden im PR dokumentiert; reine Engine-Tests gelten nicht als HTTP-Nachweis.
 
 Die Einführung enthält Originalmaterial. Automatische Tests sind keine unabhängige Fach-/Literatur-/Sprachprüfung oder reale Geräte-/Mikrofon-/Kopfhörer-/Stimmenabnahme. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt. Kein Merge oder Deployment.
+
+## CI-Nacharbeit des Belohnungsformats
+
+Lauf 263 hat Deno und Tutor-Simulation bestanden. Die neue Leselektion wurde im echten Backend erfolgreich hochgeladen und serverseitig als bestanden rekonstruiert. Die nachfolgende Assertion erwartete `reward.qualified`, während der Aufruf das historische Antwortformat ohne dieses Feld angefordert hatte. Ausschließlich dieser neue Aufruf fordert jetzt ausdrücklich `rewardFormat: 2` und `rowFormat: 5` an. Die vorhandenen Legacy-Prüfungen bleiben erhalten; keine Assertion wird entfernt. Syntax und gezielter Lint sind erfolgreich. Der vollständige neue CI-Nachweis steht im PR.
