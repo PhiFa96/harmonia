@@ -31,3 +31,7 @@ Dies ist ausdrücklich technische P4-Vorarbeit **vor der formalen Phase-4-Freiga
 ## Fortführung vom 28.10.2026
 
 Die damals offene Mindest-Gesangsentscheidung ist jetzt ausdrücklich beauftragt und in [ADR 0064](0064-chorabschluss-verlangt-bestandenen-gesangsversuch.md) umgesetzt. Version 27 ergänzt den eigenen bestandenen Erstversuch zum bisherigen Quotenkriterium. Die hier beschriebene unabhängige Stimmauswahl bleibt erhalten.
+
+## Fortführung vom 31.10.2026
+
+[ADR 0067](0067-chor-vorzeichenlesen-ohne-bassschluessel.md) ergänzt eine eigene Vorzeichnungs-Lesefähigkeit als Voraussetzung aller vier Stimmen. Ihre neue Leseeinheit benötigt keinen Bassschlüssel oder Schreibweg; unabhängige Stimmauswahl und die passenden Schlüsselgrundlagen bleiben erhalten. Katalog und betroffene Chor-Metadaten steigen auf 28.

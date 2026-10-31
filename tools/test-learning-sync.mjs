@@ -8,6 +8,7 @@ import {
   learningPath,
   validateLearningEvent,
   lessonPlan,
+  resolveLesson,
 } from '../packages/content/src/index.ts';
 import {
   activeLessonSession,
@@ -106,11 +107,28 @@ try {
   assert.equal((await sync('invalid')).status, 401, 'Ungültiges JWT');
   assert.equal((await sync(status.ANON_KEY)).status, 401, 'Gast darf nicht syncen');
   const one = event('first');
+  const readingDefinition = resolveLesson(catalogue, 'scales.l2.key-reading.lesson');
+  assert.ok(readingDefinition);
+  let readingSession = createLessonSession(readingDefinition, 'key-reading-sync');
+  for (const item of readingSession.initial.items)
+    readingSession = nextLessonExercise(answerLesson(readingSession, expectedAnswer(item)));
+  const readingEvent = lessonEvent(
+    'key-reading-' + randomUUID(),
+    readingSession,
+    1000,
+    2000,
+    'Europe/Berlin',
+  );
   if (process.argv.includes('--published')) {
     assert.equal(
       (await sync(a.token, [one])).status,
       422,
       'Öffentliche Funktion akzeptiert keine Entwurfslektion',
+    );
+    assert.equal(
+      (await sync(a.token, [readingEvent])).status,
+      422,
+      'Neue Vorzeichenlektion bleibt im öffentlichen Modus gesperrt',
     );
     assert.equal(
       (await sync(a.token)).data.rows.length,
@@ -309,6 +327,36 @@ try {
       ).status,
       403,
     );
+    // C8: the new prerequisite has a real, versioned, server-graded reading lesson.
+    const readingUpload = await request('/functions/v1/learning-sync', {
+      token: a.token,
+      body: { events: [readingEvent], since: longPage.data.cursor, rewardFormat: 2, rowFormat: 5 },
+    });
+    assert.equal(readingUpload.status, 200, 'Neue Vorzeichenlektion serverseitig bewertet');
+    const readingRow = readingUpload.data.rows.find((row) => row.event.id === readingEvent.id);
+    assert.ok(readingRow);
+    assert.equal(validateLearningEvent(catalogue, readingRow.event).lesson.passed, true);
+    assert.equal(readingRow.reward.qualified, true);
+    assert.equal(readingRow.reward.amount, 18);
+    assert.equal(
+      (
+        await sync(
+          a.token,
+          [{ ...readingEvent, id: 'old-key-reading', contentVersion: 27 }],
+          longPage.data.cursor,
+        )
+      ).status,
+      422,
+      'Veraltete Lektionsfassung zählt nicht als Vorzeichenwissen',
+    );
+    assert.equal(
+      (await sync(b.token, [], longPage.data.cursor)).data.rows.some(
+        (row) => row.event.id === readingEvent.id,
+      ),
+      false,
+      'Lesenachweis bleibt beim eigenen Konto',
+    );
+
     // P4.11: only canonical initial singing can qualify a choir completion.
     // Use our own local accounts and synthetic answers; no real microphone recording.
     const choirPlan = lessonPlan(catalogue, 'aural.l4.choir.bass.lesson');

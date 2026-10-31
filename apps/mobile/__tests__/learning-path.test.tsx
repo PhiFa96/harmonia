@@ -1,6 +1,6 @@
-import { fireEvent, renderRouter, screen, within } from 'expo-router/testing-library';
+import { fireEvent, renderRouter, screen, within, waitFor } from 'expo-router/testing-library';
 import { catalogue } from '@harmonia/content/authoring';
-import { learningPath } from '@harmonia/content';
+import { learningPath, lessonPlan } from '@harmonia/content';
 import { useLearningState } from '@/state/learning';
 import { useAuthState } from '@/auth';
 import { useSettings } from '@/state/settings';
@@ -30,6 +30,82 @@ beforeEach(() => {
   fresh();
 });
 describe('Lernpfad und gesicherte Lektionszugänge', () => {
+  it.each(['de', 'en-US', 'en-GB'] as const)(
+    '%s: verweist alle Chorstimmen auf Vorzeichenlesen und öffnet die eigene Einführung',
+    async (locale) => {
+      useSettings.setState({ locale });
+      const progress = catalogue.lessons
+        .filter((lesson) => !['aural.l4.choir', 'scales.l2.key-reading'].includes(lesson.unitId))
+        .map((lesson) => ({
+          lessonId: lesson.id,
+          contentVersion: lesson.contentVersion,
+          passed: true,
+          eligibleCorrect: 10,
+          total: 10,
+        }));
+      useLearningState.setState({
+        path: learningPath(catalogue, progress),
+        areaId: 'area.aural',
+        level: 4,
+        expanded: ['aural.l4.choir'],
+        memory: true,
+      });
+      renderRouter('./src/app', { initialUrl: '/' });
+      const prerequisite = catalogue.units.find((unit) => unit.id === 'scales.l2.key-reading');
+      if (!prerequisite) throw Error('Missing key reading unit');
+      const label = i18n.t('path.prerequisite', { title: title(prerequisite.titleKey) });
+      for (const voice of ['soprano', 'alto', 'tenor', 'bass']) {
+        const row = within(screen.getByTestId(`path-lesson-aural.l4.choir.${voice}.lesson`));
+        expect(
+          row.getByRole('button', {
+            name: i18n.t('lesson.openNamed', { title: title(`content.choir.${voice}`) }),
+          }),
+        ).toBeDisabled();
+        expect(row.getByRole('button', { name: label })).toBeTruthy();
+      }
+      fireEvent.press(
+        within(screen.getByTestId('path-lesson-aural.l4.choir.soprano.lesson')).getByRole(
+          'button',
+          { name: label },
+        ),
+      );
+      expect(useLearningState.getState()).toMatchObject({ areaId: 'area.scales', level: 2 });
+      expect(useLearningState.getState().expanded).toContain(prerequisite.id);
+      fireEvent.press(
+        screen.getByRole('button', {
+          name: i18n.t('lesson.openNamed', {
+            title: title('content.signatureReading.lessonTitle'),
+          }),
+        }),
+      );
+      expect(screen.getByTestId('lesson-example-scroll')).toBeTruthy();
+      fireEvent.press(screen.getByText(i18n.t('lesson.introNext')));
+      fireEvent.press(screen.getByText(i18n.t('lesson.introNext')));
+      const plan = lessonPlan(catalogue, 'scales.l2.key-reading.lesson');
+      if (!plan) throw Error('Missing key reading plan');
+      expect(plan.newCount).toBe(10);
+      fireEvent.press(screen.getByText(i18n.t('lesson.start', { count: plan.exercises.length })));
+      await waitFor(() => {
+        expect(screen.getAllByTestId(/^answer-tonality:major:/)).toHaveLength(4);
+      });
+      expect(screen.queryByTestId('choir-trainer')).toBeNull();
+    },
+  );
+  it('ein direkter Sopran-Link umgeht fehlendes Vorzeichenlesen nicht', () => {
+    const progress = catalogue.lessons
+      .filter((lesson) => !['aural.l4.choir', 'scales.l2.key-reading'].includes(lesson.unitId))
+      .map((lesson) => ({
+        lessonId: lesson.id,
+        contentVersion: lesson.contentVersion,
+        passed: true,
+        eligibleCorrect: 10,
+        total: 10,
+      }));
+    useLearningState.setState({ path: learningPath(catalogue, progress) });
+    renderRouter('./src/app', { initialUrl: '/lesson?id=aural.l4.choir.soprano.lesson' });
+    expect(screen.getByRole('alert')).toHaveTextContent(i18n.t('path.independentLessonLocked'));
+    expect(screen.queryByTestId('lesson-example-scroll')).toBeNull();
+  });
   it('zeigt Status, die verbindliche Regel und gesperrte weitere Lektionen', () => {
     renderRouter('./src/app', { initialUrl: '/' });
     expect(screen.getByText('Dein Lernpfad')).toBeTruthy();
