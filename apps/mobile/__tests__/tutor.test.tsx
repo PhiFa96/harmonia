@@ -9,7 +9,14 @@ import { useSettings } from '@/state/settings';
 import { TutorScreen } from '@/components/tutor-screen';
 import { tutorTransport } from '@/tutor/client';
 import { TutorError } from '@/tutor/transport';
-import { newTutorConversation, openTaskTutor, resetTutor, useTutor } from '@/tutor/state';
+import {
+  newTutorConversation,
+  openTaskTutor,
+  resetTutor,
+  useTutor,
+  sendTutor,
+  stopTutor,
+} from '@/tutor/state';
 import { createFreePracticeSession, expectedAnswer, PRACTICE_SETS } from '@harmonia/exercises';
 
 jest.mock('expo-localization', () => ({
@@ -39,6 +46,12 @@ const scope = {
   context: null,
 };
 const date = '2026-10-14T10:00:00Z';
+const proof = {
+  id: 'cccccccc-0000-4000-8000-cccccccccccc',
+  issuedAt: 1_800_000_000_000,
+  expiresAt: 1_800_001_800_000,
+  signature: 'a'.repeat(64),
+};
 function signIn(id = actorA) {
   const session = { access_token: 'test-only-token', user: { id, is_anonymous: false } } as Session;
   useAuthState.setState({ session, ready: true, error: false });
@@ -63,19 +76,21 @@ beforeEach(() => {
     Promise.resolve(
       path === '?view=status'
         ? account
-        : path === ''
-          ? { conversations: [], next: null }
-          : {
-              conversation: {
-                id: useTutor.getState().conversationId,
-                context: scope,
-                created_at: date,
-                updated_at: date,
+        : path === '?view=attempt'
+          ? { proof }
+          : path === ''
+            ? { conversations: [], next: null }
+            : {
+                conversation: {
+                  id: useTutor.getState().conversationId,
+                  context: scope,
+                  created_at: date,
+                  updated_at: date,
+                },
+                messages: [],
+                next: null,
+                older: null,
               },
-              messages: [],
-              next: null,
-              older: null,
-            },
     ),
   );
   stream = jest.spyOn(tutorTransport, 'stream').mockResolvedValue(undefined);
@@ -352,7 +367,7 @@ for (const mode of ['hint', 'chat'] as const) {
   });
 }
 
-it('sendet eine Antwort zur Serverwertung ohne behauptete vorherige Client-Wertung', async () => {
+it('holt vor der Erklärung einen Servernachweis, unabhängig vom checked-Flag', async () => {
   signIn();
   const { item, source } = auralTask();
   const answer = expectedAnswer(item);
@@ -373,5 +388,93 @@ it('sendet eine Antwort zur Serverwertung ohne behauptete vorherige Client-Wertu
   expect(calls[0]?.[0]).toMatchObject({
     mode: 'explain',
     context: { source, answer, checked: false },
+    attemptProof: proof,
   });
+  expect(json).toHaveBeenCalledWith(
+    '?view=attempt',
+    'POST',
+    { source, answer },
+    expect.any(AbortSignal),
+  );
+});
+
+it.each(['explain', 'solution'] as const)(
+  '%s: kein Modellaufruf bei abgewiesenem Nachweis',
+  async (mode) => {
+    signIn();
+    const { source, item } = auralTask();
+    openTaskTutor(
+      { ...scope, mode, context: { source, answer: expectedAnswer(item), checked: true } },
+      'Aufgabe',
+    );
+    json.mockRejectedValue(new TutorError('attempt_invalid'));
+    await sendTutor('Warum?');
+    expect(stream).not.toHaveBeenCalled();
+    expect(useTutor.getState()).toMatchObject({ sending: false, error: 'attempt_invalid' });
+  },
+);
+it('verifiziert Wiederholungen mit derselben Anfrage und demselben Nachweis', async () => {
+  signIn();
+  const { source, item } = auralTask();
+  openTaskTutor(
+    { ...scope, mode: 'explain', context: { source, answer: expectedAnswer(item), checked: true } },
+    'Aufgabe',
+  );
+  stream.mockRejectedValue(new TutorError('interrupted'));
+  await sendTutor('Warum?');
+  const calls = stream.mock.calls as unknown[][];
+  const first = calls[0]?.[0];
+  await sendTutor('', true);
+  expect(calls[1]?.[0]).toEqual(first);
+  expect(json.mock.calls.filter((call: unknown[]) => call[0] === '?view=attempt')).toHaveLength(1);
+});
+it.each(['switch', 'stop'] as const)(
+  'kein später Modellaufruf nach %s während der Nachweisprüfung',
+  async (change) => {
+    signIn();
+    const { source, item } = auralTask();
+    openTaskTutor(
+      {
+        ...scope,
+        mode: 'explain',
+        context: { source, answer: expectedAnswer(item), checked: true },
+      },
+      'Aufgabe',
+    );
+    let finish: ((value: unknown) => void) | undefined;
+    json.mockImplementation((path) =>
+      path === '?view=attempt'
+        ? new Promise((resolve) => {
+            finish = resolve;
+          })
+        : Promise.resolve(account),
+    );
+    const pending = sendTutor('Warum?');
+    expect(finish).toBeDefined();
+    if (change === 'switch') signIn(actorB);
+    else stopTutor();
+    finish?.({ proof });
+    await pending;
+    expect(stream).not.toHaveBeenCalled();
+    expect(useTutor.getState().sending).toBe(false);
+  },
+);
+it('fängt alte Lösungsdialoge ohne geprüfte Antwort ab und weist fehlerhafte Nachweise zurück', async () => {
+  signIn();
+  const { source, item } = auralTask();
+  openTaskTutor(
+    { ...scope, mode: 'solution', context: { source, answer: null, checked: true } },
+    'Aufgabe',
+  );
+  await sendTutor('Lösung');
+  expect(useTutor.getState().error).toBe('attempt_required');
+  expect(json.mock.calls.filter((call: unknown[]) => call[0] === '?view=attempt')).toHaveLength(0);
+  openTaskTutor(
+    { ...scope, mode: 'explain', context: { source, answer: expectedAnswer(item), checked: true } },
+    'Aufgabe',
+  );
+  json.mockResolvedValue({ proof: { ...proof, signature: 'forged' } });
+  await sendTutor('Warum?');
+  expect(useTutor.getState().error).toBe('protocol');
+  expect(stream).not.toHaveBeenCalled();
 });

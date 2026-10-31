@@ -105,6 +105,10 @@
         "supabase/functions/tutor/index.ts",
         "supabase/functions/_shared/tutor-runtime.ts",
         "supabase/functions/_shared/tutor-prompt.ts",
+        "supabase/functions/_shared/tutor-attempt.ts",
+        "apps/mobile/src/tutor/client.ts",
+        "apps/mobile/src/tutor/state.ts",
+        "apps/mobile/src/components/exercise-task.tsx",
         "apps/mobile/src/components/tutor-screen.tsx"
       ],
       "purpose": {

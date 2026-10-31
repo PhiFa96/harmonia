@@ -21,7 +21,7 @@ import type {
 import type { Score } from '@harmonia/notation';
 import type { AppLocale } from '@harmonia/i18n';
 import { useAuthState } from '@/auth';
-import { tutorActor, tutorTransport } from './client.ts';
+import { tutorActor, tutorTransport, verifyTutorRequest } from './client.ts';
 import { TutorError } from './transport.ts';
 interface Entry {
   owner: string | null;
@@ -360,7 +360,16 @@ export async function sendTutor(message: string, retry = false) {
     },
   });
   try {
-    await tutorTransport.stream(request, controller.signal, (event) => {
+    const verified = await verifyTutorRequest(request, controller.signal);
+    if (!valid(actor, token)) return;
+    if (controller.signal.aborted) throw new TutorError('cancelled');
+    const current = useTutor.getState().current;
+    if (!current) throw new TutorError('cancelled');
+    useTutor.setState({
+      retry: verified,
+      current: { request: verified, answer: current.answer },
+    });
+    await tutorTransport.stream(verified, controller.signal, (event) => {
       if (valid(actor, token)) accept(event);
     });
     if (!valid(actor, token)) return;

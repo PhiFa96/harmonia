@@ -6,8 +6,15 @@ import {
   DEFAULT_TUTOR_POLICY,
   tutorPolicySchema,
   tutorAccountSchema,
+  tutorAttemptResponseSchema,
+  resolveReportSource,
 } from '../packages/content/src/index.ts';
 import { catalogue } from '../packages/content/src/authoring.ts';
+import { expectedAnswer } from '../packages/exercises/src/index.ts';
+import {
+  issueTutorAttempt,
+  TUTOR_ATTEMPT_TTL_MS,
+} from '../supabase/functions/_shared/tutor-attempt.ts';
 const status = JSON.parse(
   execFileSync('pnpm', ['exec', 'supabase', 'status', '-o', 'json'], {
     encoding: 'utf8',
@@ -541,89 +548,201 @@ try {
     true,
     'Aufgeteilte ungeprüfte Noten-Makros entfernt',
   );
-  const source = {
-    kind: 'practice',
-    set: 'pitch',
-    contentVersion: 1,
-    seed: 'tutor-test',
-    index: 0,
-  };
-  const hinted = await send(
-    a.token,
-    payload({ mode: 'hint', hintLevel: 1, context: { source, answer: null, checked: false } }),
-  );
-  expect(hinted.status, 200, 'Kanonische Hilfe');
-  const hintText = hinted.events
-    .filter((e) => e.type === 'text')
-    .map((e) => e.text)
-    .join('');
-  expect(
-    hintText.includes('solutionAllowed\\":false'),
-    true,
-    'Hinweis-Kontext enthält keine Lösung',
-  );
-  const explained = await send(
-    a.token,
-    payload({ mode: 'explain', context: { source, answer: 'untrusted-wrong', checked: false } }),
-  );
-  expect(explained.status, 200, 'Serverwertung ohne behauptete vorherige Client-Wertung');
-  expect(
-    explained.events
+  {
+    const source = {
+      kind: 'practice',
+      set: 'reading',
+      contentVersion: 1,
+      seed: 'tutor-test',
+      index: 0,
+    };
+    const item = resolveReportSource(catalogue, source).item;
+    const correct = expectedAnswer(item);
+    const answer = item.choices.find((choice) => choice !== correct);
+    assert.ok(answer);
+    const context = { source, answer, checked: false };
+    const hinted = await send(a.token, payload({ mode: 'hint', hintLevel: 1, context }));
+    expect(hinted.status, 200, 'Kanonische Hilfe ohne Nachweis');
+    const hintText = hinted.events
       .filter((e) => e.type === 'text')
       .map((e) => e.text)
-      .join('')
-      .includes('correct\\":false'),
-    true,
-    'Client-Behauptung wird fachlich neu bewertet',
-  );
-  const lesson = catalogue.lessons[0];
-  const currentLesson = await send(
-    a.token,
-    payload({
-      mode: 'solution',
-      context: {
-        source: {
-          kind: 'lesson',
-          lessonId: lesson.id,
-          contentVersion: lesson.contentVersion,
-          seed: 'test',
-          round: 'initial',
-          index: 0,
-        },
-        answer: null,
-        checked: false,
-      },
-    }),
-  );
-  expect(
-    currentLesson.status,
-    process.argv.includes('--published') ? 422 : 200,
-    'Entwürfe ausschließlich in lokaler Vorschau',
-  );
-  expect(
-    (
-      await send(
-        a.token,
-        payload({
-          mode: 'solution',
-          context: {
-            source: {
-              kind: 'lesson',
-              lessonId: lesson.id,
-              contentVersion: 999,
-              seed: 'test',
-              round: 'initial',
-              index: 0,
-            },
-            answer: null,
-            checked: false,
-          },
-        }),
-      )
-    ).status,
-    422,
-    'Veralteter Inhalt wird zurückgewiesen',
-  );
+      .join('');
+    expect(
+      hintText.includes('solutionAllowed\\":false'),
+      true,
+      'Hinweis-Kontext enthält keine Lösung',
+    );
+    const beforeAttempt = await usage(a);
+    for (const mode of ['explain', 'solution']) {
+      for (const checked of [false, true]) {
+        const unverified = payload({ mode, context: { ...context, checked } });
+        const denied = await send(a.token, unverified);
+        expect(denied.status, 409, 'Ohne Servernachweis gesperrt');
+        expect(denied.data.error, 'attempt_required', 'Clientflag ist kein Versuchsnachweis');
+        expect(
+          (await table(`tutor_requests?id=eq.${unverified.id}`, { admin: true })).data.length,
+          0,
+          'Keine Reservierung für ungeprüfte Anfrage',
+        );
+      }
+    }
+    expect(
+      (await call(endpoint + '?view=attempt', { body: { source, answer } })).status,
+      401,
+      'Nachweis nur nach Anmeldung',
+    );
+    const graded = await call(endpoint + '?view=attempt', {
+      token: a.token,
+      body: { source, answer },
+    });
+    expect(graded.status, 200, 'Gültige falsche Antwort serverseitig gewertet');
+    const proof = tutorAttemptResponseSchema.parse(graded.data).proof;
+    expect(Object.keys(graded.data), ['proof'], 'Keine Lösung oder Rohantwort im Nachweis');
+    expect(graded.headers.get('Cache-Control'), 'no-store', 'Nachweise nicht zwischenspeichern');
+    expect(
+      await usage(a),
+      beforeAttempt,
+      'Weder Ablehnungen noch Nachweisausgabe verbrauchen Modellkontingent',
+    );
+    for (const body of [
+      { source, answer: 'untrusted-wrong' },
+      { source: { ...source, contentVersion: 999 }, answer },
+    ])
+      expect(
+        (await call(endpoint + '?view=attempt', { token: a.token, body })).status,
+        422,
+        'Kein Nachweis für ungültige Antwort oder Quelle',
+      );
+    expect(
+      (
+        await call(endpoint + '?view=attempt', {
+          token: a.token,
+          body: { source, answer, correct: true },
+        })
+      ).status,
+      400,
+      'Keine fertigen Clientwertungen',
+    );
+    const protectedRequest = payload({ mode: 'explain', context, attemptProof: proof });
+    for (const [token, changed] of [
+      [b.token, protectedRequest],
+      [a.token, { ...protectedRequest, context: { ...context, answer: correct } }],
+      [a.token, { ...protectedRequest, context: { ...context, source: { ...source, index: 1 } } }],
+      [a.token, { ...protectedRequest, attemptProof: { ...proof, signature: '0'.repeat(64) } }],
+    ]) {
+      const denied = await send(token, changed);
+      expect(denied.status, 409, 'Fremder oder veränderter Nachweis gesperrt');
+      expect(denied.data.error, 'attempt_invalid', 'Bindung an Konto, Quelle und Antwort');
+    }
+    const expired = await issueTutorAttempt(
+      catalogue,
+      a.id,
+      { source, answer },
+      status.SERVICE_ROLE_KEY,
+      Date.now() - TUTOR_ATTEMPT_TTL_MS - 1000,
+    );
+    expect(
+      (await send(a.token, { ...protectedRequest, attemptProof: expired })).data.error,
+      'attempt_expired',
+      'Abgelaufener Nachweis vor Modellaufruf gesperrt',
+    );
+    const explained = await send(a.token, protectedRequest);
+    expect(explained.status, 200, 'Erklärung nach serverseitiger Wertung');
+    expect(
+      JSON.stringify(explained.events).includes(proof.signature),
+      false,
+      'Kein Nachweis im Modellkontext oder Stream',
+    );
+    const savedScope = (
+      await table(`tutor_conversations?id=eq.${protectedRequest.conversationId}`, { admin: true })
+    ).data[0].context;
+    expect('attemptProof' in savedScope, false, 'Gesprächskontext speichert keine Nachweise');
+    expect(
+      explained.events
+        .filter((e) => e.type === 'text')
+        .map((e) => e.text)
+        .join('')
+        .includes('correct\\":false'),
+      true,
+      'Falsche Antwort bleibt falsch',
+    );
+    expect(
+      (await send(a.token, protectedRequest)).events[0].type,
+      'replay',
+      'Geprüfte Anfrage identisch wiederholbar',
+    );
+    expect(
+      (await send(a.token, payload({ mode: 'solution', context, attemptProof: proof }))).status,
+      200,
+      'Lösungsmodus erst mit passendem Versuchsnachweis',
+    );
+    const lesson = catalogue.lessons[0];
+    const lessonSource = {
+      kind: 'lesson',
+      lessonId: lesson.id,
+      contentVersion: lesson.contentVersion,
+      seed: 'test',
+      round: 'initial',
+      index: 0,
+    };
+    const lessonAnswer = expectedAnswer(resolveReportSource(catalogue, lessonSource).item);
+    const lessonReceipt = await call(endpoint + '?view=attempt', {
+      token: a.token,
+      body: { source: lessonSource, answer: lessonAnswer },
+    });
+    expect(
+      lessonReceipt.status,
+      process.argv.includes('--published') ? 422 : 200,
+      'Entwürfe ausschließlich in lokaler Vorschau',
+    );
+    if (lessonReceipt.status === 200) {
+      expect(
+        (
+          await send(
+            a.token,
+            payload({
+              mode: 'solution',
+              context: { source: lessonSource, answer: lessonAnswer, checked: true },
+              attemptProof: lessonReceipt.data.proof,
+            }),
+          )
+        ).status,
+        200,
+        'Geprüfte Entwurfsaufgabe nur lokal',
+      );
+    } else {
+      const previewProof = await issueTutorAttempt(
+        catalogue,
+        a.id,
+        { source: lessonSource, answer: lessonAnswer },
+        status.SERVICE_ROLE_KEY,
+      );
+      expect(
+        (
+          await send(
+            a.token,
+            payload({
+              mode: 'solution',
+              context: { source: lessonSource, answer: lessonAnswer, checked: true },
+              attemptProof: previewProof,
+            }),
+          )
+        ).status,
+        422,
+        'Auch signierter Vorschauversuch umgeht öffentlichen Inhaltsfilter nicht',
+      );
+    }
+    expect(
+      (
+        await call(endpoint + '?view=attempt', {
+          token: a.token,
+          body: { source: { ...lessonSource, contentVersion: 999 }, answer: lessonAnswer },
+        })
+      ).status,
+      422,
+      'Veralteter Inhalt wird vor Nachweisausgabe zurückgewiesen',
+    );
+  }
   const simultaneous = payload({ message: 'kurze Frage' });
   const duplicates = await Promise.all(
     Array.from({ length: 4 }, () => send(a.token, simultaneous)),

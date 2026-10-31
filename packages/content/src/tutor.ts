@@ -3,6 +3,20 @@ import { reportSourceSchema } from './content-reports.ts';
 
 export const TUTOR_PROMPT_VERSION = 5;
 export const TUTOR_TOOL_VERSION = 3;
+/** A receipt of server grading, not a learner identity or a learning/reward event. */
+export const tutorAttemptProofSchema = z
+  .object({
+    id: z.uuid(),
+    issuedAt: z.number().int().nonnegative(),
+    expiresAt: z.number().int().nonnegative(),
+    signature: z.string().regex(/^[a-f0-9]{64}$/),
+  })
+  .strict();
+export type TutorAttemptProof = z.infer<typeof tutorAttemptProofSchema>;
+export const tutorAttemptRequestSchema = z
+  .object({ source: reportSourceSchema, answer: z.string().min(1).max(4096) })
+  .strict();
+export const tutorAttemptResponseSchema = z.object({ proof: tutorAttemptProofSchema }).strict();
 const tokens = z.number().int().nonnegative().max(10_000_000);
 const money = z.number().int().nonnegative().max(1_000_000_000_000);
 const rate = z.number().int().nonnegative().max(1_000_000);
@@ -25,6 +39,9 @@ export const tutorRequestSchema = z
     mode: z.enum(['chat', 'hint', 'explain', 'solution']),
     hintLevel: z.union([z.literal(1), z.literal(2)]).nullable(),
     context: tutorContextSchema.nullable(),
+    // Optional on the wire for old clients/history; the server requires it for new
+    // explain/solution requests. Never infer authorization from `checked`.
+    attemptProof: tutorAttemptProofSchema.optional(),
   })
   .strict()
   .superRefine((v, ctx) => {
