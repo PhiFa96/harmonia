@@ -37,6 +37,12 @@ function complete(service, filename, initial, locale, owner = 'owner', misses = 
     if (expected.aural) assert.equal(state.question.svg, null, 'No score for a hearing question');
     assert.ok(!JSON.stringify(state).includes('fingerprint'));
     assert.ok(!Object.hasOwn(state, 'result'), 'No grading feedback before completion');
+    for (const { text } of state.question.description ?? [])
+      assert.doesNotMatch(
+        text,
+        /gestrichen|\bkleines [a-h]|\bgroßes [A-H]|\b[A-G](?: (?:double )?(?:sharp|flat))? \d\b/,
+        `Question ${index} description names pitches and gives the answer away: ${text}`,
+      );
     state = service.answer(owner, {
       id: state.id,
       index,

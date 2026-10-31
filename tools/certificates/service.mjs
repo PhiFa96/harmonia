@@ -9,6 +9,7 @@ import {
 } from '../../packages/content/src/exam.ts';
 import {
   choiceLabel,
+  exerciseDescription,
   exercisePrompt,
   currentItem,
   isAuralExercise,
@@ -16,7 +17,6 @@ import {
 import {
   layoutScore,
   layoutToSvg,
-  describeScore,
   scoreTimeline,
 } from '../../packages/notation/src/index.ts';
 import { CERTIFICATE_PROFILES } from './profiles.ts';
@@ -172,13 +172,8 @@ export function createCertificateService(
       prompt: exercisePrompt(item, locale),
       choices: item.choices.map((id) => ({ id, label: choiceLabel(item, id, locale) })),
       svg: score && !aural ? layoutToSvg(layoutScore(score)) : null,
-      description:
-        score && !aural
-          ? describeScore(score, {
-              language: locale === 'de' ? 'de' : 'en',
-              variant: locale === 'en-GB' ? 'uk' : 'us',
-            })
-          : null,
+      // Wie in der App: Positionen statt Tonnamen, sonst verrät die Beschreibung die Lösung.
+      description: score && !aural ? [{ text: exerciseDescription(item, locale) }] : null,
       audio:
         score && aural
           ? scoreTimeline(score, { bpm: 90, beat: { value: 'quarter', dots: 0 } })
