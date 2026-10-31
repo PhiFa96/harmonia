@@ -77,7 +77,7 @@ describe('P4.19 analysis from visible, playable source', () => {
       },
     };
     expect(contextExplanation(item, 'de')).toContain('Takt 2');
-    expect(contextExplanation(item, 'en-US')).toContain('Bar 2');
+    expect(contextExplanation(item, 'en-US')).toContain('Measure 2');
     expect(contextExplanation(item, 'en-GB')).toContain('Bar 2');
   });
 });
