@@ -188,6 +188,21 @@ describe('VOICE_LEADING accepts the standard textbook V(7)–I resolutions', () 
     );
     expect(result).toMatchObject({ passed: true, issues: [] });
   });
+  it('requires the tonic fifth after an incomplete V7', () => {
+    const item = cMajor(5);
+    const result = checkSatb(
+      item,
+      answer([
+        ['C5', 'E4', 'G3', 'C3'],
+        ['C5', 'F4', 'A3', 'F2'],
+        ['B4', 'F4', 'G3', 'G2'],
+        ['C5', 'E4', 'E4', 'C3'],
+      ]),
+    );
+    expect(result.issues).toContainEqual(
+      expect.objectContaining({ rule: 'chord-incomplete', at: 3 }),
+    );
+  });
   it('complete V7 resolving to a complete I with the leading tone falling in an inner voice', () => {
     const item = cMajor(5);
     const result = checkSatb(
