@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@expo-google-fonts/figtree": "^0.4.1",
-    "@expo/metro-runtime": "~57.0.16",
+    "@expo/metro-runtime": "~58.0.15",
     "@harmonia/audio": "workspace:*",
     "@harmonia/content": "workspace:*",
     "@harmonia/exercises": "workspace:*",
