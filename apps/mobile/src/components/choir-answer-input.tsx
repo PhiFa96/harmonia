@@ -1,9 +1,15 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { AppState, Platform, ScrollView, View } from 'react-native';
 import { useFocusEffect } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { engineLanguage } from '@harmonia/i18n';
-import { assessChoir, choirKeyName, choirScore, pitchInputLabel } from '@harmonia/exercises';
+import {
+  assessChoir,
+  choirAnswer,
+  choirKeyName,
+  choirScore,
+  pitchInputLabel,
+} from '@harmonia/exercises';
 import type { ChoirItem, Evaluation } from '@harmonia/exercises';
 import { eventBounds, layoutScore } from '@harmonia/notation';
 import { ScoreView } from '@harmonia/notation/native';
@@ -49,6 +55,17 @@ export function ChoirAnswerInput({
   const runner = useRef<ReturnType<typeof createChoirRunner> | null>(null);
   const latest = useRef({ onSelect, sound, disabled, result });
   latest.current = { onSelect, sound, disabled, result };
+  const emptyPendingTake = useMemo(() => {
+    if (result || answer === null) return false;
+    const samples = choirAnswer(item, answer);
+    return samples?.every((row) => row.every((pitch) => pitch === null)) ?? false;
+  }, [item, answer, result]);
+  // Clear old ungraded drafts before a check button can be used; graded history stays intact.
+  useLayoutEffect(() => {
+    if (!emptyPendingTake || disabled) return;
+    latest.current.onSelect(null);
+    setError('no-pitch');
+  }, [emptyPendingTake, disabled]);
   const stop = useCallback(() => runner.current?.stop(), []);
   useFocusEffect(
     useCallback(() => {
