@@ -132,7 +132,7 @@ Harte Vorbedingungen vor jeder echten Nutzung:
 - **C8 – technisch bearbeitet, 31.10.2026:** Eine eigene Lese-Fähigkeit mit erreichbarer Stufe-2-Einheit, zehn Dur-Vorzeichnungsfragen im Violinschlüssel und eigenen DE/EN-Einführungen ist jetzt Voraussetzung aller vier Stimmen. Der neue Zugang benötigt keinen Bassschlüssel oder Schreibweg; Tenor/Bass behalten ihre Bassgrundlagen. Bestehende Lesefähigkeiten werden nicht umgedeutet. [Umsetzung und Prüfstand](chor-vorzeichenlesen.md), [ADR 0067](../decisions/0067-chor-vorzeichenlesen-ohne-bassschluessel.md). Inhalte Entwurf, keine unabhängige Fach-/Sprach-/Gerätefreigabe.
 - **C9:** Ein stummes Mikrofon mit Null-PCM zählt als Fehlversuch statt als Skip.
 - **C11:** „Erstversuch“ meint „erste geprüfte Antwort“, das steht nicht in ADR 0064.
-- **C12:** `fail()` verwirft beim Vorhören einen ungeprüften Durchlauf.
+- **C12 – technisch bearbeitet, PR-Prüfung offen (02.11.2026):** Vorhörfehler erhalten den ungeprüften Take; DE/en-US/en-GB, erneutes Vorhören und sicheres Warten auf die alte Mikrofon-Schließoperation sind abgesichert. Eigener Branch `codex/choir-preview-recovery`, unabhängig von #136/#137; [ADR 0068](../decisions/0068-chor-vorhoerfehler-erhalten-den-take.md). Konkrete Test-/CI-Ergebnisse im Entwurfs-PR, echte Geräteabnahme weiter offen.
 - **C13:** Zeitzuordnung über den Callback-Zeitpunkt statt `atMs`; das ist nur mit Gerätetest zu klären.
 - **C14:** „Singe Tenor“ ohne Artikel; „Viertelschläge“ nicht aus dem Glossar; Entwicklerhinweise in `choir`-Texten.
 - Der Kommentar in `choir.test.ts:404` widerspricht `soprano-leap`.

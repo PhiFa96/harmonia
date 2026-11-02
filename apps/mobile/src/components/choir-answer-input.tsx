@@ -122,7 +122,7 @@ export function ChoirAnswerInput({
       if (mode !== 'backing' && !result) onInspect?.();
       void runner.current.start(mode, delay);
     } catch {
-      setError('unavailable');
+      setError(mode === 'backing' ? 'unavailable' : 'preview');
     }
   };
   const busy = ['requesting', 'checking', 'countIn', 'singing', 'preview'].includes(state.phase);
@@ -280,13 +280,15 @@ export function ChoirAnswerInput({
       {error ? (
         <AppText tone="danger" aria-live="polite">
           {t(
-            error === 'no-input'
-              ? 'exercise.choirNoInput'
-              : error === 'permission'
-                ? 'tuner.permission'
-                : error === 'interrupted'
-                  ? 'exercise.choirInterrupted'
-                  : 'tuner.unavailable',
+            error === 'preview'
+              ? 'exercise.choirPreviewFailed'
+              : error === 'no-input'
+                ? 'exercise.choirNoInput'
+                : error === 'permission'
+                  ? 'tuner.permission'
+                  : error === 'interrupted'
+                    ? 'exercise.choirInterrupted'
+                    : 'tuner.unavailable',
           )}
         </AppText>
       ) : null}
