@@ -92,6 +92,10 @@ export function createChoirRunner(item: ChoirItem, deps: Dependencies) {
           fail('interrupted');
           return;
         }
+        if (mode === 'backing' && !collector.hasDetectedPitch()) {
+          fail('no-pitch');
+          return;
+        }
         const answer = mode === 'backing' ? collector.answer() : null;
         void stop();
         if (answer) {

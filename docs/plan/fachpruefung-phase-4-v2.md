@@ -130,7 +130,7 @@ Harte Vorbedingungen vor jeder echten Nutzung:
 - **C6:** Sehr enge und tiefe Stimmumfänge.
 - **C7:** Tenor im Bassschlüssel statt oktaviertem Violinschlüssel (nicht dokumentiert).
 - **C8:** Die Aufgaben in B- und D-Dur setzen keine Vorzeichnungs-Fähigkeit voraus. `key.signature-major` verlangt im Graphen über `notation.write-pitch` den Bassschlüssel und würde ADR 0063 (Oberstimmen ohne Bassschlüssel) aufheben. Nötig ist eine eigene Lese-Fähigkeit für Vorzeichnungen oder eine Entscheidung zum Graphen; die Änderung wurde deshalb geprüft und zurückgenommen.
-- **C9:** Ein stummes Mikrofon mit Null-PCM zählt als Fehlversuch statt als Skip.
+- **C9 – technisch bearbeitet, PR-Prüfung offen (02.11.2026):** Neue vollständige Aufnahmen ohne akzeptierte Tonhöhe erzeugen keine Antwort; DE/en-US/en-GB bieten Wiederholen oder bewusstes Überspringen. Kein automatischer Skip oder Gesangsnachweis. Teilweise erkannte und historische Antworten behalten ihre Wertung. Branch `codex/choir-no-pitch-retry`, unabhängig von #136/#137/#141; [ADR 0069](../decisions/0069-chor-ohne-tonhoehen-erneut-aufnehmen.md). Konkrete Test-/CI-Ergebnisse im Entwurfs-PR, reale Geräteabnahme weiter offen.
 - **C11:** „Erstversuch“ meint „erste geprüfte Antwort“, das steht nicht in ADR 0064.
 - **C12:** `fail()` verwirft beim Vorhören einen ungeprüften Durchlauf.
 - **C13:** Zeitzuordnung über den Callback-Zeitpunkt statt `atMs`; das ist nur mit Gerätetest zu klären.
