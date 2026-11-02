@@ -64,29 +64,36 @@ export function createHistoryJourneyText(locale: AppLocale, messages: HistoryJou
         throw new Error('History translation unresolved');
       return translated;
     };
-    const options = (
-      field: 'knowledgeOptions' | 'listeningOptions' | 'personaPrompts' | 'personaReplies',
+    const entries = (
+      field:
+        | 'knowledgeOptions'
+        | 'listeningOptions'
+        | 'personaPrompts'
+        | 'personaReplies'
+        | 'knowledgeHints'
+        | 'listeningHints',
+      count: 2 | 3 = 3,
     ) => {
       const values = story[field];
-      if (!values || typeof values === 'string' || Object.keys(values).length !== 3)
-        throw new Error('History translated answers must have three options');
-      return [0, 1, 2].map((index) => text(field, index));
+      if (!values || typeof values === 'string' || Object.keys(values).length !== count)
+        throw new Error('History translated entries have an invalid count');
+      return Array.from({ length: count }, (_, index) => text(field, index));
     };
     const copy: HistoryJourneyText = {
       title: text('title'),
       scene: text('scene'),
       modelCaption: text('modelCaption'),
       personaName: text('personaName'),
-      personaPrompts: options('personaPrompts'),
-      personaReplies: options('personaReplies'),
+      personaPrompts: entries('personaPrompts'),
+      personaReplies: entries('personaReplies'),
       knowledgePrompt: text('knowledgePrompt'),
-      knowledgeOptions: options('knowledgeOptions'),
+      knowledgeOptions: entries('knowledgeOptions'),
       knowledgeExplanation: text('knowledgeExplanation'),
-      knowledgeHint: text('knowledgeHint'),
+      knowledgeHints: entries('knowledgeHints', 2),
       listeningPrompt: text('listeningPrompt'),
-      listeningOptions: options('listeningOptions'),
+      listeningOptions: entries('listeningOptions'),
       listeningExplanation: text('listeningExplanation'),
-      listeningHint: text('listeningHint'),
+      listeningHints: entries('listeningHints', 2),
     };
     for (const options of [
       copy.knowledgeOptions,
@@ -96,6 +103,9 @@ export function createHistoryJourneyText(locale: AppLocale, messages: HistoryJou
     ])
       if (options.length !== 3 || new Set(options.map((option) => option.trim())).size !== 3)
         throw new Error('History translated answers must be distinct');
+    for (const hints of [copy.knowledgeHints, copy.listeningHints])
+      if (new Set(hints.map((hint) => hint.trim())).size !== 2)
+        throw new Error('History translated hints must be distinct');
     return copy;
   };
 }

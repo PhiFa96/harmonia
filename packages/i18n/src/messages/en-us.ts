@@ -32,6 +32,8 @@ export const enUS = {
     check: 'Check answer',
     correct: 'Correct.',
     incorrect: 'Not quite.',
+    hint: 'Hint {{level}} of {{total}}',
+    moreHint: 'Show another hint',
     next: 'Continue',
     back: 'Back',
     finish: 'Back to stops',

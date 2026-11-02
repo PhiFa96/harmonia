@@ -5,5 +5,6 @@ export const historyJourneyMessages = {
   'en-GB': {
     ...data['en-US'],
     baroque: { ...data['en-US'].baroque, ...data['en-GB'].baroque },
+    classical: { ...data['en-US'].classical, ...data['en-GB'].classical },
   },
 };

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": 27,
+  "contentVersion": 30,
   "areas": [
     {
       "id": "fundament",
@@ -17085,7 +17085,7 @@
       ]
     },
     {
-      "contentVersion": 13,
+      "contentVersion": 30,
       "status": "entwurf",
       "id": "history.l2.period-contexts.article",
       "titleKey": "content.levelTwoPeriodContexts.articleTitle",

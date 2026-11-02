@@ -31,6 +31,8 @@ export const de = {
     check: 'Antwort prüfen',
     correct: 'Richtig.',
     incorrect: 'Noch nicht richtig.',
+    hint: 'Hinweis {{level}} von {{total}}',
+    moreHint: 'Weiteren Hinweis anzeigen',
     next: 'Weiter',
     back: 'Zurück',
     finish: 'Zur Übersicht',
