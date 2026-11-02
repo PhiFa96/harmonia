@@ -164,7 +164,11 @@ test('quiet SSE connections recheck consent, teacher removal and session identit
   await post(teacher, 'quiz-start', { id, index: -1 });
   await post(learner, 'quiz-answer', { id, index: 0, answer: await right(id, 0) });
   await post(teacher, 'quiz-finish', { id, index: 0 });
-  await post(learner, 'sharing', { class: f.classId, enabled: true });
+  await post(learner, 'sharing', {
+    class: f.classId,
+    enabled: true,
+    policy: 'school-draft-sharing-v2',
+  });
   const privateStream = await listen(teacher, id, 'teacher'),
     projector = await listen(teacher, id, 'projector'),
     own = await listen(learner, id);
@@ -176,7 +180,11 @@ test('quiet SSE connections recheck consent, teacher removal and session identit
   assert.equal(projected.results, undefined);
   assert.equal(projected.summary, undefined);
   assert.ok(!JSON.stringify(projected).includes('Fixture 1'));
-  await post(learner, 'sharing', { class: f.classId, enabled: false });
+  await post(learner, 'sharing', {
+    class: f.classId,
+    enabled: false,
+    policy: 'school-draft-sharing-v2',
+  });
   assert.equal(
     (await privateStream.until((v) => v.summary?.included === 0)).results[0].result,
     null,

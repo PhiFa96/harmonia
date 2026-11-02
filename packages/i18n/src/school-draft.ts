@@ -2,6 +2,8 @@ import type { AppLocale } from './locale.ts';
 
 // Internal dashboard only: deliberately not exported by resources.ts or index.ts.
 const de = {
+  authenticatedIntro:
+    'Du bist mit einer geprüften Testidentität angemeldet. Diese interne Vorschau ist noch nicht für den Schulbetrieb freigegeben.',
   title: 'Schul-Dashboard · interner Entwurf',
   draft: 'ENTWURF · Nur synthetische Testkonten und Lerndaten. Kein Schulbetrieb.',
   intro:
@@ -61,8 +63,9 @@ const de = {
   share: 'Testlernstand für diese Klasse freigeben',
   withdraw: 'Freigabe widerrufen',
   shareInfo:
-    'Freigabe nur für die aktuell zugewiesenen Lehrkräfte dieser Klasse: Lernbereiche, Antwortquoten, abgeschlossene Beispiellektionen und letzter Zeitpunkt. Eine spätere neue Klassenlehrkraft erhält dieselbe Freigabe. Jederzeit widerrufbar; bereits gesehene Angaben können nicht zurückgeholt werden.',
-  shareConfirm: 'Diese synthetischen Daten für die Lehrkräfte dieser Klasse freigeben?',
+    'Freigabeversion 2: Für die aktuell zugewiesenen Lehrkräfte dieser Klasse werden Lernbereiche, Antwortquoten, abgeschlossene Beispiellektionen, letzte Zeitpunkte sowie abgeschlossene Klassenaufgaben und Quiz-Endergebnisse sichtbar. Eine spätere neue Klassenlehrkraft erhält dieselbe Freigabe. Die freiwillige Rangliste im Quiz ist eine getrennte Wahl. Jederzeit widerrufbar; bereits gesehene Angaben können nicht zurückgeholt werden.',
+  shareConfirm:
+    'Die genannten Testlernstände sowie Aufgaben- und Quiz-Endergebnisse gemäß Freigabeversion 2 für diese Klasse freigeben?',
   leave: 'Klasse verlassen',
   confirmLeave: 'Klasse verlassen und die Freigabe sofort entfernen?',
   removeLearner: 'Aus Klasse entfernen',
@@ -93,8 +96,43 @@ const de = {
   changed: 'Änderung gespeichert.',
   joined: 'Beitritt gespeichert. Lernstand ist zunächst nicht freigegeben.',
   accessEnded: 'Kein Klassenzugriff mehr.',
+  privacyTitle: 'Meine Schulvorschau-Daten',
+  privacyInfo:
+    'Export und Löschung betreffen dein Testkonto in dieser lokalen Schulvorschau. Deine Daten in anderen Bereichen der App sind davon unabhängig. Vor der Löschung muss eine letzte Organisationsverwaltung ihre Rolle übertragen.',
+  exportData: 'Meine Testdaten herunterladen',
+  exportDone: 'Dein Datenexport wurde zum Herunterladen bereitgestellt.',
+  deleteAccount: 'Dieses Testkonto löschen',
+  confirmDeleteAccount:
+    'Dieses Testkonto mit Mitgliedschaften, eigenen Antworten, Lizenzplätzen und Lernstanddaten endgültig aus der Schulvorschau löschen?',
+  accountDeleted:
+    'Das Testkonto wurde gelöscht. Alle seine Schulvorschau-Sitzungen wurden beendet.',
+  privacyClose: 'Zur Schulübersicht',
+  logout: 'Sitzung beenden',
+  sessionEnded: 'Die Sitzung wurde beendet. Zum erneuten Öffnen lade die Vorschau neu.',
+  sharingPolicy:
+    'Bitte lies die aktuelle Freigabeversion und bestätige sie erneut. Eine ältere Freigabe gilt nicht für die erweiterten Ergebnisse.',
+  selfAssignment:
+    'Die Verwaltung kann sich einer bestehenden Klasse nicht selbst als Lehrkraft zuweisen. Eine andere Verwaltung muss die Zuordnung vornehmen.',
+  adminTransferRequired:
+    'Übertrage zuerst deine letzte Verwaltungsrolle an eine andere Person dieser Organisation.',
+  rateLimited: 'Zu viele Codeversuche. Bitte warte eine Minute und versuche es dann erneut.',
+  codeConflict: 'Es konnte keine eindeutige Kennung vergeben werden. Bitte versuche es erneut.',
+  auditTitle: 'Lehrkraft-Zuordnungen ansehen',
+  auditAdded: 'Lehrkraft hinzugefügt: {{teacher}} · {{date}}',
+  auditRemoved: 'Lehrkraft entfernt: {{teacher}} · {{date}}',
+  auditUnknown: 'Gelöschtes Testkonto',
+  auditEmpty: 'Noch keine Zuordnungsänderungen protokolliert.',
+  transferAdmin: 'Verwaltung übertragen',
+  confirmTransfer:
+    'Deine Verwaltungsrolle an {{name}} übertragen? Du bleibst Mitglied der Organisation.',
+  purgeData: 'Abgelaufene Testdaten bereinigen',
+  purgeInfo:
+    'Die lokale Entwurfsregel entfernt Aufgaben nach 30 Tagen, Quizdaten nach sieben Tagen und Zuordnungs-/Freigabeprotokolle nach 180 Tagen. Dies ist keine rechtlich freigegebene Aufbewahrungsregel.',
+  purgeDone: 'Abgelaufene Testdaten wurden nach der lokalen Entwurfsregel bereinigt.',
 };
 const en: Record<keyof typeof de, string> = {
+  authenticatedIntro:
+    'You are signed in with a verified test identity. This internal preview has not been approved for school use.',
   title: 'School dashboard · internal draft',
   draft: 'DRAFT · Synthetic test accounts and learning data only. Not for school use.',
   intro:
@@ -151,8 +189,9 @@ const en: Record<keyof typeof de, string> = {
   share: 'Share test learning data with this class',
   withdraw: 'Withdraw sharing',
   shareInfo:
-    'Share with the currently assigned teachers of this class only: learning areas, answer accuracy, completed sample lessons and last timestamp. A newly assigned class teacher will receive the same permission. You can withdraw at any time; information already seen cannot be recalled.',
-  shareConfirm: 'Share this synthetic data with the teachers of this class?',
+    'Sharing version 2: the currently assigned teachers of this class can see learning areas, answer rates, completed sample lessons, latest timestamps, completed class assignments, and final quiz results. A new class teacher receives the same permission. The optional quiz leaderboard is a separate choice. You may withdraw at any time; information already seen cannot be recalled.',
+  shareConfirm:
+    'Share the listed sample learning data, assignment results, and final quiz results with this class under sharing version 2?',
   leave: 'Leave class',
   confirmLeave: 'Leave this class and remove sharing immediately?',
   removeLearner: 'Remove from class',
@@ -182,12 +221,48 @@ const en: Record<keyof typeof de, string> = {
   changed: 'Change saved.',
   joined: 'Joined. Learning data is initially not shared.',
   accessEnded: 'Class access has ended.',
+  privacyTitle: 'My school preview data',
+  privacyInfo:
+    'Export and deletion apply to your test account in this local school preview. Your data elsewhere in the app is separate. Before deletion, the last organization administrator must transfer their role.',
+  exportData: 'Download my test data',
+  exportDone: 'Your data export is ready to download.',
+  deleteAccount: 'Delete this test account',
+  confirmDeleteAccount:
+    'Permanently delete this test account, its memberships, own answers, school seats, and learning data from the school preview?',
+  accountDeleted:
+    'The test account has been deleted. All of its school preview sessions have ended.',
+  privacyClose: 'Back to school overview',
+  logout: 'End session',
+  sessionEnded: 'The session has ended. Reload the preview to open it again.',
+  sharingPolicy:
+    'Please read and confirm the current sharing version again. An older permission does not cover the expanded results.',
+  selfAssignment:
+    'An administrator cannot assign themselves as a teacher of an existing class. Another administrator must make the assignment.',
+  adminTransferRequired:
+    'First transfer your last administrator role to another person in this organization.',
+  rateLimited: 'Too many code attempts. Please wait one minute and try again.',
+  codeConflict: 'A unique identifier could not be allocated. Please try again.',
+  auditTitle: 'View teacher assignments',
+  auditAdded: 'Teacher added: {{teacher}} · {{date}}',
+  auditRemoved: 'Teacher removed: {{teacher}} · {{date}}',
+  auditUnknown: 'Deleted test account',
+  auditEmpty: 'No assignment changes have been recorded yet.',
+  transferAdmin: 'Transfer administration',
+  confirmTransfer:
+    'Transfer your administrator role to {{name}}? You will remain an organization member.',
+  purgeData: 'Clear expired test data',
+  purgeInfo:
+    'The local draft policy removes assignments after 30 days, quiz data after seven days, and assignment/sharing audit records after 180 days. This is not a legally approved retention policy.',
+  purgeDone: 'Expired test data has been cleared under the local draft policy.',
 };
 export const SCHOOL_DRAFT_MESSAGES = {
   de,
   'en-US': en,
   'en-GB': {
     ...en,
+    privacyInfo: en.privacyInfo.replace('organization', 'organisation'),
+    adminTransferRequired: en.adminTransferRequired.replace('organization', 'organisation'),
+    confirmTransfer: en.confirmTransfer.replace('organization', 'organisation'),
     organizations: 'Organisations',
     createOrg: 'Create organisation',
     orgLabel: 'Invented organisation name',

@@ -219,6 +219,8 @@
 
 ### P4.13 – Organisationen, Klassen, Lehrer-Dashboard
 
+**Technischer Gesamtentwurf vom 02.11.2026:** P4.13–P4.16 werden gemeinsam auf `codex/school-complete-draft` vervollständigt: gebundene Testidentitäten/Betreiberrollen, aktuelle Freigaben für Aufgaben und Quizergebnisse, minimale Berichte und Platzanfragen, Export/Löschung/Aufbewahrung, zusätzliche Datenbankgrenzen sowie robuste Sitzungen, Codes und Fehlerfälle. [Gesamtstand und Nachweise](schule-gesamtstand.md), [ADR 0072](../decisions/0072-schulbereich-mit-gebundener-identitaet-und-datenrechten.md). Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe** auf Nutzerauftrag; alles bleibt interner Entwurf. Die nachfolgenden datierten Angaben beschreiben den Vorgängerstand, die Produkt-Abnahmen bleiben offen. Keine Veröffentlichung oder Main-Integration; P4.01 bleibt bis F14 und Klärung der rechtlichen Voraussetzungen zurückgestellt.
+
 **Interne technische Vorarbeit auf Nutzerauftrag (23.10.2026), vor der formalen Phase-4-Freigabe:** [Lokaler Schul-Dashboard-Entwurf](schule-dashboard-entwurf.md) mit Organisationen, Rollen, Klassen, befristeten Einladungscodes, Klassen-/Einzelübersichten und widerrufbarer klassenbezogener Freigabe. Echte PostgreSQL-RLS, pgTAP, HTTP- und DE/EN-Browserprüfungen; ausschließlich synthetische Konten und Lerndaten. Die Dashboard-Basis aus P4.01 wird nur für diesen lokalen Entwurf durch eine eigene Werkstatt ersetzt. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt. Keine Veröffentlichung, produktive Authentifizierung oder Schulabnahme. P4.17, AVV/Schulrecht, echte Lernnachweise und Pilotbetrieb bleiben offen; die Produkt-Checkliste bleibt unverändert offen.
 
 - **Ziel:** Lehrkräfte arbeiten mit ihren Klassen.
@@ -232,6 +234,8 @@
 
 ### P4.14 – Aufgaben zuweisen
 
+**Technischer Gesamtentwurf vom 02.11.2026:** P4.13–P4.16 werden gemeinsam auf `codex/school-complete-draft` vervollständigt: gebundene Testidentitäten/Betreiberrollen, aktuelle Freigaben für Aufgaben und Quizergebnisse, minimale Berichte und Platzanfragen, Export/Löschung/Aufbewahrung, zusätzliche Datenbankgrenzen sowie robuste Sitzungen, Codes und Fehlerfälle. [Gesamtstand und Nachweise](schule-gesamtstand.md), [ADR 0072](../decisions/0072-schulbereich-mit-gebundener-identitaet-und-datenrechten.md). Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe** auf Nutzerauftrag; alles bleibt interner Entwurf. Die nachfolgenden datierten Angaben beschreiben den Vorgängerstand, die Produkt-Abnahmen bleiben offen. Keine Veröffentlichung oder Main-Integration; P4.01 bleibt bis F14 und Klärung der rechtlichen Voraussetzungen zurückgestellt.
+
 **Interne technische Vorarbeit auf Nutzerauftrag (24.10.2026), vor der formalen Phase-4-Freigabe:** [Klassenaufgaben-Entwurf](schulaufgaben-entwurf.md) auf der lokalen P4.13-Werkstatt: Lektionen/Übungsbausteine zusammenstellen, Empfänger und Aufgaben einfrieren, Fälligkeit, geschützter lokaler Link, Bearbeitung/Wiederaufnahme, serverseitige Engine-Bewertung und widerrufbar freigegebene Auswertung in DE/en-US/en-GB. Ausschließlich synthetische Konten; echte PostgreSQL-RLS-, HTTP- und Browserprüfungen. P4.13 ist die technische PR-Abhängigkeit. Quellen bleiben Entwurf bis zur unabhängigen Fachprüfung; keine Veröffentlichung. Die Produkt-Checkliste bleibt bis zu den Fach-, Rechts-, Identitäts- und Pilotabnahmen offen. P4.01 bleibt bis F14 und Klärung der rechtlichen Voraussetzungen zurückgestellt.
 
 - **Ziel:** Hausaufgaben für Klassen.
@@ -244,6 +248,8 @@
 
 ### P4.15 – Klassen-Live-Quiz
 
+**Technischer Gesamtentwurf vom 02.11.2026:** P4.13–P4.16 werden gemeinsam auf `codex/school-complete-draft` vervollständigt: gebundene Testidentitäten/Betreiberrollen, aktuelle Freigaben für Aufgaben und Quizergebnisse, minimale Berichte und Platzanfragen, Export/Löschung/Aufbewahrung, zusätzliche Datenbankgrenzen sowie robuste Sitzungen, Codes und Fehlerfälle. [Gesamtstand und Nachweise](schule-gesamtstand.md), [ADR 0072](../decisions/0072-schulbereich-mit-gebundener-identitaet-und-datenrechten.md). Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe** auf Nutzerauftrag; alles bleibt interner Entwurf. Die nachfolgenden datierten Angaben beschreiben den Vorgängerstand, die Produkt-Abnahmen bleiben offen. Keine Veröffentlichung oder Main-Integration; P4.01 bleibt bis F14 und Klärung der rechtlichen Voraussetzungen zurückgestellt.
+
 **Interne technische Vorarbeit auf Nutzerauftrag (24.10.2026), vor der formalen Phase-4-Freigabe:** [Lokaler Live-Quiz-Entwurf](klassen-live-quiz-entwurf.md) mit Lobbycode, Beameransicht, synchronisierten Runden, serverseitiger Bewertung, freiwilliger Rangliste mit Spielkürzeln und freigabegebundener Endauswertung in DE/en-US/en-GB. Aufbau auf P4.13/P4.14, ausschließlich synthetische Konten und Entwurfsquellen. Ein Lasttest prüft 30 gleichzeitige HTTP-/SSE-Clients; **die verlangte Abnahme mit 30 echten Geräten ist weiterhin offen**. Keine Veröffentlichung oder produktive Authentifizierung. Fachprüfung, P4.17, Schulrecht/AVV und Pilot bleiben offen; die Produkt-Checkliste ist deshalb nicht abgenommen. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt.
 
 - **Ziel:** Gemeinsames Quiz im Unterricht.
@@ -255,6 +261,8 @@
 - **Fertig, wenn:** Test mit 30 gleichzeitigen Geräten läuft stabil.
 
 ### P4.16 – Schul-Lizenz
+
+**Technischer Gesamtentwurf vom 02.11.2026:** P4.13–P4.16 werden gemeinsam auf `codex/school-complete-draft` vervollständigt: gebundene Testidentitäten/Betreiberrollen, aktuelle Freigaben für Aufgaben und Quizergebnisse, minimale Berichte und Platzanfragen, Export/Löschung/Aufbewahrung, zusätzliche Datenbankgrenzen sowie robuste Sitzungen, Codes und Fehlerfälle. [Gesamtstand und Nachweise](schule-gesamtstand.md), [ADR 0072](../decisions/0072-schulbereich-mit-gebundener-identitaet-und-datenrechten.md). Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe** auf Nutzerauftrag; alles bleibt interner Entwurf. Die nachfolgenden datierten Angaben beschreiben den Vorgängerstand, die Produkt-Abnahmen bleiben offen. Keine Veröffentlichung oder Main-Integration; P4.01 bleibt bis F14 und Klärung der rechtlichen Voraussetzungen zurückgestellt.
 
 **Interne technische Vorarbeit auf Nutzerauftrag (24.10.2026), vor der formalen Phase-4-Freigabe:** [Lokaler Schullizenz-Entwurf](schul-lizenz-entwurf.md) mit Rechnungsproben, simuliertem Zahlungseingang über ein getrenntes synthetisches Betreiberkonto, Platzvergabe, Laufzeiten und widerrufbaren Premium-Übungen in DE/en-US/en-GB. Datenbankzeit, RLS, Sperren und Mitgliedschaftstrigger schützen Freischaltungen. Ausschließlich Testdaten; keine echte Rechnung, Zahlung oder produktive App-Freischaltung. Die Bedingung **„Eine Pilotschule ist eingerichtet“ bleibt offen**, ebenso P4.17, Schulrecht/AVV, Identität, Rechnungs-/Steuerprüfung und Fachabnahmen. Keine Veröffentlichung. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt; die Produkt-Checkliste ist nicht abgenommen.
 

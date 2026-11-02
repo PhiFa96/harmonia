@@ -1,5 +1,5 @@
 /** SSE snapshots are authorized anew on every refresh, including quiet rooms. */
-export function createQuizStreams(service) {
+export function createQuizStreams(service, { isSessionActive = () => true } = {}) {
   const clients = new Set();
   async function pump(c) {
     if (c.closed) return;
@@ -9,10 +9,12 @@ export function createQuizStreams(service) {
     }
     c.busy = true;
     try {
-      if (c.session.actor.id !== c.actor) throw new Error('forbidden');
+      if (!isSessionActive(c.session) || c.session.actor.id !== c.actor)
+        throw new Error('forbidden');
       const value = await service.call(c.actor, 'view', c.payload);
       if (c.closed) return;
-      if (c.session.actor.id !== c.actor) throw new Error('forbidden');
+      if (!isSessionActive(c.session) || c.session.actor.id !== c.actor)
+        throw new Error('forbidden');
       const signature = JSON.stringify({ ...value, serverNow: undefined });
       if (signature !== c.signature || Date.now() - c.sentAt >= 15000) {
         c.signature = signature;
@@ -40,11 +42,13 @@ export function createQuizStreams(service) {
     async open(req, res, session, payload) {
       if (clients.size >= 128 || [...clients].filter((c) => c.session === session).length >= 4)
         return false;
+      if (!isSessionActive(session)) throw new Error('forbidden');
       const actor = session.actor.id;
       // Fail before starting an SSE response when the current account lacks access.
       await service.call(actor, 'view', payload);
       if (res.destroyed) return true;
       if (
+        !isSessionActive(session) ||
         session.actor.id !== actor ||
         clients.size >= 128 ||
         [...clients].filter((c) => c.session === session).length >= 4

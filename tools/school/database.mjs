@@ -72,10 +72,23 @@ export async function createSchoolDatabase() {
       }
     }
     if (!ready) throw new Error('Local PostgreSQL did not start');
-    await pool.query(await readFile(new URL('./schema.sql', import.meta.url), 'utf8'));
-    await pool.query(await readFile(new URL('./assignments.sql', import.meta.url), 'utf8'));
-    await pool.query(await readFile(new URL('./quiz.sql', import.meta.url), 'utf8'));
-    await pool.query(await readFile(new URL('./licenses.sql', import.meta.url), 'utf8'));
+    for (const file of [
+      'identity-fixture.sql',
+      'schema.sql',
+      'assignments.sql',
+      'quiz.sql',
+      'licenses.sql',
+      'complete.sql',
+    ]) {
+      try {
+        await pool.query(await readFile(new URL(file, import.meta.url), 'utf8'));
+      } catch (error) {
+        throw new Error(
+          `${file} (${error.code ?? 'unknown'}, position ${error.position ?? error.internalPosition ?? 'unknown'}): ${error.message.split('\n')[0]}`,
+          { cause: error },
+        );
+      }
+    }
     return { pool, close };
   } catch (error) {
     await close();
@@ -108,6 +121,9 @@ export async function seedSchoolFixtures(pool) {
       a.key,
       a.kind,
     ]);
+  await pool.query(
+    "insert into school_draft.operators select id from school_draft.actors where key='operator'",
+  );
   for (const [n, a] of FIXTURE_ACTORS.filter((a) => a.kind === 'learner').entries()) {
     for (const [i, area] of ['notation', 'intervals', 'rhythm'].entries())
       await pool.query(
@@ -123,7 +139,9 @@ export async function asActor(pool, id, work) {
   try {
     await client.query('begin');
     await client.query('set local role harmonia_school_actor');
-    await client.query("select set_config('school_draft.actor',$1,true)", [id]);
+    await client.query("select set_config('request.jwt.claims',$1,true)", [
+      JSON.stringify({ sub: id, role: 'authenticated' }),
+    ]);
     const result = await work(client);
     await client.query('commit');
     return result;

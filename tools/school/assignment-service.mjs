@@ -54,11 +54,16 @@ export function createAssignmentService(pool) {
         throw new SchoolError('invalid');
       throw error;
     });
-  async function load(db, assignmentId) {
+  async function load(db, assignmentId, write = false) {
     let a = (await db.query('select * from school_draft.assignments where id=$1', [assignmentId]))
       .rows[0];
     if (!a) throw new SchoolError('forbidden', 403);
-    await db.query('select school_draft.assignment_class_lock($1)', [a.class_id]);
+    await db.query(
+      write
+        ? 'select school_draft.assignment_class_lock($1)'
+        : 'select school_draft.assignment_class_read($1)',
+      [a.class_id],
+    );
     a = (
       await db.query(
         'select *,school_draft.teaches(class_id) as teacher,clock_timestamp() as server_now from school_draft.assignments where id=$1',
@@ -190,7 +195,7 @@ export function createAssignmentService(pool) {
         exact(p, ['class']);
         id(p.class);
         return run(actor, async (db) => {
-          await db.query('select school_draft.assignment_class_lock($1)', [p.class]);
+          await db.query('select school_draft.assignment_class_read($1)', [p.class]);
           return {
             assignments: (
               await db.query(
@@ -223,7 +228,7 @@ export function createAssignmentService(pool) {
       )
         throw new SchoolError('invalid');
       return run(actor, async (db) => {
-        const a = await load(db, p.id);
+        const a = await load(db, p.id, !['view', 'report'].includes(action));
         a.locale = p.locale;
         if (action === 'close') {
           if (!a.teacher) throw new SchoolError('forbidden', 403);
@@ -237,14 +242,14 @@ export function createAssignmentService(pool) {
           if (!a.teacher) throw new SchoolError('forbidden', 403);
           const learners = (
             await db.query(
-              `select m.alias,m.sharing,t.actor_id as actor,r.answered,r.correct,r.finished_at,r.reason
+              `select m.id as member,m.alias,school_draft.sharing_current(m.class_id,m.actor_id) as sharing,r.answered,r.correct,r.finished_at,r.reason
             from school_draft.assignment_targets t join school_draft.class_members m on m.class_id=t.class_id and m.actor_id=t.actor_id
             left join school_draft.assignment_attempts r on r.assignment_id=t.assignment_id and r.actor_id=t.actor_id
             where t.assignment_id=$1 order by m.alias`,
               [a.id],
             )
           ).rows.map((row) => ({
-            actor: row.actor,
+            member: row.member,
             alias: row.alias,
             sharing: row.sharing,
             result:

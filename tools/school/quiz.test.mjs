@@ -67,7 +67,11 @@ for (const locale of ['de', 'en-US', 'en-GB'])
     assert.equal(self.phase, 'finished');
     assert.equal(self.self.result.correct, 3);
     assert.equal((await view('teacherA', id)).results[0].result, null);
-    await f.act('learnerA', 'sharing', { class: f.classId, enabled: true });
+    await f.act('learnerA', 'sharing', {
+      class: f.classId,
+      enabled: true,
+      policy: 'school-draft-sharing-v2',
+    });
     assert.deepEqual((await view('teacherA', id)).summary, {
       included: 1,
       participants: 2,
@@ -76,7 +80,11 @@ for (const locale of ['de', 'en-US', 'en-GB'])
     });
     await call('learnerA', 'ranking', { id, enabled: false });
     assert.deepEqual((await view('teacherA', id, 'projector')).board, []);
-    await f.act('learnerA', 'sharing', { class: f.classId, enabled: false });
+    await f.act('learnerA', 'sharing', {
+      class: f.classId,
+      enabled: false,
+      policy: 'school-draft-sharing-v2',
+    });
     assert.equal((await view('teacherA', id)).summary.total, 0);
   });
 test('codes, roles, material and direct writes do not bypass class boundaries', async () => {

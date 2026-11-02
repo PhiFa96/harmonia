@@ -1,10 +1,12 @@
+import { createPrivacyService } from './privacy-service.mjs';
 import { createLicenseService } from './license-service.mjs';
 import { createQuizService } from './quiz-service.mjs';
 import { createQuizStreams } from './quiz-streams.mjs';
 import { readFileSync } from 'node:fs';
 import { createAssignmentService } from './assignment-service.mjs';
 import { createServer } from 'node:http';
-import { randomBytes } from 'node:crypto';
+import { createSessions } from './sessions.mjs';
+import { createIdentityVerifier } from './auth.mjs';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { build } from 'esbuild';
@@ -21,14 +23,23 @@ const html = `<!doctype html><html lang="de"><head><meta charset="utf-8"><meta n
 @font-face{font-family:Bravura;src:url('/bravura.woff2') format('woff2');font-display:swap}main[data-projector=true]{max-width:1600px;font-size:1.4rem}main[data-projector=true]>:not([data-school-content]){display:none}.quiz-panel code{font-size:2rem;letter-spacing:.12em}.score{overflow:auto;max-width:100%}.score svg{display:block}fieldset{border:0;padding:0}input[type=checkbox],input[type=radio]{width:auto;min-height:0}*{box-sizing:border-box}body{margin:0;background:${c.background};color:${c.text};font:16px/1.6 system-ui,sans-serif}main{max-width:1050px;margin:auto;padding:${SPACE.l}px}h1,h2,h3{line-height:1.3}section,article{margin:${SPACE.m}px 0;padding:${SPACE.m}px;border:1px solid ${c.border};border-radius:${RADIUS.control}px;background:${c.surface}}button,input,select{font:inherit;color:inherit;background:${c.surface};border:1px solid ${c.borderStrong};border-radius:${RADIUS.control}px;padding:${SPACE.s}px;min-height:48px;max-width:100%}input{width:100%}button{cursor:pointer}button:disabled{opacity:.65;cursor:wait}label{display:block;margin:${SPACE.s}px 0}.actions{display:flex;flex-wrap:wrap;gap:${SPACE.s}px;margin:${SPACE.s}px 0}.draft{background:${c.accent};color:${c.onAccent};padding:${SPACE.m}px;font-weight:700}.note{color:${c.textMuted}}p,code{overflow-wrap:anywhere}:focus-visible{outline:3px solid ${c.primary};outline-offset:3px}[role=alert]:not(:empty){padding:${SPACE.s}px;border:2px solid ${c.danger}}@media(max-width:500px){main{padding:${SPACE.m}px}}
 </style></head><body><main></main><script src="/app.js" defer></script></body></html>`;
 
-export async function createSchoolServer({ pool, port = 0, fixtureActors = FIXTURE_ACTORS } = {}) {
+export async function createSchoolServer({
+  pool,
+  port = 0,
+  fixtureActors = FIXTURE_ACTORS,
+  authentication,
+  now = Date.now,
+  sessionLimits = {},
+} = {}) {
   if (!pool) throw new Error('An isolated school fixture database is required');
   const service = createSchoolService(pool),
-    sessions = new Map();
+    sessions = createSessions({ now, ...sessionLimits });
+  const verifyIdentity = authentication ? createIdentityVerifier({ ...authentication, now }) : null;
   const licenses = createLicenseService(pool);
+  const privacy = createPrivacyService(pool);
   const assignments = createAssignmentService(pool);
   const quiz = createQuizService(pool);
-  const quizStreams = createQuizStreams(quiz);
+  const quizStreams = createQuizStreams(quiz, { isSessionActive: sessions.active });
   const bundle = await build({
     entryPoints: [new URL('./browser.ts', import.meta.url).pathname],
     absWorkingDir: new URL('../..', import.meta.url).pathname,
@@ -60,12 +71,30 @@ export async function createSchoolServer({ pool, port = 0, fixtureActors = FIXTU
         req.headers.cookie ?? '',
       )?.[1];
       let session = sessions.get(token);
+      const actor = session?.actor;
       if (req.method === 'GET' && url.pathname === '/') {
         if (!session) {
-          if (sessions.size >= 128) throw new SchoolError('error', 503);
-          const value = randomBytes(32).toString('hex');
-          session = { actor: fixtureActors[0] };
-          sessions.set(value, session);
+          const existing = (await pool.query('select id from school_draft.actors')).rows.map(
+            (a) => a.id,
+          );
+          let actor = fixtureActors.find((a) => existing.includes(a.id)),
+            expiresAt = Infinity;
+          if (verifyIdentity) {
+            const bearer = /^Bearer (.+)$/.exec(req.headers.authorization ?? '')?.[1];
+            const identity = verifyIdentity(bearer);
+            actor = (
+              await pool.query('select id,key,kind from school_draft.actors where id=$1', [
+                identity.subject,
+              ])
+            ).rows[0];
+            if (!actor) throw new SchoolError('forbidden', 401);
+            expiresAt = identity.expiresAt;
+          }
+          if (!actor) throw new SchoolError('forbidden', 401);
+          const created = sessions.create(actor, expiresAt);
+          if (!created) throw new SchoolError('error', 503);
+          const value = created.token;
+          session = created.session;
           res.setHeader(
             'Set-Cookie',
             `harmonia_school_draft=${value}; Path=/; HttpOnly; SameSite=Strict`,
@@ -77,9 +106,12 @@ export async function createSchoolServer({ pool, port = 0, fixtureActors = FIXTU
         return send(200, bundle.outputFiles[0].text, 'text/javascript; charset=utf-8');
       if (req.method === 'GET' && url.pathname === '/bravura.woff2')
         return send(200, readFileSync(bravura), 'font/woff2');
-      if (!session) throw new SchoolError('forbidden', 401);
+      if (
+        !session ||
+        !(await pool.query('select 1 from school_draft.actors where id=$1', [actor.id])).rowCount
+      )
+        throw new SchoolError('sessionExpired', 401);
       // Capture this request's actor before awaiting anything or changing a demo session.
-      const actor = session.actor;
       if (req.method === 'GET' && url.pathname === '/api/quiz-events') {
         if (req.headers.origin && req.headers.origin !== origin)
           throw new SchoolError('forbidden', 403);
@@ -91,8 +123,19 @@ export async function createSchoolServer({ pool, port = 0, fixtureActors = FIXTU
         if (!opened) throw new SchoolError('error', 503);
         return;
       }
-      if (req.method === 'GET' && url.pathname === '/api/state')
-        return send(200, { actor, actors: fixtureActors, ...(await service.state(actor.id)) });
+      if (req.method === 'GET' && url.pathname === '/api/state') {
+        const existingActorIds = new Set(
+          (await pool.query('select id from school_draft.actors')).rows.map((a) => a.id),
+        );
+        return send(200, {
+          actor,
+          actors: verifyIdentity
+            ? [actor]
+            : fixtureActors.filter((a) => existingActorIds.has(a.id)),
+          fixtureMode: !verifyIdentity,
+          ...(await service.state(actor.id)),
+        });
+      }
       if (req.method === 'GET' && url.pathname === '/api/report')
         return send(200, await service.report(actor.id, url.searchParams.get('class')));
       if (req.method !== 'POST') throw new SchoolError('forbidden', 404);
@@ -111,10 +154,38 @@ export async function createSchoolServer({ pool, port = 0, fixtureActors = FIXTU
       } catch {
         throw new SchoolError('invalid');
       }
+      if (url.pathname.startsWith('/api/privacy-')) {
+        const action = url.pathname.slice('/api/privacy-'.length);
+        const result = await privacy.call(actor.id, action, body);
+        if (action === 'delete') {
+          sessions.removeActor(actor.id);
+          res.setHeader(
+            'Set-Cookie',
+            'harmonia_school_draft=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0',
+          );
+          quizStreams.wake();
+        }
+        return send(200, result);
+      }
+      if (url.pathname === '/api/logout') {
+        if (!body || Object.keys(body).length) throw new SchoolError('invalid');
+        sessions.remove(token);
+        quizStreams.wake();
+        res.setHeader(
+          'Set-Cookie',
+          'harmonia_school_draft=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0',
+        );
+        return send(200, { ok: true });
+      }
       if (url.pathname === '/api/session') {
+        if (verifyIdentity) throw new SchoolError('forbidden', 403);
         if (!body || Object.keys(body).join() !== 'actor') throw new SchoolError('invalid');
         const next = fixtureActors.find((a) => a.key === body.actor);
-        if (!next) throw new SchoolError('invalid');
+        if (
+          !next ||
+          !(await pool.query('select 1 from school_draft.actors where id=$1', [next.id])).rowCount
+        )
+          throw new SchoolError('invalid');
         session.actor = next;
         quizStreams.wake();
         return send(200, { ok: true });
@@ -139,6 +210,8 @@ export async function createSchoolServer({ pool, port = 0, fixtureActors = FIXTU
       quizStreams.wake();
       return send(200, result);
     } catch (error) {
+      if (error instanceof SchoolError && error.code === 'rateLimited')
+        res.setHeader('Retry-After', '60');
       send(error instanceof SchoolError ? error.status : 500, {
         error: error instanceof SchoolError ? error.code : 'error',
       });
@@ -158,7 +231,7 @@ export async function createSchoolServer({ pool, port = 0, fixtureActors = FIXTU
         quizStreams.close();
         server.closeAllConnections();
         server.close(() => {
-          sessions.clear();
+          sessions.close();
           resolve();
         });
       }),
