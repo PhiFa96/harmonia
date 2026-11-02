@@ -114,7 +114,7 @@
     "pdf-lib": "1.17.1",
     "prettier": "catalog:",
     "supabase": "2.122.0",
-    "ts-fsrs": "5.4.2",
+    "ts-fsrs": "6.0.0",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:",
     "zod": "catalog:"
