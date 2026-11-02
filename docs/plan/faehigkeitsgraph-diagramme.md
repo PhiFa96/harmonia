@@ -2,7 +2,7 @@
 
 <!-- Erzeugt mit pnpm curriculum:render; Änderungen an Katalog, Plan oder Übersetzungen vornehmen. -->
 
-Katalog-/Planversion 28. 18 Bereiche, 39 Bereichsstufen, 66 Einheiten und 200 Fähigkeiten.
+Katalog-/Planversion 29. 18 Bereiche, 39 Bereichsstufen, 66 Einheiten und 200 Fähigkeiten.
 
 Pfeile zeigen von der Voraussetzung zum folgenden Lernziel. Die Reihenfolge ist eine mögliche Reihenfolge für die Planung; unabhängige Zweige bleiben im Graphen unabhängig. Die Tabellen zeigen alle direkten Voraussetzungen, auch über Bereichsgrenzen hinweg.
 
@@ -68,7 +68,7 @@ Die Einheiten haben noch keine vollständigen Lektionen. Technische Prüfungen e
 | 54 | 4 | Gehörbildung | Gehörbildung zur Studienvorbereitung · `aural.l4.preparation` | 3 |
 | 55 | 4 | Musikgeschichte und Quellen | Historische Werke einordnen · `history.l4.survey` | 3 |
 | 56 | 4 | Tonsatz und Stimmführung | Vierstimmige Dreiklänge · `satz.l4.writing` | 3 |
-| 57 | 4 | Gehörbildung | Chor-Trainer · Entwurf · `aural.l4.choir` | 4 |
+| 57 | 4 | Gehörbildung | Chor-Trainer · `aural.l4.choir` | 4 |
 | 58 | 5 | Tonsatz und Stimmführung | Dominantseptakkord im Satz · `satz.l5.writing` | 3 |
 | 59 | 5 | Kontrapunkt | Gattungskontrapunkt: Grundlagen · `counterpoint.l5.species` | 3 |
 | 60 | 5 | Kontrapunkt | Imitation, Kanon und Fuge · `counterpoint.l5.imitation` | 3 |
@@ -144,7 +144,7 @@ flowchart TD
     u53["Gehörbildung zur Studienvorbereitung"]
     u54["Historische Werke einordnen"]
     u55["Vierstimmige Dreiklänge"]
-    u56["Chor-Trainer · Entwurf"]
+    u56["Chor-Trainer"]
   end
   subgraph level5["Stufe 5"]
     u57["Dominantseptakkord im Satz"]
@@ -800,10 +800,10 @@ flowchart TD
 | 4 · Gehörbildung zur Studienvorbereitung | Intervalle und Vierklänge hören | `aural.l4.preparation.s1` | Hear intervals and seventh chords | `aural.l3.dictation.s3`, `chords.l4.extensions.s2` | entwurf |
 | 4 · Gehörbildung zur Studienvorbereitung | Melodie und Rhythmus notieren | `aural.l4.preparation.s2` | Notate melody and rhythm | `aural.l4.preparation.s1` | entwurf |
 | 4 · Gehörbildung zur Studienvorbereitung | Vom Blatt singen | `aural.l4.preparation.s3` | Sight sing | `aural.l4.preparation.s2` | entwurf |
-| 4 · Chor-Trainer · Entwurf | Sopran singen | `aural.l4.choir.soprano` | Sing soprano | `aural.l3.dictation.s3`, `notation.treble-natural`, `notation.accidental-scope`, `rhythm.read-basic`, `key.signature-read-treble` | entwurf |
-| 4 · Chor-Trainer · Entwurf | Alt singen | `aural.l4.choir.alto` | Sing alto | `aural.l3.dictation.s3`, `notation.treble-natural`, `notation.accidental-scope`, `rhythm.read-basic`, `key.signature-read-treble` | entwurf |
-| 4 · Chor-Trainer · Entwurf | Tenor singen | `aural.l4.choir.tenor` | Sing tenor | `aural.l3.dictation.s3`, `notation.bass-natural`, `notation.accidental-scope`, `rhythm.read-basic`, `key.signature-read-treble` | entwurf |
-| 4 · Chor-Trainer · Entwurf | Bass singen | `aural.l4.choir.bass` | Sing bass | `aural.l3.dictation.s3`, `notation.bass-natural`, `notation.accidental-scope`, `rhythm.read-basic`, `key.signature-read-treble` | entwurf |
+| 4 · Chor-Trainer | Sopran singen | `aural.l4.choir.soprano` | Sing the soprano part | `aural.l3.dictation.s3`, `notation.treble-natural`, `notation.accidental-scope`, `rhythm.read-basic`, `key.signature-read-treble` | entwurf |
+| 4 · Chor-Trainer | Alt singen | `aural.l4.choir.alto` | Sing the alto part | `aural.l3.dictation.s3`, `notation.treble-natural`, `notation.accidental-scope`, `rhythm.read-basic`, `key.signature-read-treble` | entwurf |
+| 4 · Chor-Trainer | Tenor singen | `aural.l4.choir.tenor` | Sing the tenor part | `aural.l3.dictation.s3`, `notation.bass-natural`, `notation.accidental-scope`, `rhythm.read-basic`, `key.signature-read-treble` | entwurf |
+| 4 · Chor-Trainer | Bass singen | `aural.l4.choir.bass` | Sing the bass part | `aural.l3.dictation.s3`, `notation.bass-natural`, `notation.accidental-scope`, `rhythm.read-basic`, `key.signature-read-treble` | entwurf |
 
 ## Musikgeschichte und Quellen · `area.history`
 

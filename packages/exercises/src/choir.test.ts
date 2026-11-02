@@ -446,8 +446,9 @@ describe('CHOIR_PART miniatures follow the draft part-writing profile', () => {
     alto: { min: parsePitch('G3'), max: parsePitch('D5') },
     soprano: { min: parsePitch('C4'), max: parsePitch('G5') },
   };
-  // Die Miniaturen tragen keinen Akkordkontext: Leitton-/Septimregeln entfallen. Strenger als
-  // das Aufgabenprofil: auch Gegen- und verdeckte Quinten/Oktaven sind hier Fehler.
+  // Die Miniaturen tragen keinen Akkordkontext: Leitton-/Septimregeln entfallen.
+  // Der zusätzliche strenge Lauf prüft Gegenparallelen. Verdeckte Quinten/Oktaven
+  // folgen in beiden Läufen ausdrücklich der Option „soprano-leap“.
   const harmonic = ['leading-tone-resolution', 'seventh-resolution', 'doubled-leading-tone'];
   const profile = Object.fromEntries(
     Object.entries(SATB_DRAFT_RULES).filter(([rule]) => !harmonic.includes(rule)),

@@ -55,7 +55,7 @@ export default function ChoirScreen() {
       ) : (
         <>
           <AppText variant="title1">{t('exercise.type_CHOIR_PART')}</AppText>
-          <AppText>{t('exercise.choirDraft')}</AppText>
+          {!active?.started ? <AppText>{t('exercise.choirDraft')}</AppText> : null}
           <AppText tone="muted">{t('exercise.choirSource')}</AppText>
           {!active ? (
             lessons.map((lesson) => (

@@ -158,7 +158,7 @@ describe.each(voices)('%s: required successful initial singing', (voice) => {
       schemaVersion: 1,
       id: 'offline-choir',
       lessonId: id,
-      contentVersion: 28,
+      contentVersion: 29,
       planKey: fixed.planKey,
       seed: 'minimum-choir',
       startedAt: 1000,

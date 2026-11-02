@@ -9,6 +9,8 @@ import {
   choirKeyName,
   choirScore,
   pitchInputLabel,
+  CHOIR_BINS,
+  CHOIR_PROFILE,
 } from '@harmonia/exercises';
 import type { ChoirItem, Evaluation } from '@harmonia/exercises';
 import { eventBounds, layoutScore } from '@harmonia/notation';
@@ -163,6 +165,8 @@ export function ChoirAnswerInput({
     <View style={{ gap: SPACE.m }} testID="choir-trainer">
       <AppText>{t('exercise.choirDraft')}</AppText>
       <AppText>{t('exercise.choirPrivacy')}</AppText>
+      <AppText>{t('exercise.choirFirstCheck')}</AppText>
+      {item.params.voice === 'tenor' ? <AppText>{t('exercise.choirTenorClef')}</AppText> : null}
       <Card>
         <AppText variant="title3">
           {t(item.params.piece === 'home' ? 'exercise.choirHome' : 'exercise.choirArch')}
@@ -302,18 +306,25 @@ export function ChoirAnswerInput({
             error === 'preview'
               ? 'exercise.choirPreviewFailed'
               : error === 'no-pitch'
-              ? 'exercise.choirNoPitchTake'
-              : error === 'no-input'
-                ? 'exercise.choirNoInput'
-                : error === 'permission'
-                  ? 'tuner.permission'
-                  : error === 'interrupted'
-                    ? 'exercise.choirInterrupted'
-                    : 'tuner.unavailable',
+                ? 'exercise.choirNoPitchTake'
+                : error === 'no-input'
+                  ? 'exercise.choirNoInput'
+                  : error === 'permission'
+                    ? 'tuner.permission'
+                    : error === 'interrupted'
+                      ? 'exercise.choirInterrupted'
+                      : 'tuner.unavailable',
           )}
         </AppText>
       ) : null}
-      <AppText variant="small">{t('exercise.choirProfile')}</AppText>
+      <AppText variant="small">
+        {t('exercise.choirProfile', {
+          tolerance: CHOIR_PROFILE.toleranceCents,
+          minimum: CHOIR_PROFILE.minimumDetectedWindows,
+          total: CHOIR_BINS,
+          matching: CHOIR_PROFILE.matchingPercent,
+        })}
+      </AppText>
       {report ? (
         <View style={{ gap: SPACE.s }} testID="choir-results">
           <AppText>{t('exercise.choirOctave', { shift: report.octaveShift })}</AppText>

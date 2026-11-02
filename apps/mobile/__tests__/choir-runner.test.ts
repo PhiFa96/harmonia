@@ -74,10 +74,10 @@ function harness() {
     error,
     updates,
     ticks,
-    begin: async () => {
+    begin: async (atMs = ctx.currentTime * 1000) => {
       const pending = runner.start('backing');
       for (let i = 0; i < 24; i++) await Promise.resolve();
-      frame(new Float32Array(2048), 48000, 0);
+      frame(new Float32Array(2048), 48000, atMs);
       await pending;
     },
     advance: (ms: number) => {
@@ -276,6 +276,43 @@ it('waits for an interrupted microphone to close before retrying and ignores its
   if (typeof saved !== 'string') throw new Error('Missing completed take');
   expect(assessChoir(item, saved).passed).toBe(true);
   expect(h.close).toHaveBeenCalledTimes(2);
+});
+
+it('maps timestamped batches onto the playback clock without collapsing their scoring windows', async () => {
+  const h = harness(),
+    origin = 12000;
+  await h.begin(origin);
+  const duration = 120 / item.bpm,
+    start = 0.05 + (4 * 60) / item.bpm;
+  const pitches = [64, 67, 65, 65, 62, 62, 64, 64];
+  const windows = Array.from({ length: 96 }, (_, index) => {
+    const note = Math.floor(index / 12),
+      bin = index % 12;
+    return {
+      pitch: pitches[note],
+      at: start + (note + 0.15 + ((bin + 0.5) / 12) * 0.7) * duration + 2048 / 48000 / 2,
+    };
+  });
+  for (let index = 0; index < windows.length; index += 3) {
+    const batch = windows.slice(index, index + 3),
+      last = batch.at(-1);
+    if (!last) throw Error('Missing timestamp fixture');
+    h.ctx.currentTime = last.at + 0.2;
+    for (const window of batch) {
+      if (window.pitch === undefined) throw Error('Missing pitch fixture');
+      const samples = new Float32Array(2048);
+      samples[0] = window.pitch;
+      h.frame(samples, 48000, origin + window.at * 1000);
+    }
+    h.tick();
+  }
+  h.ctx.currentTime = start + duration * 8 + 0.4;
+  h.tick();
+  await h.runner.stop();
+  expect(h.error).toHaveBeenLastCalledWith('');
+  const answer = h.answer.mock.calls.at(-1)?.[0];
+  if (typeof answer !== 'string') throw Error('Missing timestamped take');
+  expect(assessChoir(item, answer).passed).toBe(true);
 });
 
 it('starts accompaniment only after permission, captures on the audio clock, and closes on completion', async () => {

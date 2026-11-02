@@ -118,7 +118,7 @@ describe('independent choir lessons with explicit prerequisites', () => {
     if (!bass) throw Error('Missing bass lesson');
     const receipt = {
       lessonId: bass.id,
-      contentVersion: 28,
+      contentVersion: 29,
       passed: true,
       eligibleCorrect: 2,
       total: 2,
@@ -179,7 +179,7 @@ describe.each(voices)('%s: independent mixed plan, offline replay and server evi
       const forged = JSON.stringify([
         'flow:2',
         id,
-        28,
+        29,
         [0, 1],
         Array.from({ length: plan.repetitionCount }, () => [peer.id, peer.contentVersion, 0]),
       ]);
@@ -203,7 +203,7 @@ describe.each(voices)('%s: independent mixed plan, offline replay and server evi
         schemaVersion: 1,
         id: 'synthetic-choir',
         lessonId: id,
-        contentVersion: 28,
+        contentVersion: 29,
         planKey: plan.planKey,
         seed: 'choir-offline',
         startedAt: 1000,
@@ -224,7 +224,7 @@ describe.each(voices)('%s: independent mixed plan, offline replay and server evi
     const event = lessonEvent('synthetic-choir', session, 1000, 2000);
     expect(validateLearningEvent(catalogue, event).lesson).toMatchObject({
       lessonId: id,
-      contentVersion: 28,
+      contentVersion: 29,
       passed: true,
       eligibleCorrect: plan.exercises.length,
     });

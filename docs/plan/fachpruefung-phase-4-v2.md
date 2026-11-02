@@ -125,17 +125,17 @@ Harte Vorbedingungen vor jeder echten Nutzung:
 - **B11:** „judgment“ in en-GB.
 
 **Chor:**
-- **C3:** ±50 Cent / 75 % gegenüber ±25 Cent in Stufe 2–3 ist weiter nicht begründet.
-- **C4:** Die Altstimme ist in beiden Stücken identisch; eine Wiederholung kann exakt die andere Erstaufgabe sein.
-- **C6:** Sehr enge und tiefe Stimmumfänge.
-- **C7:** Tenor im Bassschlüssel statt oktaviertem Violinschlüssel (nicht dokumentiert).
+- **C3 – im technischen Gesamtentwurf bearbeitet (02.11.2026):** Bewertungsparameter zentralisiert und begründet, unverändert. Die empirische Eignung bleibt offen. [Gesamtstand](chor-trainer-gesamtstand.md), ADR 0070. Kein fachlicher oder realer Geräte-Freigabebeleg.
+- **C4 – im technischen Gesamtentwurf bearbeitet (02.11.2026):** Neue Alt-Konturen; Wiederholungen wechseln Stück/Tonart und duplizieren keine Erstaufgabe. [Gesamtstand](chor-trainer-gesamtstand.md), ADR 0070. Kein fachlicher oder realer Geräte-Freigabebeleg.
+- **C6 – im technischen Gesamtentwurf bearbeitet (02.11.2026):** Neue eigene Melodien mit bewegteren und höheren Stimmen; sechs Transpositionen im bestehenden Bereichsprofil. Fach-/Stimmenabnahme offen. [Gesamtstand](chor-trainer-gesamtstand.md), ADR 0070. Kein fachlicher oder realer Geräte-Freigabebeleg.
+- **C7 – im technischen Gesamtentwurf bearbeitet (02.11.2026):** Tenor im Bassschlüssel, klingend wie notiert, in DE/en-US/en-GB ausdrücklich erklärt. [Gesamtstand](chor-trainer-gesamtstand.md), ADR 0070. Kein fachlicher oder realer Geräte-Freigabebeleg.
 - **C8 – technisch bearbeitet, 31.10.2026:** Eine eigene Lese-Fähigkeit mit erreichbarer Stufe-2-Einheit, zehn Dur-Vorzeichnungsfragen im Violinschlüssel und eigenen DE/EN-Einführungen ist jetzt Voraussetzung aller vier Stimmen. Der neue Zugang benötigt keinen Bassschlüssel oder Schreibweg; Tenor/Bass behalten ihre Bassgrundlagen. Bestehende Lesefähigkeiten werden nicht umgedeutet. [Umsetzung und Prüfstand](chor-vorzeichenlesen.md), [ADR 0067](../decisions/0067-chor-vorzeichenlesen-ohne-bassschluessel.md). Inhalte Entwurf, keine unabhängige Fach-/Sprach-/Gerätefreigabe.
 - **C9 – technisch bearbeitet, PR-Prüfung offen (02.11.2026):** Neue vollständige Aufnahmen ohne akzeptierte Tonhöhe erzeugen keine Antwort; DE/en-US/en-GB bieten Wiederholen oder bewusstes Überspringen. Kein automatischer Skip oder Gesangsnachweis. Gespeicherte ungeprüfte Leer-Takes werden vor dem Prüfen geleert; teilweise erkannte und bereits geprüfte historische Antworten behalten ihre Wertung. Branch `codex/choir-no-pitch-retry`, unabhängig von #136/#137/#141; [ADR 0069](../decisions/0069-chor-ohne-tonhoehen-erneut-aufnehmen.md). Konkrete Test-/CI-Ergebnisse im Entwurfs-PR, reale Geräteabnahme weiter offen.
-- **C11:** „Erstversuch“ meint „erste geprüfte Antwort“, das steht nicht in ADR 0064.
+- **C11 – im technischen Gesamtentwurf bearbeitet (02.11.2026):** Erstversuch als erste geprüfte Antwort in UI und ADR 0064 erklärt; erneute Takes davor erlaubt. [Gesamtstand](chor-trainer-gesamtstand.md), ADR 0070. Kein fachlicher oder realer Geräte-Freigabebeleg.
 - **C12 – technisch bearbeitet, PR-Prüfung offen (02.11.2026):** Vorhörfehler erhalten den ungeprüften Take; DE/en-US/en-GB, erneutes Vorhören und sicheres Warten auf die alte Mikrofon-Schließoperation sind abgesichert. Eigener Branch `codex/choir-preview-recovery`, unabhängig von #136/#137; [ADR 0068](../decisions/0068-chor-vorhoerfehler-erhalten-den-take.md). Konkrete Test-/CI-Ergebnisse im Entwurfs-PR, echte Geräteabnahme weiter offen.
-- **C13:** Zeitzuordnung über den Callback-Zeitpunkt statt `atMs`; das ist nur mit Gerätetest zu klären.
-- **C14:** „Singe Tenor“ ohne Artikel; „Viertelschläge“ nicht aus dem Glossar; Entwicklerhinweise in `choir`-Texten.
-- Der Kommentar in `choir.test.ts:404` widerspricht `soprano-leap`.
+- **C13 – im technischen Gesamtentwurf bearbeitet (02.11.2026):** Capture-Zeitstempel auf Wiedergabeuhr ausgerichtet; Regression mit verzögerten Fensterpaketen. SDK-/physische Latenz-/Geräteabnahme offen. [Gesamtstand](chor-trainer-gesamtstand.md), ADR 0070. Kein fachlicher oder realer Geräte-Freigabebeleg.
+- **C14 – im technischen Gesamtentwurf bearbeitet (02.11.2026):** Grammatische Stimmenbezeichnungen, Dauern aus Glossar, bereinigte Lerntexte bei erhaltener Entwurfskennzeichnung. [Gesamtstand](chor-trainer-gesamtstand.md), ADR 0070. Kein fachlicher oder realer Geräte-Freigabebeleg.
+- Der Testkommentar zu `soprano-leap` ist im Gesamtentwurf berichtigt; die beiden Prüfprofile verwenden diese Option ausdrücklich.
 
 **Zeitreise:**
 - **C15:** Alle vier Wissensfragen folgen demselben quellenkritischen Muster; Ablenker mit absoluten Signalwörtern.

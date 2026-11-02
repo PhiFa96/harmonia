@@ -198,9 +198,7 @@ for (const locale of ['de-DE', 'en-US', 'en-GB']) {
         await expect(page.getByTestId(`choir-start-aural.l4.choir.${voice}.lesson`)).toBeVisible();
       await startWithIntroduction(page, 'tenor', locale);
       const trainer = page.getByTestId('choir-trainer');
-      await expect(trainer).toContainText(
-        locale.startsWith('de') ? 'Interner Entwurf' : 'Internal draft',
-      );
+      await expect(trainer).toContainText(locale.startsWith('de') ? 'Entwurf:' : 'Draft:');
       await expect(page.getByTestId('choir-start')).toBeDisabled();
       await trainer
         .getByRole('button', {
@@ -304,8 +302,8 @@ test('choir real browser audio pipeline: synthetic singing, per-note results, re
           const pitches = document
             .querySelector('[data-testid="choir-key"]')
             .textContent.includes('D-Dur')
-            ? [66, 66, 67, 66, 64, 67, 66, 66]
-            : [64, 67, 65, 65, 62, 62, 64, 64];
+            ? [78, 74, 74, 73, 76, 74, 73, 74]
+            : [72, 72, 72, 74, 74, 76, 71, 72];
           pitches.forEach((pitch, index) =>
             fixture.oscillator.frequency.setValueAtTime(
               440 * 2 ** ((pitch - 69) / 12),

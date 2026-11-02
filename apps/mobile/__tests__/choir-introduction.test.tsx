@@ -63,7 +63,7 @@ for (const lesson of catalogue.lessons.filter((entry) => entry.unitId === 'aural
     });
     expect(props?.reportSource).toMatchObject({
       lessonId: lesson.id,
-      contentVersion: 28,
+      contentVersion: 29,
       index: 0,
     });
     act(() => props?.onSkipVoice?.());
@@ -72,7 +72,7 @@ for (const lesson of catalogue.lessons.filter((entry) => entry.unitId === 'aural
       params: { voice: lesson.id.split('.')[3], piece: 'arch', fifths: 2 },
     });
     expect(mockTask.mock.calls.at(-1)?.[0].reportSource).toMatchObject({
-      contentVersion: 28,
+      contentVersion: 29,
       index: 1,
     });
   });

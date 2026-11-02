@@ -73,6 +73,7 @@ export function createChoirRunner(item: ChoirItem, deps: Dependencies) {
     const collector = createChoirCollector(item);
     const tracker = new PitchTracker(deps.referenceHz);
     let health: ReturnType<typeof createPcmHealth> | undefined;
+    let inputClockOffset: number | undefined;
     let ready: ((success: boolean) => void) | undefined;
     const tick = () => {
       if (ticket !== revision) return;
@@ -132,6 +133,12 @@ export function createChoirRunner(item: ChoirItem, deps: Dependencies) {
                   fail(problem);
                   return;
                 }
+                const audioNow = deps.engine.context.currentTime;
+                const observedOffset = audioNow - atMs / 1000;
+                // Capture clocks have their own origin. Use the least queued offset during
+                // readiness/count-in, then freeze it so delayed batches keep their spacing.
+                if (inputClockOffset === undefined || !playback || audioNow < playback.startTime)
+                  inputClockOffset = Math.min(inputClockOffset ?? observedOffset, observedOffset);
                 if (!playback) {
                   ready?.(true);
                   return;
@@ -140,7 +147,8 @@ export function createChoirRunner(item: ChoirItem, deps: Dependencies) {
                 const latency = deps.engine.latency();
                 const outputDelay = Math.max(0, (latency.base ?? 0) + (latency.output ?? 0));
                 const seconds =
-                  deps.engine.context.currentTime -
+                  atMs / 1000 +
+                  inputClockOffset -
                   playback.startTime -
                   samples.length / rate / 2 -
                   outputDelay -
