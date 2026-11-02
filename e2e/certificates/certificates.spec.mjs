@@ -10,6 +10,17 @@ import { certificateTranslator } from '../../packages/i18n/src/certificate-draft
 import { CERTIFICATE_REVIEW_MESSAGES } from '../../packages/i18n/src/certificate-review.ts';
 import { certificateReview, certificateReviewHtml } from '../../tools/certificates/review.mjs';
 
+async function startExam(page, t, index = 0) {
+  await page
+    .getByRole('button', { name: t('start'), exact: true })
+    .nth(index)
+    .click();
+  await page.getByRole('button', { name: t('payAndStart'), exact: true }).click();
+  await expect(
+    page.getByRole('heading', { name: t('progress', { current: 1, total: 12 }) }),
+  ).toBeVisible();
+}
+
 test('an outdated attempt explains the block and can be removed before restarting', async ({
   page,
 }) => {
@@ -19,10 +30,7 @@ test('an outdated attempt explains the block and can be removed before restartin
   const t = certificateTranslator('de');
   try {
     await page.goto(app.origin);
-    await page
-      .getByRole('button', { name: t('start'), exact: true })
-      .first()
-      .click();
+    await startExam(page, t);
     await expect(
       page.getByRole('heading', { name: t('progress', { current: 1, total: 12 }) }),
     ).toBeVisible();
@@ -37,10 +45,8 @@ test('an outdated attempt explains the block and can be removed before restartin
     expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
     page.once('dialog', (dialog) => dialog.accept());
     await page.getByRole('button', { name: t('erase'), exact: true }).click();
-    await page
-      .getByRole('button', { name: t('start'), exact: true })
-      .first()
-      .click();
+    await page.getByRole('button', { name: t('newSession'), exact: true }).click();
+    await startExam(page, t);
     await expect(
       page.getByRole('heading', { name: t('progress', { current: 1, total: 12 }) }),
     ).toBeVisible();
@@ -98,10 +104,7 @@ for (const locale of ['de', 'en-US', 'en-GB']) {
       await page.getByRole('combobox').selectOption(locale);
       await expect(page.getByRole('heading', { name: t('title') })).toBeVisible();
       await expect(page.getByText(t('policy'))).toBeVisible();
-      await page
-        .getByRole('button', { name: t('start'), exact: true })
-        .nth(locale === 'en-GB' ? 1 : 0)
-        .click();
+      await startExam(page, t, locale === 'en-GB' ? 1 : 0);
       await expect(
         page.getByRole('heading', { name: t('progress', { current: 1, total: 12 }) }),
       ).toBeVisible();
@@ -185,10 +188,7 @@ test('lost response retries one answer; a late answer cannot create a sample', a
   const t = certificateTranslator('de');
   try {
     await page.goto(app.origin);
-    await page
-      .getByRole('button', { name: t('start'), exact: true })
-      .first()
-      .click();
+    await startExam(page, t);
     await expect(
       page.getByRole('heading', { name: t('progress', { current: 1, total: 12 }) }),
     ).toBeVisible();

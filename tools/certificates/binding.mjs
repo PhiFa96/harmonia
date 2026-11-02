@@ -14,7 +14,6 @@ export function certificateDigests() {
     'package.json',
     'pnpm-workspace.yaml',
     '.nvmrc',
-    'tools/voice-leading/playback.ts',
     'packages/ui/src/tokens.ts',
     'packages/notation/node_modules/@vexflow-fonts/bravura/bravura.woff2',
     'packages/notation/node_modules/@vexflow-fonts/bravura/LICENSE.txt',
@@ -35,6 +34,7 @@ export function certificateDigests() {
   }
   for (const dir of [
     'tools/certificates',
+    'tools/voice-leading',
     'packages/content/src',
     'packages/exercises/src',
     'packages/theory/src',

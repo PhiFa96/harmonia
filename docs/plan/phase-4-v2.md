@@ -270,6 +270,8 @@
 
 ### P4.17 – Prüfung der KI-Verordnung
 
+**Technischer Gesamtweiterbau (02.11.2026), vor der formalen Phase-4-Freigabe:** Der [P4.17/P4.18-Gesamtentwurf](ki-und-zertifikate-gesamtstand.md) ergänzt bereichsbezogene versionierte Rechtsprüfungsübergaben, vollständige Code-/Abhängigkeitsbindung, private schriftliche Dokumente mit Inhaltsprüfwert und widerrufbare Nachweise. Pflichtbereiche, tatsächliche Implementierung und die direkte Rechtsquelle dürfen nicht aus dem Inventar verschwinden. Vorlagen/Vorschläge ändern keine aktive Freigabe. Schriftliche unabhängige Rechtsprüfung und direkte maßgebliche Volltextprüfung bleiben offen; keine neuen Rechtsbehauptungen, Veröffentlichung oder Main-Integration. P4.01 weiter bis F14/Rechtsklärung zurückgestellt.
+
 **Technische Prüfvorbereitung auf Nutzerauftrag (24.10.2026), vor der formalen Phase-4-Freigabe:** [Quellenbezogene Voreinschätzung](../legal/ai-act/vorpruefung.md) und [programmierte Übergabe](ki-verordnung-pruefvorbereitung.md) mit neun Funktionsbereichen, acht Maßnahmenpaketen, DE/EN-Prüfberichten, Code-/Zweckbindung und getrennten Freigabeprüfungen für allgemeines Produkt, Schule und Zertifikate. Aktuelle amtliche Explorer-/Kommissionsquellen bestätigen die Friständerung und benennen insbesondere Lernsteuerung/Profiling als Prüfpunkte. Der direkte konsolidierte EUR-Lex-Abruf und die unabhängige schriftliche Rechtsprüfung bleiben offen. Alle juristischen Häkchen bleiben unerledigt; keine Rechts-, Schul- oder Veröffentlichungsfreigabe. P4.01 bleibt bis F14 und Rechtsklärung zurückgestellt.
 
 - **Ziel:** Rechtssichere Einordnung vor Schule und Zertifikaten.
@@ -281,6 +283,8 @@
 - **Fertig, wenn:** Schriftliche Einschätzung liegt vor; Maßnahmen sind eingeplant.
 
 ### P4.18 – Zertifikate
+
+**Technischer Gesamtweiterbau (02.11.2026), vor der formalen Phase-4-Freigabe:** Im [P4.17/P4.18-Gesamtentwurf](ki-und-zertifikate-gesamtstand.md) sind Quellenbindung (E3), isolierte Altstände (E4), Export/Einzellöschung, serverseitig ablaufende Testsitzungen und atomare simulierte Bestellung/Zahlung/Wiederholung/Erstattung implementiert. Drei Sprachen, echte lokale SQLite-/HTTP-/Browserprüfungen und unveränderte Produktionssperren. Die ausgewählten Zwölf-Fragen-Profile bleiben technische Proben; vollständige fachlich freigegebene Abschlussinhalte, echte Identitäts-/Zahlungsanbindung und verbindliche Prüfungsregeln bleiben offen. Keine gültigen Zertifikate, Veröffentlichung oder Main-Integration. P4.17 sowie unabhängige Fach-/Rechts-/Geräteabnahmen bleiben Voraussetzungen. P4.01 weiter bis F14/Rechtsklärung zurückgestellt.
 
 **Technischer Entwurf und Weiterbau (25.10.2026), vor der formalen Phase-4-Freigabe:** [Lokale Zertifikatswerkstatt](zertifikate-entwurf.md) mit zwei serverbewerteten Testprofilen, Wiederaufnahme, ungültigen Muster-PDFs, Widerruf und Datenlöschung. Der Weiterbau verbindet die Entwurfsstände #104 und #109: Code-/Inhaltsbindung für Durchgänge und PDFs, eigener Zustand für veraltete Durchgänge, private DE/EN-Prüfmappe mit 72 reproduzierbaren Aufgabenbeispielen und ausdrücklich ausgewiesenen Themenlücken. `check:certificates:release` sperrt zusammen mit den offenen P4.17-Zertifikatsnachweisen. Testgrenze und Engine-Lösungen sind keine fachliche Abnahme. Keine Zahlung, gültige Urkunde, Veröffentlichung oder Integration auf main. Schriftliche Rechtsprüfung, unabhängige Fachprüfung und sämtliche Produkt-Häkchen bleiben offen. P4.01 bleibt bis F14 und Rechtsklärung zurückgestellt.
 

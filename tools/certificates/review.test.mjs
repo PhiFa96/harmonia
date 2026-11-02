@@ -9,7 +9,7 @@ import { certificateDigests, certificateSourceHash } from './binding.mjs';
 import { certificateReview, certificateReviewHtml, REVIEW_SEEDS } from './review.mjs';
 import { createCertificateService } from './service.mjs';
 import { createCertificateServer } from './server.mjs';
-import { fixtureAnswers } from './test-fixture.mjs';
+import { fixtureAnswers, startFixture } from './test-fixture.mjs';
 import { sampleCertificatePdf } from './pdf.mjs';
 import { catalogue } from '../../packages/content/src/authoring.ts';
 import { CERTIFICATE_REVIEW_MESSAGES } from '../../packages/i18n/src/certificate-review.ts';
@@ -90,8 +90,11 @@ test('a code change after restart blocks ongoing grading and new PDFs; erase and
   const { database } = temporary(t);
   let service = createCertificateService(database, { now, sourceHash: 'a'.repeat(64) });
   t.after(() => service.close());
-  const active = service.start('active', { profile: 'certificate-draft-1', locale: 'de' });
-  let finished = service.start('finished', { profile: 'certificate-draft-2', locale: 'de' });
+  const active = startFixture(service, 'active', { profile: 'certificate-draft-1', locale: 'de' });
+  let finished = startFixture(service, 'finished', {
+    profile: 'certificate-draft-2',
+    locale: 'de',
+  });
   for (const [index, expected] of fixtureAnswers(database, finished.id).entries())
     finished = service.answer('finished', {
       id: finished.id,
@@ -130,7 +133,7 @@ test('a code change after restart blocks ongoing grading and new PDFs; erase and
   assert.equal(service.verify({ code: receipt.code }).status, 'revoked');
   service.erase('active');
   assert.equal(
-    service.start('active', { profile: 'certificate-draft-1', locale: 'de' }).phase,
+    startFixture(service, 'active', { profile: 'certificate-draft-1', locale: 'de' }).phase,
     'active',
   );
 });
@@ -138,7 +141,7 @@ test('a code change after restart blocks ongoing grading and new PDFs; erase and
 test('additive migration preserves legacy attempts while denying unbound continuation', (t) => {
   const { database } = temporary(t);
   let service = createCertificateService(database, { now });
-  service.start('legacy', { profile: 'certificate-draft-1', locale: 'de' });
+  startFixture(service, 'legacy', { profile: 'certificate-draft-1', locale: 'de' });
   service.close();
   const db = new DatabaseSync(database);
   db.exec('alter table certificate_drafts drop column source_hash');
@@ -151,7 +154,7 @@ test('additive migration preserves legacy attempts while denying unbound continu
   assert.throws(() => service.finish('legacy', { id: rows[0].id, locale: 'de' }), /outdated/);
   service.erase('legacy');
   assert.equal(
-    service.start('legacy', { profile: 'certificate-draft-1', locale: 'de' }).phase,
+    startFixture(service, 'legacy', { profile: 'certificate-draft-1', locale: 'de' }).phase,
     'active',
   );
 });

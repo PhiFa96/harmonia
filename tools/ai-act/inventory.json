@@ -543,7 +543,10 @@
       "evidenceReference": null,
       "reviewedAt": null,
       "validUntil": null,
-      "snapshotHash": null
+      "snapshotHash": null,
+      "document": null,
+      "revokedAt": null,
+      "revocationReason": null
     },
     "school": {
       "status": "pending",
@@ -552,7 +555,10 @@
       "evidenceReference": null,
       "reviewedAt": null,
       "validUntil": null,
-      "snapshotHash": null
+      "snapshotHash": null,
+      "document": null,
+      "revokedAt": null,
+      "revocationReason": null
     },
     "certificates": {
       "status": "pending",
@@ -561,7 +567,10 @@
       "evidenceReference": null,
       "reviewedAt": null,
       "validUntil": null,
-      "snapshotHash": null
+      "snapshotHash": null,
+      "document": null,
+      "revokedAt": null,
+      "revocationReason": null
     }
   }
 }

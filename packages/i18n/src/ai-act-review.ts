@@ -39,6 +39,12 @@ const de = {
   profiling: 'Profiling',
   outcome: 'Ergebnis der Rechtsprüfung',
   review: 'Schriftliche Einschätzung',
+  documentVerified: 'Privates Nachweisdokument vorhanden und unverändert',
+  documentMissing: 'Nachweisdokument fehlt, wurde geändert oder ist nicht privat abgelegt',
+  reviewRevoked: 'Rechtsprüfung widerrufen – Freigabe gesperrt',
+  handoff:
+    'Die versionierte Prüfvorlage wird lokal mit ai:handoff erzeugt. Ausgefüllte Vorlagen werden als Vorschlag geprüft; sie ändern keine aktive Freigabe.',
+  rationale: 'Begründung der Prüfung',
   missing: 'Offene Nachweise',
   limit:
     'Alle drei Freigabebereiche werden unabhängig geprüft. Eine Fristverschiebung oder ein grüner Testlauf erteilt keine Freigabe. P4.01 bleibt bis F14 und Rechtsklärung zurückgestellt.',
@@ -83,6 +89,12 @@ const en: Record<keyof typeof de, string> = {
   profiling: 'Profiling',
   outcome: 'Legal review outcome',
   review: 'Written assessment',
+  documentVerified: 'Private evidence document present and unchanged',
+  documentMissing: 'Evidence document missing, changed or not stored privately',
+  reviewRevoked: 'Legal review revoked – release blocked',
+  handoff:
+    'Generate a versioned local worksheet with ai:handoff. Completed worksheets are checked as proposals; they do not change an active approval.',
+  rationale: 'Review rationale',
   missing: 'Open evidence',
   limit:
     'All three release scopes are checked independently. A delayed application date or passing tests do not grant approval. P4.01 remains deferred pending F14 and legal clarification.',

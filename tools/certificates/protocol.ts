@@ -14,7 +14,8 @@ export interface DraftAttempt {
   startedAt: number;
   deadlineAt: number;
   serverNow: number;
-  phase: 'active' | 'finished' | 'outdated';
+  phase: 'active' | 'finished' | 'outdated' | 'cancelled';
+  purchaseId: string | null;
   reason?: 'completed' | 'submitted' | 'timeout';
   result?: DraftResult;
   question?: {
@@ -31,4 +32,15 @@ export interface DraftAttempt {
 export interface DraftState {
   profiles: { id: string; stage: number; version: number }[];
   attempts: DraftAttempt[];
+  purchases: DraftPurchase[];
+}
+export interface DraftPurchase {
+  id: string;
+  profile: string;
+  policy: string;
+  status: 'pending' | 'paid' | 'cancelled' | 'refunded';
+  simulated: true;
+  createdAt: number;
+  updatedAt: number;
+  attemptId: string | null;
 }
