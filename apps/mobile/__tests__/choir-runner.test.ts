@@ -10,6 +10,8 @@ jest.mock('@harmonia/audio/pitch-detection', () => ({
   PITCH_WINDOW: 2048,
   PitchTracker: class {
     analyze(frame: Float32Array) {
+      if (frame[0] === 0) return { state: 'silent' };
+      if (frame[0] === -1) return { state: 'unstable' };
       return { state: 'stable', midi: frame[0], cents: 0 };
     }
   },
@@ -95,6 +97,71 @@ function harness() {
     },
   };
 }
+function finishInput(h: ReturnType<typeof harness>, pitch: (note: number, bin: number) => number) {
+  const duration = 120 / item.bpm,
+    start = h.ctx.currentTime + 0.05 + (4 * 60) / item.bpm;
+  for (let note = 0; note < 8; note++)
+    for (let bin = 0; bin < 12; bin++) {
+      const samples = new Float32Array(2048);
+      samples[0] = pitch(note, bin);
+      h.ctx.currentTime =
+        start + (note + 0.15 + ((bin + 0.5) / 12) * 0.7) * duration + 2048 / 48000 / 2;
+      h.frame(samples, 48000, h.ctx.currentTime * 1000);
+      h.tick();
+    }
+  h.ctx.currentTime = start + duration * 8 + 0.4;
+  h.tick();
+}
+
+it.each([
+  ['silent', 0],
+  ['unstable', -1],
+] as const)(
+  '%s input with full PCM coverage stays unanswered, ignores old callbacks and permits a fresh take',
+  async (_, marker) => {
+    const h = harness();
+    await h.begin();
+    const oldFrame = h.open.mock.calls[0]?.[0],
+      oldError = h.open.mock.calls[0]?.[1],
+      oldTick = h.ticks.at(-1);
+    finishInput(h, () => marker);
+    await h.runner.stop();
+    expect(h.answer.mock.calls.every(([value]) => value === null)).toBe(true);
+    expect(h.error).toHaveBeenLastCalledWith('no-pitch');
+    expect(h.close).toHaveBeenCalledTimes(1);
+    await h.begin();
+    oldFrame?.(new Float32Array(3), 48000, 0);
+    oldError?.('interrupted');
+    oldTick?.();
+    expect(h.updates.at(-1)?.phase).toBe('countIn');
+    expect(h.error).toHaveBeenLastCalledWith('');
+    const pitches = [64, 67, 65, 65, 62, 62, 64, 64];
+    finishInput(h, (note) => {
+      const pitch = pitches[note];
+      if (pitch === undefined) throw Error('Missing pitch fixture');
+      return pitch;
+    });
+    await h.runner.stop();
+    const answer = h.answer.mock.calls.at(-1)?.[0];
+    if (typeof answer !== 'string') throw Error('Missing fresh answer');
+    expect(assessChoir(item, answer).passed).toBe(true);
+    expect(h.close).toHaveBeenCalledTimes(2);
+  },
+);
+
+it('keeps even a sparse detected take gradable under the unchanged coverage rules', async () => {
+  const h = harness();
+  await h.begin();
+  finishInput(h, (note, bin) => (note === 0 && bin === 0 ? 64 : 0));
+  await h.runner.stop();
+  const answer = h.answer.mock.calls.at(-1)?.[0];
+  if (typeof answer !== 'string') throw Error('Missing sparse answer');
+  const report = assessChoir(item, answer);
+  expect(report).toMatchObject({ valid: true, passed: false });
+  expect(report.notes.reduce((sum, note) => sum + note.detectedWindows, 0)).toBe(1);
+  expect(h.error).toHaveBeenLastCalledWith('');
+});
+
 function finishTake(h: ReturnType<typeof harness>) {
   const duration = 120 / item.bpm,
     start = h.ctx.currentTime + 0.05 + (4 * 60) / item.bpm;

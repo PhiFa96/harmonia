@@ -246,7 +246,9 @@ export function ChoirAnswerInput({
           </View>
           <Button
             testID="choir-start"
-            label={t(answer ? 'exercise.choirRetry' : 'exercise.choirStart')}
+            label={t(
+              answer || error === 'no-pitch' ? 'exercise.choirRetry' : 'exercise.choirStart',
+            )}
             disabled={busy || !headphones || !sound || disabled}
             onPress={() => {
               start('backing');
@@ -282,6 +284,8 @@ export function ChoirAnswerInput({
           {t(
             error === 'preview'
               ? 'exercise.choirPreviewFailed'
+              : error === 'no-pitch'
+              ? 'exercise.choirNoPitchTake'
               : error === 'no-input'
                 ? 'exercise.choirNoInput'
                 : error === 'permission'

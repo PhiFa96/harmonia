@@ -405,8 +405,31 @@ describe('CHOIR_PART internal draft', () => {
         if (note !== 7 || bin < 9) incomplete.add(at, 6400);
       }
     expect(quiet.inputComplete()).toBe(true);
+    expect(quiet.hasDetectedPitch()).toBe(false);
+    // Legacy answers remain replayable and cannot pass. New capture decides before submitting.
+    expect(evaluateExercise(item, quiet.answer())).toMatchObject({
+      validAnswer: true,
+      correct: false,
+    });
     expect(assessChoir(item, quiet.answer()).passed).toBe(false);
     expect(incomplete.inputComplete()).toBe(false);
+    expect(incomplete.hasDetectedPitch()).toBe(true);
+  });
+  it('counts accepted pitches only inside scoring windows, including a single sparse detection', () => {
+    const collector = createChoirCollector(item),
+      duration = 120 / item.bpm;
+    for (const seconds of [-1, 0, 0.1 * duration, 0.9 * duration, 8 * duration])
+      collector.add(seconds, 6400);
+    for (const pitch of [null, NaN, Infinity, 2099, 10801]) collector.add(0.2 * duration, pitch);
+    expect(collector.hasDetectedPitch()).toBe(false);
+    collector.add(0.2 * duration, 6400);
+    expect(collector.hasDetectedPitch()).toBe(true);
+    expect(collector.inputComplete()).toBe(false);
+    expect(evaluateExercise(item, collector.answer())).toMatchObject({
+      validAnswer: true,
+      correct: false,
+    });
+    expect(assessChoir(item, collector.answer()).notes[0]?.detectedWindows).toBe(1);
   });
   it('skips microphone work without a failed answer or denominator penalty', () => {
     const session = skipVoiceExercise(createSession([item]));

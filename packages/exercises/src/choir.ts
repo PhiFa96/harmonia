@@ -238,6 +238,8 @@ export function createChoirCollector(item: ChoirItem) {
       if (bin && bin.length < 8) bin.push(Math.round(pitchCents));
     },
     inputComplete: () => received.every((row) => row.every(Boolean)),
+    /** At least one accepted pitch inside a scoring window, independent of PCM coverage. */
+    hasDetectedPitch: () => bins.some((row) => row.some((bin) => bin.length > 0)),
     answer: () =>
       choirAnswerId(bins.map((row) => row.map((bin) => (bin.length ? median(bin) : null)))),
   };
