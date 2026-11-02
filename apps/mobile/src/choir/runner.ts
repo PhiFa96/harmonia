@@ -57,12 +57,6 @@ export function createChoirRunner(item: ChoirItem, deps: Dependencies) {
     update('idle');
     return microphoneLifecycle;
   };
-  const fail = (reason: string) => {
-    void stop();
-    deps.answer(null);
-    deps.error(reason);
-    update('error');
-  };
   const start = async (mode: 'backing' | 'all' | 'solo', delayMs = 0) => {
     const closing = stop();
     const ticket = revision;
@@ -70,6 +64,12 @@ export function createChoirRunner(item: ChoirItem, deps: Dependencies) {
     if (mode === 'backing') deps.answer(null);
     update('requesting');
     const current = () => ticket === revision && deps.active();
+    const fail = (reason: string) => {
+      void stop();
+      // Only an explicitly started new take replaces the answer above. Preview errors keep it.
+      deps.error(mode === 'backing' ? reason : 'preview');
+      update('error');
+    };
     const collector = createChoirCollector(item);
     const tracker = new PitchTracker(deps.referenceHz);
     let health: ReturnType<typeof createPcmHealth> | undefined;

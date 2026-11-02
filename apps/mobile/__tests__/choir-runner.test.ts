@@ -95,6 +95,122 @@ function harness() {
     },
   };
 }
+function finishTake(h: ReturnType<typeof harness>) {
+  const duration = 120 / item.bpm,
+    start = h.ctx.currentTime + 0.05 + (4 * 60) / item.bpm;
+  const pitches = [64, 67, 65, 65, 62, 62, 64, 64];
+  for (let i = 0; i < 8; i++)
+    for (let bin = 0; bin < 12; bin++) {
+      const samples = new Float32Array(2048);
+      const pitch = pitches[i];
+      if (pitch === undefined) throw new Error('Missing test pitch');
+      samples[0] = pitch;
+      h.ctx.currentTime =
+        start + (i + 0.15 + ((bin + 0.5) / 12) * 0.7) * duration + 2048 / 48000 / 2;
+      h.frame(samples, 48000, h.ctx.currentTime * 1000);
+      h.tick();
+    }
+  h.ctx.currentTime = start + duration * 8 + 0.4;
+  h.tick();
+}
+
+for (const mode of ['solo', 'all'] as const) {
+  it.each(['resume', 'schedule', 'interrupted'] as const)(
+    `${mode}: preserves a completed ungraded take after a %s failure and allows another preview`,
+    async (problem) => {
+      const h = harness();
+      await h.begin();
+      finishTake(h);
+      await h.runner.stop();
+      const saved = h.answer.mock.calls.at(-1)?.[0];
+      if (typeof saved !== 'string') throw new Error('Missing completed take');
+      expect(assessChoir(item, saved).passed).toBe(true);
+      h.answer.mockClear();
+      if (problem === 'resume')
+        jest.spyOn(h.engine, 'resume').mockRejectedValueOnce(new Error('resume failed'));
+      if (problem === 'schedule')
+        jest.spyOn(h.engine, 'playSequence').mockImplementationOnce(() => {
+          throw new Error('playback failed');
+        });
+      await h.runner.start(mode);
+      const oldTick = h.ticks.at(-1);
+      if (problem === 'interrupted') {
+        h.ctx.state = 'suspended';
+        h.tick();
+      }
+      expect(h.answer).not.toHaveBeenCalled();
+      expect(h.error).toHaveBeenLastCalledWith('preview');
+      expect(h.updates.at(-1)?.phase).toBe('error');
+      expect(h.open).toHaveBeenCalledTimes(1);
+      expect(h.close).toHaveBeenCalledTimes(1);
+      expect(h.ctx.oscillators.every((osc) => osc.stopTimes.length > 0)).toBe(true);
+      await h.runner.start(mode);
+      oldTick?.();
+      expect(h.updates.at(-1)?.phase).toBe('preview');
+      expect(h.error).toHaveBeenLastCalledWith('');
+      expect(h.answer).not.toHaveBeenCalled();
+      expect(h.open).toHaveBeenCalledTimes(1);
+      await h.runner.stop();
+    },
+  );
+}
+
+it('only a new singing take replaces the old answer, and a failed retry cannot restore it', async () => {
+  const h = harness();
+  await h.begin();
+  finishTake(h);
+  await h.runner.stop();
+  h.answer.mockClear();
+  h.open.mockRejectedValueOnce(new MicrophoneError('permission'));
+  await h.runner.start('backing');
+  expect(h.answer.mock.calls).toEqual([[null]]);
+  expect(h.error).toHaveBeenLastCalledWith('permission');
+  await h.begin();
+  finishTake(h);
+  await h.runner.stop();
+  const saved = h.answer.mock.calls.at(-1)?.[0];
+  if (typeof saved !== 'string') throw new Error('Missing completed take');
+  expect(assessChoir(item, saved).passed).toBe(true);
+  expect(h.close).toHaveBeenCalledTimes(2);
+});
+
+it('waits for an interrupted microphone to close before retrying and ignores its late callbacks', async () => {
+  const h = harness();
+  await h.begin();
+  const oldFrame = h.open.mock.calls[0]?.[0],
+    oldError = h.open.mock.calls[0]?.[1],
+    oldTick = h.ticks.at(-1);
+  let closed!: () => void;
+  h.close.mockImplementationOnce(
+    () =>
+      new Promise<void>((resolve) => {
+        closed = resolve;
+      }),
+  );
+  h.interrupt();
+  const retry = h.runner.start('backing');
+  for (let i = 0; i < 24; i++) await Promise.resolve();
+  expect(h.close).toHaveBeenCalledTimes(1);
+  expect(h.open).toHaveBeenCalledTimes(1);
+  closed();
+  for (let i = 0; i < 24; i++) await Promise.resolve();
+  expect(h.open).toHaveBeenCalledTimes(2);
+  h.frame(new Float32Array(2048), 48000, h.ctx.currentTime * 1000);
+  await retry;
+  oldFrame?.(new Float32Array(3), 48000, 0);
+  oldError?.('interrupted');
+  oldTick?.();
+  expect(h.updates.at(-1)?.phase).toBe('countIn');
+  expect(h.error).toHaveBeenLastCalledWith('');
+  expect(h.answer.mock.calls.every(([value]) => value === null)).toBe(true);
+  finishTake(h);
+  await h.runner.stop();
+  const saved = h.answer.mock.calls.at(-1)?.[0];
+  if (typeof saved !== 'string') throw new Error('Missing completed take');
+  expect(assessChoir(item, saved).passed).toBe(true);
+  expect(h.close).toHaveBeenCalledTimes(2);
+});
+
 it('starts accompaniment only after permission, captures on the audio clock, and closes on completion', async () => {
   const h = harness();
   await h.begin();

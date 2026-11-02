@@ -233,6 +233,9 @@ test('choir real browser audio pipeline: synthetic singing, per-note results, re
     const fixture = {
       active: false,
       scheduled: false,
+      failPreview: false,
+      playbackContext: null,
+      opens: 0,
       starts: 0,
       stops: 0,
       oscillator: null,
@@ -241,6 +244,7 @@ test('choir real browser audio pipeline: synthetic singing, per-note results, re
     window.choirFixture = fixture;
     // A real MediaStream supplies PCM to the unmodified analyser and pitch detector.
     navigator.mediaDevices.getUserMedia = async () => {
+      fixture.opens++;
       const mic = new AudioContext();
       await mic.resume();
       const oscillator = mic.createOscillator(),
@@ -262,9 +266,18 @@ test('choir real browser audio pipeline: synthetic singing, per-note results, re
       };
       return destination.stream;
     };
+    const originalResume = AudioContext.prototype.resume;
+    AudioContext.prototype.resume = function (...args) {
+      if (fixture.failPreview && this === fixture.playbackContext) {
+        fixture.failPreview = false;
+        return Promise.reject(new Error('Synthetic playback interruption'));
+      }
+      return originalResume.apply(this, args);
+    };
     const originalStart = AudioBufferSourceNode.prototype.start;
     AudioBufferSourceNode.prototype.start = function (when, ...args) {
       if (fixture.active) {
+        fixture.playbackContext = this.context;
         fixture.starts++;
         if (!fixture.scheduled) {
           fixture.scheduled = true;
@@ -305,6 +318,35 @@ test('choir real browser audio pipeline: synthetic singing, per-note results, re
   await expect.poll(() => page.evaluate(() => window.choirFixture.stops)).toBe(1);
   await expect(page.getByTestId(/^choir-window-\d+-\d+$/)).toHaveCount(0);
   expect(await page.evaluate(() => window.choirFixture.starts)).toBe(24);
+  // A completed ungraded take survives both a rejected resume and a later context interruption.
+  await page.evaluate(async () => {
+    await window.choirFixture.playbackContext.suspend();
+    window.choirFixture.failPreview = true;
+  });
+  await page.getByRole('button', { name: 'Meine Stimme anhören', exact: true }).click();
+  await expect(page.getByTestId('choir-trainer')).toContainText(
+    'Das Hörbeispiel konnte nicht abgespielt werden. Eine vorhandene Antwort bleibt erhalten.',
+  );
+  expect(await page.evaluate(() => window.choirFixture.failPreview)).toBe(false);
+  await expect(page.getByRole('button', { name: 'Prüfen', exact: true })).toBeEnabled();
+  await page.getByRole('button', { name: 'Alle vier Stimmen anhören', exact: true }).click();
+  await expect(page.getByTestId('choir-status')).toHaveText('Hörbeispiel läuft …');
+  await page.evaluate(async () => {
+    await window.choirFixture.playbackContext.suspend();
+  });
+  await expect(page.getByTestId('choir-trainer')).toContainText(
+    'Das Hörbeispiel konnte nicht abgespielt werden.',
+  );
+  await expect(page.getByRole('button', { name: 'Prüfen', exact: true })).toBeEnabled();
+  await expect(page.getByTestId('choir-results')).toHaveCount(0);
+  await page.getByRole('button', { name: 'Meine Stimme anhören', exact: true }).click();
+  await expect(page.getByTestId('choir-status')).toHaveText('Hörbeispiel läuft …');
+  await expect(page.getByTestId('choir-trainer')).not.toContainText(
+    'Das Hörbeispiel konnte nicht abgespielt werden.',
+  );
+  await page.getByRole('button', { name: 'Abbrechen', exact: true }).click();
+  expect(await page.evaluate(() => window.choirFixture.opens)).toBe(1);
+  await expect(page.getByRole('button', { name: 'Prüfen', exact: true })).toBeEnabled();
   await page.getByRole('button', { name: 'Prüfen', exact: true }).click();
   await expect(
     page.getByTestId('choir-results').getByText('Getroffen', { exact: true }),

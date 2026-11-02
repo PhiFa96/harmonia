@@ -132,7 +132,7 @@ Harte Vorbedingungen vor jeder echten Nutzung:
 - **C8:** Die Aufgaben in B- und D-Dur setzen keine Vorzeichnungs-Fähigkeit voraus. `key.signature-major` verlangt im Graphen über `notation.write-pitch` den Bassschlüssel und würde ADR 0063 (Oberstimmen ohne Bassschlüssel) aufheben. Nötig ist eine eigene Lese-Fähigkeit für Vorzeichnungen oder eine Entscheidung zum Graphen; die Änderung wurde deshalb geprüft und zurückgenommen.
 - **C9:** Ein stummes Mikrofon mit Null-PCM zählt als Fehlversuch statt als Skip.
 - **C11:** „Erstversuch“ meint „erste geprüfte Antwort“, das steht nicht in ADR 0064.
-- **C12:** `fail()` verwirft beim Vorhören einen ungeprüften Durchlauf.
+- **C12 – technisch bearbeitet, PR-Prüfung offen (02.11.2026):** Vorhörfehler erhalten den ungeprüften Take; DE/en-US/en-GB, erneutes Vorhören und sicheres Warten auf die alte Mikrofon-Schließoperation sind abgesichert. Eigener Branch `codex/choir-preview-recovery`, unabhängig von #136/#137; [ADR 0068](../decisions/0068-chor-vorhoerfehler-erhalten-den-take.md). Konkrete Test-/CI-Ergebnisse im Entwurfs-PR, echte Geräteabnahme weiter offen.
 - **C13:** Zeitzuordnung über den Callback-Zeitpunkt statt `atMs`; das ist nur mit Gerätetest zu klären.
 - **C14:** „Singe Tenor“ ohne Artikel; „Viertelschläge“ nicht aus dem Glossar; Entwicklerhinweise in `choir`-Texten.
 - Der Kommentar in `choir.test.ts:404` widerspricht `soprano-leap`.
