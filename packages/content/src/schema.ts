@@ -529,6 +529,8 @@ export const contentStatusSchema = z.enum(['entwurf', 'in_pruefung', 'freigegebe
 export const exampleSchema = z
   .object({ score: z.string().min(1), captionKey: contentTextKeySchema })
   .extend({
+    /** Explicit separate parts instead of the historical single-target grand-staff image. */
+    staffPresentation: z.literal('parts').optional(),
     pulse: z
       .object({ bpm: z.number().int().min(60).max(120) })
       .strict()

@@ -1,5 +1,7 @@
 # P4.19 – Stufe 5 als interner Entwurf
 
+**Gesamtweiterbau vom 03.11.2026:** Maßgeblich ist jetzt der [Stufe-5-Gesamtstand](stufe-5-gesamtstand.md) auf `codex/level-five-complete-draft`: Aufgabenvielfalt, feste Stimmen, Notation, getrennte Zielfähigkeiten und DE/EN-Texte. Katalog/Quellen 31, Vorschau-Engine 2; ältere gespeicherte Vorschauen benötigen Neustart. Technische Vorarbeit vor formaler P4-Freigabe, keine Veröffentlichung. Die folgenden Versions-/Prüfangaben dokumentieren den früheren Ausgangsstand.
+
 **Katalogstand 26.10.2026:** Der Chor-Aufgaben-Weiterbau erhöht Katalog/Fähigkeitsplan auf Version 25. Lokale Stufe-5-Vorschauen mit Katalogversion 24 müssen neu gestartet werden; die Stufe-5-Aufgabensätze selbst ändern sich dadurch nicht. [ADR 0060](../decisions/0060-chor-wiederholungen-mit-anderen-zieltoenen.md). Technische P4-Vorarbeit vor formaler Freigabe, keine Veröffentlichung.
 
 Stand: 25.10.2026 · Grundentwurf `codex/p4-19-level-five-draft` (#103); Weiterbau `codex/p4-19-preview-resume-draft`

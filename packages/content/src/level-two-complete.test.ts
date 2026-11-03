@@ -72,8 +72,8 @@ describe('Stufe 2 vollständig intern', () => {
     expect(
       lessons.reduce((n, l) => n + required(resolveLesson(catalogue, l.id)).exercises.length, 0),
     ).toBe(480);
-    expect(catalogue.contentVersion).toBe(27);
-    expect(curriculumPlan.contentVersion).toBe(27);
+    expect(catalogue.contentVersion).toBe(31);
+    expect(curriculumPlan.contentVersion).toBe(31);
     expect(catalogue.lessons).toHaveLength(194);
     expect(catalogue.knowledgeCards).toHaveLength(392);
     expect(catalogue.knowledgeCards.flatMap((c) => c.examples)).toHaveLength(453);

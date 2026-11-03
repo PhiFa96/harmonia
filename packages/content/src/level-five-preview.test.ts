@@ -113,7 +113,8 @@ describe('interne Stufe-5-Wiederaufnahme ohne Lernnachweis', () => {
     expect(() =>
       createLevelFivePreview(catalogue, 'notation.l1.staff.reading', 'foreign', now),
     ).toThrow();
-    expect(() => restoreLevelFivePreview(catalogue, { ...draft, engineVersion: 2 }, now)).toThrow();
+    expect(() => restoreLevelFivePreview(catalogue, { ...draft, engineVersion: 1 }, now)).toThrow();
+    expect(() => restoreLevelFivePreview(catalogue, { ...draft, engineVersion: 3 }, now)).toThrow();
     expect(() => restoreLevelFivePreview(catalogue, { ...draft, points: 999 }, now)).toThrow();
   });
   it('sperrt ungültige Übergänge, falsche Auswahl, Zukunft und die exakte Siebentagesgrenze', () => {

@@ -13,6 +13,7 @@ export interface ContentChecks {
     source: string,
     keyboard?: { readonly first: number; readonly last: number },
     pulse?: { readonly bpm: number },
+    staffPresentation?: 'parts',
   ) => void;
 }
 export class ContentValidationError extends Error {
@@ -212,7 +213,12 @@ export function parseCatalogue(input: unknown, checks?: ContentChecks): ContentC
     ];
     for (const example of examples)
       try {
-        checks.validateScore(example.score, example.keyboard, example.pulse);
+        checks.validateScore(
+          example.score,
+          example.keyboard,
+          example.pulse,
+          example.staffPresentation,
+        );
       } catch {
         problems.push(`${example.captionKey}: ungültiges Notenbeispiel ${example.score}`);
       }

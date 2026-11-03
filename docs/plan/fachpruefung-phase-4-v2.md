@@ -105,6 +105,8 @@ Harte Vorbedingungen vor jeder echten Nutzung:
 - **E4:** Ein veralteter Datensatz blockiert alle Durchgänge des Besitzers (409).
 
 **Stufe 5:**
+
+**Technischer Nachtrag vom 03.11.2026:** [Gesamtentwurf P4.19](stufe-5-gesamtstand.md) bearbeitet A7 (Rest), A8, A9, A10, A11, A12 und A15 auf `codex/level-five-complete-draft`, einschließlich verständlicherer en-US-Intervallformulierung. Neun Prüfregeln unverändert; neue Aufgabenquellen, feste Stimmen, lesbare Notation, einzelne Zielfähigkeiten, Quellenmischung und Textbereinigung. Katalog/Quellen 31, Vorschau-Engine 2. Neue tatsächliche Gegenrechnungen und Ablaufprüfungen; keine unabhängige Fach-/Quellen-/Gerätefreigabe. Die nachstehenden Befunde beschreiben den historischen Vorgängerstand.
 - **A7 (Rest):** „Intervallklasse“ steht zugleich für ic1–6.
 - **A8:** Fugenantwort DE „häufig“ / EN „sometimes“; „serielle Darstellung“ meint „nacheinander“.
 - **A9:** Entwicklerhinweise im Lerntext (`modelBoundaryBody`, `motifInversionBody`).

@@ -120,7 +120,7 @@ export function LessonIntroduction({
                 ? { tabIndex: 0, 'aria-label': t('lesson.scrollExample') }
                 : {})}
             >
-              {score.staves.length === 2 && !polyphonic ? (
+              {score.staves.length === 2 && !polyphonic && example.staffPresentation !== 'parts' ? (
                 <View accessible role="img" aria-label={contentText(example.captionKey)}>
                   <GrandStaffView score={score} staffSpace={14} color={colors.text} />
                 </View>
