@@ -143,7 +143,10 @@ def main() -> None:
             if key.endswith("Caption") and not species[key].startswith(prefix):
                 species[key] = prefix + species[key]
         imitation = units["imitationStudy"]
-        imitation["canonEntryBody"] = imitation["canonEntryBody"].replace("Die serielle Darstellung unten", "Die Darstellung nacheinander")
+        imitation["canonEntryBody"] = (
+            "Eine nachfolgende Stimme übernimmt eine vorausgehende Linie nach einer festgelegten Regel und mit zeitlichem Abstand. Beim Prüfen zuerst Einsatzabstand, Intervall und Rhythmus benennen. Das Beispiel zeigt nur zwei Motive nacheinander; es ist noch kein gleichzeitig klingender Kanon."
+            if de else "A following voice takes up a preceding line according to a specified rule and after a time delay. First identify the entry delay, interval and rhythm. Below, two motives appear in succession; the example does not show a simultaneously sounding canon."
+        )
         imitation["motifInversionBody"] = (
             "Bei der chromatischen Umkehrung werden gerichtete Halbtonabstände gespiegelt: aufwärts zwei wird abwärts zwei. Diatonische oder tonale Umkehrungen können andere Abstände verwenden; benenne daher die gewählte Betrachtungsweise."
             if de else "Chromatic inversion reflects the direction of pitch intervals measured in $t(glossary:semitone_other): up two becomes down two. Diatonic or tonal inversions may use different distances, so state the chosen interpretation."
@@ -163,6 +166,10 @@ def main() -> None:
         copy["counterpointRule_consecutive-perfect"] = "zwei reine Quinten bzw. Primen/Oktaven in Folge (auch oktavversetzt)" if de else "consecutive perfect fifths or unisons/octaves (including compound intervals)"
         copy["knowledgeHistoryDefinition_imitationStudy_subjectAnswer"] = "Eine prägnante Gestalt wird in einer imitatorischen Exposition nacheinander von verschiedenen Stimmen vorgestellt; einzelne Intervalle können an den tonalen Zusammenhang angepasst sein." if de else "In an imitative exposition, different voices introduce a distinctive melodic idea in succession; individual intervals may be adjusted to the tonal context."
         if not de:
+            imitation["subjectAnswerCaption"] = "An original motive pair preserving the size and direction of each interval, measured in $t(glossary:semitone_other)."
+            units["workAnalysis"]["analyticalQuestionBody"] = "An analysis starts with a testable question and justified segment boundaries. In our original model the question is: which sequence of interval sizes and directions returns? Intervals are measured in $t(glossary:semitone_other). The four equal-duration notes form the agreed segment; other works need other boundary criteria."
+            units["setStudy"]["intervalClassBody"] = units["setStudy"]["intervalClassBody"].replace("A directed distance of seven", "An upward distance of seven")
+            units["setStudy"]["intervalClassCaption"] = "C up to G spans seven $t(glossary:semitone_other), but interval class five."
             copy["contextQuestion_motif-transform"] = "Which operation maps $t(glossary:measure_one) 1 to $t(glossary:measure_one) 2? Compare the size and direction of pitch intervals measured in $t(glossary:semitone_other); an additional transposition is allowed."
             for key in ("contextHint1_motif-transform", "contextHint2_row-transform"):
                 copy[key] = copy[key].replace("directed $t(glossary:semitone_one) intervals", "pitch intervals measured in $t(glossary:semitone_other), keeping their directions")
