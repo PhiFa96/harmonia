@@ -18,7 +18,12 @@ import { counterpointContextFindings } from './advanced-context.ts';
 const engines = new Map<string, ReturnType<typeof createI18n>>();
 function t(
   locale: TextLocale,
-  k: `exercise.${keyof Messages['exercise']}` | 'glossary:trebleClef_one' | 'glossary:bassClef_one',
+  k:
+    | `exercise.${keyof Messages['exercise']}`
+    | 'glossary:trebleClef_one'
+    | 'glossary:bassClef_one'
+    | 'glossary:altoClef_one'
+    | 'glossary:tenorClef_one',
   values: Record<string, string | number> = {},
 ) {
   let i = engines.get(textLocale(locale));
@@ -82,6 +87,13 @@ export function contextPrompt(item: ContextItem, locale: TextLocale) {
 }
 export function contextSourceText(item: ContextItem, locale: TextLocale) {
   const source = item.source;
+  if (
+    source.kind === 'score' &&
+    item.topic.startsWith('counterpoint-') &&
+    source.score.staves.length === 2
+  )
+    return t(locale, 'exercise.counterpointParts');
+
   if (item.topic === 'jazz-roots' && source.kind === 'document')
     return t(
       locale,
@@ -199,66 +211,72 @@ export function contextHint(item: ContextItem, level: 1 | 2, locale: TextLocale)
 export function contextNotationDescription(item: ContextItem, locale: TextLocale): string {
   if (item.source.kind !== 'score') return contextSourceText(item, locale);
   const score = item.source.score,
-    staff = score.staves[0];
-  if (!staff) throw new RangeError('System fehlt');
-  const layout = layoutScore(score),
-    bottom = parsePitch(
-      staff.clef === 'bass'
-        ? 'G2'
-        : staff.clef === 'alto'
-          ? 'F3'
-          : staff.clef === 'tenor'
-            ? 'D3'
-            : 'E4',
-    );
-  const notes = staff.measures
-    .flatMap((m, measure) =>
-      m.voices.flatMap((v) =>
-        v.events.map((e, event) => {
-          const pitches =
-            e.kind === 'note' ? [e.pitch] : e.kind === 'chord' ? e.notes.map((n) => n.pitch) : [];
-          const positions = pitches
-            .map((p, index) => {
-              const printed = layout.items.find(
-                (i) =>
-                  i.kind === 'glyph' &&
-                  i.role === 'accidental' &&
-                  i.ref?.measure === measure &&
-                  i.ref.event === event &&
-                  (i.ref.note ?? 0) === index,
-              );
-              const names: Readonly<
-                Record<string, 'sharp' | 'flat' | 'natural' | 'doubleSharp' | 'doubleFlat'>
-              > = {
-                accidentalSharp: 'sharp',
-                accidentalFlat: 'flat',
-                accidentalNatural: 'natural',
-                accidentalDoubleSharp: 'doubleSharp',
-                accidentalDoubleFlat: 'doubleFlat',
-              };
-              const sign = printed?.kind === 'glyph' ? (names[printed.glyph] ?? 'none') : 'none';
-              return t(locale, 'exercise.contextPosition', {
-                index: index + 1,
-                steps: diatonicIndex(p) - diatonicIndex(bottom),
-                sign: t(locale, `exercise.contextSign_${sign}`),
+    layout = layoutScore(score);
+  if (!score.staves.length) throw new RangeError('System fehlt');
+  return score.staves
+    .map((staff, staffIndex) => {
+      const bottom = parsePitch({ treble: 'E4', bass: 'G2', alto: 'F3', tenor: 'D3' }[staff.clef]);
+      const notes = staff.measures
+        .flatMap((m, measure) =>
+          m.voices.flatMap((v, voice) =>
+            v.events.map((e, event) => {
+              const pitches =
+                e.kind === 'note'
+                  ? [e.pitch]
+                  : e.kind === 'chord'
+                    ? e.notes.map((n) => n.pitch)
+                    : [];
+              const positions = pitches
+                .map((p, index) => {
+                  const printed = layout.items.find(
+                    (i) =>
+                      i.kind === 'glyph' &&
+                      i.role === 'accidental' &&
+                      i.ref !== undefined &&
+                      (i.ref.staff ?? 0) === staffIndex &&
+                      (i.ref.voice ?? 0) === voice &&
+                      i.ref.measure === measure &&
+                      i.ref.event === event &&
+                      (i.ref.note ?? 0) === index,
+                  );
+                  const names: Readonly<
+                    Record<string, 'sharp' | 'flat' | 'natural' | 'doubleSharp' | 'doubleFlat'>
+                  > = {
+                    accidentalSharp: 'sharp',
+                    accidentalFlat: 'flat',
+                    accidentalNatural: 'natural',
+                    accidentalDoubleSharp: 'doubleSharp',
+                    accidentalDoubleFlat: 'doubleFlat',
+                  };
+                  const sign =
+                    printed?.kind === 'glyph' ? (names[printed.glyph] ?? 'none') : 'none';
+                  return t(locale, 'exercise.contextPosition', {
+                    index: index + 1,
+                    steps: diatonicIndex(p) - diatonicIndex(bottom),
+                    sign: t(locale, `exercise.contextSign_${sign}`),
+                  });
+                })
+                .join(' ');
+              return t(locale, 'exercise.contextEvent', {
+                measure: measure + 1,
+                index: event + 1,
+                duration: durationName(e.duration, {
+                  ...engineLanguage(locale),
+                  kind: e.kind === 'rest' ? 'rest' : 'note',
+                }),
+                positions,
               });
-            })
-            .join(' ');
-          return t(locale, 'exercise.contextEvent', {
-            measure: measure + 1,
-            index: event + 1,
-            duration: durationName(e.duration, {
-              ...engineLanguage(locale),
-              kind: e.kind === 'rest' ? 'rest' : 'note',
             }),
-            positions,
-          });
-        }),
-      ),
-    )
+          ),
+        )
+        .join(' ');
+      const description = t(locale, 'exercise.notationDescription', {
+        clef: t(locale, `glossary:${staff.clef}Clef_one`),
+        notes,
+      });
+      return score.staves.length === 1
+        ? description
+        : t(locale, 'exercise.contextStaffDescription', { index: staffIndex + 1, description });
+    })
     .join(' ');
-  return t(locale, 'exercise.notationDescription', {
-    clef: t(locale, staff.clef === 'bass' ? 'glossary:bassClef_one' : 'glossary:trebleClef_one'),
-    notes,
-  });
 }

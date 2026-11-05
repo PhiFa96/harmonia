@@ -22,11 +22,12 @@ function validSelection(item: ExerciseItem, answer: string) {
 }
 
 export const LEVEL_FIVE_PREVIEW_TTL = 7 * 86400000;
+export const LEVEL_FIVE_ENGINE_VERSION = 2;
 const time = z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER);
 export const levelFivePreviewSchema = z
   .object({
     schemaVersion: z.literal(1),
-    engineVersion: z.literal(1),
+    engineVersion: z.literal(LEVEL_FIVE_ENGINE_VERSION),
     id: z.string().min(1).max(128),
     lessonId: z.string().min(1).max(128),
     catalogueVersion: z.number().int().positive(),
@@ -61,7 +62,7 @@ export function createLevelFivePreview(
   const lesson = source(catalogue, lessonId);
   return levelFivePreviewSchema.parse({
     schemaVersion: 1,
-    engineVersion: 1,
+    engineVersion: LEVEL_FIVE_ENGINE_VERSION,
     id,
     lessonId,
     catalogueVersion: catalogue.contentVersion,
