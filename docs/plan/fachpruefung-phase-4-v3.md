@@ -16,7 +16,7 @@ Integriert über den Branch `claude/stoic-pascal-eaoojx` per Sammel-PR nach `mai
 | #139 | `react-native-purchases` 11.0.0 | übernommen: Typen, 55 Billing-App-Tests, 37 + 91 Billing-Proben grün; native Laufzeit ungeprüft |
 
 Nicht übernommen:
-- **#140 `ts-fsrs` 6.0.0:** 15 von 17 FSRS-Tests rechnen anders, die Deno-Pins (`tools/deno.json`, `supabase/functions/deno.json`) bleiben 5.4.2, die alte API ist veraltet. Die Umstellung ändert das Planungsmodell gespeicherter Karten und braucht eine eigene ADR (Nachfolge zu ADR 0030). PR bleibt offen.
+- **#140 `ts-fsrs` 6.0.0:** 15 von 17 FSRS-Tests rechnen anders, die Deno-Pins (`tools/deno.json`, `supabase/functions/deno.json`) bleiben 5.4.2, die alte API ist veraltet. Die Umstellung ändert das Planungsmodell gespeicherter Karten und braucht eine eigene ADR (Nachfolge zu ADR 0030). Nachtrag 05.11.2026: nach Nutzerentscheidung separat migriert (ADR 0075). Die Testfehler lagen am entfallenen Feld `elapsed_days`; die Rechnung weicht nur um 30 s bei „Schwer“ im Lernschritt ab.
 - **#113 `@expo/metro-runtime` 58:** gehört zu Expo SDK 58, das Repo ist auf SDK 57. Wird geschlossen.
 
 ## Integrationsentscheidungen

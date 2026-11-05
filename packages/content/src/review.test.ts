@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-deprecated -- ADR 0075: bewusst die synchrone FSRS-6-Legacy-API von ts-fsrs 6. */
 import { describe, expect, it } from 'vitest';
 import { createEmptyCard, fsrs, Rating } from 'ts-fsrs';
 import type { Card, Grade } from 'ts-fsrs';
@@ -98,11 +99,24 @@ describe('FSRS scheduling', () => {
           ] as Grade[]
         )[n % 8] ?? Rating.Good;
       now = Math.max(now, raw.due.getTime()) + (n % 5) * 86400000;
+      const previous = raw;
       raw = engine.next(raw, new Date(now), grade).card;
       serial = scheduleReview(JSON.parse(JSON.stringify(serial)) as typeof serial, grade, now);
-      expect(serial).toEqual(serializeReviewCard(raw));
+      const day = (d: Date) => Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+      const elapsed =
+        previous.state === 0 || !previous.last_review
+          ? 0
+          : (day(new Date(now)) - day(previous.last_review)) / 86400000;
+      expect(serial).toEqual(serializeReviewCard(raw, elapsed));
     }
     expect(serial.lapses).toBeGreaterThan(0);
+  });
+  it('keeps the stored elapsed_days field in whole UTC calendar days (ts-fsrs 5.4.2 semantics)', () => {
+    const first = scheduleReview(undefined, 3, Date.UTC(2026, 0, 1, 23, 0));
+    expect(first.elapsed_days).toBe(0);
+    expect(scheduleReview(first, 3, Date.UTC(2026, 0, 2, 1, 0)).elapsed_days).toBe(1);
+    expect(scheduleReview(first, 3, Date.UTC(2026, 0, 1, 23, 30)).elapsed_days).toBe(0);
+    expect(scheduleReview(first, 3, Date.UTC(2026, 0, 11, 0, 0)).elapsed_days).toBe(10);
   });
   it('clamps late offline arrivals to the last review without negative elapsed time', () => {
     const first = scheduleReview(undefined, 3, at);

@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-deprecated --
+ * ADR 0075: ts-fsrs 6 führt die bisherige synchrone FSRS-6-Schnittstelle weiter. Die neue
+ * Scheduler-API (defineScheduler/DefaultScheduler) weicht bei identischer Konfiguration in
+ * Intervalltagen ab und bräuchte eine eigene Kalibrierung; deshalb bewusst die Legacy-API. */
 import { createEmptyCard, fsrs, Rating, State } from 'ts-fsrs';
 import type { Card, Grade } from 'ts-fsrs';
 import { z } from 'zod';
@@ -8,7 +12,7 @@ import { learningRowEventSchema, validateLearningEvent } from './learning-eviden
 import type { LearningRowEvent } from './learning-evidence.ts';
 
 /** Pin engine and parameters together. A change needs an explicit migration/calibration. */
-export const REVIEW_ALGORITHM = 'fsrs-6/ts-fsrs-5.4.2/v1';
+export const REVIEW_ALGORITHM = 'fsrs-6/ts-fsrs-6.0.0/v1';
 export const REVIEW_PARAMETERS = {
   request_retention: 0.9,
   maximum_interval: 36500,
@@ -56,10 +60,22 @@ export const reviewCacheSchema = reviewStateSchema
 export type ReviewCache = z.infer<typeof reviewCacheSchema>;
 export const emptyReviewState = (): ReviewState => ({ skills: {}, cards: {} });
 export const reviewCardKey = (id: string, version: number) => `${id}@${String(version)}`;
-export function serializeReviewCard(card: Card): ReviewCard {
+/** Ganze UTC-Kalendertage wie ts-fsrs 5.4.2; 6.0.0 liefert `elapsed_days` nicht mehr. */
+function utcDayDifference(from: number, to: number): number {
+  const day = (t: number) => {
+    const d = new Date(t);
+    return Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+  };
+  return Math.max(0, Math.floor((day(to) - day(from)) / 86_400_000));
+}
+export function serializeReviewCard(card: Card, elapsedDays = 0): ReviewCard {
   const { last_review, ...rest } = card;
+  // Gespeichertes Format (SQLite, Sync, DB-Prüfung) behält das Feld unverändert bei.
+  const memory: Partial<Card> & { elapsed_days?: number } = { ...rest };
+  delete memory.elapsed_days;
   return reviewCardSchema.parse({
-    ...rest,
+    ...memory,
+    elapsed_days: elapsedDays,
     due: card.due.getTime(),
     ...(last_review ? { last_review: last_review.getTime() } : {}),
   });
@@ -94,7 +110,12 @@ export function scheduleReview(
     state: [State.New, State.Learning, State.Review, State.Relearning][state] ?? State.New,
     ...(last_review === undefined ? {} : { last_review: new Date(last_review) }),
   };
-  return serializeReviewCard(scheduler.next(input, new Date(now), reviewGrade(rating)).card);
+  const elapsedDays =
+    state === 0 || last_review === undefined ? 0 : utcDayDifference(last_review, now);
+  return serializeReviewCard(
+    scheduler.next(input, new Date(now), reviewGrade(rating)).card,
+    elapsedDays,
+  );
 }
 /** One conservative grade per skill and original attempt. Correction rounds/skips never inflate memory. */
 export function reviewEvidence(catalogue: ContentCatalogue, input: unknown) {
