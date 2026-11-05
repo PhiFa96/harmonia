@@ -141,8 +141,8 @@ importers:
         specifier: 2.122.0
         version: 2.122.0
       ts-fsrs:
-        specifier: 5.4.2
-        version: 5.4.2
+        specifier: 6.0.0
+        version: 6.0.0
       typescript:
         specifier: 'catalog:'
         version: 6.0.3
@@ -367,8 +367,8 @@ importers:
         specifier: workspace:*
         version: link:../exercises
       ts-fsrs:
-        specifier: 5.4.2
-        version: 5.4.2
+        specifier: 6.0.0
+        version: 6.0.0
       zod:
         specifier: 'catalog:'
         version: 4.6.7
@@ -1660,6 +1660,10 @@ packages:
   '@noble/hashes@1.8.0':
     resolution: {integrity: sha512-jCs9ldd7NwzpgXDIf6P3+NrHh9/sD6CQdxHyjQI+h/6rDNo88ypBxxz45UDuZHz9r3tNz7N/VInSVoVdtXEI4A==}
     engines: {node: ^14.21.3 || >=16}
+
+  '@open-spaced-repetition/srs-kit@1.0.0':
+    resolution: {integrity: sha512-f++JAMpRw7Yh1U4JcHzTtVknJ1bYKz/4yejsus6TRl+ueGJpvexNBrOoqaeUWCgH/e1j046oiqjzy4Nf4RW/vw==}
+    engines: {node: '>=20.0.0'}
 
   '@opentelemetry/api@1.9.1':
     resolution: {integrity: sha512-gLyJlPHPZYdAk1JENA9LeHejZe1Ti77/pTeFm/nMXmQH/HFZlcS/O2XJB+L8fkbrNSqhdtlvjBVjxwUYanNH5Q==}
@@ -5610,9 +5614,9 @@ packages:
     peerDependencies:
       typescript: '>=4.8.4'
 
-  ts-fsrs@5.4.2:
-    resolution: {integrity: sha512-z4qop4pzTcyTzuJ566d9EaX/4bZZzhYfeaPImfVr+xcYT65c5oBgFDijUhCE/D+C78eaolHIhKRZ04/RwF+v2g==}
-    engines: {node: '>=20.0.0'}
+  ts-fsrs@6.0.0:
+    resolution: {integrity: sha512-kX03GIEhXgBtUrgZuv7k7Aax8oYF3GCO0lASqJFw/8cvvI7qjE83J8IzFhHugux7//W0yquG7zidk3e9NRgEwg==}
+    engines: {node: '>=24.0.0'}
 
   tslib@1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
@@ -7506,6 +7510,8 @@ snapshots:
 
   '@noble/hashes@1.8.0': {}
 
+  '@open-spaced-repetition/srs-kit@1.0.0': {}
+
   '@opentelemetry/api@1.9.1': {}
 
   '@oxc-project/types@0.156.0': {}
@@ -7917,9 +7923,7 @@ snapshots:
       metro-runtime: 0.84.6
     transitivePeerDependencies:
       - '@babel/core'
-      - bufferutil
       - supports-color
-      - utf-8-validate
 
   '@react-native/normalize-colors@0.74.89': {}
 
@@ -12086,7 +12090,9 @@ snapshots:
     dependencies:
       typescript: 6.0.3
 
-  ts-fsrs@5.4.2: {}
+  ts-fsrs@6.0.0:
+    dependencies:
+      '@open-spaced-repetition/srs-kit': 1.0.0
 
   tslib@1.14.1: {}
 
