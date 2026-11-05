@@ -263,6 +263,8 @@ export function runtimeDigests(data) {
     'pnpm-lock.yaml',
     'pnpm-workspace.yaml',
     'package.json',
+    // Produktiv von tutor/index.ts importiert (hinter lokalem Testflag), trotz Fixture-Namen binden.
+    'supabase/functions/_shared/tutor-local-fixture.ts',
     'apps/mobile/src/components/tutor-screen.tsx',
     'packages/i18n/src/ai-act-review.ts',
     'tools/check-legal-release.mjs',
