@@ -11,7 +11,39 @@ const de = {
   policy:
     'Technisches Testprofil: 12 Aufgaben, 20 Minuten, 5 Punkte je richtiger Antwort. Ein Muster entsteht ab 80 % und nur, wenn alle Aufgaben beantwortet sind. Diese Testgrenze ist keine freigegebene Bestehensregel.',
   privacy:
-    'Die Durchgänge bleiben auf diesem lokalen Server und werden nach sieben Tagen beim nächsten Zugriff entfernt. Keine Namen, Zahlungen, XP oder öffentlichen Zertifikate. Ein Browser-Cookie ermöglicht die Wiederaufnahme.',
+    'Durchgänge bleiben sieben Tage ab Start auf diesem lokalen Server. Ungenutzte Testbestellungen werden nach sieben Tagen entfernt, zugeordnete zusammen mit dem Durchgang (spätestens nach 14 Tagen). Bereinigung beim nächsten Zugriff. Keine Namen, echten Zahlungen, XP oder öffentlichen Zertifikate. Die Testsitzung endet nach 30 Minuten ohne Zugriff oder spätestens nach sieben Tagen.',
+  purchaseTitle: 'Testbestellung ohne Zahlung',
+  purchaseNotice:
+    'Dies simuliert einen Kauf. Es werden kein Preis berechnet, kein Zahlungsdienst aufgerufen und keine echten Zertifikate freigeschaltet. Eine Testbestellung gilt für genau einen Durchgang; jede Wiederholung braucht eine neue Testbestellung.',
+  payAndStart: 'Zahlung simulieren und Testprüfung starten',
+  startPaid: 'Bezahlte Testbestellung verwenden',
+  cancelPurchase: 'Testbestellung abbrechen',
+  refund: 'Erstattung simulieren',
+  refundConfirm:
+    'Testberechtigung zurücknehmen? Der Durchgang wird gesperrt und ein vorhandener Muster-Prüfcode widerrufen. Es wird kein Geld bewegt.',
+  purchaseHistory: 'Meine simulierten Bestellungen',
+  paymentPending: 'Testzahlung offen',
+  paymentPaid: 'Testzahlung simuliert',
+  paymentCancelled: 'Testbestellung abgebrochen',
+  paymentRefunded: 'Erstattung simuliert · Testberechtigung zurückgenommen',
+  purchaseRequired: 'Für diesen Durchgang fehlt eine passende simulierte Testzahlung.',
+  purchaseConsumed:
+    'Diese Testbestellung wurde bereits verwendet. Für eine Wiederholung ist eine neue Testbestellung nötig.',
+  purchaseRefunded: 'Die Testberechtigung wurde zurückgenommen. Dieser Durchgang ist gesperrt.',
+  openPurchase: 'Testbestellung öffnen',
+  exportData: 'Meine Testdaten herunterladen',
+  remove: 'Diesen Durchgang löschen',
+  removeConfirm:
+    'Nur diesen Durchgang und seinen Muster-Prüfcode löschen? Andere Durchgänge bleiben erhalten. Die verwendete Testbestellung kann nicht erneut verwendet werden.',
+  logout: 'Testsitzung beenden',
+  logoutConfirm:
+    'Testsitzung beenden? Ohne diese Sitzung kannst du auf die verbleibenden lokalen Testdaten nicht mehr zugreifen. Lade sie bei Bedarf vorher herunter. Nach sieben Tagen werden sie entfernt.',
+  loggedOut:
+    'Die Testsitzung wurde beendet. Verbleibende Testdaten werden nach sieben Tagen entfernt.',
+  sessionExpired:
+    'Die Testsitzung ist abgelaufen. Bereits gespeicherte Testdaten bleiben bis zum Ende ihrer siebentägigen Aufbewahrung erhalten; diese Sitzung kann sie nicht mehr öffnen.',
+  sessionEnded: 'Testsitzung beendet',
+  newSession: 'Neue Testsitzung öffnen',
   language: 'Sprache',
   profile: 'Stufe {{stage}} · Testprofil v{{version}}',
   start: 'Testprüfung starten',
@@ -53,6 +85,8 @@ const de = {
   verify: 'Code prüfen',
   verified: 'Muster gefunden · Stufe {{stage}} · Kein gültiger Qualifikationsnachweis',
   notFound: 'Kein Muster zu diesem Code gefunden.',
+  outdatedCode:
+    'Der Muster-Prüfcode gehört zu einem veralteten oder nicht mehr überprüfbaren Prüfstand.',
   erase: 'Meine lokalen Testdaten löschen',
   eraseConfirm: 'Alle eigenen Durchgänge und Prüfcodes auf diesem Server dauerhaft löschen?',
   erased: 'Die lokalen Testdaten wurden gelöscht.',
@@ -63,7 +97,7 @@ const de = {
   conflict: 'Der Durchgang wurde bereits verändert. Öffne ihn erneut, um den Serverstand zu laden.',
   outdatedTitle: 'Durchgang aus einem älteren Prüfstand',
   outdated:
-    'Inhalte oder Prüfungslogik haben sich geändert. Dieser Durchgang kann nicht fortgesetzt oder als neues Muster-PDF ausgegeben werden. Lösche die lokalen Testdaten und beginne neu.',
+    'Inhalte, Prüfungslogik oder gespeicherte Prüfdaten stimmen nicht mehr mit diesem Prüfstand überein. Dieser Durchgang bleibt gesperrt. Andere Durchgänge sind weiter nutzbar; du kannst ihn einzeln löschen oder eine neue Testprüfung beginnen.',
   limit: 'Das lokale Testlimit ist erreicht. Lösche alte Testdaten, bevor du neu beginnst.',
   pdfTitle: 'HARMONIA · MUSTERZERTIFIKAT',
   pdfWarning: 'ENTWURF / UNGÜLTIG',
@@ -86,7 +120,37 @@ const en: typeof de = {
   policy:
     'Technical test profile: 12 questions, 20 minutes, 5 points per correct answer. A sample requires 80% and answers to every question. This test threshold is not an approved passing rule.',
   privacy:
-    'Attempts stay on this local server and are removed on the next access after seven days. No names, payments, XP or public certificates. A browser cookie allows you to resume.',
+    'Attempts stay on this local server for seven days from starting. Unused test orders are removed after seven days; linked orders are removed with their attempt (within 14 days). Cleanup occurs on the next access. No names, real payments, XP or public certificates. The test session ends after 30 minutes without access or after seven days at the latest.',
+  purchaseTitle: 'Test order without payment',
+  purchaseNotice:
+    'This simulates a purchase. No price is charged, no payment service is called and no real certificates are unlocked. One test order covers exactly one attempt; every retry needs a new test order.',
+  payAndStart: 'Simulate payment and start test exam',
+  startPaid: 'Use paid test order',
+  cancelPurchase: 'Cancel test order',
+  refund: 'Simulate refund',
+  refundConfirm:
+    'Withdraw this test entitlement? The attempt will be blocked and any sample code revoked. No money will move.',
+  purchaseHistory: 'My simulated orders',
+  paymentPending: 'Test payment pending',
+  paymentPaid: 'Test payment simulated',
+  paymentCancelled: 'Test order cancelled',
+  paymentRefunded: 'Refund simulated · test entitlement withdrawn',
+  purchaseRequired: 'This attempt needs a matching simulated test payment.',
+  purchaseConsumed: 'This test order has already been used. A retry needs a new test order.',
+  purchaseRefunded: 'The test entitlement was withdrawn. This attempt is blocked.',
+  openPurchase: 'Open test order',
+  exportData: 'Download my test data',
+  remove: 'Delete this attempt',
+  removeConfirm:
+    'Delete only this attempt and its sample code? Other attempts will remain. The consumed test order cannot be reused.',
+  logout: 'End test session',
+  logoutConfirm:
+    'End this test session? Without this session you cannot access the remaining local test data. Download it first if needed. It will be removed after seven days.',
+  loggedOut: 'The test session has ended. Remaining test data will be removed after seven days.',
+  sessionExpired:
+    'The test session has expired. Saved test data remains until its seven-day retention ends; this session can no longer open it.',
+  sessionEnded: 'Test session ended',
+  newSession: 'Open a new test session',
   language: 'Language',
   profile: 'Stage {{stage}} · Test profile v{{version}}',
   start: 'Start test exam',
@@ -127,6 +191,7 @@ const en: typeof de = {
   verify: 'Check code',
   verified: 'Sample found · Stage {{stage}} · Not a valid qualification',
   notFound: 'No sample found for this code.',
+  outdatedCode: 'The sample code belongs to an outdated or no longer verifiable exam snapshot.',
   erase: 'Delete my local test data',
   eraseConfirm: 'Permanently delete all your attempts and verification codes on this server?',
   erased: 'Local test data deleted.',
@@ -136,7 +201,7 @@ const en: typeof de = {
   conflict: 'This attempt has already changed. Reopen it to load the server state.',
   outdatedTitle: 'Attempt from an earlier review snapshot',
   outdated:
-    'Content or exam logic has changed. This attempt cannot be resumed or issued as a new sample PDF. Delete the local test data and start again.',
+    'Content, exam logic or stored exam data no longer matches this snapshot. This attempt stays blocked. Other attempts remain available; you can delete this one or start a new test exam.',
   limit: 'The local test limit has been reached. Delete old test data before starting again.',
   pdfTitle: 'HARMONIA · SAMPLE CERTIFICATE',
   pdfWarning: 'DRAFT / INVALID',
@@ -151,7 +216,11 @@ const en: typeof de = {
   pdfRevocation: 'The current status there applies; this PDF may have been revoked.',
   pdfExpiry: 'Local test data and codes are removed after seven days.',
 };
-export const CERTIFICATE_DRAFT_MESSAGES = { de, 'en-US': en, 'en-GB': { ...en } };
+export const CERTIFICATE_DRAFT_MESSAGES = {
+  de,
+  'en-US': { ...en, paymentCancelled: 'Test order canceled' },
+  'en-GB': { ...en },
+};
 export type CertificateTextKey = keyof typeof de;
 export function certificateTranslator(locale: AppLocale) {
   const instance = i18next.createInstance();

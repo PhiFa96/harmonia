@@ -103,6 +103,8 @@ Harte Vorbedingungen vor jeder echten Nutzung:
 
 **Zertifikat/KI:**
 - **E2 – technisch bearbeitet, 31.10.2026:** Neue Tutor-Erklärungen und -Lösungen verlangen jetzt einen signierten Nachweis einer Serverwertung, gebunden an Konto, Quelle und Antwort. Das vorher wirkungslose `checked` bleibt UI-Metadatum. App-/Signatur-/Protokolltests und erweiterte echte HTTP-/DB-Prüfungen: [Übergabe und Ausführungsstand](tutor-versuchsnachweise.md). Keine unabhängige Modell-/Fachabnahme oder Produktfreigabe; der Nachweis attestiert keine menschliche Bearbeitung.
+
+**Technischer Nachtrag vom 02.11.2026:** Der [P4.17/P4.18-Gesamtentwurf](ki-und-zertifikate-gesamtstand.md) bearbeitet E3/E4 mit vollständiger Wiedergabebindung und isolierter Rekonstruktion veralteter/beschädigter Zeilen einschließlich gespeicherter Auswertungen. Neue tatsächliche SQLite-/HTTP-/Browserproben ergänzen Testbestellung, Erstattung, Einzel-/Gesamtlöschung, Datenexport und Sitzungswiderruf/-ablauf. Rechtsübergaben haben versionierte Vorlagen und private Dokumentnachweise; alle tatsächlichen Rechtsreviews bleiben offen. Der folgende Rohbefundstand bleibt als Verlauf erhalten. E2/Tutor wurde getrennt über #136 bearbeitet (siehe oben). Keine Produkt-, Rechts- oder fachliche Freigabe.
 - **E3:** Die Prüfbindung hasht `playback.ts`, aber nicht dessen Importe.
 - **E4:** Ein veralteter Datensatz blockiert alle Durchgänge des Besitzers (409).
 

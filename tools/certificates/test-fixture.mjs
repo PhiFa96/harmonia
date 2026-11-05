@@ -3,6 +3,19 @@ import { CERTIFICATE_PROFILES } from './profiles.ts';
 import { catalogue } from '../../packages/content/src/authoring.ts';
 import { createExamRun } from '../../packages/content/src/exam.ts';
 import { evaluateExercise } from '../../packages/exercises/src/index.ts';
+import { randomUUID } from 'node:crypto';
+
+/** Explicitly fund a local synthetic purchase, never a production entitlement. */
+export function startFixture(service, owner, payload) {
+  const active = service.state(owner, payload.locale).attempts.find((a) => a.phase === 'active');
+  let purchase = active?.profile === payload.profile ? active.purchaseId : null;
+  if (!purchase) {
+    const order = service.order(owner, { profile: payload.profile, requestId: randomUUID() });
+    service.settle(owner, { id: order.id, outcome: 'paid' });
+    purchase = order.id;
+  }
+  return service.start(owner, { ...payload, purchase });
+}
 
 /** Test-only oracle reads the private fixture DB; no answer/seed endpoint exists. */
 export function fixtureAnswers(filename, id) {

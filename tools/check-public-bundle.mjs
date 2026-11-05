@@ -38,15 +38,15 @@ for (const content of Object.values(contentMessages))
   for (const key of allowedKeys) allowedTexts.add(textAt({ content }, key));
 const forbidden = new Map();
 for (const [locale, messages] of Object.entries(CERTIFICATE_REVIEW_MESSAGES))
-  for (const key of ['title', 'draft', 'sampleLimit', 'limits'])
-    forbidden.set(messages[key], `P4.18 review ${locale}.${key}`);
+  for (const [key, text] of Object.entries(messages))
+    if (!allowedTexts.has(text)) forbidden.set(text, `P4.18 review ${locale}.${key}`);
 forbidden.set(
   'official-explorer-2026-07-27; direct-eur-lex-pending',
   'P4.17 internal legal inventory',
 );
 for (const [locale, messages] of Object.entries(AI_REVIEW_MESSAGES))
-  for (const key of ['title', 'draft', 'intro', 'limit'])
-    forbidden.set(messages[key], `P4.17 ${locale}.${key}`);
+  for (const [key, text] of Object.entries(messages))
+    if (!allowedTexts.has(text)) forbidden.set(text, `P4.17 ${locale}.${key}`);
 forbidden.set('license_invoices', 'P4.16 private invoices');
 for (const [locale, messages] of Object.entries(LICENSE_MESSAGES))
   for (const [key, text] of Object.entries(messages))
@@ -65,8 +65,8 @@ for (const [locale, messages] of Object.entries(SCHOOL_DRAFT_MESSAGES))
     if (text.trim() && !allowedTexts.has(text)) forbidden.set(text, `P4.13 ${locale}.${key}`);
 for (const id of ['certificate-draft-1', 'certificate-draft-2']) forbidden.set(id, `P4.18 ${id}`);
 for (const [locale, messages] of Object.entries(CERTIFICATE_DRAFT_MESSAGES))
-  for (const key of ['title', 'intro', 'policy', 'pdfTitle'])
-    forbidden.set(messages[key], `P4.18 ${locale}.${key}`);
+  for (const [key, text] of Object.entries(messages))
+    if (!allowedTexts.has(text)) forbidden.set(text, `P4.18 ${locale}.${key}`);
 for (const collection of COLLECTIONS)
   for (const record of catalogue[collection])
     if (record.status !== 'freigegeben') forbidden.set(record.id, record.id);
