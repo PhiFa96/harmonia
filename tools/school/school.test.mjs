@@ -44,7 +44,11 @@ async function enroll(org, first, learner = 'learnerA', uses = 3) {
 test('actual PostgreSQL RLS: teachers only their classes; administrators do not inherit learning access', async () => {
   const { org, first, second, foreign } = await fixtures();
   await enroll(org, first);
-  await act('learnerA', 'sharing', { class: first, enabled: true });
+  await act('learnerA', 'sharing', {
+    class: first,
+    enabled: true,
+    policy: 'school-draft-sharing-v2',
+  });
   assert.deepEqual(
     (await read('teacherA', 'select id from school_draft.classes')).rows.map((x) => x.id),
     [first],
@@ -72,7 +76,11 @@ test('sharing off by default, class scoped, immediately withdrawn; classmates ca
   assert.deepEqual((await service.report(ids.teacherA, first)).learners[0].areas, []);
   const code = await act('teacherB', 'invite', { org, class: second, kind: 'learner', uses: 1 });
   await act('learnerA', 'join', { code: code.code });
-  await act('learnerA', 'sharing', { class: first, enabled: true });
+  await act('learnerA', 'sharing', {
+    class: first,
+    enabled: true,
+    policy: 'school-draft-sharing-v2',
+  });
   assert.deepEqual((await service.report(ids.teacherB, second)).learners[0].areas, []);
   await enroll(org, first, 'learnerB');
   assert.equal((await read('learnerB', 'select * from school_draft.class_members')).rowCount, 1);
@@ -84,7 +92,11 @@ test('sharing off by default, class scoped, immediately withdrawn; classmates ca
     ).rowCount,
     0,
   );
-  await act('learnerA', 'sharing', { class: first, enabled: false });
+  await act('learnerA', 'sharing', {
+    class: first,
+    enabled: false,
+    policy: 'school-draft-sharing-v2',
+  });
   assert.equal((await read('teacherA', 'select * from school_draft.sample_evidence')).rowCount, 0);
   assert.equal((await read('learnerA', 'select * from school_draft.sharing_events')).rowCount, 2);
   assert.deepEqual((await service.report(ids.teacherA, first)).learners[0].areas, []);
@@ -146,7 +158,11 @@ test('codes are hashed, rotate, expire, revoke and reject role or organization i
 test('teacher reassignment, organization removal, archive and class deletion revoke all relevant access', async () => {
   const { org, first } = await fixtures();
   await enroll(org, first);
-  await act('learnerA', 'sharing', { class: first, enabled: true });
+  await act('learnerA', 'sharing', {
+    class: first,
+    enabled: true,
+    policy: 'school-draft-sharing-v2',
+  });
   await act('adminA', 'setTeacher', { class: first, actor: ids.teacherB, enabled: true });
   assert.equal((await service.report(ids.teacherB, first)).learners[0].areas.length, 3);
   await act('adminA', 'setTeacher', { class: first, actor: ids.teacherB, enabled: false });
@@ -158,30 +174,50 @@ test('teacher reassignment, organization removal, archive and class deletion rev
   await denied(act('adminA', 'removeTeacher', { org, actor: ids.adminA }));
   await act('adminA', 'archive', { class: first });
   assert.equal((await service.state(ids.learnerA)).memberships[0].sharing, false);
-  await denied(act('learnerA', 'sharing', { class: first, enabled: true }));
+  await denied(
+    act('learnerA', 'sharing', { class: first, enabled: true, policy: 'school-draft-sharing-v2' }),
+  );
   await act('adminA', 'deleteClass', { class: first });
   assert.equal((await read('learnerA', 'select * from school_draft.class_members')).rowCount, 0);
-  assert.equal((await read('learnerA', 'select * from school_draft.sharing_events')).rowCount, 0);
+  const retained = (await read('learnerA', 'select * from school_draft.sharing_events')).rows;
+  assert.equal(retained.length, 2);
+  assert.ok(retained.every((event) => event.class_id === null));
 });
 
 test('leaving and removal delete sharing; rejoining starts private; old code cannot undo teacher removal', async () => {
   const { org, first } = await fixtures();
   const code = await enroll(org, first);
-  await act('learnerA', 'sharing', { class: first, enabled: true });
+  await act('learnerA', 'sharing', {
+    class: first,
+    enabled: true,
+    policy: 'school-draft-sharing-v2',
+  });
   await act('learnerA', 'leave', { class: first });
   assert.equal((await service.report(ids.teacherA, first)).learners.length, 0);
   await act('learnerA', 'join', { code: code.code });
   assert.deepEqual((await service.report(ids.teacherA, first)).learners[0].areas, []);
-  await act('teacherA', 'removeLearner', { class: first, actor: ids.learnerA });
+  await act('teacherA', 'removeLearner', {
+    class: first,
+    member: (await service.report(ids.teacherA, first)).learners[0].member,
+  });
   await assert.rejects(act('learnerA', 'join', { code: code.code }), /invalidCode/);
 });
 
 test('payload tampering, SQL writes, wrong roles and stale evidence cannot manufacture progress or privileges', async () => {
   const { org, first } = await fixtures();
   await enroll(org, first);
-  await act('learnerA', 'sharing', { class: first, enabled: true });
+  await act('learnerA', 'sharing', {
+    class: first,
+    enabled: true,
+    policy: 'school-draft-sharing-v2',
+  });
   await assert.rejects(
-    act('learnerA', 'sharing', { class: first, enabled: true, actor: ids.learnerB }),
+    act('learnerA', 'sharing', {
+      class: first,
+      enabled: true,
+      actor: ids.learnerB,
+      policy: 'school-draft-sharing-v2',
+    }),
     /invalid/,
   );
   await assert.rejects(
@@ -202,7 +238,11 @@ test('payload tampering, SQL writes, wrong roles and stale evidence cannot manuf
 test('parallel pooled requests never inherit another actor claim', async () => {
   const { org, first } = await fixtures();
   await enroll(org, first);
-  await act('learnerA', 'sharing', { class: first, enabled: true });
+  await act('learnerA', 'sharing', {
+    class: first,
+    enabled: true,
+    policy: 'school-draft-sharing-v2',
+  });
   await Promise.all(
     Array.from({ length: 30 }, async (_, i) => {
       const who = i % 2 ? 'teacherB' : 'teacherA';

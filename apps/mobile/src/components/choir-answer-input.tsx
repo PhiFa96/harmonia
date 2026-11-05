@@ -1,9 +1,17 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { AppState, Platform, ScrollView, View } from 'react-native';
 import { useFocusEffect } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { engineLanguage } from '@harmonia/i18n';
-import { assessChoir, choirKeyName, choirScore, pitchInputLabel } from '@harmonia/exercises';
+import {
+  assessChoir,
+  choirAnswer,
+  choirKeyName,
+  choirScore,
+  pitchInputLabel,
+  CHOIR_BINS,
+  CHOIR_PROFILE,
+} from '@harmonia/exercises';
 import type { ChoirItem, Evaluation } from '@harmonia/exercises';
 import { eventBounds, layoutScore } from '@harmonia/notation';
 import { ScoreView } from '@harmonia/notation/native';
@@ -49,6 +57,17 @@ export function ChoirAnswerInput({
   const runner = useRef<ReturnType<typeof createChoirRunner> | null>(null);
   const latest = useRef({ onSelect, sound, disabled, result });
   latest.current = { onSelect, sound, disabled, result };
+  const emptyPendingTake = useMemo(() => {
+    if (result || answer === null) return false;
+    const samples = choirAnswer(item, answer);
+    return samples?.every((row) => row.every((pitch) => pitch === null)) ?? false;
+  }, [item, answer, result]);
+  // Clear old ungraded drafts before a check button can be used; graded history stays intact.
+  useLayoutEffect(() => {
+    if (!emptyPendingTake || disabled) return;
+    latest.current.onSelect(null);
+    setError('no-pitch');
+  }, [emptyPendingTake, disabled]);
   const stop = useCallback(() => runner.current?.stop(), []);
   useFocusEffect(
     useCallback(() => {
@@ -122,7 +141,7 @@ export function ChoirAnswerInput({
       if (mode !== 'backing' && !result) onInspect?.();
       void runner.current.start(mode, delay);
     } catch {
-      setError('unavailable');
+      setError(mode === 'backing' ? 'unavailable' : 'preview');
     }
   };
   const busy = ['requesting', 'checking', 'countIn', 'singing', 'preview'].includes(state.phase);
@@ -146,6 +165,8 @@ export function ChoirAnswerInput({
     <View style={{ gap: SPACE.m }} testID="choir-trainer">
       <AppText>{t('exercise.choirDraft')}</AppText>
       <AppText>{t('exercise.choirPrivacy')}</AppText>
+      <AppText>{t('exercise.choirFirstCheck')}</AppText>
+      {item.params.voice === 'tenor' ? <AppText>{t('exercise.choirTenorClef')}</AppText> : null}
       <Card>
         <AppText variant="title3">
           {t(item.params.piece === 'home' ? 'exercise.choirHome' : 'exercise.choirArch')}
@@ -246,7 +267,9 @@ export function ChoirAnswerInput({
           </View>
           <Button
             testID="choir-start"
-            label={t(answer ? 'exercise.choirRetry' : 'exercise.choirStart')}
+            label={t(
+              answer || error === 'no-pitch' ? 'exercise.choirRetry' : 'exercise.choirStart',
+            )}
             disabled={busy || !headphones || !sound || disabled}
             onPress={() => {
               start('backing');
@@ -280,17 +303,28 @@ export function ChoirAnswerInput({
       {error ? (
         <AppText tone="danger" aria-live="polite">
           {t(
-            error === 'no-input'
-              ? 'exercise.choirNoInput'
-              : error === 'permission'
-                ? 'tuner.permission'
-                : error === 'interrupted'
-                  ? 'exercise.choirInterrupted'
-                  : 'tuner.unavailable',
+            error === 'preview'
+              ? 'exercise.choirPreviewFailed'
+              : error === 'no-pitch'
+                ? 'exercise.choirNoPitchTake'
+                : error === 'no-input'
+                  ? 'exercise.choirNoInput'
+                  : error === 'permission'
+                    ? 'tuner.permission'
+                    : error === 'interrupted'
+                      ? 'exercise.choirInterrupted'
+                      : 'tuner.unavailable',
           )}
         </AppText>
       ) : null}
-      <AppText variant="small">{t('exercise.choirProfile')}</AppText>
+      <AppText variant="small">
+        {t('exercise.choirProfile', {
+          tolerance: CHOIR_PROFILE.toleranceCents,
+          minimum: CHOIR_PROFILE.minimumDetectedWindows,
+          total: CHOIR_BINS,
+          matching: CHOIR_PROFILE.matchingPercent,
+        })}
+      </AppText>
       {report ? (
         <View style={{ gap: SPACE.s }} testID="choir-results">
           <AppText>{t('exercise.choirOctave', { shift: report.octaveShift })}</AppText>

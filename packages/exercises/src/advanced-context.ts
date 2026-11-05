@@ -3,7 +3,6 @@ import {
   contrapuntalMotion,
   duration,
   durationValue,
-  formatPitch,
   fromMidi,
   intervalClassVector,
   isCounterpointConsonance,
@@ -11,16 +10,15 @@ import {
   matchingMotifTransforms,
   midi,
   MOTIF_TRANSFORMS,
-  parsePitch,
   pitchClass,
   pitchClassSet,
   rotatePattern,
   sectionPattern,
   transformMotif,
-  transpose,
   type Rng,
 } from '@harmonia/theory';
-import { note, parseScore, singleStaffScore, validateScore, type Score } from '@harmonia/notation';
+import { note, singleStaffScore, validateScore, type Score } from '@harmonia/notation';
+import { counterpointDyads, generateCounterpointSource } from './counterpoint-context.ts';
 import type { ContextItem, ContextTopic } from './context.ts';
 import { options } from './parameters.ts';
 
@@ -52,22 +50,6 @@ function measures(score: Score) {
     throw new RangeError('One voice without changes required');
   return staff.measures.map((m) => required(m.voices[0]).events);
 }
-function dyads(score: Score) {
-  return measures(score).flatMap((events) =>
-    events.map((event) => {
-      if (
-        event.kind !== 'chord' ||
-        event.notes.length !== 2 ||
-        event.notes.some((n) => n.tie) ||
-        durationValue(event.duration).num !== durationValue(event.duration).den
-      )
-        throw new RangeError('Whole-note dyads required');
-      // The display uses the lower note as cantus; identity cannot swap between chords.
-      const pitches = event.notes.map((n) => n.pitch).sort((a, b) => midi(a) - midi(b));
-      return { lower: required(pitches[0]), upper: required(pitches[1]) };
-    }),
-  );
-}
 function monophonic(score: Score) {
   return measures(score).map((events) =>
     events.map((event) => {
@@ -83,19 +65,19 @@ function monophonic(score: Score) {
   );
 }
 export function counterpointContextFindings(score: Score) {
-  return analyzeFirstSpecies(dyads(score));
+  return analyzeFirstSpecies(counterpointDyads(score));
 }
 export function advancedContextAnswer(topic: AdvancedContextTopic, score: Score): string {
   if (topic === 'counterpoint-check')
     return `boolean:${counterpointContextFindings(score).length ? 'no' : 'yes'}`;
   if (topic === 'counterpoint-consonance') {
-    const values = dyads(score);
+    const values = counterpointDyads(score);
     if (values.length !== 1) throw new RangeError('One dyad required');
     const dyad = required(values[0]);
     return `boolean:${isCounterpointConsonance(dyad.lower, dyad.upper) ? 'yes' : 'no'}`;
   }
   if (topic === 'counterpoint-motion') {
-    const values = dyads(score);
+    const values = counterpointDyads(score);
     if (values.length !== 2) throw new RangeError('Two dyads required');
     return `motion:${contrapuntalMotion(required(values[0]), required(values[1]))}`;
   }
@@ -140,65 +122,54 @@ function melody(values: readonly number[]): Score {
 }
 export function generateAdvancedContext(topic: AdvancedContextTopic, rng: Rng): ContextItem {
   let score: Score, choices: string[];
-  if (topic.startsWith('counterpoint-')) {
-    const models =
-      topic === 'counterpoint-consonance'
-        ? ['C4 E4', 'C4 F4', 'C4 G4', 'C4 A4', 'C4 D#4', 'C4 Gb4', 'C4 C5', 'C4 B4']
-        : topic === 'counterpoint-motion'
-          ? ['C4 G4 | D4 A4', 'C4 G4 | D4 F4', 'C4 G4 | C4 A4', 'C4 G4 | C4 G4']
-          : [
-              'C4 G4 | E4 G4 | D4 B4 | C4 C5',
-              'C4 G4 | E4 A4 | D4 B4 | C4 C5',
-              'C4 G4 | D4 A4 | D4 B4 | C4 C5',
-              'C4 E4 | E4 G4 | D4 B4 | C4 C5',
-            ];
-    const shift = rng.pick([
-      [0, 0],
-      [1, 2],
-      [2, 4],
-      [3, 5],
-    ] as const);
-    const model = rng
-      .pick(models)
-      .split(' | ')
-      .map(
-        (bar) =>
-          `(${bar
-            .split(' ')
-            .map((name) => formatPitch(transpose(parsePitch(name), shift[0], shift[1])))
-            .join(' ')})/1`,
-      )
-      .join(' | ');
-    score = parseScore(`treble | 4/4 | ${model}`);
+  if (
+    topic === 'counterpoint-consonance' ||
+    topic === 'counterpoint-motion' ||
+    topic === 'counterpoint-check'
+  ) {
+    score = generateCounterpointSource(topic, rng);
     choices =
       topic === 'counterpoint-motion'
         ? ['contrary', 'similar', 'oblique', 'static'].map((v) => `motion:${v}`)
         : ['boolean:yes', 'boolean:no'];
   } else if (topic === 'set-cardinality' || topic === 'set-vector') {
-    const offset = rng.int(0, 5),
-      material = rng.pick([
-        [60, 64, 67, 72],
-        [60, 61, 64, 65],
-        [60, 62, 64, 66],
-        [60, 60, 72, 72],
-      ]);
-    score = melody(material.map((v) => v + offset));
+    const cardinality = rng.int(1, 4),
+      classes = rng.shuffle(Array.from({ length: 12 }, (_, i) => i)).slice(0, cardinality);
+    const values = [
+      ...classes,
+      ...Array.from({ length: 4 - cardinality }, () => rng.pick(classes)),
+    ];
+    score = melody(
+      rng.shuffle(values).map((v) => 60 + v + (v <= 7 && rng.pick([true, false]) ? 12 : 0)),
+    );
     choices =
       topic === 'set-cardinality'
         ? [1, 2, 3, 4].map((v) => `cardinality:${String(v)}`)
         : ['0,0,1,1,1,0', '2,0,1,2,1,0', '0,3,0,2,0,1', '0,0,0,0,0,0'].map((v) => `vector:${v}`);
   } else if (topic === 'row-validity' || topic === 'row-transform') {
     // Own asymmetric series; not a quotation. Ambiguity is checked from the displayed source.
-    const offset = rng.int(0, 11),
-      first = [0, 1, 4, 2, 7, 5, 8, 6, 11, 9, 3, 10].map((v) => pitchClass(v + offset));
+    let first = rng.shuffle(Array.from({ length: 12 }, (_, i) => i));
     if (topic === 'row-validity') {
-      if (rng.pick([true, false])) first[rng.int(1, 11)] = required(first[0]);
+      if (rng.pick([true, false])) {
+        const duplicate = rng.int(0, 11),
+          positions = rng
+            .shuffle(Array.from({ length: 12 }, (_, i) => i).filter((i) => i !== duplicate))
+            .slice(0, rng.int(1, 3));
+        for (const index of positions) first[index] = required(first[duplicate]);
+      }
       score = melody(first.map((v) => v + 60));
       choices = ['boolean:yes', 'boolean:no'];
     } else {
-      const second = transformMotif(first, rng.pick(MOTIF_TRANSFORMS), rng.int(0, 11)).map(
-        pitchClass,
-      );
+      const operation = rng.pick(MOTIF_TRANSFORMS),
+        shift = rng.int(0, 11);
+      let second = transformMotif(first, operation, shift).map(pitchClass);
+      for (let attempt = 0; matchingMotifTransforms(first, second, true).length !== 1; attempt++) {
+        first =
+          attempt < 15
+            ? rng.shuffle(Array.from({ length: 12 }, (_, i) => i))
+            : [0, 1, 4, 2, 7, 5, 8, 6, 11, 9, 3, 10];
+        second = transformMotif(first, operation, shift).map(pitchClass);
+      }
       score = melody([...first, ...second].map((v) => v + 60));
       choices = MOTIF_TRANSFORMS.map((v) => `transform:${v}`);
     }

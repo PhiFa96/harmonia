@@ -105,6 +105,10 @@
         "supabase/functions/tutor/index.ts",
         "supabase/functions/_shared/tutor-runtime.ts",
         "supabase/functions/_shared/tutor-prompt.ts",
+        "supabase/functions/_shared/tutor-attempt.ts",
+        "apps/mobile/src/tutor/client.ts",
+        "apps/mobile/src/tutor/state.ts",
+        "apps/mobile/src/components/exercise-task.tsx",
         "apps/mobile/src/components/tutor-screen.tsx"
       ],
       "purpose": {
@@ -543,7 +547,10 @@
       "evidenceReference": null,
       "reviewedAt": null,
       "validUntil": null,
-      "snapshotHash": null
+      "snapshotHash": null,
+      "document": null,
+      "revokedAt": null,
+      "revocationReason": null
     },
     "school": {
       "status": "pending",
@@ -552,7 +559,10 @@
       "evidenceReference": null,
       "reviewedAt": null,
       "validUntil": null,
-      "snapshotHash": null
+      "snapshotHash": null,
+      "document": null,
+      "revokedAt": null,
+      "revocationReason": null
     },
     "certificates": {
       "status": "pending",
@@ -561,7 +571,10 @@
       "evidenceReference": null,
       "reviewedAt": null,
       "validUntil": null,
-      "snapshotHash": null
+      "snapshotHash": null,
+      "document": null,
+      "revokedAt": null,
+      "revocationReason": null
     }
   }
 }

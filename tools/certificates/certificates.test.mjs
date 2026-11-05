@@ -1,4 +1,4 @@
-import { fixtureAnswers } from './test-fixture.mjs';
+import { fixtureAnswers, startFixture } from './test-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtempSync, rmSync, readFileSync, writeFileSync } from 'node:fs';
@@ -59,9 +59,12 @@ for (const locale of ['de', 'en-US', 'en-GB'])
       const f = fixture(t),
         service = createCertificateService(f.filename, { now: f.now });
       t.after(() => service.close());
-      const initial = service.start('owner', { profile: `certificate-draft-${stage}`, locale });
+      const initial = startFixture(service, 'owner', {
+        profile: `certificate-draft-${stage}`,
+        locale,
+      });
       assert.deepEqual(
-        service.start('owner', { profile: `certificate-draft-${stage}`, locale }),
+        startFixture(service, 'owner', { profile: `certificate-draft-${stage}`, locale }),
         initial,
         'Repeated start resumes one active attempt',
       );
@@ -94,7 +97,8 @@ test('test threshold, incomplete attempt and exact server deadline never issue a
   const f = fixture(t),
     service = createCertificateService(f.filename, { now: f.now });
   t.after(() => service.close());
-  const start = (owner) => service.start(owner, { profile: 'certificate-draft-1', locale: 'de' });
+  const start = (owner) =>
+    startFixture(service, owner, { profile: 'certificate-draft-1', locale: 'de' });
   const above = complete(service, f.filename, start('above'), 'de', 'above', 2);
   const below = complete(service, f.filename, start('below'), 'de', 'below', 3);
   assert.equal(above.result.points, 50);
@@ -116,7 +120,7 @@ test('replay, changed answers, injected scores, missing questions and owner isol
   const f = fixture(t),
     service = createCertificateService(f.filename, { now: f.now });
   t.after(() => service.close());
-  const run = service.start('owner', { profile: 'certificate-draft-1', locale: 'en-US' });
+  const run = startFixture(service, 'owner', { profile: 'certificate-draft-1', locale: 'en-US' });
   const first = fixtureAnswers(f.filename, run.id)[0];
   const payload = { id: run.id, index: 0, answer: first.right, locale: 'en-US' };
   assert.throws(() => service.answer('owner', { ...payload, points: 60 }), /invalid/);
@@ -133,7 +137,7 @@ test('replay, changed answers, injected scores, missing questions and owner isol
 test('restart, revocation, deletion and retention preserve the certificate lifecycle', (t) => {
   const f = fixture(t);
   let service = createCertificateService(f.filename, { now: f.now });
-  const run = service.start('owner', { profile: 'certificate-draft-2', locale: 'de' });
+  const run = startFixture(service, 'owner', { profile: 'certificate-draft-2', locale: 'de' });
   const initial = service.state('owner', 'de');
   service.close();
   service = createCertificateService(f.filename, { now: f.now });
@@ -149,7 +153,7 @@ test('restart, revocation, deletion and retention preserve the certificate lifec
   const second = complete(
     service,
     f.filename,
-    service.start('other', { profile: 'certificate-draft-1', locale: 'de' }),
+    startFixture(service, 'other', { profile: 'certificate-draft-1', locale: 'de' }),
     'de',
     'other',
   );
@@ -165,11 +169,11 @@ test('changed content fingerprint refuses continuation instead of changing an ex
   const f = fixture(t),
     service = createCertificateService(f.filename, { now: f.now });
   t.after(() => service.close());
-  service.start('owner', { profile: 'certificate-draft-1', locale: 'de' });
+  startFixture(service, 'owner', { profile: 'certificate-draft-1', locale: 'de' });
   const db = new DatabaseSync(f.filename);
   db.exec("update certificate_drafts set fingerprint='old'");
   db.close();
-  assert.throws(() => service.state('owner', 'de'), /outdated/);
+  assert.equal(service.state('owner', 'de').attempts[0].phase, 'outdated');
   service.erase('owner');
   assert.deepEqual(service.state('owner', 'de').attempts, []);
 });
@@ -241,8 +245,12 @@ test('real HTTP: cookies, CSRF/Host rejection, concurrent replay, private PDFs a
   assert.equal(foreignHost, 403);
   assert.equal((await post('/api/start', {}, { Origin: 'https://evil.example' })).status, 403);
   assert.equal((await post('/api/start', {}, { 'Content-Type': 'text/plain' })).status, 403);
+  const order = await (
+    await post('/api/order', { profile: 'certificate-draft-1', requestId: crypto.randomUUID() })
+  ).json();
+  await post('/api/settle', { id: order.id, outcome: 'paid' });
   const run = await (
-    await post('/api/start', { profile: 'certificate-draft-1', locale: 'de' })
+    await post('/api/start', { profile: 'certificate-draft-1', locale: 'de', purchase: order.id })
   ).json();
   const answers = fixtureAnswers(f.filename, run.id);
   const payload = { id: run.id, index: 0, answer: answers[0].right, locale: 'de' };

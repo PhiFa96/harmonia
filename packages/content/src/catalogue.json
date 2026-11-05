@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": 27,
+  "contentVersion": 31,
   "areas": [
     {
       "id": "fundament",
@@ -560,6 +560,13 @@
       "levelId": "intervals.level-2"
     },
     {
+      "id": "scales.l2.key-reading",
+      "contentVersion": 28,
+      "status": "entwurf",
+      "titleKey": "content.signatureReading.unitTitle",
+      "levelId": "scales.level-2"
+    },
+    {
       "id": "scales.l2.major",
       "contentVersion": 2,
       "status": "entwurf",
@@ -819,7 +826,7 @@
       "levelId": "satz.level-5"
     },
     {
-      "contentVersion": 26,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir",
       "titleKey": "content.choir.title",
@@ -828,56 +835,56 @@
     },
     {
       "id": "counterpoint.l5.species",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.speciesBasics.unitTitle",
       "levelId": "counterpoint.level-5"
     },
     {
       "id": "counterpoint.l5.imitation",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.imitationStudy.unitTitle",
       "levelId": "counterpoint.level-5"
     },
     {
       "id": "forms.l5.structure",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.advancedForms.unitTitle",
       "levelId": "forms.level-5"
     },
     {
       "id": "analysis.l5.methods",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.workAnalysis.unitTitle",
       "levelId": "analysis.level-5"
     },
     {
       "id": "contemporary.l5.serial",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.serialStudy.unitTitle",
       "levelId": "contemporary.level-5"
     },
     {
       "id": "contemporary.l5.sets",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.setStudy.unitTitle",
       "levelId": "contemporary.level-5"
     },
     {
       "id": "contemporary.l5.process",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.processStudy.unitTitle",
       "levelId": "contemporary.level-5"
     },
     {
       "id": "world.l5.context",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.worldStudy.unitTitle",
       "levelId": "world.level-5"
@@ -1421,6 +1428,18 @@
       "titleKey": "content.curriculum.skills.melodicMinor",
       "areaId": "area.scales",
       "prerequisites": ["scale.harmonic-minor"]
+    },
+    {
+      "id": "key.signature-read-treble",
+      "contentVersion": 28,
+      "status": "entwurf",
+      "titleKey": "content.signatureReading.skillTitle",
+      "areaId": "area.scales",
+      "prerequisites": [
+        "notation.treble-natural",
+        "notation.accidentals",
+        "notation.octave-register"
+      ]
     },
     {
       "id": "key.signature-major",
@@ -2281,7 +2300,7 @@
       "prerequisites": ["satz.l4.writing.functions", "chords.l3.sevenths.s2"]
     },
     {
-      "contentVersion": 26,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir.soprano",
       "titleKey": "content.choir.soprano",
@@ -2290,11 +2309,12 @@
         "aural.l3.dictation.s3",
         "notation.treble-natural",
         "notation.accidental-scope",
-        "rhythm.read-basic"
+        "rhythm.read-basic",
+        "key.signature-read-treble"
       ]
     },
     {
-      "contentVersion": 26,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir.alto",
       "titleKey": "content.choir.alto",
@@ -2303,11 +2323,12 @@
         "aural.l3.dictation.s3",
         "notation.treble-natural",
         "notation.accidental-scope",
-        "rhythm.read-basic"
+        "rhythm.read-basic",
+        "key.signature-read-treble"
       ]
     },
     {
-      "contentVersion": 26,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir.tenor",
       "titleKey": "content.choir.tenor",
@@ -2316,11 +2337,12 @@
         "aural.l3.dictation.s3",
         "notation.bass-natural",
         "notation.accidental-scope",
-        "rhythm.read-basic"
+        "rhythm.read-basic",
+        "key.signature-read-treble"
       ]
     },
     {
-      "contentVersion": 26,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir.bass",
       "titleKey": "content.choir.bass",
@@ -2329,12 +2351,13 @@
         "aural.l3.dictation.s3",
         "notation.bass-natural",
         "notation.accidental-scope",
-        "rhythm.read-basic"
+        "rhythm.read-basic",
+        "key.signature-read-treble"
       ]
     },
     {
       "id": "counterpoint.l5.species.s1",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.speciesBasics.skill1",
       "areaId": "area.counterpoint",
@@ -2342,7 +2365,7 @@
     },
     {
       "id": "counterpoint.l5.species.s2",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.speciesBasics.skill2",
       "areaId": "area.counterpoint",
@@ -2350,7 +2373,7 @@
     },
     {
       "id": "counterpoint.l5.species.s3",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.speciesBasics.skill3",
       "areaId": "area.counterpoint",
@@ -2358,7 +2381,7 @@
     },
     {
       "id": "counterpoint.l5.imitation.s1",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.imitationStudy.skill1",
       "areaId": "area.counterpoint",
@@ -2366,7 +2389,7 @@
     },
     {
       "id": "counterpoint.l5.imitation.s2",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.imitationStudy.skill2",
       "areaId": "area.counterpoint",
@@ -2374,7 +2397,7 @@
     },
     {
       "id": "counterpoint.l5.imitation.s3",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.imitationStudy.skill3",
       "areaId": "area.counterpoint",
@@ -2382,7 +2405,7 @@
     },
     {
       "id": "forms.l5.structure.s1",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.advancedForms.skill1",
       "areaId": "area.forms",
@@ -2390,7 +2413,7 @@
     },
     {
       "id": "forms.l5.structure.s2",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.advancedForms.skill2",
       "areaId": "area.forms",
@@ -2398,7 +2421,7 @@
     },
     {
       "id": "forms.l5.structure.s3",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.advancedForms.skill3",
       "areaId": "area.forms",
@@ -2406,7 +2429,7 @@
     },
     {
       "id": "analysis.l5.methods.s1",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.workAnalysis.skill1",
       "areaId": "area.analysis",
@@ -2419,7 +2442,7 @@
     },
     {
       "id": "analysis.l5.methods.s2",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.workAnalysis.skill2",
       "areaId": "area.analysis",
@@ -2427,7 +2450,7 @@
     },
     {
       "id": "analysis.l5.methods.s3",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.workAnalysis.skill3",
       "areaId": "area.analysis",
@@ -2435,7 +2458,7 @@
     },
     {
       "id": "contemporary.l5.serial.s1",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.serialStudy.skill1",
       "areaId": "area.contemporary",
@@ -2443,7 +2466,7 @@
     },
     {
       "id": "contemporary.l5.serial.s2",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.serialStudy.skill2",
       "areaId": "area.contemporary",
@@ -2451,7 +2474,7 @@
     },
     {
       "id": "contemporary.l5.serial.s3",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.serialStudy.skill3",
       "areaId": "area.contemporary",
@@ -2459,7 +2482,7 @@
     },
     {
       "id": "contemporary.l5.sets.s1",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.setStudy.skill1",
       "areaId": "area.contemporary",
@@ -2467,7 +2490,7 @@
     },
     {
       "id": "contemporary.l5.sets.s2",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.setStudy.skill2",
       "areaId": "area.contemporary",
@@ -2475,7 +2498,7 @@
     },
     {
       "id": "contemporary.l5.sets.s3",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.setStudy.skill3",
       "areaId": "area.contemporary",
@@ -2483,7 +2506,7 @@
     },
     {
       "id": "contemporary.l5.process.s1",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.processStudy.skill1",
       "areaId": "area.contemporary",
@@ -2491,7 +2514,7 @@
     },
     {
       "id": "contemporary.l5.process.s2",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.processStudy.skill2",
       "areaId": "area.contemporary",
@@ -2499,7 +2522,7 @@
     },
     {
       "id": "contemporary.l5.process.s3",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.processStudy.skill3",
       "areaId": "area.contemporary",
@@ -2507,7 +2530,7 @@
     },
     {
       "id": "world.l5.context.s1",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.worldStudy.skill1",
       "areaId": "area.world",
@@ -2515,7 +2538,7 @@
     },
     {
       "id": "world.l5.context.s2",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.worldStudy.skill2",
       "areaId": "area.world",
@@ -2523,7 +2546,7 @@
     },
     {
       "id": "world.l5.context.s3",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.worldStudy.skill3",
       "areaId": "area.world",
@@ -7308,7 +7331,7 @@
       ]
     },
     {
-      "contentVersion": 25,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir.soprano.exercises",
       "titleKey": "content.choir.soprano",
@@ -7320,7 +7343,8 @@
             "params": {
               "voice": "soprano",
               "piece": "home",
-              "fifths": 0
+              "fifths": 0,
+              "edition": 2
             }
           },
           "count": 1
@@ -7331,7 +7355,8 @@
             "params": {
               "voice": "soprano",
               "piece": "arch",
-              "fifths": 2
+              "fifths": 2,
+              "edition": 2
             }
           },
           "count": 1
@@ -7339,7 +7364,7 @@
       ]
     },
     {
-      "contentVersion": 25,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir.alto.exercises",
       "titleKey": "content.choir.alto",
@@ -7351,7 +7376,8 @@
             "params": {
               "voice": "alto",
               "piece": "home",
-              "fifths": 0
+              "fifths": 0,
+              "edition": 2
             }
           },
           "count": 1
@@ -7362,7 +7388,8 @@
             "params": {
               "voice": "alto",
               "piece": "arch",
-              "fifths": 2
+              "fifths": 2,
+              "edition": 2
             }
           },
           "count": 1
@@ -7370,7 +7397,7 @@
       ]
     },
     {
-      "contentVersion": 25,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir.tenor.exercises",
       "titleKey": "content.choir.tenor",
@@ -7382,7 +7409,8 @@
             "params": {
               "voice": "tenor",
               "piece": "home",
-              "fifths": 0
+              "fifths": 0,
+              "edition": 2
             }
           },
           "count": 1
@@ -7393,7 +7421,8 @@
             "params": {
               "voice": "tenor",
               "piece": "arch",
-              "fifths": 2
+              "fifths": 2,
+              "edition": 2
             }
           },
           "count": 1
@@ -7401,7 +7430,7 @@
       ]
     },
     {
-      "contentVersion": 25,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir.bass.exercises",
       "titleKey": "content.choir.bass",
@@ -7413,7 +7442,8 @@
             "params": {
               "voice": "bass",
               "piece": "home",
-              "fifths": 0
+              "fifths": 0,
+              "edition": 2
             }
           },
           "count": 1
@@ -7424,7 +7454,8 @@
             "params": {
               "voice": "bass",
               "piece": "arch",
-              "fifths": 2
+              "fifths": 2,
+              "edition": 2
             }
           },
           "count": 1
@@ -7433,14 +7464,10 @@
     },
     {
       "id": "counterpoint.l5.species.lesson1.exercises",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.speciesBasics.lesson1",
-      "skillIds": [
-        "counterpoint.l5.species.s1",
-        "counterpoint.l5.species.s2",
-        "counterpoint.l5.species.s3"
-      ],
+      "skillIds": ["counterpoint.l5.species.s1"],
       "exercises": [
         {
           "spec": {
@@ -7464,14 +7491,10 @@
     },
     {
       "id": "counterpoint.l5.species.lesson2.exercises",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.speciesBasics.lesson2",
-      "skillIds": [
-        "counterpoint.l5.species.s1",
-        "counterpoint.l5.species.s2",
-        "counterpoint.l5.species.s3"
-      ],
+      "skillIds": ["counterpoint.l5.species.s2"],
       "exercises": [
         {
           "spec": {
@@ -7496,14 +7519,10 @@
     },
     {
       "id": "counterpoint.l5.species.lesson3.exercises",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.speciesBasics.lesson3",
-      "skillIds": [
-        "counterpoint.l5.species.s1",
-        "counterpoint.l5.species.s2",
-        "counterpoint.l5.species.s3"
-      ],
+      "skillIds": ["counterpoint.l5.species.s3"],
       "exercises": [
         {
           "spec": {
@@ -7527,14 +7546,10 @@
     },
     {
       "id": "counterpoint.l5.imitation.lesson1.exercises",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.imitationStudy.lesson1",
-      "skillIds": [
-        "counterpoint.l5.imitation.s1",
-        "counterpoint.l5.imitation.s2",
-        "counterpoint.l5.imitation.s3"
-      ],
+      "skillIds": ["counterpoint.l5.imitation.s1"],
       "exercises": [
         {
           "spec": {
@@ -7558,14 +7573,10 @@
     },
     {
       "id": "counterpoint.l5.imitation.lesson2.exercises",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.imitationStudy.lesson2",
-      "skillIds": [
-        "counterpoint.l5.imitation.s1",
-        "counterpoint.l5.imitation.s2",
-        "counterpoint.l5.imitation.s3"
-      ],
+      "skillIds": ["counterpoint.l5.imitation.s2"],
       "exercises": [
         {
           "spec": {
@@ -7590,14 +7601,10 @@
     },
     {
       "id": "counterpoint.l5.imitation.lesson3.exercises",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.imitationStudy.lesson3",
-      "skillIds": [
-        "counterpoint.l5.imitation.s1",
-        "counterpoint.l5.imitation.s2",
-        "counterpoint.l5.imitation.s3"
-      ],
+      "skillIds": ["counterpoint.l5.imitation.s3"],
       "exercises": [
         {
           "spec": {
@@ -7621,10 +7628,10 @@
     },
     {
       "id": "forms.l5.structure.lesson1.exercises",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.advancedForms.lesson1",
-      "skillIds": ["forms.l5.structure.s1", "forms.l5.structure.s2", "forms.l5.structure.s3"],
+      "skillIds": ["forms.l5.structure.s1"],
       "exercises": [
         {
           "spec": {
@@ -7648,10 +7655,10 @@
     },
     {
       "id": "forms.l5.structure.lesson2.exercises",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.advancedForms.lesson2",
-      "skillIds": ["forms.l5.structure.s1", "forms.l5.structure.s2", "forms.l5.structure.s3"],
+      "skillIds": ["forms.l5.structure.s2"],
       "exercises": [
         {
           "spec": {
@@ -7676,10 +7683,10 @@
     },
     {
       "id": "forms.l5.structure.lesson3.exercises",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.advancedForms.lesson3",
-      "skillIds": ["forms.l5.structure.s1", "forms.l5.structure.s2", "forms.l5.structure.s3"],
+      "skillIds": ["forms.l5.structure.s3"],
       "exercises": [
         {
           "spec": {
@@ -7703,10 +7710,10 @@
     },
     {
       "id": "analysis.l5.methods.lesson1.exercises",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.workAnalysis.lesson1",
-      "skillIds": ["analysis.l5.methods.s1", "analysis.l5.methods.s2", "analysis.l5.methods.s3"],
+      "skillIds": ["analysis.l5.methods.s1"],
       "exercises": [
         {
           "spec": {
@@ -7730,10 +7737,10 @@
     },
     {
       "id": "analysis.l5.methods.lesson2.exercises",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.workAnalysis.lesson2",
-      "skillIds": ["analysis.l5.methods.s1", "analysis.l5.methods.s2", "analysis.l5.methods.s3"],
+      "skillIds": ["analysis.l5.methods.s2"],
       "exercises": [
         {
           "spec": {
@@ -7758,10 +7765,10 @@
     },
     {
       "id": "analysis.l5.methods.lesson3.exercises",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.workAnalysis.lesson3",
-      "skillIds": ["analysis.l5.methods.s1", "analysis.l5.methods.s2", "analysis.l5.methods.s3"],
+      "skillIds": ["analysis.l5.methods.s3"],
       "exercises": [
         {
           "spec": {
@@ -7785,14 +7792,10 @@
     },
     {
       "id": "contemporary.l5.serial.lesson1.exercises",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.serialStudy.lesson1",
-      "skillIds": [
-        "contemporary.l5.serial.s1",
-        "contemporary.l5.serial.s2",
-        "contemporary.l5.serial.s3"
-      ],
+      "skillIds": ["contemporary.l5.serial.s1"],
       "exercises": [
         {
           "spec": {
@@ -7816,14 +7819,10 @@
     },
     {
       "id": "contemporary.l5.serial.lesson2.exercises",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.serialStudy.lesson2",
-      "skillIds": [
-        "contemporary.l5.serial.s1",
-        "contemporary.l5.serial.s2",
-        "contemporary.l5.serial.s3"
-      ],
+      "skillIds": ["contemporary.l5.serial.s2"],
       "exercises": [
         {
           "spec": {
@@ -7848,14 +7847,10 @@
     },
     {
       "id": "contemporary.l5.serial.lesson3.exercises",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.serialStudy.lesson3",
-      "skillIds": [
-        "contemporary.l5.serial.s1",
-        "contemporary.l5.serial.s2",
-        "contemporary.l5.serial.s3"
-      ],
+      "skillIds": ["contemporary.l5.serial.s3"],
       "exercises": [
         {
           "spec": {
@@ -7879,10 +7874,10 @@
     },
     {
       "id": "contemporary.l5.sets.lesson1.exercises",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.setStudy.lesson1",
-      "skillIds": ["contemporary.l5.sets.s1", "contemporary.l5.sets.s2", "contemporary.l5.sets.s3"],
+      "skillIds": ["contemporary.l5.sets.s1"],
       "exercises": [
         {
           "spec": {
@@ -7906,10 +7901,10 @@
     },
     {
       "id": "contemporary.l5.sets.lesson2.exercises",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.setStudy.lesson2",
-      "skillIds": ["contemporary.l5.sets.s1", "contemporary.l5.sets.s2", "contemporary.l5.sets.s3"],
+      "skillIds": ["contemporary.l5.sets.s2"],
       "exercises": [
         {
           "spec": {
@@ -7934,10 +7929,10 @@
     },
     {
       "id": "contemporary.l5.sets.lesson3.exercises",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.setStudy.lesson3",
-      "skillIds": ["contemporary.l5.sets.s1", "contemporary.l5.sets.s2", "contemporary.l5.sets.s3"],
+      "skillIds": ["contemporary.l5.sets.s3"],
       "exercises": [
         {
           "spec": {
@@ -7961,14 +7956,10 @@
     },
     {
       "id": "contemporary.l5.process.lesson1.exercises",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.processStudy.lesson1",
-      "skillIds": [
-        "contemporary.l5.process.s1",
-        "contemporary.l5.process.s2",
-        "contemporary.l5.process.s3"
-      ],
+      "skillIds": ["contemporary.l5.process.s1"],
       "exercises": [
         {
           "spec": {
@@ -7992,14 +7983,10 @@
     },
     {
       "id": "contemporary.l5.process.lesson2.exercises",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.processStudy.lesson2",
-      "skillIds": [
-        "contemporary.l5.process.s1",
-        "contemporary.l5.process.s2",
-        "contemporary.l5.process.s3"
-      ],
+      "skillIds": ["contemporary.l5.process.s2"],
       "exercises": [
         {
           "spec": {
@@ -8024,14 +8011,10 @@
     },
     {
       "id": "contemporary.l5.process.lesson3.exercises",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.processStudy.lesson3",
-      "skillIds": [
-        "contemporary.l5.process.s1",
-        "contemporary.l5.process.s2",
-        "contemporary.l5.process.s3"
-      ],
+      "skillIds": ["contemporary.l5.process.s3"],
       "exercises": [
         {
           "spec": {
@@ -8055,10 +8038,10 @@
     },
     {
       "id": "world.l5.context.lesson1.exercises",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.worldStudy.lesson1",
-      "skillIds": ["world.l5.context.s1", "world.l5.context.s2", "world.l5.context.s3"],
+      "skillIds": ["world.l5.context.s1"],
       "exercises": [
         {
           "spec": {
@@ -8073,16 +8056,16 @@
     },
     {
       "id": "world.l5.context.lesson2.exercises",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.worldStudy.lesson2",
-      "skillIds": ["world.l5.context.s1", "world.l5.context.s2", "world.l5.context.s3"],
+      "skillIds": ["world.l5.context.s2"],
       "exercises": [
         {
           "spec": {
             "type": "MATCH",
             "params": {
-              "topics": ["worldStudy"],
+              "topics": ["worldStudy", "context"],
               "count": 3
             }
           },
@@ -8092,10 +8075,10 @@
     },
     {
       "id": "world.l5.context.lesson3.exercises",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.worldStudy.lesson3",
-      "skillIds": ["world.l5.context.s1", "world.l5.context.s2", "world.l5.context.s3"],
+      "skillIds": ["world.l5.context.s3"],
       "exercises": [
         {
           "spec": {
@@ -8104,7 +8087,56 @@
               "topics": ["worldStudy"]
             }
           },
-          "count": 12
+          "count": 4
+        },
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["context"],
+              "count": 3
+            }
+          },
+          "count": 3
+        },
+        {
+          "spec": {
+            "type": "KNOWLEDGE_MC",
+            "params": {
+              "topics": ["evidence"]
+            }
+          },
+          "count": 3
+        },
+        {
+          "spec": {
+            "type": "MATCH",
+            "params": {
+              "topics": ["worldStudy"],
+              "count": 3
+            }
+          },
+          "count": 2
+        }
+      ]
+    },
+    {
+      "id": "scales.l2.key-reading.exercises",
+      "contentVersion": 28,
+      "status": "entwurf",
+      "titleKey": "content.signatureReading.lessonTitle",
+      "skillIds": ["key.signature-read-treble"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KEYSIG_IDENTIFY",
+            "params": {
+              "clefs": ["treble"],
+              "modes": ["major"],
+              "fifths": [-2, -1, 0, 1, 2]
+            }
+          },
+          "count": 10
         }
       ]
     }
@@ -13623,7 +13655,7 @@
       ]
     },
     {
-      "contentVersion": 24,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir.soprano.card",
       "titleKey": "content.choir.soprano",
@@ -13631,17 +13663,17 @@
       "bodyKey": "content.choir.intro",
       "examples": [
         {
-          "score": "treble | key:C | 4/4 | E4/2 G4/2 | F4/2 F4/2 | D4/2 D4/2 | E4/2 E4/2",
+          "score": "treble | key:C | 4/4 | C5/2 C5/2 | C5/2 D5/2 | D5/2 E5/2 | B4/2 C5/2",
           "captionKey": "content.choir.sopranoHomeCaption"
         },
         {
-          "score": "treble | key:C | 4/4 | E4/2 E4/2 | F4/2 E4/2 | D4/2 F4/2 | E4/2 E4/2",
+          "score": "treble | key:C | 4/4 | E5/2 C5/2 | C5/2 B4/2 | D5/2 C5/2 | B4/2 C5/2",
           "captionKey": "content.choir.sopranoArchCaption"
         }
       ]
     },
     {
-      "contentVersion": 24,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir.alto.card",
       "titleKey": "content.choir.alto",
@@ -13649,17 +13681,17 @@
       "bodyKey": "content.choir.intro",
       "examples": [
         {
-          "score": "treble | key:C | 4/4 | C4/2 C4/2 | C4/2 C4/2 | B3/2 B3/2 | C4/2 C4/2",
+          "score": "treble | key:C | 4/4 | E4/2 E4/2 | F4/2 F4/2 | G4/2 G4/2 | D4/2 E4/2",
           "captionKey": "content.choir.altoHomeCaption"
         },
         {
-          "score": "treble | key:C | 4/4 | C4/2 C4/2 | C4/2 C4/2 | B3/2 B3/2 | C4/2 C4/2",
+          "score": "treble | key:C | 4/4 | G4/2 F4/2 | E4/2 E4/2 | F4/2 F4/2 | D4/2 E4/2",
           "captionKey": "content.choir.altoArchCaption"
         }
       ]
     },
     {
-      "contentVersion": 24,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir.tenor.card",
       "titleKey": "content.choir.tenor",
@@ -13667,17 +13699,17 @@
       "bodyKey": "content.choir.intro",
       "examples": [
         {
-          "score": "bass | key:C | 4/4 | G3/2 G3/2 | A3/2 A3/2 | G3/2 G3/2 | G3/2 G3/2",
+          "score": "bass | key:C | 4/4 | G3/2 A3/2 | A3/2 A3/2 | B3/2 B3/2 | G3/2 G3/2",
           "captionKey": "content.choir.tenorHomeCaption"
         },
         {
-          "score": "bass | key:C | 4/4 | G3/2 G3/2 | A3/2 G3/2 | G3/2 G3/2 | G3/2 G3/2",
+          "score": "bass | key:C | 4/4 | C4/2 A3/2 | A3/2 G3/2 | A3/2 A3/2 | G3/2 G3/2",
           "captionKey": "content.choir.tenorArchCaption"
         }
       ]
     },
     {
-      "contentVersion": 24,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir.bass.card",
       "titleKey": "content.choir.bass",
@@ -13685,74 +13717,78 @@
       "bodyKey": "content.choir.intro",
       "examples": [
         {
-          "score": "bass | key:C | 4/4 | C3/2 E3/2 | F3/2 F3/2 | G3/2 G3/2 | C3/2 C3/2",
+          "score": "bass | key:C | 4/4 | C3/2 A2/2 | F3/2 D3/2 | G2/2 E3/2 | G2/2 C3/2",
           "captionKey": "content.choir.bassHomeCaption"
         },
         {
-          "score": "bass | key:C | 4/4 | C3/2 C3/2 | F3/2 C3/2 | G2/2 G2/2 | C3/2 C3/2",
+          "score": "bass | key:C | 4/4 | C3/2 F3/2 | A2/2 E3/2 | D3/2 F3/2 | G3/2 C3/2",
           "captionKey": "content.choir.bassArchCaption"
         }
       ]
     },
     {
       "id": "counterpoint.l5.species.card-oneagainstone",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.speciesBasics.oneAgainstOneTitle",
       "skillIds": ["counterpoint.l5.species.s1"],
       "bodyKey": "content.levelFive.units.speciesBasics.oneAgainstOneBody",
       "examples": [
         {
-          "score": "treble | 4/4 | (C4 G4)/1 | (E4 G4)/1 | (D4 B4)/1 | (C4 C5)/1",
-          "captionKey": "content.levelFive.units.speciesBasics.oneAgainstOneCaption"
+          "score": "treble | 4/4 | G4/1 | G4/1 | B4/1 | C5/1\ntreble | 4/4 | C4/1 | E4/1 | D4/1 | C4/1",
+          "captionKey": "content.levelFive.units.speciesBasics.oneAgainstOneCaption",
+          "staffPresentation": "parts"
         }
       ]
     },
     {
       "id": "counterpoint.l5.species.card-speciesconsonance",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.speciesBasics.speciesConsonanceTitle",
-      "skillIds": ["counterpoint.l5.species.s2"],
+      "skillIds": ["counterpoint.l5.species.s1"],
       "bodyKey": "content.levelFive.units.speciesBasics.speciesConsonanceBody",
       "examples": [
         {
-          "score": "treble | 4/4 | (C4 Eb4)/1 | (C4 D#4)/1",
-          "captionKey": "content.levelFive.units.speciesBasics.speciesConsonanceCaption"
+          "score": "treble | 4/4 | Eb4/1 | D#4/1\ntreble | 4/4 | C4/1 | C4/1",
+          "captionKey": "content.levelFive.units.speciesBasics.speciesConsonanceCaption",
+          "staffPresentation": "parts"
         }
       ]
     },
     {
       "id": "counterpoint.l5.species.card-speciesmotion",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.speciesBasics.speciesMotionTitle",
-      "skillIds": ["counterpoint.l5.species.s3"],
+      "skillIds": ["counterpoint.l5.species.s2"],
       "bodyKey": "content.levelFive.units.speciesBasics.speciesMotionBody",
       "examples": [
         {
-          "score": "treble | 4/4 | (C4 G4)/1 | (D4 A4)/1",
-          "captionKey": "content.levelFive.units.speciesBasics.speciesMotionCaption"
+          "score": "treble | 4/4 | G4/1 | A4/1\ntreble | 4/4 | C4/1 | D4/1",
+          "captionKey": "content.levelFive.units.speciesBasics.speciesMotionCaption",
+          "staffPresentation": "parts"
         }
       ]
     },
     {
       "id": "counterpoint.l5.species.card-speciesclosure",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.speciesBasics.speciesClosureTitle",
       "skillIds": ["counterpoint.l5.species.s3"],
       "bodyKey": "content.levelFive.units.speciesBasics.speciesClosureBody",
       "examples": [
         {
-          "score": "treble | 4/4 | (D4 B4)/1 | (C4 C5)/1",
-          "captionKey": "content.levelFive.units.speciesBasics.speciesClosureCaption"
+          "score": "treble | 4/4 | B4/1 | C5/1\ntreble | 4/4 | D4/1 | C4/1",
+          "captionKey": "content.levelFive.units.speciesBasics.speciesClosureCaption",
+          "staffPresentation": "parts"
         }
       ]
     },
     {
       "id": "counterpoint.l5.imitation.card-canonentry",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.imitationStudy.canonEntryTitle",
       "skillIds": ["counterpoint.l5.imitation.s1"],
@@ -13766,7 +13802,7 @@
     },
     {
       "id": "counterpoint.l5.imitation.card-subjectanswer",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.imitationStudy.subjectAnswerTitle",
       "skillIds": ["counterpoint.l5.imitation.s2"],
@@ -13780,7 +13816,7 @@
     },
     {
       "id": "counterpoint.l5.imitation.card-motifinversion",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.imitationStudy.motifInversionTitle",
       "skillIds": ["counterpoint.l5.imitation.s3"],
@@ -13794,7 +13830,7 @@
     },
     {
       "id": "counterpoint.l5.imitation.card-retrograde",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.imitationStudy.retrogradeTitle",
       "skillIds": ["counterpoint.l5.imitation.s3"],
@@ -13808,7 +13844,7 @@
     },
     {
       "id": "forms.l5.structure.card-sectionidentity",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.advancedForms.sectionIdentityTitle",
       "skillIds": ["forms.l5.structure.s1"],
@@ -13822,7 +13858,7 @@
     },
     {
       "id": "forms.l5.structure.card-rondoreturn",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.advancedForms.rondoReturnTitle",
       "skillIds": ["forms.l5.structure.s2"],
@@ -13836,7 +13872,7 @@
     },
     {
       "id": "forms.l5.structure.card-variationidentity",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.advancedForms.variationIdentityTitle",
       "skillIds": ["forms.l5.structure.s3"],
@@ -13850,7 +13886,7 @@
     },
     {
       "id": "forms.l5.structure.card-sonatafunction",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.advancedForms.sonataFunctionTitle",
       "skillIds": ["forms.l5.structure.s3"],
@@ -13864,7 +13900,7 @@
     },
     {
       "id": "analysis.l5.methods.card-analyticalquestion",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.workAnalysis.analyticalQuestionTitle",
       "skillIds": ["analysis.l5.methods.s1"],
@@ -13878,7 +13914,7 @@
     },
     {
       "id": "analysis.l5.methods.card-pitchevidence",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.workAnalysis.pitchEvidenceTitle",
       "skillIds": ["analysis.l5.methods.s2"],
@@ -13892,7 +13928,7 @@
     },
     {
       "id": "analysis.l5.methods.card-reductionlimits",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.workAnalysis.reductionLimitsTitle",
       "skillIds": ["analysis.l5.methods.s3"],
@@ -13906,7 +13942,7 @@
     },
     {
       "id": "analysis.l5.methods.card-analysisargument",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.workAnalysis.analysisArgumentTitle",
       "skillIds": ["analysis.l5.methods.s3"],
@@ -13920,7 +13956,7 @@
     },
     {
       "id": "contemporary.l5.serial.card-roworder",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.serialStudy.rowOrderTitle",
       "skillIds": ["contemporary.l5.serial.s1"],
@@ -13934,7 +13970,7 @@
     },
     {
       "id": "contemporary.l5.serial.card-rowoperations",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.serialStudy.rowOperationsTitle",
       "skillIds": ["contemporary.l5.serial.s2"],
@@ -13948,7 +13984,7 @@
     },
     {
       "id": "contemporary.l5.serial.card-serialscope",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.serialStudy.serialScopeTitle",
       "skillIds": ["contemporary.l5.serial.s3"],
@@ -13962,7 +13998,7 @@
     },
     {
       "id": "contemporary.l5.serial.card-rowcontext",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.serialStudy.rowContextTitle",
       "skillIds": ["contemporary.l5.serial.s3"],
@@ -13976,7 +14012,7 @@
     },
     {
       "id": "contemporary.l5.sets.card-setidentity",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.setStudy.setIdentityTitle",
       "skillIds": ["contemporary.l5.sets.s1"],
@@ -13990,7 +14026,7 @@
     },
     {
       "id": "contemporary.l5.sets.card-intervalclass",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.setStudy.intervalClassTitle",
       "skillIds": ["contemporary.l5.sets.s2"],
@@ -14004,10 +14040,10 @@
     },
     {
       "id": "contemporary.l5.sets.card-intervalvector",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.setStudy.intervalVectorTitle",
-      "skillIds": ["contemporary.l5.sets.s3"],
+      "skillIds": ["contemporary.l5.sets.s2"],
       "bodyKey": "content.levelFive.units.setStudy.intervalVectorBody",
       "examples": [
         {
@@ -14018,7 +14054,7 @@
     },
     {
       "id": "contemporary.l5.sets.card-setlimits",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.setStudy.setLimitsTitle",
       "skillIds": ["contemporary.l5.sets.s3"],
@@ -14032,7 +14068,7 @@
     },
     {
       "id": "contemporary.l5.process.card-discretephase",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.processStudy.discretePhaseTitle",
       "skillIds": ["contemporary.l5.process.s1"],
@@ -14046,7 +14082,7 @@
     },
     {
       "id": "contemporary.l5.process.card-additiveprocess",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.processStudy.additiveProcessTitle",
       "skillIds": ["contemporary.l5.process.s2"],
@@ -14060,7 +14096,7 @@
     },
     {
       "id": "contemporary.l5.process.card-electroacoustic",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.processStudy.electroacousticTitle",
       "skillIds": ["contemporary.l5.process.s3"],
@@ -14074,21 +14110,22 @@
     },
     {
       "id": "contemporary.l5.process.card-spectralmodel",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.processStudy.spectralModelTitle",
       "skillIds": ["contemporary.l5.process.s3"],
       "bodyKey": "content.levelFive.units.processStudy.spectralModelBody",
       "examples": [
         {
-          "score": "bass | 4/4 | C3/4 C4/4 G4/4 C5/4",
-          "captionKey": "content.levelFive.units.processStudy.spectralModelCaption"
+          "score": "treble | 4/4 | (C4 G4 C5)/1\nbass | 4/4 | C3/1",
+          "captionKey": "content.levelFive.units.processStudy.spectralModelCaption",
+          "staffPresentation": "parts"
         }
       ]
     },
     {
       "id": "world.l5.context.card-maqamcontext",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.worldStudy.maqamContextTitle",
       "skillIds": ["world.l5.context.s1"],
@@ -14102,7 +14139,7 @@
     },
     {
       "id": "world.l5.context.card-ragacontext",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.worldStudy.ragaContextTitle",
       "skillIds": ["world.l5.context.s2"],
@@ -14116,7 +14153,7 @@
     },
     {
       "id": "world.l5.context.card-situatedsource",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.worldStudy.situatedSourceTitle",
       "skillIds": ["world.l5.context.s3"],
@@ -14130,7 +14167,7 @@
     },
     {
       "id": "world.l5.context.card-modelboundary",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.worldStudy.modelBoundaryTitle",
       "skillIds": ["world.l5.context.s3"],
@@ -14139,6 +14176,56 @@
         {
           "score": "treble | 4/4 | C4/4 C#4/4 D4/4 D#4/4",
           "captionKey": "content.levelFive.units.worldStudy.modelBoundaryCaption"
+        }
+      ]
+    },
+    {
+      "id": "scales.l2.key-reading.card-scope",
+      "contentVersion": 28,
+      "status": "entwurf",
+      "titleKey": "content.signatureReading.scopeTitle",
+      "skillIds": ["key.signature-read-treble"],
+      "bodyKey": "content.signatureReading.scopeBody",
+      "examples": [
+        {
+          "score": "treble | key:C | 4/4 | F4/4 G4/4 A4/4 B4/4",
+          "captionKey": "content.signatureReading.scopeCaption"
+        }
+      ]
+    },
+    {
+      "id": "scales.l2.key-reading.card-sharps",
+      "contentVersion": 28,
+      "status": "entwurf",
+      "titleKey": "content.signatureReading.sharpsTitle",
+      "skillIds": ["key.signature-read-treble"],
+      "bodyKey": "content.signatureReading.sharpsBody",
+      "examples": [
+        {
+          "score": "treble | key:G | 4/4 | F#4/4 G4/4 A4/4 F#5/4",
+          "captionKey": "content.signatureReading.gCaption"
+        },
+        {
+          "score": "treble | key:D | 4/4 | F#4/4 A4/4 C#5/4 D5/4",
+          "captionKey": "content.signatureReading.dCaption"
+        }
+      ]
+    },
+    {
+      "id": "scales.l2.key-reading.card-flats",
+      "contentVersion": 28,
+      "status": "entwurf",
+      "titleKey": "content.signatureReading.flatsTitle",
+      "skillIds": ["key.signature-read-treble"],
+      "bodyKey": "content.signatureReading.flatsBody",
+      "examples": [
+        {
+          "score": "treble | key:F | 4/4 | A4/4 Bb4/4 C5/4 Bb4/4",
+          "captionKey": "content.signatureReading.fCaption"
+        },
+        {
+          "score": "treble | key:Bb | 4/4 | Bb4/4 C5/4 D5/4 Eb5/4",
+          "captionKey": "content.signatureReading.bbCaption"
         }
       ]
     }
@@ -17085,7 +17172,7 @@
       ]
     },
     {
-      "contentVersion": 13,
+      "contentVersion": 30,
       "status": "entwurf",
       "id": "history.l2.period-contexts.article",
       "titleKey": "content.levelTwoPeriodContexts.articleTitle",
@@ -18537,7 +18624,7 @@
     },
     {
       "id": "counterpoint.l5.species.article",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.speciesBasics.unitTitle",
       "skillIds": [
@@ -18551,8 +18638,9 @@
           "bodyKey": "content.levelFive.units.speciesBasics.oneAgainstOneBody",
           "examples": [
             {
-              "score": "treble | 4/4 | (C4 G4)/1 | (E4 G4)/1 | (D4 B4)/1 | (C4 C5)/1",
-              "captionKey": "content.levelFive.units.speciesBasics.oneAgainstOneCaption"
+              "score": "treble | 4/4 | G4/1 | G4/1 | B4/1 | C5/1\ntreble | 4/4 | C4/1 | E4/1 | D4/1 | C4/1",
+              "captionKey": "content.levelFive.units.speciesBasics.oneAgainstOneCaption",
+              "staffPresentation": "parts"
             }
           ]
         },
@@ -18561,8 +18649,9 @@
           "bodyKey": "content.levelFive.units.speciesBasics.speciesConsonanceBody",
           "examples": [
             {
-              "score": "treble | 4/4 | (C4 Eb4)/1 | (C4 D#4)/1",
-              "captionKey": "content.levelFive.units.speciesBasics.speciesConsonanceCaption"
+              "score": "treble | 4/4 | Eb4/1 | D#4/1\ntreble | 4/4 | C4/1 | C4/1",
+              "captionKey": "content.levelFive.units.speciesBasics.speciesConsonanceCaption",
+              "staffPresentation": "parts"
             }
           ]
         },
@@ -18571,8 +18660,9 @@
           "bodyKey": "content.levelFive.units.speciesBasics.speciesMotionBody",
           "examples": [
             {
-              "score": "treble | 4/4 | (C4 G4)/1 | (D4 A4)/1",
-              "captionKey": "content.levelFive.units.speciesBasics.speciesMotionCaption"
+              "score": "treble | 4/4 | G4/1 | A4/1\ntreble | 4/4 | C4/1 | D4/1",
+              "captionKey": "content.levelFive.units.speciesBasics.speciesMotionCaption",
+              "staffPresentation": "parts"
             }
           ]
         },
@@ -18581,8 +18671,9 @@
           "bodyKey": "content.levelFive.units.speciesBasics.speciesClosureBody",
           "examples": [
             {
-              "score": "treble | 4/4 | (D4 B4)/1 | (C4 C5)/1",
-              "captionKey": "content.levelFive.units.speciesBasics.speciesClosureCaption"
+              "score": "treble | 4/4 | B4/1 | C5/1\ntreble | 4/4 | D4/1 | C4/1",
+              "captionKey": "content.levelFive.units.speciesBasics.speciesClosureCaption",
+              "staffPresentation": "parts"
             }
           ]
         }
@@ -18590,7 +18681,7 @@
     },
     {
       "id": "counterpoint.l5.imitation.article",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.imitationStudy.unitTitle",
       "skillIds": [
@@ -18643,7 +18734,7 @@
     },
     {
       "id": "forms.l5.structure.article",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.advancedForms.unitTitle",
       "skillIds": ["forms.l5.structure.s1", "forms.l5.structure.s2", "forms.l5.structure.s3"],
@@ -18692,7 +18783,7 @@
     },
     {
       "id": "analysis.l5.methods.article",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.workAnalysis.unitTitle",
       "skillIds": ["analysis.l5.methods.s1", "analysis.l5.methods.s2", "analysis.l5.methods.s3"],
@@ -18741,7 +18832,7 @@
     },
     {
       "id": "contemporary.l5.serial.article",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.serialStudy.unitTitle",
       "skillIds": [
@@ -18794,7 +18885,7 @@
     },
     {
       "id": "contemporary.l5.sets.article",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.setStudy.unitTitle",
       "skillIds": ["contemporary.l5.sets.s1", "contemporary.l5.sets.s2", "contemporary.l5.sets.s3"],
@@ -18843,7 +18934,7 @@
     },
     {
       "id": "contemporary.l5.process.article",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.processStudy.unitTitle",
       "skillIds": [
@@ -18887,8 +18978,9 @@
           "bodyKey": "content.levelFive.units.processStudy.spectralModelBody",
           "examples": [
             {
-              "score": "bass | 4/4 | C3/4 C4/4 G4/4 C5/4",
-              "captionKey": "content.levelFive.units.processStudy.spectralModelCaption"
+              "score": "treble | 4/4 | (C4 G4 C5)/1\nbass | 4/4 | C3/1",
+              "captionKey": "content.levelFive.units.processStudy.spectralModelCaption",
+              "staffPresentation": "parts"
             }
           ]
         }
@@ -18896,7 +18988,7 @@
     },
     {
       "id": "world.l5.context.article",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.worldStudy.unitTitle",
       "skillIds": ["world.l5.context.s1", "world.l5.context.s2", "world.l5.context.s3"],
@@ -18938,6 +19030,53 @@
             {
               "score": "treble | 4/4 | C4/4 C#4/4 D4/4 D#4/4",
               "captionKey": "content.levelFive.units.worldStudy.modelBoundaryCaption"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "scales.l2.key-reading.article",
+      "contentVersion": 28,
+      "status": "entwurf",
+      "titleKey": "content.signatureReading.articleTitle",
+      "skillIds": ["key.signature-read-treble"],
+      "sections": [
+        {
+          "headingKey": "content.signatureReading.scopeTitle",
+          "bodyKey": "content.signatureReading.scopeBody",
+          "examples": [
+            {
+              "score": "treble | key:C | 4/4 | F4/4 G4/4 A4/4 B4/4",
+              "captionKey": "content.signatureReading.scopeCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.signatureReading.sharpsTitle",
+          "bodyKey": "content.signatureReading.sharpsBody",
+          "examples": [
+            {
+              "score": "treble | key:G | 4/4 | F#4/4 G4/4 A4/4 F#5/4",
+              "captionKey": "content.signatureReading.gCaption"
+            },
+            {
+              "score": "treble | key:D | 4/4 | F#4/4 A4/4 C#5/4 D5/4",
+              "captionKey": "content.signatureReading.dCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.signatureReading.flatsTitle",
+          "bodyKey": "content.signatureReading.flatsBody",
+          "examples": [
+            {
+              "score": "treble | key:F | 4/4 | A4/4 Bb4/4 C5/4 Bb4/4",
+              "captionKey": "content.signatureReading.fCaption"
+            },
+            {
+              "score": "treble | key:Bb | 4/4 | Bb4/4 C5/4 D5/4 Eb5/4",
+              "captionKey": "content.signatureReading.bbCaption"
             }
           ]
         }
@@ -19700,6 +19839,20 @@
         "intervals.l2.inversion.card-octaves"
       ],
       "exerciseSetIds": ["intervals.l2.inversion.apply.exercises"]
+    },
+    {
+      "id": "scales.l2.key-reading.lesson",
+      "contentVersion": 28,
+      "status": "entwurf",
+      "titleKey": "content.signatureReading.lessonTitle",
+      "unitId": "scales.l2.key-reading",
+      "skillIds": ["key.signature-read-treble"],
+      "introductionCardIds": [
+        "scales.l2.key-reading.card-scope",
+        "scales.l2.key-reading.card-sharps",
+        "scales.l2.key-reading.card-flats"
+      ],
+      "exerciseSetIds": ["scales.l2.key-reading.exercises"]
     },
     {
       "contentVersion": 13,
@@ -21379,7 +21532,7 @@
       "exerciseSetIds": ["satz.l5.writing.functions.exercises"]
     },
     {
-      "contentVersion": 27,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir.soprano.lesson",
       "titleKey": "content.choir.soprano",
@@ -21390,7 +21543,7 @@
       "minimumChoirCorrect": 1
     },
     {
-      "contentVersion": 27,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir.alto.lesson",
       "titleKey": "content.choir.alto",
@@ -21401,7 +21554,7 @@
       "minimumChoirCorrect": 1
     },
     {
-      "contentVersion": 27,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir.tenor.lesson",
       "titleKey": "content.choir.tenor",
@@ -21412,7 +21565,7 @@
       "minimumChoirCorrect": 1
     },
     {
-      "contentVersion": 27,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir.bass.lesson",
       "titleKey": "content.choir.bass",
@@ -21424,15 +21577,11 @@
     },
     {
       "id": "counterpoint.l5.species.lesson1",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.speciesBasics.lesson1",
       "unitId": "counterpoint.l5.species",
-      "skillIds": [
-        "counterpoint.l5.species.s1",
-        "counterpoint.l5.species.s2",
-        "counterpoint.l5.species.s3"
-      ],
+      "skillIds": ["counterpoint.l5.species.s1"],
       "introductionCardIds": [
         "counterpoint.l5.species.card-oneagainstone",
         "counterpoint.l5.species.card-speciesconsonance",
@@ -21443,15 +21592,11 @@
     },
     {
       "id": "counterpoint.l5.species.lesson2",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.speciesBasics.lesson2",
       "unitId": "counterpoint.l5.species",
-      "skillIds": [
-        "counterpoint.l5.species.s1",
-        "counterpoint.l5.species.s2",
-        "counterpoint.l5.species.s3"
-      ],
+      "skillIds": ["counterpoint.l5.species.s2"],
       "introductionCardIds": [
         "counterpoint.l5.species.card-oneagainstone",
         "counterpoint.l5.species.card-speciesconsonance",
@@ -21462,15 +21607,11 @@
     },
     {
       "id": "counterpoint.l5.species.lesson3",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.speciesBasics.lesson3",
       "unitId": "counterpoint.l5.species",
-      "skillIds": [
-        "counterpoint.l5.species.s1",
-        "counterpoint.l5.species.s2",
-        "counterpoint.l5.species.s3"
-      ],
+      "skillIds": ["counterpoint.l5.species.s3"],
       "introductionCardIds": [
         "counterpoint.l5.species.card-oneagainstone",
         "counterpoint.l5.species.card-speciesconsonance",
@@ -21481,15 +21622,11 @@
     },
     {
       "id": "counterpoint.l5.imitation.lesson1",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.imitationStudy.lesson1",
       "unitId": "counterpoint.l5.imitation",
-      "skillIds": [
-        "counterpoint.l5.imitation.s1",
-        "counterpoint.l5.imitation.s2",
-        "counterpoint.l5.imitation.s3"
-      ],
+      "skillIds": ["counterpoint.l5.imitation.s1"],
       "introductionCardIds": [
         "counterpoint.l5.imitation.card-canonentry",
         "counterpoint.l5.imitation.card-subjectanswer",
@@ -21500,15 +21637,11 @@
     },
     {
       "id": "counterpoint.l5.imitation.lesson2",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.imitationStudy.lesson2",
       "unitId": "counterpoint.l5.imitation",
-      "skillIds": [
-        "counterpoint.l5.imitation.s1",
-        "counterpoint.l5.imitation.s2",
-        "counterpoint.l5.imitation.s3"
-      ],
+      "skillIds": ["counterpoint.l5.imitation.s2"],
       "introductionCardIds": [
         "counterpoint.l5.imitation.card-canonentry",
         "counterpoint.l5.imitation.card-subjectanswer",
@@ -21519,15 +21652,11 @@
     },
     {
       "id": "counterpoint.l5.imitation.lesson3",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.imitationStudy.lesson3",
       "unitId": "counterpoint.l5.imitation",
-      "skillIds": [
-        "counterpoint.l5.imitation.s1",
-        "counterpoint.l5.imitation.s2",
-        "counterpoint.l5.imitation.s3"
-      ],
+      "skillIds": ["counterpoint.l5.imitation.s3"],
       "introductionCardIds": [
         "counterpoint.l5.imitation.card-canonentry",
         "counterpoint.l5.imitation.card-subjectanswer",
@@ -21538,11 +21667,11 @@
     },
     {
       "id": "forms.l5.structure.lesson1",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.advancedForms.lesson1",
       "unitId": "forms.l5.structure",
-      "skillIds": ["forms.l5.structure.s1", "forms.l5.structure.s2", "forms.l5.structure.s3"],
+      "skillIds": ["forms.l5.structure.s1"],
       "introductionCardIds": [
         "forms.l5.structure.card-sectionidentity",
         "forms.l5.structure.card-rondoreturn",
@@ -21553,11 +21682,11 @@
     },
     {
       "id": "forms.l5.structure.lesson2",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.advancedForms.lesson2",
       "unitId": "forms.l5.structure",
-      "skillIds": ["forms.l5.structure.s1", "forms.l5.structure.s2", "forms.l5.structure.s3"],
+      "skillIds": ["forms.l5.structure.s2"],
       "introductionCardIds": [
         "forms.l5.structure.card-sectionidentity",
         "forms.l5.structure.card-rondoreturn",
@@ -21568,11 +21697,11 @@
     },
     {
       "id": "forms.l5.structure.lesson3",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.advancedForms.lesson3",
       "unitId": "forms.l5.structure",
-      "skillIds": ["forms.l5.structure.s1", "forms.l5.structure.s2", "forms.l5.structure.s3"],
+      "skillIds": ["forms.l5.structure.s3"],
       "introductionCardIds": [
         "forms.l5.structure.card-sectionidentity",
         "forms.l5.structure.card-rondoreturn",
@@ -21583,11 +21712,11 @@
     },
     {
       "id": "analysis.l5.methods.lesson1",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.workAnalysis.lesson1",
       "unitId": "analysis.l5.methods",
-      "skillIds": ["analysis.l5.methods.s1", "analysis.l5.methods.s2", "analysis.l5.methods.s3"],
+      "skillIds": ["analysis.l5.methods.s1"],
       "introductionCardIds": [
         "analysis.l5.methods.card-analyticalquestion",
         "analysis.l5.methods.card-pitchevidence",
@@ -21598,11 +21727,11 @@
     },
     {
       "id": "analysis.l5.methods.lesson2",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.workAnalysis.lesson2",
       "unitId": "analysis.l5.methods",
-      "skillIds": ["analysis.l5.methods.s1", "analysis.l5.methods.s2", "analysis.l5.methods.s3"],
+      "skillIds": ["analysis.l5.methods.s2"],
       "introductionCardIds": [
         "analysis.l5.methods.card-analyticalquestion",
         "analysis.l5.methods.card-pitchevidence",
@@ -21613,11 +21742,11 @@
     },
     {
       "id": "analysis.l5.methods.lesson3",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.workAnalysis.lesson3",
       "unitId": "analysis.l5.methods",
-      "skillIds": ["analysis.l5.methods.s1", "analysis.l5.methods.s2", "analysis.l5.methods.s3"],
+      "skillIds": ["analysis.l5.methods.s3"],
       "introductionCardIds": [
         "analysis.l5.methods.card-analyticalquestion",
         "analysis.l5.methods.card-pitchevidence",
@@ -21628,15 +21757,11 @@
     },
     {
       "id": "contemporary.l5.serial.lesson1",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.serialStudy.lesson1",
       "unitId": "contemporary.l5.serial",
-      "skillIds": [
-        "contemporary.l5.serial.s1",
-        "contemporary.l5.serial.s2",
-        "contemporary.l5.serial.s3"
-      ],
+      "skillIds": ["contemporary.l5.serial.s1"],
       "introductionCardIds": [
         "contemporary.l5.serial.card-roworder",
         "contemporary.l5.serial.card-rowoperations",
@@ -21647,15 +21772,11 @@
     },
     {
       "id": "contemporary.l5.serial.lesson2",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.serialStudy.lesson2",
       "unitId": "contemporary.l5.serial",
-      "skillIds": [
-        "contemporary.l5.serial.s1",
-        "contemporary.l5.serial.s2",
-        "contemporary.l5.serial.s3"
-      ],
+      "skillIds": ["contemporary.l5.serial.s2"],
       "introductionCardIds": [
         "contemporary.l5.serial.card-roworder",
         "contemporary.l5.serial.card-rowoperations",
@@ -21666,15 +21787,11 @@
     },
     {
       "id": "contemporary.l5.serial.lesson3",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.serialStudy.lesson3",
       "unitId": "contemporary.l5.serial",
-      "skillIds": [
-        "contemporary.l5.serial.s1",
-        "contemporary.l5.serial.s2",
-        "contemporary.l5.serial.s3"
-      ],
+      "skillIds": ["contemporary.l5.serial.s3"],
       "introductionCardIds": [
         "contemporary.l5.serial.card-roworder",
         "contemporary.l5.serial.card-rowoperations",
@@ -21685,11 +21802,11 @@
     },
     {
       "id": "contemporary.l5.sets.lesson1",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.setStudy.lesson1",
       "unitId": "contemporary.l5.sets",
-      "skillIds": ["contemporary.l5.sets.s1", "contemporary.l5.sets.s2", "contemporary.l5.sets.s3"],
+      "skillIds": ["contemporary.l5.sets.s1"],
       "introductionCardIds": [
         "contemporary.l5.sets.card-setidentity",
         "contemporary.l5.sets.card-intervalclass",
@@ -21700,11 +21817,11 @@
     },
     {
       "id": "contemporary.l5.sets.lesson2",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.setStudy.lesson2",
       "unitId": "contemporary.l5.sets",
-      "skillIds": ["contemporary.l5.sets.s1", "contemporary.l5.sets.s2", "contemporary.l5.sets.s3"],
+      "skillIds": ["contemporary.l5.sets.s2"],
       "introductionCardIds": [
         "contemporary.l5.sets.card-setidentity",
         "contemporary.l5.sets.card-intervalclass",
@@ -21715,11 +21832,11 @@
     },
     {
       "id": "contemporary.l5.sets.lesson3",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.setStudy.lesson3",
       "unitId": "contemporary.l5.sets",
-      "skillIds": ["contemporary.l5.sets.s1", "contemporary.l5.sets.s2", "contemporary.l5.sets.s3"],
+      "skillIds": ["contemporary.l5.sets.s3"],
       "introductionCardIds": [
         "contemporary.l5.sets.card-setidentity",
         "contemporary.l5.sets.card-intervalclass",
@@ -21730,15 +21847,11 @@
     },
     {
       "id": "contemporary.l5.process.lesson1",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.processStudy.lesson1",
       "unitId": "contemporary.l5.process",
-      "skillIds": [
-        "contemporary.l5.process.s1",
-        "contemporary.l5.process.s2",
-        "contemporary.l5.process.s3"
-      ],
+      "skillIds": ["contemporary.l5.process.s1"],
       "introductionCardIds": [
         "contemporary.l5.process.card-discretephase",
         "contemporary.l5.process.card-additiveprocess",
@@ -21749,15 +21862,11 @@
     },
     {
       "id": "contemporary.l5.process.lesson2",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.processStudy.lesson2",
       "unitId": "contemporary.l5.process",
-      "skillIds": [
-        "contemporary.l5.process.s1",
-        "contemporary.l5.process.s2",
-        "contemporary.l5.process.s3"
-      ],
+      "skillIds": ["contemporary.l5.process.s2"],
       "introductionCardIds": [
         "contemporary.l5.process.card-discretephase",
         "contemporary.l5.process.card-additiveprocess",
@@ -21768,15 +21877,11 @@
     },
     {
       "id": "contemporary.l5.process.lesson3",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.processStudy.lesson3",
       "unitId": "contemporary.l5.process",
-      "skillIds": [
-        "contemporary.l5.process.s1",
-        "contemporary.l5.process.s2",
-        "contemporary.l5.process.s3"
-      ],
+      "skillIds": ["contemporary.l5.process.s3"],
       "introductionCardIds": [
         "contemporary.l5.process.card-discretephase",
         "contemporary.l5.process.card-additiveprocess",
@@ -21787,11 +21892,11 @@
     },
     {
       "id": "world.l5.context.lesson1",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.worldStudy.lesson1",
       "unitId": "world.l5.context",
-      "skillIds": ["world.l5.context.s1", "world.l5.context.s2", "world.l5.context.s3"],
+      "skillIds": ["world.l5.context.s1"],
       "introductionCardIds": [
         "world.l5.context.card-maqamcontext",
         "world.l5.context.card-ragacontext",
@@ -21802,11 +21907,11 @@
     },
     {
       "id": "world.l5.context.lesson2",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.worldStudy.lesson2",
       "unitId": "world.l5.context",
-      "skillIds": ["world.l5.context.s1", "world.l5.context.s2", "world.l5.context.s3"],
+      "skillIds": ["world.l5.context.s2"],
       "introductionCardIds": [
         "world.l5.context.card-maqamcontext",
         "world.l5.context.card-ragacontext",
@@ -21817,11 +21922,11 @@
     },
     {
       "id": "world.l5.context.lesson3",
-      "contentVersion": 21,
+      "contentVersion": 31,
       "status": "entwurf",
       "titleKey": "content.levelFive.units.worldStudy.lesson3",
       "unitId": "world.l5.context",
-      "skillIds": ["world.l5.context.s1", "world.l5.context.s2", "world.l5.context.s3"],
+      "skillIds": ["world.l5.context.s3"],
       "introductionCardIds": [
         "world.l5.context.card-maqamcontext",
         "world.l5.context.card-ragacontext",

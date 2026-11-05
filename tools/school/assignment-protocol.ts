@@ -42,7 +42,7 @@ export interface AssignmentView extends Assignment {
   };
 }
 export interface AssignmentReport extends Assignment {
-  learners: { actor: string; alias: string; sharing: boolean; result: AssignmentResult | null }[];
+  learners: { member: string; alias: string; sharing: boolean; result: AssignmentResult | null }[];
   summary: {
     recipients: number;
     shared: number;

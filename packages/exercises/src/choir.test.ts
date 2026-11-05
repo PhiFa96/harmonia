@@ -405,8 +405,31 @@ describe('CHOIR_PART internal draft', () => {
         if (note !== 7 || bin < 9) incomplete.add(at, 6400);
       }
     expect(quiet.inputComplete()).toBe(true);
+    expect(quiet.hasDetectedPitch()).toBe(false);
+    // Legacy answers remain replayable and cannot pass. New capture decides before submitting.
+    expect(evaluateExercise(item, quiet.answer())).toMatchObject({
+      validAnswer: true,
+      correct: false,
+    });
     expect(assessChoir(item, quiet.answer()).passed).toBe(false);
     expect(incomplete.inputComplete()).toBe(false);
+    expect(incomplete.hasDetectedPitch()).toBe(true);
+  });
+  it('counts accepted pitches only inside scoring windows, including a single sparse detection', () => {
+    const collector = createChoirCollector(item),
+      duration = 120 / item.bpm;
+    for (const seconds of [-1, 0, 0.1 * duration, 0.9 * duration, 8 * duration])
+      collector.add(seconds, 6400);
+    for (const pitch of [null, NaN, Infinity, 2099, 10801]) collector.add(0.2 * duration, pitch);
+    expect(collector.hasDetectedPitch()).toBe(false);
+    collector.add(0.2 * duration, 6400);
+    expect(collector.hasDetectedPitch()).toBe(true);
+    expect(collector.inputComplete()).toBe(false);
+    expect(evaluateExercise(item, collector.answer())).toMatchObject({
+      validAnswer: true,
+      correct: false,
+    });
+    expect(assessChoir(item, collector.answer()).notes[0]?.detectedWindows).toBe(1);
   });
   it('skips microphone work without a failed answer or denominator penalty', () => {
     const session = skipVoiceExercise(createSession([item]));
@@ -423,8 +446,9 @@ describe('CHOIR_PART miniatures follow the draft part-writing profile', () => {
     alto: { min: parsePitch('G3'), max: parsePitch('D5') },
     soprano: { min: parsePitch('C4'), max: parsePitch('G5') },
   };
-  // Die Miniaturen tragen keinen Akkordkontext: Leitton-/Septimregeln entfallen. Strenger als
-  // das Aufgabenprofil: auch Gegen- und verdeckte Quinten/Oktaven sind hier Fehler.
+  // Die Miniaturen tragen keinen Akkordkontext: Leitton-/Septimregeln entfallen.
+  // Der zusätzliche strenge Lauf prüft Gegenparallelen. Verdeckte Quinten/Oktaven
+  // folgen in beiden Läufen ausdrücklich der Option „soprano-leap“.
   const harmonic = ['leading-tone-resolution', 'seventh-resolution', 'doubled-leading-tone'];
   const profile = Object.fromEntries(
     Object.entries(SATB_DRAFT_RULES).filter(([rule]) => !harmonic.includes(rule)),
@@ -451,4 +475,29 @@ describe('CHOIR_PART miniatures follow the draft part-writing profile', () => {
         expect(analyzeVoiceLeading(slices, profile, options)).toEqual([]);
         expect(analyzeVoiceLeading(slices, strict, options)).toEqual([]);
       });
+});
+
+describe('CHOIR_PART miniatures stay singable', () => {
+  // Fachprüfung Phase 4 v3: keine Septimensprünge (10/11 Halbtöne) und nichts über die Oktave.
+  for (const edition of [undefined, 2] as const)
+    for (const piece of ['home', 'arch'] as const)
+      for (const fifths of [-2, 0, 2] as const)
+        it(`edition ${String(edition ?? 1)} ${piece}/${String(fifths)}: no seventh or compound leaps`, () => {
+          const { parts } = generateChoir(
+            { voice: 'soprano', piece, fifths, ...(edition ? { edition } : {}) },
+            createRng(1),
+          );
+          for (const voice of ['soprano', 'alto', 'tenor', 'bass'] as const) {
+            const line = parts[voice].map((pitch) => midi(required(pitch)));
+            for (let i = 1; i < line.length; i += 1) {
+              const leap = Math.abs(required(line[i]) - required(line[i - 1]));
+              expect({ voice, at: i, leap }).toEqual({
+                voice,
+                at: i,
+                leap: leap > 9 && leap !== 12 ? -1 : leap,
+              });
+              expect(leap).toBeLessThanOrEqual(12);
+            }
+          }
+        });
 });

@@ -23,6 +23,8 @@ describe('history journey glossary rendering', () => {
         expect(story.listeningOptions).toHaveLength(3);
         expect(story.personaPrompts).toHaveLength(3);
         expect(story.personaReplies).toHaveLength(3);
+        expect(story.knowledgeHints).toHaveLength(2);
+        expect(story.listeningHints).toHaveLength(2);
       }
       expect(text('medieval').scene).toContain(locale === 'de' ? 'Einstimmigkeit' : 'monophony');
       expect(text('baroque').scene).toContain(locale === 'de' ? 'Generalbass' : 'basso continuo');
@@ -50,6 +52,16 @@ describe('history journey glossary rendering', () => {
     expect(JSON.stringify(RESOURCES)).toBe(before);
     expect(JSON.stringify(copy)).toBe(original);
   });
+  it.each(['knowledgeHints', 'listeningHints'] as const)(
+    '%s rejects missing or colliding hint stages after glossary expansion',
+    (field) => {
+      for (const hints of [['Only one'], ['$t(glossary:voice_one)', 'Stimme']]) {
+        const copy = fresh();
+        copy.de.medieval[field] = hints;
+        expect(() => createHistoryJourneyText('de', copy)('medieval')).toThrow();
+      }
+    },
+  );
   it('keeps bindings isolated from later input changes and other instances', () => {
     const copy = fresh();
     copy.de.medieval.scene = 'First private scene';

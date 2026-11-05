@@ -1,5 +1,7 @@
 # P4.17 – Technische Voreinschätzung zur KI-Verordnung
 
+**Technischer Nachtrag 02.11.2026:** [Gesamtstand der programmierten P4.17/P4.18-Werkzeuge](../../plan/ki-und-zertifikate-gesamtstand.md). Neue private Nachweis-/Prüfvorlagen und simulierte Zertifikatskäufe ändern weder den unten dokumentierten Quellenstand noch eine juristische Bewertung. Es wurde in diesem Weiterbau keine unabhängige Rechtsprüfung durchgeführt und keine zusätzliche Quelle als neu gelesen markiert.
+
 Stand: 24.10.2026 · **Entwurf zur unabhängigen schriftlichen Rechtsprüfung, keine rechtliche Freigabe.**
 
 Diese Unterlage beschreibt den nachgelesenen Regelungsstand und den tatsächlichen technischen Einsatz von Harmonia. Die rechtliche Gesamtbewertung durch qualifizierte Rechtsprüfung, Betreiberbindung und konkrete Schul-/Zertifikatsverwendung fehlen. Die Produktabnahme von P4.17 bleibt offen. P4.01 bleibt bis F14 und Rechtsklärung zurückgestellt. Technische P4-Vorarbeit erfolgt auf Nutzerauftrag vor der formalen Phase-4-Freigabe; nichts wird veröffentlicht.

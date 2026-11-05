@@ -31,6 +31,8 @@ export const de = {
     check: 'Antwort prüfen',
     correct: 'Richtig.',
     incorrect: 'Noch nicht richtig.',
+    hint: 'Hinweis {{level}} von {{total}}',
+    moreHint: 'Weiteren Hinweis anzeigen',
     next: 'Weiter',
     back: 'Zurück',
     finish: 'Zur Übersicht',
@@ -704,6 +706,12 @@ export const de = {
     error_history:
       'Die Antwort ist abgeschlossen, aber der gespeicherte Verlauf konnte nicht geladen werden. Rufe dieselbe Anfrage erneut ab.',
     error_storage: 'Der Abschluss wurde nicht bestätigt. Rufe dieselbe Anfrage erneut ab.',
+    error_attempt_required:
+      'Prüfe zuerst eine Antwort auf diese Aufgabe. Danach kannst du die KI um eine Erklärung oder Lösung bitten.',
+    error_attempt_invalid:
+      'Deine Antwort konnte nicht bestätigt werden. Öffne die Aufgabe erneut und prüfe deine Antwort.',
+    error_attempt_expired:
+      'Die Bestätigung deiner Antwort ist abgelaufen. Sende deine Frage erneut.',
   },
   article: {
     title: 'Bibliotheksquelle',

@@ -52,6 +52,8 @@ test('production bundle gate rejects school draft copy and schema identifiers', 
     'school_draft',
     SCHOOL_DRAFT_MESSAGES.de.title,
     SCHOOL_DRAFT_MESSAGES['en-US'].privacy,
+    SCHOOL_DRAFT_MESSAGES.de.privacyInfo,
+    SCHOOL_DRAFT_MESSAGES['en-GB'].shareInfo,
   ]) {
     writeFileSync(join(dir, 'app.js'), `globalThis.draft=${JSON.stringify(value)};`);
     const r = spawnSync(process.execPath, ['tools/check-public-bundle.mjs', dir], {

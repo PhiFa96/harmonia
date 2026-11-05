@@ -1,12 +1,32 @@
 # P4.12 – Zeitreise durch die Musikgeschichte (interner Entwurf)
 
-Vier Stationen behandeln **Mittelalter, Renaissance, Barock und Klassik** im ausdrücklich europäischen Überblick des vorhandenen Artikels `history.l2.period-contexts.article`. Jede Station durchläuft Szene → fiktives Interview → Wissensfrage → Hörfrage → Abschluss. Nach einer falschen Antwort erscheint ein eigener Hinweis. Eine andere Auswahl erlaubt einen neuen Versuch; die vollständige Erklärung erscheint nach einer richtigen Antwort. Hörfragen lassen sich nach erfolgreichem Wiedergabestart prüfen. Der Modus schreibt weder Lernnachweise noch XP.
+## Aktueller Gesamtstand vom 02.11.2026
+
+`codex/history-journey-complete-draft` vervollständigt P4.12 technisch als eigenen Entwurf auf `main` bei `f7bc15d`. Der offene Chor-Gesamtentwurf #143 und Tutor-PR #136 sind eigenständig. Auf ausdrücklichen Nutzerauftrag findet **technische P4-Vorarbeit vor der formalen Phase-4-Freigabe** statt. Alles bleibt `entwurf` bis zur unabhängigen Fach-/Quellen-/Sprachprüfung; keine Veröffentlichung oder Bereitstellung. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt. [ADR 0071](../decisions/0071-zeitreise-gesamtentwurf-mit-gestuften-hinweisen.md).
+
+Vier Stationen behandeln **Mittelalter, Renaissance, Barock und Klassik** im ausdrücklich europäischen Überblick des vorhandenen Artikels `history.l2.period-contexts.article`. Jede Station durchläuft Szene → fiktives Interview → Wissensfrage → Hörfrage → Abschluss. Eine andere Auswahl erlaubt nach einem Fehler einen neuen Versuch; die vollständige Erklärung erscheint nach einer richtigen Antwort. Hörfragen lassen sich nach erfolgreichem Wiedergabestart prüfen oder ausdrücklich überspringen. Der Modus schreibt weder Lernnachweise noch XP.
+
+| Befund / Teil | Technische Umsetzung | Verbleibende Abnahme |
+|---|---|---|
+| C15: gleichartige Fragen und Signalwort-Ablenker | Vier verschiedene Aufgaben zu Datierung, Imitation, Generalbass und Modellgröße; konkrete Verwechslungen als Ablenker | Unabhängige didaktische/Fach-/Sprachprüfung |
+| C16: wiederholter Einzelhinweis | Zwei unterschiedliche Hinweise je Wissens-/Hörfrage: Denkrichtung nach Fehler 1, konkretere Eingrenzung nach Fehler 2; der zweite Hinweis ist auch nach Fehler 1 anforderbar | Didaktische und reale Screenreader-Abnahme |
+| C17: kurze Modelle als Phrasen; schiefer Satz | Motive ausdrücklich von größerer Phrasen-/Periodenbildung getrennt; Satz auch im Quellenentwurf korrigiert | Fach-/Quellenprüfung |
+| C18: Continuo-Spielerin | Rolle als „Fiktive Musikerin am Generalbass“ über das gemeinsame Glossar | Fach-/Sprachprüfung |
+| Quellenaufruf | Exakter Abschnitt, Sprache, Version und Textfingerabdruck; Retry nach Fehler; alte Anfragen nach Wechsel/Verlassen unwirksam | Reale Bedienprüfung |
+| Historische Lernvoraussetzungen | Bereits vorhandene Kette über `history.compare-sources` mit neuen Prüfungen sämtlicher betroffener Lektionen und tatsächlicher Sperren abgesichert | Unabhängige Graph-/Didaktikprüfung |
+| Produktionsschutz | Leere öffentliche Aliase, Metro-Schutz und Bundleguard einschließlich beider Hinweisstufen; reale Vorschau-/Produktions-Browserproben in drei Sprachen | Release-Gates bleiben geschlossen |
+
+Hinweise bleiben beim Ändern der Auswahl erhalten; das Anfordern erhöht den Versuchszähler nicht und setzt keine Antwort. Richtige Antworten sperren weitere Auswahl, zeigen die Erklärung und entfernen die Hinweise. Zurück, Weiter und Stationswechsel beginnen mit leerem Frage-/Interviewzustand. Ohne erfolgreich gestartetes Audio bleibt die Hörprüfung gesperrt, auch bei Wiedergabefehlern. Ein gestartetes Audio belegt kein vollständiges Anhören. Drei Antwortmöglichkeiten und Hilfen liefern keinen Kompetenznachweis.
+
+Katalog/Fähigkeitsplan sind **30**, der bearbeitete P2.08-Artikel ebenfalls **30**. Andere Lektions-/Artikel-/Aufgabenversionen bleiben erhalten. Alte Quellenlinks auf Artikelversion 13 werden abgewiesen; kataloggebundene Vorschau-/Mischpläne benötigen Neustart. Keine Datenmigration. Versionen 28/29 gehören zu getrennten Chor-Branches; bei gemeinsamer Integration ist der höchste Stand mindestens 30 zu erhalten. Die im Prüfbericht genannte fehlende Quellenvergleich-Kante ist in `main` bereits vorhanden; es wird keine zusätzliche Lernvoraussetzung erfunden. Die Zeitreise bleibt ohne Fortschrittszugang intern frei wählbar.
 
 Die Texte liegen in `packages/i18n/src/history-journey-draft.json` mit DE und EN-US sowie gezielten en-GB-Abweichungen für die britische Schreibweise; weitere englische Texte werden gemeinsam verwendet. `packages/content/src/history-journey-draft.ts` enthält ausschließlich IDs, Quellenpositionen, Lösungen und eigens verfasste Notenkurzschrift. Die Audio-Engine spielt diese Kurzschrift synthetisch. **Alle Klangmodelle sind eigene Unterrichtsbeispiele; keine historische Aufführung, Rekonstruktion oder Transkription.** Die Hörfragen prüfen direkt hörbare Eigenschaften und verlangen keine Epochenerkennung allein am Klang.
 
 Die historischen Personen sind erfundene Rollen, keine Zitate realer Menschen. Die App kennzeichnet das redaktionelle Rollenspiel als erfunden und vorab geschrieben. Jede inhaltliche Aussage verweist auf den exakten Abschnitt des versionierten P2.08-Wissensartikels; der vorhandene Artikelbildschirm zeigt seinen Entwurfsstatus. Der Quellenlink wird mit demselben Text-Fingerabdruck wie P3.19 erzeugt und öffnet nur die passende Artikelfassung.
 
-`@harmonia/content/history-journey` und `@harmonia/i18n/history-journey` werden für Development/Preview auf die internen Daten und für Production auf leere Daten abgebildet. Der Modus ist nur bei vorhandenen Stationen in der Übungsübersicht verlinkt. Ein Produktions-Deep-Link zeigt nur den Zustand „noch keine Station freigegeben“. Vor einem öffentlichen Release muss der Bundleguard erneut geprüft werden.
+`@harmonia/content/history-journey` und `@harmonia/i18n/history-journey` werden für Development/Preview auf die internen Daten und für Production einschließlich EAS-Beta auf leere Daten abgebildet. Der Modus ist nur bei vorhandenen Stationen in der Übungsübersicht verlinkt. Ein Produktions-Deep-Link zeigt nur den Zustand „noch keine Station freigegeben“. Der öffentliche Katalog enthält null Lektionen. Vor einem öffentlichen Release muss der Bundleguard erneut geprüft werden. Konkrete Testzahlen und der vollständige CI-Nachweis am finalen Commit stehen im Entwurfs-PR.
+
+Die nachfolgenden datierten Weiterbauten sind Verlauf; für C15–C18 gilt der aktuelle Gesamtstand oben. Echte Geräte-/Audio-/Screenreader-Abnahme, unabhängige Primärliteratur-/Fach-/Sprachprüfung und mindestens vier fachlich freigegebene Epochen bleiben offen. P4.12 ist als Produkt noch nicht freigegeben.
 
 ## Technischer Weiterbau vom 26.10.2026
 

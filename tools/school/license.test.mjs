@@ -15,6 +15,16 @@ after(async () => {
 });
 beforeEach(async () => {
   f = await quizFixture(db.pool);
+  for (const learner of f.learners)
+    await l.call(learner.id, 'request', { org: f.org, enabled: true });
+  const rows = (
+    await db.pool.query(
+      `select a.key,a.id as actor,m.id as handle from school_draft.org_members m join school_draft.actors a on a.id=m.actor_id where org_id=$1 union all select a.key,a.id,r.id from school_draft.license_requests r join school_draft.actors a on a.id=r.actor_id where org_id=$1`,
+      [f.org],
+    )
+  ).rows;
+  f.handles = Object.fromEntries(rows.map((r) => [r.key, r.handle]));
+  f.byActor = Object.fromEntries(rows.map((r) => [r.actor, r.handle]));
 });
 const call = (who, action, p = {}) => l.call(f.ids[who], action, p);
 const denied = (p) =>
@@ -27,7 +37,7 @@ async function invoice(seats = 2, startsAt = null) {
 async function activate(who = 'learnerA') {
   const p = await invoice();
   await call('operator', 'pay', { id: p.id });
-  await call('adminA', 'assign', { id: p.id, actor: f.ids[who], enabled: true });
+  await call('adminA', 'assign', { id: p.id, member: f.handles[who] ?? f.ids[who], enabled: true });
   return p;
 }
 for (const locale of ['de', 'en-US', 'en-GB'])
@@ -35,11 +45,11 @@ for (const locale of ['de', 'en-US', 'en-GB'])
     const p = await invoice();
     assert.equal((await call('adminA', 'overview')).invoices[0].totalCents, 500);
     await assert.rejects(
-      call('adminA', 'assign', { id: p.id, actor: f.ids.learnerA, enabled: true }),
+      call('adminA', 'assign', { id: p.id, member: f.handles.learnerA, enabled: true }),
       /licenseState/,
     );
     await call('operator', 'pay', { id: p.id });
-    await call('adminA', 'assign', { id: p.id, actor: f.ids.learnerA, enabled: true });
+    await call('adminA', 'assign', { id: p.id, member: f.handles.learnerA, enabled: true });
     assert.equal((await call('learnerA', 'status')).status.tier, 'premium');
     assert.equal((await call('learnerA', 'status')).status.remaining, null);
     const id = randomUUID(),
@@ -54,7 +64,7 @@ for (const locale of ['de', 'en-US', 'en-GB'])
       Array.from({ length: 10 }, () => call('learnerA', 'practice-answer', { id, answer, locale })),
     );
     assert.equal((await call('learnerA', 'practice-view', { id, locale })).result.correct, true);
-    await call('adminA', 'assign', { id: p.id, actor: f.ids.learnerA, enabled: false });
+    await call('adminA', 'assign', { id: p.id, member: f.handles.learnerA, enabled: false });
     assert.equal((await call('learnerA', 'status')).status.tier, 'free');
     await denied(call('learnerA', 'practice-view', { id, locale }));
   });
@@ -69,9 +79,9 @@ test('only operator can issue/settle/void; school admins manage only their seats
   assert.deepEqual((await call('teacherA', 'overview')).invoices, []);
   await call('operator', 'pay', { id: p.id });
   for (const who of ['operator', 'teacherA', 'learnerA', 'adminB'])
-    await denied(call(who, 'assign', { id: p.id, actor: f.ids.learnerA, enabled: true }));
-  await denied(call('adminA', 'assign', { id: p.id, actor: f.ids.learnerC, enabled: true }));
-  await call('adminA', 'assign', { id: p.id, actor: f.ids.learnerA, enabled: true });
+    await denied(call(who, 'assign', { id: p.id, member: f.handles.learnerA, enabled: true }));
+  await denied(call('adminA', 'assign', { id: p.id, member: f.ids.learnerC, enabled: true }));
+  await call('adminA', 'assign', { id: p.id, member: f.handles.learnerA, enabled: true });
   assert.equal((await f.school.report(f.ids.teacherA, f.classId)).learners[0].sharing, false);
   assert.deepEqual((await f.school.state(f.ids.operator)).classes, []);
   await denied(f.school.report(f.ids.operator, f.classId));
@@ -85,7 +95,7 @@ test('parallel last-seat requests never oversubscribe; duplicate invoice and pay
   await Promise.all(Array.from({ length: 8 }, () => call('operator', 'pay', { id: p.id })));
   const results = await Promise.allSettled(
     ['learnerA', 'learnerB'].map((who) =>
-      call('adminA', 'assign', { id: p.id, actor: f.ids[who], enabled: true }),
+      call('adminA', 'assign', { id: p.id, member: f.handles[who] ?? f.ids[who], enabled: true }),
     ),
   );
   assert.equal(results.filter((r) => r.status === 'fulfilled').length, 1);
@@ -94,7 +104,7 @@ test('parallel last-seat requests never oversubscribe; duplicate invoice and pay
     .actor_id;
   await Promise.all(
     Array.from({ length: 8 }, () =>
-      call('adminA', 'assign', { id: p.id, actor: seat, enabled: true }),
+      call('adminA', 'assign', { id: p.id, member: f.byActor[seat], enabled: true }),
     ),
   );
   assert.deepEqual(
@@ -113,7 +123,7 @@ test('parallel last-seat requests never oversubscribe; duplicate invoice and pay
 test('scheduled periods, expiry, void and overlapping independent grants resolve from database time', async () => {
   const p = await invoice(2, new Date(Date.now() + 86400000).toISOString());
   await call('operator', 'pay', { id: p.id });
-  await call('adminA', 'assign', { id: p.id, actor: f.ids.learnerA, enabled: true });
+  await call('adminA', 'assign', { id: p.id, member: f.handles.learnerA, enabled: true });
   assert.equal((await call('learnerA', 'status')).status.tier, 'free');
   const active = await activate();
   assert.equal((await call('learnerA', 'status')).status.tier, 'premium');
@@ -147,7 +157,16 @@ test('last membership removal clears a seat and rejoining cannot revive it; anot
   await f.act('learnerA', 'join', { code: code.code });
   assert.equal((await call('learnerA', 'status')).status.tier, 'free');
   assert.equal((await call('adminA', 'overview')).invoices[0].used, 0);
-  await call('adminA', 'assign', { id: p.id, actor: f.ids.learnerA, enabled: true });
+  await denied(call('adminA', 'assign', { id: p.id, member: f.handles.learnerA, enabled: true }));
+  await call('learnerA', 'request', { org: f.org, enabled: true });
+  const renewed = (
+    await db.pool.query(
+      'select id from school_draft.license_requests where org_id=$1 and actor_id=$2',
+      [f.org, f.ids.learnerA],
+    )
+  ).rows[0].id;
+  assert.notEqual(renewed, f.handles.learnerA);
+  await call('adminA', 'assign', { id: p.id, member: renewed, enabled: true });
   await f.act('teacherA', 'archive', { class: second });
   assert.equal((await call('learnerA', 'status')).status.tier, 'free');
 });
@@ -163,7 +182,12 @@ test('teacher departure removes a staff seat; invoice and raw practice writes ca
     await denied(asActor(db.pool, f.ids.adminA, (c) => c.query(sql)));
   await assert.rejects(call('operator', 'create', { ...p, totalCents: 1 }), /invalid/);
   await assert.rejects(
-    call('adminA', 'assign', { id: p.id, actor: f.ids.learnerA, enabled: true, tier: 'premium' }),
+    call('adminA', 'assign', {
+      id: p.id,
+      member: f.handles.learnerA,
+      enabled: true,
+      tier: 'premium',
+    }),
     /invalid/,
   );
   await denied(call('learnerA', 'practice', { id: randomUUID(), source: 'notes', locale: 'de' }));
@@ -172,7 +196,7 @@ test('seat assignment racing the last membership removal never leaves a reusable
   const p = await invoice();
   await call('operator', 'pay', { id: p.id });
   await Promise.allSettled([
-    call('adminA', 'assign', { id: p.id, actor: f.ids.learnerA, enabled: true }),
+    call('adminA', 'assign', { id: p.id, member: f.handles.learnerA, enabled: true }),
     f.act('learnerA', 'leave', { class: f.classId }),
   ]);
   assert.equal(

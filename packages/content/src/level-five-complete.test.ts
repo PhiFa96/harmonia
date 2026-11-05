@@ -73,7 +73,7 @@ describe('P4.19 internal Stage 5 curriculum', () => {
         expect(
           catalogue.skills.find((entry) => entry.id === skill)?.prerequisites.length,
         ).toBeGreaterThan(0);
-        expect(own.every((lesson) => lesson.skillIds.includes(skill))).toBe(true);
+        expect(own.filter((lesson) => lesson.skillIds.includes(skill))).toHaveLength(1);
         expect(
           catalogue.knowledgeArticles.some((article) => article.skillIds.includes(skill)),
         ).toBe(true);

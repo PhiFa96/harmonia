@@ -10,7 +10,7 @@ import {
   type Timers,
 } from '../../packages/audio/src/index.ts';
 import { createWorkbenchPlayer } from '../voice-leading/playback.ts';
-import type { DraftAttempt, DraftState } from './protocol.ts';
+import type { DraftAttempt, DraftState, DraftPurchase } from './protocol.ts';
 
 const root = document.querySelector('main');
 if (!root) throw new Error('Missing workshop root');
@@ -30,6 +30,7 @@ let t = certificateTranslator(locale),
 let selected = location.hash.slice(1),
   busy = false,
   timer: ReturnType<typeof setInterval> | undefined;
+let endedReason: CertificateTextKey | undefined;
 let audioEngine: AudioEngine | undefined;
 const timers: Timers = {
   setInterval: (fn, ms) => window.setInterval(fn, ms),
@@ -82,7 +83,8 @@ async function guarded(action: () => void | Promise<void>) {
       reason instanceof Error && reason.message in CERTIFICATE_DRAFT_MESSAGES.de
         ? (reason.message as CertificateTextKey)
         : 'error';
-    error.textContent = t(key);
+    if (key === 'sessionExpired') endSession(key);
+    else error.textContent = t(key);
   } finally {
     busy = false;
     language.disabled = false;
@@ -117,6 +119,40 @@ function choose(id: string) {
   selected = id;
   history.replaceState(null, '', id ? `#${id}` : '/');
 }
+async function download(path: string, body: object, filename: string) {
+  const response = await fetch(path, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  if (!response.ok) {
+    const value = (await response.json()) as { error?: string };
+    throw new Error(value.error ?? 'error');
+  }
+  const url = URL.createObjectURL(await response.blob()),
+    link = element('a');
+  link.href = url;
+  link.download = filename;
+  link.click();
+  setTimeout(() => {
+    URL.revokeObjectURL(url);
+  }, 10000);
+}
+function endSession(reason: CertificateTextKey) {
+  player.stop();
+  if (timer) clearInterval(timer);
+  endedReason = reason;
+  state = undefined;
+  choose('');
+  shell();
+  content.replaceChildren(
+    element('h2', t('sessionEnded')),
+    element('p', t(reason)),
+    button('newSession', () => {
+      location.assign('/');
+    }),
+  );
+}
 function shell() {
   document.documentElement.lang = locale;
   document.title = t('title');
@@ -126,20 +162,25 @@ function shell() {
   const label = element('label', t('language'));
   language.value = locale;
   label.append(language);
-  main.replaceChildren(
-    heading,
-    banner,
-    label,
-    error,
-    content,
-    button('erase', async () => {
-      if (!window.confirm(t('eraseConfirm'))) return;
-      await api('/api/erase', {});
-      choose('');
-      await refresh();
-      error.textContent = t('erased');
-    }),
-  );
+  const actions = element('div');
+  actions.className = 'actions';
+  if (!endedReason)
+    actions.append(
+      button('exportData', () =>
+        download('/api/export', {}, 'harmonia-certificate-test-data.json'),
+      ),
+      button('logout', async () => {
+        if (!window.confirm(t('logoutConfirm'))) return;
+        await api('/api/logout', {});
+        endSession('loggedOut');
+      }),
+      button('erase', async () => {
+        if (!window.confirm(t('eraseConfirm'))) return;
+        await api('/api/erase', {});
+        endSession('erased');
+      }),
+    );
+  main.replaceChildren(heading, banner, label, error, content, actions);
 }
 function focusHeading() {
   const h = content.querySelector<HTMLElement>('h2');
@@ -164,9 +205,25 @@ function overview() {
       button(
         'start',
         async () => {
-          const attempt = await api<DraftAttempt>('/api/start', { profile: profile.id, locale });
-          choose(attempt.id);
-          renderAttempt(attempt);
+          const active = state?.attempts.find((a) => a.phase === 'active');
+          if (active) {
+            choose(active.id);
+            renderAttempt(active);
+            focusHeading();
+            return;
+          }
+          const existing = state?.purchases.find(
+            (p) =>
+              p.profile === profile.id && !p.attemptId && ['pending', 'paid'].includes(p.status),
+          );
+          const order =
+            existing ??
+            (await api<DraftPurchase>('/api/order', {
+              profile: profile.id,
+              requestId: crypto.randomUUID(),
+            }));
+          choose('order:' + order.id);
+          renderCheckout(order);
           focusHeading();
         },
         true,
@@ -188,6 +245,23 @@ function overview() {
     );
     content.append(section);
   }
+  if (state.purchases.length) {
+    const history = element('section');
+    history.append(element('h2', t('purchaseHistory')));
+    for (const order of state.purchases) {
+      const row = element('div');
+      row.append(
+        element('p', t(paymentStatus(order))),
+        button('openPurchase', () => {
+          choose('order:' + order.id);
+          renderCheckout(order);
+          focusHeading();
+        }),
+      );
+      history.append(row);
+    }
+    content.append(history);
+  }
   const verify = element('section');
   verify.append(element('h2', t('verifyTitle')));
   const input = document.createElement('input');
@@ -201,10 +275,10 @@ function overview() {
   verify.append(
     label,
     button('verify', async () => {
-      const result = await api<{ status: 'draft' | 'revoked' | 'notFound'; stage?: number }>(
-        '/api/verify',
-        { code: input.value.trim().toUpperCase() },
-      );
+      const result = await api<{
+        status: 'draft' | 'revoked' | 'notFound' | 'outdatedCode';
+        stage?: number;
+      }>('/api/verify', { code: input.value.trim().toUpperCase() });
       status.textContent =
         result.status === 'draft' ? t('verified', { stage: result.stage ?? 0 }) : t(result.status);
     }),
@@ -212,11 +286,75 @@ function overview() {
   );
   content.append(verify);
 }
+function paymentStatus(order: DraftPurchase): CertificateTextKey {
+  return {
+    pending: 'paymentPending',
+    paid: 'paymentPaid',
+    cancelled: 'paymentCancelled',
+    refunded: 'paymentRefunded',
+  }[order.status] as CertificateTextKey;
+}
+function refundButton(order: DraftPurchase) {
+  return button('refund', async () => {
+    if (!window.confirm(t('refundConfirm'))) return;
+    await api('/api/refund', { id: order.id });
+    await refresh();
+    focusHeading();
+  });
+}
+function renderCheckout(order: DraftPurchase) {
+  player.stop();
+  if (timer) clearInterval(timer);
+  const profile = state?.profiles.find((p) => p.id === order.profile);
+  content.replaceChildren(
+    element('h2', t('purchaseTitle')),
+    element('p', t('profile', { stage: profile?.stage ?? 0, version: profile?.version ?? 1 })),
+    element('p', t('purchaseNotice')),
+    element('p', t(paymentStatus(order))),
+  );
+  if (['pending', 'paid'].includes(order.status) && !order.attemptId) {
+    content.append(
+      button(
+        order.status === 'pending' ? 'payAndStart' : 'startPaid',
+        async () => {
+          if (order.status === 'pending')
+            await api('/api/settle', { id: order.id, outcome: 'paid' });
+          const attempt = await api<DraftAttempt>('/api/start', {
+            profile: order.profile,
+            purchase: order.id,
+            locale,
+          });
+          choose(attempt.id);
+          await refresh();
+          focusHeading();
+        },
+        true,
+      ),
+    );
+    if (order.status === 'pending')
+      content.append(
+        button('cancelPurchase', async () => {
+          await api('/api/settle', { id: order.id, outcome: 'cancelled' });
+          await refresh();
+        }),
+      );
+  }
+  if (order.status === 'paid') content.append(refundButton(order));
+  content.append(
+    button('home', async () => {
+      choose('');
+      await refresh();
+      focusHeading();
+    }),
+  );
+}
 function renderAttempt(attempt: DraftAttempt) {
   player.stop();
   if (timer) clearInterval(timer);
   content.replaceChildren();
-  if (attempt.phase === 'outdated') {
+  if (attempt.phase === 'cancelled') {
+    content.append(element('h2', t('paymentRefunded')), element('p', t('purchaseRefunded')));
+  } else if (attempt.phase === 'outdated') {
     content.append(element('h2', t('outdatedTitle')), element('p', t('outdated')));
   } else if (attempt.phase === 'finished' && attempt.result) {
     const result = attempt.result;
@@ -239,20 +377,7 @@ function renderAttempt(attempt: DraftAttempt) {
       else
         content.append(
           button('download', async () => {
-            const response = await fetch('/api/pdf', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ id: attempt.id, locale }),
-            });
-            if (!response.ok) throw new Error('error');
-            const url = URL.createObjectURL(await response.blob()),
-              link = document.createElement('a');
-            link.href = url;
-            link.download = 'harmonia-DRAFT-INVALID.pdf';
-            link.click();
-            setTimeout(() => {
-              URL.revokeObjectURL(url);
-            }, 10_000);
+            await download('/api/pdf', { id: attempt.id, locale }, 'harmonia-DRAFT-INVALID.pdf');
           }),
           button('revoke', async () => {
             await api('/api/revoke', { id: attempt.id });
@@ -360,7 +485,16 @@ function renderAttempt(attempt: DraftAttempt) {
       }),
     );
   }
+  const order = state?.purchases.find((p) => p.id === attempt.purchaseId);
+  if (order?.status === 'paid') content.append(refundButton(order));
   content.append(
+    button('remove', async () => {
+      if (!window.confirm(t('removeConfirm'))) return;
+      await api('/api/remove', { id: attempt.id });
+      choose('');
+      await refresh();
+      focusHeading();
+    }),
     button('home', async () => {
       choose('');
       await refresh();
@@ -369,9 +503,15 @@ function renderAttempt(attempt: DraftAttempt) {
   );
 }
 async function refresh() {
+  if (endedReason) {
+    endSession(endedReason);
+    return;
+  }
   state = await api<DraftState>(`/api/state?locale=${locale}`);
   const attempt = state.attempts.find((a) => a.id === selected);
-  if (attempt) renderAttempt(attempt);
+  const order = state.purchases.find((p) => 'order:' + p.id === selected);
+  if (order) renderCheckout(order);
+  else if (attempt) renderAttempt(attempt);
   else overview();
 }
 language.addEventListener('change', () => {

@@ -1,0 +1,23 @@
+# ADR 0073: Gebundene Rechtsprüfungsübergabe und zusammenhängender Zertifikatsentwurf
+
+Datum: 02.11.2026 · Status: angenommen für den ausdrücklich beauftragten internen technischen Entwurf.
+
+## Ausgangslage
+
+P4.17 besitzt ein Funktionsinventar und Freigabesperren; P4.18 einen lokalen, serverbewerteten Stufe-1/2-Prototyp. Der Nutzer beauftragt beide als Gesamtpaket. Eine unabhängige schriftliche Rechtsprüfung, freigegebene Abschlussinhalte und ein echter Zahlungs-/Identitätsbetrieb liegen weiterhin nicht vor. Offene Befunde E3/E4 betreffen die unvollständige Bindung der Wiedergabeimporte und das Blockieren aller Durchgänge durch einen einzelnen veralteten Datensatz.
+
+## Entscheidung
+
+1. **P4.17:** Für Produkt, Schule und Zertifikate entstehen getrennte versionierte Prüfvorlagen, gebunden an den tatsächlichen Code-/Zweckstand. Klassifikationen benötigen Begründung und Referenz in der Übergabe. Neue Module, Abhängigkeiten und Zwecke ändern den Prüfwert. Bekannte Funktionen dürfen weder ihren Pflichtbereich verlieren noch durch die Kennzeichnung „geplant“ aus der Prüfung verschwinden; die maßgebliche EUR-Lex-Quelle darf nicht entfernt werden.
+2. **Schriftlicher Nachweis:** Eine erklärte Freigabe benötigt zusätzlich ein tatsächlich vorhandenes privates Dokument mit passendem SHA-256 unter `artifacts/ai-act/evidence/`. Symlinks, Pfade außerhalb dieses Bereichs, leere/zu große oder nicht private Dateien sperren. Widerruf, Ablauf und ein veränderter Prüfstand sperren ebenfalls. Dateiprüfung und Hash bestätigen weder Verfasserschaft noch rechtliche Richtigkeit; das bleibt Aufgabe der unabhängigen Rechtsprüfung und des Reviews.
+3. **Keine automatische Übernahme:** `ai:handoff` erstellt Vorlagen und prüft ausgefüllte Vorschläge. Auch `--write` schreibt ausschließlich private Vorschlagsdateien, keine aktive Inventarfreigabe. Die bestehende Rechts-/Beta-/Store-/P2-Freigabekette bleibt wirksam. Alle tatsächlichen rechtlichen Nachweise bleiben offen.
+4. **P4.18:** Simulierte Bestellung, Zahlung, Abbruch, Durchgang, Wiederholung und Erstattung bilden einen durchgängigen lokalen Ablauf. Keine Preise, Zahlungsanbieter oder echten Berechtigungen. Eine simuliert bezahlte eigene Bestellung ist an ein Profil und genau einen Durchgang gebunden; Wiederholungen brauchen eine neue Bestellung. Wiederholte Anfragen sind idempotent, Start und Reservierung atomar. Erstattung entzieht die Testberechtigung und widerruft vorhandene Muster-Prüfcodes.
+5. **Quellen und Altbestand:** Die vollständige Wiedergabe-Modulfamilie wird gebunden. Jeder Durchgang wird einzeln aus den gespeicherten Antworten rekonstruiert; auch gespeicherte Auswertungen werden verglichen. Veraltete/beschädigte Zeilen bleiben gesperrt, ohne andere Durchgänge zu verdecken. Sie können einzeln gelöscht werden. Ein ungültiger aktiver Durchgang verhindert keinen neuen. Alte lokale Daten erhalten die neuen Spalten additiv und werden nicht stillschweigend neu bewertet.
+6. **Lokale Datenrechte:** Export ohne Seed, Zukunftsaufgaben oder Lösungsschlüssel; einzelne und vollständige Löschung; registrierte, restartfeste Testsitzungen mit 30 Minuten Leerlauf und sieben Tagen absoluter Dauer. Logout/Löschung widerrufen die Sitzung. Dies ist keine Identitätsprüfung einer Person und keine produktive Kontobindung.
+7. **Aufbewahrung:** Durchgänge sieben Tage ab Start; ungenutzte Bestellungen sieben Tage ab Anlage. Zugeordnete Bestellungen bleiben bis zur Löschung des Durchgangs, maximal knapp 14 Tage ab ihrer früheren Anlage. Bereinigung erfolgt beim nächsten Datenzugriff. Verbrauchte Bestellungen werden durch das Löschen eines Durchgangs nicht wiederverwendbar. SQLite nutzt `secure_delete`, ohne daraus eine Garantie zur physischen Löschung von Datenträgerkopien abzuleiten.
+
+## Folgen und Grenzen
+
+Alle neuen Texte und Berichte sind DE/en-US/en-GB und bleiben Entwurf. Die beiden musikalischen Testprofile mit zwölf ausgewählten Aufgaben, 20 Minuten, fünf Punkten und 80-%-Testgrenze werden unverändert verwendet. Sie sind weiterhin keine vollständigen oder freigegebenen Stufenabschlussprüfungen. Die Prüfmappe zeigt die Themenlücken; der Lösungsschlüssel bleibt ausschließlich privat.
+
+Die technische Vorarbeit findet ausdrücklich **vor der formalen Phase-4-Freigabe** statt. Keine Veröffentlichung, produktive Migration, gültige Zertifikatsausstellung, echte Zahlung oder Main-Integration. Anbieter-/Kontobindung, Rechts-/Fach-/Quellen-/Sprachprüfung, reale Geräte/Screenreader und formale Prüfungsregeln bleiben offen. P4.01 bleibt bis F14 und Klärung der rechtlichen Voraussetzungen zurückgestellt. Maßgebliche Übergabe: [Gesamtstand](../plan/ki-und-zertifikate-gesamtstand.md).

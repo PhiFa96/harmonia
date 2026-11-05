@@ -3,6 +3,7 @@ import { resolve, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import { z } from 'zod';
+import { reviewDocuments } from './evidence.mjs';
 export const ROOT = fileURLToPath(new URL('../..', import.meta.url));
 export const SCOPES = ['general', 'school', 'certificates'];
 const requiredIds = [
@@ -16,6 +17,28 @@ const requiredIds = [
   'certificates',
   'ai-live-call',
   'advanced-analysis',
+];
+const requiredScopes = {
+  tutor: SCOPES,
+  'learner-planner': SCOPES,
+  'satb-feedback': SCOPES,
+  'adaptive-path': ['general', 'school'],
+  'voice-training': ['general', 'school'],
+  'history-fiction': ['general', 'school'],
+  'school-assessment': ['school'],
+  certificates: ['certificates'],
+  'ai-live-call': ['general', 'school'],
+  'advanced-analysis': ['general', 'school'],
+};
+const requiredSources = [
+  'amendment',
+  'article-113',
+  'article-6',
+  'annex-iii',
+  'article-50',
+  'article-4',
+  'article-5',
+  'eur-lex-consolidated',
 ];
 const controlIds = [
   'classification',
@@ -42,7 +65,7 @@ const repoPath = z
   .string()
   .regex(/^[a-zA-Z0-9_./-]+$/)
   .refine((p) => !p.startsWith('/') && !p.split('/').includes('..'));
-const assessment = z
+export const assessmentSchema = z
   .object({
     aiSystem: tri,
     annexIII: tri,
@@ -56,7 +79,7 @@ const assessment = z
     ]),
   })
   .strict();
-const review = z
+export const reviewSchema = z
   .object({
     status: z.enum(['pending', 'approved']),
     dataKind: z.enum(['draft', 'synthetic', 'real']),
@@ -68,6 +91,18 @@ const review = z
       .string()
       .regex(/^[a-f0-9]{64}$/)
       .nullable(),
+    document: z
+      .object({
+        path: repoPath.refine(
+          (p) => p.startsWith('artifacts/ai-act/evidence/') && /\.(pdf|md|txt)$/.test(p),
+        ),
+        sha256: z.string().regex(/^[a-f0-9]{64}$/),
+      })
+      .strict()
+      .nullable()
+      .default(null),
+    revokedAt: z.iso.datetime({ offset: true }).nullable().default(null),
+    revocationReason: ref.default(null),
   })
   .strict();
 const schema = z
@@ -119,7 +154,7 @@ const schema = z
           files: z.array(repoPath).min(1),
           purpose: translated,
           concern: translated,
-          assessment,
+          assessment: assessmentSchema,
         })
         .strict(),
     ),
@@ -136,7 +171,9 @@ const schema = z
         })
         .strict(),
     ),
-    reviews: z.object({ general: review, school: review, certificates: review }).strict(),
+    reviews: z
+      .object({ general: reviewSchema, school: reviewSchema, certificates: reviewSchema })
+      .strict(),
   })
   .strict();
 const sha = (v) => createHash('sha256').update(v).digest('hex');
@@ -166,6 +203,14 @@ export function validateInventory(input) {
     throw Error('AI purpose boundaries changed');
   for (const c of data.controls)
     if (c.waivable !== (c.id === 'high-risk-controls')) throw Error('Invalid AI control waiver');
+  for (const [id, scopes] of Object.entries(requiredScopes)) {
+    const c = data.components.find((c) => c.id === id);
+    if (scopes.some((s) => !c.scopes.includes(s))) throw Error('Missing mandatory AI scope');
+    if (id !== 'ai-live-call' && c.deployment === 'planned')
+      throw Error('Invalid implemented AI deployment');
+  }
+  if (requiredSources.some((id) => !data.sources.some((s) => s.id === id)))
+    throw Error('Missing mandatory AI source');
   return data;
 }
 export function readInventory() {
@@ -192,6 +237,7 @@ const roots = [
   'tools/certificates',
   'tools/school',
   'tools/ai-act',
+  'tools/voice-leading',
 ];
 function safeFile(path) {
   const absolute = realpathSync(resolve(ROOT, path));
@@ -214,6 +260,11 @@ export function runtimeDigests(data) {
   }
   for (const dir of roots) walk(dir);
   for (const p of [
+    'pnpm-lock.yaml',
+    'pnpm-workspace.yaml',
+    'package.json',
+    // Produktiv von tutor/index.ts importiert (hinter lokalem Testflag), trotz Fixture-Namen binden.
+    'supabase/functions/_shared/tutor-local-fixture.ts',
     'apps/mobile/src/components/tutor-screen.tsx',
     'packages/i18n/src/ai-act-review.ts',
     'tools/check-legal-release.mjs',
@@ -237,7 +288,12 @@ function activeComponents(data, scope) {
       (c.deployment !== 'planned' || (c.id === 'certificates' && scope === 'certificates')),
   );
 }
-export function releaseProblems(input, scope, hash, { now = Date.now() } = {}) {
+export function releaseProblems(
+  input,
+  scope,
+  hash,
+  { now = Date.now(), documents = reviewDocuments(input) } = {},
+) {
   if (!SCOPES.includes(scope) || !Number.isFinite(now))
     throw Error('Invalid AI review scope or clock');
   const data = validateInventory(input),
@@ -259,6 +315,9 @@ export function releaseProblems(input, scope, hash, { now = Date.now() } = {}) {
   )
     problems.push('review.validity');
   if (r.snapshotHash !== hash) problems.push('review.current-snapshot');
+  if (!r.document || !documents[scope]?.valid || documents[scope]?.sha256 !== r.document.sha256)
+    problems.push('review.private-written-document');
+  if (r.revokedAt || r.revocationReason) problems.push('review.revoked');
   for (const c of activeComponents(data, scope)) {
     const a = c.assessment;
     if (Object.values(a).includes('unreviewed')) problems.push(c.id + '.classification');
@@ -287,7 +346,7 @@ export function releaseProblems(input, scope, hash, { now = Date.now() } = {}) {
 }
 export function inspectInventory(
   input = readInventory(),
-  { digests = runtimeDigests(input), now = Date.now() } = {},
+  { digests = runtimeDigests(input), now = Date.now(), documents = reviewDocuments(input) } = {},
 ) {
   const data = validateInventory(input),
     hash = snapshotHash(data, digests);
@@ -296,11 +355,12 @@ export function inspectInventory(
     legalApprovalInferred: false,
     snapshotHash: hash,
     fileDigests: digests,
+    documents,
     sourceCount: data.sources.length,
     componentCount: data.components.length,
     scopes: Object.fromEntries(
       SCOPES.map((s) => {
-        const missing = releaseProblems(data, s, hash, { now });
+        const missing = releaseProblems(data, s, hash, { now, documents });
         return [s, { readinessComplete: missing.length === 0, missing }];
       }),
     ),

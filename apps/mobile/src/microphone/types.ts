@@ -10,5 +10,6 @@ export interface MicrophoneSession {
   stop(): Promise<void>;
 }
 
+/** Window timestamp in the capture clock's milliseconds; its origin may differ from playback. */
 export type OnPcmFrame = (samples: Float32Array, sampleRate: number, atMs: number) => void;
 export type OnMicrophoneError = (reason: MicrophoneErrorReason) => void;

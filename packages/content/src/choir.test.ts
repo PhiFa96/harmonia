@@ -49,6 +49,9 @@ describe('internal choir lessons', () => {
       for (const seed of [0, 1, 42, 'choir-source', 'another-source']) {
         let state = createLessonSession(lesson, seed);
         const originals = state.initial.items;
+        expect(
+          originals.every((item) => item.type === 'CHOIR_PART' && item.params.edition === 2),
+        ).toBe(true);
         expect(originals.map((item) => item.type === 'CHOIR_PART' && item.params.fifths)).toEqual([
           0, 2,
         ]);
@@ -76,13 +79,13 @@ describe('internal choir lessons', () => {
           const source = {
             kind: 'lesson',
             lessonId: lesson.id,
-            contentVersion: 27,
+            contentVersion: 29,
             seed,
             round: 'review',
             index,
           } as const;
           expect(resolveReportSource(catalogue, source).item).toEqual(repeated);
-          for (const contentVersion of [20, 24, 25, 26])
+          for (const contentVersion of [20, 24, 25, 26, 27, 28])
             expect(() => resolveReportSource(catalogue, { ...source, contentVersion })).toThrow();
           state = nextLessonExercise(answerLesson(state, expectedAnswer(repeated)));
         }
@@ -112,33 +115,33 @@ describe('internal choir lessons', () => {
       const id = `aural.l4.choir.${voice}.lesson`;
       const lesson = resolveLesson(catalogue, id);
       if (!lesson) throw new Error('Missing choir lesson');
-      expect(lesson.contentVersion).toBe(27);
+      expect(lesson.contentVersion).toBe(29);
       expect(lesson.introduction).toHaveLength(1);
       expect(
         catalogue.knowledgeCards.find((card) => card.id === `aural.l4.choir.${voice}.card`),
       ).toMatchObject({
         id: `aural.l4.choir.${voice}.card`,
-        contentVersion: 24,
+        contentVersion: 29,
         status: 'entwurf',
         titleKey: `content.choir.${voice}`,
       });
       expect(lesson.introduction[0]?.titleKey).toBe(`content.choir.${voice}`);
       expect(lesson.introduction[0]?.examples).toHaveLength(2);
       expect(lessonExerciseSources(catalogue, id)?.map((source) => source.contentVersion)).toEqual([
-        25, 25,
+        29, 29,
       ]);
       const session = createLessonSession(lesson, 'choir-introduction');
       for (const [index, item] of session.initial.items.entries()) {
         const source = {
           kind: 'lesson',
           lessonId: id,
-          contentVersion: 27,
+          contentVersion: 29,
           seed: 'choir-introduction',
           round: 'initial',
           index,
         };
         expect(resolveReportSource(catalogue, source).item).toEqual(item);
-        for (const contentVersion of [20, 24, 25, 26])
+        for (const contentVersion of [20, 24, 25, 26, 27, 28])
           expect(() => resolveReportSource(catalogue, { ...source, contentVersion })).toThrow();
         expect(() => resolveReportSource(publicCatalogue(catalogue), source)).toThrow();
       }

@@ -213,12 +213,12 @@ export function createLicenseUi(ctx: Context) {
     } else if (i.state === 'paid') {
       card.append(el('h4', t('manage')), el('p', t('seatInfo')));
       for (const member of data.candidates.filter((c) => c.org === i.org)) {
-        const assigned = data.seats.some((s) => s.invoice === i.id && s.actor === member.id),
-          row = el('p', schoolText(lang, member.key));
-        row.dataset['seatActor'] = member.key;
+        const assigned = data.seats.some((s) => s.invoice === i.id && s.member === member.id),
+          row = el('p', member.key ? schoolText(lang, member.key) : (member.label ?? ''));
+        row.dataset['seatMember'] = member.id;
         row.append(
           button(assigned ? 'release' : 'assign', () =>
-            change('assign', { id: i.id, actor: member.id, enabled: !assigned }),
+            change('assign', { id: i.id, member: member.id, enabled: !assigned }),
           ),
         );
         card.append(row);
@@ -328,6 +328,15 @@ export function createLicenseUi(ctx: Context) {
         el('h3', t('access')),
         el('p', t(data.status.tier === 'premium' ? 'premium' : 'free')),
       );
+      for (const request of data.requests) {
+        ctx.root.append(
+          el('h3', request.organization),
+          el('p', t('requestInfo')),
+          button(request.requested ? 'withdrawRequest' : 'requestSeat', async () => {
+            await change('request', { org: request.org, enabled: !request.requested });
+          }),
+        );
+      }
       for (const grant of data.grants)
         ctx.root.append(
           el(

@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { tutorRequestSchema } from './tutor.ts';
+import {
+  tutorRequestSchema,
+  tutorAttemptRequestSchema,
+  tutorAttemptResponseSchema,
+} from './tutor.ts';
 import { tutorScopeSchema } from './tutor-interface.ts';
 
 const scope = {
@@ -21,6 +25,25 @@ const request = {
 };
 
 describe('tutor context admission', () => {
+  it('accepts a bounded receipt on requests but never persists it as conversation scope', () => {
+    const proof = { id: request.id, issuedAt: 1000, expiresAt: 1801000, signature: 'a'.repeat(64) };
+    expect(tutorRequestSchema.safeParse({ ...request, attemptProof: proof }).success).toBe(true);
+    expect(tutorAttemptResponseSchema.safeParse({ proof }).success).toBe(true);
+    expect(tutorScopeSchema.safeParse({ ...scope, attemptProof: proof }).success).toBe(false);
+    expect(
+      tutorAttemptResponseSchema.safeParse({ proof: { ...proof, correct: true } }).success,
+    ).toBe(false);
+    expect(
+      tutorAttemptResponseSchema.safeParse({ proof: { ...proof, signature: 'fake' } }).success,
+    ).toBe(false);
+  });
+  it('attempt submission accepts only a source and nonempty answer, never a client grading claim', () => {
+    const attempt = { source: scope.context.source, answer: scope.context.answer };
+    expect(tutorAttemptRequestSchema.safeParse(attempt).success).toBe(true);
+    for (const extra of [{ checked: true }, { correct: true }, { solution: 'fake' }])
+      expect(tutorAttemptRequestSchema.safeParse({ ...attempt, ...extra }).success).toBe(false);
+    expect(tutorAttemptRequestSchema.safeParse({ ...attempt, answer: '' }).success).toBe(false);
+  });
   it.each([false, true])(
     'accepts a submitted answer for server evaluation with checked=%s',
     (checked) => {

@@ -1,8 +1,7 @@
-import { mkdirSync, writeFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
-import { resolve } from 'node:path';
-import { ROOT, SCOPES, readInventory, inspectInventory } from './model.mjs';
+import { SCOPES, readInventory, inspectInventory } from './model.mjs';
 import { reviewHtml } from './report.mjs';
+import { writePrivate } from './private-files.mjs';
 export function checkMain(args) {
   let scope = 'general';
   const flags = new Set();
@@ -20,14 +19,13 @@ export function checkMain(args) {
     result = inspectInventory(inventory),
     missing = result.scopes[scope].missing;
   if (flags.has('--report')) {
-    const dir = resolve(ROOT, 'artifacts/ai-act');
-    mkdirSync(dir, { recursive: true });
-    writeFileSync(
-      resolve(dir, 'snapshot.json'),
+    writePrivate(
+      'artifacts/ai-act',
+      'snapshot.json',
       JSON.stringify({ inventory, ...result }, null, 2) + '\n',
     );
     for (const locale of ['de', 'en-US', 'en-GB'])
-      writeFileSync(resolve(dir, locale + '.html'), reviewHtml(inventory, result, locale));
+      writePrivate('artifacts/ai-act', locale + '.html', reviewHtml(inventory, result, locale));
   }
   if (flags.has('--json')) console.log(JSON.stringify({ ...result, scope }, null, 2));
   else

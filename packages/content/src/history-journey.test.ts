@@ -5,6 +5,7 @@ import {
   createHistoryQuestion,
   createHistoryInterview,
   askHistoryInterview,
+  revealHistoryHint,
 } from './history-journey.ts';
 import type { HistoryChoice } from './history-journey.ts';
 
@@ -28,6 +29,40 @@ describe('local scripted interview', () => {
 });
 
 describe('ungraded history question flow', () => {
+  it('lets the user reveal the specific hint once after an error without another answer', () => {
+    const empty = createHistoryQuestion();
+    expect(revealHistoryHint(empty)).toBe(empty);
+    const wrong = checkHistoryQuestion(chooseHistoryAnswer(empty, 0), 1);
+    const selected = chooseHistoryAnswer(wrong, 2);
+    for (const state of [wrong, selected]) {
+      const hinted = revealHistoryHint(state);
+      expect(hinted).toEqual({ ...state, hintLevel: 2 });
+      expect(revealHistoryHint(hinted)).toBe(hinted);
+      expect(hinted.attempts).toBe(1);
+      expect(hinted.feedback).toBe(state.feedback);
+    }
+    const correct = checkHistoryQuestion(chooseHistoryAnswer(wrong, 1), 1);
+    expect(revealHistoryHint(correct)).toBe(correct);
+  });
+  it('ignores invalid answer indices without changing the current question', () => {
+    const state = createHistoryQuestion();
+    for (const choice of [-1, 3, NaN, 0.5])
+      expect(chooseHistoryAnswer(state, choice as HistoryChoice)).toBe(state);
+  });
+  it('offers a general hint after the first error and a more specific hint after the second', () => {
+    const initial = createHistoryQuestion();
+    expect(initial).toHaveProperty('hintLevel', 0);
+    const first = checkHistoryQuestion(chooseHistoryAnswer(initial, 0), 1);
+    expect(first).toHaveProperty('hintLevel', 1);
+    expect(checkHistoryQuestion(first, 1)).toBe(first);
+    const selected = chooseHistoryAnswer(first, 2);
+    expect(selected).toHaveProperty('hintLevel', 1);
+    const second = checkHistoryQuestion(selected, 1);
+    expect(second).toHaveProperty('hintLevel', 2);
+    const correct = checkHistoryQuestion(chooseHistoryAnswer(second, 1), 1);
+    expect(correct.feedback).toBe('correct');
+    expect(createHistoryQuestion()).toHaveProperty('hintLevel', 0);
+  });
   it.each([0, 1, 2] as const)('assesses every choice against correct index %s', (correct) => {
     for (const choice of [0, 1, 2] as const) {
       const selected = chooseHistoryAnswer(createHistoryQuestion(), choice);
@@ -36,6 +71,7 @@ describe('ungraded history question flow', () => {
         choice,
         feedback: choice === correct ? 'correct' : 'incorrect',
         attempts: 1,
+        hintLevel: choice === correct ? 0 : 1,
       });
       expect(selected.feedback).toBe('unanswered');
     }
@@ -52,9 +88,9 @@ describe('ungraded history question flow', () => {
     expect(chooseHistoryAnswer(wrong, 0)).toBe(wrong);
     expect(checkHistoryQuestion(wrong, 1)).toBe(wrong);
     const selected = chooseHistoryAnswer(wrong, 2);
-    expect(selected).toEqual({ choice: 2, feedback: 'unanswered', attempts: 1 });
+    expect(selected).toEqual({ choice: 2, feedback: 'unanswered', attempts: 1, hintLevel: 1 });
     const second = checkHistoryQuestion(selected, 1);
-    expect(second).toEqual({ choice: 2, feedback: 'incorrect', attempts: 2 });
+    expect(second).toEqual({ choice: 2, feedback: 'incorrect', attempts: 2, hintLevel: 2 });
     const correct = checkHistoryQuestion(chooseHistoryAnswer(second, 1), 1);
     expect(correct.feedback).toBe('correct');
     expect(correct.attempts).toBe(3);
@@ -68,7 +104,7 @@ describe('ungraded history question flow', () => {
   it('creates independent, empty questions for station and step changes', () => {
     const finished = checkHistoryQuestion(chooseHistoryAnswer(createHistoryQuestion(), 0), 0);
     const next = createHistoryQuestion();
-    expect(next).toEqual({ choice: null, feedback: 'unanswered', attempts: 0 });
+    expect(next).toEqual({ choice: null, feedback: 'unanswered', attempts: 0, hintLevel: 0 });
     expect(finished.feedback).toBe('correct');
   });
 });

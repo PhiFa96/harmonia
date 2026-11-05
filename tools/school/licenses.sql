@@ -1,6 +1,6 @@
 -- P4.16 internal local draft only. No production billing or migration.
 create function school_draft.license_operator() returns boolean language sql stable security definer set search_path='' as $$
- select school_draft.actor()='00000000-0000-4000-8000-000000000009'::uuid and exists(select 1 from school_draft.actors where id=school_draft.actor() and key='operator' and kind='staff') $$;
+ select exists(select 1 from school_draft.operators where actor_id=school_draft.actor()) $$;
 create function school_draft.license_eligible(o uuid,a uuid) returns boolean language sql stable security definer set search_path='' as $$
  select exists(select 1 from school_draft.org_members where org_id=o and actor_id=a) or exists(select 1 from school_draft.class_members m join school_draft.classes c on c.id=m.class_id where c.org_id=o and not c.archived and m.actor_id=a) $$;
 create table school_draft.license_invoices (
@@ -74,23 +74,26 @@ create function school_draft.license_transition(i uuid,next_state text) returns 
  update school_draft.license_invoices set state=next_state where id=i;
  insert into school_draft.license_events(invoice_id,kind,actor_id) values(i,next_state,school_draft.actor());end $$;
 create function school_draft.license_assign(i uuid,a uuid,enabled boolean) returns void language plpgsql security definer set search_path='' as $$
- declare invoice school_draft.license_invoices;
+ declare invoice school_draft.license_invoices;target_actor uuid;
  begin
  select * into invoice from school_draft.license_invoices where id=i for update;
  if not found or not school_draft.is_admin(invoice.org_id) then raise exception 'forbidden' using errcode='42501';end if;
  if enabled is null then raise exception 'invalid' using errcode='22023';end if;
+ select actor_id into target_actor from school_draft.org_members where org_id=invoice.org_id and id=a
+ union all select actor_id from school_draft.license_requests where org_id=invoice.org_id and id=a;
+ if not found then raise exception 'forbidden' using errcode='42501';end if;
  if enabled then
   perform 1 from school_draft.classes where org_id=invoice.org_id and not archived for share;
-  perform 1 from school_draft.org_members where org_id=invoice.org_id and actor_id=a for update;
-  perform 1 from school_draft.class_members m join school_draft.classes c on c.id=m.class_id where c.org_id=invoice.org_id and not c.archived and m.actor_id=a for update of m;
+  perform 1 from school_draft.org_members where org_id=invoice.org_id and actor_id=target_actor for update;
+  perform 1 from school_draft.class_members m join school_draft.classes c on c.id=m.class_id where c.org_id=invoice.org_id and not c.archived and m.actor_id=target_actor for update of m;
   if invoice.state<>'paid' or invoice.ends_at<=clock_timestamp() then raise exception 'licenseState' using errcode='P0001';end if;
-  if not school_draft.license_eligible(invoice.org_id,a) then raise exception 'forbidden' using errcode='42501';end if;
-  if exists(select 1 from school_draft.license_seats where invoice_id=i and actor_id=a) then return;end if;
+  if not school_draft.license_eligible(invoice.org_id,target_actor) then raise exception 'forbidden' using errcode='42501';end if;
+  if exists(select 1 from school_draft.license_seats where invoice_id=i and actor_id=target_actor) then return;end if;
   if (select count(*) from school_draft.license_seats where invoice_id=i)>=invoice.seats then raise exception 'licenseFull' using errcode='P0001';end if;
-  insert into school_draft.license_seats(invoice_id,org_id,actor_id) values(i,invoice.org_id,a);
- else delete from school_draft.license_seats where invoice_id=i and actor_id=a;if not found then return;end if;
+  insert into school_draft.license_seats(invoice_id,org_id,actor_id) values(i,invoice.org_id,target_actor);
+ else delete from school_draft.license_seats where invoice_id=i and actor_id=target_actor;if not found then return;end if;
  end if;
- insert into school_draft.license_events(invoice_id,kind,actor_id,target) values(i,case when enabled then 'assigned' else 'released' end,school_draft.actor(),a);
+ insert into school_draft.license_events(invoice_id,kind,actor_id,target) values(i,case when enabled then 'assigned' else 'released' end,school_draft.actor(),target_actor);
  end $$;
 -- Membership/archival changes invalidate seats immediately, including before a rejoin.
 create function school_draft.license_cleanup() returns trigger language plpgsql security definer set search_path='' as $$ begin

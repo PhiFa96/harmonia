@@ -81,6 +81,8 @@ Jeden als behoben geführten Befund habe ich vor der Korrektur selbst nachvollzo
 
 ## Nacharbeitsliste (nicht blockierend, offen)
 
+**Technischer Schul-Nachtrag vom 02.11.2026, keine Produkt-/Rechtsfreigabe:** Der [Gesamtentwurf P4.13–P4.16](schule-gesamtstand.md) bearbeitet D-F1–D-F13 gemeinsam auf `codex/school-complete-draft`. `auth.uid()` und geprüfte Testtokenidentitäten, private Betreiberregistrierung, Freigabeversion 2, minimale Berichte, Platzanfragen, Export/Löschung/Aufbewahrung, Datenbanktrigger, gemeinsame Lesesperren, Codebudgets und Kollisionsbehandlung sind implementiert und mit echten lokalen Rollen-/HTTP-/Browserprüfungen abgesichert. Der Rohbericht und die folgenden Befunde beschreiben den Vorgängerstand. Echte Anbieteridentitäten, Produktmigration/-einbindung, Schulrecht/AVV, P4.17, Primärquellen-/Fach-/Sprachprüfung und reale Pilot-/Geräteabnahmen bleiben offen. Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**, alle Inhalte/Texte Entwurf; P4.01 bis F14/Recht zurückgestellt. [ADR 0072](../decisions/0072-schulbereich-mit-gebundener-identitaet-und-datenrechten.md).
+
 Harte Vorbedingungen vor jeder echten Nutzung:
 
 - **Schule D-F1:** Identität über `school_draft.actor` und eine fest einkodierte Betreiber-UUID; vor einer Übernahme an `auth.uid()` und eine echte Betreiberbindung binden.
@@ -100,11 +102,15 @@ Harte Vorbedingungen vor jeder echten Nutzung:
 - **D-F13:** Testlücken zu F4–F7 und F9.
 
 **Zertifikat/KI:**
-- **E2:** Tutor-Modi `explain`/`solution` enthalten Lösung und Rückmeldung ohne serverseitigen Versuchsnachweis. Das war mit `checked:true` schon vorher möglich; #125 entfernt nur das wirkungslose Flag und behebt das Vertrauensproblem nicht.
+- **E2 – technisch bearbeitet, 31.10.2026:** Neue Tutor-Erklärungen und -Lösungen verlangen jetzt einen signierten Nachweis einer Serverwertung, gebunden an Konto, Quelle und Antwort. Das vorher wirkungslose `checked` bleibt UI-Metadatum. App-/Signatur-/Protokolltests und erweiterte echte HTTP-/DB-Prüfungen: [Übergabe und Ausführungsstand](tutor-versuchsnachweise.md). Keine unabhängige Modell-/Fachabnahme oder Produktfreigabe; der Nachweis attestiert keine menschliche Bearbeitung.
+
+**Technischer Nachtrag vom 02.11.2026:** Der [P4.17/P4.18-Gesamtentwurf](ki-und-zertifikate-gesamtstand.md) bearbeitet E3/E4 mit vollständiger Wiedergabebindung und isolierter Rekonstruktion veralteter/beschädigter Zeilen einschließlich gespeicherter Auswertungen. Neue tatsächliche SQLite-/HTTP-/Browserproben ergänzen Testbestellung, Erstattung, Einzel-/Gesamtlöschung, Datenexport und Sitzungswiderruf/-ablauf. Rechtsübergaben haben versionierte Vorlagen und private Dokumentnachweise; alle tatsächlichen Rechtsreviews bleiben offen. Der folgende Rohbefundstand bleibt als Verlauf erhalten. E2/Tutor wurde getrennt über #136 bearbeitet (siehe oben). Keine Produkt-, Rechts- oder fachliche Freigabe.
 - **E3:** Die Prüfbindung hasht `playback.ts`, aber nicht dessen Importe.
 - **E4:** Ein veralteter Datensatz blockiert alle Durchgänge des Besitzers (409).
 
 **Stufe 5:**
+
+**Technischer Nachtrag vom 03.11.2026:** [Gesamtentwurf P4.19](stufe-5-gesamtstand.md) bearbeitet A7 (Rest), A8, A9, A10, A11, A12 und A15 auf `codex/level-five-complete-draft`, einschließlich verständlicherer en-US-Intervallformulierung. Neun Prüfregeln unverändert; neue Aufgabenquellen, feste Stimmen, lesbare Notation, einzelne Zielfähigkeiten, Quellenmischung und Textbereinigung. Katalog/Quellen 31, Vorschau-Engine 2. Neue tatsächliche Gegenrechnungen und Ablaufprüfungen; keine unabhängige Fach-/Quellen-/Gerätefreigabe. Die nachstehenden Befunde beschreiben den historischen Vorgängerstand.
 - **A7 (Rest):** „Intervallklasse“ steht zugleich für ic1–6.
 - **A8:** Fugenantwort DE „häufig“ / EN „sometimes“; „serielle Darstellung“ meint „nacheinander“.
 - **A9:** Entwicklerhinweise im Lerntext (`modelBoundaryBody`, `motifInversionBody`).
@@ -125,25 +131,30 @@ Harte Vorbedingungen vor jeder echten Nutzung:
 - **B11:** „judgment“ in en-GB.
 
 **Chor:**
-- **C3:** ±50 Cent / 75 % gegenüber ±25 Cent in Stufe 2–3 ist weiter nicht begründet.
-- **C4:** Die Altstimme ist in beiden Stücken identisch; eine Wiederholung kann exakt die andere Erstaufgabe sein.
-- **C6:** Sehr enge und tiefe Stimmumfänge.
-- **C7:** Tenor im Bassschlüssel statt oktaviertem Violinschlüssel (nicht dokumentiert).
-- **C8:** Die Aufgaben in B- und D-Dur setzen keine Vorzeichnungs-Fähigkeit voraus. `key.signature-major` verlangt im Graphen über `notation.write-pitch` den Bassschlüssel und würde ADR 0063 (Oberstimmen ohne Bassschlüssel) aufheben. Nötig ist eine eigene Lese-Fähigkeit für Vorzeichnungen oder eine Entscheidung zum Graphen; die Änderung wurde deshalb geprüft und zurückgenommen.
-- **C9:** Ein stummes Mikrofon mit Null-PCM zählt als Fehlversuch statt als Skip.
-- **C11:** „Erstversuch“ meint „erste geprüfte Antwort“, das steht nicht in ADR 0064.
-- **C12:** `fail()` verwirft beim Vorhören einen ungeprüften Durchlauf.
-- **C13:** Zeitzuordnung über den Callback-Zeitpunkt statt `atMs`; das ist nur mit Gerätetest zu klären.
-- **C14:** „Singe Tenor“ ohne Artikel; „Viertelschläge“ nicht aus dem Glossar; Entwicklerhinweise in `choir`-Texten.
-- Der Kommentar in `choir.test.ts:404` widerspricht `soprano-leap`.
+- **C3 – im technischen Gesamtentwurf bearbeitet (02.11.2026):** Bewertungsparameter zentralisiert und begründet, unverändert. Die empirische Eignung bleibt offen. [Gesamtstand](chor-trainer-gesamtstand.md), ADR 0070. Kein fachlicher oder realer Geräte-Freigabebeleg.
+- **C4 – im technischen Gesamtentwurf bearbeitet (02.11.2026):** Neue Alt-Konturen; Wiederholungen wechseln Stück/Tonart und duplizieren keine Erstaufgabe. [Gesamtstand](chor-trainer-gesamtstand.md), ADR 0070. Kein fachlicher oder realer Geräte-Freigabebeleg.
+- **C6 – im technischen Gesamtentwurf bearbeitet (02.11.2026):** Neue eigene Melodien mit bewegteren und höheren Stimmen; sechs Transpositionen im bestehenden Bereichsprofil. Fach-/Stimmenabnahme offen. [Gesamtstand](chor-trainer-gesamtstand.md), ADR 0070. Kein fachlicher oder realer Geräte-Freigabebeleg.
+- **C7 – im technischen Gesamtentwurf bearbeitet (02.11.2026):** Tenor im Bassschlüssel, klingend wie notiert, in DE/en-US/en-GB ausdrücklich erklärt. [Gesamtstand](chor-trainer-gesamtstand.md), ADR 0070. Kein fachlicher oder realer Geräte-Freigabebeleg.
+- **C8 – technisch bearbeitet, 31.10.2026:** Eine eigene Lese-Fähigkeit mit erreichbarer Stufe-2-Einheit, zehn Dur-Vorzeichnungsfragen im Violinschlüssel und eigenen DE/EN-Einführungen ist jetzt Voraussetzung aller vier Stimmen. Der neue Zugang benötigt keinen Bassschlüssel oder Schreibweg; Tenor/Bass behalten ihre Bassgrundlagen. Bestehende Lesefähigkeiten werden nicht umgedeutet. [Umsetzung und Prüfstand](chor-vorzeichenlesen.md), [ADR 0067](../decisions/0067-chor-vorzeichenlesen-ohne-bassschluessel.md). Inhalte Entwurf, keine unabhängige Fach-/Sprach-/Gerätefreigabe.
+- **C9 – technisch bearbeitet, PR-Prüfung offen (02.11.2026):** Neue vollständige Aufnahmen ohne akzeptierte Tonhöhe erzeugen keine Antwort; DE/en-US/en-GB bieten Wiederholen oder bewusstes Überspringen. Kein automatischer Skip oder Gesangsnachweis. Gespeicherte ungeprüfte Leer-Takes werden vor dem Prüfen geleert; teilweise erkannte und bereits geprüfte historische Antworten behalten ihre Wertung. Branch `codex/choir-no-pitch-retry`, unabhängig von #136/#137/#141; [ADR 0069](../decisions/0069-chor-ohne-tonhoehen-erneut-aufnehmen.md). Konkrete Test-/CI-Ergebnisse im Entwurfs-PR, reale Geräteabnahme weiter offen.
+- **C11 – im technischen Gesamtentwurf bearbeitet (02.11.2026):** Erstversuch als erste geprüfte Antwort in UI und ADR 0064 erklärt; erneute Takes davor erlaubt. [Gesamtstand](chor-trainer-gesamtstand.md), ADR 0070. Kein fachlicher oder realer Geräte-Freigabebeleg.
+- **C12 – technisch bearbeitet, PR-Prüfung offen (02.11.2026):** Vorhörfehler erhalten den ungeprüften Take; DE/en-US/en-GB, erneutes Vorhören und sicheres Warten auf die alte Mikrofon-Schließoperation sind abgesichert. Eigener Branch `codex/choir-preview-recovery`, unabhängig von #136/#137; [ADR 0068](../decisions/0068-chor-vorhoerfehler-erhalten-den-take.md). Konkrete Test-/CI-Ergebnisse im Entwurfs-PR, echte Geräteabnahme weiter offen.
+- **C13 – im technischen Gesamtentwurf bearbeitet (02.11.2026):** Capture-Zeitstempel auf Wiedergabeuhr ausgerichtet; Regression mit verzögerten Fensterpaketen. SDK-/physische Latenz-/Geräteabnahme offen. [Gesamtstand](chor-trainer-gesamtstand.md), ADR 0070. Kein fachlicher oder realer Geräte-Freigabebeleg.
+- **C14 – im technischen Gesamtentwurf bearbeitet (02.11.2026):** Grammatische Stimmenbezeichnungen, Dauern aus Glossar, bereinigte Lerntexte bei erhaltener Entwurfskennzeichnung. [Gesamtstand](chor-trainer-gesamtstand.md), ADR 0070. Kein fachlicher oder realer Geräte-Freigabebeleg.
+- Der Testkommentar zu `soprano-leap` ist im Gesamtentwurf berichtigt; die beiden Prüfprofile verwenden diese Option ausdrücklich.
 
 **Zeitreise:**
+
+**Technischer Nachtrag vom 02.11.2026, keine neue Fachfreigabe:** Der [P4.12-Gesamtentwurf](zeitreise-musikgeschichte.md) auf `codex/history-journey-complete-draft` bearbeitet C15–C18 gemeinsam; [ADR 0071](../decisions/0071-zeitreise-gesamtentwurf-mit-gestuften-hinweisen.md). Unterschiedliche Wissensaufgaben mit konkreten Verwechslungen, zwei tatsächlich gestufte Hinweise mit freiwilliger zweiter Stufe, Motive statt ausgebauter Phrasen im Kurzmodell, korrigierter Klassik-Satz auch im Quellenentwurf und Generalbass-Rolle über das Glossar. Eigene Texte bleiben `entwurf` bis zur unabhängigen Fach-/Quellen-/Sprachprüfung. Katalog/Plan und bearbeiteter Artikel 30, öffentlich null Lektionen. Die nachfolgenden Befunde und der Rohbericht dokumentieren den ursprünglichen Prüfstand; ihre unabhängige Nachprüfung bleibt offen. Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**; P4.01 bleibt bis F14/Recht zurückgestellt.
+
 - **C15:** Alle vier Wissensfragen folgen demselben quellenkritischen Muster; Ablenker mit absoluten Signalwörtern.
 - **C16:** Hinweise sind nicht gestuft.
 - **C17:** Die Klassik-Szene spricht von „Phrasen“ bei zwei Viertonmotiven; ein logisch schiefer Satz.
 - **C18:** „Continuo-Spielerin“ gegenüber Glossar „Generalbass“.
 
 **Katalog (vorbestehend, außerhalb dieser Kette):** `history.l3.methods.lesson2/3` und `history.l4.survey.lesson2/3` fragen `source-comparison` ab, ohne `history.l2.jazz-pop-sources` vorauszusetzen. Der neue Stufe-5-Test deckt das bewusst nicht ab.
+
+**Abgleich vom 02.11.2026:** Im geprüften aktuellen `main` bei `f7bc15d` setzt `history.l3.methods.s1` bereits `history.compare-sources` aus `history.l2.jazz-pop-sources` voraus; die Stufe-4-Fähigkeiten hängen davon transitiv ab. `history-prerequisites.test.ts` prüft jetzt sämtliche `source-comparison`-Lektionen und tatsächliche Sperren ohne diese Einheit, auch bei isoliertem Einstufungsflag. Dafür war keine Änderung des Fähigkeitsgraphen erforderlich. Die ursprüngliche Aussage oben ist für diesen aktuellen Stand nicht reproduzierbar; sie bleibt als Prüfverlauf erhalten.
 
 ## Weiterhin offen
 

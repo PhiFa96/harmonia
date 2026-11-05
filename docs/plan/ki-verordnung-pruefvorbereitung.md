@@ -1,5 +1,7 @@
 # P4.17 – Programmierte Prüfvorbereitung
 
+**Gesamtweiterbau vom 02.11.2026:** Maßgeblich ist jetzt der [P4.17/P4.18-Gesamtstand](ki-und-zertifikate-gesamtstand.md) auf `codex/ai-certificates-complete-draft`: versionierte bereichsbezogene Prüfvorlagen, Prüfung privater schriftlicher Dokumente mit SHA-256, Widerruf und vollständige Code-/Abhängigkeitsbindung. Ausgefüllte Vorlagen bleiben Vorschläge und ändern keine aktive Freigabe. Alle tatsächlichen Rechtsreviews bleiben offen. Die folgenden Abschnitte dokumentieren den früheren Ausgangsstand.
+
 Stand: 24.10.2026 · Branch `codex/p4-17-ai-act-review-draft`
 
 Technische P4-Vorarbeit auf Nutzerauftrag **vor der formalen Phase-4-Freigabe**. Auf Grundlage des Schul-/Lizenzstands aus Entwurfs-PR #108 entsteht eine prüfbare Vorbereitung der unabhängigen Rechtsprüfung. Keine rechtliche Freigabe, Veröffentlichung, Bereitstellung oder Kontaktaufnahme mit Dritten. P4.01 bleibt bis F14/Rechtsklärung zurückgestellt.

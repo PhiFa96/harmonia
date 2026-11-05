@@ -18,6 +18,8 @@ export interface ChoirParams {
   readonly piece: 'home' | 'arch';
   /** Explicit initial key; review tasks use another of these bounded transpositions. */
   readonly fifths?: -2 | 0 | 2;
+  /** Revised melodies; absence preserves the original authored pieces for seed replay. */
+  readonly edition?: 2;
 }
 export interface ChoirItem {
   readonly type: 'CHOIR_PART';
@@ -44,6 +46,20 @@ const PIECES = {
     bass: 'C3 C3 F3 C3 G2 G2 C3 C3',
   },
 } as const;
+const MELODIC_PIECES = {
+  home: {
+    soprano: 'C5 C5 C5 D5 D5 E5 B4 C5',
+    alto: 'E4 E4 F4 F4 G4 G4 D4 E4',
+    tenor: 'G3 A3 A3 A3 B3 B3 G3 G3',
+    bass: 'C3 A2 F3 D3 G2 E3 G2 C3',
+  },
+  arch: {
+    soprano: 'E5 C5 C5 B4 D5 C5 B4 C5',
+    alto: 'G4 F4 E4 E4 F4 F4 D4 E4',
+    tenor: 'C4 A3 A3 G3 A3 A3 G3 G3',
+    bass: 'C3 F3 A2 E3 D3 F3 G3 C3',
+  },
+} as const;
 export function choirScore(item: Pick<ChoirItem, 'parts' | 'params'>, solo?: Voice): Score {
   const key = formatNoteName(keyFromFifths(item.params.fifths ?? 0).tonic);
   const staff = (clef: string, voices: readonly Voice[]) =>
@@ -68,6 +84,7 @@ export function generateChoir(params: ChoirParams, rng: Rng): ChoirItem {
   if (
     !SATB_VOICES.includes(params.voice) ||
     !Object.hasOwn(PIECES, params.piece) ||
+    (params.edition !== undefined && ![2].includes(params.edition)) ||
     (params.fifths !== undefined && ![-2, 0, 2].includes(params.fifths))
   )
     throw new RangeError('Choir parameters');
@@ -77,7 +94,7 @@ export function generateChoir(params: ChoirParams, rng: Rng): ChoirItem {
   const parts = Object.fromEntries(
     SATB_VOICES.map((v) => [
       v,
-      PIECES[params.piece][v]
+      (params.edition === 2 ? MELODIC_PIECES : PIECES)[params.piece][v]
         .split(' ')
         .map((name) => transposeBy(parsePitch(name), transposition)),
     ]),
@@ -109,11 +126,18 @@ export function choirEvents(item: ChoirItem, mode: 'backing' | 'all' | 'solo') {
 }
 /** Twelve equally spaced bins over the central 70% of each note. No raw audio is retained. */
 export const CHOIR_BINS = 12;
+/** Provisional ensemble profile. Kept explicit for review; no empirical calibration is claimed. */
+export const CHOIR_PROFILE = {
+  toleranceCents: 50,
+  minimumDetectedWindows: 8,
+  matchingPercent: 75,
+  maximumOctaveShift: 2,
+} as const;
 /** Exclusive: exactly halfway to the neighbouring semitone belongs to neither note. */
-const CHOIR_TOLERANCE_CENTS = 50;
+const CHOIR_TOLERANCE_CENTS = CHOIR_PROFILE.toleranceCents;
 const inTolerance = (deviation: number) => Math.abs(deviation) < CHOIR_TOLERANCE_CENTS;
 /** Whole-take octave correction, e.g. a child singing the bass part two octaves higher. */
-const CHOIR_MAX_OCTAVE_SHIFT = 2;
+const CHOIR_MAX_OCTAVE_SHIFT = CHOIR_PROFILE.maximumOctaveShift;
 export interface ChoirWindowAssessment {
   readonly index: number;
   /** After the same whole-take octave correction used in grading. */
@@ -187,7 +211,9 @@ export function assessChoir(item: ChoirItem, answer: string | null) {
       index,
       coverage: values.length / CHOIR_BINS,
       deviation: values.length ? median(values) - target - octaveShift * 1200 : null,
-      passed: values.length >= 8 && inTune / values.length >= 0.75,
+      passed:
+        values.length >= CHOIR_PROFILE.minimumDetectedWindows &&
+        inTune / values.length >= CHOIR_PROFILE.matchingPercent / 100,
       detectedWindows: values.length,
       matchingWindows: inTune,
       windows,
@@ -238,6 +264,8 @@ export function createChoirCollector(item: ChoirItem) {
       if (bin && bin.length < 8) bin.push(Math.round(pitchCents));
     },
     inputComplete: () => received.every((row) => row.every(Boolean)),
+    /** At least one accepted pitch inside a scoring window, independent of PCM coverage. */
+    hasDetectedPitch: () => bins.some((row) => row.some((bin) => bin.length > 0)),
     answer: () =>
       choirAnswerId(bins.map((row) => row.map((bin) => (bin.length ? median(bin) : null)))),
   };

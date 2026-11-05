@@ -16,6 +16,9 @@ import { AI_REVIEW_MESSAGES } from '../../packages/i18n/src/ai-act-review.ts';
 import { actualReleaseProblems } from '../storefront/check.mjs';
 import { actualBetaProblems } from '../beta/readiness.mjs';
 import { actualProblems } from '../release/check.mjs';
+const documents = Object.fromEntries(
+  ['general', 'school', 'certificates'].map((s) => [s, { valid: true, sha256: 'a'.repeat(64) }]),
+);
 const now = Date.parse('2026-10-24T12:00:00.000Z'),
   inventory = readInventory(),
   digests = runtimeDigests(inventory);
@@ -39,27 +42,36 @@ function prepared() {
       reviewedAt: '2026-10-24T10:00:00.000Z',
       validUntil: '2026-11-24T10:00:00.000Z',
       snapshotHash: hash,
+      document: { path: 'artifacts/ai-act/evidence/synthetic-fixture.txt', sha256: 'a'.repeat(64) },
+      revokedAt: null,
+      revocationReason: null,
     };
   return data;
 }
 for (const scope of SCOPES)
   test(`${scope}: current draft, missing references and synthetic review cannot release`, () => {
-    const missing = releaseProblems(inventory, scope, snapshotHash(inventory, digests), { now });
+    const missing = releaseProblems(inventory, scope, snapshotHash(inventory, digests), {
+      now,
+      documents,
+    });
     assert.ok(missing.includes('review.real-written-assessment'));
     assert.ok(missing.includes('sources.direct-legal-text-review'));
     assert.ok(missing.includes('controls.classification'));
     const fixture = prepared();
-    assert.deepEqual(releaseProblems(fixture, scope, snapshotHash(fixture, digests), { now }), []); // field validation only, not an opinion
+    assert.deepEqual(
+      releaseProblems(fixture, scope, snapshotHash(fixture, digests), { now, documents }),
+      [],
+    ); // field validation only, not an opinion
     fixture.reviews[scope].dataKind = 'synthetic';
     assert.ok(
-      releaseProblems(fixture, scope, snapshotHash(fixture, digests), { now }).includes(
+      releaseProblems(fixture, scope, snapshotHash(fixture, digests), { now, documents }).includes(
         'review.real-written-assessment',
       ),
     );
     fixture.reviews[scope].dataKind = 'real';
     fixture.reviews[scope].evidenceReference = null;
     assert.ok(
-      releaseProblems(fixture, scope, snapshotHash(fixture, digests), { now }).includes(
+      releaseProblems(fixture, scope, snapshotHash(fixture, digests), { now, documents }).includes(
         'review.reviewer-and-reference',
       ),
     );
@@ -71,7 +83,9 @@ test('runtime edits, additional modules, purpose changes and source updates inva
   assert.notEqual(snapshotHash(data, { ...digests, [first]: 'f'.repeat(64) }), old);
   const added = { ...digests, 'supabase/functions/_shared/new-ai-feature.ts': 'a'.repeat(64) };
   const hash = snapshotHash(data, added);
-  assert.ok(releaseProblems(data, 'school', hash, { now }).includes('review.current-snapshot'));
+  assert.ok(
+    releaseProblems(data, 'school', hash, { now, documents }).includes('review.current-snapshot'),
+  );
   data.components[0].purpose.de += ' Geänderter Verwendungszweck.';
   assert.notEqual(snapshotHash(data, digests), old);
   const source = prepared();
@@ -88,7 +102,7 @@ test('Annex III profiling cannot use a non-high-risk exemption; unknown profilin
       outcome: 'annex-iii-exemption',
     };
     assert.ok(
-      releaseProblems(data, 'school', snapshotHash(data, digests), { now }).includes(
+      releaseProblems(data, 'school', snapshotHash(data, digests), { now, documents }).includes(
         'learner-planner.exemption-not-supported',
       ),
     );
@@ -96,7 +110,7 @@ test('Annex III profiling cannot use a non-high-risk exemption; unknown profilin
   const data = prepared();
   data.components.find((c) => c.id === 'learner-planner').assessment.annexIII = 'yes';
   assert.ok(
-    releaseProblems(data, 'school', snapshotHash(data, digests), { now }).includes(
+    releaseProblems(data, 'school', snapshotHash(data, digests), { now, documents }).includes(
       'learner-planner.annex-iii',
     ),
   );
@@ -113,7 +127,7 @@ test('high-risk systems require verified high-risk controls; general controls ca
   control.status = 'not-applicable';
   control.rationale = 'Synthetic exemption claim';
   assert.ok(
-    releaseProblems(data, 'school', snapshotHash(data, digests), { now }).includes(
+    releaseProblems(data, 'school', snapshotHash(data, digests), { now, documents }).includes(
       'controls.high-risk-controls',
     ),
   );
@@ -125,21 +139,21 @@ test('expired/future reviews, stale/future source checks and unresolved AI defin
     r = data.reviews.general;
   r.validUntil = '2026-10-24T11:00:00.000Z';
   assert.ok(
-    releaseProblems(data, 'general', snapshotHash(data, digests), { now }).includes(
+    releaseProblems(data, 'general', snapshotHash(data, digests), { now, documents }).includes(
       'review.validity',
     ),
   );
   r.reviewedAt = '2027-01-01T00:00:00.000Z';
   r.validUntil = '2027-02-01T00:00:00.000Z';
   assert.ok(
-    releaseProblems(data, 'general', snapshotHash(data, digests), { now }).includes(
+    releaseProblems(data, 'general', snapshotHash(data, digests), { now, documents }).includes(
       'review.validity',
     ),
   );
   for (const date of ['2026-01-01', '2027-01-01']) {
     data.sourcesObservedAt = date;
     assert.ok(
-      releaseProblems(data, 'general', snapshotHash(data, digests), { now }).includes(
+      releaseProblems(data, 'general', snapshotHash(data, digests), { now, documents }).includes(
         'sources.refresh-required',
       ),
     );
@@ -151,7 +165,7 @@ test('expired/future reviews, stale/future source checks and unresolved AI defin
     outcome: 'not-high-risk',
   };
   assert.ok(
-    releaseProblems(data, 'general', snapshotHash(data, digests), { now }).includes(
+    releaseProblems(data, 'general', snapshotHash(data, digests), { now, documents }).includes(
       'tutor.ai-definition',
     ),
   );
@@ -179,6 +193,10 @@ test('current monitored file set includes the actual model, learner tools, gradi
     'supabase/functions/_shared/tutor-learner.ts',
     'packages/exercises/src/evaluate.ts',
     'apps/mobile/src/components/tutor-screen.tsx',
+    'supabase/functions/_shared/tutor-attempt.ts',
+    'apps/mobile/src/tutor/client.ts',
+    'apps/mobile/src/tutor/state.ts',
+    'apps/mobile/src/components/exercise-task.tsx',
     'tools/school/quiz-service.mjs',
     'tools/school/license-service.mjs',
     'apps/mobile/src/preview/use-level-five-preview.ts',

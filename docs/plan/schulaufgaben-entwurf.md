@@ -1,5 +1,9 @@
 # P4.14 – Klassenaufgaben als interner Entwurf
 
+**Aktueller Gesamtstand vom 02.11.2026:** Maßgeblich ist jetzt der [zusammenhängende P4.13–P4.16-Entwurf](schule-gesamtstand.md) mit Identitätsbindung, Freigabeversion 2, Datenschutzfunktionen und zusätzlichen Datenbankgrenzen. Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**; alle Inhalte/Texte Entwurf, keine Veröffentlichung. P4.01 bleibt bis F14/Recht zurückgestellt. Die folgenden datierten Angaben sind der Vorgängerstand.
+
+## Vorgängerstand
+
 Stand: 24.10.2026 · Arbeitsbranch `codex/p4-14-school-assignments-draft`
 
 **Technische P4-Vorarbeit auf Nutzerauftrag vor der formalen Phase-4-Freigabe.** Der Entwurf baut auf P4.13 / [Entwurfs-PR #105](https://github.com/PhiFa96/harmonia/pull/105) auf. Dieser ist zum Arbeitsbeginn noch nicht integriert; der neue PR gegen `main` enthält deshalb auch diese Voraussetzung. Kein Merge, Deployment oder öffentliches Schulangebot. P4.01 bleibt bis F14 und Rechtsklärung zurückgestellt. Sämtliche Aufgabenquellen bleiben Entwurf; unabhängige Fachprüfung, P4.17, Schulrecht/AVV, echte Authentifizierung und Pilotabnahme bleiben offen.

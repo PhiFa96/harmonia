@@ -57,6 +57,9 @@ const errorKeys = {
   protocol: 'tutor.error_protocol',
   history: 'tutor.error_history',
   storage: 'tutor.error_storage',
+  attempt_required: 'tutor.error_attempt_required',
+  attempt_invalid: 'tutor.error_attempt_invalid',
+  attempt_expired: 'tutor.error_attempt_expired',
 } as const;
 type ErrorCode = keyof typeof errorKeys;
 export function TutorScreen({ task = false }: { readonly task?: boolean }) {

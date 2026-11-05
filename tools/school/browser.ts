@@ -6,7 +6,11 @@ import {
 } from '../../packages/i18n/src/school-license.ts';
 import { createQuizUi } from './quiz-browser.ts';
 import { QUIZ_MESSAGES, quizText, type QuizTextKey } from '../../packages/i18n/src/school-quiz.ts';
-import { schoolText, type SchoolTextKey } from '../../packages/i18n/src/school-draft.ts';
+import {
+  schoolText,
+  SCHOOL_DRAFT_MESSAGES,
+  type SchoolTextKey,
+} from '../../packages/i18n/src/school-draft.ts';
 import type { AppLocale } from '../../packages/i18n/src/locale.ts';
 import type { ClassReport, Evidence, SchoolClass, SchoolState } from './protocol.ts';
 import { summarizeClass } from './report.ts';
@@ -24,7 +28,9 @@ let locale: AppLocale = 'de',
   state: SchoolState | undefined,
   selected = '',
   learner = '',
-  busy = false;
+  busy = false,
+  privacyOpen = false,
+  ended = false;
 const t = (key: SchoolTextKey, values: Record<string, string | number> = {}) =>
   schoolText(locale, key, values);
 const error = document.createElement('p');
@@ -126,6 +132,10 @@ async function guard(action: () => void | Promise<void>) {
   } catch (reason) {
     // Never retain a cached report after a failed authorization or refresh.
     const message = reason instanceof Error ? reason.message : 'error';
+    if (message === 'sessionExpired') {
+      endSession('sessionEnded');
+      return;
+    }
     if (licenseUi.active()) licenseUi.onError(message);
     else if (quizUi.active()) quizUi.onError(message);
     else if (selected || assignmentUi.clearOnError(message)) content.replaceChildren();
@@ -136,8 +146,8 @@ async function guard(action: () => void | Promise<void>) {
         : Object.hasOwn(ASSIGNMENT_MESSAGES.de, message)
           ? assignmentText(locale, message as AssignmentTextKey)
           : t(
-              message === 'invalid' || message === 'invalidCode' || message === 'forbidden'
-                ? message
+              Object.hasOwn(SCHOOL_DRAFT_MESSAGES.de, message)
+                ? (message as SchoolTextKey)
                 : 'error',
             );
   } finally {
@@ -168,10 +178,10 @@ function shell() {
   main.replaceChildren(
     el('h1', t('title')),
     banner,
-    el('p', t('intro')),
+    el('p', t(state?.fixtureMode ? 'intro' : 'authenticatedIntro')),
     el('p', t('privacy')),
     label('language', languages),
-    label('account', accounts),
+    ...(state?.fixtureMode ? [label('account', accounts)] : []),
     actions(
       (() => {
         const b = el('button', licenseText(locale, 'entry'));
@@ -187,8 +197,21 @@ function shell() {
         });
         return b;
       })(),
+      button('privacyTitle', async () => {
+        selected = '';
+        assignmentUi.reset();
+        quizUi.reset();
+        licenseUi.reset();
+        privacyOpen = true;
+        await refresh();
+      }),
+      button('logout', async () => {
+        await api('/api/logout', {});
+        endSession('sessionEnded');
+      }),
       button('refresh', refresh),
       button('overview', async () => {
+        privacyOpen = false;
         assignmentUi.reset();
         quizUi.reset();
         licenseUi.reset();
@@ -265,13 +288,20 @@ function overview() {
         for (const member of state.colleagues.filter((m) => m.org_id === org.id)) {
           const who = state.actors.find((a) => a.id === member.actor_id);
           const row = el('p', who ? t(who.key) : member.actor_id);
-          if (member.role !== 'admin')
+          if (member.role !== 'admin') {
+            row.append(
+              button('transferAdmin', async () => {
+                if (confirm(t('confirmTransfer', { name: who ? t(who.key) : member.actor_id })))
+                  await change('transferAdmin', { org: org.id, actor: member.actor_id });
+              }),
+            );
             row.append(
               button('removeTeacher', async () => {
                 if (confirm(t('confirmRemove')))
                   await change('removeTeacher', { org: org.id, actor: member.actor_id });
               }),
             );
+          }
           article.append(row);
         }
       }
@@ -301,6 +331,33 @@ function classCard(c: SchoolClass) {
   if (!state) return section;
   const org = state.organizations.find((o) => o.id === c.org_id),
     membership = state.memberships.find((m) => m.class_id === c.id);
+  if (membership || c.teaches || org?.role === 'admin')
+    section.append(
+      button('auditTitle', async () => {
+        const result = await api<{ events: { teacher: string; enabled: boolean; at: string }[] }>(
+          '/api/teacherHistory',
+          { class: c.id },
+        );
+        const output = el('div');
+        output.setAttribute('aria-live', 'polite');
+        if (!result.events.length) output.append(el('p', t('auditEmpty')));
+        for (const entry of result.events) {
+          const person = state?.actors.find((a) => a.key === entry.teacher);
+          output.append(
+            el(
+              'p',
+              t(entry.enabled ? 'auditAdded' : 'auditRemoved', {
+                teacher: person ? t(person.key) : entry.teacher || t('auditUnknown'),
+                date: new Date(entry.at).toLocaleString(locale),
+              }),
+            ),
+          );
+        }
+        section.querySelector('[data-teacher-audit]')?.remove();
+        output.dataset['teacherAudit'] = 'true';
+        section.append(output);
+      }),
+    );
   if (c.archived) section.append(el('p', t('archived')));
   if (!c.archived && (c.teaches || membership)) {
     const entry = el('button', assignmentText(locale, 'assignments'));
@@ -344,7 +401,11 @@ function classCard(c: SchoolClass) {
       section.append(
         button(membership.sharing ? 'withdraw' : 'share', async () => {
           if (membership.sharing || confirm(t('shareConfirm')))
-            await change('sharing', { class: c.id, enabled: !membership.sharing });
+            await change('sharing', {
+              class: c.id,
+              enabled: !membership.sharing,
+              policy: !membership.sharing ? 'school-draft-sharing-v2' : null,
+            });
         }),
       );
     section.append(
@@ -413,7 +474,7 @@ function evidence(entries: readonly Evidence[]) {
 }
 function report(result: ClassReport) {
   content.replaceChildren(el('h2', result.label), el('p', t('reportNote')));
-  const chosen = result.learners.find((l) => l.actor === learner);
+  const chosen = result.learners.find((l) => l.member === learner);
   if (chosen) {
     content.append(
       el('h2', t('learner', { alias: chosen.alias })),
@@ -445,25 +506,79 @@ function report(result: ClassReport) {
       el('h3', t('learner', { alias: entry.alias })),
       el('p', t(entry.sharing ? 'sharingOn' : 'noSharing')),
       button('detail', () => {
-        learner = entry.actor;
+        learner = entry.member;
         report(result);
         headingFocus();
       }),
       button('removeLearner', async () => {
         if (confirm(t('confirmRemove')))
-          await change('removeLearner', { class: result.id, actor: entry.actor });
+          await change('removeLearner', { class: result.id, member: entry.member });
       }),
     );
     content.append(article);
   }
 }
+function endSession(message: 'sessionEnded' | 'accountDeleted') {
+  ended = true;
+  privacyOpen = false;
+  state = undefined;
+  selected = '';
+  assignmentUi.reset();
+  quizUi.reset();
+  licenseUi.reset();
+  content.replaceChildren();
+  main.replaceChildren(el('h1', t('title')), el('p', t(message)));
+}
+function privacyPanel() {
+  content.replaceChildren(
+    el('h2', t('privacyTitle')),
+    el('p', t('privacyInfo')),
+    button('exportData', async () => {
+      const data = await api('/api/privacy-export', {});
+      const url = URL.createObjectURL(
+        new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }),
+      );
+      const link = el('a');
+      link.href = url;
+      link.download = 'harmonia-school-draft-export.json';
+      link.click();
+      setTimeout(() => {
+        URL.revokeObjectURL(url);
+      }, 1000);
+      status.textContent = t('exportDone');
+    }),
+    button('deleteAccount', async () => {
+      if (confirm(t('confirmDeleteAccount'))) {
+        await api('/api/privacy-delete', {});
+        endSession('accountDeleted');
+      }
+    }),
+    button('privacyClose', async () => {
+      privacyOpen = false;
+      await refresh();
+    }),
+  );
+  if (state?.operator)
+    content.append(
+      el('p', t('purgeInfo')),
+      button('purgeData', async () => {
+        await api('/api/privacy-purge', {});
+        status.textContent = t('purgeDone');
+      }),
+    );
+}
 async function refresh() {
+  if (ended) return;
   quizUi.stop();
   licenseUi.stop();
   if (selected || assignmentUi.active() || quizUi.active() || licenseUi.active())
     content.replaceChildren();
   state = await api<SchoolState>('/api/state');
   shell();
+  if (privacyOpen) {
+    privacyPanel();
+    return;
+  }
   if (licenseUi.active()) {
     await licenseUi.render(locale);
     if (document.hidden) {

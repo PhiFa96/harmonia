@@ -112,6 +112,24 @@ export function ExerciseTask({
   const result = session.result;
   const feedback = result ? exerciseFeedback(item, result, locale) : undefined;
   const prompt = exercisePrompt(item, locale);
+  const openAnswerTutor = (mode: 'explain' | 'solution') => {
+    if (!reportSource || !result) return;
+    audio.stop();
+    onReportOpen?.();
+    openTaskTutor(
+      {
+        locale: locale.locale,
+        noteNaming: locale.noteNaming,
+        harmonySystem: music.harmonySystem,
+        mode,
+        hintLevel: null,
+        context: { source: reportSource, answer: result.answer, checked: true },
+      },
+      prompt,
+      taskTutorScore(item, mode, result.answer),
+    );
+    router.push('/tutor-task');
+  };
   const feedbackRegion = useRef<View>(null);
   const [scoreWidth, setScoreWidth] = useState(0);
   const semitoneRange = useMemo(
@@ -553,16 +571,12 @@ export function ExerciseTask({
               }}
             />
           ) : null}
-          {reportSource && session.hintLevel > 0 ? (
+          {reportSource && (session.hintLevel === 1 || session.hintLevel === 2) ? (
             <Button
               variant="ghost"
               size="medium"
               icon="sparkle"
-              label={
-                session.hintLevel === 3
-                  ? t('tutor.aiSolution')
-                  : t('tutor.aiHint', { level: session.hintLevel })
-              }
+              label={t('tutor.aiHint', { level: session.hintLevel })}
               onPress={() => {
                 audio.stop();
                 onReportOpen?.();
@@ -571,13 +585,13 @@ export function ExerciseTask({
                     locale: locale.locale,
                     noteNaming: locale.noteNaming,
                     harmonySystem: music.harmonySystem,
-                    mode: session.hintLevel === 3 ? 'solution' : 'hint',
+                    mode: 'hint',
                     hintLevel:
                       session.hintLevel === 1 || session.hintLevel === 2 ? session.hintLevel : null,
                     context: { source: reportSource, answer, checked: false },
                   },
                   prompt,
-                  taskTutorScore(item, session.hintLevel === 3 ? 'solution' : 'hint'),
+                  taskTutorScore(item, 'hint'),
                 );
                 router.push('/tutor-task');
               }}
@@ -653,29 +667,26 @@ export function ExerciseTask({
             }}
           />
           {reportSource ? (
-            <Button
-              variant="ghost"
-              size="medium"
-              icon="sparkle"
-              label={t('tutor.why')}
-              onPress={() => {
-                audio.stop();
-                onReportOpen?.();
-                openTaskTutor(
-                  {
-                    locale: locale.locale,
-                    noteNaming: locale.noteNaming,
-                    harmonySystem: music.harmonySystem,
-                    mode: 'explain',
-                    hintLevel: null,
-                    context: { source: reportSource, answer: result.answer, checked: true },
-                  },
-                  prompt,
-                  taskTutorScore(item, 'explain', result.answer),
-                );
-                router.push('/tutor-task');
-              }}
-            />
+            <>
+              <Button
+                variant="ghost"
+                size="medium"
+                icon="sparkle"
+                label={t('tutor.why')}
+                onPress={() => {
+                  openAnswerTutor('explain');
+                }}
+              />
+              <Button
+                variant="ghost"
+                size="medium"
+                icon="sparkle"
+                label={t('tutor.aiSolution')}
+                onPress={() => {
+                  openAnswerTutor('solution');
+                }}
+              />
+            </>
           ) : null}
         </View>
       ) : null}

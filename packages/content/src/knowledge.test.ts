@@ -22,13 +22,13 @@ describe('Wissensbasis und Quellenidentität', () => {
     expect(publicIndex.chunks).toHaveLength(0);
     expect(publicIndex.articleCount).toBe(0);
   });
-  it('erzeugt alle 62 Artikel und 370 Abschnitte in drei getrennten Sprachfassungen', async () => {
+  it('erzeugt alle 63 Artikel und 373 Abschnitte in drei getrennten Sprachfassungen', async () => {
     const preview = await buildKnowledgeSnapshot(catalogue, 'preview', text, digest);
-    expect(preview.articleCount).toBe(62);
-    expect(preview.chunks).toHaveLength(1110);
-    expect(new Set(preview.chunks.map((c) => c.id)).size).toBe(1110);
+    expect(preview.articleCount).toBe(63);
+    expect(preview.chunks).toHaveLength(1119);
+    expect(new Set(preview.chunks.map((c) => c.id)).size).toBe(1119);
     for (const locale of ['de', 'en-US', 'en-GB'])
-      expect(preview.chunks.filter((c) => c.locale === locale)).toHaveLength(370);
+      expect(preview.chunks.filter((c) => c.locale === locale)).toHaveLength(373);
     expect(preview.chunks.every((c) => [1, 2, 3, 4, 5].includes(c.stage))).toBe(true);
   });
   it('ändert die Identität auch bei einer Textänderung ohne Versionsanhebung', async () => {
@@ -129,6 +129,6 @@ describe('Wissensbasis und Quellenidentität', () => {
     expect(released.lessons).toHaveLength(0);
     expect(
       (await buildKnowledgeSnapshot(released, 'published', text, digest, stages)).articleCount,
-    ).toBe(62);
+    ).toBe(63);
   });
 });

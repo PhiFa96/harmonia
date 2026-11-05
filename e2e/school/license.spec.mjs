@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { readFile } from 'node:fs/promises';
 import { createSchoolDatabase } from '../../tools/school/database.mjs';
+import { createLicenseService } from '../../tools/school/license-service.mjs';
 import { createSchoolServer } from '../../tools/school/server.mjs';
 import { quizFixture } from '../../tools/school/quiz-fixture.mjs';
 import { evaluateExercise } from '../../packages/exercises/src/index.ts';
@@ -18,6 +19,17 @@ test.afterAll(async () => {
 });
 test.beforeEach(async () => {
   f = await quizFixture(db.pool);
+  const licenses = createLicenseService(db.pool);
+  for (const learner of f.learners)
+    await licenses.call(learner.id, 'request', { org: f.org, enabled: true });
+  f.handles = Object.fromEntries(
+    (
+      await db.pool.query(
+        'select a.key,r.id from school_draft.license_requests r join school_draft.actors a on a.id=r.actor_id where org_id=$1',
+        [f.org],
+      )
+    ).rows.map((r) => [r.key, r.id]),
+  );
 });
 async function login(page, key, locale = 'de', url = app.origin) {
   await page.goto(url);
@@ -50,7 +62,7 @@ for (const locale of ['de', 'en-US', 'en-GB'])
     expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
     await page.getByLabel(s('account'), { exact: true }).selectOption('adminA');
     await page
-      .locator('[data-seat-actor=learnerA]')
+      .locator(`[data-seat-member="${f.handles.learnerA}"]`)
       .getByRole('button', { name: t('assign'), exact: true })
       .click();
     await expect(
@@ -92,7 +104,7 @@ for (const locale of ['de', 'en-US', 'en-GB'])
       true,
     );
     await page
-      .locator('[data-seat-actor=learnerA]')
+      .locator(`[data-seat-member="${f.handles.learnerA}"]`)
       .getByRole('button', { name: t('release'), exact: true })
       .click();
     await expect(learner.getByText(t('licenseRequired'), { exact: true })).toBeVisible({
@@ -127,7 +139,7 @@ test('an expired practice deep link can be replaced without losing a valid licen
     startsAt: null,
   });
   await l.call(f.ids.operator, 'pay', { id });
-  await l.call(f.ids.adminA, 'assign', { id, actor: f.ids.learnerA, enabled: true });
+  await l.call(f.ids.adminA, 'assign', { id, member: f.handles.learnerA, enabled: true });
   await l.call(f.ids.learnerA, 'practice', { id: practice, source: 'notes', locale: 'de' });
   await db.pool.query(
     "update school_draft.license_practice set created_at=clock_timestamp()-interval '2 hours' where id=$1",

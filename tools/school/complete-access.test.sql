@@ -1,0 +1,27 @@
+-- Additional actual-role checks for the combined school revision; shared transaction.
+set local role harmonia_school_actor;
+select set_config('request.jwt.claims','{"sub":"00000000-0000-4000-8000-000000000002"}',true);
+select is((select count(*)::int from school_draft.quiz_players),0,'Teacher actor role cannot see participant account mapping');
+select set_config('request.jwt.claims','{"sub":"00000000-0000-4000-8000-000000000009"}',true);
+select throws_ok($$select target from school_draft.license_events$$,'42501',null,'Operator cannot read seat target accounts');
+select throws_ok($$select actor_id from school_draft.license_events$$,'42501',null,'Operator cannot read event account mappings');
+select lives_ok($$select kind,at from school_draft.license_events$$,'Operator still sees minimal invoice history');
+select set_config('request.jwt.claims','{"sub":"00000000-0000-4000-8000-000000000001"}',true);
+select throws_ok($$select school_draft.set_teacher('20000000-0000-4000-8000-000000000001','00000000-0000-4000-8000-000000000001',true)$$,'P0001','selfAssignment','Management cannot silently grant itself learning access');
+select throws_ok($$select school_draft.purge_expired()$$,'42501','forbidden','Management cannot run operator retention');
+select set_config('school_draft.actor','00000000-0000-4000-8000-000000000009',true);
+select ok(not school_draft.license_operator(),'Legacy actor GUC cannot grant operator rights');
+reset role;
+insert into school_draft.class_members(class_id,actor_id,alias) values('20000000-0000-4000-8000-000000000001','00000000-0000-4000-8000-000000000006','Combined fixture');
+insert into school_draft.assignment_targets values('30000000-0000-4000-8000-000000000001','20000000-0000-4000-8000-000000000001','00000000-0000-4000-8000-000000000006');
+insert into school_draft.assignment_attempts(assignment_id,class_id,actor_id) values('30000000-0000-4000-8000-000000000001','20000000-0000-4000-8000-000000000001','00000000-0000-4000-8000-000000000006');
+update school_draft.assignments set created_at=clock_timestamp()-interval '2 days',due_at=clock_timestamp()-interval '1 day';
+set local role harmonia_school_grader;
+select set_config('request.jwt.claims','{"sub":"00000000-0000-4000-8000-000000000006"}',true);
+select throws_ok($$update school_draft.assignment_attempts set answers='[{"answer":"late","correct":true}]',correct=1$$,'42501','forbidden','Grader cannot append an answer after the database deadline');
+select throws_ok($$insert into school_draft.quiz_answers values('40000000-0000-4000-8000-000000000001','00000000-0000-4000-8000-000000000006',0,'late',true,clock_timestamp())$$,'42501','forbidden','Grader cannot submit a new answer to a finished quiz');
+select throws_ok($$select school_draft.set_sharing('20000000-0000-4000-8000-000000000001',true,'school-draft-sharing-v1')$$,'22023','sharingPolicy','Older sharing text cannot grant the expanded purpose');
+select school_draft.set_sharing('20000000-0000-4000-8000-000000000001',true,'school-draft-sharing-v2');
+select school_draft.leave_class('20000000-0000-4000-8000-000000000001');
+select ok((school_draft.export_actor()->'sharingEvents')<>'[]'::jsonb,'Owner retains versioned sharing history after leaving');
+reset role;

@@ -315,7 +315,7 @@ export function choirKeyName(item: ChoirItem, locale: TextLocale): string {
 export function exercisePrompt(item: ExerciseItem, locale: TextLocale): string {
   if (item.type === 'CHOIR_PART')
     return translate(locale, 'exercise.choirPrompt', {
-      voice: translate(locale, `exercise.satb_${item.params.voice}`),
+      voice: translate(locale, `exercise.choirPart_${item.params.voice}`),
       key: choirKeyName(item, locale),
     });
   if (item.type === 'VOICE_LEADING')

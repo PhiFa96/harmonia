@@ -19,6 +19,8 @@ Hinweise 1–2 bleiben erlaubt. Eine angezeigte Lösung, ein erst in der Fehlerw
 
 ## Umsetzung und Konsistenz
 
+**Präzisierung C11 (02.11.2026):** Ein Erstversuch ist die erste mit „Prüfen“ abgegebene Antwort. Vorher sind beliebig viele Mikrofon-Takes zulässig. Ein bewusst neuer Take ersetzt die noch ungeprüfte Antwort; ein Fehler beim bloßen Vorhören erhält sie. Fehlende auswertbare Tonhöhe erzeugt keine Antwort. Das ändert weder Quote noch Mindestgesang oder die Behandlung von Hinweisen und Fehlerwiederholungen. [Technischer Gesamtentwurf](../plan/chor-trainer-gesamtstand.md).
+
 - Die Anforderung steht im versionierten Katalog und der aufgelösten Lektion. Die Katalogprüfung weist die Regel ohne eigene Chor-Aufgabe zurück. Der Client kann die serverseitig rekonstruierte Anforderung nicht ausschalten.
 - Die gemeinsame `lessonProgress`-Auswertung zählt nur eigene, richtig bewertete Erstversuche ohne Lösung. Lernpfad, XP, Coins und qualifizierte Lernaktivität verwenden dieselbe Bestehensentscheidung. Ohne erforderlichen Gesang entstehen keine Abschlussbelohnungen.
 - Einführung und Abschlussanzeige erklären die Bedingung in DE/en-US/en-GB. Die Anzeige nennt den fehlenden Gesangsversuch auch dann, wenn die Wiederholungsquote 100 % beträgt. Der reine interne Vorschaueinstieg vergibt weiter keine Lernnachweise oder Belohnungen und zeigt keine irreführende Abschlussregel.

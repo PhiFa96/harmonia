@@ -76,7 +76,11 @@ for (const locale of ['de', 'en-US', 'en-GB'])
       [8, 3],
     );
     assert.equal((await call('teacherA', 'report', { id })).learners[0].result, null);
-    await act('learnerA', 'sharing', { class: f.first, enabled: true });
+    await act('learnerA', 'sharing', {
+      class: f.first,
+      enabled: true,
+      policy: 'school-draft-sharing-v2',
+    });
     assert.deepEqual((await call('teacherA', 'report', { id })).summary, {
       recipients: 1,
       shared: 1,
@@ -84,7 +88,11 @@ for (const locale of ['de', 'en-US', 'en-GB'])
       correct: 10,
       total: 11,
     });
-    await act('learnerA', 'sharing', { class: f.first, enabled: false });
+    await act('learnerA', 'sharing', {
+      class: f.first,
+      enabled: false,
+      policy: 'school-draft-sharing-v2',
+    });
     assert.equal((await call('teacherA', 'report', { id })).summary.total, 0);
     assert.equal((await call('learnerA', 'view', { id, locale })).result.correct, 10);
   });
@@ -176,17 +184,24 @@ test('database deadline rejects late answers; unstarted work is missing data, no
   assert.equal(late.result.reason, 'deadline');
   assert.equal((await call('learnerB', 'start', { id, locale: 'de' })).phase, 'expired');
   for (const who of ['learnerA', 'learnerB'])
-    await act(who, 'sharing', { class: f.first, enabled: true });
+    await act(who, 'sharing', { class: f.first, enabled: true, policy: 'school-draft-sharing-v2' });
   const report = await call('teacherA', 'report', { id });
   assert.equal(report.summary.submitted, 1);
   assert.equal(report.summary.total, 2);
-  assert.equal(report.learners.find((l) => l.actor === ids.learnerB).result, null);
+  const learnerMember = (await s.state(ids.learnerB)).memberships.find(
+    (m) => m.class_id === f.first,
+  ).id;
+  assert.equal(report.learners.find((l) => l.member === learnerMember).result, null);
 });
 test('early submission and teacher closure are final, without exposing unfinished results', async () => {
   const f = await fixture();
   const first = await assign(f.first),
     second = await assign(f.first);
-  await act('learnerA', 'sharing', { class: f.first, enabled: true });
+  await act('learnerA', 'sharing', {
+    class: f.first,
+    enabled: true,
+    policy: 'school-draft-sharing-v2',
+  });
   await call('learnerA', 'start', { id: first, locale: 'de' });
   assert.equal((await call('teacherA', 'report', { id: first })).summary.submitted, 0);
   const early = await call('learnerA', 'finish', { id: first, locale: 'de' });

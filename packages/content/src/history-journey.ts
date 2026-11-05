@@ -44,17 +44,19 @@ export interface HistoryQuestionState {
   readonly choice: HistoryChoice | null;
   readonly feedback: 'unanswered' | 'incorrect' | 'correct';
   readonly attempts: number;
+  readonly hintLevel: 0 | 1 | 2;
 }
 
 export function createHistoryQuestion(): HistoryQuestionState {
-  return { choice: null, feedback: 'unanswered', attempts: 0 };
+  return { choice: null, feedback: 'unanswered', attempts: 0, hintLevel: 0 };
 }
 
 export function chooseHistoryAnswer(
   state: HistoryQuestionState,
   choice: HistoryChoice,
 ): HistoryQuestionState {
-  if (state.feedback === 'correct' || state.choice === choice) return state;
+  if (![0, 1, 2].includes(choice) || state.feedback === 'correct' || state.choice === choice)
+    return state;
   return { ...state, choice, feedback: 'unanswered' };
 }
 
@@ -63,10 +65,28 @@ export function checkHistoryQuestion(
   correct: HistoryChoice,
   ready = true,
 ): HistoryQuestionState {
-  if (!ready || state.choice === null || state.feedback !== 'unanswered') return state;
+  if (
+    !ready ||
+    state.choice === null ||
+    ![0, 1, 2].includes(correct) ||
+    state.feedback !== 'unanswered'
+  )
+    return state;
+  const correctAnswer = answerHistoryQuestion(correct, state.choice);
   return {
     ...state,
     attempts: state.attempts + 1,
-    feedback: answerHistoryQuestion(correct, state.choice) ? 'correct' : 'incorrect',
+    feedback: correctAnswer ? 'correct' : 'incorrect',
+    hintLevel: correctAnswer
+      ? state.hintLevel
+      : state.attempts === 0 && state.hintLevel === 0
+        ? 1
+        : 2,
   };
+}
+
+/** The specific hint can be requested without submitting another wrong answer. */
+export function revealHistoryHint(state: HistoryQuestionState): HistoryQuestionState {
+  if (state.feedback === 'correct' || state.hintLevel !== 1) return state;
+  return { ...state, hintLevel: 2 };
 }

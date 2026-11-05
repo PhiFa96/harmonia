@@ -117,6 +117,7 @@ export const exerciseSpecSchema = z
             voice: z.enum(['soprano', 'alto', 'tenor', 'bass']),
             piece: z.enum(['home', 'arch']),
             fifths: z.union([z.literal(-2), z.literal(0), z.literal(2)]).optional(),
+            edition: z.literal(2).optional(),
           })
           .strict(),
       })
@@ -372,6 +373,7 @@ export const exerciseSpecSchema = z
           voice: value.params.voice,
           piece: value.params.piece,
           ...(value.params.fifths === undefined ? {} : { fifths: value.params.fifths }),
+          ...(value.params.edition === undefined ? {} : { edition: value.params.edition }),
         },
       };
     if (value.type === 'VOICE_LEADING')
@@ -529,6 +531,8 @@ export const contentStatusSchema = z.enum(['entwurf', 'in_pruefung', 'freigegebe
 export const exampleSchema = z
   .object({ score: z.string().min(1), captionKey: contentTextKeySchema })
   .extend({
+    /** Explicit separate parts instead of the historical single-target grand-staff image. */
+    staffPresentation: z.literal('parts').optional(),
     pulse: z
       .object({ bpm: z.number().int().min(60).max(120) })
       .strict()

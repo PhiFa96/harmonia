@@ -9,6 +9,7 @@ import {
   TUTOR_TOOL_VERSION,
   tutorReportSchema,
   tutorReportResponseSchema,
+  tutorAttemptRequestSchema,
 } from '../../../packages/content/src/index.ts';
 import type {
   ContentCatalogue,
@@ -33,6 +34,7 @@ import {
 import type { TutorModelMessage } from '../_shared/tutor-provider.ts';
 import { retrieveKnowledge } from '../_shared/knowledge.ts';
 import { loadLearnerContext } from '../_shared/tutor-learner.ts';
+import { issueTutorAttempt, tutorAttemptError } from '../_shared/tutor-attempt.ts';
 
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const codes: Record<string, number> = {
@@ -372,6 +374,33 @@ async function handler(request: Request): Promise<Response> {
         ? json(200, { accepted: parsed.data.id })
         : json(503, { error: 'storage' });
     }
+    if (
+      url.searchParams.get('view') === 'attempt' &&
+      Array.from(url.searchParams.keys()).length === 1
+    ) {
+      const body = await boundedBody(request);
+      if (body === null) return json(413, { error: 'size' });
+      let value: unknown;
+      try {
+        value = JSON.parse(body);
+      } catch {
+        return json(400, { error: 'schema' });
+      }
+      const attempt = tutorAttemptRequestSchema.safeParse(value);
+      if (!attempt.success) return json(400, { error: 'schema' });
+      try {
+        const proof = await issueTutorAttempt(
+          await content(),
+          actor,
+          attempt.data,
+          Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
+        );
+        // This endpoint grades an answer only: no solution, model call, XP or learning event.
+        return json(200, { proof });
+      } catch {
+        return json(422, { error: 'content' });
+      }
+    }
     if (url.search) return json(400, { error: 'schema' });
     const body = await boundedBody(request);
     if (body === null) return json(413, { error: 'size' });
@@ -386,6 +415,11 @@ async function handler(request: Request): Promise<Response> {
     const input = parsed.data,
       fingerprint = await hash(JSON.stringify(input)),
       scoped = scope(input);
+    if (
+      (input.mode === 'explain' || input.mode === 'solution') &&
+      (!input.attemptProof || !input.context?.answer)
+    )
+      return json(409, { error: 'attempt_required' });
     // Idempotente Antworten bleiben ohne Modellzugriff lesbar, auch bei späterem Ausfall/Aboablauf.
     const prior = await client
       .from('tutor_requests')
@@ -406,6 +440,16 @@ async function handler(request: Request): Promise<Response> {
         { merge: false }
       >();
     if (prior.error) return json(503, { error: 'storage' });
+    // A receipt can outlive its TTL only for this actor's identical stored request.
+    // Legacy unverified requests cannot enter the replay path through a forged proof.
+    const attemptError = await tutorAttemptError(
+      actor,
+      input,
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
+      Date.now(),
+      !!prior.data && prior.data.request_hash === fingerprint,
+    );
+    if (attemptError) return json(409, { error: attemptError });
     if (prior.data) {
       if (prior.data.request_hash !== fingerprint) return json(409, { error: 'conflict' });
       if (prior.data.state === 'reserved') {

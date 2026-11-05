@@ -1,5 +1,7 @@
 # P4.18 – Zertifikate als interner technischer Prototyp
 
+**Gesamtweiterbau vom 02.11.2026:** Maßgeblich ist jetzt der [P4.17/P4.18-Gesamtstand](ki-und-zertifikate-gesamtstand.md) auf `codex/ai-certificates-complete-draft`: komplette Quellenbindung, einzeln behandelte Altstände, Export/Einzellöschung, ablaufende/widerrufbare Testsitzungen und durchgängige simulierte Kauf-/Wiederholungs-/Erstattungsabläufe. Keine echte Zahlung, gültigen Zertifikate oder vollständigen freigegebenen Abschlussprofile. Die folgenden Abschnitte dokumentieren den früheren Ausgangsstand; frühere Aussagen „kein Zahlungsablauf“ beziehen sich auf die Basis ohne jetzige Simulation.
+
 Stand: 25.10.2026 · ursprünglicher Prototyp `codex/p4-18-certificate-draft` (#104), Weiterbau `codex/p4-18-review-bound-draft`
 
 **Ausdrücklich beauftragte technische P4-Vorarbeit vor der formalen Phase-4-Freigabe.** P4.17, fachliche Prüfungsfreigaben, verbindliche Bestehens-/Wiederholungsregeln und Zahlungsentscheidungen bleiben offen. P4.01 bleibt bis F14 und Klärung der rechtlichen Voraussetzungen zurückgestellt. Kein Deployment, keine Veröffentlichung, keine gültigen Zertifikate.

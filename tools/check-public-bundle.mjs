@@ -38,35 +38,35 @@ for (const content of Object.values(contentMessages))
   for (const key of allowedKeys) allowedTexts.add(textAt({ content }, key));
 const forbidden = new Map();
 for (const [locale, messages] of Object.entries(CERTIFICATE_REVIEW_MESSAGES))
-  for (const key of ['title', 'draft', 'sampleLimit', 'limits'])
-    forbidden.set(messages[key], `P4.18 review ${locale}.${key}`);
+  for (const [key, text] of Object.entries(messages))
+    if (!allowedTexts.has(text)) forbidden.set(text, `P4.18 review ${locale}.${key}`);
 forbidden.set(
   'official-explorer-2026-07-27; direct-eur-lex-pending',
   'P4.17 internal legal inventory',
 );
 for (const [locale, messages] of Object.entries(AI_REVIEW_MESSAGES))
-  for (const key of ['title', 'draft', 'intro', 'limit'])
-    forbidden.set(messages[key], `P4.17 ${locale}.${key}`);
+  for (const [key, text] of Object.entries(messages))
+    if (!allowedTexts.has(text)) forbidden.set(text, `P4.17 ${locale}.${key}`);
 forbidden.set('license_invoices', 'P4.16 private invoices');
 for (const [locale, messages] of Object.entries(LICENSE_MESSAGES))
-  for (const key of ['entry', 'intro', 'invoiceNote', 'practiceInfo'])
-    forbidden.set(messages[key], `P4.16 ${locale}.${key}`);
+  for (const [key, text] of Object.entries(messages))
+    if (text.trim() && !allowedTexts.has(text)) forbidden.set(text, `P4.16 ${locale}.${key}`);
 forbidden.set('quiz_material', 'P4.15 private quiz material');
 for (const [locale, messages] of Object.entries(QUIZ_MESSAGES))
-  for (const key of ['entry', 'intro', 'codeInfo', 'projectorNote'])
-    forbidden.set(messages[key], `P4.15 ${locale}.${key}`);
+  for (const [key, text] of Object.entries(messages))
+    if (text.trim() && !allowedTexts.has(text)) forbidden.set(text, `P4.15 ${locale}.${key}`);
 forbidden.set('assignment_material', 'P4.14 private material');
 for (const [locale, messages] of Object.entries(ASSIGNMENT_MESSAGES))
-  for (const key of ['assignments', 'intro', 'draftPolicy', 'shareNote'])
-    forbidden.set(messages[key], `P4.14 ${locale}.${key}`);
+  for (const [key, text] of Object.entries(messages))
+    if (text.trim() && !allowedTexts.has(text)) forbidden.set(text, `P4.14 ${locale}.${key}`);
 forbidden.set('school_draft', 'P4.13 local schema');
 for (const [locale, messages] of Object.entries(SCHOOL_DRAFT_MESSAGES))
-  for (const key of ['title', 'draft', 'intro', 'privacy'])
-    forbidden.set(messages[key], `P4.13 ${locale}.${key}`);
+  for (const [key, text] of Object.entries(messages))
+    if (text.trim() && !allowedTexts.has(text)) forbidden.set(text, `P4.13 ${locale}.${key}`);
 for (const id of ['certificate-draft-1', 'certificate-draft-2']) forbidden.set(id, `P4.18 ${id}`);
 for (const [locale, messages] of Object.entries(CERTIFICATE_DRAFT_MESSAGES))
-  for (const key of ['title', 'intro', 'policy', 'pdfTitle'])
-    forbidden.set(messages[key], `P4.18 ${locale}.${key}`);
+  for (const [key, text] of Object.entries(messages))
+    if (!allowedTexts.has(text)) forbidden.set(text, `P4.18 ${locale}.${key}`);
 for (const collection of COLLECTIONS)
   for (const record of catalogue[collection])
     if (record.status !== 'freigegeben') forbidden.set(record.id, record.id);
