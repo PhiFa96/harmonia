@@ -4,7 +4,7 @@ Datum: 16.10.2026. Status: technisch umgesetzt; Wirksamkeits- und Geräteabnahme
 
 ## Entscheidung
 
-`ts-fsrs` 5.4.2 (MIT, Open Spaced Repetition) berechnet die Wiederholungstermine. Engine und Parameter sind fest gebunden: FSRS-6, Zielbehalten 0,9, maximales Intervall 36.500 Tage, kein Fuzz, kurze Lernschritte 1/10 Minuten, Wiederlernschritt 10 Minuten. Die Standardgewichte dieser Paketversion gelten. Eine Änderung verlangt eine ausdrücklich versionierte Migration und erneute Prüfung. Die Zielquote ist eine Modellannahme, kein nachgewiesener Lernerfolg.
+`ts-fsrs` (MIT; seit ADR 0075 Version 6.0.0, vorher 5.4.2, Open Spaced Repetition) berechnet die Wiederholungstermine. Engine und Parameter sind fest gebunden: FSRS-6, Zielbehalten 0,9, maximales Intervall 36.500 Tage, kein Fuzz, kurze Lernschritte 1/10 Minuten, Wiederlernschritt 10 Minuten. Die Standardgewichte dieser Paketversion gelten. Eine Änderung verlangt eine ausdrücklich versionierte Migration und erneute Prüfung. Die Zielquote ist eine Modellannahme, kein nachgewiesener Lernerfolg.
 
 Fähigkeiten erhalten je abgeschlossenem ursprünglichem Durchgang höchstens eine konservative Bewertung: falsche Antwort oder eingeblendete Lösung → Again; richtige Antwort mit Hinweis 1–2 → Hard; selbstständig richtig → Good. Bei mehreren Antworten zu derselben Fähigkeit gilt die niedrigste Bewertung. Easy wird nicht aus Geschwindigkeit geraten. Korrekturrunden und ausgelassene Hörfragen liefern keinen zusätzlichen Gedächtniserfolg. Der bestehende Glicko-Nachweis bleibt getrennt: Nur selbstständige Antworten ändern diese Ratings.
 

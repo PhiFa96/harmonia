@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-deprecated -- ADR 0075: bewusst die synchrone FSRS-6-Legacy-API von ts-fsrs 6. */
 import { catalogue } from '../packages/content/src/authoring.ts';
 import {
   applyReviewEvent,
