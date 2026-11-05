@@ -476,3 +476,21 @@ describe('CHOIR_PART miniatures follow the draft part-writing profile', () => {
         expect(analyzeVoiceLeading(slices, strict, options)).toEqual([]);
       });
 });
+
+describe('CHOIR_PART miniatures stay singable', () => {
+  // Fachprüfung Phase 4 v3: keine Septimensprünge (10/11 Halbtöne) und nichts über die Oktave.
+  for (const edition of [undefined, 2] as const)
+    for (const piece of ['home', 'arch'] as const)
+      for (const fifths of [-2, 0, 2] as const)
+        it(`edition ${String(edition ?? 1)} ${piece}/${String(fifths)}: no seventh or compound leaps`, () => {
+          const { parts } = generateChoir({ voice: 'soprano', piece, fifths, edition }, createRng(1));
+          for (const voice of ['soprano', 'alto', 'tenor', 'bass'] as const) {
+            const line = parts[voice].map((pitch) => midi(required(pitch)));
+            for (let i = 1; i < line.length; i += 1) {
+              const leap = Math.abs(required(line[i]) - required(line[i - 1]));
+              expect({ voice, at: i, leap }).toEqual({ voice, at: i, leap: leap > 9 && leap !== 12 ? -1 : leap });
+              expect(leap).toBeLessThanOrEqual(12);
+            }
+          }
+        });
+});

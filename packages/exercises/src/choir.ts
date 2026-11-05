@@ -57,7 +57,7 @@ const MELODIC_PIECES = {
     soprano: 'E5 C5 C5 B4 D5 C5 B4 C5',
     alto: 'G4 F4 E4 E4 F4 F4 D4 E4',
     tenor: 'C4 A3 A3 G3 A3 A3 G3 G3',
-    bass: 'C3 F3 A2 E3 D3 F3 G2 C3',
+    bass: 'C3 F3 A2 E3 D3 F3 G3 C3',
   },
 } as const;
 export function choirScore(item: Pick<ChoirItem, 'parts' | 'params'>, solo?: Voice): Score {
