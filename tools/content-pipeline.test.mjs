@@ -886,6 +886,18 @@ test('P4.12: scripted interview replies remain private as templates and resolved
   }
 });
 
+test('P4.12: both kinds of specific hints remain private as templates and rendered text', () => {
+  for (const locale of ['de', 'en-US', 'en-GB']) {
+    const copy = createHistoryJourneyText(locale, historyJourneyMessages)('renaissance');
+    for (const field of ['knowledgeHints', 'listeningHints'])
+      for (const hint of [historyJourneyMessages[locale].renaissance[field][1], copy[field][1]])
+        bundleFixture(`export const hint = ${JSON.stringify(hint)};`, (result) => {
+          assert.equal(result.status, 1);
+          assert.match(result.stderr, /P4\.12/);
+        });
+  }
+});
+
 test('Bundleprüfung erlaubt bereits öffentliche Glossarbegriffe bei gleichnamigen Entwurfszielen', () => {
   bundleFixture('export const terms = ["Dreiklänge", "triads", "rhythm"];', (result) => {
     assert.equal(result.status, 0, result.stderr);

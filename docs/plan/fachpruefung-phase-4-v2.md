@@ -138,12 +138,17 @@ Harte Vorbedingungen vor jeder echten Nutzung:
 - Der Testkommentar zu `soprano-leap` ist im Gesamtentwurf berichtigt; die beiden Prüfprofile verwenden diese Option ausdrücklich.
 
 **Zeitreise:**
+
+**Technischer Nachtrag vom 02.11.2026, keine neue Fachfreigabe:** Der [P4.12-Gesamtentwurf](zeitreise-musikgeschichte.md) auf `codex/history-journey-complete-draft` bearbeitet C15–C18 gemeinsam; [ADR 0071](../decisions/0071-zeitreise-gesamtentwurf-mit-gestuften-hinweisen.md). Unterschiedliche Wissensaufgaben mit konkreten Verwechslungen, zwei tatsächlich gestufte Hinweise mit freiwilliger zweiter Stufe, Motive statt ausgebauter Phrasen im Kurzmodell, korrigierter Klassik-Satz auch im Quellenentwurf und Generalbass-Rolle über das Glossar. Eigene Texte bleiben `entwurf` bis zur unabhängigen Fach-/Quellen-/Sprachprüfung. Katalog/Plan und bearbeiteter Artikel 30, öffentlich null Lektionen. Die nachfolgenden Befunde und der Rohbericht dokumentieren den ursprünglichen Prüfstand; ihre unabhängige Nachprüfung bleibt offen. Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**; P4.01 bleibt bis F14/Recht zurückgestellt.
+
 - **C15:** Alle vier Wissensfragen folgen demselben quellenkritischen Muster; Ablenker mit absoluten Signalwörtern.
 - **C16:** Hinweise sind nicht gestuft.
 - **C17:** Die Klassik-Szene spricht von „Phrasen“ bei zwei Viertonmotiven; ein logisch schiefer Satz.
 - **C18:** „Continuo-Spielerin“ gegenüber Glossar „Generalbass“.
 
 **Katalog (vorbestehend, außerhalb dieser Kette):** `history.l3.methods.lesson2/3` und `history.l4.survey.lesson2/3` fragen `source-comparison` ab, ohne `history.l2.jazz-pop-sources` vorauszusetzen. Der neue Stufe-5-Test deckt das bewusst nicht ab.
+
+**Abgleich vom 02.11.2026:** Im geprüften aktuellen `main` bei `f7bc15d` setzt `history.l3.methods.s1` bereits `history.compare-sources` aus `history.l2.jazz-pop-sources` voraus; die Stufe-4-Fähigkeiten hängen davon transitiv ab. `history-prerequisites.test.ts` prüft jetzt sämtliche `source-comparison`-Lektionen und tatsächliche Sperren ohne diese Einheit, auch bei isoliertem Einstufungsflag. Dafür war keine Änderung des Fähigkeitsgraphen erforderlich. Die ursprüngliche Aussage oben ist für diesen aktuellen Stand nicht reproduzierbar; sie bleibt als Prüfverlauf erhalten.
 
 ## Weiterhin offen
 

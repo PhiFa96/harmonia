@@ -67,9 +67,21 @@ export function checkHistoryJourneyTranslations(input: unknown = historyJourneyM
             `${locale} historyJourneyDraft:${era}.${field}: ${label} müssen unterschiedlich sein`,
           );
       }
-      for (const field of ['knowledgeHint', 'listeningHint'])
-        if (!record(story) || typeof story[field] !== 'string' || !story[field].trim())
-          problems.push(`${locale} historyJourneyDraft:${era}.${field}: Hinweistext fehlt`);
+      for (const field of ['knowledgeHints', 'listeningHints']) {
+        const hints = record(story) ? story[field] : undefined;
+        if (
+          !Array.isArray(hints) ||
+          hints.length !== 2 ||
+          !hints.every((hint: unknown) => typeof hint === 'string' && hint.trim())
+        )
+          problems.push(
+            `${locale} historyJourneyDraft:${era}.${field}: genau zwei nicht leere Hinweise erwartet`,
+          );
+        else if (new Set(hints.map((hint: string) => hint.trim())).size !== 2)
+          problems.push(
+            `${locale} historyJourneyDraft:${era}.${field}: Hinweise müssen unterschiedlich sein`,
+          );
+      }
     }
     return {
       ...RESOURCES[locale],

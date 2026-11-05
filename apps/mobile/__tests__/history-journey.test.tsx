@@ -12,7 +12,10 @@ import { contentMessages } from '@harmonia/i18n/content-messages';
 import { createHash } from 'node:crypto';
 import { historyJourneyMessages } from '@harmonia/i18n/history-journey';
 import { layoutScore, parseScore, scoreTimeline } from '@harmonia/notation';
-import { fireEvent, renderRouter, screen } from 'expo-router/testing-library';
+import { act, fireEvent, renderRouter, screen, waitFor } from 'expo-router/testing-library';
+import { digestStringAsync } from 'expo-crypto';
+import { router } from 'expo-router';
+import { useExercisePlayback } from '@/components/use-exercise-playback';
 import HistoryJourneyScreen from '@/app/history-journey';
 import { i18n } from '@/i18n';
 
@@ -20,14 +23,22 @@ jest.mock('expo-localization', () => ({
   getLocales: () => [{ languageCode: 'de', regionCode: 'DE' }],
 }));
 jest.mock('@/components/use-exercise-playback', () => ({
-  useExercisePlayback: () => ({
+  useExercisePlayback: jest.fn(),
+}));
+jest.mock('expo-crypto', () => ({
+  CryptoDigestAlgorithm: { SHA256: 'SHA256' },
+  digestStringAsync: jest.fn(),
+}));
+beforeEach(() => {
+  void i18n.changeLanguage('de');
+  jest.mocked(useExercisePlayback).mockReturnValue({
     playing: false,
     heard: true,
     error: false,
     play: jest.fn(() => Promise.resolve()),
     stop: jest.fn(),
-  }),
-}));
+  });
+});
 jest.mock('@/components/article-example', () => ({
   ArticleExample: () => null,
 }));
@@ -189,20 +200,27 @@ it('allows correction, completes a station, and awards no progress', () => {
   fireEvent.press(screen.getByText(wrongOption));
   fireEvent.press(screen.getByText('Antwort prüfen'));
   expect(screen.getByText(/Noch nicht richtig/)).toBeTruthy();
-  expect(screen.getByText(copy.knowledgeHint, { exact: false })).toBeTruthy();
+  expect(screen.getByText(copy.knowledgeHints[0] ?? '', { exact: false })).toBeTruthy();
+  expect(screen.queryByText(copy.knowledgeHints[1] ?? '')).toBeNull();
+  fireEvent.press(screen.getByText(i18n.t('historyJourney.moreHint')));
+  expect(screen.getByText(copy.knowledgeHints[1] ?? '')).toBeTruthy();
+  expect(screen.queryByText(i18n.t('historyJourney.moreHint'))).toBeNull();
   expect(screen.queryByText(copy.knowledgeExplanation, { exact: false })).toBeNull();
   expect(screen.getByText('Weiter')).toBeDisabled();
   fireEvent.press(screen.getByText(knowledgeAnswer));
   expect(screen.queryByText(/Noch nicht richtig/)).toBeNull();
+  expect(screen.getByText(copy.knowledgeHints[1] ?? '')).toBeTruthy();
   fireEvent.press(screen.getByText('Antwort prüfen'));
   expect(screen.getByText(copy.knowledgeExplanation, { exact: false })).toBeTruthy();
+  expect(screen.queryByTestId('history-hints')).toBeNull();
   fireEvent.press(screen.getByText('Weiter'));
   expect(screen.getByText(copy.listeningPrompt)).toBeTruthy();
+  expect(screen.queryByTestId('history-hints')).toBeNull();
   const wrongListening = copy.listeningOptions[1];
   if (!wrongListening) throw new Error('Missing listening distractor');
   fireEvent.press(screen.getByText(wrongListening));
   fireEvent.press(screen.getByText('Antwort prüfen'));
-  expect(screen.getByText(copy.listeningHint, { exact: false })).toBeTruthy();
+  expect(screen.getByText(copy.listeningHints[0] ?? '', { exact: false })).toBeTruthy();
   expect(screen.queryByText(copy.listeningExplanation, { exact: false })).toBeNull();
   expect(screen.getByText('Weiter')).toBeDisabled();
   fireEvent.press(screen.getByText(listeningAnswer));
@@ -211,14 +229,130 @@ it('allows correction, completes a station, and awards no progress', () => {
   fireEvent.press(screen.getByText('Weiter'));
   expect(screen.getByText(/vergibt keine XP/)).toBeTruthy();
   fireEvent.press(screen.getByText('Zurück'));
-  expect(screen.queryByText(copy.listeningHint, { exact: false })).toBeNull();
+  expect(screen.queryByText(copy.listeningHints[0] ?? '', { exact: false })).toBeNull();
   expect(screen.queryByText(copy.listeningExplanation, { exact: false })).toBeNull();
   expect(screen.getByText('Antwort prüfen')).toBeDisabled();
   fireEvent.press(screen.getByText('Gerade nicht hören – Frage überspringen'));
   expect(screen.getByText(/vergibt keine XP/)).toBeTruthy();
 });
 
-it('keeps the sound models free of parallel fifths and octaves and audibly groups the phrases', () => {
+it.each(historyStops)('$id: advances the hints after two different incorrect answers', (stop) => {
+  renderJourney();
+  const copy = createHistoryJourneyText('de', historyJourneyMessages)(stop.id);
+  fireEvent.press(screen.getByText(copy.title));
+  fireEvent.press(screen.getByText('Weiter'));
+  fireEvent.press(screen.getByText(copy.personaPrompts[0] ?? ''));
+  fireEvent.press(screen.getByText('Weiter'));
+  for (const [stage, answer, options, hints] of [
+    ['knowledge', stop.knowledgeAnswer, copy.knowledgeOptions, copy.knowledgeHints],
+    ['listening', stop.listeningAnswer, copy.listeningOptions, copy.listeningHints],
+  ] as const) {
+    expect(screen.queryByTestId('history-hints')).toBeNull();
+    const wrong = options.filter((_, index) => index !== answer);
+    for (let index = 0; index < wrong.length; index++) {
+      fireEvent.press(screen.getByText(wrong[index] ?? ''));
+      fireEvent.press(screen.getByText('Antwort prüfen'));
+      expect(screen.getByText(hints[0] ?? '')).toBeTruthy();
+      if (index === 0) expect(screen.queryByText(hints[1] ?? '')).toBeNull();
+      else expect(screen.getByText(hints[1] ?? '')).toBeTruthy();
+    }
+    fireEvent.press(screen.getByText(options[answer] ?? ''));
+    fireEvent.press(screen.getByText('Antwort prüfen'));
+    expect(screen.queryByTestId('history-hints')).toBeNull();
+    expect(
+      screen.getByText(
+        stage === 'knowledge' ? copy.knowledgeExplanation : copy.listeningExplanation,
+        { exact: false },
+      ),
+    ).toBeTruthy();
+    fireEvent.press(screen.getByText('Weiter'));
+  }
+  expect(screen.getByText(i18n.t('historyJourney.complete'))).toBeTruthy();
+});
+
+it('keeps an unheard answer uncheckable after audio failure and allows an explicit skip', () => {
+  jest.mocked(useExercisePlayback).mockReturnValue({
+    playing: false,
+    heard: false,
+    error: true,
+    play: jest.fn(() => Promise.resolve()),
+    stop: jest.fn(),
+  });
+  const stop = historyStops[0];
+  if (!stop) throw Error('Missing stop');
+  const copy = createHistoryJourneyText('de', historyJourneyMessages)(stop.id);
+  renderJourney();
+  fireEvent.press(screen.getByText(copy.title));
+  fireEvent.press(screen.getByText('Weiter'));
+  fireEvent.press(screen.getByText(copy.personaPrompts[0] ?? ''));
+  fireEvent.press(screen.getByText('Weiter'));
+  fireEvent.press(screen.getByText(copy.knowledgeOptions[stop.knowledgeAnswer] ?? ''));
+  fireEvent.press(screen.getByText('Antwort prüfen'));
+  fireEvent.press(screen.getByText('Weiter'));
+  fireEvent.press(screen.getByText(copy.listeningOptions[stop.listeningAnswer] ?? ''));
+  expect(screen.getByRole('alert')).toHaveTextContent(i18n.t('historyJourney.audioError'));
+  expect(screen.getByText('Antwort prüfen')).toBeDisabled();
+  fireEvent.press(screen.getByText(i18n.t('historyJourney.skipListening')));
+  expect(screen.getByText(i18n.t('historyJourney.complete'))).toBeTruthy();
+});
+
+it('reports a failed source lookup and permits retrying without losing the current scene', async () => {
+  const digest = jest.mocked(digestStringAsync);
+  digest
+    .mockRejectedValueOnce(new Error('Unavailable'))
+    .mockImplementationOnce((_algorithm, value) =>
+      Promise.resolve(createHash('sha256').update(value).digest('hex')),
+    );
+  const push = jest.spyOn(router, 'push').mockImplementation(() => undefined);
+  try {
+    renderJourney();
+    const copy = createHistoryJourneyText('de', historyJourneyMessages)('classical');
+    fireEvent.press(screen.getByText(copy.title));
+    fireEvent.press(screen.getByText(i18n.t('historyJourney.source')));
+    await waitFor(() => {
+      expect(screen.getByRole('alert')).toHaveTextContent(i18n.t('historyJourney.sourceError'));
+    });
+    expect(screen.getByText(copy.scene)).toBeTruthy();
+    fireEvent.press(screen.getByText(i18n.t('historyJourney.source')));
+    await waitFor(() => {
+      expect(push).toHaveBeenCalled();
+    });
+    expect(push.mock.calls[0]?.[0]).toEqual(
+      expect.stringContaining('version=30&locale=de&section=4'),
+    );
+    expect(screen.queryByRole('alert')).toBeNull();
+  } finally {
+    push.mockRestore();
+  }
+});
+
+it('ignores a source link that finishes after changing the station', async () => {
+  let finish: (digest: string) => void = () => undefined;
+  jest.mocked(digestStringAsync).mockReturnValueOnce(
+    new Promise((resolve) => {
+      finish = resolve;
+    }),
+  );
+  const push = jest.spyOn(router, 'push').mockImplementation(() => undefined);
+  try {
+    renderJourney();
+    const text = createHistoryJourneyText('de', historyJourneyMessages);
+    fireEvent.press(screen.getByText(text('classical').title));
+    fireEvent.press(screen.getByText(i18n.t('historyJourney.source')));
+    fireEvent.press(screen.getByText('Zurück'));
+    fireEvent.press(screen.getByText(text('medieval').title));
+    await act(() => {
+      finish('a'.repeat(64));
+      return Promise.resolve();
+    });
+    expect(push).not.toHaveBeenCalled();
+    expect(screen.getByText(text('medieval').scene)).toBeTruthy();
+  } finally {
+    push.mockRestore();
+  }
+});
+
+it('keeps the sound models free of parallel fifths and octaves and audibly separates the short motifs', () => {
   const natural: Record<string, number> = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 };
   const perfect = (low: number, high: number) => [0, 7].includes((high - low) % 12);
   for (const stop of historyStops)

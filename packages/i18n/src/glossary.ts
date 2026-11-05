@@ -303,6 +303,11 @@ export const GLOSSARY = {
     de: { term: 'Phrase', gender: 'f', plural: 'Phrasen' },
     en: { term: 'phrase', plural: 'phrases' },
   },
+  motif: {
+    category: 'history',
+    de: { term: 'Motiv', gender: 'n', plural: 'Motive' },
+    en: { term: 'motif', plural: 'motifs' },
+  },
   chromaticism: {
     category: 'pitch',
     de: { term: 'Chromatik', gender: 'f' },

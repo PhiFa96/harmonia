@@ -4,6 +4,7 @@ import {
   askHistoryInterview,
   chooseHistoryAnswer,
   checkHistoryQuestion,
+  revealHistoryHint,
   knowledgeArticleHref,
   knowledgeArticleParts,
   knowledgeChunkFingerprint,
@@ -19,8 +20,8 @@ import { parseScore } from '@harmonia/notation';
 import { LAYOUT, SPACE } from '@harmonia/ui';
 import { AppText, Button, Card, MusicText } from '@harmonia/ui/native';
 import { CryptoDigestAlgorithm, digestStringAsync } from 'expo-crypto';
-import { router, Stack } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { router, Stack, useFocusEffect } from 'expo-router';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { ArticleExample } from '@/components/article-example';
@@ -42,20 +43,35 @@ export default function HistoryJourneyScreen() {
   const [question, setQuestion] = useState(createHistoryQuestion);
   const [interview, setInterview] = useState(createHistoryInterview);
   const [sourceError, setSourceError] = useState(false);
+  const sourceRequest = useRef(0);
+  useFocusEffect(
+    useCallback(
+      () => () => {
+        sourceRequest.current++;
+      },
+      [],
+    ),
+  );
+  const cancelSource = () => {
+    sourceRequest.current++;
+    setSourceError(false);
+  };
   const copy = selected ? historyText(selected.id) : null;
   const chooseStop = (stop: HistoryStop | null) => {
+    cancelSource();
     setSelected(stop);
     setStep('scene');
     setQuestion(createHistoryQuestion());
     setInterview(createHistoryInterview());
-    setSourceError(false);
   };
   const next = () => {
+    cancelSource();
     setStep(STEPS[STEPS.indexOf(step) + 1] ?? 'complete');
     setQuestion(createHistoryQuestion());
     setInterview(createHistoryInterview());
   };
   const back = () => {
+    cancelSource();
     const previous = STEPS[STEPS.indexOf(step) - 1];
     if (previous) {
       setStep(previous);
@@ -64,6 +80,7 @@ export default function HistoryJourneyScreen() {
     } else chooseStop(null);
   };
   const openSource = async (stop: HistoryStop) => {
+    const request = ++sourceRequest.current;
     setSourceError(false);
     try {
       const article = catalogue.knowledgeArticles.find(
@@ -80,9 +97,9 @@ export default function HistoryJourneyScreen() {
         CryptoDigestAlgorithm.SHA256,
         knowledgeChunkFingerprint(part),
       );
-      router.push(knowledgeArticleHref({ ...part, id }));
+      if (request === sourceRequest.current) router.push(knowledgeArticleHref({ ...part, id }));
     } catch {
-      setSourceError(true);
+      if (request === sourceRequest.current) setSourceError(true);
     }
   };
   return (
@@ -190,6 +207,9 @@ export default function HistoryJourneyScreen() {
                   );
                 }}
                 onSkip={next}
+                onHint={() => {
+                  setQuestion(revealHistoryHint);
+                }}
               />
             ) : null}
             {step === 'complete' ? (
@@ -235,6 +255,7 @@ function Question({
   onChoice,
   onCheck,
   onSkip,
+  onHint,
 }: {
   readonly stop: HistoryStop;
   readonly step: 'knowledge' | 'listening';
@@ -243,6 +264,7 @@ function Question({
   readonly onChoice: (value: HistoryChoice) => void;
   readonly onCheck: (ready: boolean) => void;
   readonly onSkip: () => void;
+  readonly onHint: () => void;
 }) {
   const { t } = useTranslation();
   const score = useMemo(
@@ -252,6 +274,7 @@ function Question({
   const audio = useExercisePlayback(score);
   const listening = step === 'listening';
   const options = listening ? copy.listeningOptions : copy.knowledgeOptions;
+  const hints = listening ? copy.listeningHints : copy.knowledgeHints;
   return (
     <Card>
       <View style={styles.content}>
@@ -314,10 +337,23 @@ function Question({
               ? listening
                 ? copy.listeningExplanation
                 : copy.knowledgeExplanation
-              : listening
-                ? copy.listeningHint
-                : copy.knowledgeHint}
+              : ''}
           </AppText>
+        ) : null}
+        {question.feedback !== 'correct' && question.hintLevel > 0 ? (
+          <View style={styles.content} testID="history-hints" aria-live="polite">
+            {hints.slice(0, question.hintLevel).map((hint, index) => (
+              <View key={index}>
+                <AppText variant="title3">
+                  {t('historyJourney.hint', { level: index + 1, total: hints.length })}
+                </AppText>
+                <AppText>{hint}</AppText>
+              </View>
+            ))}
+            {question.hintLevel === 1 ? (
+              <Button variant="secondary" label={t('historyJourney.moreHint')} onPress={onHint} />
+            ) : null}
+          </View>
         ) : null}
       </View>
     </Card>

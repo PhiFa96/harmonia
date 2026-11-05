@@ -25,26 +25,47 @@ describe('P4.12 authoring translation checks', () => {
   it('requires distinct answers and nonempty retry hints', () => {
     const copy = fresh();
     copy['en-US'].medieval.knowledgeOptions[2] = copy['en-US'].medieval.knowledgeOptions[0] ?? '';
-    copy['en-US'].medieval.knowledgeHint = ' ';
+    copy['en-US'].medieval.knowledgeHints[0] = ' ';
     const problems = checkHistoryJourneyTranslations(copy);
     expect(problems).toContain(
       'en-US historyJourneyDraft:medieval.knowledgeOptions: Antworttexte müssen unterschiedlich sein',
     );
     expect(problems).toContain(
-      'en-US historyJourneyDraft:medieval.knowledgeHint: Hinweistext fehlt',
+      'en-US historyJourneyDraft:medieval.knowledgeHints: genau zwei nicht leere Hinweise erwartet',
     );
   });
-  it('keeps UK spellings separate and provides a retry hint for all eight questions', () => {
+  it('keeps UK spellings separate and provides two distinct hints for all eight questions', () => {
     expect(historyJourneyMessages['en-US'].baroque.scene).toContain('realization');
     expect(historyJourneyMessages['en-GB'].baroque.scene).toContain('realisation');
     for (const copy of Object.values(historyJourneyMessages))
       for (const story of Object.values(copy)) {
-        expect(story.knowledgeHint.trim()).not.toBe('');
-        expect(story.listeningHint.trim()).not.toBe('');
-        expect(story.knowledgeHint).not.toBe(story.knowledgeExplanation);
-        expect(story.listeningHint).not.toBe(story.listeningExplanation);
+        for (const hints of [story.knowledgeHints, story.listeningHints]) {
+          expect(hints).toHaveLength(2);
+          expect(new Set(hints).size).toBe(2);
+          for (const hint of hints) {
+            expect(hint.trim()).not.toBe('');
+            expect(hint).not.toBe(story.knowledgeExplanation);
+            expect(hint).not.toBe(story.listeningExplanation);
+          }
+        }
       }
   });
+  it.each(['knowledgeHints', 'listeningHints'] as const)(
+    '%s rejects missing, repeated and malformed hint stages in every locale',
+    (field) => {
+      for (const locale of ['de', 'en-US', 'en-GB'] as const) {
+        for (const value of [[], ['Only one'], ['Same', 'Same'], ['Valid', false]]) {
+          const copy = fresh();
+          Reflect.set(copy[locale].medieval, field, value);
+          expect(
+            checkHistoryJourneyTranslations(copy).some((problem) =>
+              problem.includes(`${locale} historyJourneyDraft:medieval.${field}:`),
+            ),
+          ).toBe(true);
+        }
+      }
+    },
+  );
   it('checks actual draft copy without adding it to public resources', () => {
     expect(checkHistoryJourneyTranslations()).toEqual([]);
   });
