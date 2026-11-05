@@ -34,6 +34,40 @@ function checks() {
 }
 const fresh = () => structuredClone(catalogue);
 
+test('C8: five original treble examples sound the notes changed by their key signature', () => {
+  const cards = catalogue.knowledgeCards.filter((card) =>
+    card.id.startsWith('scales.l2.key-reading'),
+  );
+  assert.equal(cards.length, 3);
+  const alterations = new Map([
+    [-2, { B: -1, E: -1 }],
+    [-1, { B: -1 }],
+    [0, {}],
+    [1, { F: 1 }],
+    [2, { F: 1, C: 1 }],
+  ]);
+  const covered = [];
+  for (const card of cards) {
+    assert.equal(card.status, 'entwurf');
+    for (const example of card.examples) {
+      validateContentExample(example.score);
+      const score = parseScore(example.score);
+      assert.equal(score.staves[0].clef, 'treble');
+      const fifths = score.staves[0].keySignature.fifths;
+      assert.ok(alterations.has(fifths));
+      covered.push(fifths);
+      const tones = scoreTimeline(score, { bpm: 90 }).tones;
+      assert.equal(tones.length, 4);
+      for (const { pitch } of tones)
+        assert.equal(pitch.alter, alterations.get(fifths)[pitch.letter] ?? 0);
+    }
+  }
+  assert.deepEqual(
+    covered.sort((a, b) => a - b),
+    [-2, -1, 0, 1, 2],
+  );
+});
+
 test('P4.10: six draft introductions show four simultaneous voices in a single chord', () => {
   const cards = catalogue.knowledgeCards.filter((card) => card.id.includes('.writing.'));
   assert.equal(cards.length, 6);
@@ -71,7 +105,7 @@ test('P4.10: six draft introductions show four simultaneous voices in a single c
   }
 });
 
-test('P4.11: both complete solo examples match each voice in pitch, clef and timing', () => {
+test('P4.11: legacy pieces retain their exact eight sounding pitches for seed replay', () => {
   const expected = {
     soprano: [
       [64, 67, 65, 65, 62, 62, 64, 64],
@@ -90,11 +124,38 @@ test('P4.11: both complete solo examples match each voice in pitch, clef and tim
       [48, 48, 53, 48, 43, 43, 48, 48],
     ],
   };
+
+  for (const [voice, pieces] of Object.entries(expected))
+    for (const [index, pitches] of pieces.entries()) {
+      const item = generateChoir({ voice, piece: index === 0 ? 'home' : 'arch' }, createRng(1));
+      assert.deepEqual(item.parts[voice].map(keyboardMidi), pitches);
+    }
+});
+
+test('P4.11: both complete solo examples match each voice in pitch, clef and timing', () => {
+  const expected = {
+    soprano: [
+      [72, 72, 72, 74, 74, 76, 71, 72],
+      [76, 72, 72, 71, 74, 72, 71, 72],
+    ],
+    alto: [
+      [64, 64, 65, 65, 67, 67, 62, 64],
+      [67, 65, 64, 64, 65, 65, 62, 64],
+    ],
+    tenor: [
+      [55, 57, 57, 57, 59, 59, 55, 55],
+      [60, 57, 57, 55, 57, 57, 55, 55],
+    ],
+    bass: [
+      [48, 45, 53, 50, 43, 52, 43, 48],
+      [48, 53, 45, 52, 50, 53, 43, 48],
+    ],
+  };
   for (const [voice, pieces] of Object.entries(expected)) {
     const card = catalogue.knowledgeCards.find(
       (entry) => entry.id === `aural.l4.choir.${voice}.card`,
     );
-    assert.equal(card.contentVersion, 24);
+    assert.equal(card.contentVersion, 29);
     assert.equal(card.examples.length, 2);
     assert.equal(card.status, 'entwurf');
     for (const [index, pitches] of pieces.entries()) {
@@ -118,7 +179,10 @@ test('P4.11: both complete solo examples match each voice in pitch, clef and tim
         assert.ok(Math.abs(tone.durationSeconds - 4 / 3) < 1e-8);
       });
       assert.ok(Math.abs(timeline.durationSeconds - 32 / 3) < 1e-8);
-      const exercise = generateChoir({ voice, piece: index === 0 ? 'home' : 'arch' }, createRng(1));
+      const exercise = generateChoir(
+        { voice, piece: index === 0 ? 'home' : 'arch', fifths: 0, edition: 2 },
+        createRng(1),
+      );
       assert.deepEqual(exercise.parts[voice].map(keyboardMidi), pitches);
       assert.equal(
         layoutScore(score).items.filter((item) => item.kind === 'glyph' && item.role === 'notehead')

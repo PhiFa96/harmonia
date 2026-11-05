@@ -78,7 +78,7 @@ export function revealLessonHint(lesson: LessonSession): LessonSession {
 export function itemVariantKey(item: ExerciseItem): string {
   if (item.type === 'CHOIR_PART')
     return JSON.stringify(
-      item.params.fifths === undefined
+      item.params.fifths === undefined && item.params.edition !== 2
         ? [item.type, item.params, item.bpm]
         : [item.type, item.params.voice, item.parts[item.params.voice].map(midi)],
     );
@@ -178,6 +178,21 @@ function newVariant(lesson: LessonSession, index: number): ExerciseItem {
       };
     else if (
       spec.type === 'CHOIR_PART' &&
+      spec.params.edition === 2 &&
+      original.type === 'CHOIR_PART'
+    )
+      variantSpec = {
+        ...spec,
+        params: {
+          ...spec.params,
+          piece: original.params.piece === 'home' ? 'arch' : 'home',
+          fifths: rng.pick(
+            ([-2, 0, 2] as const).filter((key) => key !== (original.params.fifths ?? 0)),
+          ),
+        },
+      };
+    else if (
+      spec.type === 'CHOIR_PART' &&
       spec.params.fifths !== undefined &&
       original.type === 'CHOIR_PART'
     )
@@ -191,6 +206,11 @@ function newVariant(lesson: LessonSession, index: number): ExerciseItem {
     const item = generateExercise(variantSpec, rng);
     if (
       itemVariantKey(item) !== itemVariantKey(original) &&
+      (item.type !== 'CHOIR_PART' ||
+        item.params.edition !== 2 ||
+        !lesson.initial.items.some(
+          (initial) => itemVariantKey(initial) === itemVariantKey(item),
+        )) &&
       (item.type !== 'CONTEXT_CHOICE' ||
         original.type !== 'CONTEXT_CHOICE' ||
         ['scale-pattern', 'triplet-duration'].includes(item.topic) ||

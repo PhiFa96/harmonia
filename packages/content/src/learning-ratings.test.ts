@@ -26,7 +26,7 @@ function perfect(definition: LessonDefinition) {
   return session;
 }
 describe('canonical rating evidence', () => {
-  it('covers all 1866 authored tasks and their parameter profiles without an answer store', () => {
+  it('covers all 1876 authored tasks and their parameter profiles without an answer store', () => {
     const seen = new Set<string>();
     let count = 0;
     for (const record of catalogue.lessons) {
@@ -48,7 +48,7 @@ describe('canonical rating evidence', () => {
       });
       count += evidence.observations.length;
     }
-    expect(count).toBe(1866);
+    expect(count).toBe(1876);
     const authored = new Set(
       catalogue.lessons.flatMap(
         (record) =>

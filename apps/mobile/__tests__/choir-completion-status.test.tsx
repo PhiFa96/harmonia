@@ -57,7 +57,7 @@ function completed(sing: boolean) {
     schemaVersion: 1,
     id: 'choir-completion-ui',
     lessonId: id,
-    contentVersion: 27,
+    contentVersion: 29,
     planKey: definition.planKey,
     seed: 'completion-ui',
     startedAt: 1000,

@@ -24,3 +24,9 @@ Die P4.11-Nacharbeitsliste nennt Mikrofon-Datenverlust als mögliche Ursache fal
 Ein Gerät, das bei physischem Ausfall weiterhin plausible stille PCM-Fenster mit lebendem Track liefert, ist damit nicht von echter Stille unterscheidbar. Kopfhöreranschluss, Mikrofonqualität, Intonation und tatsächliche Ein-/Ausgangslatenz werden nicht technisch freigegeben. Die vollständige PCM-Abdeckung ist konservativ und kann bei verzögerter JS-Verarbeitung einen erneuten Take verlangen. Die Fristen und das Verhalten müssen auf echten iOS-/Android-/Web-Geräten abgenommen werden; synthetische Signale sind keine Geräteabnahme.
 
 Technische P4-Vorarbeit findet auf Nutzerauftrag **vor der formalen Phase-4-Freigabe** statt. Musik und fachliche Auswertung bleiben Entwurf. P4.01 bleibt bis F14 und Rechtsklärung zurückgestellt.
+
+## Nachtrag 02.11.2026 – Aufnahme ohne erkannte Tonhöhe (C9)
+
+[ADR 0069](0069-chor-ohne-tonhoehen-erneut-aufnehmen.md) ergänzt den Abschluss neuer Aufnahmen: Vollständige PCM-Daten ohne einzigen akzeptierten Tonhöhenwert in den Bewertungsfenstern enden ohne Antwort mit einem eigenen Hinweis und der Wahl zwischen Wiederholen und bewusstem Überspringen. Stille bleibt gültiger Datenfluss und wird nicht als belegter Hardwaredefekt eingestuft. Teilweise erkannte Takes und historisch gespeicherte Antworten behalten ihre bisherige Bewertung. Die Transport-, Erkennungs- und musikalischen Schwellen sowie die Mindest-Gesangsbedingung ändern sich nicht.
+
+Ein gespeicherter, noch ungeprüfter Take mit ausschließlich leeren Fenstern wird beim Fortsetzen vor dem Prüfen geleert und erhält dieselbe Auswahl. Bereits geprüfte historische Leerantworten werden nicht verändert.

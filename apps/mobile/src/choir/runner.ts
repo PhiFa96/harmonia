@@ -57,12 +57,6 @@ export function createChoirRunner(item: ChoirItem, deps: Dependencies) {
     update('idle');
     return microphoneLifecycle;
   };
-  const fail = (reason: string) => {
-    void stop();
-    deps.answer(null);
-    deps.error(reason);
-    update('error');
-  };
   const start = async (mode: 'backing' | 'all' | 'solo', delayMs = 0) => {
     const closing = stop();
     const ticket = revision;
@@ -70,9 +64,16 @@ export function createChoirRunner(item: ChoirItem, deps: Dependencies) {
     if (mode === 'backing') deps.answer(null);
     update('requesting');
     const current = () => ticket === revision && deps.active();
+    const fail = (reason: string) => {
+      void stop();
+      // Only an explicitly started new take replaces the answer above. Preview errors keep it.
+      deps.error(mode === 'backing' ? reason : 'preview');
+      update('error');
+    };
     const collector = createChoirCollector(item);
     const tracker = new PitchTracker(deps.referenceHz);
     let health: ReturnType<typeof createPcmHealth> | undefined;
+    let inputClockOffset: number | undefined;
     let ready: ((success: boolean) => void) | undefined;
     const tick = () => {
       if (ticket !== revision) return;
@@ -90,6 +91,10 @@ export function createChoirRunner(item: ChoirItem, deps: Dependencies) {
       if (now >= playback.endTime + 0.35) {
         if (mode === 'backing' && !collector.inputComplete()) {
           fail('interrupted');
+          return;
+        }
+        if (mode === 'backing' && !collector.hasDetectedPitch()) {
+          fail('no-pitch');
           return;
         }
         const answer = mode === 'backing' ? collector.answer() : null;
@@ -128,6 +133,12 @@ export function createChoirRunner(item: ChoirItem, deps: Dependencies) {
                   fail(problem);
                   return;
                 }
+                const audioNow = deps.engine.context.currentTime;
+                const observedOffset = audioNow - atMs / 1000;
+                // Capture clocks have their own origin. Use the least queued offset during
+                // readiness/count-in, then freeze it so delayed batches keep their spacing.
+                if (inputClockOffset === undefined || !playback || audioNow < playback.startTime)
+                  inputClockOffset = Math.min(inputClockOffset ?? observedOffset, observedOffset);
                 if (!playback) {
                   ready?.(true);
                   return;
@@ -136,7 +147,8 @@ export function createChoirRunner(item: ChoirItem, deps: Dependencies) {
                 const latency = deps.engine.latency();
                 const outputDelay = Math.max(0, (latency.base ?? 0) + (latency.output ?? 0));
                 const seconds =
-                  deps.engine.context.currentTime -
+                  atMs / 1000 +
+                  inputClockOffset -
                   playback.startTime -
                   samples.length / rate / 2 -
                   outputDelay -

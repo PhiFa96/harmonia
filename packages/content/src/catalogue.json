@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": 27,
+  "contentVersion": 29,
   "areas": [
     {
       "id": "fundament",
@@ -560,6 +560,13 @@
       "levelId": "intervals.level-2"
     },
     {
+      "id": "scales.l2.key-reading",
+      "contentVersion": 28,
+      "status": "entwurf",
+      "titleKey": "content.signatureReading.unitTitle",
+      "levelId": "scales.level-2"
+    },
+    {
       "id": "scales.l2.major",
       "contentVersion": 2,
       "status": "entwurf",
@@ -819,7 +826,7 @@
       "levelId": "satz.level-5"
     },
     {
-      "contentVersion": 26,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir",
       "titleKey": "content.choir.title",
@@ -1421,6 +1428,18 @@
       "titleKey": "content.curriculum.skills.melodicMinor",
       "areaId": "area.scales",
       "prerequisites": ["scale.harmonic-minor"]
+    },
+    {
+      "id": "key.signature-read-treble",
+      "contentVersion": 28,
+      "status": "entwurf",
+      "titleKey": "content.signatureReading.skillTitle",
+      "areaId": "area.scales",
+      "prerequisites": [
+        "notation.treble-natural",
+        "notation.accidentals",
+        "notation.octave-register"
+      ]
     },
     {
       "id": "key.signature-major",
@@ -2281,7 +2300,7 @@
       "prerequisites": ["satz.l4.writing.functions", "chords.l3.sevenths.s2"]
     },
     {
-      "contentVersion": 26,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir.soprano",
       "titleKey": "content.choir.soprano",
@@ -2290,11 +2309,12 @@
         "aural.l3.dictation.s3",
         "notation.treble-natural",
         "notation.accidental-scope",
-        "rhythm.read-basic"
+        "rhythm.read-basic",
+        "key.signature-read-treble"
       ]
     },
     {
-      "contentVersion": 26,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir.alto",
       "titleKey": "content.choir.alto",
@@ -2303,11 +2323,12 @@
         "aural.l3.dictation.s3",
         "notation.treble-natural",
         "notation.accidental-scope",
-        "rhythm.read-basic"
+        "rhythm.read-basic",
+        "key.signature-read-treble"
       ]
     },
     {
-      "contentVersion": 26,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir.tenor",
       "titleKey": "content.choir.tenor",
@@ -2316,11 +2337,12 @@
         "aural.l3.dictation.s3",
         "notation.bass-natural",
         "notation.accidental-scope",
-        "rhythm.read-basic"
+        "rhythm.read-basic",
+        "key.signature-read-treble"
       ]
     },
     {
-      "contentVersion": 26,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir.bass",
       "titleKey": "content.choir.bass",
@@ -2329,7 +2351,8 @@
         "aural.l3.dictation.s3",
         "notation.bass-natural",
         "notation.accidental-scope",
-        "rhythm.read-basic"
+        "rhythm.read-basic",
+        "key.signature-read-treble"
       ]
     },
     {
@@ -7308,7 +7331,7 @@
       ]
     },
     {
-      "contentVersion": 25,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir.soprano.exercises",
       "titleKey": "content.choir.soprano",
@@ -7320,7 +7343,8 @@
             "params": {
               "voice": "soprano",
               "piece": "home",
-              "fifths": 0
+              "fifths": 0,
+              "edition": 2
             }
           },
           "count": 1
@@ -7331,7 +7355,8 @@
             "params": {
               "voice": "soprano",
               "piece": "arch",
-              "fifths": 2
+              "fifths": 2,
+              "edition": 2
             }
           },
           "count": 1
@@ -7339,7 +7364,7 @@
       ]
     },
     {
-      "contentVersion": 25,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir.alto.exercises",
       "titleKey": "content.choir.alto",
@@ -7351,7 +7376,8 @@
             "params": {
               "voice": "alto",
               "piece": "home",
-              "fifths": 0
+              "fifths": 0,
+              "edition": 2
             }
           },
           "count": 1
@@ -7362,7 +7388,8 @@
             "params": {
               "voice": "alto",
               "piece": "arch",
-              "fifths": 2
+              "fifths": 2,
+              "edition": 2
             }
           },
           "count": 1
@@ -7370,7 +7397,7 @@
       ]
     },
     {
-      "contentVersion": 25,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir.tenor.exercises",
       "titleKey": "content.choir.tenor",
@@ -7382,7 +7409,8 @@
             "params": {
               "voice": "tenor",
               "piece": "home",
-              "fifths": 0
+              "fifths": 0,
+              "edition": 2
             }
           },
           "count": 1
@@ -7393,7 +7421,8 @@
             "params": {
               "voice": "tenor",
               "piece": "arch",
-              "fifths": 2
+              "fifths": 2,
+              "edition": 2
             }
           },
           "count": 1
@@ -7401,7 +7430,7 @@
       ]
     },
     {
-      "contentVersion": 25,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir.bass.exercises",
       "titleKey": "content.choir.bass",
@@ -7413,7 +7442,8 @@
             "params": {
               "voice": "bass",
               "piece": "home",
-              "fifths": 0
+              "fifths": 0,
+              "edition": 2
             }
           },
           "count": 1
@@ -7424,7 +7454,8 @@
             "params": {
               "voice": "bass",
               "piece": "arch",
-              "fifths": 2
+              "fifths": 2,
+              "edition": 2
             }
           },
           "count": 1
@@ -8105,6 +8136,26 @@
             }
           },
           "count": 12
+        }
+      ]
+    },
+    {
+      "id": "scales.l2.key-reading.exercises",
+      "contentVersion": 28,
+      "status": "entwurf",
+      "titleKey": "content.signatureReading.lessonTitle",
+      "skillIds": ["key.signature-read-treble"],
+      "exercises": [
+        {
+          "spec": {
+            "type": "KEYSIG_IDENTIFY",
+            "params": {
+              "clefs": ["treble"],
+              "modes": ["major"],
+              "fifths": [-2, -1, 0, 1, 2]
+            }
+          },
+          "count": 10
         }
       ]
     }
@@ -13623,7 +13674,7 @@
       ]
     },
     {
-      "contentVersion": 24,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir.soprano.card",
       "titleKey": "content.choir.soprano",
@@ -13631,17 +13682,17 @@
       "bodyKey": "content.choir.intro",
       "examples": [
         {
-          "score": "treble | key:C | 4/4 | E4/2 G4/2 | F4/2 F4/2 | D4/2 D4/2 | E4/2 E4/2",
+          "score": "treble | key:C | 4/4 | C5/2 C5/2 | C5/2 D5/2 | D5/2 E5/2 | B4/2 C5/2",
           "captionKey": "content.choir.sopranoHomeCaption"
         },
         {
-          "score": "treble | key:C | 4/4 | E4/2 E4/2 | F4/2 E4/2 | D4/2 F4/2 | E4/2 E4/2",
+          "score": "treble | key:C | 4/4 | E5/2 C5/2 | C5/2 B4/2 | D5/2 C5/2 | B4/2 C5/2",
           "captionKey": "content.choir.sopranoArchCaption"
         }
       ]
     },
     {
-      "contentVersion": 24,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir.alto.card",
       "titleKey": "content.choir.alto",
@@ -13649,17 +13700,17 @@
       "bodyKey": "content.choir.intro",
       "examples": [
         {
-          "score": "treble | key:C | 4/4 | C4/2 C4/2 | C4/2 C4/2 | B3/2 B3/2 | C4/2 C4/2",
+          "score": "treble | key:C | 4/4 | E4/2 E4/2 | F4/2 F4/2 | G4/2 G4/2 | D4/2 E4/2",
           "captionKey": "content.choir.altoHomeCaption"
         },
         {
-          "score": "treble | key:C | 4/4 | C4/2 C4/2 | C4/2 C4/2 | B3/2 B3/2 | C4/2 C4/2",
+          "score": "treble | key:C | 4/4 | G4/2 F4/2 | E4/2 E4/2 | F4/2 F4/2 | D4/2 E4/2",
           "captionKey": "content.choir.altoArchCaption"
         }
       ]
     },
     {
-      "contentVersion": 24,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir.tenor.card",
       "titleKey": "content.choir.tenor",
@@ -13667,17 +13718,17 @@
       "bodyKey": "content.choir.intro",
       "examples": [
         {
-          "score": "bass | key:C | 4/4 | G3/2 G3/2 | A3/2 A3/2 | G3/2 G3/2 | G3/2 G3/2",
+          "score": "bass | key:C | 4/4 | G3/2 A3/2 | A3/2 A3/2 | B3/2 B3/2 | G3/2 G3/2",
           "captionKey": "content.choir.tenorHomeCaption"
         },
         {
-          "score": "bass | key:C | 4/4 | G3/2 G3/2 | A3/2 G3/2 | G3/2 G3/2 | G3/2 G3/2",
+          "score": "bass | key:C | 4/4 | C4/2 A3/2 | A3/2 G3/2 | A3/2 A3/2 | G3/2 G3/2",
           "captionKey": "content.choir.tenorArchCaption"
         }
       ]
     },
     {
-      "contentVersion": 24,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir.bass.card",
       "titleKey": "content.choir.bass",
@@ -13685,11 +13736,11 @@
       "bodyKey": "content.choir.intro",
       "examples": [
         {
-          "score": "bass | key:C | 4/4 | C3/2 E3/2 | F3/2 F3/2 | G3/2 G3/2 | C3/2 C3/2",
+          "score": "bass | key:C | 4/4 | C3/2 A2/2 | F3/2 D3/2 | G2/2 E3/2 | G2/2 C3/2",
           "captionKey": "content.choir.bassHomeCaption"
         },
         {
-          "score": "bass | key:C | 4/4 | C3/2 C3/2 | F3/2 C3/2 | G2/2 G2/2 | C3/2 C3/2",
+          "score": "bass | key:C | 4/4 | C3/2 F3/2 | A2/2 E3/2 | D3/2 F3/2 | G2/2 C3/2",
           "captionKey": "content.choir.bassArchCaption"
         }
       ]
@@ -14139,6 +14190,56 @@
         {
           "score": "treble | 4/4 | C4/4 C#4/4 D4/4 D#4/4",
           "captionKey": "content.levelFive.units.worldStudy.modelBoundaryCaption"
+        }
+      ]
+    },
+    {
+      "id": "scales.l2.key-reading.card-scope",
+      "contentVersion": 28,
+      "status": "entwurf",
+      "titleKey": "content.signatureReading.scopeTitle",
+      "skillIds": ["key.signature-read-treble"],
+      "bodyKey": "content.signatureReading.scopeBody",
+      "examples": [
+        {
+          "score": "treble | key:C | 4/4 | F4/4 G4/4 A4/4 B4/4",
+          "captionKey": "content.signatureReading.scopeCaption"
+        }
+      ]
+    },
+    {
+      "id": "scales.l2.key-reading.card-sharps",
+      "contentVersion": 28,
+      "status": "entwurf",
+      "titleKey": "content.signatureReading.sharpsTitle",
+      "skillIds": ["key.signature-read-treble"],
+      "bodyKey": "content.signatureReading.sharpsBody",
+      "examples": [
+        {
+          "score": "treble | key:G | 4/4 | F#4/4 G4/4 A4/4 F#5/4",
+          "captionKey": "content.signatureReading.gCaption"
+        },
+        {
+          "score": "treble | key:D | 4/4 | F#4/4 A4/4 C#5/4 D5/4",
+          "captionKey": "content.signatureReading.dCaption"
+        }
+      ]
+    },
+    {
+      "id": "scales.l2.key-reading.card-flats",
+      "contentVersion": 28,
+      "status": "entwurf",
+      "titleKey": "content.signatureReading.flatsTitle",
+      "skillIds": ["key.signature-read-treble"],
+      "bodyKey": "content.signatureReading.flatsBody",
+      "examples": [
+        {
+          "score": "treble | key:F | 4/4 | A4/4 Bb4/4 C5/4 Bb4/4",
+          "captionKey": "content.signatureReading.fCaption"
+        },
+        {
+          "score": "treble | key:Bb | 4/4 | Bb4/4 C5/4 D5/4 Eb5/4",
+          "captionKey": "content.signatureReading.bbCaption"
         }
       ]
     }
@@ -18942,6 +19043,53 @@
           ]
         }
       ]
+    },
+    {
+      "id": "scales.l2.key-reading.article",
+      "contentVersion": 28,
+      "status": "entwurf",
+      "titleKey": "content.signatureReading.articleTitle",
+      "skillIds": ["key.signature-read-treble"],
+      "sections": [
+        {
+          "headingKey": "content.signatureReading.scopeTitle",
+          "bodyKey": "content.signatureReading.scopeBody",
+          "examples": [
+            {
+              "score": "treble | key:C | 4/4 | F4/4 G4/4 A4/4 B4/4",
+              "captionKey": "content.signatureReading.scopeCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.signatureReading.sharpsTitle",
+          "bodyKey": "content.signatureReading.sharpsBody",
+          "examples": [
+            {
+              "score": "treble | key:G | 4/4 | F#4/4 G4/4 A4/4 F#5/4",
+              "captionKey": "content.signatureReading.gCaption"
+            },
+            {
+              "score": "treble | key:D | 4/4 | F#4/4 A4/4 C#5/4 D5/4",
+              "captionKey": "content.signatureReading.dCaption"
+            }
+          ]
+        },
+        {
+          "headingKey": "content.signatureReading.flatsTitle",
+          "bodyKey": "content.signatureReading.flatsBody",
+          "examples": [
+            {
+              "score": "treble | key:F | 4/4 | A4/4 Bb4/4 C5/4 Bb4/4",
+              "captionKey": "content.signatureReading.fCaption"
+            },
+            {
+              "score": "treble | key:Bb | 4/4 | Bb4/4 C5/4 D5/4 Eb5/4",
+              "captionKey": "content.signatureReading.bbCaption"
+            }
+          ]
+        }
+      ]
     }
   ],
   "lessons": [
@@ -19700,6 +19848,20 @@
         "intervals.l2.inversion.card-octaves"
       ],
       "exerciseSetIds": ["intervals.l2.inversion.apply.exercises"]
+    },
+    {
+      "id": "scales.l2.key-reading.lesson",
+      "contentVersion": 28,
+      "status": "entwurf",
+      "titleKey": "content.signatureReading.lessonTitle",
+      "unitId": "scales.l2.key-reading",
+      "skillIds": ["key.signature-read-treble"],
+      "introductionCardIds": [
+        "scales.l2.key-reading.card-scope",
+        "scales.l2.key-reading.card-sharps",
+        "scales.l2.key-reading.card-flats"
+      ],
+      "exerciseSetIds": ["scales.l2.key-reading.exercises"]
     },
     {
       "contentVersion": 13,
@@ -21379,7 +21541,7 @@
       "exerciseSetIds": ["satz.l5.writing.functions.exercises"]
     },
     {
-      "contentVersion": 27,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir.soprano.lesson",
       "titleKey": "content.choir.soprano",
@@ -21390,7 +21552,7 @@
       "minimumChoirCorrect": 1
     },
     {
-      "contentVersion": 27,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir.alto.lesson",
       "titleKey": "content.choir.alto",
@@ -21401,7 +21563,7 @@
       "minimumChoirCorrect": 1
     },
     {
-      "contentVersion": 27,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir.tenor.lesson",
       "titleKey": "content.choir.tenor",
@@ -21412,7 +21574,7 @@
       "minimumChoirCorrect": 1
     },
     {
-      "contentVersion": 27,
+      "contentVersion": 29,
       "status": "entwurf",
       "id": "aural.l4.choir.bass.lesson",
       "titleKey": "content.choir.bass",
