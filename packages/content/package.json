@@ -22,7 +22,7 @@
   "devDependencies": {
     "@harmonia/config": "workspace:*",
     "@harmonia/theory": "workspace:*",
-    "@types/node": "^26.6.5",
+    "@types/node": "^26.6.6",
     "fast-check": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"
