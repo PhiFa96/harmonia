@@ -24,8 +24,9 @@ export interface LicenseOverview extends LicenseAccess {
   operator: boolean;
   organizations: { id: string; label: string }[];
   invoices: LicenseInvoice[];
-  candidates: { id: string; key: ActorKey; org: string }[];
-  seats: { invoice: string; actor: string }[];
+  candidates: { id: string; key: ActorKey | null; label: string | null; org: string }[];
+  requests: { org: string; organization: string; requested: boolean; label: string | null }[];
+  seats: { invoice: string; member: string }[];
   events: {
     invoice: string;
     kind: 'created' | 'paid' | 'void' | 'assigned' | 'released';

@@ -71,6 +71,10 @@ const de = {
   licenseRequired:
     'Ein aktiver Schul-Premium-Platz ist erforderlich. Der aktuelle Status wird beim nächsten Abruf geprüft.',
   practiceExpired: 'Diese Übungsfrage ist nach einer Stunde abgelaufen. Bitte eine neue beginnen.',
+  requestInfo:
+    'Eine freiwillige Platzanfrage macht dein organisationsbezogenes Lizenzkürzel für die Verwaltung sichtbar. Sie gibt keine Lernstände oder Ergebnisse frei. Wenn du die Anfrage zurücknimmst, werden auch zugewiesene Plätze dieser Organisation entfernt.',
+  requestSeat: 'Einen Schulplatz anfragen',
+  withdrawRequest: 'Platzanfrage zurücknehmen',
 };
 const en: Record<keyof typeof de, string> = {
   entry: 'School licence · draft',
@@ -144,6 +148,10 @@ const en: Record<keyof typeof de, string> = {
   licenseRequired:
     'An active school Premium seat is required. Access is checked again on the next request.',
   practiceExpired: 'This practice question expired after one hour. Start a new question.',
+  requestInfo:
+    'A voluntary seat request makes your organization-specific licence nickname visible to its administrators. It shares no learning data or results. Withdrawing the request also removes assigned seats from this organization.',
+  requestSeat: 'Request a school seat',
+  withdrawRequest: 'Withdraw seat request',
 };
 export const LICENSE_MESSAGES = {
   de,
@@ -159,9 +167,11 @@ export const LICENSE_MESSAGES = {
     events: en.events.replace('Licence', 'License'),
     licenseFull: en.licenseFull.replace('licence', 'license'),
     licenseState: en.licenseState.replace('licence', 'license'),
+    requestInfo: en.requestInfo.replaceAll('licence', 'license'),
   },
   'en-GB': {
     ...en,
+    requestInfo: en.requestInfo.replaceAll('organization', 'organisation'),
     org: 'Organisation',
     organization: 'Invented recipient',
     noOrgs: en.noOrgs.replace('organization', 'organisation'),

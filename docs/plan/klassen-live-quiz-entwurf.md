@@ -1,5 +1,9 @@
 # P4.15 – Klassen-Live-Quiz als interner Entwurf
 
+**Aktueller Gesamtstand vom 02.11.2026:** Maßgeblich ist jetzt der [zusammenhängende P4.13–P4.16-Entwurf](schule-gesamtstand.md) mit Identitätsbindung, Freigabeversion 2, Datenschutzfunktionen und zusätzlichen Datenbankgrenzen. Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**; alle Inhalte/Texte Entwurf, keine Veröffentlichung. P4.01 bleibt bis F14/Recht zurückgestellt. Die folgenden datierten Angaben sind der Vorgängerstand.
+
+## Vorgängerstand
+
 Stand: 24.10.2026 · Branch `codex/p4-15-class-live-quiz-draft`
 
 **Technische P4-Vorarbeit auf Nutzerauftrag vor der formalen Phase-4-Freigabe.** Der Entwurf erweitert die lokale Schulwerkstatt und Aufgabenquellen aus P4.13/P4.14. Voraussetzung ist der noch offene [Entwurfs-PR #106](https://github.com/PhiFa96/harmonia/pull/106), der seinerseits #105 enthält. Alle fünf CI-Jobs für dessen Commit `c9b685d` sind inzwischen grün. Der neue PR gegen `main` enthält diese Voraussetzungen; ihre Integration ist vor einem späteren Merge abzustimmen.

@@ -1,5 +1,13 @@
 # P4.13–P4.16 – Technische Datenschutzanlage zur späteren Rechts-/AVV-Prüfung
 
+## Aktueller technischer Gesamtstand vom 02.11.2026
+
+Der [P4.13–P4.16-Gesamtentwurf](../plan/schule-gesamtstand.md) und [ADR 0072](../decisions/0072-schulbereich-mit-gebundener-identitaet-und-datenrechten.md) ersetzen die nachfolgenden technischen Einzelangaben: aktuelle Freigabeversion 2 einschließlich Aufgaben-/Quizergebnissen, zufällige Klassenmitgliedschafts- und organisationsbezogene Lizenzhandles, sichtbare Zuordnungsereignisse, eigener Export/Löschung, korrigierte Kaskaden und zeitlich begrenzte Auditdaten. Freiwillige Platzanfragen erweitern keine Lernstandfreigabe. Der Token-Testmodus bindet registrierte Identitäten an signierte Tokens; die Standardauswahl bleibt ausdrücklich synthetisch.
+
+Die tatsächlichen vorläufigen Fristen und der lokale Betreiberlauf stehen im Gesamtstand. Die Freigabe-/Aufbewahrungstexte sind **Entwurf**. Echte Anbieter-/Kontodatenrechteintegration, P4.17, Schulrecht/AVV, Einwilligungsgrundlage, Betreiber-/Rechnungsprüfung und Pilotschule bleiben offen. Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**; keine echte Schulnutzung oder Veröffentlichung. P4.01 bleibt bis F14/Recht zurückgestellt.
+
+## Vorgängerstand vom 24.10.2026
+
 Stand 24.10.2026 · **Entwurf, ausschließlich synthetische Vorschau. Kein unterschriftsreifer AVV und keine Rechtsfreigabe.**
 
 ## Implementierter Datenfluss

@@ -1,5 +1,6 @@
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { evaluateExercise, choiceLabel } from '../../packages/exercises/src/index.ts';
+import { limitJoin, retryUnique } from './limits.mjs';
 import { asActor } from './database.mjs';
 import { SchoolError } from './service.mjs';
 import { freezeAssignment, materialDigest, questionView } from './assignment-content.mjs';
@@ -24,7 +25,13 @@ function uuid(s) {
 function language(s) {
   if (!['de', 'en-US', 'en-GB'].includes(s)) throw new SchoolError('invalid');
 }
-export function createQuizService(pool) {
+export function createQuizService(
+  pool,
+  {
+    makeCode = code,
+    makeNickname = () => 'Q-' + randomBytes(4).toString('hex').toUpperCase(),
+  } = {},
+) {
   const run = (actor, fn) =>
     asActor(pool, actor, async (db) => {
       await db.query('set local role harmonia_school_grader');
@@ -32,13 +39,19 @@ export function createQuizService(pool) {
     }).catch((e) => {
       if (e instanceof SchoolError) throw e;
       if (e.code === '42501') throw new SchoolError('forbidden', 403);
+      if (e.code === '23505') throw new SchoolError('codeConflict', 409);
       if (['23503', '23514', '22P02'].includes(e.code)) throw new SchoolError('invalid');
       throw e;
     });
-  async function load(db, id, joining = false) {
+  async function load(db, id, joining = false, write = true) {
     let q = (await db.query('select * from school_draft.quizzes where id=$1', [id])).rows[0];
     if (!q) throw new SchoolError('forbidden', 403);
-    await db.query('select school_draft.assignment_class_lock($1)', [q.class_id]);
+    await db.query(
+      write
+        ? 'select school_draft.assignment_class_lock($1)'
+        : 'select school_draft.assignment_class_read($1)',
+      [q.class_id],
+    );
     q = (
       await db.query(
         'select *,school_draft.quiz_allowed(id) as allowed,school_draft.teaches(class_id) as teacher,clock_timestamp() as server_now from school_draft.quizzes where id=$1',
@@ -132,10 +145,10 @@ export function createQuizService(pool) {
     if (q.teacher && mode === 'teacher' && q.phase === 'finished') {
       view.results = (
         await db.query(
-          `select m.alias,m.sharing,count(a.quiz_id)::int as answered,count(a.quiz_id) filter(where a.correct)::int as correct
+          `select m.alias,school_draft.sharing_current(m.class_id,m.actor_id) as sharing,count(a.quiz_id)::int as answered,count(a.quiz_id) filter(where a.correct)::int as correct
     from school_draft.quiz_players p join school_draft.class_members m on m.class_id=p.class_id and m.actor_id=p.actor_id
     left join school_draft.quiz_answers a on a.quiz_id=p.quiz_id and a.actor_id=p.actor_id
-    where p.quiz_id=$1 group by p.actor_id,m.alias,m.sharing order by m.alias`,
+    where p.quiz_id=$1 group by p.actor_id,m.alias,m.class_id,m.actor_id order by m.alias`,
           [q.id],
         )
       ).rows.map((r) => ({
@@ -179,18 +192,21 @@ export function createQuizService(pool) {
         if (frozen.items.length > 20) throw new SchoolError('invalid');
         return run(actor, async (db) => {
           await db.query('select school_draft.assignment_class_lock($1)', [p.class]);
-          const id = randomUUID(),
-            joinCode = code();
+          const id = randomUUID();
+          let joinCode;
           await db.query(
             'insert into school_draft.quizzes(id,class_id,title,task_count,seconds,content_version) values($1,$2,$3,$4,$5,$6)',
             [id, p.class, p.title.trim(), frozen.items.length, p.seconds, frozen.contentVersion],
           );
-          await db.query('insert into school_draft.quiz_material values($1,$2,$3,$4)', [
-            id,
-            hash(joinCode),
-            frozen.digest,
-            JSON.stringify(frozen.items),
-          ]);
+          await retryUnique(db, async () => {
+            joinCode = makeCode();
+            await db.query('insert into school_draft.quiz_material values($1,$2,$3,$4)', [
+              id,
+              hash(joinCode),
+              frozen.digest,
+              JSON.stringify(frozen.items),
+            ]);
+          }, ['quiz_material_code_hash_key']);
           return { id, code: joinCode };
         });
       }
@@ -198,7 +214,7 @@ export function createQuizService(pool) {
         exact(p, ['class']);
         uuid(p.class);
         return run(actor, async (db) => {
-          await db.query('select school_draft.assignment_class_lock($1)', [p.class]);
+          await db.query('select school_draft.assignment_class_read($1)', [p.class]);
           return {
             quizzes: (
               await db.query(
@@ -217,6 +233,7 @@ export function createQuizService(pool) {
           typeof p.ranking !== 'boolean'
         )
           throw new SchoolError('invalid');
+        await limitJoin(pool, actor, 'quiz');
         return run(actor, async (db) => {
           const id = (
             await db.query('select school_draft.quiz_code($1) as id', [hash(p.code.toUpperCase())])
@@ -245,9 +262,14 @@ export function createQuizService(pool) {
             const size = (await db.query('select school_draft.quiz_player_count($1) as n', [id]))
               .rows[0].n;
             if (size >= 30) throw new SchoolError('quizFull', 409);
-            await db.query(
-              'insert into school_draft.quiz_players values($1,$2,school_draft.actor(),$3,$4)',
-              [id, q.class_id, 'Q-' + randomBytes(4).toString('hex').toUpperCase(), p.ranking],
+            await retryUnique(
+              db,
+              () =>
+                db.query(
+                  'insert into school_draft.quiz_players values($1,$2,school_draft.actor(),$3,$4)',
+                  [id, q.class_id, makeNickname(), p.ranking],
+                ),
+              ['quiz_players_quiz_id_nickname_key'],
             );
           }
           return { id };
@@ -292,7 +314,7 @@ export function createQuizService(pool) {
         throw new SchoolError('invalid');
       if (action === 'ranking' && typeof p.enabled !== 'boolean') throw new SchoolError('invalid');
       return run(actor, async (db) => {
-        let q = await load(db, p.id);
+        let q = await load(db, p.id, false, action !== 'view');
         q = await expire(db, q);
         if (action === 'view') return snapshot(db, q, p.locale, p.mode);
         if (action === 'ranking') {
@@ -331,11 +353,14 @@ export function createQuizService(pool) {
         if (!q.teacher) throw new SchoolError('forbidden', 403);
         if (action === 'rotate') {
           if (q.phase !== 'lobby') throw new SchoolError('quizRoundClosed', 409);
-          const joinCode = code();
-          await db.query('update school_draft.quiz_material set code_hash=$2 where quiz_id=$1', [
-            q.id,
-            hash(joinCode),
-          ]);
+          let joinCode;
+          await retryUnique(db, async () => {
+            joinCode = makeCode();
+            await db.query('update school_draft.quiz_material set code_hash=$2 where quiz_id=$1', [
+              q.id,
+              hash(joinCode),
+            ]);
+          }, ['quiz_material_code_hash_key']);
           return { code: joinCode };
         }
         if (['finished', 'cancelled'].includes(q.phase) || p.index !== q.round_index)

@@ -91,6 +91,15 @@ export function createLicenseService(pool) {
   }
   return {
     async call(actor, action, p) {
+      if (action === 'request') {
+        exact(p, ['org', 'enabled']);
+        uuid(p.org);
+        if (typeof p.enabled !== 'boolean') throw new SchoolError('invalid');
+        return run(actor, async (db) => {
+          await db.query('select school_draft.license_request($1,$2)', [p.org, p.enabled]);
+          return { ok: true };
+        });
+      }
       if (action === 'status') {
         exact(p, []);
         return run(actor, access);
@@ -121,11 +130,7 @@ export function createLicenseService(pool) {
                 candidates.push({ ...a, org: org.id });
           const seats = operator
             ? []
-            : (
-                await db.query(
-                  'select invoice_id as invoice,actor_id as actor from school_draft.license_seats',
-                )
-              ).rows;
+            : (await db.query('select * from school_draft.license_public_seats()')).rows;
           const events = (
             await db.query(
               'select invoice_id as invoice,kind,at from school_draft.license_events order by id',
@@ -136,6 +141,7 @@ export function createLicenseService(pool) {
             organizations,
             invoices,
             candidates,
+            requests: (await db.query('select * from school_draft.license_own_requests()')).rows,
             seats,
             events,
             ...(await access(db)),
@@ -202,14 +208,14 @@ export function createLicenseService(pool) {
         });
       }
       if (action === 'assign') {
-        exact(p, ['id', 'actor', 'enabled']);
+        exact(p, ['id', 'member', 'enabled']);
         uuid(p.id);
-        uuid(p.actor);
+        uuid(p.member);
         if (typeof p.enabled !== 'boolean') throw new SchoolError('invalid');
         return run(actor, async (db) => {
           await db.query('select school_draft.license_assign($1,$2,$3)', [
             p.id,
-            p.actor,
+            p.member,
             p.enabled,
           ]);
           return { ok: true };

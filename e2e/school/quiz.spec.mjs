@@ -114,13 +114,21 @@ for (const locale of ['de', 'en-US', 'en-GB'])
     await expect(
       page.getByText(t('coverage', { included: 0, participants: 1 }), { exact: true }),
     ).toBeVisible();
-    await f.act('learnerA', 'sharing', { class: f.classId, enabled: true });
+    await f.act('learnerA', 'sharing', {
+      class: f.classId,
+      enabled: true,
+      policy: 'school-draft-sharing-v2',
+    });
     await expect(
       page.getByText(t('coverage', { included: 1, participants: 1 }), { exact: true }),
     ).toBeVisible();
     await learner.getByRole('button', { name: t('rankingOff'), exact: true }).click();
     await expect(page.getByText(t('noBoard'), { exact: true })).toBeVisible();
-    await f.act('learnerA', 'sharing', { class: f.classId, enabled: false });
+    await f.act('learnerA', 'sharing', {
+      class: f.classId,
+      enabled: false,
+      policy: 'school-draft-sharing-v2',
+    });
     await expect(
       page.getByText(t('coverage', { included: 0, participants: 1 }), { exact: true }),
     ).toBeVisible();

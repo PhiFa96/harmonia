@@ -81,6 +81,8 @@ Jeden als behoben geführten Befund habe ich vor der Korrektur selbst nachvollzo
 
 ## Nacharbeitsliste (nicht blockierend, offen)
 
+**Technischer Schul-Nachtrag vom 02.11.2026, keine Produkt-/Rechtsfreigabe:** Der [Gesamtentwurf P4.13–P4.16](schule-gesamtstand.md) bearbeitet D-F1–D-F13 gemeinsam auf `codex/school-complete-draft`. `auth.uid()` und geprüfte Testtokenidentitäten, private Betreiberregistrierung, Freigabeversion 2, minimale Berichte, Platzanfragen, Export/Löschung/Aufbewahrung, Datenbanktrigger, gemeinsame Lesesperren, Codebudgets und Kollisionsbehandlung sind implementiert und mit echten lokalen Rollen-/HTTP-/Browserprüfungen abgesichert. Der Rohbericht und die folgenden Befunde beschreiben den Vorgängerstand. Echte Anbieteridentitäten, Produktmigration/-einbindung, Schulrecht/AVV, P4.17, Primärquellen-/Fach-/Sprachprüfung und reale Pilot-/Geräteabnahmen bleiben offen. Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**, alle Inhalte/Texte Entwurf; P4.01 bis F14/Recht zurückgestellt. [ADR 0072](../decisions/0072-schulbereich-mit-gebundener-identitaet-und-datenrechten.md).
+
 Harte Vorbedingungen vor jeder echten Nutzung:
 
 - **Schule D-F1:** Identität über `school_draft.actor` und eine fest einkodierte Betreiber-UUID; vor einer Übernahme an `auth.uid()` und eine echte Betreiberbindung binden.

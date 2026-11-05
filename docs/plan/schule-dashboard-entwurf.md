@@ -1,5 +1,9 @@
 # P4.13 – Organisationen, Klassen und Lehrer-Dashboard als interner Entwurf
 
+**Aktueller Gesamtstand vom 02.11.2026:** Maßgeblich ist jetzt der [zusammenhängende P4.13–P4.16-Entwurf](schule-gesamtstand.md) mit Identitätsbindung, Freigabeversion 2, Datenschutzfunktionen und zusätzlichen Datenbankgrenzen. Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**; alle Inhalte/Texte Entwurf, keine Veröffentlichung. P4.01 bleibt bis F14/Recht zurückgestellt. Die folgenden datierten Angaben sind der Vorgängerstand.
+
+## Vorgängerstand
+
 Stand: 23.10.2026 · Arbeitsbranch `codex/p4-13-school-draft`
 
 **Technische P4-Vorarbeit auf ausdrücklichen Nutzerauftrag, vor der formalen Phase-4-Freigabe.** P4.01 bleibt bis F14 und Klärung der rechtlichen Voraussetzungen zurückgestellt. Die dafür im Plan vorausgesetzte Dashboard-Basis wird für diesen Entwurf durch eine eigene lokale Web-Werkstatt ersetzt. Das ist keine Abnahme von P4.01 oder P4.13 als Schulprodukt. P4.17, AVV, Landesrecht, Rollen-/Identitätsprüfung, reale Konten und Geräte bleiben offen. Keine Veröffentlichung oder Bereitstellung.

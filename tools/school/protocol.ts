@@ -23,11 +23,14 @@ export interface SchoolClass {
 export interface SchoolState {
   actor: Actor;
   actors: Actor[];
+  fixtureMode: boolean;
+  operator: boolean;
   organizations: { id: string; label: string; role: 'admin' | 'teacher' }[];
   colleagues: { org_id: string; actor_id: string; role: 'admin' | 'teacher' }[];
   classes: SchoolClass[];
   teachers: { org_id: string; class_id: string; actor_id: string }[];
   memberships: {
+    id: string;
     class_id: string;
     actor_id: string;
     alias: string;
@@ -43,7 +46,7 @@ export interface Evidence {
   at: string;
 }
 export interface Learner {
-  actor: string;
+  member: string;
   alias: string;
   sharing: boolean;
   areas: Evidence[];

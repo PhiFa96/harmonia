@@ -9,6 +9,10 @@ create table school_draft.actors (
   key text unique not null,
   kind text not null check (kind in ('staff','learner'))
 );
+create table school_draft.operators (
+ actor_id uuid primary key references school_draft.actors on delete cascade
+);
+alter table school_draft.operators enable row level security;
 create table school_draft.organizations (
   id uuid primary key default gen_random_uuid(),
   label text not null check (length(trim(label)) between 1 and 80)
@@ -81,8 +85,8 @@ create index on school_draft.class_teachers(actor_id,class_id);
 create index on school_draft.class_members(actor_id,class_id);
 create index on school_draft.sample_evidence(actor_id,at);
 
-create function school_draft.actor() returns uuid language sql stable
-set search_path='' as $$ select nullif(current_setting('school_draft.actor',true),'')::uuid $$;
+create function school_draft.actor() returns uuid language sql stable security definer
+set search_path='' as $$ select auth.uid() $$;
 create function school_draft.is_admin(o uuid) returns boolean language sql stable security definer
 set search_path='' as $$ select exists(select 1 from school_draft.org_members where org_id=o and actor_id=school_draft.actor() and role='admin') $$;
 create function school_draft.in_org(o uuid) returns boolean language sql stable security definer
@@ -178,7 +182,7 @@ begin
 end $$;
 create function school_draft.join_code(code_hash text) returns uuid language plpgsql security definer
 set search_path='' as $$
-declare i school_draft.invites; k text;
+declare i school_draft.invites; k text; trial int;
 begin
   select * into i from school_draft.invites v where v.code_hash=join_code.code_hash;
   if not found then raise exception 'invalidCode' using errcode='22023'; end if;
@@ -198,7 +202,14 @@ begin
     if not found or not exists(select 1 from school_draft.class_teachers where class_id=i.class_id and actor_id=i.issuer) then raise exception 'invalidCode' using errcode='22023'; end if;
     if exists(select 1 from school_draft.class_members where class_id=i.class_id and actor_id=school_draft.actor()) then return i.class_id; end if;
     if i.remaining=0 then raise exception 'invalidCode' using errcode='22023'; end if;
-    insert into school_draft.class_members(class_id,actor_id,alias) values(i.class_id,school_draft.actor(),'P-'||right(replace(school_draft.actor()::text,'-',''),8)) on conflict (class_id,actor_id) do nothing;
+    for trial in 1..5 loop
+      begin
+        insert into school_draft.class_members(class_id,actor_id) values(i.class_id,school_draft.actor()) on conflict (class_id,actor_id) do nothing;
+        exit;
+      exception when unique_violation then
+        if trial=5 then raise exception 'codeConflict' using errcode='23505';end if;
+      end;
+    end loop;
   else raise exception 'invalidCode' using errcode='22023'; end if;
   if found then update school_draft.invites set remaining=remaining-1 where id=i.id; end if;
   return coalesce(i.class_id,i.org_id);
@@ -220,7 +231,7 @@ end $$;
 create function school_draft.remove_learner(c uuid,a uuid) returns void language plpgsql security definer
 set search_path='' as $$ begin
   if not school_draft.teaches(c) then raise exception 'forbidden' using errcode='42501'; end if;
-  delete from school_draft.class_members where class_id=c and actor_id=a;
+  delete from school_draft.class_members where class_id=c and id=a;
   update school_draft.invites set revoked=true where class_id=c;
 end $$;
 create function school_draft.archive_class(c uuid) returns void language plpgsql security definer

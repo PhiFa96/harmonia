@@ -1,5 +1,9 @@
 # P4.16 – Schullizenz als interner Entwurf
 
+**Aktueller Gesamtstand vom 02.11.2026:** Maßgeblich ist jetzt der [zusammenhängende P4.13–P4.16-Entwurf](schule-gesamtstand.md) mit Identitätsbindung, Freigabeversion 2, Datenschutzfunktionen und zusätzlichen Datenbankgrenzen. Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**; alle Inhalte/Texte Entwurf, keine Veröffentlichung. P4.01 bleibt bis F14/Recht zurückgestellt. Die folgenden datierten Angaben sind der Vorgängerstand.
+
+## Vorgängerstand
+
 Stand: 24.10.2026 · Branch `codex/p4-16-school-license-draft`
 
 **Technische P4-Vorarbeit auf Nutzerauftrag vor der formalen Phase-4-Freigabe.** Grundlage ist die lokale Schulwerkstatt aus den noch offenen Entwurfs-PRs #105–#107. [P4.15 / #107](https://github.com/PhiFa96/harmonia/pull/107) ist für `cb90816` inzwischen in allen fünf CI-Jobs grün. Der neue PR gegen `main` enthält diese Voraussetzungen; vor einer Integration müssen deren PRs abgestimmt werden.
