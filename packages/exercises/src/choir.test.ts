@@ -484,7 +484,7 @@ describe('CHOIR_PART miniatures stay singable', () => {
       for (const fifths of [-2, 0, 2] as const)
         it(`edition ${String(edition ?? 1)} ${piece}/${String(fifths)}: no seventh or compound leaps`, () => {
           const { parts } = generateChoir(
-            { voice: 'soprano', piece, fifths, edition },
+            { voice: 'soprano', piece, fifths, ...(edition ? { edition } : {}) },
             createRng(1),
           );
           for (const voice of ['soprano', 'alto', 'tenor', 'bass'] as const) {
