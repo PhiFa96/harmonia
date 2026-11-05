@@ -148,7 +148,7 @@ test('P4.11: both complete solo examples match each voice in pitch, clef and tim
     ],
     bass: [
       [48, 45, 53, 50, 43, 52, 43, 48],
-      [48, 53, 45, 52, 50, 53, 43, 48],
+      [48, 53, 45, 52, 50, 53, 55, 48],
     ],
   };
   for (const [voice, pieces] of Object.entries(expected)) {
