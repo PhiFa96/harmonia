@@ -51,6 +51,7 @@ Dieser Plan beschreibt, wie wir Harmonia Schritt für Schritt bauen: vom leeren 
 | [Stufe 5 als interner Gesamtentwurf P4.19](stufe-5-gesamtstand.md) | 24 Lektionen mit vielfältigeren Quellen, festen Stimmen, eigenen Zielfähigkeiten, DE/EN, Wiederaufnahme und Datenschutz; technische Vorarbeit vor formaler P4-Freigabe |
 | [Prüfungsmodus P3.17](pruefungsmodus.md) | Zwei interne Vorlagen mit Theorie/Gehörbildung, Zeitlimit, Punkten und Lernpfad-Empfehlungen; fachliche Abnahme offen |
 | [Organisationen und Klassen P4.13 – interner Entwurf](schule-dashboard-entwurf.md) | Lokales Lehrer-Dashboard, Codes, klassenbezogene Lernstandfreigaben und PostgreSQL-RLS mit synthetischen Konten; Rechts-/Produktfreigabe offen |
+| [Schul-Authentifizierung P4.13–P4.16](schule-authentifizierung.md) | Auth-Kontobindung, Widerruf bestehender Cookies/Streams und private Backend-/Grader-Rollen mit Datenbank-/HTTP-Nachweisen; Produktbetrieb offen |
 | [Klassenaufgaben P4.14 – interner Entwurf](schulaufgaben-entwurf.md) | Aufgaben zusammenstellen, einfrieren, zuweisen, bearbeiten und auswerten; lokaler Link, Fristen, Engine-Bewertung und getrennte Freigabe |
 | [Klassen-Live-Quiz P4.15 – interner Entwurf](klassen-live-quiz-entwurf.md) | Lobbycode, synchronisierte Runden, Beameransicht, freiwillige Rangliste und Auswertung; 30 simulierte Netzwerkclients, echte Geräteabnahme offen |
 | [Schullizenz P4.16 – interner Entwurf](schul-lizenz-entwurf.md) | Rechnungsproben, getrennte Betreiberfreigabe, Plätze/Laufzeiten und servergesperrte Premium-Übungen; Verkauf und Pilotschule offen |

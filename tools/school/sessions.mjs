@@ -44,12 +44,13 @@ export function createSessions({
       session.lastSeenAt = now();
       return session;
     },
-    create(actor, expiresAt = Infinity) {
+    create(actor, expiresAt = Infinity, identity) {
       sweep();
       if (sessions.size >= capacity || expiresAt <= now()) return null;
       const token = randomBytes(32).toString('hex');
       const session = {
         actor,
+        identity: identity ? Object.freeze({ ...identity }) : undefined,
         expiresAt: Math.min(now() + maxMs, expiresAt),
         lastSeenAt: now(),
         closed: false,

@@ -87,7 +87,7 @@
     "voice-leading:workbench": "node tools/voice-leading-workbench.mjs",
     "voice-leading:test:web": "playwright test --config tools/voice-leading/playwright.config.mjs",
     "school:preview": "node tools/school/server.mjs",
-    "school:test": "node --test tools/school/auth.test.mjs tools/school/complete.test.mjs tools/school/license.test.mjs tools/school/license-content.test.mjs tools/school/quiz.test.mjs tools/school/quiz-streams.test.mjs tools/school/quiz-content.test.mjs tools/school/assignment.test.mjs tools/school/assignment-content.test.mjs tools/school/school.test.mjs tools/school/report.test.mjs",
+    "school:test": "node --test tools/school/auth.test.mjs tools/school/identity-access.test.mjs tools/school/complete.test.mjs tools/school/license.test.mjs tools/school/license-content.test.mjs tools/school/quiz.test.mjs tools/school/quiz-streams.test.mjs tools/school/quiz-content.test.mjs tools/school/assignment.test.mjs tools/school/assignment-content.test.mjs tools/school/school.test.mjs tools/school/report.test.mjs",
     "school:test:db": "node tools/school/pgtap.mjs",
     "school:test:web": "playwright test --config tools/school/playwright.config.mjs",
     "check:ai": "node tools/ai-act/check.mjs",

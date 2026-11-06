@@ -70,6 +70,8 @@ export function createIdentityVerifier({
       if (
         claims.iss !== issuer ||
         !uuid.test(claims.sub) ||
+        !uuid.test(claims.session_id) ||
+        claims.role !== 'authenticated' ||
         !(
           claims.aud === audience ||
           (Array.isArray(claims.aud) && claims.aud.length <= 5 && claims.aud.includes(audience))
@@ -82,7 +84,11 @@ export function createIdentityVerifier({
           (!Number.isSafeInteger(claims.iat) || claims.iat > seconds || claims.iat >= claims.exp))
       )
         throw unauthorized();
-      return { subject: claims.sub.toLowerCase(), expiresAt: claims.exp * 1000 };
+      return {
+        subject: claims.sub.toLowerCase(),
+        sessionId: claims.session_id.toLowerCase(),
+        expiresAt: claims.exp * 1000,
+      };
     } catch {
       throw unauthorized();
     }

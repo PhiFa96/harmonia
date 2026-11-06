@@ -79,6 +79,7 @@ export async function createSchoolDatabase() {
       'quiz.sql',
       'licenses.sql',
       'complete.sql',
+      'server-role.sql',
     ]) {
       try {
         await pool.query(await readFile(new URL(file, import.meta.url), 'utf8'));
@@ -115,12 +116,14 @@ export const FIXTURE_ACTORS = [
 }));
 
 export async function seedSchoolFixtures(pool) {
-  for (const a of FIXTURE_ACTORS)
+  for (const a of FIXTURE_ACTORS) {
+    await seedAuthFixture(pool, a.id);
     await pool.query('insert into school_draft.actors(id,key,kind) values($1,$2,$3)', [
       a.id,
       a.key,
       a.kind,
     ]);
+  }
   await pool.query(
     "insert into school_draft.operators select id from school_draft.actors where key='operator'",
   );
@@ -131,6 +134,18 @@ export async function seedSchoolFixtures(pool) {
         [a.id, area, Math.max(0, 9 - i * 2 - n), i + 1],
       );
   }
+}
+
+/** Synthetic provider accounts only, including a distinct session row per account. */
+export async function seedAuthFixture(pool, id) {
+  await pool.query(
+    'insert into auth.users(id) values($1) on conflict(id) do update set banned_until=null,deleted_at=null',
+    [id],
+  );
+  await pool.query(
+    'insert into auth.sessions(id,user_id) values($1,$1) on conflict(id) do update set not_after=null',
+    [id],
+  );
 }
 
 /** SET LOCAL prevents actor claims leaking through a pooled connection. */
