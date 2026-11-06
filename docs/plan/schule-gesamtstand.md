@@ -1,5 +1,7 @@
 # P4.13–P4.16 – Zusammenhängender technischer Schulentwurf
 
+**Nacharbeit vom 06.11.2026:** Die drei Auth-/Rollenbefunde aus v3 werden im eigenen [Schul-Authentifizierungspaket](schule-authentifizierung.md) weitergebaut: Fremdschlüssel zum Auth-Konto, Widerruf bestehender Cookies/Streams und private Backend-/Grader-Rollenbindung. ADR 0076 ist für diese Grenzen maßgeblich. Die folgende ursprüngliche Branchangabe bleibt Verlauf; der Gesamtentwurf wurde am 05.11.2026 integriert. Keine Produktfreigabe.
+
 Stand: 02.11.2026 · Branch `codex/school-complete-draft` · Basis `main` bei `f7bc15d`.
 
 Auf ausdrücklichen Nutzerauftrag wird der vorhandene Schulbereich als Gesamtpaket vervollständigt. Dies ist **technische P4-Vorarbeit vor der formalen Phase-4-Freigabe**. Alle Inhalte, Freigabe- und Aufbewahrungstexte bleiben Entwurf. Keine Veröffentlichung, Migration auf eine echte Instanz, echte Rechnung/Zahlung oder Main-Integration. P4.01 bleibt bis F14 und Klärung der rechtlichen Voraussetzungen zurückgestellt. [ADR 0072](../decisions/0072-schulbereich-mit-gebundener-identitaet-und-datenrechten.md).
@@ -19,7 +21,7 @@ Alle Oberflächen und neuen Texte sind DE/en-US/en-GB verfügbar. Es entstehen k
 
 | Befund | Umsetzung im Gesamtentwurf |
 |---|---|
-| F1 | `auth.uid()` statt eigenem Actor-GUC; separat konfigurierbarer Modus mit geprüften signierten JWTs; registrierte Identitäten und eigene Betreiberregistrierung |
+| F1 | `auth.uid()` statt eigenem Actor-GUC; JWT-Konto-/Sitzungsbindung, FK zu `auth.users`, registrierte Identitäten und eigene Betreiberregistrierung; private Server-Capability |
 | F2 | Freigabeversion 2 nennt Aufgaben und finale Quizergebnisse; alte Freigabe genügt keinem Berichtspfad |
 | F3 | Zufällige Kürzel je Klassenmitgliedschaft und Mitgliedschaftshandles; Lernkonto-UUIDs fehlen in Lehrkraftberichten |
 | F4 | Eigener Export, Kontolöschung/Kaskaden, begrenzte Auditverweise und tatsächlicher lokaler Bereinigungslauf |
@@ -29,7 +31,7 @@ Alle Oberflächen und neuen Texte sind DE/en-US/en-GB verfügbar. Es entstehen k
 | F8 | Gemeinsame Sperren für Snapshots; parallele Leser geprüft, Änderungen weiterhin geschützt |
 | F9 | Zehn Einladungs-/Quizcodeversuche pro Konto und Minute, getrennt gebucht und nicht mit Fehlversuchen zurückgerollt |
 | F10 | Begrenzte Kollisionswiederholung mit Savepoints und verständlichem Konfliktzustand |
-| F11 | Leerlauf-/Maximal-/Tokenablauf, Kapazitätsfreigabe, Logout und Widerruf aller Sitzungen eines gelöschten Kontos |
+| F11 | Leerlauf-/Maximal-/Tokenablauf, Kapazitätsfreigabe, Logout; frische Auth-Sitzungsprüfung bei bestehenden Cookies und Streams; Kontolöschung/Sperre/Widerruf greifen ohne Warten auf Cookie-Ablauf |
 | F12 | Lernende erscheinen erst nach eigener Platzanfrage mit einem organisationsbezogenen Kürzel in der Vergabe; Rücknahme entfernt Plätze |
 | F13 | Zusätzliche echte Rollen-, HTTP-, Konkurrenz-, Export-/Lösch-, Sitzungs- und Browserprüfungen für die neuen Grenzen |
 
@@ -50,7 +52,7 @@ Die Vorschau startet nur ihren eigenen flüchtigen PostgreSQL-17-Container, ohne
 5. Über **Meine Schulvorschau-Daten** eigene Daten herunterladen oder das Testkonto löschen. Ein letztes Verwaltungskonto überträgt zuvor die Rolle; eine allein eigene leere Organisation kann mitgelöscht werden. Löschung beendet alle zugehörigen Vorschau-Sitzungen. Heruntergeladene Dateien bleiben außerhalb der Vorschau in eigener Verantwortung.
 6. Das gesonderte Betreiberkonto kann dort abgelaufene Testdaten nach der ausdrücklich vorläufigen Regel bereinigen.
 
-Für Integrationstests nimmt `createSchoolServer({ authentication: { issuer, audience, jwks } })` ausschließlich passende, gültig signierte ES256-/RS256-Tokenidentitäten an. Ein Bearer-Token beim initialen `GET /` bindet die anschließende private Cookie-Sitzung an ein registriertes Konto. Die Fixture-Auswahl ist dann gesperrt und ausgeblendet. Die mitgelieferten privaten Signierschlüssel werden nur von den Tests frisch erzeugt; die Serverkonfiguration enthält öffentliche Schlüssel. Eine echte Anbieteranmeldung, echte Kontenprovisionierung und deren Abnahme sind davon getrennt.
+Für Integrationstests nimmt `createSchoolServer({ authentication: { issuer, audience, jwks } })` ausschließlich passende, gültig signierte ES256-/RS256-Tokenidentitäten mit UUID-`session_id` und `role: authenticated` an. Der initiale `GET /` bindet die private Cookie-Sitzung an ein registriertes Auth-Konto und dessen aktive Auth-Sitzung. Diese Bindung wird bei geschützten Anfragen und SSE-Ausgaben frisch gegen die Auth-Datenbank geprüft; Widerruf oder Kontosperre wird nicht bis zum Cookie-Ablauf zwischengespeichert. Die Fixture-Auswahl ist dann gesperrt und ausgeblendet. Die privaten Signierschlüssel werden nur von den Tests frisch erzeugt; die Serverkonfiguration enthält öffentliche Schlüssel. Echte Anbieteranmeldung, Kontenprovisionierung und deren Abnahme bleiben getrennt. Rollen-/Betriebskonzept: [Schul-Authentifizierung](schule-authentifizierung.md).
 
 ## Vorläufige Aufbewahrung
 

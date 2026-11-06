@@ -1,5 +1,5 @@
 // Test-only synthetic accounts. The regular preview uses synthetic accounts only.
-import { FIXTURE_ACTORS, seedSchoolFixtures } from './database.mjs';
+import { FIXTURE_ACTORS, seedSchoolFixtures, seedAuthFixture } from './database.mjs';
 import { createSchoolService } from './service.mjs';
 export async function quizFixture(pool, count = 2) {
   await pool.query(
@@ -24,6 +24,7 @@ export async function quizFixture(pool, count = 2) {
         kind: 'learner',
       };
       actors.push(actor);
+      await seedAuthFixture(pool, actor.id);
       await pool.query('insert into school_draft.actors values($1,$2,$3)', [
         actor.id,
         actor.key,

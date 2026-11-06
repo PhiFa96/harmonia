@@ -5,7 +5,7 @@ create role harmonia_school_actor nologin nosuperuser nobypassrls;
 grant usage on schema school_draft to harmonia_school_actor;
 
 create table school_draft.actors (
-  id uuid primary key,
+  id uuid primary key references auth.users(id) on delete cascade,
   key text unique not null,
   kind text not null check (kind in ('staff','learner'))
 );

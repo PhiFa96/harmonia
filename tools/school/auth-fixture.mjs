@@ -19,6 +19,8 @@ export function keys(type = 'ES256') {
       { typ: 'JWT', kid: 'fixture', alg: type, ...header },
       {
         sub: subject,
+        session_id: subject,
+        role: 'authenticated',
         iss: issuer,
         aud: 'authenticated',
         iat: epoch / 1000 - 1,
