@@ -36,8 +36,9 @@ try {
     await client.query(await readFile(new URL('./quiz.sql', import.meta.url), 'utf8'));
     await client.query(await readFile(new URL('./licenses.sql', import.meta.url), 'utf8'));
     await client.query(await readFile(new URL('./complete.sql', import.meta.url), 'utf8'));
+    await client.query(await readFile(new URL('./server-role.sql', import.meta.url), 'utf8'));
     await client.query(
-      'create extension if not exists pgtap with schema extensions; grant usage on schema extensions to harmonia_school_actor; set local search_path=public,extensions',
+      'create extension if not exists pgtap with schema extensions; grant usage on schema extensions to harmonia_school_actor,harmonia_school_backend; set local search_path=public,extensions',
     );
   } else {
     // PostgreSQL's official Alpine image has no pgTAP package. Use the unchanged,
@@ -71,19 +72,26 @@ try {
     await client.query(`drop schema school_draft cascade;
       drop role harmonia_school_actor;
       drop role harmonia_school_grader;
+      drop role harmonia_school_backend;
       create role harmonia_school_setup nologin nosuperuser createrole;
       grant create on database school_draft to harmonia_school_setup;
+      grant references(id),select(id,banned_until,deleted_at) on auth.users to harmonia_school_setup;
+      grant select(id,user_id,not_after) on auth.sessions to harmonia_school_setup;
       set local role harmonia_school_setup`);
     await client.query(await readFile(new URL('./schema.sql', import.meta.url), 'utf8'));
     await client.query(await readFile(new URL('./assignments.sql', import.meta.url), 'utf8'));
     await client.query(await readFile(new URL('./quiz.sql', import.meta.url), 'utf8'));
     await client.query(await readFile(new URL('./licenses.sql', import.meta.url), 'utf8'));
     await client.query(await readFile(new URL('./complete.sql', import.meta.url), 'utf8'));
+    await client.query(await readFile(new URL('./server-role.sql', import.meta.url), 'utf8'));
   }
   // PostgreSQL 16+ grants a role creator ADMIN but not necessarily SET permission.
   // This test-only membership, schema and fixture data all roll back together.
   await client.query('grant harmonia_school_actor to current_user with inherit false, set true');
   await client.query('grant harmonia_school_grader to current_user with inherit false, set true');
+  await client.query('grant harmonia_school_backend to current_user with inherit false, set true');
+  // Provider fixtures are inserted as the setup owner, never by an actor or grader.
+  if (!supabase) await client.query('reset role');
   await seedSchoolFixtures(client);
   const results = await client.query(
     (await readFile(new URL('./access.test.sql', import.meta.url), 'utf8')) +
@@ -91,6 +99,7 @@ try {
       (await readFile(new URL('./quiz-access.test.sql', import.meta.url), 'utf8')) +
       (await readFile(new URL('./license-access.test.sql', import.meta.url), 'utf8')) +
       (await readFile(new URL('./complete-access.test.sql', import.meta.url), 'utf8')) +
+      (await readFile(new URL('./identity-access.test.sql', import.meta.url), 'utf8')) +
       '\nselect * from finish();',
   );
   const lines = results

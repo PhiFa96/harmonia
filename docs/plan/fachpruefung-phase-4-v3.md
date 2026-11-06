@@ -31,6 +31,8 @@ Nicht übernommen:
 
 ## Nacharbeit (nicht blockierend)
 
+**Technischer Nachtrag 06.11.2026:** Die Schulbefunde zu Auth-Fremdschlüssel, verzögertem Token-Widerruf und Supabase-Grader-Rolle werden auf Nutzerauftrag im eigenen [Authentifizierungspaket](schule-authentifizierung.md) umgesetzt und mit PostgreSQL-, HTTP-, pgTAP- und DE/EN-Browserprüfungen belegt (ADR 0076). Die folgende Liste beschreibt den historischen Prüfstand vom 05.11.; dies ist keine neue unabhängige Produkt-/Rechtsabnahme. Rechnungsaufbewahrung, weitere v3-Befunde und reale Nutzungsvoraussetzungen bleiben offen.
+
 - **Stufe 5:** In 12 von 24 Modellen schließt der Cantus 7→1 statt nach Fux 2→1. Das ist zulässig; der Erklärtext sollte es als Variante kennzeichnen.
 - **Chor:** Die Folge V→iii in „Heimweg“ ist ungewöhnlich. Die Uhrendrift während eines Takes wird nicht korrigiert, auf Geräten nicht belegt.
 - **Zeitreise:** Hinweis 2 verrät die Lösung fast (wie in ADR 0071 vorgesehen); eine didaktische Prüfung steht aus.

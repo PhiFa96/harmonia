@@ -7,6 +7,7 @@ import { createAssignmentService } from './assignment-service.mjs';
 import { createServer } from 'node:http';
 import { createSessions } from './sessions.mjs';
 import { createIdentityVerifier } from './auth.mjs';
+import { createIdentitySource } from './identity.mjs';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { build } from 'esbuild';
@@ -35,11 +36,20 @@ export async function createSchoolServer({
   const service = createSchoolService(pool),
     sessions = createSessions({ now, ...sessionLimits });
   const verifyIdentity = authentication ? createIdentityVerifier({ ...authentication, now }) : null;
+  const resolveIdentity = verifyIdentity ? createIdentitySource(pool) : null;
+  const isSessionActive = async (session) => {
+    if (!sessions.active(session)) return false;
+    if (resolveIdentity && (!session.identity || !(await resolveIdentity(session.identity)))) {
+      session.closed = true;
+      return false;
+    }
+    return sessions.active(session);
+  };
   const licenses = createLicenseService(pool);
   const privacy = createPrivacyService(pool);
   const assignments = createAssignmentService(pool);
   const quiz = createQuizService(pool);
-  const quizStreams = createQuizStreams(quiz, { isSessionActive: sessions.active });
+  const quizStreams = createQuizStreams(quiz, { isSessionActive });
   const bundle = await build({
     entryPoints: [new URL('./browser.ts', import.meta.url).pathname],
     absWorkingDir: new URL('../..', import.meta.url).pathname,
@@ -71,27 +81,34 @@ export async function createSchoolServer({
         req.headers.cookie ?? '',
       )?.[1];
       let session = sessions.get(token);
+      if (session && !(await isSessionActive(session))) {
+        sessions.remove(token);
+        res.setHeader(
+          'Set-Cookie',
+          'harmonia_school_draft=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0',
+        );
+        throw new SchoolError('sessionExpired', 401);
+      }
       const actor = session?.actor;
       if (req.method === 'GET' && url.pathname === '/') {
         if (!session) {
-          const existing = (await pool.query('select id from school_draft.actors')).rows.map(
-            (a) => a.id,
-          );
-          let actor = fixtureActors.find((a) => existing.includes(a.id)),
+          let actor,
+            identity,
             expiresAt = Infinity;
           if (verifyIdentity) {
             const bearer = /^Bearer (.+)$/.exec(req.headers.authorization ?? '')?.[1];
-            const identity = verifyIdentity(bearer);
-            actor = (
-              await pool.query('select id,key,kind from school_draft.actors where id=$1', [
-                identity.subject,
-              ])
-            ).rows[0];
+            identity = verifyIdentity(bearer);
+            actor = await resolveIdentity(identity);
             if (!actor) throw new SchoolError('forbidden', 401);
             expiresAt = identity.expiresAt;
+          } else {
+            const existing = (await pool.query('select id from school_draft.actors')).rows.map(
+              (a) => a.id,
+            );
+            actor = fixtureActors.find((a) => existing.includes(a.id));
           }
           if (!actor) throw new SchoolError('forbidden', 401);
-          const created = sessions.create(actor, expiresAt);
+          const created = sessions.create(actor, expiresAt, identity);
           if (!created) throw new SchoolError('error', 503);
           const value = created.token;
           session = created.session;
@@ -108,7 +125,8 @@ export async function createSchoolServer({
         return send(200, readFileSync(bravura), 'font/woff2');
       if (
         !session ||
-        !(await pool.query('select 1 from school_draft.actors where id=$1', [actor.id])).rowCount
+        (!verifyIdentity &&
+          !(await pool.query('select 1 from school_draft.actors where id=$1', [actor.id])).rowCount)
       )
         throw new SchoolError('sessionExpired', 401);
       // Capture this request's actor before awaiting anything or changing a demo session.
@@ -124,9 +142,9 @@ export async function createSchoolServer({
         return;
       }
       if (req.method === 'GET' && url.pathname === '/api/state') {
-        const existingActorIds = new Set(
-          (await pool.query('select id from school_draft.actors')).rows.map((a) => a.id),
-        );
+        const existingActorIds = verifyIdentity
+          ? null
+          : new Set((await pool.query('select id from school_draft.actors')).rows.map((a) => a.id));
         return send(200, {
           actor,
           actors: verifyIdentity
@@ -153,6 +171,15 @@ export async function createSchoolServer({
         body = JSON.parse(Buffer.concat(chunks).toString('utf8'));
       } catch {
         throw new SchoolError('invalid');
+      }
+      // A body may arrive after a provider revocation; recheck before any mutation.
+      if (!(await isSessionActive(session))) {
+        sessions.remove(token);
+        res.setHeader(
+          'Set-Cookie',
+          'harmonia_school_draft=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0',
+        );
+        throw new SchoolError('sessionExpired', 401);
       }
       if (url.pathname.startsWith('/api/privacy-')) {
         const action = url.pathname.slice('/api/privacy-'.length);
