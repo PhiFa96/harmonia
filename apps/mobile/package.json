@@ -55,7 +55,7 @@
     "react-dom": "catalog:",
     "react-i18next": "catalog:",
     "react-native": "catalog:",
-    "react-native-audio-api": "0.13.6",
+    "react-native-audio-api": "1.0.0",
     "react-native-gesture-handler": "~2.32.0",
     "react-native-purchases": "11.0.0",
     "react-native-reanimated": "catalog:",
