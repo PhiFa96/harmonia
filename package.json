@@ -115,7 +115,7 @@
     "pg": "8.23.1",
     "pdf-lib": "1.17.1",
     "prettier": "catalog:",
-    "supabase": "2.122.0",
+    "supabase": "3.0.0",
     "ts-fsrs": "6.0.0",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:",
