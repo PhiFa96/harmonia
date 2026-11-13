@@ -1,5 +1,7 @@
 # P4.17/P4.18 – Zusammenhängender interner Gesamtentwurf
 
+**Technischer Nachtrag 13.11.2026:** Die [Importbindung N1/N2](ki-zertifikate-importbindung.md) ergänzt die bisherige Verzeichnissammlung um lokale Importketten einschließlich Workspace-Exports, TypeScript-Aliasse, Plattformvarianten und zuständige Metadaten. Die KI-Prüflogik gehört nun zum Zertifikatsprüfwert. Geänderte Quellen verlangen neue KI-Arbeitsblätter und einen Neustart des lokalen Zertifikatsservers; alte Durchgänge werden nicht umgebunden. Eigener Entwurfsbranch, technische P4-Vorarbeit vor formaler Freigabe, keine Veröffentlichung. Die ursprünglichen Arbeitsabläufe und offenen Abnahmen unten gelten weiter; N3–N5 der v3-Prüfung werden durch diese Importbindung nicht erledigt.
+
 Stand: 02.11.2026 · Branch `codex/ai-certificates-complete-draft` · Basis `main` bei `f7bc15d`.
 
 Auf ausdrücklichen Nutzerauftrag wird die vorhandene KI-Prüfvorbereitung mit dem Zertifikatsprototyp vervollständigt. **Technische P4-Vorarbeit vor der formalen Phase-4-Freigabe.** Dies ist keine schriftliche Rechtsprüfung oder fachliche Abschlussfreigabe. Inhalte, Regeln und Berichte bleiben Entwurf; keine Veröffentlichung, echte Zahlung, gültige Zertifikatsausstellung oder Main-Integration. P4.01 bleibt bis F14 und Rechtsklärung zurückgestellt. [ADR 0073](../decisions/0073-ki-pruefuebergabe-und-zertifikatsgesamtentwurf.md).

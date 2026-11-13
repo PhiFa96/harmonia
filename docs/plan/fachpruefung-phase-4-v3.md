@@ -2,6 +2,8 @@
 
 Integriert über den Branch `claude/stoic-pascal-eaoojx` per Sammel-PR nach `main`. Rohberichte: `docs/quality/fachpruefung-phase-4-v3/`.
 
+**Technischer Nachtrag 13.11.2026, KI/Zertifikate:** Die [Importbindung N1/N2](ki-zertifikate-importbindung.md) bearbeitet auf einem eigenen Arbeitsbranch die unvollständigen lokalen Importketten und die fehlende KI-Prüflogik im Zertifikatsprüfwert. Reale Dateiänderungen entwerten alte Arbeitsblätter und nach Neustart gespeicherte Zertifikatsmuster. Keine erneute unabhängige Fach-/Rechts- oder Produktabnahme; ursprüngliche Befunde und Rohberichte bleiben als historischer Prüfstand erhalten. N3–N5 sind getrennte offene Punkte. Die separaten Schul-/Tutor-PRs #151/#156 sind nicht enthalten.
+
 ## Integrierte PRs
 
 | PR | Inhalt | Ergebnis |
