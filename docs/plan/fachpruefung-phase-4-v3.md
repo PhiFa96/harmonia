@@ -4,6 +4,8 @@ Integriert über den Branch `claude/stoic-pascal-eaoojx` per Sammel-PR nach `mai
 
 **Technischer Nachtrag 13.11.2026:** Die [Tutor-Sicherheitsnacharbeit N1–N4/H3](tutor-sicherheitsnacharbeit.md) bearbeitet auf eigenem Arbeitsbranch die nachstehend dokumentierten Probleme mit Signaturschlüssel, Fehlercodes, Idempotenzreihenfolge, Prüfbudget und Uhrentoleranz. Der Nachweis bestätigt weiterhin keine menschliche Bearbeitung. Prüfungen und Entwurfs-PR sind in der Übergabe verzeichnet; dieser Nachtrag ist keine erneute unabhängige Fach- oder Produktabnahme. Die ursprünglichen Befunde und Rohberichte bleiben als Prüfstand vom 05.11. erhalten.
 
+**Technischer Nachtrag 13.11.2026, KI/Zertifikate:** Die [Importbindung N1/N2](ki-zertifikate-importbindung.md) bearbeitet auf einem eigenen Arbeitsbranch die unvollständigen lokalen Importketten und die fehlende KI-Prüflogik im Zertifikatsprüfwert. Reale Dateiänderungen entwerten alte Arbeitsblätter und nach Neustart gespeicherte Zertifikatsmuster. Keine erneute unabhängige Fach-/Rechts- oder Produktabnahme; ursprüngliche Befunde und Rohberichte bleiben als historischer Prüfstand erhalten. N3–N5 sind getrennte offene Punkte. Die separaten Schul-/Tutor-PRs #151/#156 sind nicht enthalten.
+
 ## Integrierte PRs
 
 | PR | Inhalt | Ergebnis |

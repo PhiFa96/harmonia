@@ -1,14 +1,15 @@
 import { createHash } from 'node:crypto';
-import { readdirSync, readFileSync, realpathSync } from 'node:fs';
-import { relative, resolve } from 'node:path';
+import { readdirSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { sourceDigests } from '../source-binding.mjs';
 
-const root = fileURLToPath(new URL('../..', import.meta.url));
+const ROOT = fileURLToPath(new URL('../..', import.meta.url));
 export const SOURCE_HASH = /^[a-f0-9]{64}$/;
 const sha = (value) => createHash('sha256').update(value).digest('hex');
 
 /** Bind the complete exam implementation, including newly added source modules. */
-export function certificateDigests() {
+export function certificateDigests({ root = ROOT } = {}) {
   const paths = new Set([
     'pnpm-lock.yaml',
     'package.json',
@@ -45,13 +46,7 @@ export function certificateDigests() {
     walk(dir);
     if (dir.startsWith('packages/')) paths.add(dir.replace(/\/src$/, '/package.json'));
   }
-  return Object.fromEntries(
-    [...paths].sort().map((path) => {
-      const absolute = realpathSync(resolve(root, path));
-      if (relative(root, absolute).startsWith('..')) throw Error('Certificate source outside repo');
-      return [path, sha(readFileSync(absolute))];
-    }),
-  );
+  return sourceDigests(paths, { root });
 }
 
 export function certificateSourceHash(digests = certificateDigests()) {
