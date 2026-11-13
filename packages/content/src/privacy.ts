@@ -72,6 +72,7 @@ export const PRIVACY_EXPORT_SECTIONS = [
   'messages',
   'tutorRequests',
   'tutorReports',
+  'tutorAttemptLimits',
   'aiUsage',
   'entitlements',
   'billingEvents',

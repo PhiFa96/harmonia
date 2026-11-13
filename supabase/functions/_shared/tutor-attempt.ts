@@ -11,10 +11,40 @@ import type {
 import { evaluateExercise } from '../../../packages/exercises/src/index.ts';
 
 export const TUTOR_ATTEMPT_TTL_MS = 30 * 60 * 1000;
+export const TUTOR_ATTEMPT_CLOCK_SKEW_MS = 5000;
 const encoder = new TextEncoder();
 type Attempt = ReturnType<typeof tutorAttemptRequestSchema.parse>;
+
+export class TutorAttemptConfigurationError extends Error {
+  constructor() {
+    super('Attempt signing configuration');
+    this.name = 'TutorAttemptConfigurationError';
+  }
+}
+export class TutorAttemptContentError extends Error {
+  constructor() {
+    super('Invalid attempt content');
+    this.name = 'TutorAttemptContentError';
+  }
+}
+export function validateTutorAttemptSecret(secret: unknown): string {
+  if (
+    typeof secret !== 'string' ||
+    secret.length < 32 ||
+    secret.length > 4096 ||
+    !/^[A-Za-z0-9_+/=-]+$/.test(secret)
+  )
+    throw new TutorAttemptConfigurationError();
+  return secret;
+}
+/** Dedicated server secret; no fallback to an administrative credential. */
+export function readTutorAttemptSecret(env: (name: string) => string | undefined): string {
+  const secret = validateTutorAttemptSecret(env('TUTOR_ATTEMPT_SECRET'));
+  if (secret === env('SUPABASE_SERVICE_ROLE_KEY')) throw new TutorAttemptConfigurationError();
+  return secret;
+}
 async function key(secret: string) {
-  if (secret.length < 32) throw new Error('Attempt signing configuration');
+  validateTutorAttemptSecret(secret);
   return crypto.subtle.importKey(
     'raw',
     encoder.encode(secret),
@@ -44,15 +74,17 @@ export async function issueTutorAttempt(
   secret: string,
   now = Date.now(),
 ): Promise<TutorAttemptProof> {
-  const attempt = tutorAttemptRequestSchema.parse(input);
-  const { item } = resolveReportSource(catalogue, attempt.source);
-  if (!evaluateExercise(item, attempt.answer).validAnswer) throw new Error('Invalid attempt');
+  const signingKey = await key(secret);
+  let attempt: Attempt;
+  try {
+    attempt = tutorAttemptRequestSchema.parse(input);
+    const { item } = resolveReportSource(catalogue, attempt.source);
+    if (!evaluateExercise(item, attempt.answer).validAnswer) throw new TutorAttemptContentError();
+  } catch {
+    throw new TutorAttemptContentError();
+  }
   const proof = { id: crypto.randomUUID(), issuedAt: now, expiresAt: now + TUTOR_ATTEMPT_TTL_MS };
-  const signature = await crypto.subtle.sign(
-    'HMAC',
-    await key(secret),
-    binding(actor, attempt, proof),
-  );
+  const signature = await crypto.subtle.sign('HMAC', signingKey, binding(actor, attempt, proof));
   return {
     ...proof,
     signature: Array.from(new Uint8Array(signature), (byte) =>
@@ -60,23 +92,24 @@ export async function issueTutorAttempt(
     ).join(''),
   };
 }
-/** Expiry may be ignored only for a matching, already stored request owned by this actor. */
+/** Freshness for new requests only; exact owned stored replays use the database path. */
 export async function tutorAttemptError(
   actor: string,
   request: TutorRequest,
   secret: string,
   now = Date.now(),
-  storedReplay = false,
 ): Promise<'attempt_required' | 'attempt_invalid' | 'attempt_expired' | null> {
   if (request.mode !== 'explain' && request.mode !== 'solution') return null;
   if (!request.attemptProof || !request.context?.answer) return 'attempt_required';
   const parsed = tutorAttemptProofSchema.safeParse(request.attemptProof);
   if (!parsed.success) return 'attempt_invalid';
   const proof = parsed.data;
-  const attempt = tutorAttemptRequestSchema.parse({
+  const checked = tutorAttemptRequestSchema.safeParse({
     source: request.context.source,
     answer: request.context.answer,
   });
+  if (!checked.success) return 'attempt_invalid';
+  const attempt = checked.data;
   const signature = Uint8Array.from(proof.signature.match(/../g) ?? [], (byte) =>
     parseInt(byte, 16),
   );
@@ -88,8 +121,8 @@ export async function tutorAttemptError(
       binding(actor, attempt, proof),
     )) ||
     proof.expiresAt - proof.issuedAt !== TUTOR_ATTEMPT_TTL_MS ||
-    proof.issuedAt > now
+    proof.issuedAt > now + TUTOR_ATTEMPT_CLOCK_SKEW_MS
   )
     return 'attempt_invalid';
-  return !storedReplay && proof.expiresAt <= now ? 'attempt_expired' : null;
+  return proof.expiresAt <= now ? 'attempt_expired' : null;
 }

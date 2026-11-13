@@ -1,12 +1,14 @@
 // Echte lokale Auth-/REST-/Edge-/PostgreSQL-Integration; Anthropic-Transport ausdrücklich ersetzt.
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
-import { randomUUID } from 'node:crypto';
+import { randomUUID, createHash } from 'node:crypto';
+import { LOCAL_TUTOR_ATTEMPT_SECRET } from './tutor-attempt-fixture.mjs';
 import {
   DEFAULT_TUTOR_POLICY,
   tutorPolicySchema,
   tutorAccountSchema,
   tutorAttemptResponseSchema,
+  tutorRequestSchema,
   resolveReportSource,
 } from '../packages/content/src/index.ts';
 import { catalogue } from '../packages/content/src/authoring.ts';
@@ -638,7 +640,7 @@ try {
       catalogue,
       a.id,
       { source, answer },
-      status.SERVICE_ROLE_KEY,
+      LOCAL_TUTOR_ATTEMPT_SECRET,
       Date.now() - TUTOR_ATTEMPT_TTL_MS - 1000,
     );
     expect(
@@ -671,6 +673,65 @@ try {
       'replay',
       'Geprüfte Anfrage identisch wiederholbar',
     );
+    const stored = (await table(`tutor_requests?id=eq.${protectedRequest.id}`, { admin: true }))
+      .data[0];
+    const replayUsage = await usage(a);
+    for (const legacyProof of [
+      undefined,
+      await issueTutorAttempt(
+        catalogue,
+        a.id,
+        { source, answer },
+        LOCAL_TUTOR_ATTEMPT_SECRET + '-previous',
+        Date.now() - TUTOR_ATTEMPT_TTL_MS - 60000,
+      ),
+    ]) {
+      const legacy = tutorRequestSchema.parse(
+        payload({
+          id: protectedRequest.id,
+          conversationId: protectedRequest.conversationId,
+          mode: 'explain',
+          context,
+          ...(legacyProof ? { attemptProof: legacyProof } : {}),
+        }),
+      );
+      const request_hash = createHash('sha256').update(JSON.stringify(legacy)).digest('hex');
+      expect(
+        (
+          await raw(`/rest/v1/tutor_requests?id=eq.${legacy.id}`, {
+            admin: true,
+            method: 'PATCH',
+            body: { request_hash },
+          })
+        ).status,
+        204,
+        'Eigene gespeicherte Altanfrage eingerichtet',
+      );
+      const prior = await send(a.token, legacy);
+      expect(
+        prior.status,
+        200,
+        'Gespeicherte Altanfrage unabhängig von aktuellem Signaturschlüssel abrufbar',
+      );
+      expect(prior.events[0].type, 'replay', 'Nur gespeicherte Antwort, kein neuer Modellaufruf');
+      expect(
+        (await send(a.token, { ...legacy, message: legacy.message + ' verändert' })).data.error,
+        'conflict',
+        'Veränderter Inhalt erhält keinen Replay',
+      );
+      expect((await send(b.token, legacy)).status, 409, 'Altanfragen bleiben kontogebunden');
+      expect(
+        (await send(a.token, { ...legacy, id: randomUUID() })).data.error,
+        legacyProof ? 'attempt_invalid' : 'attempt_required',
+        'Altformat oder alter Schlüssel autorisiert keine neue Anfrage',
+      );
+    }
+    await raw(`/rest/v1/tutor_requests?id=eq.${protectedRequest.id}`, {
+      admin: true,
+      method: 'PATCH',
+      body: { request_hash: stored.request_hash },
+    });
+    expect(await usage(a), replayUsage, 'Alt-Replays verbrauchen kein weiteres Modellkontingent');
     expect(
       (await send(a.token, payload({ mode: 'solution', context, attemptProof: proof }))).status,
       200,
@@ -715,7 +776,7 @@ try {
         catalogue,
         a.id,
         { source: lessonSource, answer: lessonAnswer },
-        status.SERVICE_ROLE_KEY,
+        LOCAL_TUTOR_ATTEMPT_SECRET,
       );
       expect(
         (
@@ -911,6 +972,75 @@ try {
     0,
     'Nutzungsdaten sind kontogetrennt',
   );
+  const gradingSource = {
+    kind: 'practice',
+    set: 'reading',
+    contentVersion: 1,
+    seed: 'rate-probe',
+    index: 0,
+  };
+  const gradingAnswer = expectedAnswer(resolveReportSource(catalogue, gradingSource).item);
+  const beforeRate = await usage(a);
+  await raw(`/rest/v1/tutor_attempt_limits?user_id=eq.${a.id}`, { admin: true, method: 'DELETE' });
+  const wave = await Promise.all(
+    Array.from({ length: 60 }, () =>
+      call(endpoint + '?view=attempt', {
+        token: a.token,
+        body: { source: gradingSource, answer: gradingAnswer },
+      }),
+    ),
+  );
+  expect(
+    wave.filter((r) => r.status === 200).length,
+    30,
+    'Parallele Nachweisausgabe gewährt genau 30 Prüfungen',
+  );
+  expect(
+    wave.filter((r) => r.status === 429).length,
+    30,
+    'Weitere parallele Prüfungen werden gedrosselt',
+  );
+  for (const denied of wave.filter((r) => r.status === 429)) {
+    expect(denied.data.error, 'rate', 'Eindeutiger Ratenfehler');
+    expect(
+      Number(denied.headers.get('Retry-After')) >= 1 &&
+        Number(denied.headers.get('Retry-After')) <= 60,
+      true,
+      'Begrenzte Wiederholungsfrist',
+    );
+    expect('proof' in denied.data, false, 'Keine Nachweise bei überschrittenem Limit');
+  }
+  expect(
+    (await table(`tutor_attempt_limits?user_id=eq.${a.id}`, { admin: true })).data[0].requests,
+    30,
+    'Zähler bleibt begrenzt',
+  );
+  expect(
+    (
+      await call(endpoint + '?view=attempt', {
+        token: b.token,
+        body: { source: gradingSource, answer: gradingAnswer },
+      })
+    ).status,
+    200,
+    'Unabhängiges Budget für ein zweites Konto',
+  );
+  await raw(`/rest/v1/tutor_attempt_limits?user_id=eq.${a.id}`, {
+    admin: true,
+    method: 'PATCH',
+    body: { window_started_at: new Date(Date.now() - 61000).toISOString() },
+  });
+  expect(
+    (
+      await call(endpoint + '?view=attempt', {
+        token: a.token,
+        body: { source: gradingSource, answer: gradingAnswer },
+      })
+    ).status,
+    200,
+    'Neues Zeitfenster lässt neue Prüfung zu',
+  );
+  expect(await usage(a), beforeRate, 'Prüfungsbudget ist vom Modellverbrauch getrennt');
 } finally {
   if (original)
     expect(
@@ -927,6 +1057,11 @@ try {
   for (const user of users)
     await raw(`/auth/v1/admin/users/${user.id}`, { admin: true, method: 'DELETE' });
   for (const user of users) {
+    expect(
+      (await table(`tutor_attempt_limits?user_id=eq.${user.id}`, { admin: true })).data.length,
+      0,
+      'Kontolöschung entfernt Prüfungszähler',
+    );
     expect(
       (await table(`tutor_requests?user_id=eq.${user.id}`, { admin: true })).data.length,
       0,

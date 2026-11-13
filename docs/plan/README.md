@@ -72,6 +72,7 @@ Dieser Plan beschreibt, wie wir Harmonia Schritt für Schritt bauen: vom leeren 
 | [Datenmodell](datenmodell.md) | Tabellen, Zugriffsregeln, Synchronisation |
 | [Supabase-Grundlage P1.04](supabase-grundlage.md) | Lokale Dienste, Profilmigration, RLS-/API-Tests und offene EU-Projekte |
 | [Tutor-Versuchsnachweise](tutor-versuchsnachweise.md) | Serverwertung und signierte kontogebundene Nachweise für Erklärungen/Lösungen; technische Nacharbeit E2 |
+| [Tutor-Sicherheitsnacharbeit](tutor-sicherheitsnacharbeit.md) | Eigenes Secret, gespeicherte Altanfragen, atomares Prüfbudget und Uhrentoleranz; technische v3-Nacharbeit N1–N4/H3 |
 | [KI-Tutor](ki-tutor.md) | Aufbau, Werkzeuge, Wissensbasis, Kosten, Qualität |
 | [Motivation und Social](motivation-und-social.md) | XP, Streaks, Ligen, Ratings, Rush, Duelle |
 | [Monetarisierung](monetarisierung.md) | Abos, Paywall, Marktplatz, Schule, Zertifikate – technisch |

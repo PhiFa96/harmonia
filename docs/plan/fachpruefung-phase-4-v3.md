@@ -2,6 +2,8 @@
 
 Integriert über den Branch `claude/stoic-pascal-eaoojx` per Sammel-PR nach `main`. Rohberichte: `docs/quality/fachpruefung-phase-4-v3/`.
 
+**Technischer Nachtrag 13.11.2026:** Die [Tutor-Sicherheitsnacharbeit N1–N4/H3](tutor-sicherheitsnacharbeit.md) bearbeitet auf eigenem Arbeitsbranch die nachstehend dokumentierten Probleme mit Signaturschlüssel, Fehlercodes, Idempotenzreihenfolge, Prüfbudget und Uhrentoleranz. Der Nachweis bestätigt weiterhin keine menschliche Bearbeitung. Prüfungen und Entwurfs-PR sind in der Übergabe verzeichnet; dieser Nachtrag ist keine erneute unabhängige Fach- oder Produktabnahme. Die ursprünglichen Befunde und Rohberichte bleiben als Prüfstand vom 05.11. erhalten.
+
 ## Integrierte PRs
 
 | PR | Inhalt | Ergebnis |

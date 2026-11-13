@@ -3,6 +3,8 @@ import { execFileSync, spawn } from 'node:child_process';
 import { chmodSync, copyFileSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { delimiter, join } from 'node:path';
+import { validateTutorAttemptSecret } from '../supabase/functions/_shared/tutor-attempt.ts';
+import { LOCAL_TUTOR_ATTEMPT_SECRET } from './tutor-attempt-fixture.mjs';
 const docker = execFileSync('which', ['docker'], {
   encoding: 'utf8',
   stdio: ['ignore', 'pipe', 'pipe'],
@@ -14,6 +16,17 @@ if ((tutorLive && tutorTest) || (tutorLive && !process.env.ANTHROPIC_API_KEY)) {
   rmSync(dir, { recursive: true, force: true });
   throw new Error('Tutor-Live benötigt ANTHROPIC_API_KEY und ist vom lokalen Test getrennt.');
 }
+let attemptSecret;
+try {
+  attemptSecret = tutorTest
+    ? LOCAL_TUTOR_ATTEMPT_SECRET
+    : process.env.TUTOR_ATTEMPT_SECRET
+      ? validateTutorAttemptSecret(process.env.TUTOR_ATTEMPT_SECRET)
+      : undefined;
+} catch {
+  rmSync(dir, { recursive: true, force: true });
+  throw new Error('Tutor attempt signing configuration');
+}
 const wrapper = join(dir, 'docker'),
   envFile = join(dir, 'preview.env');
 copyFileSync(new URL('./docker-local-wrapper.cjs', import.meta.url), wrapper);
@@ -23,6 +36,7 @@ writeFileSync(
   envFile,
   (process.argv.includes('--published') ? '' : 'HARMONIA_LOCAL_PREVIEW=true\n') +
     (tutorTest ? 'HARMONIA_TUTOR_LOCAL_TEST=true\n' : '') +
+    (attemptSecret ? `TUTOR_ATTEMPT_SECRET=${attemptSecret}\n` : '') +
     (process.argv.includes('--billing-test') ? 'HARMONIA_BILLING_LOCAL_TEST=true\n' : ''),
   { mode: 0o600 },
 );
@@ -30,6 +44,8 @@ const child = spawn('pnpm', ['exec', 'supabase', 'functions', 'serve', '--env-fi
   detached: process.platform !== 'win32',
   env: {
     ...process.env,
+    // The intended value is confined to the private Function env file.
+    TUTOR_ATTEMPT_SECRET: undefined,
     HARMONIA_DOCKER_BINARY: docker,
     HARMONIA_TUTOR_FORWARD_KEY: tutorLive ? 'true' : 'false',
     PATH: dir + delimiter + process.env.PATH,
