@@ -355,7 +355,7 @@ jobs:
         run: pnpm db:test:motivation
 
       - name: Tutor-SSE, Verlauf, Antwortmeldungen, Abo, Budgets und Löschung lokal prüfen
-        run: pnpm db:test:tutor
+        run: pnpm db:test:tutor:attempts && pnpm db:test:tutor
 
       - name: Volltextsuche, Quellenrückzug, Zitate und Konto-Zugriff lokal prüfen
         run: pnpm db:test:knowledge
