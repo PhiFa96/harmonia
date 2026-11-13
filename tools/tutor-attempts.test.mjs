@@ -7,6 +7,9 @@ import {
   issueTutorAttempt,
   tutorAttemptError,
   TUTOR_ATTEMPT_TTL_MS,
+  TUTOR_ATTEMPT_CLOCK_SKEW_MS,
+  readTutorAttemptSecret,
+  TutorAttemptContentError,
 } from '../supabase/functions/_shared/tutor-attempt.ts';
 
 const actor = '11111111-1111-4111-8111-111111111111';
@@ -100,17 +103,19 @@ test('receipt binds actor, source, answer, identifier, timestamps and server key
   assert.equal(await tutorAttemptError(base.id, base, secret, now), 'attempt_invalid');
   assert.equal(await tutorAttemptError(actor, base, secret + '-rotated', now), 'attempt_invalid');
 });
-test('expiry is exclusive; only an already stored identical owned request may replay an expired receipt', async () => {
+test('new requests have exclusive expiry; wrong account remains invalid at expiry', async () => {
   const proof = await issueTutorAttempt(catalogue, actor, attempt, secret, now);
   assert.equal(await tutorAttemptError(actor, request(proof), secret, proof.expiresAt - 1), null);
   assert.equal(
     await tutorAttemptError(actor, request(proof), secret, proof.expiresAt),
     'attempt_expired',
   );
-  assert.equal(await tutorAttemptError(actor, request(proof), secret, now - 1), 'attempt_invalid');
-  assert.equal(await tutorAttemptError(actor, request(proof), secret, proof.expiresAt, true), null);
   assert.equal(
-    await tutorAttemptError(request(proof).id, request(proof), secret, proof.expiresAt, true),
+    await tutorAttemptError(actor, request(proof), secret, now - TUTOR_ATTEMPT_CLOCK_SKEW_MS - 1),
+    'attempt_invalid',
+  );
+  assert.equal(
+    await tutorAttemptError(request(proof).id, request(proof), secret, proof.expiresAt),
     'attempt_invalid',
   );
 });
@@ -149,4 +154,56 @@ test('hint and chat do not require a receipt; solution cannot use a receipt with
     ),
     'attempt_required',
   );
+});
+
+test('a small clock difference between signing and verifying instances accepts a fresh proof', async () => {
+  const proof = await issueTutorAttempt(catalogue, actor, attempt, secret, now);
+  assert.equal(await tutorAttemptError(actor, request(proof), secret, now - 1000), null);
+  assert.equal(
+    await tutorAttemptError(actor, request(proof), secret, now - TUTOR_ATTEMPT_CLOCK_SKEW_MS),
+    null,
+  );
+  assert.equal(
+    await tutorAttemptError(actor, request(proof), secret, now - TUTOR_ATTEMPT_CLOCK_SKEW_MS - 1),
+    'attempt_invalid',
+  );
+});
+
+test('dedicated signing secret never falls back to or equals the administrative credential', () => {
+  const admin = 'synthetic-administrative-key-only-for-tests';
+  for (const configured of [undefined, '', 'short', admin, ' '.repeat(40), 'secret\n' + secret])
+    assert.throws(
+      () =>
+        readTutorAttemptSecret((name) =>
+          name === 'SUPABASE_SERVICE_ROLE_KEY' ? admin : configured,
+        ),
+      (error) => error.name === 'TutorAttemptConfigurationError',
+    );
+  for (const administrative of [admin, admin + '-rotated'])
+    assert.equal(
+      readTutorAttemptSecret((name) => (name === 'TUTOR_ATTEMPT_SECRET' ? secret : administrative)),
+      secret,
+    );
+});
+test('only invalid content is classified as a content error', async () => {
+  await assert.rejects(
+    issueTutorAttempt(catalogue, actor, { ...attempt, answer: 'invalid' }, secret, now),
+    TutorAttemptContentError,
+  );
+  await assert.rejects(
+    issueTutorAttempt(catalogue, actor, attempt, '', now),
+    (error) => !(error instanceof TutorAttemptContentError),
+  );
+});
+test('signing configuration errors are distinguishable from invalid submitted content', async () => {
+  for (const value of ['', 'short'])
+    await assert.rejects(
+      issueTutorAttempt(catalogue, actor, attempt, value, now),
+      (error) => error.name === 'TutorAttemptConfigurationError',
+    );
+});
+test('malformed contextual source fails as an invalid proof rather than throwing a server error', async () => {
+  const proof = await issueTutorAttempt(catalogue, actor, attempt, secret, now);
+  const malformed = { ...request(proof), context: { source: { kind: 'unknown' }, answer } };
+  assert.equal(await tutorAttemptError(actor, malformed, secret, now), 'attempt_invalid');
 });

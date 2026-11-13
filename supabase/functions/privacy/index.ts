@@ -118,6 +118,7 @@ const sections = {
     'id,conversation_id,user_text,state,day,cost,prompt_version,tool_version,usage,result,created_at,finished_at',
   ],
   tutorReports: ['tutor_reports', 'user_id', 'id', '*'],
+  tutorAttemptLimits: ['tutor_attempt_limits', 'user_id', 'user_id', '*'],
   aiUsage: ['ai_usage', 'user_id', 'day', '*'],
   entitlements: ['entitlements', 'user_id', 'entitlement', '*'],
   access: ['access_grants', 'user_id', 'client_id', '*'],

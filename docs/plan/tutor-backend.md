@@ -1,5 +1,7 @@
 # P2.15 – Tutor-Backend
 
+**Nachtrag 13.11.2026:** Die [Tutor-Sicherheitsnacharbeit](tutor-sicherheitsnacharbeit.md) ist für Versuchsnachweise und deren Betrieb maßgeblich: eigene serverseitige Konfiguration `TUTOR_ATTEMPT_SECRET`, additive Migration `20261113090000_tutor_attempt_security.sql`, kontogebundenes Prüfbudget und Abruf gespeicherter Altanfragen vor der Nachweispflicht. `--tutor-test` verwendet nur ein synthetisches Testsecret. Keine entfernte Bereitstellung oder Live-Modellabnahme in diesem Auftrag.
+
 Stand: 14.10.2026. Technisch umgesetzt auf `codex/p2-15-tutor-backend`, Ausgangspunkt `3ef8db04` (P2.14). Claude Code bleibt für Review und Merge zuständig. Vergleich: [P2.14 → P2.15](https://github.com/PhiFa96/harmonia/compare/codex/p2-14-motivation-reminders...codex/p2-15-tutor-backend?expand=1). Entscheidung: [ADR 0015](../decisions/0015-tutor-backend-und-kostenreservierung.md).
 
 Die technische Umsetzung ist geprüft. **Die Live-Abnahme mit Anthropic und echte Kosten pro Antwort sind noch offen**, weil `ANTHROPIC_API_KEY`, ein offiziell geprüftes aktuelles Modell und dessen Tarif nicht gebunden sind. Der gespeicherte Umgebungsentwurf bereitet die Schlüsselbindung an `api.anthropic.com` und die Dokumentationsdomains vor; er wurde hier nicht veröffentlicht. Simulationskosten werden ausdrücklich als solche ausgewiesen. P2.15 ist damit noch nicht vollständig nach seiner Live-Definition-of-Done abgenommen.
