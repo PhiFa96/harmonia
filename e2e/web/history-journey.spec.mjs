@@ -15,6 +15,90 @@ for (const locale of ['de-DE', 'en-US', 'en-GB']) {
   const text = createHistoryJourneyText(language, historyJourneyMessages);
   const storyCopy = Object.fromEntries(historyStops.map((stop) => [stop.id, text(stop.id)]));
 
+  if (!production)
+    test(`${locale}: requested solutions keep the original answer and reset on return`, async ({
+      browser,
+    }, testInfo) => {
+      const context = await browser.newContext({ locale, viewport: { width: 390, height: 900 } });
+      const page = await context.newPage();
+      const errors = [];
+      page.on('pageerror', (error) => errors.push(error.message));
+      const stop = historyStops[0];
+      const story = storyCopy[stop.id];
+      const button = (name) => page.getByRole('button', { name, exact: true });
+      try {
+        await onboard(page, locale);
+        await page.goto('/history-journey');
+        await button(story.title).click();
+        await button(ui.next).click();
+        await button(story.personaPrompts[0]).click();
+        await button(ui.next).click();
+        for (const kind of ['knowledge', 'listening']) {
+          const answer = kind === 'knowledge' ? stop.knowledgeAnswer : stop.listeningAnswer;
+          const options = story[`${kind}Options`];
+          const explanation = story[`${kind}Explanation`];
+          const wrong = options.filter((_, index) => index !== answer);
+          await expect(button(ui.showSolution)).toHaveCount(0);
+          await button(wrong[0]).click();
+          if (kind === 'listening') {
+            await expect(button(ui.check)).toBeDisabled();
+            await expect(button(ui.showSolution)).toHaveCount(0);
+            await button(ui.play).click();
+          }
+          await button(ui.check).click();
+          await expect(button(ui.showSolution)).toHaveCount(0);
+          await button(ui.moreHint).click();
+          await expect(button(ui.next)).toBeDisabled();
+          await expect(page.getByText(explanation, { exact: false })).toHaveCount(0);
+          await button(ui.showSolution).click();
+          const feedback = page.getByTestId('history-question-feedback');
+          await expect(feedback).toHaveText(
+            `${ui.revealed.replace('{{answer}}', options[answer])} ${explanation}`,
+          );
+          await expect(page.getByTestId('history-chosen-answer')).toHaveText(
+            ui.selectedAnswer.replace('{{answer}}', wrong[0]),
+          );
+          await expect(button(wrong[0])).toHaveAttribute('aria-pressed', 'true');
+          await expect(button(options[answer])).toHaveAttribute('aria-pressed', 'false');
+          for (const option of options) await expect(button(option)).toBeDisabled();
+          await expect(button(ui.check)).toBeDisabled();
+          await expect(button(ui.skipListening)).toHaveCount(0);
+          await expect(page.getByTestId('history-hints')).toHaveCount(0);
+          await feedback.scrollIntoViewIfNeeded();
+          await audit(page);
+          await noOverflow(page);
+          await page.screenshot({
+            path: testInfo.outputPath(`${kind}-solution.png`),
+            fullPage: true,
+          });
+          await button(ui.nextRevealed).click();
+          await button(ui.back).click();
+          await expect(page.getByTestId('history-question-feedback')).toHaveCount(0);
+          await expect(page.getByTestId('history-chosen-answer')).toHaveCount(0);
+          await expect(page.getByTestId('history-hints')).toHaveCount(0);
+          await expect(button(ui.nextRevealed)).toHaveCount(0);
+          await button(options[answer]).click();
+          await expect(button(ui.next)).toBeDisabled();
+          if (kind === 'listening') {
+            await expect(button(ui.check)).toBeDisabled();
+            await button(ui.play).click();
+          }
+          await button(ui.check).click();
+          await expect(page.getByTestId('history-question-feedback')).toHaveText(
+            `${ui.correct} ${explanation}`,
+          );
+          await button(ui.next).click();
+        }
+        await expect(page.getByText(ui.complete, { exact: true })).toBeVisible();
+        await button(ui.finish).click();
+        await button(story.title).click();
+        await expect(page.getByText(story.scene, { exact: true })).toBeVisible();
+        expect(errors).toEqual([]);
+      } finally {
+        await context.close();
+      }
+    });
+
   if (production) {
     test(`${locale}: history journey has no published stops`, async ({ browser }) => {
       const context = await browser.newContext({ locale, viewport: { width: 390, height: 900 } });

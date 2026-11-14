@@ -46,3 +46,9 @@ Nicht übernommen:
 ## Grenzen
 
 Keine Literatur-Volltext-, Geräte-, Stimmen-, Screenreader-, Live-Modell- oder Rechtsabnahme. Alle Inhalte bleiben `entwurf`, öffentlich null Lektionen. P4.01 bleibt wegen F14/Recht zurückgestellt.
+
+## Technische Zeitreise-Nacharbeit vom 14.11.2026
+
+Der eigenständige Entwurf `codex/history-hints-solution-draft` bearbeitet den Hinweisbefund: Acht zweite DE/EN-Hinweise fordern zum eigenen Prüfen auf; die vollständige Antwort/Erklärung wird nach Hinweis 2 getrennt angefordert. `revealed` kennzeichnet „Auflösung angesehen“ ausdrücklich getrennt von `correct`, erhält Auswahl und Versuche und erlaubt einen eigenen Weiter-Schritt. Die frühzeitige Anforderung von Hinweis 2 bleibt wie in ADR 0071 beabsichtigt verfügbar. [Stand, Nachweise und Grenzen](zeitreise-musikgeschichte.md), [ADR 0083](../decisions/0083-zeitreise-aufloesung-getrennt-von-hinweisen.md).
+
+Der Rohbericht bleibt unverändert. Dies ist technische P4-Vorarbeit vor der formalen Phase-4-Freigabe, keine unabhängige didaktische oder Fachabnahme. Neue Texte und Hilfestufung bleiben Entwurf; die im Bericht genannten Quellen-/Sprach-/Geräteabnahmen und P4.01 bis F14/Rechtsklärung bleiben offen. Keine Veröffentlichung oder Main-Integration.

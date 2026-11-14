@@ -42,7 +42,7 @@ export function answerHistoryQuestion(correct: HistoryChoice, choice: HistoryCho
 /** Volatile preview interaction, never a learning or reward record. */
 export interface HistoryQuestionState {
   readonly choice: HistoryChoice | null;
-  readonly feedback: 'unanswered' | 'incorrect' | 'correct';
+  readonly feedback: 'unanswered' | 'incorrect' | 'correct' | 'revealed';
   readonly attempts: number;
   readonly hintLevel: 0 | 1 | 2;
 }
@@ -55,7 +55,12 @@ export function chooseHistoryAnswer(
   state: HistoryQuestionState,
   choice: HistoryChoice,
 ): HistoryQuestionState {
-  if (![0, 1, 2].includes(choice) || state.feedback === 'correct' || state.choice === choice)
+  if (
+    ![0, 1, 2].includes(choice) ||
+    state.feedback === 'correct' ||
+    state.feedback === 'revealed' ||
+    state.choice === choice
+  )
     return state;
   return { ...state, choice, feedback: 'unanswered' };
 }
@@ -87,6 +92,22 @@ export function checkHistoryQuestion(
 
 /** The specific hint can be requested without submitting another wrong answer. */
 export function revealHistoryHint(state: HistoryQuestionState): HistoryQuestionState {
-  if (state.feedback === 'correct' || state.hintLevel !== 1) return state;
+  if (state.feedback === 'correct' || state.feedback === 'revealed' || state.hintLevel !== 1)
+    return state;
   return { ...state, hintLevel: 2 };
+}
+
+/** Explicit solution viewing is terminal help, never a correct answer or another attempt. */
+export function revealHistorySolution(
+  state: HistoryQuestionState,
+  ready = true,
+): HistoryQuestionState {
+  if (
+    !ready ||
+    state.hintLevel !== 2 ||
+    state.feedback === 'correct' ||
+    state.feedback === 'revealed'
+  )
+    return state;
+  return { ...state, feedback: 'revealed' };
 }

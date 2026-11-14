@@ -5,6 +5,7 @@ import {
   chooseHistoryAnswer,
   checkHistoryQuestion,
   revealHistoryHint,
+  revealHistorySolution,
   knowledgeArticleHref,
   knowledgeArticleParts,
   knowledgeChunkFingerprint,
@@ -210,6 +211,9 @@ export default function HistoryJourneyScreen() {
                 onHint={() => {
                   setQuestion(revealHistoryHint);
                 }}
+                onSolution={(ready) => {
+                  setQuestion((state) => revealHistorySolution(state, ready));
+                }}
               />
             ) : null}
             {step === 'complete' ? (
@@ -228,11 +232,18 @@ export default function HistoryJourneyScreen() {
             <View style={styles.actions}>
               <Button variant="ghost" label={t('historyJourney.back')} onPress={back} />
               <Button
-                label={t(step === 'complete' ? 'historyJourney.finish' : 'historyJourney.next')}
+                label={t(
+                  step === 'complete'
+                    ? 'historyJourney.finish'
+                    : question.feedback === 'revealed'
+                      ? 'historyJourney.nextRevealed'
+                      : 'historyJourney.next',
+                )}
                 disabled={
                   (step === 'interview' && interview.selected === null) ||
                   ((step === 'knowledge' || step === 'listening') &&
-                    question.feedback !== 'correct')
+                    question.feedback !== 'correct' &&
+                    question.feedback !== 'revealed')
                 }
                 onPress={() => {
                   if (step === 'complete') chooseStop(null);
@@ -256,6 +267,7 @@ function Question({
   onCheck,
   onSkip,
   onHint,
+  onSolution,
 }: {
   readonly stop: HistoryStop;
   readonly step: 'knowledge' | 'listening';
@@ -265,6 +277,7 @@ function Question({
   readonly onCheck: (ready: boolean) => void;
   readonly onSkip: () => void;
   readonly onHint: () => void;
+  readonly onSolution: (ready: boolean) => void;
 }) {
   const { t } = useTranslation();
   const score = useMemo(
@@ -275,6 +288,10 @@ function Question({
   const listening = step === 'listening';
   const options = listening ? copy.listeningOptions : copy.knowledgeOptions;
   const hints = listening ? copy.listeningHints : copy.knowledgeHints;
+  const answer = listening ? stop.listeningAnswer : stop.knowledgeAnswer;
+  const explanation = listening ? copy.listeningExplanation : copy.knowledgeExplanation;
+  const complete = question.feedback === 'correct' || question.feedback === 'revealed';
+  const ready = !listening || audio.heard;
   return (
     <Card>
       <View style={styles.content}>
@@ -306,7 +323,7 @@ function Question({
             variant={question.choice === index ? 'primary' : 'secondary'}
             selected={question.choice === index}
             label={option}
-            disabled={question.feedback === 'correct'}
+            disabled={complete}
             onPress={() => {
               onChoice(index as HistoryChoice);
             }}
@@ -314,33 +331,36 @@ function Question({
         ))}
         <Button
           label={t('historyJourney.check')}
-          disabled={
-            question.choice === null ||
-            question.feedback !== 'unanswered' ||
-            (listening && !audio.heard)
-          }
+          disabled={question.choice === null || question.feedback !== 'unanswered' || !ready}
           onPress={() => {
-            onCheck(!listening || audio.heard);
+            onCheck(ready);
           }}
         />
-        {listening ? (
+        {listening && !complete ? (
           <Button variant="ghost" label={t('historyJourney.skipListening')} onPress={onSkip} />
         ) : null}
-        {question.feedback !== 'unanswered' ? (
-          <AppText key={question.attempts} aria-live="polite">
-            {t(
-              question.feedback === 'correct'
-                ? 'historyJourney.correct'
-                : 'historyJourney.incorrect',
-            )}{' '}
-            {question.feedback === 'correct'
-              ? listening
-                ? copy.listeningExplanation
-                : copy.knowledgeExplanation
-              : ''}
+        {question.feedback === 'revealed' && question.choice !== null ? (
+          <AppText testID="history-chosen-answer">
+            {t('historyJourney.selectedAnswer', { answer: options[question.choice] ?? '' })}
           </AppText>
         ) : null}
-        {question.feedback !== 'correct' && question.hintLevel > 0 ? (
+        {question.feedback !== 'unanswered' ? (
+          <AppText
+            key={`${String(question.attempts)}:${question.feedback}`}
+            testID="history-question-feedback"
+            aria-live="polite"
+          >
+            {question.feedback === 'revealed'
+              ? t('historyJourney.revealed', { answer: options[answer] ?? '' })
+              : t(
+                  question.feedback === 'correct'
+                    ? 'historyJourney.correct'
+                    : 'historyJourney.incorrect',
+                )}{' '}
+            {complete ? explanation : ''}
+          </AppText>
+        ) : null}
+        {!complete && question.hintLevel > 0 ? (
           <View style={styles.content} testID="history-hints" aria-live="polite">
             {hints.slice(0, question.hintLevel).map((hint, index) => (
               <View key={index}>
@@ -352,7 +372,16 @@ function Question({
             ))}
             {question.hintLevel === 1 ? (
               <Button variant="secondary" label={t('historyJourney.moreHint')} onPress={onHint} />
-            ) : null}
+            ) : (
+              <Button
+                variant="secondary"
+                label={t('historyJourney.showSolution')}
+                disabled={!ready}
+                onPress={() => {
+                  onSolution(ready);
+                }}
+              />
+            )}
           </View>
         ) : null}
       </View>

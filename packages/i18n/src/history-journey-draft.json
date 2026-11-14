@@ -31,11 +31,11 @@
       ],
       "knowledgeHints": [
         "Suche in jeder Angabe das Jahr, das die Entstehung des Werks bezeichnet. Das Jahr einer späteren Ausgabe beantwortet eine andere Frage.",
-        "Vergleiche die drei Werkjahre mit der Datierung im Mittelalter-Dossier. Die Ausgaben aus dem 19. und 20. Jahrhundert verschieben diese Datierung nicht."
+        "Prüfe jedes Werkjahr an der zeitlichen Übersicht im Quellenabschnitt. Notiere getrennt, worüber das Werkjahr und das Ausgabenjahr Auskunft geben."
       ],
       "listeningHints": [
         "Höre auf gleichzeitig klingende Melodielinien. Zähle nicht die Töne, die nacheinander kommen.",
-        "Verfolge die Linie vom Anfang bis zum Ende: Setzt währenddessen eine weitere Melodie ein, oder bleibt es bei derselben $t(glossary:voice_one)?"
+        "Höre einen kurzen Abschnitt erneut. Versuche, die Tonhöhen als melodische Linien zu verfolgen. Wie viele Linien kannst du zur selben Zeit hören?"
       ]
     },
     "renaissance": {
@@ -69,11 +69,11 @@
       ],
       "knowledgeHints": [
         "Vergleiche das musikalische Material der beiden $t(glossary:voice_other), nicht nur ihren Rhythmus oder die Zahl der Einsätze.",
-        "Achte auf das Wiederaufgreifen eines Melodieanfangs: Welche Beschreibung verbindet einen späteren Einsatz mit einem bereits gehörten Gedanken?"
+        "Gehe jede Beschreibung durch: Welches Material spielt die erste $t(glossary:voice_one), welches die zweite? Prüfe die Beziehung beider Melodien, bevor du dich entscheidest."
       ],
       "listeningHints": [
         "Achte darauf, ob sich die Tonfolgen zeitlich überlagern. Ein Tonwechsel innerhalb einer Linie fügt keine neue $t(glossary:voice_one) hinzu.",
-        "Verfolge zuerst die tiefere Linie und höre dann auf die höhere: Erklingt die eine weiter, während die andere schon zu hören ist?"
+        "Höre das Modell erneut und richte deine Aufmerksamkeit nacheinander auf die tiefere und die höhere Lage. Vergleiche, wann du dort Töne hörst."
       ]
     },
     "baroque": {
@@ -107,11 +107,11 @@
       ],
       "knowledgeHints": [
         "Überlege, welche Aufgabe die Basslinie in der beschriebenen Begleitung hat und was zu ihr hinzukommt.",
-        "Suche den Arbeitsschritt, der die Bassgrundlage beibehält und eine akkordische Ausführung ergänzt. Eine nachahmende Melodielinie erfüllt eine andere Aufgabe."
+        "Vergleiche jede Handlung mit dem Quellenabschnitt: Was geschieht mit dem Bass, was mit den übrigen Tönen? Begründe deine Wahl mit beiden Angaben."
       ],
       "listeningHints": [
         "Achte auf den Beginn jedes Klangereignisses. Vergleiche den Einsatz der tieferen und der höheren Tonhöhe.",
-        "Prüfe bei jedem Einsatz, ob die höhere Tonhöhe erst nach der tieferen beginnt oder ob du beide schon vom selben Beginn an hörst."
+        "Spiele das Modell erneut und achte nur auf die ersten Augenblicke jedes Klangereignisses. Vergleiche danach deine Beobachtung mit allen drei Beschreibungen."
       ]
     },
     "classical": {
@@ -145,11 +145,11 @@
       ],
       "knowledgeHints": [
         "Vergleiche die Größe des gezeigten Materials mit der Größe der Form, die jede Antwort nennt. Zähle Töne und Takte getrennt.",
-        "Die zwei kurzen Vierergruppen füllen jeweils nur einen Teil eines Takts. Welche Beschreibung bleibt bei diesem kleinen Material, statt eine längere Gliederung zu ergänzen?"
+        "Prüfe jede Antwort am Notenbild: Zählt sie Töne, vollständige Takte oder größere Formteile? Welche ihrer Angaben kannst du im gezeigten Material belegen?"
       ],
       "listeningHints": [
         "Höre auf die Stellen, an denen der Klang aussetzt. Wo beginnt nach einer Pause eine neue Gruppe?",
-        "Zähle die Töne bis zur ersten Pause und dann ab dem nächsten Einsatz neu. Trenne die Anzahl der Gruppen von der Anzahl der Töne pro Gruppe."
+        "Markiere beim Hören gedanklich jede Unterbrechung und beginne danach neu zu zählen. Halte die Zahl der Gruppen und die Zahl der Töne je Gruppe getrennt fest."
       ]
     }
   },
@@ -185,11 +185,11 @@
       ],
       "knowledgeHints": [
         "In each entry, find the year that refers to the composition of the work. A later edition year answers a different question.",
-        "Compare the three composition years with the date in the medieval dossier. The nineteenth- and twentieth-century editions do not move that date."
+        "Check each composition year against the timeline in the source section. Note separately what the composition year and the edition year tell you."
       ],
       "listeningHints": [
         "Listen for melodic lines sounding at the same time. Do not count the notes that follow one another.",
-        "Follow the line from beginning to end: does another melody enter during it, or does the same single $t(glossary:voice_one) continue?"
+        "Listen to a short section again. Try following the pitches as melodic lines. How many lines can you hear at the same time?"
       ]
     },
     "renaissance": {
@@ -223,11 +223,11 @@
       ],
       "knowledgeHints": [
         "Compare the musical material of the two $t(glossary:voice_other), rather than just their rhythm or the number of entries.",
-        "Listen for a melodic opening being taken up again: which description connects a later entry with an idea already heard?"
+        "Work through each description: what material does the first $t(glossary:voice_one) play, and what does the second play? Check how the two melodies relate before choosing."
       ],
       "listeningHints": [
         "Listen for the note sequences overlapping in time. A change of pitch within a line does not add another $t(glossary:voice_one).",
-        "Follow the lower line first and then listen for the higher one: does one continue while the other is already sounding?"
+        "Listen to the model again, focusing first on the lower register and then on the higher register. Compare when you hear notes in each."
       ]
     },
     "baroque": {
@@ -261,11 +261,11 @@
       ],
       "knowledgeHints": [
         "Consider the role of the bass line in the described accompaniment and what is added to it.",
-        "Find the step that retains the bass foundation and adds a chordal realization. An imitating melodic line serves a different purpose."
+        "Compare each action with the source section: what happens to the bass, and what happens to the other notes? Use both observations to explain your choice."
       ],
       "listeningHints": [
         "Focus on the start of each sound event. Compare the entry of the lower and higher pitches.",
-        "At each onset, check whether the higher pitch begins after the lower one or whether you hear both from the same beginning."
+        "Play the model again and focus only on the first moments of each sound event. Then compare what you heard with all three descriptions."
       ]
     },
     "classical": {
@@ -299,11 +299,11 @@
       ],
       "knowledgeHints": [
         "Compare the size of the material shown with the size of the form each answer names. Count notes and $t(glossary:measure_other) separately.",
-        "Each short four-note group fills only part of a $t(glossary:measure_one). Which description stays with that small amount of material rather than adding a longer structure?"
+        "Check each answer against the notation: does it count notes, complete $t(glossary:measure_other), or larger formal units? Which of its claims can you support with the material shown?"
       ],
       "listeningHints": [
         "Listen for the places where the sound stops. Where does a new group begin after a rest?",
-        "Count the notes up to the first rest, then start again at the next entry. Keep the number of groups separate from the number of notes in each group."
+        "As you listen, mark each break in your mind and start counting again afterwards. Keep separate counts for the groups and the notes in each group."
       ]
     }
   },
@@ -316,10 +316,6 @@
         "I have a bass line in front of me and add chord tones to it. This belongs to $t(glossary:continuo) here. My realisation has to take the musical context into account.",
         "I follow my bass line and listen for the entries of the others. I practise how the pitches connect first and start a difficult passage again.",
         "A single higher note does not determine my complete chordal realisation. I need to know how the music fits together. Two pitches sounding together show only a small part."
-      ],
-      "knowledgeHints": [
-        "Consider the role of the bass line in the described accompaniment and what is added to it.",
-        "Find the step that retains the bass foundation and adds a chordal realisation. An imitating melodic line serves a different purpose."
       ]
     },
     "classical": {

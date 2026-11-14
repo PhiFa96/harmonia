@@ -58,7 +58,13 @@ import {
   localLearningRatings,
   adaptiveLessonPlan,
   weaknessPlan,
+  createHistoryQuestion,
+  chooseHistoryAnswer,
+  checkHistoryQuestion,
+  revealHistoryHint,
+  revealHistorySolution,
 } from '../packages/content/src/index.ts';
+import { historyStops } from '../packages/content/src/history-journey-draft.ts';
 import {
   parseScore,
   scoreTimeline,
@@ -104,6 +110,29 @@ function check(label: string, actual: unknown, expected: unknown): void {
   }
   console.log(`ok  ${label}`);
 }
+
+for (const stop of historyStops)
+  for (const kind of ['knowledge', 'listening'] as const) {
+    const answer = kind === 'knowledge' ? stop.knowledgeAnswer : stop.listeningAnswer;
+    const wrong = answer === 0 ? 1 : 0;
+    const hinted = revealHistoryHint(
+      checkHistoryQuestion(chooseHistoryAnswer(createHistoryQuestion(), wrong), answer),
+    );
+    check(
+      `${stop.id}/${kind}: unheard solution stays locked`,
+      revealHistorySolution(hinted, false),
+      hinted,
+    );
+    const revealed = revealHistorySolution(hinted);
+    check(`${stop.id}/${kind}: solution is not a correct answer`, revealed.feedback, 'revealed');
+    check(`${stop.id}/${kind}: choice is preserved`, revealed.choice, wrong);
+    check(`${stop.id}/${kind}: viewing is not an attempt`, revealed.attempts, 1);
+    check(
+      `${stop.id}/${kind}: viewed solution is terminal`,
+      chooseHistoryAnswer(revealed, answer),
+      revealed,
+    );
+  }
 
 const voiceLeadingPassage = [
   {
