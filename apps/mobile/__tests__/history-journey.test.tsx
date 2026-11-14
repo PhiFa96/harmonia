@@ -18,6 +18,7 @@ import { router } from 'expo-router';
 import { useExercisePlayback } from '@/components/use-exercise-playback';
 import HistoryJourneyScreen from '@/app/history-journey';
 import { i18n } from '@/i18n';
+import { useSettings } from '@/state/settings';
 
 jest.mock('expo-localization', () => ({
   getLocales: () => [{ languageCode: 'de', regionCode: 'DE' }],
@@ -29,8 +30,9 @@ jest.mock('expo-crypto', () => ({
   CryptoDigestAlgorithm: { SHA256: 'SHA256' },
   digestStringAsync: jest.fn(),
 }));
-beforeEach(() => {
-  void i18n.changeLanguage('de');
+beforeEach(async () => {
+  useSettings.setState({ locale: 'de', noteNaming: 'auto' });
+  await i18n.changeLanguage('de');
   jest.mocked(useExercisePlayback).mockReturnValue({
     playing: false,
     heard: true,
@@ -52,6 +54,82 @@ function renderJourney() {
     },
   );
 }
+
+describe.each(['de', 'en-US', 'en-GB'] as const)('%s: requested solutions', (locale) => {
+  it.each(historyStops)(
+    '$id: distinguishes solution viewing from a correct answer and resets it',
+    async (stop) => {
+      useSettings.setState({ locale, noteNaming: 'auto' });
+      await i18n.changeLanguage(locale);
+      renderJourney();
+      const copy = createHistoryJourneyText(locale, historyJourneyMessages)(stop.id);
+      const press = (
+        key: 'next' | 'back' | 'check' | 'moreHint' | 'showSolution' | 'nextRevealed' | 'finish',
+      ) => {
+        fireEvent.press(screen.getByText(i18n.t(`historyJourney.${key}`)));
+      };
+      fireEvent.press(screen.getByText(copy.title));
+      press('next');
+      fireEvent.press(screen.getByText(copy.personaPrompts[0] ?? ''));
+      press('next');
+      for (const kind of ['knowledge', 'listening'] as const) {
+        const answer = kind === 'knowledge' ? stop.knowledgeAnswer : stop.listeningAnswer;
+        const options = copy[`${kind}Options`];
+        const hints = copy[`${kind}Hints`];
+        const explanation = copy[`${kind}Explanation`];
+        const wrong = options.filter((_, index) => index !== answer);
+        expect(screen.queryByText(i18n.t('historyJourney.showSolution'))).toBeNull();
+        fireEvent.press(screen.getByText(wrong[0] ?? ''));
+        press('check');
+        expect(screen.queryByText(i18n.t('historyJourney.showSolution'))).toBeNull();
+        if (kind === 'knowledge') press('moreHint');
+        else {
+          fireEvent.press(screen.getByText(wrong[1] ?? ''));
+          press('check');
+        }
+        expect(screen.getByText(hints[1] ?? '')).toBeTruthy();
+        expect(screen.queryByText(explanation, { exact: false })).toBeNull();
+        expect(screen.getByText(i18n.t('historyJourney.next'))).toBeDisabled();
+        press('showSolution');
+        expect(screen.getByTestId('history-question-feedback')).toHaveTextContent(
+          `${i18n.t('historyJourney.revealed', { answer: options[answer] ?? '' })} ${explanation}`,
+        );
+        expect(screen.queryByText(i18n.t('historyJourney.correct'), { exact: false })).toBeNull();
+        expect(screen.queryByTestId('history-hints')).toBeNull();
+        expect(screen.queryByText(i18n.t('historyJourney.skipListening'))).toBeNull();
+        for (const option of options) expect(screen.getByText(option)).toBeDisabled();
+        expect(screen.getByText(i18n.t('historyJourney.check'))).toBeDisabled();
+        const selected = (kind === 'knowledge' ? wrong[0] : wrong[1]) ?? '';
+        expect(screen.getByTestId('history-chosen-answer')).toHaveTextContent(
+          i18n.t('historyJourney.selectedAnswer', { answer: selected }),
+        );
+        expect(screen.getByRole('button', { name: selected, selected: true })).toBeTruthy();
+        expect(
+          screen.getByRole('button', { name: options[answer] ?? '', selected: false }),
+        ).toBeTruthy();
+        press('nextRevealed');
+        press('back');
+        expect(screen.queryByTestId('history-question-feedback')).toBeNull();
+        expect(screen.queryByTestId('history-hints')).toBeNull();
+        expect(screen.queryByText(i18n.t('historyJourney.nextRevealed'))).toBeNull();
+        expect(screen.getByText(i18n.t('historyJourney.check'))).toBeDisabled();
+        fireEvent.press(screen.getByText(options[answer] ?? ''));
+        press('check');
+        expect(screen.getByTestId('history-question-feedback')).toHaveTextContent(
+          `${i18n.t('historyJourney.correct')} ${explanation}`,
+        );
+        expect(screen.queryByText(i18n.t('historyJourney.showSolution'))).toBeNull();
+        press('next');
+      }
+      expect(screen.getByText(i18n.t('historyJourney.complete'))).toBeTruthy();
+      press('finish');
+      fireEvent.press(screen.getByText(copy.title));
+      expect(screen.getByText(copy.scene)).toBeTruthy();
+      expect(screen.queryByTestId('history-question-feedback')).toBeNull();
+      expect(screen.queryByTestId('history-chosen-answer')).toBeNull();
+    },
+  );
+});
 
 for (const stop of historyStops) {
   it(`${stop.id}: opens three scripted replies and counts each question once`, () => {
@@ -292,6 +370,7 @@ it('keeps an unheard answer uncheckable after audio failure and allows an explic
   fireEvent.press(screen.getByText(copy.listeningOptions[stop.listeningAnswer] ?? ''));
   expect(screen.getByRole('alert')).toHaveTextContent(i18n.t('historyJourney.audioError'));
   expect(screen.getByText('Antwort prüfen')).toBeDisabled();
+  expect(screen.queryByText(i18n.t('historyJourney.showSolution'))).toBeNull();
   fireEvent.press(screen.getByText(i18n.t('historyJourney.skipListening')));
   expect(screen.getByText(i18n.t('historyJourney.complete'))).toBeTruthy();
 });
