@@ -11,10 +11,12 @@ import {
   parseNoteName,
   parsePitch,
   pitchName,
+  formatPitch,
 } from '@harmonia/theory';
 import type { ContextItem } from './context.ts';
 import { contextAnswer } from './context.ts';
 import { counterpointContextFindings } from './advanced-context.ts';
+import { counterpointCantusEnding } from './counterpoint-context.ts';
 const engines = new Map<string, ReturnType<typeof createI18n>>();
 function t(
   locale: TextLocale,
@@ -92,7 +94,12 @@ export function contextSourceText(item: ContextItem, locale: TextLocale) {
     item.topic.startsWith('counterpoint-') &&
     source.score.staves.length === 2
   )
-    return t(locale, 'exercise.counterpointParts');
+    return [
+      t(locale, 'exercise.counterpointParts'),
+      ...(item.topic === 'counterpoint-check'
+        ? [t(locale, 'exercise.counterpointCantusScope')]
+        : []),
+    ].join(' ');
 
   if (item.topic === 'jazz-roots' && source.kind === 'document')
     return t(
@@ -194,8 +201,23 @@ export function contextChoiceLabel(item: ContextItem, answer: string, locale: Te
   return label ? t(locale, label) : t(locale, 'exercise.unknownAnswer');
 }
 export function contextExplanation(item: ContextItem, locale: TextLocale) {
+  const ending =
+    item.topic === 'counterpoint-check' && item.source.kind === 'score'
+      ? counterpointCantusEnding(item.source.score)
+      : undefined;
+  const explanation = [
+    t(locale, `exercise.contextExplain_${item.topic}`, contextValues(item, locale)),
+    ...(ending
+      ? [
+          t(locale, `exercise.counterpointCantus_${ending.kind}`, {
+            from: named(formatPitch(ending.from), locale),
+            to: named(formatPitch(ending.to), locale),
+          }),
+        ]
+      : []),
+  ].join(' ');
   return t(locale, 'exercise.contextResult', {
-    explanation: t(locale, `exercise.contextExplain_${item.topic}`, contextValues(item, locale)),
+    explanation,
     answer: contextChoiceLabel(item, contextAnswer(item), locale),
   });
 }

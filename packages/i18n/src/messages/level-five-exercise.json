@@ -157,7 +157,11 @@
     "levelFiveLoadError": "Der lokale Speicher ist nicht erreichbar. Versuche das Laden erneut.",
     "levelFiveSaveError": "Die Änderung wurde nicht gespeichert. Der letzte bestätigte Stand bleibt erhalten. Lade ihn neu und versuche es erneut.",
     "counterpointParts": "Oben: Gegenstimme. Unten: Cantus firmus. Jedes System behält seine Stimmzuordnung, auch bei einer Stimmkreuzung.",
-    "contextStaffDescription": "System {{index}}: {{description}}"
+    "contextStaffDescription": "System {{index}}: {{description}}",
+    "counterpointCantusScope": "In diesen Kurzmodellen ist 7→1 aufwärts im Cantus eine Schlussvariante. Die hier verglichene Fux-Konvention verwendet 2→1 abwärts im Cantus. Die Schlussvariante allein sagt nicht, ob alle neun Regeln erfüllt sind.",
+    "counterpointCantus_ascending-semitone": "Cantus: {{from}} → {{to}}. Er steigt um einen diatonischen $t(glossary:semitone_one) zum Schlusston: die 7→1-Schlussvariante dieses Modells. In der hier verglichenen Fux-Konvention endet der Cantus abwärts mit 2→1.",
+    "counterpointCantus_descending-tone": "Cantus: {{from}} → {{to}}. Er fällt um einen $t(glossary:wholeTone_one) zum Schlusston: 2→1 wie in der hier verglichenen Fux-Konvention.",
+    "counterpointCantus_other-motion": "Cantus: {{from}} → {{to}}. Diese letzte Bewegung entspricht weder dem hier erläuterten diatonischen $t(glossary:semitone_one) aufwärts noch dem $t(glossary:wholeTone_one) abwärts."
   },
   "en-US": {
     "levelFiveTitle": "Stage 5: counterpoint and analysis",
@@ -317,7 +321,11 @@
     "levelFiveLoadError": "Local storage is unavailable. Try loading again.",
     "levelFiveSaveError": "This change was not saved. The last confirmed state is retained. Reload it and try again.",
     "counterpointParts": "Upper staff: counterpoint. Lower staff: Cantus firmus. Each staff keeps its part identity, including when the parts cross.",
-    "contextStaffDescription": "Staff {{index}}: {{description}}"
+    "contextStaffDescription": "Staff {{index}}: {{description}}",
+    "counterpointCantusScope": "In these short models, an ascending 7→1 in the cantus is a closing variant. The Fux convention compared here uses a descending 2→1 in the cantus. The closing variant alone does not determine whether all nine rules are satisfied.",
+    "counterpointCantus_ascending-semitone": "Cantus: {{from}} → {{to}}. It rises by a diatonic $t(glossary:semitone_one) to the final note: the 7→1 closing variant used in this model. Under the Fux convention compared here, the cantus descends 2→1.",
+    "counterpointCantus_descending-tone": "Cantus: {{from}} → {{to}}. It falls by a $t(glossary:wholeTone_one) to the final note: 2→1, as in the Fux convention compared here.",
+    "counterpointCantus_other-motion": "Cantus: {{from}} → {{to}}. This final motion matches neither the ascending diatonic $t(glossary:semitone_one) nor the descending $t(glossary:wholeTone_one) discussed here."
   },
   "en-GB": {
     "levelFiveTitle": "Stage 5: counterpoint and analysis",
@@ -477,6 +485,10 @@
     "levelFiveLoadError": "Local storage is unavailable. Try loading again.",
     "levelFiveSaveError": "This change was not saved. The last confirmed state is retained. Reload it and try again.",
     "counterpointParts": "Upper staff: counterpoint. Lower staff: Cantus firmus. Each staff keeps its part identity, including when the parts cross.",
-    "contextStaffDescription": "Staff {{index}}: {{description}}"
+    "contextStaffDescription": "Staff {{index}}: {{description}}",
+    "counterpointCantusScope": "In these short models, an ascending 7→1 in the cantus is a closing variant. The Fux convention compared here uses a descending 2→1 in the cantus. The closing variant alone does not determine whether all nine rules are satisfied.",
+    "counterpointCantus_ascending-semitone": "Cantus: {{from}} → {{to}}. It rises by a diatonic $t(glossary:semitone_one) to the final note: the 7→1 closing variant used in this model. Under the Fux convention compared here, the cantus descends 2→1.",
+    "counterpointCantus_descending-tone": "Cantus: {{from}} → {{to}}. It falls by a $t(glossary:wholeTone_one) to the final note: 2→1, as in the Fux convention compared here.",
+    "counterpointCantus_other-motion": "Cantus: {{from}} → {{to}}. This final motion matches neither the ascending diatonic $t(glossary:semitone_one) nor the descending $t(glossary:wholeTone_one) discussed here."
   }
 }
