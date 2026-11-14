@@ -1,5 +1,7 @@
 # Fachprüfung und Integration Phase 4 v3 (05.11.2026)
 
+**Technischer Nachtrag Stufe 5 (14.11.2026, noch nicht integriert):** [Cantus-Schlussvarianten](kontrapunkt-schlussvarianten.md), ADR 0082: gleicher Konventionshinweis vor der Antwort, konkrete Schlussbewegung aus den notierten Cantus-Tönen nach Wertung/Lösung. Erneute Zählung des integrierten Korpus: 11 Halbtonschlüsse aufwärts und 13 Ganztonschlüsse abwärts; die Zwölf-Angabe im Rohbericht bleibt als historischer Befund erhalten. Generator und neun Regeln unverändert; keine neue Primärlektüre oder unabhängige Fachfreigabe behauptet. Technische P4-Vorarbeit vor formaler Phase-4-Freigabe, keine Veröffentlichung/Main-Integration; P4.01 bis F14/Recht zurückgestellt.
+
 Integriert über den Branch `claude/stoic-pascal-eaoojx` per Sammel-PR nach `main`. Rohberichte: `docs/quality/fachpruefung-phase-4-v3/`.
 
 ## Integrierte PRs
