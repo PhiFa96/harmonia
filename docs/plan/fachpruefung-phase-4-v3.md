@@ -6,6 +6,8 @@ Integriert über den Branch `claude/stoic-pascal-eaoojx` per Sammel-PR nach `mai
 
 **Technischer Nachtrag 13.11.2026, KI/Zertifikate:** Die [Importbindung N1/N2](ki-zertifikate-importbindung.md) bearbeitet auf einem eigenen Arbeitsbranch die unvollständigen lokalen Importketten und die fehlende KI-Prüflogik im Zertifikatsprüfwert. Reale Dateiänderungen entwerten alte Arbeitsblätter und nach Neustart gespeicherte Zertifikatsmuster. Keine erneute unabhängige Fach-/Rechts- oder Produktabnahme; ursprüngliche Befunde und Rohberichte bleiben als historischer Prüfstand erhalten. N3–N5 sind getrennte offene Punkte. Die separaten Schul-/Tutor-PRs #151/#156 sind nicht enthalten.
 
+**Technischer Nachtrag 14.11.2026, Zertifikate N4:** Die [Leseansichten-Nacharbeit](zertifikate-leseansichten.md) entfernt Abschluss-, Invalidierungs- und Bereinigungsschreibzugriffe aus Status, Export, Codeprüfung und Belegabruf. Eigene Schreibtransaktionen und getrennte lokale Wartung erhalten den Lebenszyklus und die Aufbewahrung. Keine neue unabhängige Fach-/Rechts- oder Produktabnahme; ursprüngliche Befunde und Rohberichte bleiben historischer Prüfstand. N3/N5 bleiben offen, die getrennten PRs #151/#156/#157 sind nicht enthalten.
+
 ## Integrierte PRs
 
 | PR | Inhalt | Ergebnis |

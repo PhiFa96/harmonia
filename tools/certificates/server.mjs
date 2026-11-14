@@ -14,6 +14,7 @@ const fontRoot = new URL(
   import.meta.url,
 );
 const cookieName = 'harmonia_certificate_draft';
+export const CERTIFICATE_MAINTENANCE_MS = 60_000;
 const c = COLORS.light;
 const html = `<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Harmonia</title><style>
 @font-face{font-family:Bravura;src:url('/bravura.woff2') format('woff2');font-display:swap}
@@ -159,10 +160,24 @@ export async function createCertificateServer({
     server.listen(port, '127.0.0.1', resolve);
   });
   origin = `http://127.0.0.1:${server.address().port}`;
+  const maintain = () => {
+    try {
+      service.maintain();
+    } catch {
+      // Keine Rohfehler, Kontokennungen oder lokalen Datenbankpfade protokollieren.
+      console.warn(
+        'Zertifikatsbereinigung fehlgeschlagen; erneuter Versuch im nächsten Wartungslauf.',
+      );
+    }
+  };
+  maintain();
+  const maintenance = setInterval(maintain, CERTIFICATE_MAINTENANCE_MS);
+  maintenance.unref?.();
   return {
     origin,
     close: () =>
       new Promise((resolve) => {
+        clearInterval(maintenance);
         server.closeAllConnections();
         server.close(() => {
           service.close();
