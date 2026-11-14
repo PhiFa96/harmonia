@@ -173,24 +173,26 @@ export function createCertificateService(
     ).run(run.endedAt, run.endReason, JSON.stringify(receipt), code, row.id);
     return owned(row.owner, row.id);
   }
-  function owned(owner, id) {
+  function owned(owner, id, cutoff) {
     const row = db
-      .prepare('select * from certificate_drafts where owner=? and id=?')
-      .get(owner, id);
+      .prepare(
+        'select * from certificate_drafts where owner=? and id=? and (? is null or started>=?)',
+      )
+      .get(owner, id, cutoff ?? null, cutoff ?? null);
     if (!row) throw new DraftError('notFound', 404);
     return row;
   }
-  function expire(row) {
+  function expire(row, instant) {
     if (row.finished !== null) return row;
     const run = reconstruct(row);
-    return now() >= run.deadlineAt ? finalize(row, finishExam(run, now())) : row;
+    return instant >= run.deadlineAt ? finalize(row, finishExam(run, instant)) : row;
   }
-  function view(row, locale) {
+  function view(row, locale, instant) {
     const base = {
       id: row.id,
       profile: row.profile,
       startedAt: row.started,
-      serverNow: now(),
+      serverNow: instant,
       deadlineAt:
         row.started +
         (CERTIFICATE_PROFILES.find((p) => p.id === row.profile)?.template.minutes ?? 0) * 60_000,
@@ -200,12 +202,8 @@ export function createCertificateService(
     let run;
     try {
       run = reconstruct(row);
-      row = expire(row);
     } catch (error) {
       if (!(error instanceof DraftError) || error.code !== 'outdated') throw error;
-      db.prepare(
-        'update certificate_drafts set invalidated=coalesce(invalidated,?) where id=?',
-      ).run(now(), row.id);
       return { ...base, phase: 'outdated' };
     }
     if (row.finished !== null)
@@ -215,6 +213,15 @@ export function createCertificateService(
         reason: row.reason,
         result: { ...JSON.parse(row.result), revoked: row.revoked !== null },
       };
+    if (instant >= run.deadlineAt) {
+      const ended = finishExam(run, instant);
+      return {
+        ...base,
+        phase: 'finished',
+        reason: ended.endReason,
+        result: { ...receiptFor(row, ended, null), revoked: row.revoked !== null },
+      };
+    }
     const item = currentItem(run.session);
     if (!item) throw new DraftError('outdated', 409);
     const aural = isAuralExercise(item);
@@ -242,14 +249,55 @@ export function createCertificateService(
       throw new DraftError('outdated', 409);
     return { ...base, phase: 'active', question };
   }
-  function transaction(work) {
+  // Nur Schreibvorgänge dürfen Fristen/Invalidierung persistieren und Slots freigeben.
+  function advance(row, locale, instant) {
+    const projected = view(row, locale, instant);
+    if (
+      projected.phase === 'outdated' ||
+      (projected.phase === 'cancelled' && row.finished === null)
+    ) {
+      db.prepare(
+        'update certificate_drafts set invalidated=coalesce(invalidated,?) where id=?',
+      ).run(instant, row.id);
+      return owned(row.owner, row.id);
+    }
+    return projected.phase === 'finished' && row.finished === null ? expire(row, instant) : row;
+  }
+  function prune(instant) {
+    const cutoff = instant - RETENTION_MS;
+    const attempts = db
+      .prepare('delete from certificate_drafts where started<?')
+      .run(cutoff).changes;
+    const purchasesRemoved = db
+      .prepare(
+        'delete from certificate_purchases where created<? and not exists(select 1 from certificate_drafts d where d.id=certificate_purchases.attempt_id)',
+      )
+      .run(cutoff).changes;
+    return { attempts, purchases: purchasesRemoved };
+  }
+  function readTransaction(work) {
+    // SQLite sperrt auch versehentlich ergänzte Schreibbefehle innerhalb einer Leseansicht.
+    db.exec('pragma query_only=on');
+    try {
+      db.exec('begin');
+      try {
+        const result = work(now());
+        db.exec('commit');
+        return result;
+      } catch (error) {
+        db.exec('rollback');
+        throw error;
+      }
+    } finally {
+      db.exec('pragma query_only=off');
+    }
+  }
+  function writeTransaction(work) {
     db.exec('begin immediate');
     try {
-      db.prepare('delete from certificate_drafts where started<?').run(now() - RETENTION_MS);
-      db.prepare(
-        'delete from certificate_purchases where created<? and not exists(select 1 from certificate_drafts d where d.id=certificate_purchases.attempt_id)',
-      ).run(now() - RETENTION_MS);
-      const result = work();
+      const instant = now();
+      const removed = prune(instant);
+      const result = work(instant, removed);
       db.exec('commit');
       return result;
     } catch (error) {
@@ -268,31 +316,36 @@ export function createCertificateService(
   }));
   return {
     close: () => db.close(),
+    maintain: () => writeTransaction((_instant, removed) => removed),
     issueSession: () => sessions.issue(),
     resolveSession: (token) => sessions.resolve(token),
     logout: (owner) => {
       sessions.revoke(owner);
       return { loggedOut: true };
     },
-    order: (owner, payload) => transaction(() => purchases.order(owner, payload)),
-    settle: (owner, payload) => transaction(() => purchases.settle(owner, payload)),
-    refund: (owner, payload) => transaction(() => purchases.refund(owner, payload)),
+    order: (owner, payload) => writeTransaction(() => purchases.order(owner, payload)),
+    settle: (owner, payload) => writeTransaction(() => purchases.settle(owner, payload)),
+    refund: (owner, payload) => writeTransaction(() => purchases.refund(owner, payload)),
     state(owner, locale) {
       validLocale(locale);
-      return transaction(() => {
+      return readTransaction((instant) => {
         const rows = db
           .prepare(
-            'select * from certificate_drafts where owner=? order by started desc,id desc limit 20',
+            'select * from certificate_drafts where owner=? and started>=? order by started desc,id desc limit 20',
           )
-          .all(owner);
-        const attempts = rows.map((row) => view(row, locale));
-        return { profiles: profileViews, attempts, purchases: purchases.list(owner) };
+          .all(owner, instant - RETENTION_MS);
+        const attempts = rows.map((row) => view(row, locale, instant));
+        return {
+          profiles: profileViews,
+          attempts,
+          purchases: purchases.list(owner, instant - RETENTION_MS),
+        };
       });
     },
     start(owner, payload) {
       exact(payload, ['profile', 'locale', 'purchase']);
       validLocale(payload.locale);
-      return transaction(() => {
+      return writeTransaction((instant) => {
         const profile = profileFor(payload.profile);
         const purchase = purchases.requirePaid(owner, payload.purchase, payload.profile);
         if (purchase.attempt_id) {
@@ -300,7 +353,7 @@ export function createCertificateService(
             .prepare('select * from certificate_drafts where owner=? and id=?')
             .get(owner, purchase.attempt_id);
           if (!previous) throw new DraftError('purchaseConsumed', 409);
-          return view(previous, payload.locale);
+          return view(advance(previous, payload.locale, instant), payload.locale, instant);
         }
         let active = db
           .prepare(
@@ -308,7 +361,8 @@ export function createCertificateService(
           )
           .get(owner);
         if (active) {
-          const activeView = view(active, payload.locale);
+          active = advance(active, payload.locale, instant);
+          const activeView = view(active, payload.locale, instant);
           if (activeView.phase === 'active') return activeView;
         }
         if (
@@ -319,7 +373,7 @@ export function createCertificateService(
           throw new DraftError('limit', 429);
         const seed = randomUUID(),
           id = randomUUID(),
-          started = now();
+          started = instant;
         const run = createExamRun(catalogue, [profile.template], profile.id, seed, started);
         const fingerprint = hash(
           JSON.stringify({ version: catalogue.contentVersion, profile, items: run.session.items }),
@@ -328,7 +382,7 @@ export function createCertificateService(
           'insert into certificate_drafts(id,owner,profile,seed,fingerprint,started,source_hash,purchase_id) values(?,?,?,?,?,?,?,?)',
         ).run(id, owner, profile.id, seed, fingerprint, started, sourceHash, purchase.id);
         purchases.bind(owner, purchase.id, id);
-        return view(owned(owner, id), payload.locale);
+        return view(owned(owner, id), payload.locale, instant);
       });
     },
     answer(owner, payload) {
@@ -342,23 +396,22 @@ export function createCertificateService(
         payload.answer.length > 2000
       )
         throw new DraftError('invalid');
-      return transaction(() => {
+      return writeTransaction((instant) => {
         const stored = owned(owner, payload.id);
         requireCurrent(stored);
-        let row = expire(stored);
+        let row = expire(stored, instant);
         const answers = JSON.parse(row.answers);
         const previous = answers.find((a) => a.index === payload.index);
         if (previous) {
           if (previous.value !== payload.answer) throw new DraftError('conflict', 409);
-          return view(row, payload.locale);
+          return view(row, payload.locale, instant);
         }
-        if (row.finished !== null) return view(row, payload.locale);
+        if (row.finished !== null) return view(row, payload.locale, instant);
         const run = reconstruct(row);
         if (payload.index !== run.session.index) throw new DraftError('conflict', 409);
         if (!currentItem(run.session).choices.includes(payload.answer))
           throw new DraftError('invalid');
-        const instant = now(),
-          next = answerExam(run, payload.answer, instant);
+        const next = answerExam(run, payload.answer, instant);
         if (next.session.records.length !== run.session.records.length + 1)
           throw new DraftError('invalid');
         answers.push({ index: payload.index, value: payload.answer, at: instant });
@@ -368,29 +421,32 @@ export function createCertificateService(
         );
         row = owned(owner, row.id);
         if (next.endedAt !== undefined) row = finalize(row, next);
-        return view(row, payload.locale);
+        return view(row, payload.locale, instant);
       });
     },
     finish(owner, payload) {
       exact(payload, ['id', 'locale']);
       validLocale(payload.locale);
       if (typeof payload.id !== 'string') throw new DraftError('invalid');
-      return transaction(() => {
+      return writeTransaction((instant) => {
         const stored = owned(owner, payload.id);
         requireCurrent(stored);
-        let row = expire(stored);
-        if (row.finished === null) row = finalize(row, finishExam(reconstruct(row), now()));
-        return view(row, payload.locale);
+        let row = expire(stored, instant);
+        if (row.finished === null) row = finalize(row, finishExam(reconstruct(row), instant));
+        return view(row, payload.locale, instant);
       });
     },
     verify(payload) {
       exact(payload, ['code']);
       if (typeof payload.code !== 'string' || !DRAFT_CODE.test(payload.code))
         return { status: 'notFound' };
-      return transaction(() => {
-        const row = db.prepare('select * from certificate_drafts where code=?').get(payload.code);
+      return readTransaction((instant) => {
+        const row = db
+          .prepare('select * from certificate_drafts where code=? and started>=?')
+          .get(payload.code, instant - RETENTION_MS);
         if (!row) return { status: 'notFound' };
         if (row.revoked !== null) return { status: 'revoked' };
+        if (row.finished === null) return { status: 'outdatedCode' };
         try {
           reconstruct(row);
         } catch (error) {
@@ -410,11 +466,11 @@ export function createCertificateService(
     revoke(owner, payload) {
       exact(payload, ['id']);
       if (typeof payload.id !== 'string') throw new DraftError('invalid');
-      return transaction(() => {
+      return writeTransaction((instant) => {
         const row = owned(owner, payload.id);
         if (!row.code) throw new DraftError('notFound', 404);
         db.prepare('update certificate_drafts set revoked=coalesce(revoked,?) where id=?').run(
-          now(),
+          instant,
           row.id,
         );
         return { status: 'revoked' };
@@ -422,8 +478,8 @@ export function createCertificateService(
     },
     receipt(owner, id) {
       if (typeof id !== 'string') throw new DraftError('invalid');
-      return transaction(() => {
-        const row = owned(owner, id);
+      return readTransaction((instant) => {
+        const row = owned(owner, id, instant - RETENTION_MS);
         reconstruct(row);
         if (!row.code) throw new DraftError('notFound', 404);
         if (row.revoked !== null) throw new DraftError('revoked', 410);
@@ -431,7 +487,7 @@ export function createCertificateService(
       });
     },
     erase(owner) {
-      return transaction(() => {
+      return writeTransaction(() => {
         db.prepare('delete from certificate_drafts where owner=?').run(owner);
         db.prepare('delete from certificate_purchases where owner=?').run(owner);
         sessions.revoke(owner);
@@ -441,22 +497,24 @@ export function createCertificateService(
     remove(owner, payload) {
       exact(payload, ['id']);
       identifier(payload.id);
-      return transaction(() => {
+      return writeTransaction(() => {
         owned(owner, payload.id);
         db.prepare('delete from certificate_drafts where owner=? and id=?').run(owner, payload.id);
         return { deleted: true };
       });
     },
     exportData(owner) {
-      return transaction(() => ({
+      return readTransaction((instant) => ({
         version: 1,
         draft: true,
-        exportedAt: now(),
+        exportedAt: instant,
         attempts: db
-          .prepare('select * from certificate_drafts where owner=? order by started,id')
-          .all(owner)
+          .prepare(
+            'select * from certificate_drafts where owner=? and started>=? order by started,id',
+          )
+          .all(owner, instant - RETENTION_MS)
           .map((row) => {
-            const current = view(row, 'de');
+            const current = view(row, 'de', instant);
             let answers = null;
             try {
               answers = JSON.parse(row.answers);
@@ -467,9 +525,9 @@ export function createCertificateService(
               id: row.id,
               profile: row.profile,
               startedAt: row.started,
-              finishedAt: row.finished,
+              finishedAt: current.result?.issuedAt ?? row.finished,
               phase: current.phase,
-              reason: row.reason,
+              reason: current.reason ?? row.reason,
               answers,
               result: current.result ?? null,
               revokedAt: row.revoked,
@@ -477,7 +535,7 @@ export function createCertificateService(
               purchaseId: row.purchase_id,
             };
           }),
-        purchases: purchases.list(owner),
+        purchases: purchases.list(owner, instant - RETENTION_MS),
       }));
     },
   };

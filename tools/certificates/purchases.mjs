@@ -31,10 +31,12 @@ export function certificatePurchases(db, { now, profileFor }) {
     return row;
   }
   return {
-    list: (owner) =>
+    list: (owner, cutoff) =>
       db
-        .prepare('select * from certificate_purchases where owner=? order by created desc,id desc')
-        .all(owner)
+        .prepare(
+          'select * from certificate_purchases p where owner=? and (created>=? or exists(select 1 from certificate_drafts d where d.id=p.attempt_id and d.owner=p.owner and d.started>=?)) order by created desc,id desc',
+        )
+        .all(owner, cutoff, cutoff)
         .map(view),
     order(owner, payload) {
       exact(payload, ['profile', 'requestId']);

@@ -55,6 +55,7 @@ Dieser Plan beschreibt, wie wir Harmonia Schritt für Schritt bauen: vom leeren 
 | [Klassen-Live-Quiz P4.15 – interner Entwurf](klassen-live-quiz-entwurf.md) | Lobbycode, synchronisierte Runden, Beameransicht, freiwillige Rangliste und Auswertung; 30 simulierte Netzwerkclients, echte Geräteabnahme offen |
 | [Schullizenz P4.16 – interner Entwurf](schul-lizenz-entwurf.md) | Rechnungsproben, getrennte Betreiberfreigabe, Plätze/Laufzeiten und servergesperrte Premium-Übungen; Verkauf und Pilotschule offen |
 | [KI-Verordnung und Zertifikate P4.17/P4.18 – Gesamtentwurf](ki-und-zertifikate-gesamtstand.md) | Versionierte Rechtsprüfungsübergaben und private Dokumentnachweise; zusammenhängende simulierte Kauf-/Prüf-/Erstattungsabläufe, Datenrechte und Sitzungen; tatsächliche Abnahmen offen |
+| [Zertifikats-Leseansichten N4](zertifikate-leseansichten.md) | Status, Export, Codeprüfung und Belegabruf ohne Änderung der Prüfungsdaten; konsistente Timeouts und getrennte lokale Wartung |
 | [KI-Verordnung P4.17 – ursprüngliche Prüfvorbereitung](ki-verordnung-pruefvorbereitung.md) | Verlauf und Quellenstand; aktuelle Übergabe im Gesamtentwurf, unabhängige Rechtsprüfung offen |
 | [Zertifikate P4.18 – ursprünglicher Prototyp](zertifikate-entwurf.md) | Verlauf der Testprofile, Muster-PDFs und Prüfmappe; aktuelle Übergabe im Gesamtentwurf |
 | [Tutor-Lernplaner P3.18](tutor-lernplaner.md) | Servergeprüfte Lernübersicht, kurze Wochenvorschläge und separater Stufe-3/4-Testkatalog; fachliche Abnahme offen |

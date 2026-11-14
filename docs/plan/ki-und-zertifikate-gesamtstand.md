@@ -1,5 +1,7 @@
 # P4.17/P4.18 – Zusammenhängender interner Gesamtentwurf
 
+**Technischer Nachtrag 14.11.2026:** [N4: Zertifikats-Leseansichten](zertifikate-leseansichten.md) trennt lesende Status-/Export-/Beleg-/Codeansichten von Fristabschluss, Invalidierung und Bereinigung. Timeouts werden ohne Speicherung konsistent dargestellt. Neue Starts geben veraltete/abgelaufene aktive Plätze ausdrücklich in der Schreibtransaktion frei. Die bestehende Aufbewahrung erhält reine Filter und eine getrennte lokale Wartung; Sitzungsaktivität bleibt ein eigener schreibender Zweck. Technische P4-Vorarbeit vor formaler Freigabe, keine Veröffentlichung; N3/N5 und die tatsächlichen Abnahmen bleiben offen. Die getrennten PRs #151/#156/#157 sind in diesem eigenständigen Branch nicht enthalten.
+
 Stand: 02.11.2026 · Branch `codex/ai-certificates-complete-draft` · Basis `main` bei `f7bc15d`.
 
 Auf ausdrücklichen Nutzerauftrag wird die vorhandene KI-Prüfvorbereitung mit dem Zertifikatsprototyp vervollständigt. **Technische P4-Vorarbeit vor der formalen Phase-4-Freigabe.** Dies ist keine schriftliche Rechtsprüfung oder fachliche Abschlussfreigabe. Inhalte, Regeln und Berichte bleiben Entwurf; keine Veröffentlichung, echte Zahlung, gültige Zertifikatsausstellung oder Main-Integration. P4.01 bleibt bis F14 und Rechtsklärung zurückgestellt. [ADR 0073](../decisions/0073-ki-pruefuebergabe-und-zertifikatsgesamtentwurf.md).
