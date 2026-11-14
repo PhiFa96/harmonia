@@ -20,6 +20,7 @@ Dieser Plan beschreibt, wie wir Harmonia Schritt für Schritt bauen: vom leeren 
 | [Theorie-Engine](theorie-engine.md) | Fachlicher Kern: Tonhöhen, Intervalle, Akkorde, Harmonik, Stimmführung |
 | [Stimmführung P4.09 – technischer Entwurf](stimmfuehrung-entwurf.md) | SATB-Musterprüfung mit Partitur-/Notenbezug, Testkorpus, lokalem DE/EN-Bericht und bearbeitbarer Satzwerkstatt mit Gesamt-/Solo-Wiedergabe; Fachprüfung offen |
 | [Tonsatz-Korrektor P4.10 – interner Entwurf](tonsatz-korrektor-entwurf.md) | Grafischer SATB-Editor, sechs DE/EN-Lektionen in Stufe 4–5, lokalisierte Befunde und gebundenes Tutor-Werkzeug; Fach-/Produktfreigabe offen |
+| [Cantus-Schlussvarianten P4.19 – technische Nacharbeit](kontrapunkt-schlussvarianten.md) | Quellengerechte Erklärung der 7→1-Variante und des 2→1-Vergleichs in DE/EN, mit unverändertem Neun-Regeln-Profil; Fach-/Quellenabnahme offen |
 | [P4.11 – technischer Gesamtentwurf](chor-trainer-gesamtstand.md) | Gemeinsame Chor-Implementierung und Nacharbeiten, Aufgabenfassung 2, Zeitstempel-Zuordnung und Abnahmematrix; reale/Fach-/Produktfreigaben offen |
 | [Vorzeichenlesen für P4.11](chor-vorzeichenlesen.md) | Eigener Zugang zu Dur-Vorzeichnungen ohne Bassschlüssel oder Schreibweg; Chor-Grundlage C8 |
 | [Chor-Trainer P4.11 – interner Entwurf](chor-trainer-entwurf.md) | Eigene Chor-Miniaturen, Tonhöhenprüfung, Take-Erhalt bei Vorhörfehlern und Wiederholung ohne erkannte Tonhöhe; Geräte-/Produktfreigabe offen |
