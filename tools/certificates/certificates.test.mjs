@@ -1,4 +1,9 @@
-import { fixtureAnswers, startFixture } from './test-fixture.mjs';
+import {
+  fixtureAnswers,
+  startFixture,
+  createCertificateTestService,
+  createCertificateTestServer,
+} from './test-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtempSync, rmSync, readFileSync, writeFileSync } from 'node:fs';
@@ -8,8 +13,7 @@ import { join } from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 import { request } from 'node:http';
 import { PDFDocument } from 'pdf-lib';
-import { createCertificateService, RETENTION_MS } from './service.mjs';
-import { createCertificateServer } from './server.mjs';
+import { RETENTION_MS } from './service.mjs';
 import {
   CERTIFICATE_DRAFT_MESSAGES,
   certificateTranslator,
@@ -57,7 +61,7 @@ for (const locale of ['de', 'en-US', 'en-GB'])
   for (const stage of [1, 2]) {
     test(`stage ${stage}, ${locale}: all 12 source tasks, server result and stable draft receipt`, (t) => {
       const f = fixture(t),
-        service = createCertificateService(f.filename, { now: f.now });
+        service = createCertificateTestService(f.filename, { now: f.now });
       t.after(() => service.close());
       const initial = startFixture(service, 'owner', {
         profile: `certificate-draft-${stage}`,
@@ -95,7 +99,7 @@ for (const locale of ['de', 'en-US', 'en-GB'])
 
 test('test threshold, incomplete attempt and exact server deadline never issue a false sample', (t) => {
   const f = fixture(t),
-    service = createCertificateService(f.filename, { now: f.now });
+    service = createCertificateTestService(f.filename, { now: f.now });
   t.after(() => service.close());
   const start = (owner) =>
     startFixture(service, owner, { profile: 'certificate-draft-1', locale: 'de' });
@@ -118,7 +122,7 @@ test('test threshold, incomplete attempt and exact server deadline never issue a
 
 test('replay, changed answers, injected scores, missing questions and owner isolation', (t) => {
   const f = fixture(t),
-    service = createCertificateService(f.filename, { now: f.now });
+    service = createCertificateTestService(f.filename, { now: f.now });
   t.after(() => service.close());
   const run = startFixture(service, 'owner', { profile: 'certificate-draft-1', locale: 'en-US' });
   const first = fixtureAnswers(f.filename, run.id)[0];
@@ -136,11 +140,11 @@ test('replay, changed answers, injected scores, missing questions and owner isol
 
 test('restart, revocation, deletion and retention preserve the certificate lifecycle', (t) => {
   const f = fixture(t);
-  let service = createCertificateService(f.filename, { now: f.now });
+  let service = createCertificateTestService(f.filename, { now: f.now });
   const run = startFixture(service, 'owner', { profile: 'certificate-draft-2', locale: 'de' });
   const initial = service.state('owner', 'de');
   service.close();
-  service = createCertificateService(f.filename, { now: f.now });
+  service = createCertificateTestService(f.filename, { now: f.now });
   t.after(() => service.close());
   assert.deepEqual(service.state('owner', 'de'), initial);
   const result = complete(service, f.filename, run, 'de');
@@ -167,7 +171,7 @@ test('restart, revocation, deletion and retention preserve the certificate lifec
 
 test('changed content fingerprint refuses continuation instead of changing an exam', (t) => {
   const f = fixture(t),
-    service = createCertificateService(f.filename, { now: f.now });
+    service = createCertificateTestService(f.filename, { now: f.now });
   t.after(() => service.close());
   startFixture(service, 'owner', { profile: 'certificate-draft-1', locale: 'de' });
   const db = new DatabaseSync(f.filename);
@@ -221,7 +225,7 @@ test('production bundle gate rejects certificate draft UI and profile identifier
 
 test('real HTTP: cookies, CSRF/Host rejection, concurrent replay, private PDFs and minimal code verification', async (t) => {
   const f = fixture(t),
-    app = await createCertificateServer({ database: f.filename, now: f.now });
+    app = await createCertificateTestServer({ database: f.filename, now: f.now });
   t.after(() => app.close());
   const bootstrap = await fetch(app.origin),
     setCookie = bootstrap.headers.get('set-cookie');
@@ -248,7 +252,7 @@ test('real HTTP: cookies, CSRF/Host rejection, concurrent replay, private PDFs a
   const order = await (
     await post('/api/order', { profile: 'certificate-draft-1', requestId: crypto.randomUUID() })
   ).json();
-  await post('/api/settle', { id: order.id, outcome: 'paid' });
+  await post('/api/simulation/settle', { id: order.id, outcome: 'paid' });
   const run = await (
     await post('/api/start', { profile: 'certificate-draft-1', locale: 'de', purchase: order.id })
   ).json();

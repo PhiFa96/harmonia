@@ -58,6 +58,7 @@ Dieser Plan beschreibt, wie wir Harmonia Schritt für Schritt bauen: vom leeren 
 | [KI-Verordnung und Zertifikate P4.17/P4.18 – Gesamtentwurf](ki-und-zertifikate-gesamtstand.md) | Versionierte Rechtsprüfungsübergaben und private Dokumentnachweise; zusammenhängende simulierte Kauf-/Prüf-/Erstattungsabläufe, Datenrechte und Sitzungen; tatsächliche Abnahmen offen |
 | [KI-/Zertifikats-Importbindung](ki-zertifikate-importbindung.md) | Technische v3-Nacharbeit N1/N2: transitive lokale Modulimporte, Workspace-/Alias-/Plattformauflösung und Entwertung alter Prüfstände nach Codeänderungen |
 | [Zertifikats-Leseansichten N4](zertifikate-leseansichten.md) | Status, Export, Codeprüfung und Belegabruf ohne Änderung der Prüfungsdaten; konsistente Timeouts und getrennte lokale Wartung |
+| [Zertifikatszahlungen P4.18 – technische Nacharbeit N5](zertifikate-zahlungsgrenze.md) | Gesperrter Standardmodus, ausdrücklich aktivierte lokale Simulation, getrennte Zahlungsrouten und v2-Testdaten; echte Anbieter-/Identitätsbindung offen |
 | [KI-Verordnung P4.17 – ursprüngliche Prüfvorbereitung](ki-verordnung-pruefvorbereitung.md) | Verlauf und Quellenstand; aktuelle Übergabe im Gesamtentwurf, unabhängige Rechtsprüfung offen |
 | [Zertifikate P4.18 – ursprünglicher Prototyp](zertifikate-entwurf.md) | Verlauf der Testprofile, Muster-PDFs und Prüfmappe; aktuelle Übergabe im Gesamtentwurf |
 | [Tutor-Lernplaner P3.18](tutor-lernplaner.md) | Servergeprüfte Lernübersicht, kurze Wochenvorschläge und separater Stufe-3/4-Testkatalog; fachliche Abnahme offen |

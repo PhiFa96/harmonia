@@ -13,6 +13,13 @@ const de = {
   privacy:
     'Durchgänge bleiben sieben Tage ab Start auf diesem lokalen Server. Ungenutzte Testbestellungen werden nach sieben Tagen entfernt, zugeordnete zusammen mit dem Durchgang (spätestens nach 14 Tagen). Bereinigung beim nächsten Zugriff. Keine Namen, echten Zahlungen, XP oder öffentlichen Zertifikate. Die Testsitzung endet nach 30 Minuten ohne Zugriff oder spätestens nach sieben Tagen.',
   purchaseTitle: 'Testbestellung ohne Zahlung',
+  paymentsUnavailable:
+    'In dieser Ansicht können keine Testprüfungen freigeschaltet werden. Die lokale Zahlungssimulation ist nicht aktiviert.',
+  paymentsUnavailableTitle: 'Testberechtigung nicht verfügbar',
+  paymentOrderOutdated:
+    'Diese Bestellung gehört zu einer älteren Zahlungssimulation. Für einen neuen Testdurchgang ist eine neue Testbestellung nötig.',
+  paymentSimulationMode:
+    'Lokale Zahlungssimulation aktiviert · Keine echten Zahlungen oder Prüfungsberechtigungen',
   purchaseNotice:
     'Dies simuliert einen Kauf. Es werden kein Preis berechnet, kein Zahlungsdienst aufgerufen und keine echten Zertifikate freigeschaltet. Eine Testbestellung gilt für genau einen Durchgang; jede Wiederholung braucht eine neue Testbestellung.',
   payAndStart: 'Zahlung simulieren und Testprüfung starten',
@@ -122,6 +129,12 @@ const en: typeof de = {
   privacy:
     'Attempts stay on this local server for seven days from starting. Unused test orders are removed after seven days; linked orders are removed with their attempt (within 14 days). Cleanup occurs on the next access. No names, real payments, XP or public certificates. The test session ends after 30 minutes without access or after seven days at the latest.',
   purchaseTitle: 'Test order without payment',
+  paymentsUnavailable:
+    'This view cannot unlock test exams. Local payment simulation is not enabled.',
+  paymentsUnavailableTitle: 'Test entitlement unavailable',
+  paymentOrderOutdated:
+    'This order belongs to an older payment simulation. A new test attempt needs a new test order.',
+  paymentSimulationMode: 'Local payment simulation enabled · No real payments or exam entitlements',
   purchaseNotice:
     'This simulates a purchase. No price is charged, no payment service is called and no real certificates are unlocked. One test order covers exactly one attempt; every retry needs a new test order.',
   payAndStart: 'Simulate payment and start test exam',
