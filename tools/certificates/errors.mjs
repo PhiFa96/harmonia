@@ -24,3 +24,14 @@ export function identifier(value) {
     throw new DraftError('invalid');
   return value;
 }
+
+export function validateCertificateOptions(value, allowed) {
+  if (
+    !value ||
+    typeof value !== 'object' ||
+    Array.isArray(value) ||
+    ![Object.prototype, null].includes(Object.getPrototypeOf(value)) ||
+    Reflect.ownKeys(value).some((key) => typeof key !== 'string' || !allowed.includes(key))
+  )
+    throw Error('Unsupported certificate configuration');
+}
