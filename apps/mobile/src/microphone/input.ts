@@ -55,8 +55,11 @@ export async function startMicrophone(
         framer.push(
           event.buffer.getChannelData(0),
           event.buffer.sampleRate,
-          event.when * 1000,
-          onFrame,
+          // Pinned SDK 0.13.6 emits the first sample's counter, while PitchFramer takes an end.
+          (event.when + event.buffer.length / event.buffer.sampleRate) * 1000,
+          (samples, rate, atMs) => {
+            onFrame(samples, rate, atMs, 'buffered');
+          },
         );
       },
     );

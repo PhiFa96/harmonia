@@ -3,7 +3,12 @@ import type { ChoirState } from '@/choir/runner';
 import { createAudioEngine } from '@harmonia/audio';
 import { assessChoir, createRng, generateChoir } from '@harmonia/exercises';
 import { FakeContext, FakeTimers } from '../../../packages/audio/src/testing/fake-context';
-import type { MicrophoneSession, OnMicrophoneError, OnPcmFrame } from '@/microphone/types';
+import type {
+  MicrophoneSession,
+  OnMicrophoneError,
+  OnPcmFrame,
+  PcmTiming,
+} from '@/microphone/types';
 import { MicrophoneError } from '@/microphone/types';
 
 jest.mock('@harmonia/audio/pitch-detection', () => ({
@@ -74,10 +79,10 @@ function harness() {
     error,
     updates,
     ticks,
-    begin: async (atMs = ctx.currentTime * 1000) => {
+    begin: async (atMs = ctx.currentTime * 1000, timing?: PcmTiming) => {
       const pending = runner.start('backing');
       for (let i = 0; i < 24; i++) await Promise.resolve();
-      frame(new Float32Array(2048), 48000, atMs);
+      frame(new Float32Array(2048), 48000, atMs, timing);
       await pending;
     },
     advance: (ms: number) => {
@@ -313,6 +318,101 @@ it('maps timestamped batches onto the playback clock without collapsing their sc
   const answer = h.answer.mock.calls.at(-1)?.[0];
   if (typeof answer !== 'string') throw Error('Missing timestamped take');
   expect(assessChoir(item, answer).passed).toBe(true);
+});
+
+it.each([0.98, 1.02])(
+  'keeps fresh browser snapshots aligned when capture clock rate is %s',
+  async (ratio) => {
+    const h = harness(),
+      origin = 12000;
+    await h.begin(origin, 'snapshot');
+    const duration = 120 / item.bpm,
+      start = 0.05 + (4 * 60) / item.bpm,
+      pitches = [64, 67, 65, 65, 62, 62, 64, 64];
+    for (let note = 0; note < 8; note++)
+      for (let bin = 0; bin < 12; bin++) {
+        const samples = new Float32Array(2048);
+        const pitch = pitches[note];
+        if (pitch === undefined) throw Error('Missing clock fixture pitch');
+        samples[0] = pitch;
+        h.ctx.currentTime =
+          start + (note + 0.15 + ((bin + 0.5) / 12) * 0.7) * duration + 2048 / 48000 / 2;
+        h.frame(samples, 48000, origin + h.ctx.currentTime * ratio * 1000, 'snapshot');
+        h.tick();
+      }
+    h.ctx.currentTime = start + duration * 8 + 0.4;
+    h.tick();
+    await h.runner.stop();
+    expect(h.error).toHaveBeenLastCalledWith('');
+    const answer = h.answer.mock.calls.at(-1)?.[0];
+    if (typeof answer !== 'string') throw Error('Missing drift-correct snapshot take');
+    const report = assessChoir(item, answer);
+    expect(report.passed).toBe(true);
+    expect(report.notes.every((note) => note.detectedWindows === 12)).toBe(true);
+  },
+);
+
+it.each(['future', 'stale', 'mode-change', 'playback-rewind'] as const)(
+  'refuses an unreliable %s capture clock without returning a partial answer',
+  async (problem) => {
+    const h = harness(),
+      origin = 12000;
+    await h.begin(origin, 'buffered');
+    const start = 0.05 + (4 * 60) / item.bpm;
+    h.ctx.currentTime = start + 0.2;
+    const captured =
+      problem === 'future'
+        ? h.ctx.currentTime + 0.3
+        : problem === 'stale'
+          ? h.ctx.currentTime - 1.001
+          : h.ctx.currentTime;
+    h.frame(
+      new Float32Array(2048),
+      48000,
+      origin + captured * 1000,
+      problem === 'mode-change' ? 'snapshot' : 'buffered',
+    );
+    if (problem === 'playback-rewind') {
+      h.ctx.currentTime -= 0.1;
+      h.tick();
+    }
+    await h.runner.stop();
+    expect(h.error).toHaveBeenLastCalledWith('timing');
+    expect(h.answer.mock.calls.every(([answer]) => answer === null)).toBe(true);
+    expect(h.close).toHaveBeenCalledTimes(1);
+    expect(h.ctx.oscillators.every((osc) => osc.stopTimes.length > 0)).toBe(true);
+    await h.begin();
+    finishTake(h);
+    await h.runner.stop();
+    const answer = h.answer.mock.calls.at(-1)?.[0];
+    if (typeof answer !== 'string') throw Error('Missing take after clock recovery');
+    expect(assessChoir(item, answer).passed).toBe(true);
+    expect(h.error).toHaveBeenLastCalledWith('');
+  },
+);
+
+it('still closes the microphone and reports a clock failure if playback shutdown throws', async () => {
+  const h = harness(),
+    play = h.engine.playSequence.bind(h.engine);
+  jest.spyOn(h.engine, 'playSequence').mockImplementationOnce((events, options) => {
+    const playback = play(events, options);
+    return {
+      ...playback,
+      stop: () => {
+        playback.stop();
+        throw Error('Output device lost');
+      },
+    };
+  });
+  await h.begin();
+  h.ctx.currentTime = -1;
+  expect(() => {
+    h.tick();
+  }).not.toThrow();
+  await h.runner.stop();
+  expect(h.close).toHaveBeenCalledTimes(1);
+  expect(h.error).toHaveBeenLastCalledWith('timing');
+  expect(h.answer.mock.calls.every(([answer]) => answer === null)).toBe(true);
 });
 
 it('starts accompaniment only after permission, captures on the audio clock, and closes on completion', async () => {

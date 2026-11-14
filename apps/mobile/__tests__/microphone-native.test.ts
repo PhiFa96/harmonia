@@ -1,7 +1,9 @@
 import { startMicrophone } from '@/microphone/input';
+import type { OnPcmFrame } from '@/microphone/types';
 interface Packet {
   buffer: {
     numberOfChannels: number;
+    length: number;
     sampleRate: number;
     getChannelData: (channel: number) => Float32Array;
   };
@@ -37,12 +39,13 @@ beforeEach(() => {
   mockFrame = undefined;
 });
 it('an SDK interruption releases recording and restores playback before late callbacks', async () => {
-  const frame = jest.fn(),
+  const frame = jest.fn<ReturnType<OnPcmFrame>, Parameters<OnPcmFrame>>(),
     error = jest.fn(),
     session = await startMicrophone(frame, error, { headphones: true });
   const packet: Packet = {
     buffer: {
       numberOfChannels: 1,
+      length: 2048,
       sampleRate: 48000,
       getChannelData: () => new Float32Array(2048),
     },
@@ -50,6 +53,7 @@ it('an SDK interruption releases recording and restores playback before late cal
   };
   mockFrame?.(packet);
   expect(frame).toHaveBeenCalledTimes(1);
+  expect(frame.mock.calls[0]?.slice(1)).toEqual([48000, (1 + 2048 / 48000) * 1000, 'buffered']);
   mockError?.();
   mockError?.();
   mockFrame?.(packet);
@@ -98,4 +102,29 @@ it('every stop waits for the same native shutdown before restoring playback', as
     iosMode: 'default',
     iosOptions: ['mixWithOthers'],
   });
+});
+
+it('normalizes first-sample SDK counters to window ends across split and batched packets', async () => {
+  const frame = jest.fn<ReturnType<OnPcmFrame>, Parameters<OnPcmFrame>>(),
+    session = await startMicrophone(frame, jest.fn());
+  const packet = (length: number, firstSample: number): Packet => ({
+    when: 1 + firstSample / 48000,
+    buffer: {
+      numberOfChannels: 1,
+      length,
+      sampleRate: 48000,
+      getChannelData: () => new Float32Array(length),
+    },
+  });
+  mockFrame?.(packet(1024, 0));
+  expect(frame).not.toHaveBeenCalled();
+  mockFrame?.(packet(1024, 1024));
+  mockFrame?.(packet(4096, 2048));
+  expect(frame).toHaveBeenCalledTimes(3);
+  for (const [index, call] of frame.mock.calls.entries()) {
+    expect(call[1]).toBe(48000);
+    expect(call[2]).toBeCloseTo((1 + ((index + 1) * 2048) / 48000) * 1000);
+    expect(call[3]).toBe('buffered');
+  }
+  await session.stop();
 });
