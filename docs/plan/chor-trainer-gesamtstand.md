@@ -1,5 +1,7 @@
 # P4.11 – Technischer Gesamtentwurf
 
+**Technischer Nachtrag C13 (14.11.2026, noch nicht integriert):** [Zeitzuordnung und sicherer Abbruch](chor-zeitzuordnung.md), ADR 0081: laufende Paarung frischer Browserfenster, normalisierte native Fenster-Endzeiten, erhaltene Paketabstände, Uhrenfehler ohne Teilantwort und sichere Mikrofonfreigabe. Reale Zeit-/Latenzabnahme C13 bleibt offen. Eigenständiger Branch auf `main@ab157e8`; technische P4-Vorarbeit vor formaler Phase-4-Freigabe, keine Veröffentlichung/Main-Integration. Der folgende Stand beschreibt den integrierten Vorgänger. P4.01 bis F14/Rechtsklärung zurückgestellt.
+
 Stand: 02.11.2026. Arbeitsbranch `codex/choir-complete-draft`, Basis `main` bei `f7bc15d`. Enthält die lokalen Zusammenführungen von #137, #141 und #142 sowie die übrigen technischen Chor-Nacharbeiten. Der Tutor-PR #136 bleibt getrennt. **Keine Integration nach main, Veröffentlichung oder formale Phase-4-Freigabe.** Alle Inhalte bleiben Entwurf. [ADR 0070](../decisions/0070-chor-trainer-als-technischer-gesamtentwurf.md).
 
 ## Programmierter Gesamtumfang

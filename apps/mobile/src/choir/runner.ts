@@ -1,9 +1,10 @@
 import type { AudioEngine, Playback } from '@harmonia/audio';
 import { PitchTracker } from '@harmonia/audio/pitch-detection';
-import { choirEvents, createChoirCollector } from '@harmonia/exercises';
+import { CHOIR_BINS, choirEvents, createChoirCollector } from '@harmonia/exercises';
 import type { ChoirItem } from '@harmonia/exercises';
 import type { MicrophoneSession, OnMicrophoneError, OnPcmFrame } from '../microphone/types';
 import { createPcmHealth } from '../microphone/health';
+import { createChoirClock } from './clock';
 
 export type ChoirPhase =
   'idle' | 'requesting' | 'checking' | 'countIn' | 'singing' | 'preview' | 'done' | 'error';
@@ -45,7 +46,11 @@ export function createChoirRunner(item: ChoirItem, deps: Dependencies) {
     cancelReadiness = undefined;
     if (timer !== undefined) deps.clear(timer);
     timer = undefined;
-    playback?.stop();
+    try {
+      playback?.stop();
+    } catch {
+      // Losing the output device must not skip closing the independent microphone.
+    }
     playback = undefined;
     const current = microphone;
     microphone = undefined;
@@ -72,8 +77,9 @@ export function createChoirRunner(item: ChoirItem, deps: Dependencies) {
     };
     const collector = createChoirCollector(item);
     const tracker = new PitchTracker(deps.referenceHz);
+    // Half a scoring bin is a technical future-clock budget, not an intonation tolerance.
+    const captureClock = createChoirClock(((120 / item.bpm) * 0.7) / CHOIR_BINS / 2);
     let health: ReturnType<typeof createPcmHealth> | undefined;
-    let inputClockOffset: number | undefined;
     let ready: ((success: boolean) => void) | undefined;
     const tick = () => {
       if (ticket !== revision) return;
@@ -88,6 +94,10 @@ export function createChoirRunner(item: ChoirItem, deps: Dependencies) {
       }
       if (!playback) return;
       const now = deps.engine.context.currentTime;
+      if (!captureClock.check(now)) {
+        fail('timing');
+        return;
+      }
       if (now >= playback.endTime + 0.35) {
         if (mode === 'backing' && !collector.inputComplete()) {
           fail('interrupted');
@@ -126,7 +136,7 @@ export function createChoirRunner(item: ChoirItem, deps: Dependencies) {
           .then(async () => {
             if (!current()) return;
             const opened = await deps.open(
-              (samples, rate, atMs) => {
+              (samples, rate, atMs, timing) => {
                 if (!current() || !health) return;
                 const problem = health.frame(samples, rate, atMs, clock());
                 if (problem) {
@@ -134,11 +144,16 @@ export function createChoirRunner(item: ChoirItem, deps: Dependencies) {
                   return;
                 }
                 const audioNow = deps.engine.context.currentTime;
-                const observedOffset = audioNow - atMs / 1000;
-                // Capture clocks have their own origin. Use the least queued offset during
-                // readiness/count-in, then freeze it so delayed batches keep their spacing.
-                if (inputClockOffset === undefined || !playback || audioNow < playback.startTime)
-                  inputClockOffset = Math.min(inputClockOffset ?? observedOffset, observedOffset);
+                const capturedAt = captureClock.position(
+                  atMs,
+                  audioNow,
+                  !playback || audioNow < playback.startTime,
+                  timing,
+                );
+                if (capturedAt === null) {
+                  fail('timing');
+                  return;
+                }
                 if (!playback) {
                   ready?.(true);
                   return;
@@ -147,8 +162,7 @@ export function createChoirRunner(item: ChoirItem, deps: Dependencies) {
                 const latency = deps.engine.latency();
                 const outputDelay = Math.max(0, (latency.base ?? 0) + (latency.output ?? 0));
                 const seconds =
-                  atMs / 1000 +
-                  inputClockOffset -
+                  capturedAt -
                   playback.startTime -
                   samples.length / rate / 2 -
                   outputDelay -

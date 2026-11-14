@@ -1,5 +1,7 @@
 # Fachprüfung und Integration Phase 4 v3 (05.11.2026)
 
+**Technischer Nachtrag Chor/C13 (14.11.2026, noch nicht integriert):** [Zeitzuordnung und Abbruch](chor-zeitzuordnung.md), ADR 0081, bearbeitet Chor-Hinweis 4: laufende Paarung frischer Browserfenster, korrekte native Fenster-Endzeiten, Erhalt verspäteter Pakete und sichere Ressourcenfreigabe bei Uhrenfehlern. Die reale Zeit-/Latenzabnahme bleibt offen; keine pauschale native Driftkorrektur aus Callback-Ankunft behauptet. Rohbericht und bisherige Fachprüfung unverändert. Technische P4-Vorarbeit vor formaler Phase-4-Freigabe, keine Veröffentlichung/Main-Integration; P4.01 bis F14/Recht zurückgestellt.
+
 Integriert über den Branch `claude/stoic-pascal-eaoojx` per Sammel-PR nach `main`. Rohberichte: `docs/quality/fachpruefung-phase-4-v3/`.
 
 ## Integrierte PRs
