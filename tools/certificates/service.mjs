@@ -18,9 +18,10 @@ import {
 import { layoutScore, layoutToSvg, scoreTimeline } from '../../packages/notation/src/index.ts';
 import { CERTIFICATE_PROFILES } from './profiles.ts';
 import { certificateSourceHash, SOURCE_HASH } from './binding.mjs';
-import { DraftError, exact, identifier } from './errors.mjs';
-import { certificatePurchases } from './purchases.mjs';
+import { DraftError, exact, identifier, validateCertificateOptions } from './errors.mjs';
+import { certificatePurchases, PURCHASE_POLICY } from './purchases.mjs';
 import { certificateSessions } from './sessions.mjs';
+import { validatePaymentSimulation } from './payment-simulation.mjs';
 export { DraftError } from './errors.mjs';
 const hash = (value) => createHash('sha256').update(value).digest('hex');
 export const RETENTION_MS = 7 * 24 * 60 * 60_000;
@@ -32,10 +33,16 @@ export function validLocale(locale) {
 }
 
 /** An explicitly local fixture store. Server clock, seeds, grading and receipts stay here. */
-export function createCertificateService(
-  filename,
-  { now = Date.now, sourceHash = certificateSourceHash() } = {},
-) {
+export function createCertificateService(filename, options = {}) {
+  validateCertificateOptions(options, ['now', 'sourceHash', 'paymentSimulation']);
+  const {
+    now = Date.now,
+    sourceHash = certificateSourceHash(),
+    paymentSimulation = null,
+  } = options;
+  validatePaymentSimulation(paymentSimulation);
+  if (typeof now !== 'function' || typeof filename !== 'string')
+    throw Error('Invalid certificate configuration');
   if (!SOURCE_HASH.test(sourceHash)) throw Error('Invalid certificate source hash');
   const db = new DatabaseSync(filename);
   db.exec(`pragma foreign_keys=on; pragma journal_mode=DELETE; pragma secure_delete=on;
@@ -72,7 +79,7 @@ export function createCertificateService(
     if (!profile) throw new DraftError('invalid');
     return profile;
   };
-  const purchases = certificatePurchases(db, { now, profileFor });
+  const purchases = certificatePurchases(db, { now, profileFor, paymentSimulation });
   const sessions = certificateSessions(db, now);
   function reconstruct(row) {
     requireCurrent(row);
@@ -197,6 +204,7 @@ export function createCertificateService(
       purchaseId: row.purchase_id,
     };
     if (purchases.refunded(row)) return { ...base, phase: 'cancelled' };
+    if (purchases.mode() !== 'local-simulation') return { ...base, phase: 'unavailable' };
     let run;
     try {
       run = reconstruct(row);
@@ -268,6 +276,7 @@ export function createCertificateService(
   }));
   return {
     close: () => db.close(),
+    paymentMode: () => purchases.mode(),
     issueSession: () => sessions.issue(),
     resolveSession: (token) => sessions.resolve(token),
     logout: (owner) => {
@@ -275,8 +284,9 @@ export function createCertificateService(
       return { loggedOut: true };
     },
     order: (owner, payload) => transaction(() => purchases.order(owner, payload)),
-    settle: (owner, payload) => transaction(() => purchases.settle(owner, payload)),
-    refund: (owner, payload) => transaction(() => purchases.refund(owner, payload)),
+    simulateSettlement: (owner, payload) =>
+      transaction(() => purchases.simulateSettlement(owner, payload)),
+    simulateRefund: (owner, payload) => transaction(() => purchases.simulateRefund(owner, payload)),
     state(owner, locale) {
       validLocale(locale);
       return transaction(() => {
@@ -286,7 +296,13 @@ export function createCertificateService(
           )
           .all(owner);
         const attempts = rows.map((row) => view(row, locale));
-        return { profiles: profileViews, attempts, purchases: purchases.list(owner) };
+        return {
+          paymentMode: purchases.mode(),
+          paymentPolicy: PURCHASE_POLICY,
+          profiles: profileViews,
+          attempts,
+          purchases: purchases.list(owner),
+        };
       });
     },
     start(owner, payload) {
@@ -451,6 +467,7 @@ export function createCertificateService(
       return transaction(() => ({
         version: 1,
         draft: true,
+        paymentMode: purchases.mode(),
         exportedAt: now(),
         attempts: db
           .prepare('select * from certificate_drafts where owner=? order by started,id')

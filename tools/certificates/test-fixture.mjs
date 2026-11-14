@@ -4,6 +4,22 @@ import { catalogue } from '../../packages/content/src/authoring.ts';
 import { createExamRun } from '../../packages/content/src/exam.ts';
 import { evaluateExercise } from '../../packages/exercises/src/index.ts';
 import { randomUUID } from 'node:crypto';
+import { createCertificateService } from './service.mjs';
+import { createCertificateServer } from './server.mjs';
+import { createCertificatePaymentSimulation } from './payment-simulation.mjs';
+
+export function createCertificateTestService(filename, options = {}) {
+  return createCertificateService(filename, {
+    ...options,
+    paymentSimulation: createCertificatePaymentSimulation(),
+  });
+}
+export function createCertificateTestServer(options = {}) {
+  return createCertificateServer({
+    ...options,
+    paymentSimulation: createCertificatePaymentSimulation(),
+  });
+}
 
 /** Explicitly fund a local synthetic purchase, never a production entitlement. */
 export function startFixture(service, owner, payload) {
@@ -11,7 +27,7 @@ export function startFixture(service, owner, payload) {
   let purchase = active?.profile === payload.profile ? active.purchaseId : null;
   if (!purchase) {
     const order = service.order(owner, { profile: payload.profile, requestId: randomUUID() });
-    service.settle(owner, { id: order.id, outcome: 'paid' });
+    service.simulateSettlement(owner, { id: order.id, outcome: 'paid' });
     purchase = order.id;
   }
   return service.start(owner, { ...payload, purchase });

@@ -1,4 +1,9 @@
-import { startFixture, fixtureAnswers } from './test-fixture.mjs';
+import {
+  startFixture,
+  fixtureAnswers,
+  createCertificateTestService,
+  createCertificateTestServer,
+} from './test-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtempSync, rmSync, readFileSync } from 'node:fs';
@@ -7,15 +12,14 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 import { certificateDigests } from './binding.mjs';
-import { createCertificateService, RETENTION_MS } from './service.mjs';
-import { createCertificateServer } from './server.mjs';
+import { RETENTION_MS } from './service.mjs';
 import { SESSION_IDLE_MS, SESSION_MAX_MS } from './sessions.mjs';
 import { sampleCertificatePdf } from './pdf.mjs';
 
 function fixture(t, options = {}) {
   const dir = mkdtempSync(join(tmpdir(), 'harmonia-cert-complete-'));
   const database = join(dir, 'test.sqlite');
-  const service = createCertificateService(database, {
+  const service = createCertificateTestService(database, {
     now: () => Date.UTC(2026, 10, 2, 12),
     ...options,
   });
@@ -34,7 +38,7 @@ test('E3: the certificate binding includes the entire playback import family', (
 
 function paid(service, owner, profile = 'certificate-draft-1') {
   const order = service.order(owner, { profile, requestId: randomUUID() });
-  return service.settle(owner, { id: order.id, outcome: 'paid' });
+  return service.simulateSettlement(owner, { id: order.id, outcome: 'paid' });
 }
 function finishAll(service, database, owner, run) {
   for (const [index, a] of fixtureAnswers(database, run.id).entries())
@@ -52,12 +56,15 @@ test('a paid, owned, matching test order is required; no client entitlement is a
     /purchaseRequired/,
   );
   assert.throws(() => service.start('other', { ...payload, purchase: order.id }), /notFound/);
-  assert.throws(() => service.settle('other', { id: order.id, outcome: 'paid' }), /notFound/);
   assert.throws(
-    () => service.settle('owner', { id: order.id, outcome: 'paid', amount: 0 }),
+    () => service.simulateSettlement('other', { id: order.id, outcome: 'paid' }),
+    /notFound/,
+  );
+  assert.throws(
+    () => service.simulateSettlement('owner', { id: order.id, outcome: 'paid', amount: 0 }),
     /invalid/,
   );
-  service.settle('owner', { id: order.id, outcome: 'paid' });
+  service.simulateSettlement('owner', { id: order.id, outcome: 'paid' });
   assert.throws(
     () =>
       service.start('owner', { ...payload, profile: 'certificate-draft-2', purchase: order.id }),
@@ -79,8 +86,11 @@ test('test checkout is idempotent, cancellation is final and deleting an attempt
     () => service.order('owner', { profile: 'certificate-draft-2', requestId }),
     /conflict/,
   );
-  service.settle('owner', { id: order.id, outcome: 'cancelled' });
-  assert.throws(() => service.settle('owner', { id: order.id, outcome: 'paid' }), /conflict/);
+  service.simulateSettlement('owner', { id: order.id, outcome: 'cancelled' });
+  assert.throws(
+    () => service.simulateSettlement('owner', { id: order.id, outcome: 'paid' }),
+    /conflict/,
+  );
   const purchase = paid(service, 'owner');
   const run = service.start('owner', { profile, locale: 'de', purchase: purchase.id });
   assert.throws(() => service.remove('other', { id: run.id }), /notFound/);
@@ -101,15 +111,15 @@ test('a simulated refund withdraws the sample code and a retry uses a new test o
     startFixture(service, 'owner', { profile: 'certificate-draft-1', locale: 'de' }),
   );
   assert.equal(service.verify({ code: finished.result.code }).status, 'draft');
-  const refund = service.refund('owner', { id: finished.purchaseId });
+  const refund = service.simulateRefund('owner', { id: finished.purchaseId });
   assert.equal(refund.status, 'refunded');
-  assert.deepEqual(service.refund('owner', { id: finished.purchaseId }), refund);
+  assert.deepEqual(service.simulateRefund('owner', { id: finished.purchaseId }), refund);
   assert.equal(service.verify({ code: finished.result.code }).status, 'revoked');
   assert.throws(() => service.receipt('owner', finished.id), /purchaseRefunded/);
   assert.equal(service.state('owner', 'de').attempts[0].phase, 'cancelled');
   const next = startFixture(service, 'owner', { profile: 'certificate-draft-1', locale: 'de' });
   assert.notEqual(next.purchaseId, finished.purchaseId);
-  service.refund('owner', { id: next.purchaseId });
+  service.simulateRefund('owner', { id: next.purchaseId });
   assert.throws(
     () => service.answer('owner', { id: next.id, index: 0, answer: 'anything', locale: 'de' }),
     /outdated|purchaseRefunded/,
@@ -225,7 +235,7 @@ test('real HTTP: payment replay, data rights, unknown cookies, logout and restar
   const dir = mkdtempSync(join(tmpdir(), 'harmonia-cert-http-complete-')),
     database = join(dir, 'test.sqlite');
   let instant = Date.UTC(2026, 10, 2, 12),
-    app = await createCertificateServer({ database, now: () => instant });
+    app = await createCertificateTestServer({ database, now: () => instant });
   t.after(async () => {
     await app.close();
     rmSync(dir, { recursive: true, force: true });
@@ -250,7 +260,7 @@ test('real HTTP: payment replay, data rights, unknown cookies, logout and restar
   ]);
   const order = await a.json();
   assert.deepEqual(await b.json(), order);
-  await post('/api/settle', { id: order.id, outcome: 'paid' });
+  await post('/api/simulation/settle', { id: order.id, outcome: 'paid' });
   const payload = { profile, locale: 'de', purchase: order.id };
   const responses = await Promise.all([post('/api/start', payload), post('/api/start', payload)]);
   const run = await responses[0].json();
@@ -262,7 +272,7 @@ test('real HTTP: payment replay, data rights, unknown cookies, logout and restar
   assert.ok(!JSON.stringify(exported).includes('seed'));
   assert.ok(!readFileSync(database).includes(cookie.split('=')[1]));
   await app.close();
-  app = await createCertificateServer({ database, now: () => instant });
+  app = await createCertificateTestServer({ database, now: () => instant });
   assert.equal(
     (await fetch(app.origin + '/api/state?locale=de', { headers: { cookie } })).status,
     200,
@@ -292,7 +302,7 @@ for (const action of ['refund', 'logout'])
       gate = new Promise((resolve) => {
         release = resolve;
       });
-    const app = await createCertificateServer({
+    const app = await createCertificateTestServer({
       database,
       renderPdf: async (receipt, locale) => {
         signalStarted();
@@ -314,7 +324,7 @@ for (const action of ['refund', 'logout'])
       });
     const profile = 'certificate-draft-1';
     const order = await (await post('/api/order', { profile, requestId: randomUUID() })).json();
-    await post('/api/settle', { id: order.id, outcome: 'paid' });
+    await post('/api/simulation/settle', { id: order.id, outcome: 'paid' });
     const run = await (
       await post('/api/start', { profile, locale: 'de', purchase: order.id })
     ).json();
@@ -322,7 +332,11 @@ for (const action of ['refund', 'logout'])
       await post('/api/answer', { id: run.id, index, answer: a.right, locale: 'de' });
     const requested = post('/api/pdf', { id: run.id, locale: 'de' });
     await started;
-    await post('/api/' + action, action === 'refund' ? { id: order.id } : {});
+    const interrupted = await post(
+      action === 'refund' ? '/api/simulation/refund' : '/api/logout',
+      action === 'refund' ? { id: order.id } : {},
+    );
+    assert.equal(interrupted.status, 200);
     release();
     const response = await requested;
     assert.equal(response.status, action === 'refund' ? 409 : 401);

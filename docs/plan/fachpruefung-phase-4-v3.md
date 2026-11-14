@@ -1,5 +1,7 @@
 # Fachprüfung und Integration Phase 4 v3 (05.11.2026)
 
+**Technischer Nachtrag N5 (14.11.2026, noch nicht integriert):** [Zahlungsgrenze](zertifikate-zahlungsgrenze.md), ADR 0080: Standarddienst ohne Zahlungsfreigabe, lokale Simulation nur mit ausdrücklicher Prozessfähigkeit, allgemeine Client-Zahlungsendpunkte entfernt, alte v1-Zahlungen gesperrt. Eigener Entwurfsbranch auf `main@ab157e8`; #151/#156/#157/#158 nicht enthalten. N4 bleibt separat, N3 weiterhin eine dokumentierte Echtheitsgrenze. Rohbefunde und bisherige Fachprüfung unverändert. Technische P4-Vorarbeit vor formaler Phase-4-Freigabe, keine neue Fach-/Rechtsfreigabe oder Veröffentlichung; P4.01 bis F14/Recht zurückgestellt.
+
 Integriert über den Branch `claude/stoic-pascal-eaoojx` per Sammel-PR nach `main`. Rohberichte: `docs/quality/fachpruefung-phase-4-v3/`.
 
 ## Integrierte PRs

@@ -4,7 +4,7 @@ import { mkdtempSync, rmSync, readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
-import { createCertificateServer } from '../../tools/certificates/server.mjs';
+import { createCertificateTestServer } from '../../tools/certificates/test-fixture.mjs';
 import { SESSION_IDLE_MS } from '../../tools/certificates/sessions.mjs';
 import { certificateTranslator } from '../../packages/i18n/src/certificate-draft.ts';
 import { readInventory, inspectInventory } from '../../tools/ai-act/model.mjs';
@@ -27,7 +27,7 @@ for (const locale of ['de', 'en-US', 'en-GB'])
     page,
   }, info) => {
     const dir = mkdtempSync(join(tmpdir(), 'harmonia-cert-complete-web-'));
-    const app = await createCertificateServer({ database: join(dir, 'test.sqlite') });
+    const app = await createCertificateTestServer({ database: join(dir, 'test.sqlite') });
     const t = certificateTranslator(locale),
       errors = [];
     page.on('pageerror', (e) => errors.push(e.message));
@@ -50,7 +50,7 @@ for (const locale of ['de', 'en-US', 'en-GB'])
         .first()
         .click();
       await page.route(
-        '**/api/settle',
+        '**/api/simulation/settle',
         async (route) => {
           await route.fetch();
           await route.abort('failed');
@@ -119,7 +119,7 @@ test('a stale receipt is isolated, can be deleted on its own, and does not hide 
 }) => {
   const dir = mkdtempSync(join(tmpdir(), 'harmonia-cert-isolated-web-')),
     database = join(dir, 'test.sqlite');
-  const app = await createCertificateServer({ database }),
+  const app = await createCertificateTestServer({ database }),
     t = certificateTranslator('de');
   try {
     await page.goto(app.origin);
@@ -157,7 +157,7 @@ test('an expired session clears private questions and permits a fresh isolated t
 }) => {
   const dir = mkdtempSync(join(tmpdir(), 'harmonia-cert-expiry-web-'));
   let instant = Date.UTC(2026, 10, 2, 12);
-  const app = await createCertificateServer({
+  const app = await createCertificateTestServer({
       database: join(dir, 'test.sqlite'),
       now: () => instant,
     }),

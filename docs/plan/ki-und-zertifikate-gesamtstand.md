@@ -1,5 +1,7 @@
 # P4.17/P4.18 – Zusammenhängender interner Gesamtentwurf
 
+**Nachtrag N5, 14.11.2026:** [Zahlungsgrenze](zertifikate-zahlungsgrenze.md) und ADR 0080 trennen die ausschließlich lokale Simulation vom gesperrten Standardmodus. `certificates:preview` erlaubt keine Testfreischaltung; der unten beschriebene synthetische Gesamtablauf braucht jetzt ausdrücklich `certificates:preview:simulation`. Allgemeine Zahlungsendpunkte entfallen, v1-Testbestellungen werden nicht zur neuen Berechtigung. Technische P4-Vorarbeit vor formaler Freigabe, keine Veröffentlichung/echte Zahlung; P4.01 bleibt bis F14/Rechtsklärung zurückgestellt. N4s Lesearchitektur ist ein separater Entwurf in #158.
+
 Stand: 02.11.2026 · Branch `codex/ai-certificates-complete-draft` · Basis `main` bei `f7bc15d`.
 
 Auf ausdrücklichen Nutzerauftrag wird die vorhandene KI-Prüfvorbereitung mit dem Zertifikatsprototyp vervollständigt. **Technische P4-Vorarbeit vor der formalen Phase-4-Freigabe.** Dies ist keine schriftliche Rechtsprüfung oder fachliche Abschlussfreigabe. Inhalte, Regeln und Berichte bleiben Entwurf; keine Veröffentlichung, echte Zahlung, gültige Zertifikatsausstellung oder Main-Integration. P4.01 bleibt bis F14 und Rechtsklärung zurückgestellt. [ADR 0073](../decisions/0073-ki-pruefuebergabe-und-zertifikatsgesamtentwurf.md).
@@ -50,7 +52,7 @@ Alle vier Kommandos müssen im tatsächlichen Entwurfsstand mit Exitcode 1 enden
 ## P4.18: Vollständiger lokaler Ablauf
 
 ```sh
-corepack pnpm certificates:preview
+corepack pnpm certificates:preview:simulation
 ```
 
 Nur Loopback, standardmäßig `http://127.0.0.1:8237`. Persistenz unter dem ignorierten privaten `artifacts/certificates/`; kein öffentlicher App-Einstieg und keine Supabase-Bereitstellung.

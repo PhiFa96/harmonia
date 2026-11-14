@@ -7,9 +7,12 @@ import { spawnSync } from 'node:child_process';
 import { DatabaseSync } from 'node:sqlite';
 import { certificateDigests, certificateSourceHash } from './binding.mjs';
 import { certificateReview, certificateReviewHtml, REVIEW_SEEDS } from './review.mjs';
-import { createCertificateService } from './service.mjs';
-import { createCertificateServer } from './server.mjs';
-import { fixtureAnswers, startFixture } from './test-fixture.mjs';
+import {
+  createCertificateTestService,
+  createCertificateTestServer,
+  fixtureAnswers,
+  startFixture,
+} from './test-fixture.mjs';
 import { sampleCertificatePdf } from './pdf.mjs';
 import { catalogue } from '../../packages/content/src/authoring.ts';
 import { CERTIFICATE_REVIEW_MESSAGES } from '../../packages/i18n/src/certificate-review.ts';
@@ -88,7 +91,7 @@ test('actual grading, content, notation, fonts, dependencies and new modules are
 
 test('a code change after restart blocks ongoing grading and new PDFs; erase and revocation remain possible', async (t) => {
   const { database } = temporary(t);
-  let service = createCertificateService(database, { now, sourceHash: 'a'.repeat(64) });
+  let service = createCertificateTestService(database, { now, sourceHash: 'a'.repeat(64) });
   t.after(() => service.close());
   const active = startFixture(service, 'active', { profile: 'certificate-draft-1', locale: 'de' });
   let finished = startFixture(service, 'finished', {
@@ -114,7 +117,7 @@ test('a code change after restart blocks ongoing grading and new PDFs; erase and
     /Sample receipt/,
   );
   service.close();
-  service = createCertificateService(database, { now, sourceHash: 'b'.repeat(64) });
+  service = createCertificateTestService(database, { now, sourceHash: 'b'.repeat(64) });
   for (const [owner, id] of [
     ['active', active.id],
     ['finished', finished.id],
@@ -140,13 +143,13 @@ test('a code change after restart blocks ongoing grading and new PDFs; erase and
 
 test('additive migration preserves legacy attempts while denying unbound continuation', (t) => {
   const { database } = temporary(t);
-  let service = createCertificateService(database, { now });
+  let service = createCertificateTestService(database, { now });
   startFixture(service, 'legacy', { profile: 'certificate-draft-1', locale: 'de' });
   service.close();
   const db = new DatabaseSync(database);
   db.exec('alter table certificate_drafts drop column source_hash');
   db.close();
-  service = createCertificateService(database, { now });
+  service = createCertificateTestService(database, { now });
   t.after(() => service.close());
   const rows = service.state('legacy', 'de').attempts;
   assert.equal(rows.length, 1);
@@ -214,7 +217,7 @@ test('preparation passes; release and malformed CLI calls fail closed', () => {
 
 test('actual exam HTTP server never serves private review packs or answer endpoints', async (t) => {
   const { database } = temporary(t),
-    app = await createCertificateServer({ database, now });
+    app = await createCertificateTestServer({ database, now });
   t.after(() => app.close());
   const home = await fetch(app.origin),
     cookie = home.headers.get('set-cookie').split(';')[0];

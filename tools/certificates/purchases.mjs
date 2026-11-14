@@ -1,10 +1,15 @@
 import { randomUUID } from 'node:crypto';
 import { DraftError, exact, identifier } from './errors.mjs';
+import { paymentSimulationEnabled } from './payment-simulation.mjs';
 
-export const PURCHASE_POLICY = 'certificate-test-purchase-v1';
+export const PURCHASE_POLICY = 'certificate-local-simulation-v2';
 
 /** Local payment simulation only. There is no price, provider, webhook or real entitlement. */
-export function certificatePurchases(db, { now, profileFor }) {
+export function certificatePurchases(db, { now, profileFor, paymentSimulation = null }) {
+  const enabled = () => paymentSimulationEnabled(paymentSimulation);
+  function requireSimulation() {
+    if (!enabled()) throw new DraftError('paymentsUnavailable', 503);
+  }
   db.exec(`create table if not exists certificate_purchases (
     id text primary key, owner text not null, request_id text not null,
     profile text not null, policy text not null,
@@ -31,6 +36,7 @@ export function certificatePurchases(db, { now, profileFor }) {
     return row;
   }
   return {
+    mode: () => (enabled() ? 'local-simulation' : 'unavailable'),
     list: (owner) =>
       db
         .prepare('select * from certificate_purchases where owner=? order by created desc,id desc')
@@ -38,6 +44,7 @@ export function certificatePurchases(db, { now, profileFor }) {
         .map(view),
     order(owner, payload) {
       exact(payload, ['profile', 'requestId']);
+      requireSimulation();
       profileFor(payload.profile);
       identifier(payload.requestId);
       const previous = db
@@ -60,10 +67,12 @@ export function certificatePurchases(db, { now, profileFor }) {
       ).run(id, owner, payload.requestId, payload.profile, PURCHASE_POLICY, at, at);
       return view(owned(owner, id));
     },
-    settle(owner, payload) {
+    simulateSettlement(owner, payload) {
       exact(payload, ['id', 'outcome']);
+      requireSimulation();
       if (!['paid', 'cancelled'].includes(payload.outcome)) throw new DraftError('invalid');
       const row = owned(owner, payload.id);
+      if (row.policy !== PURCHASE_POLICY) throw new DraftError('outdated', 409);
       if (row.status !== 'pending' && row.status !== payload.outcome)
         throw new DraftError('conflict', 409);
       if (row.status === 'pending')
@@ -75,6 +84,7 @@ export function certificatePurchases(db, { now, profileFor }) {
       return view(owned(owner, row.id));
     },
     requirePaid(owner, id, profile) {
+      requireSimulation();
       const row = owned(owner, id);
       if (row.status !== 'paid' || row.policy !== PURCHASE_POLICY)
         throw new DraftError('purchaseRequired', 403);
@@ -91,9 +101,11 @@ export function certificatePurchases(db, { now, profileFor }) {
         id,
       );
     },
-    refund(owner, payload) {
+    simulateRefund(owner, payload) {
       exact(payload, ['id']);
+      requireSimulation();
       const row = owned(owner, payload.id);
+      if (row.policy !== PURCHASE_POLICY) throw new DraftError('outdated', 409);
       if (!['paid', 'refunded'].includes(row.status)) throw new DraftError('conflict', 409);
       if (row.status === 'paid')
         db.prepare("update certificate_purchases set status='refunded',updated=? where id=?").run(
@@ -116,6 +128,7 @@ export function certificatePurchases(db, { now, profileFor }) {
           .get(row.purchase_id, row.owner),
       ),
     authorized: (row) =>
+      enabled() &&
       Boolean(
         row.purchase_id &&
         db
