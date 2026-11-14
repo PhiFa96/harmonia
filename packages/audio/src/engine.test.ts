@@ -189,6 +189,25 @@ describe('Sequenz und Metronom', () => {
     expect(timers.running).toBe(0);
   });
 
+  it.each([-1, NaN, Infinity])(
+    'stops and disconnects every voice when the output clock becomes %s',
+    (now) => {
+      const { ctx, timers, engine } = setup();
+      engine.startMetronome(120, 4);
+      engine.playChord([p('C4'), p('E4')], { when: 1, duration: 4 });
+      ctx.currentTime = now;
+      expect(() => {
+        engine.stopAll();
+      }).not.toThrow();
+      expect(timers.running).toBe(0);
+      for (const voice of ctx.oscillators) {
+        expect(voice.stopTimes.at(-1)).toBe(0);
+        expect(voice.connections).toHaveLength(0);
+      }
+      expect(ctx.gains.slice(1).every((gain) => gain.connections.length === 0)).toBe(true);
+    },
+  );
+
   it('verklungene Stimmen werden abgehängt', () => {
     const { ctx, engine } = setup();
     engine.playPitch(p('C4'), { duration: 0.5 });

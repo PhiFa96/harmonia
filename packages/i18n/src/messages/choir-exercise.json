@@ -59,7 +59,8 @@
     "choirPart_tenor": "den Tenor",
     "choirPart_bass": "den Bass",
     "choirFirstCheck": "Vor dem Prüfen kannst du beliebig oft neu aufnehmen. Erst die erste geprüfte Antwort zählt als dein Erstversuch.",
-    "choirTenorClef": "Die Tenorstimme ist hier im Bassschlüssel notiert und klingt wie geschrieben. Du darfst den ganzen Durchlauf in einer bequemeren Oktave singen."
+    "choirTenorClef": "Die Tenorstimme ist hier im Bassschlüssel notiert und klingt wie geschrieben. Du darfst den ganzen Durchlauf in einer bequemeren Oktave singen.",
+    "choirTimingFailed": "Die Aufnahme lässt sich der Begleitung zeitlich nicht zuverlässig zuordnen und wurde nicht gewertet. Nimm den Durchlauf erneut auf oder überspringe die Aufgabe."
   },
   "en-US": {
     "type_CHOIR_PART": "Choir trainer",
@@ -121,7 +122,8 @@
     "choirPart_tenor": "the tenor part",
     "choirPart_bass": "the bass part",
     "choirFirstCheck": "You can record again as often as you like before checking. Your first checked answer counts as your initial attempt.",
-    "choirTenorClef": "The tenor part uses the bass clef here and sounds as written. You may sing the whole take in a more comfortable octave."
+    "choirTenorClef": "The tenor part uses the bass clef here and sounds as written. You may sing the whole take in a more comfortable octave.",
+    "choirTimingFailed": "The take cannot be aligned reliably with the accompaniment and was not graded. Record it again or skip this exercise."
   },
   "en-GB": {
     "type_CHOIR_PART": "Choir trainer",
@@ -183,6 +185,7 @@
     "choirPart_tenor": "the tenor part",
     "choirPart_bass": "the bass part",
     "choirFirstCheck": "You can record again as often as you like before checking. Your first checked answer counts as your initial attempt.",
-    "choirTenorClef": "The tenor part uses the bass clef here and sounds as written. You may sing the whole take in a more comfortable octave."
+    "choirTenorClef": "The tenor part uses the bass clef here and sounds as written. You may sing the whole take in a more comfortable octave.",
+    "choirTimingFailed": "The take cannot be aligned reliably with the accompaniment and was not graded. Record it again or skip this exercise."
   }
 }

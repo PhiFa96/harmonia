@@ -268,7 +268,9 @@ export function ChoirAnswerInput({
           <Button
             testID="choir-start"
             label={t(
-              answer || error === 'no-pitch' ? 'exercise.choirRetry' : 'exercise.choirStart',
+              answer || error === 'no-pitch' || error === 'timing'
+                ? 'exercise.choirRetry'
+                : 'exercise.choirStart',
             )}
             disabled={busy || !headphones || !sound || disabled}
             onPress={() => {
@@ -307,13 +309,15 @@ export function ChoirAnswerInput({
               ? 'exercise.choirPreviewFailed'
               : error === 'no-pitch'
                 ? 'exercise.choirNoPitchTake'
-                : error === 'no-input'
-                  ? 'exercise.choirNoInput'
-                  : error === 'permission'
-                    ? 'tuner.permission'
-                    : error === 'interrupted'
-                      ? 'exercise.choirInterrupted'
-                      : 'tuner.unavailable',
+                : error === 'timing'
+                  ? 'exercise.choirTimingFailed'
+                  : error === 'no-input'
+                    ? 'exercise.choirNoInput'
+                    : error === 'permission'
+                      ? 'tuner.permission'
+                      : error === 'interrupted'
+                        ? 'exercise.choirInterrupted'
+                        : 'tuner.unavailable',
           )}
         </AppText>
       ) : null}

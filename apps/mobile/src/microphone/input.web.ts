@@ -84,7 +84,7 @@ export async function startMicrophone(
       }
       analyser.getFloatTimeDomainData(frame);
       received = true;
-      onFrame(frame, context.sampleRate, performance.now());
+      onFrame(frame, context.sampleRate, context.currentTime * 1000, 'snapshot');
     }, 40);
     return { stop };
   } catch (error) {

@@ -17,6 +17,7 @@ import { ExerciseTask } from '@/components/exercise-task';
 import { i18n } from '@/i18n';
 import { startMicrophone } from '@/microphone/input';
 import { useSettings } from '@/state/settings';
+import type { OnPcmFrame } from '@/microphone/types';
 
 let mockEngine: AudioEngine;
 const mockClose = jest.fn(() => Promise.resolve());
@@ -81,6 +82,69 @@ afterEach(() => {
 });
 
 for (const locale of ['de', 'en-US', 'en-GB'] as const) {
+  it(`${locale}: a timing failure leaves no checkable answer and allows a fresh take`, async () => {
+    await i18n.changeLanguage(locale);
+    let frame: OnPcmFrame | undefined;
+    const closeInput = jest.fn(() => Promise.resolve());
+    jest.mocked(startMicrophone).mockImplementation((callback) => {
+      frame = callback;
+      return Promise.resolve({ stop: closeInput });
+    });
+    const router = renderRouter({ index: Fixture });
+    fireEvent.press(screen.getByRole('button', { name: i18n.t('exercise.choirHeadphones') }));
+    fireEvent.press(screen.getByTestId('choir-start'));
+    await waitFor(() => {
+      expect(screen.getByText(i18n.t('exercise.choirChecking'))).toBeTruthy();
+    });
+    await act(async () => {
+      frame?.(new Float32Array(2048), 48000, 0, 'buffered');
+      await Promise.resolve();
+    });
+    act(() => {
+      jest.advanceTimersByTime(50);
+    });
+    expect(screen.getByTestId('choir-status')).toHaveTextContent(
+      i18n.t('exercise.choirCountIn', { beat: 1 }),
+    );
+    act(() => {
+      const context = mockEngine.context as FakeContext;
+      context.currentTime = 0.05 + (4 * 60) / item.bpm + 0.2;
+      frame?.(new Float32Array(2048), 48000, (context.currentTime + 0.3) * 1000, 'buffered');
+    });
+    await waitFor(() => {
+      expect(screen.getByText(i18n.t('exercise.choirTimingFailed'))).toBeTruthy();
+    });
+    expect(screen.getByRole('button', { name: i18n.t('practice.check') })).toBeDisabled();
+    expect(checked).not.toHaveBeenCalled();
+    expect(screen.queryByTestId('choir-results')).toBeNull();
+    await waitFor(() => {
+      expect(closeInput).toHaveBeenCalledTimes(1);
+    });
+    fireEvent.press(screen.getByRole('button', { name: i18n.t('exercise.choirRetry') }));
+    await waitFor(() => {
+      expect(screen.getByText(i18n.t('exercise.choirChecking'))).toBeTruthy();
+    });
+    await act(async () => {
+      frame?.(new Float32Array(2048), 48000, mockEngine.context.currentTime * 1000, 'buffered');
+      await Promise.resolve();
+    });
+    act(() => {
+      jest.advanceTimersByTime(50);
+    });
+    expect(screen.getByTestId('choir-status')).toHaveTextContent(
+      i18n.t('exercise.choirCountIn', { beat: 1 }),
+    );
+    expect(screen.queryByText(i18n.t('exercise.choirTimingFailed'))).toBeNull();
+    expect(startMicrophone).toHaveBeenCalledTimes(2);
+    fireEvent.press(screen.getByRole('button', { name: i18n.t('exercise.choirStop') }));
+    act(() => {
+      router.unmount();
+    });
+    await waitFor(() => {
+      expect(closeInput).toHaveBeenCalledTimes(2);
+    });
+  });
+
   it.each(['resume', 'initialization'] as const)(
     `${locale}: a preview %s failure keeps the existing answer checkable and retryable`,
     async (failure) => {

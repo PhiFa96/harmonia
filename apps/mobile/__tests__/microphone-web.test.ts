@@ -25,6 +25,7 @@ class Track extends Events {
 class Context extends Events {
   static instances: Context[] = [];
   state = 'suspended';
+  currentTime = 12;
   sampleRate = 48000;
   readonly disconnect = jest.fn();
   readonly resume = jest.fn(() => {
@@ -79,6 +80,7 @@ it('passes silent PCM, and normal stop closes every resource without reporting i
   jest.advanceTimersByTime(80);
   expect(frame).toHaveBeenCalledTimes(2);
   expect(frame.mock.calls[0]?.[0]).toEqual(new Float32Array(2048));
+  expect(frame.mock.calls[0]?.slice(1)).toEqual([48000, 12000, 'snapshot']);
   await session.stop();
   await session.stop();
   track.emit('ended');
