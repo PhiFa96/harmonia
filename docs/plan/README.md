@@ -2,6 +2,8 @@
 
 Dieser Plan beschreibt, wie wir Harmonia Schritt für Schritt bauen: vom leeren Repository bis zur Vision. Er ist ein lebendes Dokument. Wir passen ihn an, sobald wir etwas Neues lernen.
 
+Der [Fertigstellungsplan vom 14.11.2026](fertigstellungsplan.md) bündelt den verbleibenden Weg zur ersten Veröffentlichung, zum vollständigen Phase-4-Produkt und zur langfristigen Vision mit Reihenfolge, Zuständigkeiten und Abnahmekriterien.
+
 ## Aufbau
 
 **Querschnitt** – gilt für alle Phasen:
