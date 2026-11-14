@@ -2,6 +2,8 @@
 
 Integriert über den Branch `claude/stoic-pascal-eaoojx` per Sammel-PR nach `main`. Rohberichte: `docs/quality/fachpruefung-phase-4-v3/`.
 
+**Technischer Nachtrag 14.11.2026, Zertifikate N4:** Die [Leseansichten-Nacharbeit](zertifikate-leseansichten.md) entfernt Abschluss-, Invalidierungs- und Bereinigungsschreibzugriffe aus Status, Export, Codeprüfung und Belegabruf. Eigene Schreibtransaktionen und getrennte lokale Wartung erhalten den Lebenszyklus und die Aufbewahrung. Keine neue unabhängige Fach-/Rechts- oder Produktabnahme; ursprüngliche Befunde und Rohberichte bleiben historischer Prüfstand. N3/N5 bleiben offen, die getrennten PRs #151/#156/#157 sind nicht enthalten.
+
 ## Integrierte PRs
 
 | PR | Inhalt | Ergebnis |
