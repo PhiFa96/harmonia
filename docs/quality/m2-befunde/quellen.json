@@ -1,0 +1,204 @@
+{
+  "version": 1,
+  "base": "ab157e81afd4ee158573d38302247b681029b24c",
+  "sources": [
+    {
+      "path": "docs/quality/fachpruefung-phase-3/p3-02-03-auswahl-fsrs.md",
+      "sha256": "d7f1977ea1e5662019c3281ab52e9bc20bea2e788fbc48d590802903d07a7727",
+      "lines": 58,
+      "individualTriage": "pending; see docs/plan/befundregister.md"
+    },
+    {
+      "path": "docs/quality/fachpruefung-phase-3/p3-04-06-ligen-rush-duelle.md",
+      "sha256": "fd0296be53c3e8f356f09d0e6cae2aed5cd70749f5207e6c22653549bb3af536",
+      "lines": 71,
+      "individualTriage": "pending; see docs/plan/befundregister.md"
+    },
+    {
+      "path": "docs/quality/fachpruefung-phase-3/p3-07-08-raetsel-freunde.md",
+      "sha256": "f08087f768f352387bff77c0465998c5dac26912007e83a2d7e001f7e74d7a23",
+      "lines": 126,
+      "individualTriage": "pending; see docs/plan/befundregister.md"
+    },
+    {
+      "path": "docs/quality/fachpruefung-phase-3/p3-09-10-mikrofon.md",
+      "sha256": "0a84a9c906953209f6c69e2bdd827c3b7b11cec572324524fed24c912a1c8f04",
+      "lines": 74,
+      "individualTriage": "pending; see docs/plan/befundregister.md"
+    },
+    {
+      "path": "docs/quality/fachpruefung-phase-3/p3-11-12-midi-rhythmus.md",
+      "sha256": "c9dce7507d6528d093320f1d04a5ff4eec9d7c2a434aa2cb01977c08d4782d2a",
+      "lines": 70,
+      "individualTriage": "pending; see docs/plan/befundregister.md"
+    },
+    {
+      "path": "docs/quality/fachpruefung-phase-3/p3-13-14-notation-harmonie.md",
+      "sha256": "fc0df3d8e0e7b3baec41519876e4a01de01dc0babb19a990a1db9ce7ea1e2867",
+      "lines": 63,
+      "individualTriage": "pending; see docs/plan/befundregister.md"
+    },
+    {
+      "path": "docs/quality/fachpruefung-phase-3/p3-15-stufe-3.md",
+      "sha256": "c9e9fa85cf61ed9a5c6a1a18df6b0985ccd80f7d25189ca12b0d296b0ec6b824",
+      "lines": 66,
+      "individualTriage": "pending; see docs/plan/befundregister.md"
+    },
+    {
+      "path": "docs/quality/fachpruefung-phase-3/p3-16-stufe-4.md",
+      "sha256": "c020579132f51bcf09d7774f0234198e0b013bf086ab00d3c7385ff0c3afc928",
+      "lines": 68,
+      "individualTriage": "pending; see docs/plan/befundregister.md"
+    },
+    {
+      "path": "docs/quality/fachpruefung-phase-3/p3-17-pruefungsmodus.md",
+      "sha256": "c5eaadb4934858372e7829480f23401b5311377bfbb18f4a46b19e9de57eaae9",
+      "lines": 78,
+      "individualTriage": "pending; see docs/plan/befundregister.md"
+    },
+    {
+      "path": "docs/quality/fachpruefung-phase-3/p3-18-tutor-planer.md",
+      "sha256": "8cb0e27014423a32a1d04ed2a962dbfb06156c1ec9a9d9e8455021ae030d86b1",
+      "lines": 88,
+      "individualTriage": "pending; see docs/plan/befundregister.md"
+    },
+    {
+      "path": "docs/quality/fachpruefung-phase-3/p3-19-wissensbasis-v2.md",
+      "sha256": "13b09f2d8332652c63e34fca117b8d235bb15d434b9b15e69313d6c1f1891888",
+      "lines": 86,
+      "individualTriage": "pending; see docs/plan/befundregister.md"
+    },
+    {
+      "path": "docs/quality/fachpruefung-phase-4/p4-09-satb-regeln.md",
+      "sha256": "20d63c067ada049eaa92539027c384501bd3d6a293958a0f95df4eaad637c24f",
+      "lines": 50,
+      "individualTriage": "pending; see docs/plan/befundregister.md"
+    },
+    {
+      "path": "docs/quality/fachpruefung-phase-4/p4-10-tonsatz-korrektor.md",
+      "sha256": "b47a2ee416a1280963f23713c0ac2144de89ebb0bbc1c9805dc7539e11ea0827",
+      "lines": 84,
+      "individualTriage": "pending; see docs/plan/befundregister.md"
+    },
+    {
+      "path": "docs/quality/fachpruefung-phase-4/p4-11-chor-trainer.md",
+      "sha256": "30fefb65cbbc2de9df373ee1d8ef903145cdb6d26567467b6ce54bbf2c67184f",
+      "lines": 62,
+      "individualTriage": "pending; see docs/plan/befundregister.md"
+    },
+    {
+      "path": "docs/quality/fachpruefung-phase-4/p4-12-musikgeschichte.md",
+      "sha256": "6993f687907318415e3b52a022dd986263135a29a9cb918d4ace478c9cf39021",
+      "lines": 51,
+      "individualTriage": "pending; see docs/plan/befundregister.md"
+    },
+    {
+      "path": "docs/quality/fachpruefung-phase-4-v2/p4-09-p4-10-tonsatz.md",
+      "sha256": "7a115ba739da0c0106aeaa63b8fbe3b37f6fe8e48ff4143069081b8a48be7c2a",
+      "lines": 29,
+      "individualTriage": "pending; see docs/plan/befundregister.md"
+    },
+    {
+      "path": "docs/quality/fachpruefung-phase-4-v2/p4-11-p4-12-chor-zeitreise.md",
+      "sha256": "8232a430627f85b479250c068e44cc0b3bd20c07d2a90db823eed123db78b39b",
+      "lines": 36,
+      "individualTriage": "pending; see docs/plan/befundregister.md"
+    },
+    {
+      "path": "docs/quality/fachpruefung-phase-4-v2/p4-13-p4-16-schule.md",
+      "sha256": "892cf2334db4652e3c3010e71c71e86cef9f66af0d77e9c47864cf4970efd293",
+      "lines": 68,
+      "individualTriage": "pending; see docs/plan/befundregister.md"
+    },
+    {
+      "path": "docs/quality/fachpruefung-phase-4-v2/p4-17-p4-18-ki-vo-zertifikat.md",
+      "sha256": "c58ca57c5345625fdb43e43e2f4dfa7a1914cbb6a08d359bdf231b34bce7a143",
+      "lines": 43,
+      "individualTriage": "pending; see docs/plan/befundregister.md"
+    },
+    {
+      "path": "docs/quality/fachpruefung-phase-4-v2/p4-19-stufe-5.md",
+      "sha256": "8263c5de9ba9213b35ade932eb8c96a7fef7f9926716cb8162da648762d49892",
+      "lines": 34,
+      "individualTriage": "pending; see docs/plan/befundregister.md"
+    },
+    {
+      "path": "docs/quality/fachpruefung-phase-4-v3/chor.md",
+      "sha256": "b4d62c014aef57b81bd1ca81c352f27662601f6a61a4dad73984bcaaccc3741d",
+      "lines": 49,
+      "individualTriage": "pending; see docs/plan/befundregister.md"
+    },
+    {
+      "path": "docs/quality/fachpruefung-phase-4-v3/ki-zertifikate.md",
+      "sha256": "d3a97ee041089f44137a05ee7db32ea48fb3106fcaa0c2b86e3f2465643f0230",
+      "lines": 95,
+      "individualTriage": "pending; see docs/plan/befundregister.md"
+    },
+    {
+      "path": "docs/quality/fachpruefung-phase-4-v3/schule.md",
+      "sha256": "ea9830739f037a23294c31b528b63e59b3a77f8af8b7e6507c5de778c2cd9072",
+      "lines": 37,
+      "individualTriage": "pending; see docs/plan/befundregister.md"
+    },
+    {
+      "path": "docs/quality/fachpruefung-phase-4-v3/stufe-5.md",
+      "sha256": "0b29d990513252268e7dfaa8f74d65d3adf598c52bc94a6de94a90eea1a647b4",
+      "lines": 25,
+      "individualTriage": "pending; see docs/plan/befundregister.md"
+    },
+    {
+      "path": "docs/quality/fachpruefung-phase-4-v3/tutor.md",
+      "sha256": "63fc6017a15098ed7e22af9fd91360ee4ebf262f6530ad8bd3dc4fd7d378830c",
+      "lines": 76,
+      "individualTriage": "pending; see docs/plan/befundregister.md"
+    },
+    {
+      "path": "docs/quality/fachpruefung-phase-4-v3/zeitreise.md",
+      "sha256": "8da86bf45326ee3ecf3c277b93b06c4c4eca0a65eb792f593b1e99f54e534094",
+      "lines": 30,
+      "individualTriage": "pending; see docs/plan/befundregister.md"
+    },
+    {
+      "path": "docs/quality/fachpruefung-stufe-1/aural.md",
+      "sha256": "fd4c4a3c3bc69baf57ce4c4b36a8ad86a6ea1603b5a0414a840cfe04964d8ace",
+      "lines": 110,
+      "individualTriage": "pending; see docs/plan/befundregister.md"
+    },
+    {
+      "path": "docs/quality/fachpruefung-stufe-1/graph-stufe-1.md",
+      "sha256": "a9ccdef84a9351b50c366272be182bb330a4c12d2df3888e1f43e044d0a9367f",
+      "lines": 149,
+      "individualTriage": "pending; see docs/plan/befundregister.md"
+    },
+    {
+      "path": "docs/quality/fachpruefung-stufe-1/graph-stufe-2.md",
+      "sha256": "0e5a789190d72e7cf5340429f9f49a274f4c3e6a7b5526c25086f0469afc7988",
+      "lines": 130,
+      "individualTriage": "pending; see docs/plan/befundregister.md"
+    },
+    {
+      "path": "docs/quality/fachpruefung-stufe-1/history.md",
+      "sha256": "a0df165324e71a61e7f07d793bda3a4f1ce2259e9fc0870f80bbc21f1c123422",
+      "lines": 104,
+      "individualTriage": "pending; see docs/plan/befundregister.md"
+    },
+    {
+      "path": "docs/quality/fachpruefung-stufe-1/intervals.md",
+      "sha256": "7929c66340ed81e0cb171d917fa16095c8b3428e81bc8e15fb463638cc9ae194",
+      "lines": 95,
+      "individualTriage": "pending; see docs/plan/befundregister.md"
+    },
+    {
+      "path": "docs/quality/fachpruefung-stufe-1/notation.md",
+      "sha256": "7eca74d8a220a629eca3c13a4f66f16f0a51bef972c668e2eaf5d3c22a0f30f8",
+      "lines": 183,
+      "individualTriage": "pending; see docs/plan/befundregister.md"
+    },
+    {
+      "path": "docs/quality/fachpruefung-stufe-1/rhythm.md",
+      "sha256": "0c2a38ffb3ee0d7ecc041b91f6cdbb0762b0748496127362e585c7ef776a49c4",
+      "lines": 128,
+      "individualTriage": "pending; see docs/plan/befundregister.md"
+    }
+  ]
+}

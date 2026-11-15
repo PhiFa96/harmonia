@@ -1,0 +1,769 @@
+{
+  "base": "ab157e81afd4ee158573d38302247b681029b24c",
+  "capturedAt": "2026-11-14T23:02:21.119Z",
+  "repository": "PhiFa96/harmonia",
+  "integrationBranch": "codex/m1-integration-m2-register",
+  "integrationChecks": "pending",
+  "integrationReviews": "pending",
+  "pullRequests": [
+    {
+      "number": 151,
+      "title": "Schule: Auth-Kontobindung, Sitzungswiderruf und private Grader-Rolle",
+      "url": "https://github.com/PhiFa96/harmonia/pull/151",
+      "head": "codex/school-auth-revocation-draft",
+      "sha": "0e2b525a0e2a7a45578658a5ba4560049e12242e",
+      "base": "ab157e81afd4ee158573d38302247b681029b24c",
+      "draft": true,
+      "state": "open",
+      "integration": true,
+      "checks": [
+        {
+          "name": "Tutor-Batchmechanik ohne Modellkosten",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "0e2b525a0e2a7a45578658a5ba4560049e12242e",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/42290415749/job/128142072970",
+          "completed_at": "2026-11-06T20:42:03Z",
+          "id": 128142072970
+        },
+        {
+          "name": "Web-Build der App",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "0e2b525a0e2a7a45578658a5ba4560049e12242e",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/42290415749/job/128142072948",
+          "completed_at": "2026-11-06T20:57:24Z",
+          "id": 128142072948
+        },
+        {
+          "name": "Supabase und Profil-Zugriffsschutz",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "0e2b525a0e2a7a45578658a5ba4560049e12242e",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/42290415749/job/128142072909",
+          "completed_at": "2026-11-06T20:45:35Z",
+          "id": 128142072909
+        },
+        {
+          "name": "Deno-Kompatibilität",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "0e2b525a0e2a7a45578658a5ba4560049e12242e",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/42290415749/job/128142072659",
+          "completed_at": "2026-11-06T20:42:10Z",
+          "id": 128142072659
+        },
+        {
+          "name": "Lint, Typen, Tests",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "0e2b525a0e2a7a45578658a5ba4560049e12242e",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/42290415749/job/128142072387",
+          "completed_at": "2026-11-06T20:55:14Z",
+          "id": 128142072387
+        }
+      ],
+      "reviews": [],
+      "reviewThreads": [],
+      "failingSteps": []
+    },
+    {
+      "number": 152,
+      "title": "chore(deps): bump the minor-und-patch group with 19 updates",
+      "url": "https://github.com/PhiFa96/harmonia/pull/152",
+      "head": "dependabot/npm_and_yarn/minor-und-patch-0ae19ae3bc",
+      "sha": "4a3ca85148b7c0866aad8348c008b682c77a22f4",
+      "base": "ab157e81afd4ee158573d38302247b681029b24c",
+      "draft": false,
+      "state": "open",
+      "integration": false,
+      "checks": [
+        {
+          "name": "Tutor-Batchmechanik ohne Modellkosten",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "4a3ca85148b7c0866aad8348c008b682c77a22f4",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/42550486293/job/128944722713",
+          "completed_at": "2026-11-09T02:22:34Z",
+          "id": 128944722713
+        },
+        {
+          "name": "Lint, Typen, Tests",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "4a3ca85148b7c0866aad8348c008b682c77a22f4",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/42550486293/job/128944722693",
+          "completed_at": "2026-11-09T02:40:31Z",
+          "id": 128944722693
+        },
+        {
+          "name": "Web-Build der App",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "4a3ca85148b7c0866aad8348c008b682c77a22f4",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/42550486293/job/128944722607",
+          "completed_at": "2026-11-09T02:37:15Z",
+          "id": 128944722607
+        },
+        {
+          "name": "Supabase und Profil-Zugriffsschutz",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "4a3ca85148b7c0866aad8348c008b682c77a22f4",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/42550486293/job/128944722605",
+          "completed_at": "2026-11-09T02:26:21Z",
+          "id": 128944722605
+        },
+        {
+          "name": "Deno-Kompatibilität",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "4a3ca85148b7c0866aad8348c008b682c77a22f4",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/42550486293/job/128944722353",
+          "completed_at": "2026-11-09T02:22:40Z",
+          "id": 128944722353
+        }
+      ],
+      "reviews": null,
+      "reviewThreads": null,
+      "failingSteps": []
+    },
+    {
+      "number": 153,
+      "title": "chore(deps): bump @expo/metro-runtime from 57.0.18 to 58.0.17",
+      "url": "https://github.com/PhiFa96/harmonia/pull/153",
+      "head": "dependabot/npm_and_yarn/expo/metro-runtime-58.0.17",
+      "sha": "527b0bd6d51490e9a9af5242f78c9ef4b0145344",
+      "base": "ab157e81afd4ee158573d38302247b681029b24c",
+      "draft": false,
+      "state": "open",
+      "integration": false,
+      "checks": [
+        {
+          "name": "Deno-Kompatibilität",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "527b0bd6d51490e9a9af5242f78c9ef4b0145344",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/42550548803/job/128944914212",
+          "completed_at": "2026-11-09T02:23:17Z",
+          "id": 128944914212
+        },
+        {
+          "name": "Lint, Typen, Tests",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "527b0bd6d51490e9a9af5242f78c9ef4b0145344",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/42550548803/job/128944914137",
+          "completed_at": "2026-11-09T02:45:04Z",
+          "id": 128944914137
+        },
+        {
+          "name": "Tutor-Batchmechanik ohne Modellkosten",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "527b0bd6d51490e9a9af5242f78c9ef4b0145344",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/42550548803/job/128944914079",
+          "completed_at": "2026-11-09T02:23:22Z",
+          "id": 128944914079
+        },
+        {
+          "name": "Supabase und Profil-Zugriffsschutz",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "527b0bd6d51490e9a9af5242f78c9ef4b0145344",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/42550548803/job/128944914028",
+          "completed_at": "2026-11-09T02:26:49Z",
+          "id": 128944914028
+        },
+        {
+          "name": "Web-Build der App",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "527b0bd6d51490e9a9af5242f78c9ef4b0145344",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/42550548803/job/128944913895",
+          "completed_at": "2026-11-09T02:38:20Z",
+          "id": 128944913895
+        }
+      ],
+      "reviews": null,
+      "reviewThreads": null,
+      "failingSteps": []
+    },
+    {
+      "number": 154,
+      "title": "chore(deps-dev): bump supabase from 2.122.0 to 3.0.0",
+      "url": "https://github.com/PhiFa96/harmonia/pull/154",
+      "head": "dependabot/npm_and_yarn/supabase-3.0.0",
+      "sha": "6d5d607389ddf0f08f8e89d67540725ef599c845",
+      "base": "ab157e81afd4ee158573d38302247b681029b24c",
+      "draft": false,
+      "state": "open",
+      "integration": false,
+      "checks": [
+        {
+          "name": "Tutor-Batchmechanik ohne Modellkosten",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "6d5d607389ddf0f08f8e89d67540725ef599c845",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/42550598154/job/128945070044",
+          "completed_at": "2026-11-09T02:23:47Z",
+          "id": 128945070044
+        },
+        {
+          "name": "Supabase und Profil-Zugriffsschutz",
+          "status": "completed",
+          "conclusion": "failure",
+          "sha": "6d5d607389ddf0f08f8e89d67540725ef599c845",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/42550598154/job/128945069975",
+          "completed_at": "2026-11-09T02:23:32Z",
+          "id": 128945069975
+        },
+        {
+          "name": "Web-Build der App",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "6d5d607389ddf0f08f8e89d67540725ef599c845",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/42550598154/job/128945069951",
+          "completed_at": "2026-11-09T02:41:16Z",
+          "id": 128945069951
+        },
+        {
+          "name": "Lint, Typen, Tests",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "6d5d607389ddf0f08f8e89d67540725ef599c845",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/42550598154/job/128945069911",
+          "completed_at": "2026-11-09T02:40:43Z",
+          "id": 128945069911
+        },
+        {
+          "name": "Deno-Kompatibilität",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "6d5d607389ddf0f08f8e89d67540725ef599c845",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/42550598154/job/128945069592",
+          "completed_at": "2026-11-09T02:23:55Z",
+          "id": 128945069592
+        }
+      ],
+      "reviews": null,
+      "reviewThreads": null,
+      "failingSteps": [
+        {
+          "name": "Lokales Supabase starten",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 6
+        }
+      ]
+    },
+    {
+      "number": 155,
+      "title": "chore(deps): bump react-native-audio-api from 0.13.6 to 1.0.0",
+      "url": "https://github.com/PhiFa96/harmonia/pull/155",
+      "head": "dependabot/npm_and_yarn/react-native-audio-api-1.0.0",
+      "sha": "a640e429fd0e47d4d71b99e50ec7e0766af2db06",
+      "base": "ab157e81afd4ee158573d38302247b681029b24c",
+      "draft": false,
+      "state": "open",
+      "integration": false,
+      "checks": [
+        {
+          "name": "Supabase und Profil-Zugriffsschutz",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "a640e429fd0e47d4d71b99e50ec7e0766af2db06",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/42550676265/job/128945312713",
+          "completed_at": "2026-11-09T02:27:30Z",
+          "id": 128945312713
+        },
+        {
+          "name": "Tutor-Batchmechanik ohne Modellkosten",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "a640e429fd0e47d4d71b99e50ec7e0766af2db06",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/42550676265/job/128945312605",
+          "completed_at": "2026-11-09T02:24:40Z",
+          "id": 128945312605
+        },
+        {
+          "name": "Web-Build der App",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "a640e429fd0e47d4d71b99e50ec7e0766af2db06",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/42550676265/job/128945312590",
+          "completed_at": "2026-11-09T02:38:14Z",
+          "id": 128945312590
+        },
+        {
+          "name": "Lint, Typen, Tests",
+          "status": "completed",
+          "conclusion": "failure",
+          "sha": "a640e429fd0e47d4d71b99e50ec7e0766af2db06",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/42550676265/job/128945312563",
+          "completed_at": "2026-11-09T02:25:45Z",
+          "id": 128945312563
+        },
+        {
+          "name": "Deno-Kompatibilität",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "a640e429fd0e47d4d71b99e50ec7e0766af2db06",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/42550676265/job/128945312339",
+          "completed_at": "2026-11-09T02:24:30Z",
+          "id": 128945312339
+        }
+      ],
+      "reviews": null,
+      "reviewThreads": null,
+      "failingSteps": [
+        {
+          "name": "Lint und Paket-Abhängigkeiten",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 7
+        }
+      ]
+    },
+    {
+      "number": 156,
+      "title": "Tutor: eigenes Signatursecret, sichere Altanfragen und atomares Prüfbudget",
+      "url": "https://github.com/PhiFa96/harmonia/pull/156",
+      "head": "codex/tutor-attempt-security-draft",
+      "sha": "fe3f2452efadbb5bcd67b9664084cedc8f5f11b3",
+      "base": "ab157e81afd4ee158573d38302247b681029b24c",
+      "draft": true,
+      "state": "open",
+      "integration": true,
+      "checks": [
+        {
+          "name": "Lint, Typen, Tests",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "fe3f2452efadbb5bcd67b9664084cedc8f5f11b3",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43446597451/job/131971664724",
+          "completed_at": "2026-11-13T15:14:19Z",
+          "id": 131971664724
+        },
+        {
+          "name": "Deno-Kompatibilität",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "fe3f2452efadbb5bcd67b9664084cedc8f5f11b3",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43446597451/job/131971600796",
+          "completed_at": "2026-11-13T14:51:40Z",
+          "id": 131971600796
+        },
+        {
+          "name": "Supabase und Profil-Zugriffsschutz",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "fe3f2452efadbb5bcd67b9664084cedc8f5f11b3",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43446597451/job/131971600362",
+          "completed_at": "2026-11-13T14:55:04Z",
+          "id": 131971600362
+        },
+        {
+          "name": "Tutor-Batchmechanik ohne Modellkosten",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "fe3f2452efadbb5bcd67b9664084cedc8f5f11b3",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43446597451/job/131971599182",
+          "completed_at": "2026-11-13T14:51:18Z",
+          "id": 131971599182
+        },
+        {
+          "name": "Web-Build der App",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "fe3f2452efadbb5bcd67b9664084cedc8f5f11b3",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43446597451/job/131971597041",
+          "completed_at": "2026-11-13T15:33:17Z",
+          "id": 131971597041
+        }
+      ],
+      "reviews": [],
+      "reviewThreads": [],
+      "failingSteps": []
+    },
+    {
+      "number": 157,
+      "title": "KI/Zertifikate: Prüfwerte an lokale Importketten binden",
+      "url": "https://github.com/PhiFa96/harmonia/pull/157",
+      "head": "codex/ai-certificate-import-binding-draft",
+      "sha": "d89cea1e2f50dd482daa23825113be338fcd5076",
+      "base": "ab157e81afd4ee158573d38302247b681029b24c",
+      "draft": true,
+      "state": "open",
+      "integration": true,
+      "checks": [
+        {
+          "name": "Supabase und Profil-Zugriffsschutz",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "d89cea1e2f50dd482daa23825113be338fcd5076",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43461164666/job/132008141348",
+          "completed_at": "2026-11-13T16:21:08Z",
+          "id": 132008141348
+        },
+        {
+          "name": "Tutor-Batchmechanik ohne Modellkosten",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "d89cea1e2f50dd482daa23825113be338fcd5076",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43461164666/job/132008141328",
+          "completed_at": "2026-11-13T16:18:12Z",
+          "id": 132008141328
+        },
+        {
+          "name": "Deno-Kompatibilität",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "d89cea1e2f50dd482daa23825113be338fcd5076",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43461164666/job/132008141181",
+          "completed_at": "2026-11-13T16:18:06Z",
+          "id": 132008141181
+        },
+        {
+          "name": "Lint, Typen, Tests",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "d89cea1e2f50dd482daa23825113be338fcd5076",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43461164666/job/132008141039",
+          "completed_at": "2026-11-13T16:40:12Z",
+          "id": 132008141039
+        },
+        {
+          "name": "Web-Build der App",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "d89cea1e2f50dd482daa23825113be338fcd5076",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43461164666/job/132008140745",
+          "completed_at": "2026-11-13T16:35:24Z",
+          "id": 132008140745
+        }
+      ],
+      "reviews": [],
+      "reviewThreads": [],
+      "failingSteps": []
+    },
+    {
+      "number": 158,
+      "title": "Zertifikate: Ansichten und Export ohne Änderung der Prüfungsdaten",
+      "url": "https://github.com/PhiFa96/harmonia/pull/158",
+      "head": "codex/certificate-readonly-views-draft",
+      "sha": "8a4edd3d95b65f7f842641a83ab318a58cd8b977",
+      "base": "ab157e81afd4ee158573d38302247b681029b24c",
+      "draft": true,
+      "state": "open",
+      "integration": true,
+      "checks": [
+        {
+          "name": "Tutor-Batchmechanik ohne Modellkosten",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "8a4edd3d95b65f7f842641a83ab318a58cd8b977",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43531736354/job/132250858855",
+          "completed_at": "2026-11-14T00:05:49Z",
+          "id": 132250858855
+        },
+        {
+          "name": "Web-Build der App",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "8a4edd3d95b65f7f842641a83ab318a58cd8b977",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43531736354/job/132250858781",
+          "completed_at": "2026-11-14T00:20:13Z",
+          "id": 132250858781
+        },
+        {
+          "name": "Supabase und Profil-Zugriffsschutz",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "8a4edd3d95b65f7f842641a83ab318a58cd8b977",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43531736354/job/132250858731",
+          "completed_at": "2026-11-14T00:09:00Z",
+          "id": 132250858731
+        },
+        {
+          "name": "Deno-Kompatibilität",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "8a4edd3d95b65f7f842641a83ab318a58cd8b977",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43531736354/job/132250858691",
+          "completed_at": "2026-11-14T00:05:59Z",
+          "id": 132250858691
+        },
+        {
+          "name": "Lint, Typen, Tests",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "8a4edd3d95b65f7f842641a83ab318a58cd8b977",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43531736354/job/132250858326",
+          "completed_at": "2026-11-14T00:27:12Z",
+          "id": 132250858326
+        }
+      ],
+      "reviews": [],
+      "reviewThreads": [],
+      "failingSteps": []
+    },
+    {
+      "number": 159,
+      "title": "P4.18: Zertifikatszahlungen nur ausdrücklich lokal simulieren",
+      "url": "https://github.com/PhiFa96/harmonia/pull/159",
+      "head": "codex/certificate-payment-boundary-draft",
+      "sha": "40e1a194f5167c2b7593987ea759f5e13db3119e",
+      "base": "ab157e81afd4ee158573d38302247b681029b24c",
+      "draft": true,
+      "state": "open",
+      "integration": true,
+      "checks": [
+        {
+          "name": "Web-Build der App",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "40e1a194f5167c2b7593987ea759f5e13db3119e",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43588535632/job/132428125827",
+          "completed_at": "2026-11-14T11:23:32Z",
+          "id": 132428125827
+        },
+        {
+          "name": "Tutor-Batchmechanik ohne Modellkosten",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "40e1a194f5167c2b7593987ea759f5e13db3119e",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43588535632/job/132428125806",
+          "completed_at": "2026-11-14T11:08:47Z",
+          "id": 132428125806
+        },
+        {
+          "name": "Lint, Typen, Tests",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "40e1a194f5167c2b7593987ea759f5e13db3119e",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43588535632/job/132428125805",
+          "completed_at": "2026-11-14T11:22:20Z",
+          "id": 132428125805
+        },
+        {
+          "name": "Supabase und Profil-Zugriffsschutz",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "40e1a194f5167c2b7593987ea759f5e13db3119e",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43588535632/job/132428125794",
+          "completed_at": "2026-11-14T11:12:08Z",
+          "id": 132428125794
+        },
+        {
+          "name": "Deno-Kompatibilität",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "40e1a194f5167c2b7593987ea759f5e13db3119e",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43588535632/job/132428125675",
+          "completed_at": "2026-11-14T11:09:00Z",
+          "id": 132428125675
+        }
+      ],
+      "reviews": [],
+      "reviewThreads": [],
+      "failingSteps": []
+    },
+    {
+      "number": 160,
+      "title": "P4.11: Chor-Aufnahmen bei abweichenden Uhren sicher zuordnen",
+      "url": "https://github.com/PhiFa96/harmonia/pull/160",
+      "head": "codex/choir-clock-drift-draft",
+      "sha": "b036cf8fa474f500dd9cf41420097c563c758643",
+      "base": "ab157e81afd4ee158573d38302247b681029b24c",
+      "draft": true,
+      "state": "open",
+      "integration": true,
+      "checks": [
+        {
+          "name": "Supabase und Profil-Zugriffsschutz",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "b036cf8fa474f500dd9cf41420097c563c758643",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43609318996/job/132490670824",
+          "completed_at": "2026-11-14T15:21:03Z",
+          "id": 132490670824
+        },
+        {
+          "name": "Deno-Kompatibilität",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "b036cf8fa474f500dd9cf41420097c563c758643",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43609318996/job/132490670742",
+          "completed_at": "2026-11-14T15:17:56Z",
+          "id": 132490670742
+        },
+        {
+          "name": "Web-Build der App",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "b036cf8fa474f500dd9cf41420097c563c758643",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43609318996/job/132490670739",
+          "completed_at": "2026-11-14T15:35:18Z",
+          "id": 132490670739
+        },
+        {
+          "name": "Tutor-Batchmechanik ohne Modellkosten",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "b036cf8fa474f500dd9cf41420097c563c758643",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43609318996/job/132490670725",
+          "completed_at": "2026-11-14T15:17:46Z",
+          "id": 132490670725
+        },
+        {
+          "name": "Lint, Typen, Tests",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "b036cf8fa474f500dd9cf41420097c563c758643",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43609318996/job/132490670499",
+          "completed_at": "2026-11-14T15:35:28Z",
+          "id": 132490670499
+        }
+      ],
+      "reviews": [],
+      "reviewThreads": [],
+      "failingSteps": []
+    },
+    {
+      "number": 161,
+      "title": "P4.19: Cantus-Schlussvarianten aus den notierten Stimmen erklären",
+      "url": "https://github.com/PhiFa96/harmonia/pull/161",
+      "head": "codex/counterpoint-cadence-context-draft",
+      "sha": "c3c4f59ce11a4df90976a5bca611de5608c192c9",
+      "base": "ab157e81afd4ee158573d38302247b681029b24c",
+      "draft": true,
+      "state": "open",
+      "integration": true,
+      "checks": [
+        {
+          "name": "Web-Build der App",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "c3c4f59ce11a4df90976a5bca611de5608c192c9",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43623692005/job/132534747802",
+          "completed_at": "2026-11-14T18:12:58Z",
+          "id": 132534747802
+        },
+        {
+          "name": "Supabase und Profil-Zugriffsschutz",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "c3c4f59ce11a4df90976a5bca611de5608c192c9",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43623692005/job/132534747799",
+          "completed_at": "2026-11-14T17:59:03Z",
+          "id": 132534747799
+        },
+        {
+          "name": "Lint, Typen, Tests",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "c3c4f59ce11a4df90976a5bca611de5608c192c9",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43623692005/job/132534747793",
+          "completed_at": "2026-11-14T18:18:01Z",
+          "id": 132534747793
+        },
+        {
+          "name": "Deno-Kompatibilität",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "c3c4f59ce11a4df90976a5bca611de5608c192c9",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43623692005/job/132534747755",
+          "completed_at": "2026-11-14T17:56:18Z",
+          "id": 132534747755
+        },
+        {
+          "name": "Tutor-Batchmechanik ohne Modellkosten",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "c3c4f59ce11a4df90976a5bca611de5608c192c9",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43623692005/job/132534747599",
+          "completed_at": "2026-11-14T17:56:07Z",
+          "id": 132534747599
+        }
+      ],
+      "reviews": [],
+      "reviewThreads": [],
+      "failingSteps": []
+    },
+    {
+      "number": 162,
+      "title": "P4.12: Hinweise und ausdrücklich angeforderte Auflösung trennen",
+      "url": "https://github.com/PhiFa96/harmonia/pull/162",
+      "head": "codex/history-hints-solution-draft",
+      "sha": "13f9961c3a55d67f623c6e897c368440ec28f794",
+      "base": "ab157e81afd4ee158573d38302247b681029b24c",
+      "draft": true,
+      "state": "open",
+      "integration": true,
+      "checks": [
+        {
+          "name": "Supabase und Profil-Zugriffsschutz",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "13f9961c3a55d67f623c6e897c368440ec28f794",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43646510546/job/132605422393",
+          "completed_at": "2026-11-14T22:13:20Z",
+          "id": 132605422393
+        },
+        {
+          "name": "Lint, Typen, Tests",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "13f9961c3a55d67f623c6e897c368440ec28f794",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43646510546/job/132605422341",
+          "completed_at": "2026-11-14T22:32:55Z",
+          "id": 132605422341
+        },
+        {
+          "name": "Deno-Kompatibilität",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "13f9961c3a55d67f623c6e897c368440ec28f794",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43646510546/job/132605422242",
+          "completed_at": "2026-11-14T22:09:32Z",
+          "id": 132605422242
+        },
+        {
+          "name": "Tutor-Batchmechanik ohne Modellkosten",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "13f9961c3a55d67f623c6e897c368440ec28f794",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43646510546/job/132605422214",
+          "completed_at": "2026-11-14T22:09:42Z",
+          "id": 132605422214
+        },
+        {
+          "name": "Web-Build der App",
+          "status": "completed",
+          "conclusion": "success",
+          "sha": "13f9961c3a55d67f623c6e897c368440ec28f794",
+          "url": "https://github.com/PhiFa96/harmonia/actions/runs/43646510546/job/132605422055",
+          "completed_at": "2026-11-14T22:23:02Z",
+          "id": 132605422055
+        }
+      ],
+      "reviews": [],
+      "reviewThreads": [],
+      "failingSteps": []
+    }
+  ],
+  "localIntegration": {
+    "method": "cherry-pick on a normal work branch; no main merge or integration PR",
+    "commits": {
+      "151": "932855af9e99ac2f31fa6f135b675560f1a604b7",
+      "156": "c204051a5bd9adbc9c813103b58b188220a22a7b",
+      "157": "ffeeb5bcb9b293ea7ff82978e488fdc93b0c75a7",
+      "158": "b9d1040e6c708ec3b8338538983ef97f85a8eff5",
+      "159": "6c844f67dfde3140506b0bf95cf2eb0e9bac1359",
+      "160": "76dd29a4334dc77173d0a56832d6ef90e7e72ce6",
+      "161": "26df65c9cf179ea22c32e1f9a9d02aecc720719a",
+      "162": "e515199e5316c34095e8485570856417496d2bc0"
+    }
+  }
+}

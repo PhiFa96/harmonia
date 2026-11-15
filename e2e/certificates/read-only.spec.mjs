@@ -5,7 +5,7 @@ import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
-import { createCertificateServer } from '../../tools/certificates/server.mjs';
+import { createCertificateTestServer } from '../../tools/certificates/test-fixture.mjs';
 import { certificateTranslator } from '../../packages/i18n/src/certificate-draft.ts';
 
 function stored(database) {
@@ -27,7 +27,7 @@ for (const locale of ['de', 'en-US', 'en-GB'])
     const directory = mkdtempSync(join(tmpdir(), 'harmonia-cert-readonly-web-'));
     const database = join(directory, 'draft.sqlite');
     let instant = Date.UTC(2026, 10, 14, 12);
-    const app = await createCertificateServer({ database, now: () => instant });
+    const app = await createCertificateTestServer({ database, now: () => instant });
     const t = certificateTranslator(locale),
       errors = [];
     page.on('pageerror', (error) => errors.push(error.message));

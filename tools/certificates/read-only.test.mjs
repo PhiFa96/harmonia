@@ -5,16 +5,21 @@ import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
-import { createCertificateService, RETENTION_MS } from './service.mjs';
-import { startFixture, fixtureAnswers } from './test-fixture.mjs';
-import { createCertificateServer, CERTIFICATE_MAINTENANCE_MS } from './server.mjs';
+import { RETENTION_MS } from './service.mjs';
+import {
+  startFixture,
+  fixtureAnswers,
+  createCertificateTestService,
+  createCertificateTestServer,
+} from './test-fixture.mjs';
+import { CERTIFICATE_MAINTENANCE_MS } from './server.mjs';
 
 const hash = (bytes) => createHash('sha256').update(bytes).digest('hex');
 function fixture(t) {
   const directory = mkdtempSync(join(tmpdir(), 'harmonia-certificate-reads-'));
   const database = join(directory, 'draft.sqlite');
   let instant = Date.UTC(2026, 10, 14, 12);
-  const service = createCertificateService(database, { now: () => instant });
+  const service = createCertificateTestService(database, { now: () => instant });
   t.after(() => {
     service.close();
     rmSync(directory, { recursive: true, force: true });
@@ -230,7 +235,7 @@ test('a snapshot uses one server instant even when the clock crosses the deadlin
   const directory = mkdtempSync(join(tmpdir(), 'harmonia-cert-read-clock-'));
   const database = join(directory, 'draft.sqlite');
   let instant = Date.UTC(2026, 10, 14, 12);
-  const service = createCertificateService(database, { now: () => instant++ });
+  const service = createCertificateTestService(database, { now: () => instant++ });
   t.after(() => {
     service.close();
     rmSync(directory, { recursive: true, force: true });
@@ -262,7 +267,7 @@ async function httpFixture(t) {
   const database = join(directory, 'draft.sqlite');
   let instant = Date.UTC(2026, 10, 14, 12),
     closed = false;
-  const app = await createCertificateServer({ database, now: () => instant });
+  const app = await createCertificateTestServer({ database, now: () => instant });
   t.after(async () => {
     if (!closed) await app.close();
     rmSync(directory, { recursive: true, force: true });
@@ -282,7 +287,10 @@ async function httpFixture(t) {
     );
     assert.equal(response.status, 200);
     const order = await response.json();
-    assert.equal((await post('settle', { id: order.id, outcome: 'paid' }, session)).status, 200);
+    assert.equal(
+      (await post('simulation/settle', { id: order.id, outcome: 'paid' }, session)).status,
+      200,
+    );
     const launched = await post(
       'start',
       { profile: order.profile, purchase: order.id, locale: 'de' },

@@ -96,7 +96,7 @@
     "ai:review": "node tools/ai-act/check.mjs --report",
     "certificates:preview": "node tools/certificates/server.mjs",
     "certificates:preview:simulation": "node tools/certificates/server.mjs --simulate-payments",
-    "certificates:test": "node --test tools/certificates/certificates.test.mjs tools/certificates/review.test.mjs tools/certificates/complete.test.mjs tools/certificates/payment-boundary.test.mjs",
+    "certificates:test": "node --test tools/certificates/certificates.test.mjs tools/certificates/review.test.mjs tools/certificates/complete.test.mjs tools/certificates/read-only.test.mjs tools/certificates/payment-boundary.test.mjs",
     "certificates:test:web": "playwright test --config tools/certificates/playwright.config.mjs",
     "check:certificates": "node tools/certificates/check.mjs",
     "check:certificates:release": "node tools/certificates/check.mjs --release",

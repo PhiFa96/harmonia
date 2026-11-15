@@ -7,8 +7,11 @@ import { fileURLToPath } from 'node:url';
 import { readInventory, runtimeDigests, snapshotHash } from './ai-act/model.mjs';
 import { assessmentTemplate, inspectAssessment } from './ai-act/handoff.mjs';
 import { certificateDigests, certificateSourceHash } from './certificates/binding.mjs';
-import { createCertificateService } from './certificates/service.mjs';
-import { startFixture, fixtureAnswers } from './certificates/test-fixture.mjs';
+import {
+  startFixture,
+  fixtureAnswers,
+  createCertificateTestService,
+} from './certificates/test-fixture.mjs';
 
 const repository = fileURLToPath(new URL('..', import.meta.url));
 const inventory = readInventory();
@@ -47,6 +50,13 @@ for (const path of [
   'apps/mobile/src/state/settings.ts',
   'packages/ui/src/native/button.tsx',
   'tools/beta/study.mjs',
+  // The combined candidate must invalidate reviews for the newly integrated paths too.
+  'tools/school/identity.mjs',
+  'supabase/functions/_shared/tutor-attempt-service.ts',
+  'tools/certificates/payment-simulation.mjs',
+  'apps/mobile/src/choir/clock.ts',
+  'packages/exercises/src/advanced-context.ts',
+  'packages/content/src/history-journey.ts',
 ])
   test(`AI review becomes outdated after a transitive source edit: ${path}`, (t) => {
     const root = fixture(t);
@@ -63,7 +73,7 @@ test('an actual AI model edit invalidates a saved certificate after restart', (t
   const database = join(root, 'test.sqlite');
   const now = () => Date.UTC(2026, 10, 13, 12);
   const before = certificateSourceHash(certificateDigests({ root }));
-  let service = createCertificateService(database, { now, sourceHash: before });
+  let service = createCertificateTestService(database, { now, sourceHash: before });
   t.after(() => service.close());
   let run = startFixture(service, 'owner', { profile: 'certificate-draft-1', locale: 'de' });
   for (const [index, answer] of fixtureAnswers(database, run.id).entries())
@@ -75,7 +85,7 @@ test('an actual AI model edit invalidates a saved certificate after restart', (t
     '\n// Synthetic isolated legal-logic change.\n',
   );
   const after = certificateSourceHash(certificateDigests({ root }));
-  service = createCertificateService(database, { now, sourceHash: after });
+  service = createCertificateTestService(database, { now, sourceHash: after });
   assert.throws(() => service.receipt('owner', run.id), /outdated/);
   assert.equal(service.verify({ code: receipt.code }).status, 'outdatedCode');
   service.erase('owner');

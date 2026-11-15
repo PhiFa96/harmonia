@@ -8,6 +8,9 @@ Dieser Plan beschreibt, wie wir Harmonia Schritt für Schritt bauen: vom leeren 
 
 | Dokument | Inhalt |
 |---|---|
+| [Plan bis zur Fertigstellung](fertigstellung.md) | Ziele A–C, Meilensteine M1–M12 und unmittelbar beauftragte Integration |
+| [M1 – gemeinsamer Integrationskandidat](integration-m1.md) | Acht technische Entwürfe, Konfliktauflösung, Abhängigkeitsentscheidungen, Prüfungen und offene Gesamt-CI/Reviews |
+| [Gemeinsames Befundregister M2](befundregister.md) | Aktuelle technische Triage und noch zu prüfende Altbefunde aus Stufen 1–2, Phase 3 und Phase 4 |
 | [Architektur](architektur.md) | Systemaufbau, Monorepo, Pakete, Umgebungen, Sicherheit |
 | [Duelle P3.06](duelle.md) | Live-Matchmaking, Ghosts, Einladungen, Rating und offene Abnahme |
 | [Tägliches Rätsel P3.07](taegliches-raetsel.md) | 42-Tage-Vorrat, Tageswechsel, Einmalantwort und eigene Serie |
