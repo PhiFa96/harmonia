@@ -990,15 +990,25 @@ try {
       }),
     ),
   );
+  // Diagnose only: names unexpected status codes/errors without relaxing the expectations.
+  const waveStatuses = JSON.stringify(
+    Object.entries(
+      wave.reduce((counts, r) => {
+        const key = `${r.status}:${r.data?.error ?? r.data?.code ?? ''}`;
+        counts[key] = (counts[key] ?? 0) + 1;
+        return counts;
+      }, {}),
+    ).sort(),
+  );
   expect(
     wave.filter((r) => r.status === 200).length,
     30,
-    'Parallele Nachweisausgabe gewährt genau 30 Prüfungen',
+    `Parallele Nachweisausgabe gewährt genau 30 Prüfungen ${waveStatuses}`,
   );
   expect(
     wave.filter((r) => r.status === 429).length,
     30,
-    'Weitere parallele Prüfungen werden gedrosselt',
+    `Weitere parallele Prüfungen werden gedrosselt ${waveStatuses}`,
   );
   for (const denied of wave.filter((r) => r.status === 429)) {
     expect(denied.data.error, 'rate', 'Eindeutiger Ratenfehler');
