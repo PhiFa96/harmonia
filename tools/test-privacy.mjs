@@ -311,6 +311,9 @@ try {
   sql(
     `insert into privacy_consents(user_id,client_id,purpose,granted,version,locale) select ${lit(a.id)},gen_random_uuid(),'push',false,'privacy-v1','de' from generate_series(1,101);`,
   );
+  sql(
+    `select public.consume_tutor_attempt(${lit(a.id)}); select public.consume_tutor_attempt(${lit(b.id)});`,
+  );
   const exported = {};
   for (const section of PRIVACY_EXPORT_SECTIONS) {
     exported[section] = [];
@@ -326,6 +329,9 @@ try {
     } while (after !== null);
   }
   check(exported.consents.length, 103, 'Paginated export includes all consent receipts');
+  check(exported.tutorAttemptLimits.length, 1, 'Own grading counter is exported');
+  check(exported.tutorAttemptLimits[0].user_id, a.id, 'Grading counter belongs to this account');
+  check(exported.tutorAttemptLimits[0].requests, 1, 'Export contains the bounded grading count');
   check(JSON.stringify(exported).includes(b.id), false, 'No other account ID in export');
   check(
     JSON.stringify(exported).includes(b.email),
@@ -372,6 +378,7 @@ try {
     'access_grants',
     'privacy_consents',
     'reminder_devices',
+    'tutor_attempt_limits',
   ])
     check(
       sql(
@@ -482,12 +489,20 @@ try {
   sql(
     `update privacy_erasure_receipts set deleted_at=now()-interval '31 days' where id=${lit(delId)};`,
   );
+  sql(
+    `update tutor_attempt_limits set window_started_at=now()-interval '2 days' where user_id=${lit(b.id)};`,
+  );
   check(
     (await call('/functions/v1/privacy-retention', { method: 'POST', admin: true })).status,
     200,
     'Expired completed receipt cleanup',
   );
   check((await privacy(null, 'receipt&id=' + delId)).status, 404, 'Completed receipt expires');
+  check(
+    sql(`select count(*) from tutor_attempt_limits where user_id=${lit(b.id)};`),
+    '0',
+    'Retention endpoint removes expired grading metadata',
+  );
   console.log('Privacy API: ' + checks + ' real local checks passed; no outside provider actions.');
 } finally {
   for (const id of users)

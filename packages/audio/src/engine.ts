@@ -159,6 +159,22 @@ export function createAudioEngine(ctx: AudioContextLike, options: AudioEngineOpt
 
   function stopVoices(voices: Iterable<Voice>): void {
     const now = ctx.currentTime;
+    if (!Number.isFinite(now) || now < 0) {
+      // A lost/invalid clock cannot schedule a fade. Disconnect immediately, even if the
+      // device already refused stop(), so shutdown can still release the microphone.
+      for (const voice of voices) {
+        if (!active.has(voice)) continue;
+        try {
+          voice.source.stop();
+        } catch {
+          // Disconnecting the route below silences even an already closed source.
+        }
+        voice.source.disconnect();
+        voice.envelope.disconnect();
+        active.delete(voice);
+      }
+      return;
+    }
     for (const voice of voices) {
       if (!active.has(voice)) continue;
       if (voice.end <= now) {

@@ -7,11 +7,19 @@ for (const algorithm of ['ES256', 'RS256'])
   test(`${algorithm}: checks signatures, issuer, audience, subject and exact expiry`, () => {
     const fixture = keys(algorithm),
       verify = createIdentityVerifier({ issuer, jwks: { keys: [fixture.jwk] }, now: () => epoch });
-    assert.deepEqual(verify(fixture.token()), { subject, expiresAt: epoch + 60000 });
+    assert.deepEqual(verify(fixture.token()), {
+      subject,
+      sessionId: subject,
+      expiresAt: epoch + 60000,
+    });
     for (const claims of [
       { iss: 'https://other.invalid' },
       { aud: 'other' },
       { sub: 'not-a-user' },
+      { session_id: undefined },
+      { session_id: 'not-a-session' },
+      { role: 'service_role' },
+      { role: 'harmonia_school_grader' },
       { exp: epoch / 1000 },
       { exp: '9999999999' },
       { nbf: epoch / 1000 + 1 },

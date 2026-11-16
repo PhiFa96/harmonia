@@ -1,6 +1,18 @@
 # P4.12 – Zeitreise durch die Musikgeschichte (interner Entwurf)
 
-## Aktueller Gesamtstand vom 02.11.2026
+## Weiterbau: Hinweise und ausdrückliche Auflösung vom 14.11.2026
+
+`codex/history-hints-solution-draft` bearbeitet die didaktische Nacharbeit aus der integrierten Fachprüfung v3 eigenständig auf `main@ab157e81`, ohne die übrigen offenen Entwurfs-PRs zu übernehmen. Dies ist ausdrücklich **technische P4-Vorarbeit vor der formalen Phase-4-Freigabe**. Keine Veröffentlichung oder Main-Integration; P4.01 bleibt bis F14 und Klärung der rechtlichen Voraussetzungen zurückgestellt. [ADR 0083](../decisions/0083-zeitreise-aufloesung-getrennt-von-hinweisen.md).
+
+Alle acht zweiten Hinweise sind als eigene DE/EN-Prüfaufträge neu formuliert. Die passende Antwort und vollständige Erklärung erscheinen nach Hinweis 2 nur auf gesonderte Anforderung „Auflösung ansehen“. Der Zustand „Auflösung angesehen“ wird von einer richtig geprüften Antwort unterschieden. Die bisherige Auswahl bleibt sichtbar und gesperrt; das Ansehen zählt nicht als Versuch. Ein eigener Weiter-Knopf führt zur nächsten Frage. Hinweis 2 ist weiterhin unmittelbar nach dem ersten Fehler anforderbar, wie in ADR 0071 bewusst vorgesehen.
+
+Hörfragen verlangen auch vor der Auflösung einen erfolgreichen Wiedergabestart. Ohne ihn bleiben Prüfen und Auflösen gesperrt; ausdrücklich überspringen ist weiterhin möglich. Weiter, Zurück und Stationswechsel setzen den flüchtigen Fragezustand zurück. Keine Speicherung, XP oder Kompetenznachweise. Quellenartikel, Fingerabdruck, Modelle, Fragen und Lösungen bleiben erhalten. Aktueller integrierter Katalog/Fähigkeitsplan **31**, verlinkter Artikel **30**, öffentlich null freigegebene Lektionen; keine Datenmigration.
+
+Portable Tests, alle vier Stationen mit beiden Fragearten in DE/en-US/en-GB im App-Test, tatsächliche Vorschau-Browserproben und Deno prüfen diese Unterscheidung. Production und EAS-Beta behalten leere Stationen und Texte; der Bundleguard erfasst auch die neuen Hinweise. Konkrete Nachweise und alle fünf erforderlichen CI-Jobs stehen am finalen Commit im Entwurfs-PR.
+
+Alle Inhalte bleiben `entwurf`. Die neuen Hinweise und die Hilfestufung brauchen unabhängige didaktische/Fach-/Sprachprüfung. Frühere Prüfungen sind keine Freigabe dieser Änderungen; Primärliteratur-, reale Hör-, Screenreader- und Geräteabnahmen bleiben offen. Die folgenden datierten Abschnitte dokumentieren den vorherigen Stand.
+
+## Gesamtstand vom 02.11.2026 vor dieser Nacharbeit
 
 `codex/history-journey-complete-draft` vervollständigt P4.12 technisch als eigenen Entwurf auf `main` bei `f7bc15d`. Der offene Chor-Gesamtentwurf #143 und Tutor-PR #136 sind eigenständig. Auf ausdrücklichen Nutzerauftrag findet **technische P4-Vorarbeit vor der formalen Phase-4-Freigabe** statt. Alles bleibt `entwurf` bis zur unabhängigen Fach-/Quellen-/Sprachprüfung; keine Veröffentlichung oder Bereitstellung. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt. [ADR 0071](../decisions/0071-zeitreise-gesamtentwurf-mit-gestuften-hinweisen.md).
 

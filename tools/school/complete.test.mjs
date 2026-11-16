@@ -295,8 +295,7 @@ test('D-F1/D-F11: signed identity sessions cannot switch fixture accounts or out
   assert.equal((await fetch(app.origin)).status, 401);
   const landing = await fetch(app.origin, {
     headers: {
-      authorization:
-        'Bearer ' + signing.token({ user_metadata: { operator: true }, role: 'service_role' }),
+      authorization: 'Bearer ' + signing.token({ user_metadata: { operator: true } }),
     },
   });
   assert.equal(landing.status, 200);

@@ -1,9 +1,10 @@
-import { readFileSync, readdirSync, realpathSync } from 'node:fs';
-import { resolve, relative } from 'node:path';
+import { readFileSync, readdirSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import { z } from 'zod';
 import { reviewDocuments } from './evidence.mjs';
+import { sourceDigests } from '../source-binding.mjs';
 export const ROOT = fileURLToPath(new URL('../..', import.meta.url));
 export const SCOPES = ['general', 'school', 'certificates'];
 const requiredIds = [
@@ -239,15 +240,10 @@ const roots = [
   'tools/ai-act',
   'tools/voice-leading',
 ];
-function safeFile(path) {
-  const absolute = realpathSync(resolve(ROOT, path));
-  if (relative(ROOT, absolute).startsWith('..')) throw Error('AI evidence outside repository');
-  return absolute;
-}
-export function runtimeDigests(data) {
+export function runtimeDigests(data, { root = ROOT } = {}) {
   const paths = new Set(data.components.flatMap((c) => c.files));
   function walk(dir) {
-    for (const d of readdirSync(resolve(ROOT, dir), { withFileTypes: true })) {
+    for (const d of readdirSync(resolve(root, dir), { withFileTypes: true })) {
       const p = dir + '/' + d.name;
       if (d.isSymbolicLink()) throw Error('AI runtime symlink requires review');
       if (d.isDirectory()) walk(p);
@@ -263,6 +259,11 @@ export function runtimeDigests(data) {
     'pnpm-lock.yaml',
     'pnpm-workspace.yaml',
     'package.json',
+    '.nvmrc',
+    'apps/mobile/app.config.ts',
+    'apps/mobile/metro.config.js',
+    'tools/deno.json',
+    'supabase/functions/deno.json',
     // Produktiv von tutor/index.ts importiert (hinter lokalem Testflag), trotz Fixture-Namen binden.
     'supabase/functions/_shared/tutor-local-fixture.ts',
     'apps/mobile/src/components/tutor-screen.tsx',
@@ -273,7 +274,7 @@ export function runtimeDigests(data) {
     'tools/release/check.mjs',
   ])
     paths.add(p);
-  return Object.fromEntries([...paths].sort().map((p) => [p, sha(readFileSync(safeFile(p)))]));
+  return sourceDigests(paths, { root });
 }
 export function snapshotHash(input, digests = runtimeDigests(input)) {
   const bound = Object.fromEntries(

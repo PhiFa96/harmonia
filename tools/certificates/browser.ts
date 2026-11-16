@@ -198,37 +198,47 @@ function overview() {
     element('p', t('policy')),
     element('p', t('privacy')),
   );
+  content.append(
+    element(
+      'p',
+      t(state.paymentMode === 'local-simulation' ? 'paymentSimulationMode' : 'paymentsUnavailable'),
+    ),
+  );
   for (const profile of state.profiles) {
     const section = element('section');
-    section.append(
-      element('h3', t('profile', profile)),
-      button(
-        'start',
-        async () => {
-          const active = state?.attempts.find((a) => a.phase === 'active');
-          if (active) {
-            choose(active.id);
-            renderAttempt(active);
+    section.append(element('h3', t('profile', profile)));
+    if (state.paymentMode === 'local-simulation')
+      section.append(
+        button(
+          'start',
+          async () => {
+            const active = state?.attempts.find((a) => a.phase === 'active');
+            if (active) {
+              choose(active.id);
+              renderAttempt(active);
+              focusHeading();
+              return;
+            }
+            const existing = state?.purchases.find(
+              (p) =>
+                p.profile === profile.id &&
+                p.policy === state?.paymentPolicy &&
+                !p.attemptId &&
+                ['pending', 'paid'].includes(p.status),
+            );
+            const order =
+              existing ??
+              (await api<DraftPurchase>('/api/order', {
+                profile: profile.id,
+                requestId: crypto.randomUUID(),
+              }));
+            choose('order:' + order.id);
+            renderCheckout(order);
             focusHeading();
-            return;
-          }
-          const existing = state?.purchases.find(
-            (p) =>
-              p.profile === profile.id && !p.attemptId && ['pending', 'paid'].includes(p.status),
-          );
-          const order =
-            existing ??
-            (await api<DraftPurchase>('/api/order', {
-              profile: profile.id,
-              requestId: crypto.randomUUID(),
-            }));
-          choose('order:' + order.id);
-          renderCheckout(order);
-          focusHeading();
-        },
-        true,
-      ),
-    );
+          },
+          true,
+        ),
+      );
     content.append(section);
   }
   for (const attempt of state.attempts) {
@@ -297,7 +307,7 @@ function paymentStatus(order: DraftPurchase): CertificateTextKey {
 function refundButton(order: DraftPurchase) {
   return button('refund', async () => {
     if (!window.confirm(t('refundConfirm'))) return;
-    await api('/api/refund', { id: order.id });
+    await api('/api/simulation/refund', { id: order.id });
     await refresh();
     focusHeading();
   });
@@ -312,13 +322,31 @@ function renderCheckout(order: DraftPurchase) {
     element('p', t('purchaseNotice')),
     element('p', t(paymentStatus(order))),
   );
+  if (state?.paymentMode !== 'local-simulation' || order.policy !== state.paymentPolicy) {
+    content.append(
+      element(
+        'p',
+        t(
+          state?.paymentMode === 'local-simulation'
+            ? 'paymentOrderOutdated'
+            : 'paymentsUnavailable',
+        ),
+      ),
+      button('home', async () => {
+        choose('');
+        await refresh();
+        focusHeading();
+      }),
+    );
+    return;
+  }
   if (['pending', 'paid'].includes(order.status) && !order.attemptId) {
     content.append(
       button(
         order.status === 'pending' ? 'payAndStart' : 'startPaid',
         async () => {
           if (order.status === 'pending')
-            await api('/api/settle', { id: order.id, outcome: 'paid' });
+            await api('/api/simulation/settle', { id: order.id, outcome: 'paid' });
           const attempt = await api<DraftAttempt>('/api/start', {
             profile: order.profile,
             purchase: order.id,
@@ -334,7 +362,7 @@ function renderCheckout(order: DraftPurchase) {
     if (order.status === 'pending')
       content.append(
         button('cancelPurchase', async () => {
-          await api('/api/settle', { id: order.id, outcome: 'cancelled' });
+          await api('/api/simulation/settle', { id: order.id, outcome: 'cancelled' });
           await refresh();
         }),
       );
@@ -352,7 +380,12 @@ function renderAttempt(attempt: DraftAttempt) {
   player.stop();
   if (timer) clearInterval(timer);
   content.replaceChildren();
-  if (attempt.phase === 'cancelled') {
+  if (attempt.phase === 'unavailable') {
+    content.append(
+      element('h2', t('paymentsUnavailableTitle')),
+      element('p', t('paymentsUnavailable')),
+    );
+  } else if (attempt.phase === 'cancelled') {
     content.append(element('h2', t('paymentRefunded')), element('p', t('purchaseRefunded')));
   } else if (attempt.phase === 'outdated') {
     content.append(element('h2', t('outdatedTitle')), element('p', t('outdated')));
@@ -486,7 +519,12 @@ function renderAttempt(attempt: DraftAttempt) {
     );
   }
   const order = state?.purchases.find((p) => p.id === attempt.purchaseId);
-  if (order?.status === 'paid') content.append(refundButton(order));
+  if (
+    order?.status === 'paid' &&
+    state?.paymentMode === 'local-simulation' &&
+    order.policy === state.paymentPolicy
+  )
+    content.append(refundButton(order));
   content.append(
     button('remove', async () => {
       if (!window.confirm(t('removeConfirm'))) return;

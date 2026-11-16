@@ -1,6 +1,20 @@
 # Fachprüfung und Integration Phase 4 v3 (05.11.2026)
 
+**Gemeinsamer Arbeitsstand M1:** #151 und #156–#162 sind auf einem eigenen [Integrationsbranch](integration-m1.md) zusammengeführt. Nachstehende Einzelbranch-Nachträge beschreiben ihren jeweiligen damaligen Stand. Die [aktuelle Triage](befundregister.md) trennt enthaltene technische Nacharbeit von weiterhin offenen Fach-/Produktabnahmen; Gesamt-CI und Reviews dieses Kandidaten stehen noch aus.
+
+**Technischer Nachtrag N5 (14.11.2026, noch nicht integriert):** [Zahlungsgrenze](zertifikate-zahlungsgrenze.md), ADR 0080: Standarddienst ohne Zahlungsfreigabe, lokale Simulation nur mit ausdrücklicher Prozessfähigkeit, allgemeine Client-Zahlungsendpunkte entfernt, alte v1-Zahlungen gesperrt. Eigener Entwurfsbranch auf `main@ab157e8`; #151/#156/#157/#158 nicht enthalten. N4 bleibt separat, N3 weiterhin eine dokumentierte Echtheitsgrenze. Rohbefunde und bisherige Fachprüfung unverändert. Technische P4-Vorarbeit vor formaler Phase-4-Freigabe, keine neue Fach-/Rechtsfreigabe oder Veröffentlichung; P4.01 bis F14/Recht zurückgestellt.
+
+**Technischer Nachtrag Chor/C13 (14.11.2026, noch nicht integriert):** [Zeitzuordnung und Abbruch](chor-zeitzuordnung.md), ADR 0081, bearbeitet Chor-Hinweis 4: laufende Paarung frischer Browserfenster, korrekte native Fenster-Endzeiten, Erhalt verspäteter Pakete und sichere Ressourcenfreigabe bei Uhrenfehlern. Die reale Zeit-/Latenzabnahme bleibt offen; keine pauschale native Driftkorrektur aus Callback-Ankunft behauptet. Rohbericht und bisherige Fachprüfung unverändert. Technische P4-Vorarbeit vor formaler Phase-4-Freigabe, keine Veröffentlichung/Main-Integration; P4.01 bis F14/Recht zurückgestellt.
+
+**Technischer Nachtrag Stufe 5 (14.11.2026, noch nicht integriert):** [Cantus-Schlussvarianten](kontrapunkt-schlussvarianten.md), ADR 0082: gleicher Konventionshinweis vor der Antwort, konkrete Schlussbewegung aus den notierten Cantus-Tönen nach Wertung/Lösung. Erneute Zählung des integrierten Korpus: 11 Halbtonschlüsse aufwärts und 13 Ganztonschlüsse abwärts; die Zwölf-Angabe im Rohbericht bleibt als historischer Befund erhalten. Generator und neun Regeln unverändert; keine neue Primärlektüre oder unabhängige Fachfreigabe behauptet. Technische P4-Vorarbeit vor formaler Phase-4-Freigabe, keine Veröffentlichung/Main-Integration; P4.01 bis F14/Recht zurückgestellt.
+
 Integriert über den Branch `claude/stoic-pascal-eaoojx` per Sammel-PR nach `main`. Rohberichte: `docs/quality/fachpruefung-phase-4-v3/`.
+
+**Technischer Nachtrag 13.11.2026:** Die [Tutor-Sicherheitsnacharbeit N1–N4/H3](tutor-sicherheitsnacharbeit.md) bearbeitet auf eigenem Arbeitsbranch die nachstehend dokumentierten Probleme mit Signaturschlüssel, Fehlercodes, Idempotenzreihenfolge, Prüfbudget und Uhrentoleranz. Der Nachweis bestätigt weiterhin keine menschliche Bearbeitung. Prüfungen und Entwurfs-PR sind in der Übergabe verzeichnet; dieser Nachtrag ist keine erneute unabhängige Fach- oder Produktabnahme. Die ursprünglichen Befunde und Rohberichte bleiben als Prüfstand vom 05.11. erhalten.
+
+**Technischer Nachtrag 13.11.2026, KI/Zertifikate:** Die [Importbindung N1/N2](ki-zertifikate-importbindung.md) bearbeitet auf einem eigenen Arbeitsbranch die unvollständigen lokalen Importketten und die fehlende KI-Prüflogik im Zertifikatsprüfwert. Reale Dateiänderungen entwerten alte Arbeitsblätter und nach Neustart gespeicherte Zertifikatsmuster. Keine erneute unabhängige Fach-/Rechts- oder Produktabnahme; ursprüngliche Befunde und Rohberichte bleiben als historischer Prüfstand erhalten. N3–N5 sind getrennte offene Punkte. Die separaten Schul-/Tutor-PRs #151/#156 sind nicht enthalten.
+
+**Technischer Nachtrag 14.11.2026, Zertifikate N4:** Die [Leseansichten-Nacharbeit](zertifikate-leseansichten.md) entfernt Abschluss-, Invalidierungs- und Bereinigungsschreibzugriffe aus Status, Export, Codeprüfung und Belegabruf. Eigene Schreibtransaktionen und getrennte lokale Wartung erhalten den Lebenszyklus und die Aufbewahrung. Keine neue unabhängige Fach-/Rechts- oder Produktabnahme; ursprüngliche Befunde und Rohberichte bleiben historischer Prüfstand. N3/N5 bleiben offen, die getrennten PRs #151/#156/#157 sind nicht enthalten.
 
 ## Integrierte PRs
 
@@ -31,6 +45,8 @@ Nicht übernommen:
 
 ## Nacharbeit (nicht blockierend)
 
+**Technischer Nachtrag 06.11.2026:** Die Schulbefunde zu Auth-Fremdschlüssel, verzögertem Token-Widerruf und Supabase-Grader-Rolle werden auf Nutzerauftrag im eigenen [Authentifizierungspaket](schule-authentifizierung.md) umgesetzt und mit PostgreSQL-, HTTP-, pgTAP- und DE/EN-Browserprüfungen belegt (ADR 0076). Die folgende Liste beschreibt den historischen Prüfstand vom 05.11.; dies ist keine neue unabhängige Produkt-/Rechtsabnahme. Rechnungsaufbewahrung, weitere v3-Befunde und reale Nutzungsvoraussetzungen bleiben offen.
+
 - **Stufe 5:** In 12 von 24 Modellen schließt der Cantus 7→1 statt nach Fux 2→1. Das ist zulässig; der Erklärtext sollte es als Variante kennzeichnen.
 - **Chor:** Die Folge V→iii in „Heimweg“ ist ungewöhnlich. Die Uhrendrift während eines Takes wird nicht korrigiert, auf Geräten nicht belegt.
 - **Zeitreise:** Hinweis 2 verrät die Lösung fast (wie in ADR 0071 vorgesehen); eine didaktische Prüfung steht aus.
@@ -46,3 +62,9 @@ Nicht übernommen:
 ## Grenzen
 
 Keine Literatur-Volltext-, Geräte-, Stimmen-, Screenreader-, Live-Modell- oder Rechtsabnahme. Alle Inhalte bleiben `entwurf`, öffentlich null Lektionen. P4.01 bleibt wegen F14/Recht zurückgestellt.
+
+## Technische Zeitreise-Nacharbeit vom 14.11.2026
+
+Der eigenständige Entwurf `codex/history-hints-solution-draft` bearbeitet den Hinweisbefund: Acht zweite DE/EN-Hinweise fordern zum eigenen Prüfen auf; die vollständige Antwort/Erklärung wird nach Hinweis 2 getrennt angefordert. `revealed` kennzeichnet „Auflösung angesehen“ ausdrücklich getrennt von `correct`, erhält Auswahl und Versuche und erlaubt einen eigenen Weiter-Schritt. Die frühzeitige Anforderung von Hinweis 2 bleibt wie in ADR 0071 beabsichtigt verfügbar. [Stand, Nachweise und Grenzen](zeitreise-musikgeschichte.md), [ADR 0083](../decisions/0083-zeitreise-aufloesung-getrennt-von-hinweisen.md).
+
+Der Rohbericht bleibt unverändert. Dies ist technische P4-Vorarbeit vor der formalen Phase-4-Freigabe, keine unabhängige didaktische oder Fachabnahme. Neue Texte und Hilfestufung bleiben Entwurf; die im Bericht genannten Quellen-/Sprach-/Geräteabnahmen und P4.01 bis F14/Rechtsklärung bleiben offen. Keine Veröffentlichung oder Main-Integration.

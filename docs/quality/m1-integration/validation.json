@@ -1,0 +1,514 @@
+{
+  "version": 1,
+  "capturedAt": "2026-11-15T00:03:05.503074+00:00",
+  "base": "ab157e81afd4ee158573d38302247b681029b24c",
+  "branch": "codex/m1-integration-m2-register",
+  "node": "22.23.3",
+  "pnpm": "10.34.6",
+  "chromium": "/usr/bin/chromium",
+  "githubIntegrationCI": "pending; no integration PR created by Codex per AGENTS.md",
+  "independentReviews": "pending",
+  "sourceBindings": {
+    "aiSnapshotHash": "954db408f5c545052b4ee470bd01833de59d69b4a43ff3614bae46f242177095",
+    "aiBoundFiles": 459,
+    "certificateSourceHash": "882150528d32f3e6e7a7cb7d7f2081ee8a41897d664221c9e162c78d426cc074",
+    "certificateBoundFiles": 209,
+    "openAiEvidence": {
+      "general": 21,
+      "school": 22,
+      "certificates": 18
+    },
+    "privateArtifactsOnly": true,
+    "legalApprovalInferred": false
+  },
+  "gates": [
+    {
+      "id": "format",
+      "command": ["pnpm", "format:check"],
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "passed": true,
+      "seconds": 13.58,
+      "log": "/tmp/harmonia-gate-format-m1.log"
+    },
+    {
+      "id": "changed-lint",
+      "command": [
+        "pnpm",
+        "exec",
+        "eslint",
+        "tools/import-binding.test.mjs",
+        "tools/certificates/read-only.test.mjs",
+        "e2e/certificates/read-only.spec.mjs"
+      ],
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "passed": true,
+      "seconds": 0.92,
+      "log": "/tmp/harmonia-gate-changed-lint-m1.log"
+    },
+    {
+      "id": "translations",
+      "command": ["pnpm", "check:i18n"],
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "passed": true,
+      "seconds": 0.41,
+      "log": "/tmp/harmonia-gate-translations-m1.log"
+    },
+    {
+      "id": "content",
+      "command": ["pnpm", "check:content"],
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "passed": true,
+      "seconds": 1.11,
+      "log": "/tmp/harmonia-gate-content-m1.log"
+    },
+    {
+      "id": "curriculum",
+      "command": ["pnpm", "check:curriculum"],
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "passed": true,
+      "seconds": 0.7,
+      "log": "/tmp/harmonia-gate-curriculum-m1.log"
+    },
+    {
+      "id": "tutor-catalogue",
+      "command": ["pnpm", "check:tutor:catalogue"],
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "passed": true,
+      "seconds": 1.03,
+      "log": "/tmp/harmonia-gate-tutor-catalogue-m1.log"
+    },
+    {
+      "id": "tutor-catalogue-v2",
+      "command": ["pnpm", "check:tutor:catalogue-v2"],
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "passed": true,
+      "seconds": 1.09,
+      "log": "/tmp/harmonia-gate-tutor-catalogue-v2-m1.log"
+    },
+    {
+      "id": "legal",
+      "command": ["pnpm", "check:legal"],
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "passed": true,
+      "seconds": 1.66,
+      "log": "/tmp/harmonia-gate-legal-m1.log"
+    },
+    {
+      "id": "storefront",
+      "command": ["pnpm", "check:storefront"],
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "passed": true,
+      "seconds": 0.68,
+      "log": "/tmp/harmonia-gate-storefront-m1.log"
+    },
+    {
+      "id": "beta",
+      "command": ["pnpm", "check:beta"],
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "passed": true,
+      "seconds": 2.24,
+      "log": "/tmp/harmonia-gate-beta-m1.log"
+    },
+    {
+      "id": "p2",
+      "command": ["pnpm", "p2:status"],
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "passed": true,
+      "seconds": 1.92,
+      "log": "/tmp/harmonia-gate-p2-m1.log"
+    },
+    {
+      "id": "ai-general",
+      "command": ["pnpm", "check:ai", "--scope", "general"],
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "passed": true,
+      "seconds": 1.66,
+      "log": "/tmp/harmonia-gate-ai-general-m1.log"
+    },
+    {
+      "id": "ai-school",
+      "command": ["pnpm", "check:ai", "--scope", "school"],
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "passed": true,
+      "seconds": 1.73,
+      "log": "/tmp/harmonia-gate-ai-school-m1.log"
+    },
+    {
+      "id": "ai-certificates",
+      "command": ["pnpm", "check:ai", "--scope", "certificates"],
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "passed": true,
+      "seconds": 1.64,
+      "log": "/tmp/harmonia-gate-ai-certificates-m1.log"
+    },
+    {
+      "id": "certificates",
+      "command": ["pnpm", "check:certificates"],
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "passed": true,
+      "seconds": 2.07,
+      "log": "/tmp/harmonia-gate-certificates-m1.log"
+    },
+    {
+      "id": "ai-general-release",
+      "command": ["pnpm", "check:ai:release", "--scope", "general"],
+      "exitCode": 1,
+      "expectedExitCode": 1,
+      "passed": true,
+      "seconds": 1.77,
+      "log": "/tmp/harmonia-gate-ai-general-release-m1.log"
+    },
+    {
+      "id": "ai-school-release",
+      "command": ["pnpm", "check:ai:release", "--scope", "school"],
+      "exitCode": 1,
+      "expectedExitCode": 1,
+      "passed": true,
+      "seconds": 1.61,
+      "log": "/tmp/harmonia-gate-ai-school-release-m1.log"
+    },
+    {
+      "id": "ai-certificates-release",
+      "command": ["pnpm", "check:ai:release", "--scope", "certificates"],
+      "exitCode": 1,
+      "expectedExitCode": 1,
+      "passed": true,
+      "seconds": 1.65,
+      "log": "/tmp/harmonia-gate-ai-certificates-release-m1.log"
+    },
+    {
+      "id": "certificates-release",
+      "command": ["pnpm", "check:certificates:release"],
+      "exitCode": 1,
+      "expectedExitCode": 1,
+      "passed": true,
+      "seconds": 2.03,
+      "log": "/tmp/harmonia-gate-certificates-release-m1.log"
+    }
+  ],
+  "checks": {
+    "lint": {
+      "status": "passed",
+      "evidence": "Paket-Abhängigkeiten in Ordnung.",
+      "log": "/tmp/harmonia-lint-m1.log",
+      "logSha256": "6bd5c050e877c52fa5909612263b06c94ae52a084ae1fca9e2664105c7ddbe44"
+    },
+    "typecheck": {
+      "status": "passed",
+      "evidence": "apps/mobile typecheck: Done",
+      "log": "/tmp/harmonia-types-m1-final.log",
+      "logSha256": "ebcb919ac00c837f5cde518f7ba4ba1825073041ae8df83597b57eb088ce90f3"
+    },
+    "tools": {
+      "status": "passed",
+      "evidence": "# tests 38\n# suites 0\n# pass 38\n# fail 0",
+      "log": "/tmp/harmonia-tools-m1-final.log",
+      "logSha256": "bab96c160feb7900f2229bdefe6991ef6c55a793269683984e0074a5205bd117"
+    },
+    "importBinding": {
+      "status": "passed",
+      "evidence": "# tests 11\n# suites 0\n# pass 11\n# fail 0",
+      "log": "/tmp/harmonia-imports-m1-final.log",
+      "logSha256": "aa5f435281a6527bbd294cbf3038dd1d806fb1c3a6069cae903addf4b5bff593"
+    },
+    "exercises": {
+      "status": "passed",
+      "evidence": "Tests  670 passed (670)",
+      "log": "/tmp/harmonia-exercises-m1-serial.log",
+      "logSha256": "a6038fd3f7a02d5e224b523128691b8edea70b162eac9f4a472625c47e858e5e"
+    },
+    "content": {
+      "status": "passed",
+      "evidence": "Tests  1483 passed (1483)",
+      "log": "/tmp/harmonia-content-m1-serial.log",
+      "logSha256": "e1013f469e69834b5d4e9863011b52235b405546aaf0bf4ed6261f09877a3603"
+    },
+    "app": {
+      "status": "passed",
+      "evidence": "Tests:       809 passed, 809 total",
+      "log": "/tmp/harmonia-mobile-m1.log",
+      "logSha256": "44bb13619ba841d5876b169198554355c82ae01c4d6ae92185bc53fa8aad9ebc"
+    },
+    "deno": {
+      "status": "passed",
+      "evidence": "Apple grant ownership/revocation and anonymous operational recorder checks passed; HTTP mocks only, no provider calls.",
+      "log": "/tmp/harmonia-deno-m1.log",
+      "logSha256": "291442f1ed5e7ffdb0cdc38745a8cc7fb5df550e0333acdf57ddac895c376125"
+    },
+    "school": {
+      "status": "passed",
+      "evidence": "# tests 87\n# suites 0\n# pass 87\n# fail 0",
+      "log": "/tmp/harmonia-school-m1-serial.log",
+      "logSha256": "591e2f8e96e7ff6a534af74f5b5267fdf567a9cc524e2e7f88ac7bf98f4fff0d"
+    },
+    "school30Clients": {
+      "status": "passed",
+      "evidence": "Synthetic 30-client HTTP/SSE transition: 774 ms; 30 unique answers.",
+      "log": "/tmp/harmonia-school-streams-m1-retry.log",
+      "logSha256": "a4be6f5a10f89e77fe0c54c0a866892d189a5a9c8239392a6983c7df9625364b"
+    },
+    "supabasePgTap": {
+      "status": "passed",
+      "evidence": "Files=24, Tests=603,  5 wallclock secs ( 0.09 usr  0.04 sys +  0.18 cusr  0.07 csys =  0.38 CPU)",
+      "log": "/tmp/harmonia-db-tap-m1.log",
+      "logSha256": "6f5ba0070efcd88dd7ccdddf9e32f712b7def9d42f9b312fc4e417317a7f0173"
+    },
+    "schoolSupabasePgTap": {
+      "status": "passed",
+      "evidence": "1..150",
+      "log": "/tmp/harmonia-school-tap-m1.log",
+      "logSha256": "21e26d07c81383c475da890de23ba3685d233301e608cf17e9bff23075d66f73"
+    },
+    "certificatesWeb": {
+      "status": "passed",
+      "evidence": "25 passed (5.0m)",
+      "log": "/tmp/harmonia-certificates-web-m1-final.log",
+      "logSha256": "9ed6de2f6b9dd9ada9f98e2562cd49ba5d4272899b953ab2bad02382443253b0"
+    },
+    "tutorBatch": {
+      "status": "passed",
+      "command": "pnpm tutor:benchmark prepare --simulate (supplied sources); simulate; evaluate; node tools/assert-tutor-benchmark.mjs",
+      "total": 1470,
+      "completed": 1470,
+      "reviewed": 0,
+      "simulation": true,
+      "releaseEligible": false,
+      "recommendation": null
+    },
+    "qaWeb": {
+      "status": "passed",
+      "evidence": "77 passed (16.4m)",
+      "log": "/tmp/harmonia-qa-web-m1.log",
+      "logSha256": "912e3e70ae8af978b1b6981f0f9037cc6997d1cff8afb4d476c0d866a0f72ddd"
+    },
+    "voiceLeadingWeb": {
+      "status": "passed",
+      "evidence": "24 passed (40.6s)",
+      "log": "/tmp/harmonia-voice-leading-web-m1.log",
+      "logSha256": "b22e2e2ba4ec97ff94037091b42646ee9bd9f530c0bebe8d378431acab7c56dc"
+    },
+    "schoolWeb": {
+      "status": "passed",
+      "evidence": "23 passed (1.7m)",
+      "log": "/tmp/harmonia-school-web-m1.log",
+      "logSha256": "818e1539a70ca9151728be71a60836bbe887568bbdf0a7f22629cd7b16e11909"
+    },
+    "betaWeb": {
+      "status": "passed",
+      "evidence": "5 passed (10.1s)",
+      "log": "/tmp/harmonia-beta-web-m1.log",
+      "logSha256": "bed8f6470f547a2ee7219661a38843f04f00a32b3357b35ad19a81ca197ead49"
+    },
+    "productionWeb": {
+      "status": "passed",
+      "evidence": "6 passed (27.8s)",
+      "log": "/tmp/harmonia-production-web-m1.log",
+      "logSha256": "82595cad7ad1440fc058499d8efdb6cfedcee627a0fc9217d56709d72cf03b30"
+    },
+    "qaBuild": {
+      "status": "passed",
+      "log": "/tmp/harmonia-qa-build-m1.log",
+      "logSha256": "d76d1a7b0a2c63ede2c6a825c23b4d83e4eb8b269ccaae7be8c2f39b90da3a6b"
+    },
+    "productionBuild": {
+      "status": "passed",
+      "log": "/tmp/harmonia-production-build-m1.log",
+      "logSha256": "5580c64566df6379bd8664fd9345c14c912cd9edadbbef11da43ebc0864ecbb4"
+    },
+    "websiteBuild": {
+      "status": "passed",
+      "log": "/tmp/harmonia-website-build-m1.log",
+      "logSha256": "10dceb3ec44e3b8d84089b814772ec04c54503ccfe149c1bf82b5dc3116cf4a3"
+    },
+    "publicBundle": {
+      "status": "passed",
+      "log": "/tmp/harmonia-public-bundle-m1.log",
+      "logSha256": "2fcb551a56e7030fe0c3767055a6d35786a92935370137e476158c0c1f90d32c"
+    },
+    "bundleBudgets": {
+      "status": "passed",
+      "log": "/tmp/harmonia-qa-bundle-m1.log",
+      "logSha256": "5a865e39fd1a88aa37aebcb9fb4b454d3bdbe230c4d8132ccb2ecd3ddb213daa"
+    }
+  },
+  "packageCounts": {
+    "ui": 14,
+    "theory": 892,
+    "audio": 44,
+    "i18n": 509,
+    "notation": 251,
+    "exercises": 670,
+    "content": 1483,
+    "total": 3863
+  },
+  "toolCounts": {
+    "fullRunBeforeSixAdditionalCases": 365,
+    "additionalImportCases": 6,
+    "finalImportSuite": 11,
+    "distinctCasesExecuted": 371
+  },
+  "unresolvedApprovals": {
+    "publicLessons": 0,
+    "internalLessons": 195,
+    "p2Prerequisites": 151,
+    "aiGeneral": 21,
+    "aiSchool": 22,
+    "aiCertificates": 18,
+    "certificateRequirements": 26
+  },
+  "limitations": [
+    "Local checks do not replace five required GitHub jobs and independent reviews at the final PR head.",
+    "Initial parallel runs hit exercise timeouts and one school 30-client HTTP 500; serial/isolated reruns are recorded separately. Assertions and time limits were not weakened.",
+    "Initial certificate browser launch lacked an installed default Playwright browser; the full rerun uses explicit system Chromium.",
+    "Supabase uses a writable SUPABASE_HOME and the allowed Docker Hub registry. A temporary helper adds wget -Y off only for unchanged loopback health endpoints; external proxy and TLS settings remain intact.",
+    "All provider/model/payment calls are local mocks or explicitly synthetic simulations. No real device, voice, screenreader, live-model or legal approval inferred.",
+    "Six optional authenticated league/Rush browser cases were not run by the default CI-style web suite. Three choir production cases are excluded from preview; the separate production run covers choir and history (six cases)."
+  ],
+  "httpExecution": {
+    "basicAuthProfileEmailAndIndexBatchExitCode": 0,
+    "publishedBatchExitCode": 0,
+    "previewBatchExitCode": 0,
+    "providerCalls": "local fixtures and explicit mocks only"
+  },
+  "httpChecks": {
+    "learning": {
+      "status": "passed",
+      "log": "/tmp/harmonia-db-test-learning-m1.log",
+      "logSha256": "74ea8452d43de82c82be435115e5f83fbc955859091be771c6f90b0f02dad025"
+    },
+    "ratings": {
+      "status": "passed",
+      "log": "/tmp/harmonia-db-test-ratings-m1.log",
+      "logSha256": "7558ad721a4e8fc3a0bfc17b9df8d7cce48122f872b59d6d6757f5995ca443f4"
+    },
+    "reviews": {
+      "status": "passed",
+      "log": "/tmp/harmonia-db-test-reviews-m1.log",
+      "logSha256": "a9566773a57badc2b801bbcf541046eb0b294da49fa3a5eb0ab167661887bc44"
+    },
+    "reports": {
+      "status": "passed",
+      "log": "/tmp/harmonia-db-test-reports-m1.log",
+      "logSha256": "b68cf4a9f73ed9e063cf7356a7b26f674b1f9e72c0327243dd24c5cfd77829e9"
+    },
+    "motivation": {
+      "status": "passed",
+      "log": "/tmp/harmonia-db-test-motivation-m1.log",
+      "logSha256": "bcf7dbc307c72e16b6276d396091f5dd03651fdc48f45911a640e731254f93c8"
+    },
+    "tutor": {
+      "status": "passed",
+      "log": "/tmp/harmonia-db-test-tutor-m1.log",
+      "logSha256": "4be3b9936c7bf368c7c29442c6e58fa78fbb44dd6e206d8fa184bf53dc6034ae"
+    },
+    "knowledge": {
+      "status": "passed",
+      "log": "/tmp/harmonia-db-test-knowledge-m1.log",
+      "logSha256": "75f3a5b957b8c51d8a78af99d964af6daf2c6c5199f305be0444f33111344ac5"
+    },
+    "knowledge:v2": {
+      "status": "passed",
+      "log": "/tmp/harmonia-db-test-knowledge-v2-m1.log",
+      "logSha256": "f65847d27aa240761b23f7b447ad03275ebe73053333aa32de1046ad2b5576bf"
+    },
+    "billing": {
+      "status": "passed",
+      "log": "/tmp/harmonia-db-test-billing-m1.log",
+      "logSha256": "a7780108f86afe1667563f9d1c2bf95de0233cb5fce3b532166b5b1d1198e432"
+    },
+    "access": {
+      "status": "passed",
+      "log": "/tmp/harmonia-db-test-access-m1.log",
+      "logSha256": "94b96339c70491a2de1858c12504f947f84e5873bea52815413268a03789d1a3"
+    },
+    "privacy": {
+      "status": "passed",
+      "log": "/tmp/harmonia-db-test-privacy-m1.log",
+      "logSha256": "84627c2a79b30c1b9ef8bb619dc251cf678c6e5a81f62d66d90f100e8c5f17c3"
+    },
+    "analytics": {
+      "status": "passed",
+      "log": "/tmp/harmonia-db-test-analytics-m1.log",
+      "logSha256": "b39f6af3e28b383164d2db5467bbd15289bd3e59047175bedbf8b8dfb01b2324"
+    },
+    "api": {
+      "status": "passed",
+      "log": "/tmp/harmonia-db-test-api-m1.log",
+      "logSha256": "a942aefb5e5f2e5666d565848992316ac3ddfcbad27990abd1d74d118447c4c6"
+    },
+    "profile": {
+      "status": "passed",
+      "log": "/tmp/harmonia-db-test-profile-m1.log",
+      "logSha256": "df8de08364e4cc1cb502d0c48210f31d3936322db54fa143d1f548c92fcef0fa"
+    },
+    "email": {
+      "status": "passed",
+      "log": "/tmp/harmonia-db-test-email-m1.log",
+      "logSha256": "ffa7fe871d8d49940fff2502636ae29e05ec6ff12cd4e28193f049deff585889"
+    }
+  },
+  "publicHttpChecks": {
+    "learning-sync": {
+      "status": "passed",
+      "log": "/tmp/harmonia-public-learning-sync-m1-final.log",
+      "logSha256": "bfa86f0f87babca6b8d8bc0f19eb1b789ed5af540eb73d4e5705df0068c3daed"
+    },
+    "access": {
+      "status": "passed",
+      "log": "/tmp/harmonia-public-access-m1-final.log",
+      "logSha256": "7e560bb9664af9fe33c5506208fec333c1ae87d86bbd4ada02e36f5d2feaca7b"
+    },
+    "content-reports": {
+      "status": "passed",
+      "log": "/tmp/harmonia-public-content-reports-m1-final.log",
+      "logSha256": "158195b657c88e350a305622424567832d7a161c7c136f5c09ea3f9ac7ec2573"
+    },
+    "tutor": {
+      "status": "passed",
+      "log": "/tmp/harmonia-public-tutor-m1-final.log",
+      "logSha256": "07a5ccd71941a08955a5125b260cc9c199c5d7fab30bf0089d816d716231a708"
+    },
+    "knowledge": {
+      "status": "passed",
+      "log": "/tmp/harmonia-public-knowledge-m1-final.log",
+      "logSha256": "84a4baca90e618413eb64878c949f504e992dff67d16096c200d9c5e89079cf5"
+    }
+  },
+  "browserCounts": {
+    "qaWeb": 77,
+    "voiceLeadingWeb": 24,
+    "schoolWeb": 23,
+    "certificatesWeb": 25,
+    "betaWeb": 5,
+    "productionWeb": 6,
+    "total": 160,
+    "existingConditionalSkips": 9,
+    "skipDetails": {
+      "optionalAuthenticatedLeagueUi": 3,
+      "optionalAuthenticatedRushUi": 3,
+      "choirProductionCasesExcludedFromPreview": 3
+    }
+  },
+  "localJobResults": {
+    "Lint, Typen, Tests": "passed",
+    "Deno-Kompatibilität": "passed",
+    "Tutor-Batchmechanik ohne Modellkosten": "passed",
+    "Supabase und Profil-Zugriffsschutz": "passed",
+    "Web-Build der App": "passed"
+  }
+}

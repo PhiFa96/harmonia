@@ -100,8 +100,15 @@ test('verified token mode hides fixture selection and removes the view at expiry
     ).toBeVisible();
     await expect(page.getByLabel(schoolText('de', 'account'), { exact: true })).toHaveCount(0);
     await page.getByRole('button', { name: schoolText('de', 'privacyTitle'), exact: true }).click();
+    const exportButton = page.getByRole('button', {
+      name: schoolText('de', 'exportData'),
+      exact: true,
+    });
+    // Advance the server clock only after the privacy view has loaded; otherwise its own
+    // request can already expire the session and the export button never appears.
+    await expect(exportButton).toBeVisible();
     now = epoch + 60000;
-    await page.getByRole('button', { name: schoolText('de', 'exportData'), exact: true }).click();
+    await exportButton.click();
     await expect(page.getByText(schoolText('de', 'sessionEnded'), { exact: true })).toBeVisible();
     await expect(
       page.getByRole('button', { name: schoolText('de', 'deleteAccount'), exact: true }),
@@ -111,3 +118,46 @@ test('verified token mode hides fixture selection and removes the view at expiry
     await authenticated.close();
   }
 });
+
+for (const locale of ['de', 'en-US', 'en-GB'])
+  test(`${locale}: provider revocation removes an already authenticated school view`, async ({
+    browser,
+  }, testInfo) => {
+    const signing = keys();
+    const authenticated = await createSchoolServer({
+      pool: db.pool,
+      authentication: { issuer, jwks: { keys: [signing.jwk] } },
+      now: () => epoch,
+    });
+    const context = await browser.newContext({
+      extraHTTPHeaders: { authorization: 'Bearer ' + signing.token() },
+    });
+    try {
+      const page = await context.newPage(),
+        t = (key) => schoolText(locale, key);
+      await page.goto(authenticated.origin);
+      await page.getByLabel('Sprache', { exact: true }).selectOption(locale);
+      await expect(page.getByText(t('authenticatedIntro'), { exact: true })).toBeVisible();
+      await expect(page.getByLabel(t('account'), { exact: true })).toHaveCount(0);
+      await page.getByRole('button', { name: t('privacyTitle'), exact: true }).click();
+      await db.pool.query('delete from auth.sessions where user_id=$1', [f.ids.learnerA]);
+      await page.getByRole('button', { name: t('exportData'), exact: true }).click();
+      await expect(page.getByText(t('sessionEnded'), { exact: true })).toBeVisible();
+      await expect(page.getByRole('button', { name: t('exportData'), exact: true })).toHaveCount(0);
+      await expect(page.getByRole('button', { name: t('deleteAccount'), exact: true })).toHaveCount(
+        0,
+      );
+      expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+      expect(
+        await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1),
+      ).toBe(true);
+      if (locale === 'de')
+        await page.screenshot({
+          path: testInfo.outputPath('school-provider-revoked.png'),
+          fullPage: true,
+        });
+    } finally {
+      await context.close();
+      await authenticated.close();
+    }
+  });

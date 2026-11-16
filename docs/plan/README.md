@@ -8,6 +8,9 @@ Dieser Plan beschreibt, wie wir Harmonia Schritt für Schritt bauen: vom leeren 
 
 | Dokument | Inhalt |
 |---|---|
+| [Plan bis zur Fertigstellung](fertigstellung.md) | Ziele A–C, Meilensteine M1–M12 und unmittelbar beauftragte Integration |
+| [M1 – gemeinsamer Integrationskandidat](integration-m1.md) | Acht technische Entwürfe, Konfliktauflösung, Abhängigkeitsentscheidungen, Prüfungen und offene Gesamt-CI/Reviews |
+| [Gemeinsames Befundregister M2](befundregister.md) | Aktuelle technische Triage und noch zu prüfende Altbefunde aus Stufen 1–2, Phase 3 und Phase 4 |
 | [Architektur](architektur.md) | Systemaufbau, Monorepo, Pakete, Umgebungen, Sicherheit |
 | [Duelle P3.06](duelle.md) | Live-Matchmaking, Ghosts, Einladungen, Rating und offene Abnahme |
 | [Tägliches Rätsel P3.07](taegliches-raetsel.md) | 42-Tage-Vorrat, Tageswechsel, Einmalantwort und eigene Serie |
@@ -20,7 +23,9 @@ Dieser Plan beschreibt, wie wir Harmonia Schritt für Schritt bauen: vom leeren 
 | [Theorie-Engine](theorie-engine.md) | Fachlicher Kern: Tonhöhen, Intervalle, Akkorde, Harmonik, Stimmführung |
 | [Stimmführung P4.09 – technischer Entwurf](stimmfuehrung-entwurf.md) | SATB-Musterprüfung mit Partitur-/Notenbezug, Testkorpus, lokalem DE/EN-Bericht und bearbeitbarer Satzwerkstatt mit Gesamt-/Solo-Wiedergabe; Fachprüfung offen |
 | [Tonsatz-Korrektor P4.10 – interner Entwurf](tonsatz-korrektor-entwurf.md) | Grafischer SATB-Editor, sechs DE/EN-Lektionen in Stufe 4–5, lokalisierte Befunde und gebundenes Tutor-Werkzeug; Fach-/Produktfreigabe offen |
+| [Cantus-Schlussvarianten P4.19 – technische Nacharbeit](kontrapunkt-schlussvarianten.md) | Quellengerechte Erklärung der 7→1-Variante und des 2→1-Vergleichs in DE/EN, mit unverändertem Neun-Regeln-Profil; Fach-/Quellenabnahme offen |
 | [P4.11 – technischer Gesamtentwurf](chor-trainer-gesamtstand.md) | Gemeinsame Chor-Implementierung und Nacharbeiten, Aufgabenfassung 2, Zeitstempel-Zuordnung und Abnahmematrix; reale/Fach-/Produktfreigaben offen |
+| [Chor-Zeitzuordnung P4.11 – technische Nacharbeit C13](chor-zeitzuordnung.md) | Laufende Zuordnung frischer Browserfenster, native Fensterzeiten, sichere Abbrüche und Wiederaufnahme; reale Latenz-/Geräteabnahme offen |
 | [Vorzeichenlesen für P4.11](chor-vorzeichenlesen.md) | Eigener Zugang zu Dur-Vorzeichnungen ohne Bassschlüssel oder Schreibweg; Chor-Grundlage C8 |
 | [Chor-Trainer P4.11 – interner Entwurf](chor-trainer-entwurf.md) | Eigene Chor-Miniaturen, Tonhöhenprüfung, Take-Erhalt bei Vorhörfehlern und Wiederholung ohne erkannte Tonhöhe; Geräte-/Produktfreigabe offen |
 | [Notation, Audio, Eingabe](notation-audio-eingabe.md) | Notendarstellung, Klang, Klaviatur, Mikrofon, MIDI |
@@ -45,16 +50,20 @@ Dieser Plan beschreibt, wie wir Harmonia Schritt für Schritt bauen: vom leeren 
 | [Stufe 1 vollständig intern P2.07](stufe-1-vollstaendig.md) | Alle 13 geplanten Einheiten, 40 Fähigkeiten, 37 Lektionen, 370 Aufgaben und die offene getrennte Abnahme |
 | [Bassschlüssel und großes System P2.08](bassschluessel-und-grosses-system.md) | Erste Stufe-2-Einheit: drei Lektionen, Oktavnamensübersetzung, verbundene Systeme und 30 Aufgaben |
 | [Stufe 2 vollständig intern P2.08](stufe-2-vollstaendig.md) | Alle 16 Einheiten, 50 Fähigkeiten, 48 Lektionen und 480 Aufgaben; getrennte fachliche Freigabe offen |
-| [Zeitreise durch die Musikgeschichte P4.12](zeitreise-musikgeschichte.md) | Vier interne Epochenstationen mit eigenen Klangmodellen, fiktiven Interviews und Quellenbezug; Fachfreigabe offen |
+| [Zeitreise durch die Musikgeschichte P4.12](zeitreise-musikgeschichte.md) | Vier interne Epochenstationen, gestufte Prüfhinweise und getrennt angeforderte Auflösungen; unabhängige didaktische/Fachfreigabe offen |
 | [Stufe 3 als interner Entwurf P3.15](stufe-3-vollstaendig.md) | Zwölf Einheiten mit Formen, Instrumenten, Jazz/Pop, Geschichte und 360 Aufgaben; getrennte fachliche Freigabe offen |
 | [Stufe 4 als interner Entwurf P3.16](stufe-4-vollstaendig.md) | 13 Einheiten mit Studienvorbereitung und 390 Aufgaben; getrennte fachliche Freigabe offen |
 | [Stufe 5 als interner Gesamtentwurf P4.19](stufe-5-gesamtstand.md) | 24 Lektionen mit vielfältigeren Quellen, festen Stimmen, eigenen Zielfähigkeiten, DE/EN, Wiederaufnahme und Datenschutz; technische Vorarbeit vor formaler P4-Freigabe |
 | [Prüfungsmodus P3.17](pruefungsmodus.md) | Zwei interne Vorlagen mit Theorie/Gehörbildung, Zeitlimit, Punkten und Lernpfad-Empfehlungen; fachliche Abnahme offen |
 | [Organisationen und Klassen P4.13 – interner Entwurf](schule-dashboard-entwurf.md) | Lokales Lehrer-Dashboard, Codes, klassenbezogene Lernstandfreigaben und PostgreSQL-RLS mit synthetischen Konten; Rechts-/Produktfreigabe offen |
+| [Schul-Authentifizierung P4.13–P4.16](schule-authentifizierung.md) | Auth-Kontobindung, Widerruf bestehender Cookies/Streams und private Backend-/Grader-Rollen mit Datenbank-/HTTP-Nachweisen; Produktbetrieb offen |
 | [Klassenaufgaben P4.14 – interner Entwurf](schulaufgaben-entwurf.md) | Aufgaben zusammenstellen, einfrieren, zuweisen, bearbeiten und auswerten; lokaler Link, Fristen, Engine-Bewertung und getrennte Freigabe |
 | [Klassen-Live-Quiz P4.15 – interner Entwurf](klassen-live-quiz-entwurf.md) | Lobbycode, synchronisierte Runden, Beameransicht, freiwillige Rangliste und Auswertung; 30 simulierte Netzwerkclients, echte Geräteabnahme offen |
 | [Schullizenz P4.16 – interner Entwurf](schul-lizenz-entwurf.md) | Rechnungsproben, getrennte Betreiberfreigabe, Plätze/Laufzeiten und servergesperrte Premium-Übungen; Verkauf und Pilotschule offen |
 | [KI-Verordnung und Zertifikate P4.17/P4.18 – Gesamtentwurf](ki-und-zertifikate-gesamtstand.md) | Versionierte Rechtsprüfungsübergaben und private Dokumentnachweise; zusammenhängende simulierte Kauf-/Prüf-/Erstattungsabläufe, Datenrechte und Sitzungen; tatsächliche Abnahmen offen |
+| [KI-/Zertifikats-Importbindung](ki-zertifikate-importbindung.md) | Technische v3-Nacharbeit N1/N2: transitive lokale Modulimporte, Workspace-/Alias-/Plattformauflösung und Entwertung alter Prüfstände nach Codeänderungen |
+| [Zertifikats-Leseansichten N4](zertifikate-leseansichten.md) | Status, Export, Codeprüfung und Belegabruf ohne Änderung der Prüfungsdaten; konsistente Timeouts und getrennte lokale Wartung |
+| [Zertifikatszahlungen P4.18 – technische Nacharbeit N5](zertifikate-zahlungsgrenze.md) | Gesperrter Standardmodus, ausdrücklich aktivierte lokale Simulation, getrennte Zahlungsrouten und v2-Testdaten; echte Anbieter-/Identitätsbindung offen |
 | [KI-Verordnung P4.17 – ursprüngliche Prüfvorbereitung](ki-verordnung-pruefvorbereitung.md) | Verlauf und Quellenstand; aktuelle Übergabe im Gesamtentwurf, unabhängige Rechtsprüfung offen |
 | [Zertifikate P4.18 – ursprünglicher Prototyp](zertifikate-entwurf.md) | Verlauf der Testprofile, Muster-PDFs und Prüfmappe; aktuelle Übergabe im Gesamtentwurf |
 | [Tutor-Lernplaner P3.18](tutor-lernplaner.md) | Servergeprüfte Lernübersicht, kurze Wochenvorschläge und separater Stufe-3/4-Testkatalog; fachliche Abnahme offen |
@@ -72,6 +81,7 @@ Dieser Plan beschreibt, wie wir Harmonia Schritt für Schritt bauen: vom leeren 
 | [Datenmodell](datenmodell.md) | Tabellen, Zugriffsregeln, Synchronisation |
 | [Supabase-Grundlage P1.04](supabase-grundlage.md) | Lokale Dienste, Profilmigration, RLS-/API-Tests und offene EU-Projekte |
 | [Tutor-Versuchsnachweise](tutor-versuchsnachweise.md) | Serverwertung und signierte kontogebundene Nachweise für Erklärungen/Lösungen; technische Nacharbeit E2 |
+| [Tutor-Sicherheitsnacharbeit](tutor-sicherheitsnacharbeit.md) | Eigenes Secret, gespeicherte Altanfragen, atomares Prüfbudget und Uhrentoleranz; technische v3-Nacharbeit N1–N4/H3 |
 | [KI-Tutor](ki-tutor.md) | Aufbau, Werkzeuge, Wissensbasis, Kosten, Qualität |
 | [Motivation und Social](motivation-und-social.md) | XP, Streaks, Ligen, Ratings, Rush, Duelle |
 | [Monetarisierung](monetarisierung.md) | Abos, Paywall, Marktplatz, Schule, Zertifikate – technisch |

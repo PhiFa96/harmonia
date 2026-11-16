@@ -124,6 +124,25 @@ export function counterpointDyads(score: Score): CounterpointDyad[] {
   });
 }
 
+/** Describes only the named cantus's final motion, independently of the nine-rule verdict. */
+export function counterpointCantusEnding(score: Score) {
+  // A historical single staff has no fixed part identity when pitches cross.
+  if (score.staves.length !== 2) return undefined;
+  const dyads = counterpointDyads(score),
+    from = dyads.at(-2)?.lower,
+    to = dyads.at(-1)?.lower;
+  if (!from || !to) return undefined;
+  const written = diatonicIndex(to) - diatonicIndex(from),
+    sounding = midi(to) - midi(from),
+    kind =
+      written === 1 && sounding === 1
+        ? 'ascending-semitone'
+        : written === -1 && sounding === -2
+          ? 'descending-tone'
+          : 'other-motion';
+  return { kind, from, to } as const;
+}
+
 export function generateCounterpointSource(
   topic: 'counterpoint-consonance' | 'counterpoint-motion' | 'counterpoint-check',
   rng: Rng,

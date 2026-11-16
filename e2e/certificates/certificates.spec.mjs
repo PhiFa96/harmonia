@@ -4,8 +4,10 @@ import { mkdtempSync, rmSync } from 'node:fs';
 import { DatabaseSync } from 'node:sqlite';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { createCertificateServer } from '../../tools/certificates/server.mjs';
-import { fixtureAnswers } from '../../tools/certificates/test-fixture.mjs';
+import {
+  createCertificateTestServer,
+  fixtureAnswers,
+} from '../../tools/certificates/test-fixture.mjs';
 import { certificateTranslator } from '../../packages/i18n/src/certificate-draft.ts';
 import { CERTIFICATE_REVIEW_MESSAGES } from '../../packages/i18n/src/certificate-review.ts';
 import { certificateReview, certificateReviewHtml } from '../../tools/certificates/review.mjs';
@@ -26,7 +28,7 @@ test('an outdated attempt explains the block and can be removed before restartin
 }) => {
   const dir = mkdtempSync(join(tmpdir(), 'harmonia-cert-outdated-'));
   const database = join(dir, 'test.sqlite'),
-    app = await createCertificateServer({ database });
+    app = await createCertificateTestServer({ database });
   const t = certificateTranslator('de');
   try {
     await page.goto(app.origin);
@@ -94,7 +96,7 @@ for (const locale of ['de', 'en-US', 'en-GB']) {
   }, info) => {
     const dir = mkdtempSync(join(tmpdir(), 'harmonia-cert-browser-')),
       database = join(dir, 'test.sqlite');
-    const app = await createCertificateServer({ database });
+    const app = await createCertificateTestServer({ database });
     const t = certificateTranslator(locale);
     const errors = [];
     page.on('pageerror', (e) => errors.push(e.message));
@@ -184,7 +186,7 @@ test('lost response retries one answer; a late answer cannot create a sample', a
   const dir = mkdtempSync(join(tmpdir(), 'harmonia-cert-timeout-')),
     database = join(dir, 'test.sqlite');
   let instant = Date.UTC(2026, 9, 23, 12);
-  const app = await createCertificateServer({ database, now: () => instant });
+  const app = await createCertificateTestServer({ database, now: () => instant });
   const t = certificateTranslator('de');
   try {
     await page.goto(app.origin);

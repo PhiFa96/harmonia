@@ -1,5 +1,7 @@
 # P4.19 – Stufe 5 als zusammenhängender interner Gesamtentwurf
 
+**Technischer Nachtrag vom 14.11.2026 (noch nicht integriert):** [Cantus-Schlussvarianten](kontrapunkt-schlussvarianten.md), ADR 0082, ergänzt einen neutralen Konventionshinweis und konkrete Schluss-Erklärungen aus dem zweiten System in DE/en-US/en-GB. Aktuell 11 aufsteigende und 13 absteigende Cantus-Schlüsse; der Rohbericht nennt zwölf Varianten. Generator/Musik/Wertung bleiben identisch, Katalog 31 und Vorschau-Engine 2 erhalten. Der folgende Abschnitt beschreibt den Vorgängerstand. Technische P4-Vorarbeit vor formaler Freigabe, alles Entwurf; keine neue Fach-/Primärquellenfreigabe, Veröffentlichung oder Main-Integration. P4.01 bis F14/Recht zurückgestellt.
+
 Stand: 03.11.2026 · Branch `codex/level-five-complete-draft` · eigenständige Basis `main` bei `f7bc15d`.
 
 Auf ausdrücklichen Nutzerauftrag wird der bestehende Stufe-5-Entwurf vervollständigt. **Technische P4-Vorarbeit vor der formalen Phase-4-Freigabe.** Alle Lehrinhalte bleiben Entwurf, öffentlich weiterhin null Lektionen. Keine Veröffentlichung, produktive Migration, Fernsynchronisierung oder Main-Integration. P4.01 bleibt bis F14 und den rechtlichen Voraussetzungen zurückgestellt. [ADR 0074](../decisions/0074-stufe-fuenf-mit-vielfaeltigen-quellen-und-festen-stimmen.md).

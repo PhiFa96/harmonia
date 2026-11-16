@@ -6,6 +6,7 @@ import {
   createHistoryInterview,
   askHistoryInterview,
   revealHistoryHint,
+  revealHistorySolution,
 } from './history-journey.ts';
 import type { HistoryChoice } from './history-journey.ts';
 
@@ -29,6 +30,45 @@ describe('local scripted interview', () => {
 });
 
 describe('ungraded history question flow', () => {
+  it('requires the second hint and playback readiness before revealing a solution', () => {
+    const empty = createHistoryQuestion();
+    const wrong = checkHistoryQuestion(chooseHistoryAnswer(empty, 0), 1);
+    for (const state of [empty, chooseHistoryAnswer(empty, 0), wrong])
+      expect(revealHistorySolution(state)).toBe(state);
+    const hinted = revealHistoryHint(wrong);
+    expect(revealHistorySolution(hinted, false)).toBe(hinted);
+    expect(revealHistorySolution(hinted, true).feedback).toBe('revealed');
+  });
+  it('keeps the chosen answer and attempts when viewing a solution after either hint path', () => {
+    const wrong = checkHistoryQuestion(chooseHistoryAnswer(createHistoryQuestion(), 0), 1);
+    const requested = revealHistoryHint(wrong);
+    const earned = checkHistoryQuestion(chooseHistoryAnswer(wrong, 2), 1);
+    for (const hinted of [requested, earned, chooseHistoryAnswer(requested, 1)]) {
+      const revealed = revealHistorySolution(hinted);
+      expect(revealed).toEqual({ ...hinted, feedback: 'revealed' });
+      expect(hinted.feedback).not.toBe('revealed');
+      expect(revealed.feedback).not.toBe('correct');
+      for (const choice of [0, 1, 2] as const)
+        expect(chooseHistoryAnswer(revealed, choice)).toBe(revealed);
+      expect(checkHistoryQuestion(revealed, 1)).toBe(revealed);
+      expect(revealHistoryHint(revealed)).toBe(revealed);
+      expect(revealHistorySolution(revealed)).toBe(revealed);
+    }
+  });
+  it('does not relabel a correct answer as a viewed solution and resets a revealed question', () => {
+    const wrong = checkHistoryQuestion(chooseHistoryAnswer(createHistoryQuestion(), 0), 1);
+    const hinted = revealHistoryHint(wrong);
+    const correct = checkHistoryQuestion(chooseHistoryAnswer(hinted, 1), 1);
+    expect(revealHistorySolution(correct)).toBe(correct);
+    const revealed = revealHistorySolution(hinted);
+    expect(createHistoryQuestion()).toEqual({
+      choice: null,
+      feedback: 'unanswered',
+      attempts: 0,
+      hintLevel: 0,
+    });
+    expect(revealed.feedback).toBe('revealed');
+  });
   it('lets the user reveal the specific hint once after an error without another answer', () => {
     const empty = createHistoryQuestion();
     expect(revealHistoryHint(empty)).toBe(empty);

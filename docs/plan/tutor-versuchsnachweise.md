@@ -1,5 +1,7 @@
 # Tutor: serverseitige Versuchsnachweise (E2)
 
+**Nachtrag 13.11.2026:** Die [Sicherheitsnacharbeit N1–N4/H3](tutor-sicherheitsnacharbeit.md) ergänzt eigenes Signatursecret, Datenbank-Prüfbudget, korrekten Altanfragenabruf und Uhrentoleranz. Sie ist für diese Punkte maßgeblich; die nachfolgenden Zählwerte dokumentieren den ursprünglichen Stand vom 31.10.
+
 Stand: 31.10.2026. Technische Nacharbeit auf Nutzerauftrag nach Integration von #103–#132. Arbeitsbranch `codex/tutor-verified-attempts`, Basis `f7bc15d` auf `main`. [ADR 0066](../decisions/0066-tutor-erklaerungen-mit-serverseitigem-versuchsnachweis.md). Technische P4-Vorarbeit **vor der formalen Phase-4-Freigabe**. Alle Inhalte bleiben Entwurf; keine Veröffentlichung oder entfernte Bereitstellung.
 
 ## Ablauf
@@ -13,9 +15,9 @@ Stand: 31.10.2026. Technische Nacharbeit auf Nutzerauftrag nach Integration von 
 ## Fehler, Wiederholung und Datenschutz
 
 - Fehlender Nachweis: HTTP 409 `attempt_required`. Manipulation oder fremdes Konto: `attempt_invalid`. Ablauf: `attempt_expired`. DE/en-US/en-GB verwenden verständliche Hinweise.
-- Identische bereits gespeicherte Anfragen dürfen nach Ablauf abgerufen werden, nur mit passendem Besitz, vollständigem Anfragehash und Signatur. Neue Anfragen müssen einen aktuellen Nachweis verwenden. Bereits vorhandene Gesprächsverläufe bleiben kontogeschützt lesbar.
+- Identische bereits gespeicherte Anfragen dürfen nur mit passendem Besitz und vollständigem Anfragehash abgerufen werden. Seit der Sicherheitsnacharbeit erfolgt dies vor der Nachweispflicht: historische Anfragen ohne Nachweis sowie gespeicherte Anfragen mit inzwischen abgelaufenem oder unter einem alten Schlüssel signiertem Nachweis bleiben ohne neuen Modellaufruf abrufbar. Neue Anfragen müssen einen aktuellen Nachweis verwenden. Bereits vorhandene Gesprächsverläufe bleiben kontogeschützt lesbar.
 - Offline oder ohne erfolgreichen Prüfaufruf startet kein Modell. Der bisherige lokale Lernablauf und dessen Feedback bleiben erhalten. Ein erneutes Senden kann einen neuen Nachweis holen; die Wiederholung einer bereits vorbereiteten Modellanfrage behält ihre ID und Signatur. Lehnt der Server einen Nachweis vor der Reservierung ab, wird das Eingabefeld wieder freigegeben; ein neues Senden erhält eine neue Anfrage-ID und Prüfung.
-- Kontowechsel und Abbruch während der Prüfung verhindern einen verspäteten Modellaufruf. Nachweise liegen nur im flüchtigen Tutor-Zustand. Keine neue Antworttabelle, keine Migration und keine Änderung an XP, Ratings oder Lernnachweisen.
+- Kontowechsel und Abbruch während der Prüfung verhindern einen verspäteten Modellaufruf. Nachweise liegen nur im flüchtigen Tutor-Zustand. Die ursprüngliche Umsetzung benötigte keine Migration; die Sicherheitsnacharbeit ergänzt eine begrenzte Zählertabelle samt Export/Retention und Auth-Löschkaskade. Keine neue Antworttabelle oder Änderung an XP, Ratings oder Lernnachweisen.
 - Der Nachweis bestätigt die Serverwertung einer eingesandten Antwort, keine menschliche Bearbeitung oder bereits früher erfolgte Offline-Wertung. Das Signaturgeheimnis bleibt ausschließlich serverseitig. Nachweis und Konto-ID gehen nicht in den Modellkontext.
 
 ## Prüfstand
@@ -24,7 +26,7 @@ Stand: 31.10.2026. Technische Nacharbeit auf Nutzerauftrag nach Integration von 
 - 9 Inhalts-/Protokoll-/Versionsprüfungen in zwei Dateien.
 - 41 gezielte App-Tests in drei Dateien (Tutor, Lektions- und Aufgabenroute): erlaubte und abgewiesene Anfragen, Wiederholung, Kontowechsel, Abbruch, alte Lösungsdialoge, frische Anfrage nach Ablauf und der Übergang von festen Hinweisen zur geprüften KI-Lösung.
 - 281 Werkzeugtests und 1.266 Tutor-/SDK-/Engine-Prüfungen mit ausschließlich simuliertem Anbieter erfolgreich.
-- KI-Verordnungsinventar mit zehn ungeprüften Bereichen und 251 gebundenen Dateien, weiterhin 20 offenen allgemeinen Nachweisen; neue Signaturprüfung und tatsächliche UI-/Client-Einstiege sind gebunden. Daraus entsteht keine Rechtsfreigabe.
+- KI-Verordnungsinventar im damaligen Prüfstand mit zehn ungeprüften Bereichen und 251 gebundenen Dateien, weiterhin 20 offenen allgemeinen Nachweisen; neue Signaturprüfung und tatsächliche UI-/Client-Einstiege sind gebunden. Die aktuelle Dateizahl liefert `pnpm check:ai`; der Integrationsstand und spätere Ergänzungen haben sie geändert. Daraus entsteht keine Rechtsfreigabe.
 - Vollständige Typprüfung, Lint/Paketgraph, Formatierung, Übersetzungsprüfung und `git diff --check` erfolgreich. Ein erster Lintlauf fand zwei unsichere Zugriffe in einem neuen Test; nach der Typisierung sind auch diese und der vollständige Nachlauf erfolgreich. Der abschließende GitHub-Nachweis wird im PR festgehalten.
 - `tools/test-tutor.mjs` prüft echte lokale Authentifizierung, Nachweisausgabe, Kontentrennung, manipulierte Quelle/Antwort/Signatur, Ablauf, Nichtverbrauch des KI-Kontingents und weiterhin gesperrte Entwurfsquellen. Ein tatsächlicher lokaler Stackstart wurde versucht und nach verweigertem Image-Zugriff abgebrochen (`registry_access_denied`). Deshalb wurden die neuen HTTP-/DB-Fälle hier nicht lokal ausgeführt. Der GitHub-Nachweis wird im PR dokumentiert; reine Unit-Tests sind kein Datenbanknachweis.
 
