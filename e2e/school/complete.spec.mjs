@@ -100,8 +100,15 @@ test('verified token mode hides fixture selection and removes the view at expiry
     ).toBeVisible();
     await expect(page.getByLabel(schoolText('de', 'account'), { exact: true })).toHaveCount(0);
     await page.getByRole('button', { name: schoolText('de', 'privacyTitle'), exact: true }).click();
+    const exportButton = page.getByRole('button', {
+      name: schoolText('de', 'exportData'),
+      exact: true,
+    });
+    // Advance the server clock only after the privacy view has loaded; otherwise its own
+    // request can already expire the session and the export button never appears.
+    await expect(exportButton).toBeVisible();
     now = epoch + 60000;
-    await page.getByRole('button', { name: schoolText('de', 'exportData'), exact: true }).click();
+    await exportButton.click();
     await expect(page.getByText(schoolText('de', 'sessionEnded'), { exact: true })).toBeVisible();
     await expect(
       page.getByRole('button', { name: schoolText('de', 'deleteAccount'), exact: true }),
