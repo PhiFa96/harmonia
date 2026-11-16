@@ -95,3 +95,23 @@ Die vier Releaseprüfungen müssen im aktuellen Entwurfsstand gesperrt bleiben (
 Neu erzeugt wurden `artifacts/ai-act/snapshot.json` samt DE/US/UK-Berichten, alle drei Bereichsarbeitsblätter unter `artifacts/ai-act/handoff/954db408f5c545052b4ee470bd01833de59d69b4a43ff3614bae46f242177095/` und `artifacts/certificates/review/`. Die gemeinsame KI-Bindung umfasst 459 Dateien; die Zertifikatsbindung 209. Die abschließende Prüfung erkannte, dass der neue M1-Verweis in der gebundenen Zweckbeschreibung `phase-4-v2.md` die frühere Mappe entwertet hatte; sämtliche Mappen wurden deshalb nach dieser letzten Änderung erneut erzeugt. Vollständige aktuelle Prüfwerte stehen in `validation.json`. Die Dateien bleiben private lokale Arbeitsunterlagen und sind nicht eingecheckt.
 
 M1 ist erst formal fertig, wenn Claude Code den finalen Branch mit Beschreibung und Nachweisen in einen regulären PR überführt hat, **alle fünf Pflichtjobs am endgültigen Kandidaten** erfolgreich sind und die vorgesehenen Reviews vorliegen. [Vorbereitete PR-Beschreibung](../quality/m1-integration/pr-beschreibung.md). Dieser Arbeitsstand veröffentlicht keine Inhalte und richtet keine externen Anbieter ein.
+
+## Fachliche und funktionale Prüfung durch Claude Code (16.11.2026)
+
+Durchgeführt auf `claude/zen-volta-59qear` (Fast-forward auf `84200b8`, Codex-Commits unverändert). Grundlage ADR 0005; keine Primärliteraturlektüre in dieser Sitzung, Inhalte bleiben `entwurf`.
+
+**Musikfachlich geprüft**
+
+- **#161 Cantus-Schluss:** 2.000 erzeugte `counterpoint-check`-Aufgaben unabhängig ausgezählt. Alle Schlusstöne Bb/C/D/E/F; jede Kennzeichnung stimmt mit Stammton- **und** Halbtonabstand überein (kleine Sekunde aufwärts = diatonischer Halbton, große Sekunde abwärts = Ganzton). Enharmonische Grenzfälle (Ces→C übermäßige Prime, His→C verminderte Sekunde, Dis→C übermäßige Sekunde abwärts) fallen korrekt unter „andere Bewegung“. Die Standardfassung (Cantus 2→1 unten, Oberstimme große Sexte → Oktave) und die Variante (Cantus 7→1, Oberstimme 2→1, Dezime → Oktave) sind musikalisch stimmig; die Bezeichnung „Schlussvariante dieses Modells“ behauptet keine Fux-Herkunft. Phrygische Schlüsse (2→1 als Halbton abwärts) kommen im Korpus nicht vor; bei künftigen phrygischen Modellen wäre die Kategorie „Ganzton abwärts“ zu eng und müsste erweitert werden. Die neun Kontrapunktregeln und der Generator sind unverändert.
+- **#162 Zeitreise-Hinweise:** Alle acht zweiten Hinweise in DE/en-US gelesen; keiner nennt die richtige Option oder das Beobachtungsergebnis. Auflösung erst nach Hinweis 2, Zustand `revealed` ≠ `correct`. Neue englische Texte ohne -ize/-ise-Konflikt für en-GB. Die didaktische Eignung bleibt wie in ADR 0083 beschrieben offen.
+- **#160 Chor:** Bewertungs-, Toleranz- und Oktavregeln in `packages/exercises` unverändert (Diff berührt nur Aufnahme-/Zeitpfad und Audio-Stopp).
+
+**Code-Review des Gesamt-Diffs** (Korrektheit, entfernte Schutzregeln, Aufrufer): kein Blocker. Festgehaltene Restbefunde für das [Befundregister](befundregister.md):
+
+1. Zertifikats-Prüfseite: Ohne `--simulate-payments` meldet `verify` für zuvor simuliert ausgestellte Mustercodes `outdatedCode`, weil die Gültigkeit an die Zahlungsfähigkeit gebunden ist. Für reine Entwurfsmuster vertretbar; vor einer produktiven Prüfseite Code-Gültigkeit und Zahlungsmodus trennen.
+2. Tutor: Gespeicherte eigene Anfragen im Zustand `reserved` werden ohne erneute Versuchsprüfung fortgesetzt (beabsichtigtes Replay, ADR 0077). Vor Liveschaltung prüfen, ob Altzeilen ohne Nachweis noch fortgesetzt werden dürfen.
+3. Schule: `school_draft.resolve_identity` verwendet unqualifizierte Parameternamen in einer SQL-Funktion; vor produktiver Übernahme als `resolve_identity.session_id` qualifizieren.
+4. Schule: Schreibende Anfragen lösen die Identität zweimal gegen die Datenbank auf (vor und nach dem Body). Für den Entwurf korrekt, für Produktion bündeln.
+5. Tutor-Prüfbudget wird vor der Inhaltsprüfung verbraucht; ungültige Quellen zählen mit. Als Missbrauchsschutz plausibel, Produktentscheidung offen.
+
+Lokale Wiederholung in dieser Sitzung (seriell): Format, Typen, Lint, `check:i18n`, `check:content`, `check:curriculum`, Tutor-Katalog, Deno, Werkzeug- und Pakettests – Ergebnisse im PR. Datenbank-, Supabase- und Browserproben laufen in der erforderlichen GitHub-CI.

@@ -105,6 +105,19 @@ Quellen: [ursprünglicher P4-Durchgang](fachpruefung-phase-4-entwuerfe.md), [P4 
 | P4-25 | Texte, Primärliteratur, reale Stimmen/Screenreader und Geräte | Offen für alle betroffenen P4-Funktionen. Frühere interne Durchgänge und grüne Techniktests ersetzen keine aktuelle unabhängige Abnahme. |
 | P4-26 | Marktplatz P4.01 | Zurückgestellt bis F14 und Rechtsklärung sowie formaler Startentscheidung; kein Teil dieses Integrationspakets. |
 
+## Neue Befunde aus dem M1-Integrationsreview (16.11.2026)
+
+Code-Review des gemeinsamen Kandidaten durch Claude Code; Einzelheiten in [integration-m1.md](integration-m1.md#fachliche-und-funktionale-prüfung-durch-claude-code-16112026). Keiner blockiert den Entwurfsstand.
+
+| ID | Befund | Status und nächster Nachweis |
+|---|---|---|
+| M1-R1 | Zertifikats-`verify` meldet ohne aktive Zahlungssimulation `outdatedCode` für zuvor ausgestellte Mustercodes | Offen, bestätigt (Codepfad `requireCurrent` → `purchases.authorized`). Vor einer produktiven Prüfseite Code-Gültigkeit vom Zahlungsmodus trennen; Ziel B. |
+| M1-R2 | Tutor setzt eigene gespeicherte `reserved`-Anfragen ohne erneute Versuchsprüfung fort | Offen, nachprüfen: beabsichtigtes Replay nach ADR 0077; vor Liveschaltung Umgang mit Altzeilen ohne Nachweis entscheiden; Ziel A. |
+| M1-R3 | `school_draft.resolve_identity` mit unqualifizierten Parameternamen | Offen, bestätigt (Robustheit). Bei Produktüberführung P4.13 qualifizieren; Ziel B. |
+| M1-R4 | Doppelte Identitätsauflösung je schreibender Schulanfrage | Offen, bestätigt (Effizienz). Bei Produktüberführung bündeln, Widerrufsgarantie erhalten; Ziel B. |
+| M1-R5 | Tutor-Prüfbudget wird auch für inhaltlich ungültige Anfragen verbraucht | Offen, Produktentscheidung; Ziel A. |
+| M1-R6 | Abhängigkeiten #164 (Sammelupdate mit Anthropic SDK 1.8.0 nur im Manifest), #153 (Metro 58 bei Expo SDK 57), #154 (Supabase-CLI 3, DB-Job rot), #155 (Audio API 1.0, Lint rot) | Zurückgestellt auf Nutzerentscheidung vom 16.11.2026; eigenes Abhängigkeitspaket T7 im [Fertigstellungsplan](fertigstellung.md). |
+
 ## Nächste ausführbare Pakete
 
 1. M1: Konfliktauflösung, gemeinsame Regressionen, aktuelle Prüfmappen und Übergabe nach [integration-m1.md](integration-m1.md) fertigstellen; fünf Pflichtjobs und vorgesehene Reviews am finalen Kandidaten einholen.
