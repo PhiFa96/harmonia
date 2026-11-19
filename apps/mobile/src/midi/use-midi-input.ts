@@ -29,8 +29,8 @@ function listenToMidi(input: MIDIInput, listener: (event: Event) => void) {
     input.removeEventListener('midimessage', listener);
     users.count--;
     if (users.count || users.closing) return;
-    users.closing = Promise.resolve()
-      .then(() => input.close())
+    users.closing = input
+      .close()
       .catch(() => undefined)
       .finally(() => {
         delete users.closing;
