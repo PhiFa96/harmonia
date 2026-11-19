@@ -130,9 +130,9 @@ describe('Hörhinweise', () => {
       for (const level of [1, 2] as const) {
         const hint = exerciseHints(third, level);
         expect(hint.values).toEqual({});
-        expect(hintText(third, hint, locale)).toBe(
-          hintText(fourth, exerciseHints(fourth, level), locale),
-        );
+        const text = hintText(third, hint, locale);
+        expect(text).not.toMatch(/NaN|undefined|Klangabstand beträgt|pitch distance is|\d/);
+        expect(text).toBe(hintText(fourth, exerciseHints(fourth, level), locale));
       }
       expect(hintText(third, exerciseHints(third, 3), locale)).not.toBe(
         hintText(fourth, exerciseHints(fourth, 3), locale),

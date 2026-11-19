@@ -844,6 +844,7 @@ export function hintText(item: ExerciseItem, hint: ExerciseHint, locale: TextLoc
   if (
     item.type === 'VOICE_LEADING' ||
     item.type === 'LISTENING_CHOICE' ||
+    item.type === 'INTERVAL_IDENTIFY_AURAL' ||
     item.type === 'CADENCE_IDENTIFY' ||
     item.type === 'FUNCTION_ANALYSIS' ||
     isDictationItem(item) ||
