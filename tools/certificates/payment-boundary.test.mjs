@@ -114,8 +114,15 @@ test('a persisted simulated payment cannot become authority after reopening the 
   const code = run.result.code;
   service.close();
   service = createCertificateService(database, { now: () => instant, sourceHash });
-  assert.equal(service.verify({ code }).status, 'outdatedCode');
+  assert.deepEqual(service.verify({ code }), {
+    status: 'draft',
+    stage: run.result.stage,
+    issuedAt: instant,
+    profileVersion: run.result.profileVersion,
+  });
   assert.throws(() => service.receipt('owner', run.id), /outdated/);
+  service.revoke('owner', { id: run.id });
+  assert.deepEqual(service.verify({ code }), { status: 'revoked' });
 });
 
 test('unimplemented provider configuration is rejected instead of silently using a simulator', (t) => {

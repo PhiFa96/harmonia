@@ -13,8 +13,8 @@ language sql security definer set search_path='' as $$
  select a.id,a.key,a.kind
  from school_draft.actors a
  join auth.users u on u.id=a.id
- join auth.sessions s on s.user_id=u.id and s.id=session_id
- where a.id=account_id and u.deleted_at is null
+ join auth.sessions s on s.user_id=u.id and s.id=resolve_identity.session_id
+ where a.id=resolve_identity.account_id and u.deleted_at is null
  and (u.banned_until is null or u.banned_until<=clock_timestamp())
  and (s.not_after is null or s.not_after>clock_timestamp())
 $$;

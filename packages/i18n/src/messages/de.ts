@@ -86,17 +86,20 @@ export const de = {
     open: 'Freunde öffnen',
     guest: 'Für Freundschaften brauchst du ein Konto und eine Internetverbindung.',
     rules:
-      'Freunde kommen nur per Einladungslink oder Code hinzu. Keine Kontakt- oder Namenssuche. Freunde sehen deine aktuelle Lernserie und Liga-Stufe. Eine Quest zählt nur neue bestätigte XP ab ihrem Start; die Woche endet Montag um 00:00 UTC.',
+      'Freunde kommen per Einladungslink oder Code hinzu. Sie sehen deine aktuelle Lernserie und Liga-Stufe. Sobald ihr beide einer Quest zugestimmt habt, zählen neue bestätigte XP. Die Woche endet Montag um 00:00 UTC.',
     loading: 'Freunde werden geladen …',
     refresh: 'Freunde aktualisieren',
     error_auth: 'Bitte melde dich erneut an.',
     error_missing: 'Diese Einladung oder Freundschaft ist nicht mehr verfügbar.',
     error_retry: 'Gleichzeitige Änderung. Versuche es erneut.',
     error_limit: 'Eine Freundesliste ist voll (höchstens 50 Freunde).',
+    error_rate: 'Zu viele Einladungsversuche. Versuche es später erneut.',
     error_quest_active: 'Eine Person hat bereits eine Quest für diese Woche.',
+    error_quest_pending: 'Du hast schon eine Quest vorgeschlagen. Ziehe sie zuerst zurück.',
     error_unavailable: 'Der bestätigte Freundesstand konnte nicht geladen werden.',
     inviteTitle: 'Einladung',
     createInvite: 'Einladungslink erstellen',
+    revokeInvite: 'Einladungslink widerrufen',
     inviteExpiry: 'Gültig bis {{date}}',
     share: 'Link teilen oder kopieren',
     shareMessage: 'Harmonia-Freundschaft: {{link}}\nEinladungscode: {{code}}',
@@ -107,7 +110,7 @@ export const de = {
     friend: 'Freund {{count}}',
     stats_one: 'Lernserie: {{count}} Tag · Liga-Stufe: {{tier}}',
     stats_other: 'Lernserie: {{count}} Tage · Liga-Stufe: {{tier}}',
-    startQuest: 'Wochenquest zusammen starten',
+    startQuest: 'Wochenquest vorschlagen',
     remove: 'Entfernen',
     block: 'Blockieren',
     confirmRemove: 'Diese Freundschaft und eine gemeinsame laufende Quest entfernen?',
@@ -116,6 +119,11 @@ export const de = {
     cancel: 'Abbrechen',
     questTitle: 'Wochenquest',
     questEmpty: 'Wähle einen bestätigten Freund für diese Woche. Ziel: zusammen 300 neue XP.',
+    questIncoming: 'Freund {{number}} hat eine Wochenquest vorgeschlagen.',
+    questOutgoing: 'Dein Vorschlag an Freund {{number}} wartet auf Zustimmung.',
+    questAccept: 'Quest von Freund {{number}} annehmen',
+    questDecline: 'Quest von Freund {{number}} ablehnen',
+    questWithdraw: 'Questvorschlag zurückziehen',
     questUsed:
       'Deine Wochenquest wurde bereits begonnen oder beendet. Die nächste ist ab Montag (UTC) möglich.',
     questPartner: 'Mit Freund {{number}}',
@@ -128,7 +136,7 @@ export const de = {
     unblock: 'Blockierung aufheben',
     removeFriend: 'Freund {{count}} entfernen',
     blockFriend: 'Freund {{count}} blockieren',
-    startQuestWith: 'Wochenquest zusammen starten mit Freund {{count}}',
+    startQuestWith: 'Wochenquest mit Freund {{count}} vorschlagen',
     unblockPerson: 'Blockierung aufheben für blockierte Person {{count}}',
     shared: 'Einladung wurde geteilt oder kopiert.',
     shareFailed: 'Teilen oder Kopieren hat nicht geklappt.',
@@ -141,6 +149,8 @@ export const de = {
     loading: 'Rätsel wird geladen …',
     error: 'Das Rätsel konnte nicht geladen oder bestätigt werden. Versuche es erneut.',
     newDay: 'Ein neuer Rätseltag hat begonnen. Lade das heutige Rätsel.',
+    zoneWait:
+      'Nach einem Zeitzonenwechsel kannst du das nächste Rätsel frühestens 20 Stunden nach deiner letzten Antwort lösen.',
     reload: 'Rätsel neu laden',
     day: 'Rätsel vom {{day}}',
     streak_one: 'Rätselserie: {{count}} Tag',
@@ -420,9 +430,9 @@ export const de = {
       'Du lernst ohne dauerhaften Speicher. Deine Wiederholungen gelten nur für diese Sitzung.',
   },
   adaptive: {
-    weaknessTitle: 'Schwächen trainieren',
+    weaknessTitle: 'Gezielt Fähigkeiten üben',
     weaknessIntro:
-      'Zehn Aufgaben aus bis zu drei Fähigkeiten, die dir im bereits erreichten Stoff noch schwerfallen. Ohne Kursfreischaltung, XP oder Münzen.',
+      'Zehn Aufgaben zu bis zu drei deiner bisher niedriger bewerteten Fähigkeiten. Ohne Kursfreischaltung, XP oder Münzen.',
     weaknessEmpty:
       'Beantworte zunächst einige Aufgaben selbstständig. Sobald zu einer erreichten Fähigkeit mindestens zwei Antworten vorliegen, kannst du hier gezielt üben.',
     weaknessStart: 'Gezielt üben',
@@ -2106,6 +2116,8 @@ export const de = {
       'Zähle zuerst die Stammtöne einschließlich beider Endtöne. Bestimme danach den Klangabstand; die Schreibweise gehört zur Lösung.',
     auralHint1:
       'Höre die beiden Töne noch einmal. Vergleiche den Klangabstand mit den Intervallen, die du schon kennst.',
+    auralHint2:
+      'Präge dir einen der beiden Töne ein. Höre das Beispiel erneut und achte darauf, wie weit der andere Ton von ihm entfernt klingt.',
     intervalHint2:
       'Der Klangabstand beträgt {{distance}}. Vergleiche ihn mit den angebotenen Antworten.',
     notationDescription: '{{clef}}. {{notes}}',
@@ -2305,6 +2317,8 @@ export const de = {
     guest:
       'Fortschritt auf diesem Gerät gespeichert. Mit einem Konto kannst du ihn synchronisieren.',
     syncing: 'Fortschritt wird synchronisiert …',
+    syncDeferred:
+      'Ergebnisse mit einem Zeitstempel in der Zukunft bleiben vorerst auf diesem Gerät. Prüfe Datum und Uhrzeit deines Geräts.',
     syncError:
       'Synchronisation fehlgeschlagen. Deine Ergebnisse bleiben auf diesem Gerät. Bei Verbindung wird erneut synchronisiert.',
     synced: 'Fortschritt mit deinem Konto synchronisiert.',

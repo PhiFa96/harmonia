@@ -44,7 +44,7 @@ async function send(body?: FriendsRequest) {
   useFriends.setState({ owner: actor, loading: true, error: null });
   try {
     assertPrivacyWrite(actor);
-    const response = await fetch(config.url + '/functions/v1/friends', {
+    const response = await fetch(config.url + '/functions/v1/friends?questOffers=1', {
       method: body ? 'POST' : 'GET',
       headers: {
         apikey: config.key,
@@ -60,7 +60,9 @@ async function send(body?: FriendsRequest) {
     if (!response.ok) {
       const code = data && typeof data === 'object' && 'error' in data ? String(data.error) : '';
       throw new Error(
-        ['missing', 'retry', 'limit', 'quest_active'].includes(code) ? code : 'unavailable',
+        ['missing', 'retry', 'limit', 'rate', 'quest_active', 'quest_pending'].includes(code)
+          ? code
+          : 'unavailable',
       );
     }
     useFriends.setState({ view: friendsViewSchema.parse(data), loading: false });

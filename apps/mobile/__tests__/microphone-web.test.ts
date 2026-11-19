@@ -145,6 +145,20 @@ it('rejects a stream without audio and releases the context and tracks', async (
   expect(track.stop).toHaveBeenCalledTimes(1);
   expect(Context.instances[0]?.close).toHaveBeenCalledTimes(1);
 });
+it('releases the acquired track when constructing an AudioContext fails', async () => {
+  Object.defineProperty(globalThis, 'AudioContext', {
+    configurable: true,
+    value: function unavailableAudioContext() {
+      throw new Error('AudioContext unavailable');
+    },
+  });
+  await expect(startMicrophone(jest.fn(), jest.fn())).rejects.toHaveProperty(
+    'reason',
+    'unavailable',
+  );
+  expect(track.stop).toHaveBeenCalledTimes(1);
+  expect(jest.getTimerCount()).toBe(0);
+});
 it('every stop waits for the same pending AudioContext close', async () => {
   let release: (() => void) | undefined;
   const session = await startMicrophone(jest.fn(), jest.fn()),

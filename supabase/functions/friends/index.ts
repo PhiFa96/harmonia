@@ -9,8 +9,8 @@ const headers = {
   'Content-Type': 'application/json',
   'Cache-Control': 'no-store',
 };
-const json = (status: number, body: unknown) =>
-  new Response(JSON.stringify(body), { status, headers });
+const json = (status: number, body: unknown, responseHeaders: Record<string, string> = {}) =>
+  new Response(JSON.stringify(body), { status, headers: { ...headers, ...responseHeaders } });
 
 Deno.serve(async (request) => {
   if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers });
@@ -46,11 +46,28 @@ Deno.serve(async (request) => {
         name = 'friend_invite_create';
         args = { actor, new_token: body.token };
       } else if (body.action === 'accept') {
+        const limit = await client.rpc('consume_friend_invite_attempt', { actor });
+        const wait: unknown = limit.data;
+        if (
+          limit.error ||
+          typeof wait !== 'number' ||
+          !Number.isInteger(wait) ||
+          wait < 0 ||
+          wait > 3600
+        )
+          return json(503, { error: 'storage' });
+        if (wait) return json(429, { error: 'rate' }, { 'Retry-After': String(wait) });
         name = 'friend_invite_accept';
+        args = { actor, invite_token: body.token };
+      } else if (body.action === 'revokeInvite') {
+        name = 'friend_invite_revoke';
         args = { actor, invite_token: body.token };
       } else if (body.action === 'quest') {
         name = 'friend_quest_start';
         args = { actor, peer: body.friendId };
+      } else if (body.action === 'questResponse') {
+        name = 'friend_quest_respond';
+        args = { actor, proposal: body.proposalId, decision: body.decision };
       } else if (body.action === 'unblock') {
         name = 'friend_unblock';
         args = { actor, peer: body.friendId };
@@ -61,12 +78,21 @@ Deno.serve(async (request) => {
     }
     const result = await client.rpc(name, args);
     if (result.error) {
-      const code = /friend_(missing|retry|limit|quest_active)/.exec(result.error.message)?.[1];
+      const code = /friend_(missing|retry|limit|quest_active|quest_pending)/.exec(
+        result.error.message,
+      )?.[1];
       return code
-        ? json(code === 'retry' ? 409 : code === 'missing' ? 404 : 409, { error: code })
+        ? json(code === 'missing' ? 404 : 409, { error: code })
         : json(503, { error: 'storage' });
     }
-    return json(200, friendsViewSchema.parse(result.data));
+    const view = friendsViewSchema.parse(result.data);
+    if (new URL(request.url).searchParams.get('questOffers') === '1') {
+      const offers = await client.rpc('friend_quest_offers', { actor });
+      if (offers.error) return json(503, { error: 'storage' });
+      const questOffers: unknown = offers.data;
+      return json(200, friendsViewSchema.parse({ ...view, questOffers }));
+    }
+    return json(200, view);
   } catch {
     return json(503, { error: 'unavailable' });
   }

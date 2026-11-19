@@ -121,7 +121,9 @@ export function LearningPath() {
                     ? 'path.syncing'
                     : state.sync === 'error'
                       ? 'path.syncError'
-                      : 'path.synced',
+                      : state.sync === 'deferred'
+                        ? 'path.syncDeferred'
+                        : 'path.synced',
             )}
           </AppText>
           {state.sync !== 'guest' ? (

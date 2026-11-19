@@ -40,6 +40,7 @@ export default function ExamScreen() {
   const [paused, setPaused] = useState(false);
   const [leaving, setLeaving] = useState(false);
   const navigation = useNavigation();
+  const clock = useRef(Date.now);
   const exitAction = useRef<Parameters<typeof navigation.dispatch>[0] | null>(null);
   const scroll = useRef<ScrollView>(null);
   const question = useRef<View>(null);
@@ -52,7 +53,7 @@ export default function ExamScreen() {
   useEffect(() => {
     if (!active) return;
     const timer = setInterval(() => {
-      const instant = Date.now();
+      const instant = clock.current();
       setNow(instant);
       setRun((current) => (current ? finishExamIfExpired(current, instant) : current));
     }, 1000);
@@ -114,7 +115,16 @@ export default function ExamScreen() {
   function start(id: ExamTemplateId) {
     try {
       const instant = Date.now();
-      setRun(createExamRun(catalogue, examTemplates, id, instant, instant));
+      const next = createExamRun(catalogue, examTemplates, id, instant, instant);
+      let latest = instant;
+      let sampledAt = performance.now();
+      clock.current = () => {
+        const sample = performance.now();
+        latest = Math.max(Date.now(), latest + Math.max(0, sample - sampledAt));
+        sampledAt = sample;
+        return Math.floor(latest);
+      };
+      setRun(next);
       setNow(instant);
       setAnswer(null);
       setError(false);
@@ -305,13 +315,13 @@ export default function ExamScreen() {
               continueLabel={t('exercise.next')}
               onSelect={setAnswer}
               onCheck={(value) => {
-                const instant = Date.now();
+                const instant = clock.current();
                 setRun((current) => (current ? answerExam(current, value, instant) : current));
                 setAnswer(null);
               }}
               onHint={() => undefined}
               onSkip={() => {
-                const instant = Date.now();
+                const instant = clock.current();
                 setRun((current) => (current ? skipExamAural(current, instant) : current));
                 setAnswer(null);
               }}
@@ -324,7 +334,8 @@ export default function ExamScreen() {
                   <Button
                     label={t('exam.confirmYes')}
                     onPress={() => {
-                      setRun((current) => (current ? finishExam(current, Date.now()) : current));
+                      const instant = clock.current();
+                      setRun((current) => (current ? finishExam(current, instant) : current));
                       setConfirmSubmit(false);
                     }}
                   />

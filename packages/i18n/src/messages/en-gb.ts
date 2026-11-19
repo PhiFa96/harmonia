@@ -11,7 +11,6 @@ import levelFourExercise from './level-four-exercise.json' with { type: 'json' }
 
 export const enGB = {
   adaptive: {
-    weaknessTitle: 'Practise weak skills',
     weaknessEmpty:
       'First answer a few questions independently. Once a skill you have reached has at least two answers, you can practise it here.',
     weaknessStart: 'Start focused practice',

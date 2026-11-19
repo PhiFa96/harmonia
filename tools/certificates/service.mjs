@@ -81,8 +81,8 @@ export function createCertificateService(filename, options = {}) {
   };
   const purchases = certificatePurchases(db, { now, profileFor, paymentSimulation });
   const sessions = certificateSessions(db, now);
-  function reconstruct(row) {
-    requireCurrent(row);
+  function reconstruct(row, { verifyIssuedCode = false } = {}) {
+    requireCurrent(row, verifyIssuedCode);
     const profile = CERTIFICATE_PROFILES.find((p) => p.id === row.profile);
     if (
       !profile ||
@@ -143,11 +143,15 @@ export function createCertificateService(filename, options = {}) {
     } else if (run.endedAt !== undefined) throw new DraftError('outdated', 409);
     return run;
   }
-  function requireCurrent(row) {
+  function requireCurrent(row, verifyIssuedCode = false) {
     if (row.invalidated !== null || row.source_hash !== sourceHash)
       throw new DraftError('outdated', 409);
     if (purchases.refunded(row)) throw new DraftError('purchaseRefunded', 409);
-    if (!purchases.authorized(row)) throw new DraftError('outdated', 409);
+    if (
+      (!verifyIssuedCode && purchases.mode() !== 'local-simulation') ||
+      !purchases.matchesPaidAttempt(row)
+    )
+      throw new DraftError('outdated', 409);
   }
   function receiptFor(row, run, code) {
     const result = examResult(run);
@@ -461,7 +465,7 @@ export function createCertificateService(filename, options = {}) {
         if (row.revoked !== null) return { status: 'revoked' };
         if (row.finished === null) return { status: 'outdatedCode' };
         try {
-          reconstruct(row);
+          reconstruct(row, { verifyIssuedCode: true });
         } catch (error) {
           if (error instanceof DraftError && ['outdated', 'purchaseRefunded'].includes(error.code))
             return { status: 'outdatedCode' };
@@ -469,7 +473,7 @@ export function createCertificateService(filename, options = {}) {
         }
         const result = JSON.parse(row.result);
         return {
-          status: row.revoked === null ? 'draft' : 'revoked',
+          status: 'draft',
           stage: result.stage,
           issuedAt: result.issuedAt,
           profileVersion: result.profileVersion,

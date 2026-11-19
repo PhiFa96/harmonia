@@ -805,14 +805,18 @@ export function exerciseHints(item: ExerciseItem, level: 1 | 2 | 3): ExerciseHin
       key: level === 1 ? 'exercise.noteHint1' : 'exercise.noteHint2',
       values: level === 1 ? {} : { line: reference(item).line },
     };
+  if (item.type === 'INTERVAL_IDENTIFY_AURAL')
+    return {
+      level,
+      key: level === 1 ? 'exercise.auralHint1' : 'exercise.auralHint2',
+      values: {},
+    };
   const interval = intervalBetween(item.from, item.to);
   return {
     level,
     key:
       level === 1
-        ? item.type === 'INTERVAL_IDENTIFY_AURAL'
-          ? 'exercise.auralHint1'
-          : 'exercise.visualHint1'
+        ? 'exercise.visualHint1'
         : item.type === 'INTERVAL_BUILD'
           ? 'exercise.buildHint2'
           : 'exercise.intervalHint2',

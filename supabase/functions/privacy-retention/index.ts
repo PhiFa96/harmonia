@@ -87,6 +87,9 @@ Deno.serve(async (request) => {
     const friends = await client.rpc('retain_friend_quests');
     if (friends.error) return json(503, { error: 'retention' });
     const friendsResult = friends.data as { changed: number; more: boolean };
+    const friendLimits = await client.rpc('retain_friend_invite_limits');
+    if (friendLimits.error) return json(503, { error: 'retention' });
+    const friendLimitResult = friendLimits.data as { changed: number; more: boolean };
     const details = await client.rpc('privacy_retention_details');
     if (details.error) return json(503, { error: 'retention' });
     const detailResult = details.data as { changed: number; more: boolean };
@@ -120,6 +123,7 @@ Deno.serve(async (request) => {
       duels: duelResult.changed,
       dailyPuzzles: puzzleResult.changed,
       friends: friendsResult.changed,
+      friendInviteLimits: friendLimitResult.changed,
       tutorAttempts: attemptResult.changed,
       analytics: analytics.data as number,
       more:
@@ -130,6 +134,7 @@ Deno.serve(async (request) => {
         duelResult.more ||
         puzzleResult.more ||
         friendsResult.more ||
+        friendLimitResult.more ||
         attemptResult.more ||
         analytics.data === 100,
     });

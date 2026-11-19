@@ -1,6 +1,6 @@
 # Harmonia – Plan bis zur vollständigen Fertigstellung
 
-Stand **16.11.2026**, fortgeschrieben nach Claudes fachlicher und funktionaler Prüfung des Integrationskandidaten (Codex-Stand `84200b8`, Arbeitsbranch `claude/zen-volta-59qear`); Ausgangsplan vom 14.11.2026 (früher Entwurfs-PR #163, durch diese Datei ersetzt). Dieser Plan umfasst die verbleibende Entwicklung, Inhalte, Entscheidungen, Anbieteranbindung, reale Abnahmen und Veröffentlichung bis einschließlich der heutigen Phase-5-Vision.
+Stand **19.11.2026**. M1 ist seit dem 16.11.2026 auf `main@688de50`. Die ersten M2-Korrekturen liegen auf `codex/programmierarbeiten-nach-m1`. Der Plan umfasst Entwicklung, Inhalte, Entscheidungen, Anbieteranbindung, reale Abnahmen und Veröffentlichung bis zur Phase-5-Vision.
 
 Technische Nachweise: [M1-Übergabe](integration-m1.md), [lokaler Prüfbericht](../quality/m1-integration/validation.json) und [Befundregister M2](befundregister.md). Der Plan ändert keine Inhalts-, Fach-, Rechts- oder Produktfreigabe.
 
@@ -9,8 +9,8 @@ Technische Nachweise: [M1-Übergabe](integration-m1.md), [lokaler Prüfbericht](
 - Eine umfangreiche technische Grundlage und interne Entwürfe für die Lernstufen 1–5, Tutor, Tonsatz, Chor, Zeitreise, Schule und Zertifikate.
 - **195 interne Lektionen, 200 Fähigkeiten und 66 geplante Einheiten; null öffentlich freigegebene Lektionen.**
 - Fachliche Prüfdurchgänge haben bereits stattgefunden, unter anderem am 16.10., 20.10., 31.10. und 05.11.2026. Offene Quellen-, Konventions-, Sprach- und Produktabnahmen bleiben bestehen; neuere Änderungen brauchen ihre eigene Nachprüfung.
-- **Die acht technischen Entwürfe #151 und #156–#162 sind gemeinsam integriert und von Claude fachlich und per Code-Review geprüft** ([Prüfabschnitt](integration-m1.md#fachliche-und-funktionale-prüfung-durch-claude-code-16112026)); Übernahme nach `main` über einen regulären PR mit allen fünf Pflichtjobs. Sechs optionale Liga-/Rush-Auth-UI-Fälle wurden weiterhin nicht ausgeführt.
-- **M2 ist begonnen:** 65 Arbeitsgruppen aus 33 unveränderten Rohberichten sowie sechs neue Review-Befunde M1-R1–R6 sind erfasst. Das sind keine 65 bestätigten offenen Fehler. Einige Altbefunde sind bereits behoben; die vollständige Einzeltriage und die daraus folgenden Restkorrekturen stehen aus.
+- **Die acht technischen Entwürfe #151 und #156–#162 sind seit dem 16.11.2026 gemeinsam in `main`.** Claude dokumentierte den fachlichen und technischen Review. Alle fünf Pflichtjobs liefen am Stand von [PR #165](https://github.com/PhiFa96/harmonia/pull/165) erfolgreich. [Prüfbericht](integration-m1.md#fachliche-und-funktionale-prüfung-durch-claude-code-16112026)
+- **M2 ist in Arbeit.** Das Register erfasst 65 Arbeitsgruppen aus 33 Rohberichten sowie sechs Einträge aus dem Integrationsreview. Der erste Korrekturstand bearbeitet Lern-Sync, Hörhinweise, Freundschaften, Aufgabenzeit, Mikrofon und MIDI sowie Schul- und Zertifikatsentwürfe. Der Einzelstand steht im [Befundregister](befundregister.md). Die vollständige Einzeltriage bleibt offen.
 - Coach-Marktplatz und KI-Live-Calls sind noch größere ausstehende Entwicklungsblöcke. Schul- und Zertifikatswerkstätten benötigen zusätzlich eine produktive Integration.
 
 Der zuletzt geprüfte Integrationsstand meldet **151 offene P2-Releasevoraussetzungen**, für Beta iOS/Android jeweils **135**, Web **131**, für die KI-Bereiche allgemein/Schule/Zertifikate **21/22/18** offene Nachweisfelder sowie **26** offene Zertifikatsanforderungen. Diese Zahlen überlappen und enthalten Konfiguration, Nachweise und Laufzeitbedingungen; sie sind keine addierbare Zahl fehlender Programmieraufgaben. Lokale Prüfungen ersetzen die noch fehlenden realen Abnahmen nicht.
@@ -31,8 +31,8 @@ Die Reihenfolge beschreibt die Abhängigkeiten. M3, die Facharbeit aus M5 und vo
 
 | Meilenstein | Noch zu erreichen | Voraussetzung / Hauptzuständigkeit |
 |---|---|---|
-| M1 | Gemeinsamen Kandidaten über PR, CI und Reviews nach `main` übernehmen | Technisch vorbereitet; Claude Code im bestehenden Freigabeverfahren |
-| M2 | Einzeltriage abschließen und bestätigte technische Restfehler beheben | Aktueller Gesamtstand; Entwicklung, Fachentscheidungen durch Claude |
+| M1 | Gemeinsamen Kandidaten über PR, CI und Reviews nach `main` übernehmen | Abgeschlossen mit PR #165 am 16.11.2026 |
+| M2 | Einzeltriage abschließen und bestätigte technische Restfehler beheben | Korrekturen auf dem Arbeitsbranch. Entwicklung und Fachentscheidungen durch Claude |
 | M3 | Betreiber-, Preis-, Rechts- und Fachentscheidungen mit Nachweisen abschließen | Parallel starten; Phillip, Claude und qualifizierte Beratung nach Bereich |
 | M4 | Echte Anbieter und belastbaren Produktbetrieb herstellen | Betreiber-/Kontenentscheidungen aus M3; Entwicklung und Phillip |
 | M5 | Inhalte erst Stufe 1–2, später 3–5 tatsächlich freigeben | Fach-/Quellen-/Sprachprüfung und entschiedene Konventionen; Claude |
@@ -64,10 +64,9 @@ Die Reihenfolge beschreibt die Abhängigkeiten. M3, die Facharbeit aus M5 und vo
 - [x] Abhängigkeiten #152–#155 prüfen und für diesen Kandidaten begründet zurückstellen. SDK-/Deno-Abgleich, Expo-SDK-Migration, Supabase-CLI 3 und Audio API 1 bleiben eigene Pakete; bei neuen Sicherheits- oder Kompatibilitätsbefunden erneut priorisieren.
 - [x] Fachliche Prüfung (#160–#162) und Code-Review des Gesamt-Diffs durch Claude; kein Blocker, Restbefunde als M1-R1–R6 im Befundregister.
 - [x] Abhängigkeiten erneut entschieden (16.11.2026, Nutzerentscheidung): #152 ist geschlossen und durch das Sammelupdate #164 ersetzt; #164, #153, #154 und #155 bleiben zurückgestellt (T7).
-- [ ] Claude Code erstellt den Integrations-PR mit der [vorbereiteten Beschreibung](../quality/m1-integration/pr-beschreibung.md).
-- [ ] Alle fünf Pflichtjobs am endgültigen gemeinsamen PR-Head abschließen; Befunde beheben und betroffene Prüfungen nachholen.
-- [ ] Den geprüften Kandidaten regulär nach `main` übernehmen, die ursprünglichen Entwürfe nachvollziehbar als integriert/ersetzt abschließen und Branches gemäß Projektverfahren aufräumen.
-- [ ] Bei weiteren Änderungen an Code oder gebundener Zweckbeschreibung die betroffenen Prüfmappen und Abnahmen aktualisieren.
+- [x] Claude Code hat [PR #165](https://github.com/PhiFa96/harmonia/pull/165) erstellt.
+- [x] Alle fünf Pflichtjobs am gemeinsamen Stand `998db34` liefen im [CI-Lauf #302](https://github.com/PhiFa96/harmonia/actions/runs/43851972544) erfolgreich.
+- [x] Der Merge ist `688de50`. Die ursprünglichen Entwurfs-PRs sind als integriert beziehungsweise ersetzt geschlossen.
 
 **Fertig, wenn:** Der gemeinsame Kandidat nach erfolgreicher erforderlicher GitHub-CI und den vorgesehenen Reviews über den regulären PR nach `main` übernommen ist; jeder Entwurf samt Tests ist erhalten oder begründet ersetzt. Codex übergibt gemäß `AGENTS.md` den Arbeitsbranch; Claude Code übernimmt den PR-/CI-/Integrationsablauf.
 
@@ -78,7 +77,8 @@ Die Reihenfolge beschreibt die Abhängigkeiten. M3, die Facharbeit aus M5 und vo
 - [ ] Für jeden bestätigten Restbefund Umfang, Zuständigkeit, Abhängigkeiten und betroffenen Zielumfang A/B/C festlegen. Eine Erledigung erhält einen Test-/Codebeleg oder eine ausdrückliche Entscheidung mit Begründung.
 - [ ] Bestätigte Probleme bei adaptiver Auswahl, FSRS-Wiederholungen, Bewertungszuordnung und Rückmeldungen beheben.
 - [ ] Wettbewerb und Social prüfen: Liga-XP, Teilnahmebedingungen, Missbrauchsschutz, Einladungstoken, Alters-/Datenschutzgrenzen und Zeitzonen.
-- [ ] Die sechs optionalen authentifizierten Browserfälle für Liga und Rush mit der dafür vorgesehenen lokalen Anbieter-Fixture ausführen; vor Aktivierung dieser Funktionen zusätzlich reale Konto-/Mehrgeräteabläufe abnehmen.
+- [x] Die sechs authentifizierten Liga- und Rush-Browserfälle auf Deutsch, US- und UK-Englisch mit lokalen Supabase-Konten ausführen.
+- [ ] Konto- und Mehrgeräteabläufe für Liga und Rush vor der Aktivierung unter den vorgesehenen Betriebsbedingungen abnehmen.
 - [ ] Audio-/Mikrofon-/MIDI-Randfälle, Gerätewechsel, Eingabebereiche und Rhythmus-Texte schließen.
 - [ ] Harmonik- und Prüfungsaufgaben auf eindeutigen Kontext, sinnvolle Fehlerwiederholung, barrierefreie Bedienung und passende Fähigkeitsziele prüfen; bestätigte Lücken implementieren.
 - [ ] Lernziele der Stufen 3–4 mit den tatsächlichen Aufgaben abgleichen, insbesondere Modi, Formverlauf, Zwischendominanten, Voicings und Hörtraining.
@@ -94,7 +94,7 @@ Die nächste technische Reihenfolge innerhalb von M2:
 | T1 | Alle 65 Arbeitsgruppen in aktuelle Einzelfunde auflösen und nach A/B/C priorisieren | Vollständige Triage mit Beleg und Verantwortlichkeit; daraus geschätzter Restumfang |
 | T2 | Lernablauf, FSRS, Fähigkeits-/Bewertungszuordnung und Zeitgrenzen prüfen | Reproduktionen und Regressionen; konservative Bewertungsregeln und Lernschritte begründet beurteilt, statt ungeprüft ersetzt |
 | T3 | Lernziel-/Aufgabenabdeckung, Voraussetzungen und Rückmeldungen der Stufen 1–2 schließen | Abgleich je Fähigkeit/Lektion; technische Lücken behoben, Fachfragen an M5 gebunden |
-| T4 | Wettbewerb/Social und die sechs offenen Auth-UI-Fälle abnehmen | Konto-, Rechte-, Teilnahme-, Missbrauchs- und Zeitzonentests; erforderliche Produkt-/Datenschutzentscheidungen dokumentiert |
+| T4 | Wettbewerb und Social prüfen | Sechs lokale Auth-UI-Fälle bestanden. Technische Korrekturen für Quests, Freundeseinladungen und Rätseltage im [Befundregister](befundregister.md). Reale Mehrgeräteabläufe und Produkt-/Datenschutzentscheidungen stehen aus |
 | T5 | Audio, Mikrofon, MIDI, Wiederaufnahme und barrierefreie Eingaben prüfen | Regressionsbelege für Fehlerpfade; reale Nachweise anschließend in M6 |
 | T6 | Stufen 3–5 und P4-Restfragen gegen tatsächliche Aufgaben prüfen | Lernzielabgleich, begründetes Regelprofil und eigene Nachprüfung neuer Hinweise/Erklärungen |
 | T7 | Abhängigkeiten und Plattform aktuell halten: Sammelupdate #164 mit Anthropic SDK an allen drei Orten gemeinsam (ADR 0065), Expo-SDK-58-Migration statt Einzelpaket #153, Supabase-CLI 3 (#154) und Audio API 1.0 (#155) als eigene Migrationen | Je Paket eigener PR mit fünf grünen Pflichtjobs; nativer Build/Gerätetest für SDK- und Audioänderungen; echter Tutor-API-Aufruf nach SDK-Wechsel. Vor der Storeeinreichung (M7) prüfen, ob das verwendete Expo SDK noch die geforderten iOS-/Android-Zielversionen erfüllt |
@@ -235,7 +235,7 @@ Vor dem Start den Umfang, Zielsprachen, unterstützte Instrumente, Qualitätsma�
 
 **Drei parallele Arbeitsstränge bis Ziel A:**
 
-1. **Technik:** M1 formal abschließen, T1-Triage durchführen, T7-Abhängigkeiten einplanen, notwendige A-Korrekturen aus M2 umsetzen und Anbieter-/Betriebsintegration aus M4 abnehmen.
+1. **Technik:** Die T1-Triage abschließen, T7-Abhängigkeiten einplanen, notwendige A-Korrekturen aus M2 umsetzen und Anbieter-/Betriebsintegration aus M4 abnehmen.
 2. **Inhalte:** Stufen 1–2 samt Voraussetzungen, Quellen, Fachkonventionen und DE/US/UK-Texten nach M5 abschließen; danach Stufen 3–5 vorbereiten.
 3. **Betreiber und Abnahmen:** M3-Entscheidungen/Rechtsprüfung, Anbieter-/Storekonten, Gerätebesetzung und Testpersonen für M6 organisieren; Store/Support/Betrieb vorbereiten.
 
@@ -245,8 +245,8 @@ Ein belastbarer Kalenderplan entsteht nach T1 aus dem bestätigten Restumfang, d
 
 ## 5. Der unmittelbar nächste Auftrag
 
-1. **Claude Code:** Den geprüften Integrations-PR nach grüner Pflicht-CI regulär übernehmen, #151/#156–#162 als integriert und #163 als ersetzt schließen.
-2. **Entwicklung:** T1, die vollständige Einzeltriage des [Befundregisters](befundregister.md), abschließen; anschließend bestätigte Fehler in der Reihenfolge des vorgesehenen Releaseumfangs beheben. Die sechs offenen Liga-/Rush-Auth-UI-Fälle bleiben als eigene Prüfung sichtbar.
+1. **Claude Code:** Den Branch `codex/programmierarbeiten-nach-m1` mit den M2-Korrekturen nach dem bestehenden PR-/CI-Verfahren prüfen.
+2. **Entwicklung:** Die Einzeltriage T1 im [Befundregister](befundregister.md) abschließen und die bestätigten Restfehler für den vorgesehenen Releaseumfang beheben.
 3. **Claude:** Parallel mit Quellen-/Konventions-/Fachprüfung der Stufen 1–2 beginnen und den getrennten zweiten Durchgang einplanen.
 4. **Phillip mit Beratung:** Betreiber-/Namens-/Preis-/Gebühren-/Altersentscheidungen abschließen, rechtliche Prüfungen beauftragen sowie Anbieter-/Storekonten und die Geräte-/Testpersonenbesetzung vorbereiten.
 5. **Gemeinsam:** Ziel-A-Umfang festhalten und nach T1 daraus den ersten belastbaren Umsetzungs- und Abnahmezeitplan ableiten.
@@ -263,4 +263,4 @@ Für jedes erledigte Paket werden Code-/Inhaltsstand, durchgeführte Prüfungen,
 - [P2-Abschluss und Einzelabnahmen](p2-abschluss.md), [Abo-/Anbieterabnahmen](abos-revenuecat.md). Die verlinkten Einzelchecklisten bleiben für ihren jeweiligen Umfang maßgeblich.
 - Reproduzierbarer Status: `pnpm p2:status`, `pnpm check:beta`, `pnpm check:ai --scope general` (zusätzlich mit `--scope school` und `--scope certificates`), `pnpm check:certificates`, `pnpm check:content`.
 
-Die technischen Messwerte stammen aus dem nachgewiesenen M1-Kandidaten `f2472a3`. Für diese Fortschreibung wurden dessen Nachweise, das Befundregister, die Phasen-/Entscheidungspläne und der aktuelle GitHub-Stand gelesen; es wurden keine neuen Laufzeitabnahmen behauptet. `main` steht weiterhin auf `ab157e81`, ein offener Integrations-PR für den Arbeitsbranch ist beim Abgleich nicht vorhanden. Diese Fortschreibung ändert ausschließlich die Planung; sie implementiert keine weiteren Produktfunktionen und erteilt keine Inhalts- oder Veröffentlichungsfreigabe.
+Die genannten offenen Releasevoraussetzungen beziehen sich auf die dokumentierte M1-Messung. Die M2-Regressionsnachweise beziehen sich auf den Arbeitsbranch und die lokale Testumgebung. Die Inhalts- und Produktfreigaben stehen aus.

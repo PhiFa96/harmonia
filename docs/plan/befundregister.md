@@ -1,6 +1,6 @@
 # Gemeinsames Befundregister M2
 
-Arbeitsstand auf `codex/m1-integration-m2-register`, Basis `main@ab157e81` mit den technischen Entwürfen #151/#156–#162. Dies ist die erste konsolidierte Triage, keine neue Fach- oder Releaseabnahme. Die Rohberichte bleiben unverändert. [Integrationsnachweis und aktuelle Tests](integration-m1.md).
+Stand 19.11.2026 auf `codex/programmierarbeiten-nach-m1`, Basis `main@688de50`. M1 ist seit PR #165 integriert. Das Register hält die geprüften Einzelbefunde und die ausstehende Triage fest. [Integrationsnachweis](integration-m1.md) · [M2-Übergabe](../quality/m2-befunde/uebergabe.md)
 
 ## Status und Nachweise
 
@@ -20,11 +20,11 @@ Quellen: [Zusammenfassung einschließlich Graphkorrekturen](fachpruefung-stufe-1
 |---|---|---|
 | S12-01 | Hörhinweis `NaN`, Kasus-/UK-Fehler, Achtelposition, Operndefinition | Offen, nachprüfen: historisch als behoben dokumentiert; konkrete Text-/Generatorregressionen gegen den jetzigen Katalog zuordnen. Kein erneuter Fachdurchgang behauptet. |
 | S12-02 | Graph-Fehler: 4 in Stufe 1, 8 in Stufe 2; Titel und Voraussetzungskanten | Offen, nachprüfen: Korrekturcommit `a769d2a` ist enthalten. Einzelbefunde gegen jetzige Titel, Kanten und `curriculum.test.ts` abgleichen; Titelkorrektur und noch fehlende Aufgabe getrennt bewerten. |
-| S12-03 | Gehör-Intervallkarte ohne Notationsvoraussetzung (`aural.third-fourth-fifth`) | Offen, nachprüfen: Einführung, Karteninhalt und beabsichtigten direkten Höreinstieg gemeinsam nachprüfen; keine neue Kante allein aus dem alten Bericht ableiten. |
-| S12-04 | Aufgaben fehlen für Linie/Zwischenraum, Tastenabstand, Auflösungszeichen, Umkehrungsbau | Offen, nachprüfen: aktuelle Generatorparameter und jedes Lernziel einzeln abgleichen. Die alten Titelkorrekturen ersetzen diesen Nachweis nicht. |
+| S12-03 | Gehör-Intervallkarte ohne Notationsvoraussetzung (`aural.third-fourth-fifth`) | Ziel A, bestätigt: Der Katalog führt nur `aural.pitch-direction` als Voraussetzung. Der Notations-unabhängige Einstieg ist als Test geschützt. Claude entscheidet über eine selbsterklärende Einführung oder eine neue fachliche Voraussetzung. |
+| S12-04 | Abdeckung für Linie/Zwischenraum, Tastenabstand, Auflösungszeichen, Umkehrungsbau | Ziel A, am Katalog nachgezählt: Die drei Staff-Lektionen bewerten Notennamen, Keyboard Steps prüft Begriffe und Tonziele, die Vorzeichenlektion fragt Begriffe und geschriebene Tonnamen ab. Die Umkehrungslektion hat zehn `CHORD_IDENTIFY`-Aufgaben mit 0/1/2 und beschreibt im Titel das Bestimmen. Eigene Bauaufgaben und erweiterte Lernziele brauchen eine fachliche Entscheidung. |
 | S12-05 | Seltene Schreibweisen im Einstieg; Vorzeichen/Versetzungszeichen; Hilfebegriffe vor Einführung | Offen, nachprüfen: Notations-F/Z und Rhythmus Z1; didaktische Entscheidung mit eigener Nachprüfung erforderlich. |
 | S12-06 | Auftakt/Schlusstakt, Betonung 3/4, Zählsilben, Schlussstrich | Offen, nachprüfen: Rhythmus Z2–Z7, aktuelle Texte/Notenbilder und Quellen gemeinsam lesen. |
-| S12-07 | Gehör-Hinweise, Ausklang/Pausen und kleine Melodieunterschiede | Offen, nachprüfen: aural Z1–Z7; aktuelle Hilfestufen, Klang und tatsächliche Hörbarkeit getrennt prüfen. |
+| S12-07 | Gehör-Hinweise, Ausklang/Pausen und kleine Melodieunterschiede | Ziel A: Der zweite Hörintervall-Hinweis enthält keine Halbtöne mehr. Dieselben Hinweise erscheinen bei unterschiedlichen Zielintervallen, die Auflösung bleibt auf Stufe 3. `feedback.test.ts` prüft DE/en-US/en-GB. Ausklang, Hörbarkeit und die unabhängige didaktische Prüfung der neuen Hilfen stehen aus. |
 | S12-08 | Aufnahme als Quelle, Ort/Zeit, Klaviermodelle, historische Aussagen | Offen, nachprüfen: Geschichtsbericht; ursprüngliche Korrekturen und verbleibende Zweifel einzeln trennen. |
 | S12-09 | Screenreader-Satzanfang und weitere Terminologie-/Redundanzzweifel | Offen, nachprüfen: Notation F/Z sowie Graph-Einzelmittel/G6; echte Ausgabe und aktuelle Sprachressourcen prüfen. |
 | S12-10 | Kein vollständiger getrennter Inhaltsdurchgang Stufe 2 / Primärquellen | Offen: Graphprüfung vom 20.10. ist keine Freigabe aller Stufe-2-Lerntexte. M5 und ADR 0005 bleiben erforderlich. |
@@ -40,13 +40,13 @@ Quellen: [P3.02/03](../quality/fachpruefung-phase-3/p3-02-03-auswahl-fsrs.md), [
 | P3-03 | Ein Fehler setzt alle beteiligten Fähigkeiten auf Again | Offen, bestätigt durch Codelesung: `reviewEvidence` verwendet weiter `Math.min`; konservative Modellannahme mit echter Lern-/Kalibrierungsevidenz beurteilen, keine ungeprüfte neue Bewertungsregel einsetzen. |
 | P3-04 | Minuten-Lernschritte, Sofortfälligkeit und Rückstand | Offen, bestätigt durch Codelesung: `REVIEW_PARAMETERS` enthält `1m/10m`, neue Karten sind sofort fällig. Tagesgrenzen und Produkttext mit empirischem Ziel prüfen. |
 | P3-05 | Kartenbewertung verlangt Bewertung vor dem Aufdecken | Behoben: `review.ratingHelp` fragt jetzt nach der zuvor erinnerten Antwort; Beschriftungen nennen Erinnerung. Plurale werden je Anzahl verschachtelt aufgelöst (`367a98c`). |
-| P3-06 | Schwächen nur relativ, Einstufungs-FSRS, lokale Zukunftsuhr, Zeitgrenze ganzer Sync-Chargen | Offen, nachprüfen: relative Sortierung in `weakestSkills` besteht; die übrigen Einzelpfade brauchen aktuelle Reproduktion mit Client und Server. |
-| P3-07 | FSRS-5-Versionsvergleich und alte Gewichte | Überholt als Versionsnachweis: aktueller Stand verwendet FSRS 6 nach ADR 0075 (`e6dc2f1`). Empirische Eignung, unabhängige Goldwerte, UTC-/lokale Tagesgrenzen und blockierte Backfills bleiben gesondert offen. |
+| P3-06 | Relative Übungsauswahl, Einstufungs-FSRS, lokale Zukunftsuhr, Zeitgrenze ganzer Sync-Chargen | Ziel A: Die Oberfläche beschreibt niedrigere Bewertungen. Neue Sync-Clients stellen einzelne zukünftige Nachweise lokal zurück und synchronisieren gültige Nachweise weiter. App- und lokaler HTTP-Test belegen ACK, Folgeverarbeitung und Wiederholung. Einstufungs-FSRS und bereits lokal berechnete Zukunftstermine bleiben in der Prüfung. |
+| P3-07 | FSRS-Version, Tagesgrenzen und blockierte Backfills | Die Versionsangabe FSRS 5 ist durch ADR 0075 überholt. Bei konkurrierenden Schreibvorgängen hält der Worker die Reihenfolge je Konto ein und verarbeitet im selben Stapel weitere Konten. Bei Lern-Sync wird eine zurückgestellte Projektion ohne Kontodaten gemeldet. Empirische Eignung, Referenzwerte und die Planung über lokale Tagesgrenzen stehen aus. |
 | P3-08 | Globale Schreibsperre beim Liga-Lesen | Behoben im Code: Folgemigration aus `f195067` ersetzt den sperrenden Leseweg. Aktuelle Supabase-Gesamtprüfung am Integrationsstand bleibt separat erforderlich. |
 | P3-09 | Duell-XP ohne Mindestbeteiligung | Behoben im Code: `7b15c29` ergänzt Teilnahmebedingungen, `657885e` liefert Duell-XP auch an passende alte Clients. DB-/Mehrgeräteabnahme bleibt gesondert. |
-| P3-10 | Premium-Liga-XP, Rush-Bots, Ghost-Datenschutz | Offen, nachprüfen: Zweck, bestehende Limits und Missbrauchsschutz am aktuellen Gesamtstand belegen; historisches Tageslimit nicht als neue Preis-/Produktentscheidung übernehmen. |
+| P3-10 | Premium-Liga-XP, Rush-Bots, Ghost-Datenschutz | Sechs authentifizierte Browserfälle für Liga und Rush bestanden mit lokalen Supabase-Konten. Wettbewerbsregeln, Schutzbedarf für Ghosts und Mehrgerätebetrieb bleiben gesonderte Produkt-, Rechts- und Betriebsaufgaben. |
 | P3-11 | Einladungstoken vom Client gewählt | Behoben im Code: spätere Migration `20261020030100_friends_followups.sql` erzeugt `gen_random_uuid()` auf dem Server (`81a93a9`). Die frühere Migration ist Verlauf. |
-| P3-12 | Freie Rätselzeitzone, Quest ohne Ablehnung, Konto-UUIDs, Altersschutz, Drosselung | Offen, nachprüfen: jeweils aktuelles API-/Datenmodell und Rechtsgrundlagen prüfen; keine sichere Altersgrenze aus einem alten Bericht ableiten. |
+| P3-12 | Rätseltage, Questzustimmung, Konto-UUIDs, Altersschutz, Einladungslimits | Questzustimmung, Widerruf, beziehungsbezogene Kennungen, Rätsel-Zeitzonenwechsel und Einladungsbudget sind technisch geprüft. Altersrahmen und Betriebsfreigabe bleiben offen. [ADR 0084](../decisions/0084-quest-zustimmung-und-social-schutz.md) |
 | P3-13 | Freundesplural, unbenannte Aktionen, Entfernen hebt Block auf | Behoben im Code durch `367a98c`, `3dd1b87`, `81a93a9`; vorhandene App-/DB-Regressionsprüfungen bei der Einzeltriage zuordnen. |
 
 ## Audio, Harmonik, Prüfungen, Stufen 3–4 und Tutor
@@ -56,17 +56,17 @@ Quellen: [Mikrofon](../quality/fachpruefung-phase-3/p3-09-10-mikrofon.md), [MIDI
 | ID | Altbefund / Arbeit | Aktueller Status und Nachweis |
 |---|---|---|
 | P3-14 | Gesangs-Skip verhindert Bestehen; absolute Oktave; Rohcode P4; Cent-Feedback | Technische Korrekturen enthalten: `d4c73a7`, `1ac1b0b`, aktuelle Voice-Tests. Offen, nachprüfen: jeden Altbefund samt Toleranz-/Rückmeldungstest einzeln zuordnen; physische Stimmen sind nicht geprüft. |
-| P3-15 | Mikrofon-Konstruktorfehler, lokale Clientmesswerte, iOS-Dialogsprache, Testabdeckung | Offen, nachprüfen: aktuelle Adapter und Rückstellung bei Fehlern prüfen. Synthetische Messwerte sind kein Beweis einer eigenen menschlichen Aufnahme. |
+| P3-15 | Mikrofon-Konstruktorfehler, lokale Clientmesswerte, iOS-Dialogsprache, Testabdeckung | Ziel A: Native Startfehler stellen die Wiedergabe wieder her. Im Web werden bereits geöffnete Mikrofonspuren geschlossen. Die iOS-Konfiguration beschreibt Stimmen und Aufnahmeübungen auf DE/EN. Adaptertests und Konfigurationstests belegen die Korrekturen. Reale Aufnahme- und Dialogabnahmen stehen aus. |
 | P3-16 | MIDI-Port-ID-Wechsel und Umgehen von `fixedRange` | Behoben: `successorOf` ordnet das wiederverbundene Gerät zu; `midi-hotplug.test.tsx` prüft neue ID und Töne außerhalb des festen Ausschnitts (`31588f9`). |
-| P3-17 | Rhythmus-Plurale, UK-Texte, fehlende Tempoansage | Technische Korrekturen enthalten: `6e4f8bb`; Pluralformen und Rhythmus-App-Tests vorhanden. Offen, nachprüfen: stille Einzählung, Beispieltempo, Modus-/Hintergrund-/Fehlerpfade einzeln abgleichen. |
-| P3-18 | iOS-BLE-MIDI, Port-Schließen, echte Routen-/Gerätewechsel | Offen, nachprüfen: aktuelle Bibliothek und tatsächliche Betriebssystemabläufe testen; keine In-App-Kopplung allein aus Vermutung bauen. |
+| P3-17 | Rhythmus-Plurale, UK-Texte, fehlende Tempoansage | Korrekturen aus `6e4f8bb` sind enthalten. `rhythm.test.tsx` deckt Einzählen, Metronommodi, Aufnahmewertung und das Beenden beim Hintergrundwechsel ab. Physische Latenz und Screenreader-Ausgabe brauchen reale Gerätebelege. |
+| P3-18 | iOS-BLE-MIDI, Port-Schließen, echte Routen-/Gerätewechsel | Mehrere Klaviaturen teilen sich einen Port. Die letzte Abmeldung schließt ihn, eine erneute Anmeldung wartet auf das Schließen. `midi-hotplug.test.tsx` prüft diesen Ablauf. iOS-BLE und physische Routenwechsel gehören in die Geräteabnahme. |
 | P3-19 | Melodisches Moll und nicht diatonische Pivotmodulation | Behoben: `98985b3`; `harmony.test.ts` prüft melodisches Moll und Pivotklassifikation. Fachliche Konventionsfreigabe bleibt offen. |
 | P3-20 | Funktionskürzel/gleiche Antwortlabels und fehlender Tonika-Hörkontext | Technische Korrekturen enthalten: `94fa60b`, `02a3f78`. F03 bleibt offen; Übungskontext und Auswahlbeschriftungen in allen Sprachen nachprüfen. |
 | P3-21 | Kadenz-/Funktions-Fehlerwiederholung mit gleicher fachlicher Antwort | Behoben: `d02d2ec`; `lesson.test.ts` prüft geänderte fachliche Antwort. Zeitüberschreitung unter Last ist im Integrationsnachweis separat dokumentiert. |
 | P3-22 | Funktions-Screenreader und Abspielstatus von Kadenz/Diktat | Technische Korrekturen enthalten: `32908bb`, `38aa4c3`; aktuelle Komponenten-/Browserprüfungen zuordnen. Echte Screenreader bleiben offen. |
 | P3-23 | Lösungslecks, interne QA-Texte, falsche Beispiele und Stufe-3/4-Sprache | Korrekturen `e5d6f89`, `1d61801`, `1665f77`, `3cc6b18`, `d2339ae`, `9274081` enthalten. Offen, nachprüfen: sämtliche G-/A-/B-Einzelfunde gegen aktuelle Texte, Beispiele und Voraussetzungen zuordnen; keine pauschale Fachfreigabe. |
 | P3-24 | Lernzielabdeckung Modi, Formverlauf, Zwischendominanten, Voicings und Hörstufe 4 | Offen, nachprüfen: tatsächliche Aufgaben pro Fähigkeit und Lektionsstruktur messen. Weitere Begriffe, Sing-/Instrumentenumfänge, Bezifferungs-/Mehrstimmigkeitsbeispiele und Quellen bleiben Teil dieser Triage. |
-| P3-25 | Prüfungsmodus: Bereich falsch, doppelte Aufgaben, Skiptext, Abbruch, Fokus/Zeitansagen | Technische Korrekturen `08d79b9`, `26b2bf5`, `f04699a` enthalten; `exam.test.tsx` prüft Abbruch und Ansagen. Offen bleiben aktuelle Vorlagen-Fachprüfung und serverseitige Frist bei gespeicherten Ergebnissen. |
+| P3-25 | Prüfungsmodus: Bereiche, doppelte Aufgaben, Skiptext, Abbruch, Fokus und Frist | Korrekturen `08d79b9`, `26b2bf5`, `f04699a` sind enthalten. Die lokale Übungsprüfung verwendet monotone Zeit für Frist, Antwort, Überspringen und Abgabe. `exam.test.tsx` prüft auch zurückgestellte Geräteuhren. Eine serverseitige Frist wird erforderlich, sobald ein Produktformat Ergebnisse speichert oder weitergibt. Die Vorlagen-Fachprüfung steht aus. |
 | P3-26 | Tutor behauptet Stärken bei gleichen Ratings | Technische Korrektur `bdcb871` mit Mindestabstand und Fehlerzweigtests enthalten. Offen, nachprüfen: neue Momentaufnahme, Alterszerfall, Wochenplanbezug und echte Modellwirkung. |
 | P3-27 | Tutor: VVT/DSFA/Store, frühes Laden des Lernstands, Werkzeug-/Fallabdeckung | Offen, nachprüfen: aktuellen Datenfluss, Datenschutztexte, Lazy-Laden und mehrsprachige Benchmarkfälle einzeln belegen. Aktuelle Prompt-/Werkzeugfassung benötigt echte Kalibrierung. |
 | P3-28 | Veralteter Tutor-v2-Katalog / fehlender CI-Schritt | Behoben im Code: `a8215e0`, `638fbc9`; CI enthält `check:tutor:catalogue-v2`. Aktuelle Katalogprüfung ist Teil der Integrationschecks. |
@@ -111,18 +111,18 @@ Code-Review des gemeinsamen Kandidaten durch Claude Code; Einzelheiten in [integ
 
 | ID | Befund | Status und nächster Nachweis |
 |---|---|---|
-| M1-R1 | Zertifikats-`verify` meldet ohne aktive Zahlungssimulation `outdatedCode` für zuvor ausgestellte Mustercodes | Offen, bestätigt (Codepfad `requireCurrent` → `purchases.authorized`). Vor einer produktiven Prüfseite Code-Gültigkeit vom Zahlungsmodus trennen; Ziel B. |
-| M1-R2 | Tutor setzt eigene gespeicherte `reserved`-Anfragen ohne erneute Versuchsprüfung fort | Offen, nachprüfen: beabsichtigtes Replay nach ADR 0077; vor Liveschaltung Umgang mit Altzeilen ohne Nachweis entscheiden; Ziel A. |
-| M1-R3 | `school_draft.resolve_identity` mit unqualifizierten Parameternamen | Offen, bestätigt (Robustheit). Bei Produktüberführung P4.13 qualifizieren; Ziel B. |
-| M1-R4 | Doppelte Identitätsauflösung je schreibender Schulanfrage | Offen, bestätigt (Effizienz). Bei Produktüberführung bündeln, Widerrufsgarantie erhalten; Ziel B. |
-| M1-R5 | Tutor-Prüfbudget wird auch für inhaltlich ungültige Anfragen verbraucht | Offen, Produktentscheidung; Ziel A. |
+| M1-R1 | Prüfcode nach vorübergehend deaktivierter Zahlungssimulation | Ziel B, technisch behoben: Eine abgeschlossene Musterprüfung wird anhand ihrer gebundenen Prüfung, der gespeicherten Zuordnung und des Widerrufsstatus geprüft. Start, Fortsetzung und PDF erfordern weiter aktive Simulation. `payment-boundary.test.mjs`. |
+| M1-R2 | Eigene gespeicherte Tutor-Reservierung aus der Zeit vor dem Versuchsnachweis | Ziel A, Verhalten geprüft: Eine laufende Lease meldet `busy`. Eine abgelaufene Lease liefert einen fehlgeschlagenen Abschluss und wird einmal abgerechnet. `test-tutor.mjs` prüft, dass dabei keine Modellantwort entsteht. |
+| M1-R3 | `school_draft.resolve_identity` mit unqualifizierten Parameternamen | Ziel B, technisch behoben: Beide Parameter sind in SQL qualifiziert. Schul-pgTAP prüft die echten Auth-Tabellen und die Rollengrenzen. |
+| M1-R4 | Doppelte Identitätsauflösung je gültiger schreibender Schulanfrage | Ziel B, technisch behoben: Nach Empfang des begrenzten Bodys folgt die maßgebliche Auth-Prüfung. Der HTTP-Test prüft einen Datenbankaufruf und Widerruf während des Uploads. Die School-Produktintegration steht aus. |
+| M1-R5 | Tutor-Prüfbudget wird auch für inhaltlich ungültige Anfragen verbraucht | Ziel A, implementierte Regel aus ADR 0077: schemafähige Aufrufe zählen vor der Engine-Prüfung. `test-tutor.mjs` prüft ungültige Quellen und die Trennung vom Modellverbrauch. Die Produktionskalibrierung bleibt offen. |
 | M1-R6 | Abhängigkeiten #164 (Sammelupdate mit Anthropic SDK 1.8.0 nur im Manifest), #153 (Metro 58 bei Expo SDK 57), #154 (Supabase-CLI 3, DB-Job rot), #155 (Audio API 1.0, Lint rot) | Zurückgestellt auf Nutzerentscheidung vom 16.11.2026; eigenes Abhängigkeitspaket T7 im [Fertigstellungsplan](fertigstellung.md). |
 
 ## Nächste ausführbare Pakete
 
-1. M1: Konfliktauflösung, gemeinsame Regressionen, aktuelle Prüfmappen und Übergabe nach [integration-m1.md](integration-m1.md) fertigstellen; fünf Pflichtjobs und vorgesehene Reviews am finalen Kandidaten einholen.
-2. FSRS-/Auswahlpaket P3-03/04/06: aktuelle Reproduktionen erstellen, Modellannahmen von echten Fehlern trennen und zulässige technische Korrekturen mit Regressionen umsetzen.
-3. Wettbewerb/Social P3-10/12: aktuelle Endpunkte, Migrationen und Tests auf Teilnahme, Limits, Einladungen, Zeitzonen und Datensparsamkeit prüfen.
-4. S12-01–10 und P3-23/24 vollständig auf Einzelfunde herunterbrechen, mit Aufgabe/Karte/Fähigkeit verbinden und den getrennten Fach-/Quellenprozess erhalten.
+1. FSRS: Einstufung und lokal berechnete Zukunftstermine nachprüfen. Auswirkungen von Lernschritten und Bewertungen mit geeigneten Lerndaten beurteilen.
+2. Stufen 1–2: S12-01–10 je Aufgabe, Karte und Fähigkeit vervollständigen und die fachlichen Entscheidungen mit Claude dokumentieren.
+3. Audio und Wettbewerb: Offene reale Routen, Gerätewechsel, Mehrgeräteverhalten und die Produktentscheidungen zu Sicherheit und Teilnahme klären.
+4. Stufen 3–5: P3-23/24 und die P4-Einzelfunde mit aktuellen Aufgaben und Regressionen vervollständigen.
 
 M2 ist mit diesem Register begonnen, nicht abgeschlossen. Kein offener Fach-, Rechts-, Anbieter-, Geräte-, Beta- oder Veröffentlichungsnachweis wird hier als erledigt markiert.

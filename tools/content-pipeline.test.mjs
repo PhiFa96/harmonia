@@ -768,6 +768,16 @@ test('Ungültige EAS-Projekt-ID wird nicht in eine Update-URL übernommen', () =
 test('Unbekannte App-Variante wird zurückgewiesen', () => {
   withConfigEnv('unknown', undefined, (make) => assert.throws(make, /APP_VARIANT/));
 });
+test('iOS-Mikrofonhinweise decken das Stimmgerät und Aufnahmeübungen in DE und EN ab', () => {
+  withConfigEnv('production', undefined, (make) => {
+    const config = make();
+    assert.match(config.locales.de.ios.NSMicrophoneUsageDescription, /Stimmen.*Aufnahmeübungen/);
+    assert.match(config.locales.en.ios.NSMicrophoneUsageDescription, /tuning.*recording exercises/);
+    assert.deepEqual(config.plugins.find((plugin) => plugin[0] === 'expo-localization')[1], {
+      supportedLocales: { ios: ['de', 'en'] },
+    });
+  });
+});
 
 test('Eine Textverschachtelung darf die Freigabe nicht umgehen', () => {
   const data = released();

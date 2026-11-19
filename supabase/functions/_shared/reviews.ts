@@ -46,8 +46,10 @@ export async function processPendingReviews(
     excluded: 0,
     scanned: rows.length,
   };
+  const blockedAccounts = new Set<string>();
   for (const row of rows) {
     if (actor !== null && row.actor !== actor) throw new Error('Review account mismatch');
+    if (blockedAccounts.has(row.actor)) continue;
 
     let committed = false;
     for (let attempt = 0; attempt < 3; attempt++) {
@@ -101,7 +103,7 @@ export async function processPendingReviews(
     }
     if (!committed) {
       counts.deferred++;
-      break;
+      blockedAccounts.add(row.actor);
     }
   }
   return counts;

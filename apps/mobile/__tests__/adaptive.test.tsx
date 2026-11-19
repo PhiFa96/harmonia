@@ -58,7 +58,7 @@ it('opens a ten-question weakness session, persists its plan, and does not show 
   const app = renderRouter('./src/app', { initialUrl: '/practice' });
   fireEvent.press(screen.getByRole('button', { name: 'Gezielt üben' }));
   expect(app.getPathname()).toBe('/lesson');
-  expect(screen.getByText(/Zehn Aufgaben aus bis zu drei Fähigkeiten/)).toBeTruthy();
+  expect(screen.getByText(/deiner bisher niedriger bewerteten Fähigkeiten/)).toBeTruthy();
   fireEvent.press(screen.getByRole('button', { name: 'Mit 10 Aufgaben starten' }));
   await waitFor(() => {
     expect(screen.getByTestId('exercise-question')).toBeTruthy();

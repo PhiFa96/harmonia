@@ -106,7 +106,13 @@ export default function DailyPuzzleScreen() {
           <>
             {state.error ? (
               <AppText role="alert">
-                {t(state.error === 'day' ? 'puzzle.newDay' : 'puzzle.error')}
+                {t(
+                  state.error === 'day'
+                    ? 'puzzle.newDay'
+                    : state.error === 'zone'
+                      ? 'puzzle.zoneWait'
+                      : 'puzzle.error',
+                )}
               </AppText>
             ) : null}
             {state.loading && !view ? <AppText>{t('puzzle.loading')}</AppText> : null}

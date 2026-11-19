@@ -66,7 +66,7 @@ async function send(timeZone: string, body?: object) {
       const code =
         data && typeof data === 'object' && 'error' in data ? String(data.error) : 'unavailable';
       throw new Error(
-        ['day', 'conflict', 'source', 'answer'].includes(code) ? code : 'unavailable',
+        ['day', 'conflict', 'source', 'answer', 'zone'].includes(code) ? code : 'unavailable',
       );
     }
     useDailyPuzzle.setState({ view: puzzleViewSchema.parse(data), loading: false });

@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { LAYOUT, SPACE } from '@harmonia/ui';
 import { AppText, Button, Card, useUiTheme } from '@harmonia/ui/native';
 import { useAuthState } from '@/auth';
+import { useLocale } from '@/i18n';
 import { changeFriends, refreshFriends, useFriends } from '@/state/friends';
 
 const codeFrom = (input: string) =>
@@ -20,6 +21,7 @@ const validCode = (code: string) =>
 
 export default function FriendsScreen() {
   const { t } = useTranslation();
+  const locale = useLocale();
   const { colors } = useUiTheme();
   const params = useLocalSearchParams<{ invite?: string }>();
   const actor = useAuthState((s) => s.session?.user.id ?? null);
@@ -67,6 +69,7 @@ export default function FriendsScreen() {
     else await Share.share({ message });
   };
   const questFriend = view?.friends.find((f) => f.id === view.quest?.friendId);
+  const hasOutgoingOffer = view?.questOffers?.some((offer) => offer.direction === 'outgoing');
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Stack.Screen options={{ headerShown: true, title: t('friends.title') }} />
@@ -100,7 +103,11 @@ export default function FriendsScreen() {
                           ? 'friends.error_limit'
                           : state.error === 'quest_active'
                             ? 'friends.error_quest_active'
-                            : 'friends.error_unavailable',
+                            : state.error === 'quest_pending'
+                              ? 'friends.error_quest_pending'
+                              : state.error === 'rate'
+                                ? 'friends.error_rate'
+                                : 'friends.error_unavailable',
                 )}
               </AppText>
             ) : null}
@@ -124,7 +131,7 @@ export default function FriendsScreen() {
                     <AppText selectable>{view.invite.token}</AppText>
                     <AppText>
                       {t('friends.inviteExpiry', {
-                        date: new Date(view.invite.expiresAt).toLocaleDateString(),
+                        date: new Date(view.invite.expiresAt).toLocaleDateString(locale),
                       })}
                     </AppText>
                     <Button
@@ -148,6 +155,15 @@ export default function FriendsScreen() {
                     {shared === 'failed' ? (
                       <AppText role="alert">{t('friends.shareFailed')}</AppText>
                     ) : null}
+                    <Button
+                      label={t('friends.revokeInvite')}
+                      variant="ghost"
+                      disabled={state.loading}
+                      onPress={() => {
+                        const token = view.invite?.token;
+                        if (token) void changeFriends({ action: 'revokeInvite', token });
+                      }}
+                    />
                   </>
                 ) : null}
                 <TextInput
@@ -184,7 +200,7 @@ export default function FriendsScreen() {
                     <AppText>
                       {t('friends.stats', { count: friend.streak, tier: friend.leagueTier })}
                     </AppText>
-                    {!view.questUsed ? (
+                    {!view.questUsed && !hasOutgoingOffer ? (
                       <Button
                         label={t('friends.startQuest')}
                         accessibilityLabel={t('friends.startQuestWith', { count: index + 1 })}
@@ -247,6 +263,47 @@ export default function FriendsScreen() {
             <Card>
               <View style={styles.group}>
                 <AppText variant="title2">{t('friends.questTitle')}</AppText>
+                {view?.questOffers?.map((offer) => {
+                  const index = view.friends.findIndex((friend) => friend.id === offer.friendId);
+                  if (index < 0) return null;
+                  const number = index + 1;
+                  const respond = (decision: 'accept' | 'decline' | 'withdraw') =>
+                    void changeFriends({ action: 'questResponse', proposalId: offer.id, decision });
+                  return offer.direction === 'incoming' ? (
+                    <View key={offer.id} style={styles.group}>
+                      <AppText>{t('friends.questIncoming', { number })}</AppText>
+                      <View style={styles.actions}>
+                        <Button
+                          label={t('friends.questAccept', { number })}
+                          disabled={state.loading || view.questUsed}
+                          onPress={() => {
+                            respond('accept');
+                          }}
+                        />
+                        <Button
+                          label={t('friends.questDecline', { number })}
+                          disabled={state.loading}
+                          variant="ghost"
+                          onPress={() => {
+                            respond('decline');
+                          }}
+                        />
+                      </View>
+                    </View>
+                  ) : (
+                    <View key={offer.id} style={styles.group}>
+                      <AppText>{t('friends.questOutgoing', { number })}</AppText>
+                      <Button
+                        label={t('friends.questWithdraw')}
+                        disabled={state.loading}
+                        variant="ghost"
+                        onPress={() => {
+                          respond('withdraw');
+                        }}
+                      />
+                    </View>
+                  );
+                })}
                 {view?.quest ? (
                   <>
                     <AppText>

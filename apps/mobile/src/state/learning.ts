@@ -57,7 +57,7 @@ interface LearningState {
   readonly rows: readonly StoredLearningEvent[];
   readonly outdated: number;
   readonly memory: boolean;
-  readonly sync: 'guest' | 'idle' | 'syncing' | 'error';
+  readonly sync: 'guest' | 'idle' | 'syncing' | 'deferred' | 'error';
   readonly areaId: string | null;
   readonly level: 1 | 2 | 3 | 4 | null;
   readonly expanded: readonly string[];
@@ -297,10 +297,13 @@ export function syncLearning(): Promise<void> {
   useLearningState.setState({ sync: 'syncing' });
   syncing = (async () => {
     const repo = await getLearningRepository();
+    const deferred = new Set<string>();
     for (let page = 0; page < 1000; page++) {
       if (token !== generation || owner !== scope()) return;
       const pending = (await repo.list(owner))
-        .filter((row) => row.pending && row.event.kind !== 'retained')
+        .filter(
+          (row) => row.pending && row.event.kind !== 'retained' && !deferred.has(row.event.id),
+        )
         .filter((row) => {
           try {
             validateLearningEvent(catalogue, row.event);
@@ -319,12 +322,19 @@ export function syncLearning(): Promise<void> {
       const since = await repo.cursor(owner);
       if (token !== generation || owner !== scope()) return;
       const result = await client.functions.invoke('learning-sync', {
-        body: { since, events, rewardFormat: 2, rowFormat: 5 },
+        body: { since, events, rewardFormat: 2, rowFormat: 5, deferFuture: true },
         headers: { Authorization: `Bearer ${session.access_token}` },
         timeout: 15000,
       });
       if (result.error) throw new Error('Lernpfad nicht synchronisiert');
       const response = learningSyncResponseSchema.parse(result.data);
+      const resolved = [...response.accepted, ...(response.deferred ?? [])];
+      if (
+        resolved.length !== events.length ||
+        new Set(resolved).size !== resolved.length ||
+        resolved.some((id) => !events.some((e) => e.id === id))
+      )
+        throw new Error('Unvollständige oder fremde Sync-Bestätigung');
       for (const row of response.rows) {
         try {
           validateLearningEvent(catalogue, row.event);
@@ -332,13 +342,9 @@ export function syncLearning(): Promise<void> {
           if (!(e instanceof EvidenceError && e.reason === 'changed')) throw e;
         }
       }
-      if (
-        response.accepted.length !== events.length ||
-        new Set(response.accepted).size !== response.accepted.length ||
-        response.accepted.some((id) => !events.some((e) => e.id === id))
-      )
-        throw new Error('Unvollständige oder fremde Sync-Bestätigung');
+      if (!response.rows.length && response.more) throw new Error('Ungültige Sync-Seite');
       await repo.merge(owner, response);
+      for (const id of response.deferred ?? []) deferred.add(id);
       if (!response.more && pending.length <= events.length) {
         if (token === generation && owner === scope()) {
           await refresh(owner);
@@ -397,11 +403,10 @@ export function syncLearning(): Promise<void> {
             clearTimeout(reviewDeadline);
           }
           if (token === generation && owner === scope())
-            useLearningState.setState({ sync: 'idle' });
+            useLearningState.setState({ sync: deferred.size ? 'deferred' : 'idle' });
         }
         return;
       }
-      if (!response.rows.length && response.more) throw new Error('Ungültige Sync-Seite');
     }
     throw new Error('Sync-Seitenlimit erreicht');
   })()

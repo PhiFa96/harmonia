@@ -17,11 +17,7 @@ for (const scenario of [
       const errors = [];
       page.on('pageerror', (error) => errors.push(error.message));
       const de = scenario.locale.startsWith('de');
-      const title = de
-        ? 'Schwächen trainieren'
-        : scenario.locale === 'en-GB'
-          ? 'Practise weak skills'
-          : 'Practice weak skills';
+      const title = de ? 'Gezielt Fähigkeiten üben' : 'Focused practice';
       const start = de ? 'Gezielt üben' : 'Start focused practice';
       try {
         await onboard(page, scenario.locale);

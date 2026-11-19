@@ -123,6 +123,22 @@ describe('Engine-Bewertung und Erklärungen', () => {
 });
 
 describe('Hörhinweise', () => {
+  it('gibt zu Hörintervallen erst in der Auflösung die für die Antwort nötige Distanz an', () => {
+    const third = { ...interval('E4'), type: 'INTERVAL_IDENTIFY_AURAL' } as const;
+    const fourth = { ...interval('F4'), type: 'INTERVAL_IDENTIFY_AURAL' } as const;
+    for (const locale of ['de', 'en-US', 'en-GB'] as const) {
+      for (const level of [1, 2] as const) {
+        const hint = exerciseHints(third, level);
+        expect(hint.values).toEqual({});
+        expect(hintText(third, hint, locale)).toBe(
+          hintText(fourth, exerciseHints(fourth, level), locale),
+        );
+      }
+      expect(hintText(third, exerciseHints(third, 3), locale)).not.toBe(
+        hintText(fourth, exerciseHints(fourth, 3), locale),
+      );
+    }
+  });
   it('geben für jede Hörform Hinweis 1 und 2 in allen Sprachen ohne Zahlenplatzhalter aus', () => {
     for (const question of LISTENING_QUESTIONS) {
       const item = generateListening({ question }, createRng(11));

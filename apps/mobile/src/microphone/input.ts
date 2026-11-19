@@ -11,13 +11,7 @@ export async function startMicrophone(
 ): Promise<MicrophoneSession> {
   const permission = await AudioManager.requestRecordingPermissions();
   if (permission !== 'Granted') throw new MicrophoneError('permission');
-  AudioManager.setAudioSessionOptions({
-    iosCategory: 'playAndRecord',
-    iosMode: 'measurement',
-    iosOptions: options.headphones ? ['mixWithOthers'] : ['defaultToSpeaker', 'mixWithOthers'],
-  });
-  const recorder = new AudioRecorder();
-  const framer = new PitchFramer();
+  let recorder: AudioRecorder | undefined;
   let stopped = false;
   let closing: Promise<void> | undefined;
   const isStopped = (): boolean => stopped;
@@ -32,17 +26,27 @@ export async function startMicrophone(
     if (closing) return closing;
     stopped = true;
     closing = (async () => {
-      recorder.clearOnAudioReady();
-      recorder.clearOnError();
       try {
-        await recorder.stop();
+        recorder?.clearOnAudioReady();
+        recorder?.clearOnError();
       } finally {
-        restorePlayback();
+        try {
+          await recorder?.stop();
+        } finally {
+          restorePlayback();
+        }
       }
     })();
     return closing;
   };
   try {
+    AudioManager.setAudioSessionOptions({
+      iosCategory: 'playAndRecord',
+      iosMode: 'measurement',
+      iosOptions: options.headphones ? ['mixWithOthers'] : ['defaultToSpeaker', 'mixWithOthers'],
+    });
+    recorder = new AudioRecorder();
+    const framer = new PitchFramer();
     recorder.onError(() => {
       if (stopped) return;
       void stop().catch(() => undefined);
@@ -70,7 +74,7 @@ export async function startMicrophone(
     if (isStopped()) throw new MicrophoneError('interrupted');
     return { stop };
   } catch (error) {
-    await stop();
-    throw error;
+    await stop().catch(() => undefined);
+    throw error instanceof MicrophoneError ? error : new MicrophoneError('unavailable');
   }
 }

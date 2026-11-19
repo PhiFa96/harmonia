@@ -129,8 +129,7 @@ export function certificatePurchases(db, { now, profileFor, paymentSimulation = 
           )
           .get(row.purchase_id, row.owner),
       ),
-    authorized: (row) =>
-      enabled() &&
+    matchesPaidAttempt: (row) =>
       Boolean(
         row.purchase_id &&
         db

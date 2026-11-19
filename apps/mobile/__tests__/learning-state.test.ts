@@ -345,6 +345,40 @@ describe('Kontogebundene Lernpfad-Synchronisation', () => {
         .find((l) => l.id === firstLesson.id)?.status,
     ).toBe('completed');
   });
+  it('stellt einen künftigen Zeitstempel zurück und synchronisiert nachfolgende Nachweise', async () => {
+    login('a');
+    await learning.initializeLearning();
+    await learning.syncLearning();
+    const future = { ...event('future'), finishedAt: Date.now() + 3_600_000 };
+    const ready = event('ready');
+    for (const item of [future, ready]) {
+      await learning.recordLearningEvent(item);
+      await learning.syncLearning();
+    }
+    mockInvoke.mockClear().mockImplementation((_name, { body }) => {
+      if (body.events[0]?.id === future.id) {
+        const response = ok([], [], body.since);
+        return Promise.resolve({ ...response, data: { ...response.data, deferred: [future.id] } });
+      }
+      return Promise.resolve(ok(body.events, [{ sequence: 1, event: ready }], body.since));
+    });
+    await learning.syncLearning();
+    expect(mockInvoke.mock.calls.map(([, options]) => options.body.events[0]?.id)).toEqual([
+      future.id,
+      ready.id,
+    ]);
+    expect((await mockRepository.list('a')).map((row) => [row.event.id, row.pending])).toEqual([
+      [future.id, true],
+      [ready.id, false],
+    ]);
+    expect(await mockRepository.cursor('a')).toBe(1);
+    expect(learning.useLearningState.getState().sync).toBe('deferred');
+
+    mockInvoke.mockResolvedValueOnce(ok([future], [{ sequence: 2, event: future }], 1));
+    await learning.syncLearning();
+    expect(learning.useLearningState.getState().sync).toBe('idle');
+    expect((await mockRepository.list('a')).some((row) => row.pending)).toBe(false);
+  });
   it('fehlende ACKs und ungeprüfte Serverdaten quittieren keinen lokalen Versuch', async () => {
     login('a');
     await learning.initializeLearning();

@@ -4,7 +4,7 @@ import type { Session } from '@supabase/supabase-js';
 import { UiProvider } from '@harmonia/ui/native';
 import { i18n } from '@/i18n';
 import { useAuthState } from '@/auth';
-import { useFriends } from '@/state/friends';
+import { changeFriends, useFriends } from '@/state/friends';
 import FriendsScreen from '@/app/friends';
 import type * as FriendsModule from '@/state/friends';
 jest.mock('@/state/friends', () => ({
@@ -49,13 +49,38 @@ it('benennt Aktionen je Person, damit Screenreader sie unterscheiden können', (
     'Freund 2 entfernen',
     'Freund 1 blockieren',
     'Freund 2 blockieren',
-    'Wochenquest zusammen starten mit Freund 1',
-    'Wochenquest zusammen starten mit Freund 2',
+    'Wochenquest mit Freund 1 vorschlagen',
+    'Wochenquest mit Freund 2 vorschlagen',
     'Blockierung aufheben für blockierte Person 1',
     'Blockierung aufheben für blockierte Person 2',
   ])
     expect(screen.getAllByRole('button', { name })).toHaveLength(1);
   expect(screen.getByText('Lernserie: 1 Tag · Liga-Stufe: 0')).toBeTruthy();
+});
+it('zeigt eine ausstehende Quest mit eigenen Antworten und erlaubt den Linkwiderruf', () => {
+  const view = useFriends.getState().view;
+  if (!view?.invite || !view.friends[0]) throw new Error('Missing friend fixture');
+  const offer = { id: ids[2] ?? '', friendId: view.friends[0].id, direction: 'incoming' } as const;
+  useFriends.setState({ view: { ...view, questOffers: [offer] } });
+  renderRouter({ index: Fixture });
+  expect(screen.queryByText(/Ziel: 300 XP/)).toBeNull();
+  fireEvent.press(screen.getByRole('button', { name: 'Quest von Freund 1 ablehnen' }));
+  expect(changeFriends).toHaveBeenLastCalledWith({
+    action: 'questResponse',
+    proposalId: offer.id,
+    decision: 'decline',
+  });
+  fireEvent.press(screen.getByRole('button', { name: 'Quest von Freund 1 annehmen' }));
+  expect(changeFriends).toHaveBeenLastCalledWith({
+    action: 'questResponse',
+    proposalId: offer.id,
+    decision: 'accept',
+  });
+  fireEvent.press(screen.getByRole('button', { name: 'Einladungslink widerrufen' }));
+  expect(changeFriends).toHaveBeenLastCalledWith({
+    action: 'revokeInvite',
+    token: view.invite.token,
+  });
 });
 it('meldet Erfolg und Misserfolg des Teilens als Status', async () => {
   const share = jest.spyOn(Share, 'share');

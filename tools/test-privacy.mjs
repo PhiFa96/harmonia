@@ -109,6 +109,12 @@ const consent = (user, purpose, granted, id = randomUUID()) =>
     method: 'POST',
     body: { id, purpose, granted, version: 'privacy-v1', locale: 'de' },
   });
+const friends = (user, body) =>
+  call('/functions/v1/friends?questOffers=1', {
+    method: body ? 'POST' : 'GET',
+    body,
+    token: user.token,
+  });
 try {
   const a = await user(),
     b = await user();
@@ -314,6 +320,54 @@ try {
   sql(
     `select public.consume_tutor_attempt(${lit(a.id)}); select public.consume_tutor_attempt(${lit(b.id)});`,
   );
+  const withdrawnLink = await friends(b, { action: 'invite', token: randomUUID() });
+  check(withdrawnLink.status, 200, 'Account can create an invitation');
+  const revoked = await friends(b, {
+    action: 'revokeInvite',
+    token: withdrawnLink.data.invite.token,
+  });
+  check(revoked.data.invite, null, 'Link owner can revoke the invitation');
+  check(
+    (await friends(a, { action: 'accept', token: withdrawnLink.data.invite.token })).status,
+    404,
+    'Revoked invitation cannot create a relationship',
+  );
+  const invitation = await friends(b, { action: 'invite', token: randomUUID() });
+  const relationship = await friends(a, { action: 'accept', token: invitation.data.invite.token });
+  check(relationship.status, 200, 'The new invitation creates a reciprocal relationship');
+  const peer = relationship.data.friends[0].id;
+  check(peer === b.id, false, 'Friend response has a relationship handle');
+  const proposal = await friends(a, { action: 'quest', friendId: peer });
+  check(proposal.status, 200, 'Real token can propose a quest by relationship handle');
+  check(proposal.data.quest, null, 'Sender sees no active quest yet');
+  const recipient = await friends(b);
+  check(recipient.data.questUsed, false, 'Unanswered proposal leaves the recipient’s slot free');
+  check(recipient.data.questOffers[0].direction, 'incoming', 'Recipient receives the scoped offer');
+  const proposalId = recipient.data.questOffers[0].id;
+  check(
+    (await friends(a, { action: 'questResponse', proposalId, decision: 'accept' })).status,
+    404,
+    'A sender cannot accept for the recipient',
+  );
+  check(
+    (await friends(b, { action: 'questResponse', proposalId, decision: 'decline' })).data
+      .questOffers,
+    [],
+    'Recipient can decline using a real token',
+  );
+  check(
+    (await friends(a, { action: 'quest', friendId: peer })).status,
+    200,
+    'A new offer is possible',
+  );
+  sql(
+    `insert into friend_invite_limits(user_id,window_started_at,attempts) values(${lit(b.id)},now(),20);`,
+  );
+  check(
+    (await friends(b, { action: 'accept', token: randomUUID() })).status,
+    429,
+    'The API enforces the account budget before accepting a code',
+  );
   const exported = {};
   for (const section of PRIVACY_EXPORT_SECTIONS) {
     exported[section] = [];
@@ -332,6 +386,10 @@ try {
   check(exported.tutorAttemptLimits.length, 1, 'Own grading counter is exported');
   check(exported.tutorAttemptLimits[0].user_id, a.id, 'Grading counter belongs to this account');
   check(exported.tutorAttemptLimits[0].requests, 1, 'Export contains the bounded grading count');
+  check(exported.friendships[0].peer_handle, peer, 'Friendship export uses the same scoped ID');
+  check(exported.friendInviteLimits[0].attempts, 2, 'Denied and successful lookups consume budget');
+  check(exported.friendQuestProposalsSent.length, 1, 'Sender can export their pending proposal');
+  check(exported.friendQuestProposalsReceived.length, 0, 'Export partitions proposals by role');
   check(JSON.stringify(exported).includes(b.id), false, 'No other account ID in export');
   check(
     JSON.stringify(exported).includes(b.email),
@@ -379,6 +437,7 @@ try {
     'privacy_consents',
     'reminder_devices',
     'tutor_attempt_limits',
+    'friend_invite_limits',
   ])
     check(
       sql(
@@ -387,6 +446,13 @@ try {
       '0',
       'Cascade ' + table,
     );
+  check(
+    sql(
+      `select count(*) from friend_quest_proposals where proposer=${lit(a.id)} or recipient=${lit(a.id)};`,
+    ),
+    '0',
+    'Deletion removes both directions of pending Quest data',
+  );
   check((await privacy(b, 'status')).status, 200, 'Other real account survives');
   const receipt = await privacy(null, 'receipt&id=' + delId);
   check(receipt.status, 200, 'Public unguessable receipt recovers response');
@@ -492,6 +558,9 @@ try {
   sql(
     `update tutor_attempt_limits set window_started_at=now()-interval '2 days' where user_id=${lit(b.id)};`,
   );
+  sql(
+    `update friend_invite_limits set window_started_at=now()-interval '2 days' where user_id=${lit(b.id)};`,
+  );
   check(
     (await call('/functions/v1/privacy-retention', { method: 'POST', admin: true })).status,
     200,
@@ -502,6 +571,11 @@ try {
     sql(`select count(*) from tutor_attempt_limits where user_id=${lit(b.id)};`),
     '0',
     'Retention endpoint removes expired grading metadata',
+  );
+  check(
+    sql(`select count(*) from friend_invite_limits where user_id=${lit(b.id)};`),
+    '0',
+    'Retention endpoint removes expired invitation counters',
   );
   console.log('Privacy API: ' + checks + ' real local checks passed; no outside provider actions.');
 } finally {

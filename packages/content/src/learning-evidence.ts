@@ -153,6 +153,7 @@ export const learningSyncRequestSchema = z
   .object({
     rewardFormat: z.literal(2).optional(),
     rowFormat: z.union([z.literal(2), z.literal(3), z.literal(4), z.literal(5)]).optional(),
+    deferFuture: z.literal(true).optional(),
     since: time,
     events: z.array(learningEventSchema).max(50),
   })
@@ -160,6 +161,7 @@ export const learningSyncRequestSchema = z
 export const learningSyncResponseSchema = z
   .object({
     accepted: z.array(z.string().max(256)).max(50),
+    deferred: z.array(z.string().max(256)).max(50).optional(),
     rows: z.array(learningRowSchema).max(200),
     cursor: time,
     more: z.boolean(),

@@ -11,6 +11,32 @@ export interface MidiDevice {
 
 let preferredInput: string | null = null;
 let preferredName: string | null = null;
+const inputUsers = new WeakMap<MIDIInput, { count: number; closing?: Promise<void> }>();
+
+function listenToMidi(input: MIDIInput, listener: (event: Event) => void) {
+  let users = inputUsers.get(input);
+  users ??= { count: 0 };
+  inputUsers.set(input, users);
+  users.count++;
+  let released = false;
+  const attach = () => {
+    if (!released) input.addEventListener('midimessage', listener);
+  };
+  if (users.closing) void users.closing.then(attach);
+  else attach();
+  return () => {
+    released = true;
+    input.removeEventListener('midimessage', listener);
+    users.count--;
+    if (users.count || users.closing) return;
+    users.closing = Promise.resolve()
+      .then(() => input.close())
+      .catch(() => undefined)
+      .finally(() => {
+        delete users.closing;
+      });
+  };
+}
 
 /**
  * Nach dem Wiedereinstecken kann derselbe Controller mit neuer Port-ID erscheinen (native
@@ -79,14 +105,11 @@ export function useMidiInput(onNote: (note: number) => void, enabled: boolean) {
         .map((port) => ({ id: port.id, name: port.name || port.manufacturer || port.id }));
       setDevices(available);
       const successor = successorOf(available);
-      if (successor && successor.id !== preferredInput) {
+      if (successor) {
         preferredInput = successor.id;
         preferredName = successor.name;
         setSelected(successor.id);
-      } else if (successor) {
-        preferredName = successor.name;
-      }
-      if (!successor) clear();
+      } else clear();
     };
     refresh();
     access.addEventListener('statechange', refresh);
@@ -118,10 +141,9 @@ export function useMidiInput(onNote: (note: number) => void, enabled: boolean) {
         onNoteRef.current(strike.note);
       }
     };
-    chosen.addEventListener('midimessage', message);
+    const release = listenToMidi(chosen, message);
     return () => {
-      chosen.removeEventListener('midimessage', message);
-      chosen.close().catch(() => undefined);
+      release();
       clear();
     };
   }, [chosen, connected, enabled, clear]);

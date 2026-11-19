@@ -136,7 +136,7 @@ Deno.serve(async (request) => {
           is_correct: grade.correct,
         });
         if (saved.error) {
-          const code = /puzzle_(day|conflict|source|answer)/.exec(saved.error.message)?.[1];
+          const code = /puzzle_(day|conflict|source|answer|zone)/.exec(saved.error.message)?.[1];
           return json(code === 'answer' ? 400 : 409, { error: code ?? 'unavailable' });
         }
         raw = rawSchema.parse(saved.data);

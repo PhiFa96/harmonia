@@ -9,3 +9,7 @@ Eine gemeinsame Quest kann pro Person und UTC-Woche genau einmal begonnen werden
 ## Bereitstellung und Abnahme
 
 Nach P3.05–P3.07 die Migration `20261016093000_friends_quests.sql` anwenden, die Function `friends` und den aktualisierten `privacy-retention`-Endpoint bereitstellen. Der bestehende Retention-Scheduler muss aktiviert sein. `supabase/tests/database/friends.test.sql` deckt Einmalcodes, gegenseitige Beziehung, Questgutschrift, Blockierung, Berechtigungen und Retention ab. Die Supabase-Container sind in dieser Cloud nicht verfügbar (`public.ecr.aws` gesperrt); Migration und API müssen gegen echtes Postgres, iOS/Android und bei UTC-Wochenwechsel getestet werden. Die rechtliche Prüfung von Sichtbarkeit und Fristen bleibt offen.
+
+## Nacharbeit vom 19.11.2026
+
+Ein widerrufbarer Freundschaftslink und eine beziehungsbezogene Kennung ergänzen die ursprüngliche Umsetzung. Eine Wochenquest beginnt mit einem Vorschlag, den die andere Person annimmt oder ablehnt. Vorschläge können zurückgezogen werden. XP-Beiträge und Wochenplätze werden mit der Annahme aktiviert. PostgreSQL- und lokale Auth-HTTP-Prüfungen decken den Ablauf, Eigentümerbindung, Export, Löschung und Aufbewahrung ab. [ADR 0084](../decisions/0084-quest-zustimmung-und-social-schutz.md) · [Aktuelle Prüfnachweise](../quality/m2-befunde/uebergabe.md)

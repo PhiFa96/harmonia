@@ -88,7 +88,7 @@ export async function startMicrophone(
     }, 40);
     return { stop };
   } catch (error) {
-    await stop();
-    throw error;
+    await stop().catch(() => undefined);
+    throw error instanceof MicrophoneError ? error : new MicrophoneError('unavailable');
   }
 }

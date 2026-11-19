@@ -732,6 +732,53 @@ try {
       body: { request_hash: stored.request_hash },
     });
     expect(await usage(a), replayUsage, 'Alt-Replays verbrauchen kein weiteres Modellkontingent');
+    const abandoned = tutorRequestSchema.parse(
+      payload({ conversationId: protectedRequest.conversationId, mode: 'explain', context }),
+    );
+    expect(
+      (
+        await raw('/rest/v1/tutor_requests', {
+          admin: true,
+          body: {
+            id: abandoned.id,
+            user_id: a.id,
+            conversation_id: abandoned.conversationId,
+            request_hash: createHash('sha256').update(JSON.stringify(abandoned)).digest('hex'),
+            user_text: abandoned.message,
+            reserved_cost: 100,
+            policy,
+          },
+        })
+      ).status,
+      201,
+      'Reservierte Altanfrage ohne Versuchsnachweis eingerichtet',
+    );
+    expect(
+      (await send(a.token, abandoned)).data.error,
+      'busy',
+      'Gültige Altreservierung liefert keinen neuen Modellaufruf',
+    );
+    expect(await usage(a), replayUsage, 'Laufende Altreservierung erhöht keine Nutzung');
+    expect(
+      (
+        await raw(`/rest/v1/tutor_requests?id=eq.${abandoned.id}`, {
+          admin: true,
+          method: 'PATCH',
+          body: { lease_until: new Date(Date.now() - 1000).toISOString() },
+        })
+      ).status,
+      204,
+      'Alte Lease abgelaufen',
+    );
+    expect((await send(a.token, abandoned)).data.error, 'recovered', 'Ablauf schließt die Lease');
+    const closed = await waitFinished(abandoned.id);
+    expect(closed.state, 'failed', 'Reservierung wird als fehlgeschlagen abgeschlossen');
+    expect(closed.result.text, '', 'Keine neue Erklärung und keine Lösung');
+    expect(closed.usage.inputTokens, 0, 'Kein neuer Modellaufruf');
+    const closedUsage = await usage(a);
+    expect(closedUsage.requests, replayUsage.requests + 1, 'Eine alte Reservierung abgerechnet');
+    expect((await send(a.token, abandoned)).events[0].type, 'replay', 'Abschluss ist wiederholbar');
+    expect(await usage(a), closedUsage, 'Weitere Wiederholung rechnet keine Reservierung ab');
     expect(
       (await send(a.token, payload({ mode: 'solution', context, attemptProof: proof }))).status,
       200,

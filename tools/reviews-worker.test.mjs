@@ -99,6 +99,29 @@ test('FSRS bounded contention leaves receipts pending and stops before later eve
   assert.equal(result.deferred, 1);
   assert.equal(result.applied, 0);
 });
+test('FSRS pending receipts preserve each account order without stopping another account', async () => {
+  const another = '44444444-4444-4444-8444-444444444444';
+  const updates = [];
+  const client = {
+    async rpc(name, args) {
+      if (name === 'review_pending')
+        return ok([row, { ...row, id: 'later' }, { ...row, actor: another }]);
+      if (name === 'review_snapshot') return ok(initial);
+      assert.equal(name, 'commit_review_period');
+      updates.push([args.actor, args.client_id]);
+      return ok(args.actor === actor ? 'conflict' : 'applied');
+    },
+  };
+  const result = await processPendingReviews(client, catalogue);
+  assert.equal(result.deferred, 1);
+  assert.equal(result.applied, 1);
+  assert.deepEqual(updates, [
+    [actor, row.id],
+    [actor, row.id],
+    [actor, row.id],
+    [another, row.id],
+  ]);
+});
 test('FSRS clamps future clocks to server receipt time', async () => {
   const late = { ...event, finishedAt: 999999 };
   const receivedAt = 5000;

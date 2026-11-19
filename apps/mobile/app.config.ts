@@ -16,6 +16,10 @@ const VARIANTS: Readonly<Record<Variant, { name: string; id: string }>> = {
   preview: { name: 'Harmonia (Vorschau)', id: 'app.harmonia.mobile.preview' },
   production: { name: 'Harmonia', id: 'app.harmonia.mobile' },
 };
+const microphonePermission = {
+  de: 'Harmonia verwendet das Mikrofon beim Stimmen und bei Aufnahmeübungen. Die Audiodaten werden nur auf diesem Gerät verarbeitet.',
+  en: 'Harmonia uses the microphone for tuning and recording exercises. Audio is processed on this device.',
+};
 
 function currentVariant(): Variant {
   // process.env ist im React-Native-Umfeld als `any` deklariert, deshalb ausdrücklich prüfen.
@@ -67,10 +71,14 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     ios: { bundleIdentifier: id, supportsTablet: true },
     android: { package: id },
     web: { output: 'single', bundler: 'metro' },
+    locales: {
+      de: { ios: { NSMicrophoneUsageDescription: microphonePermission.de } },
+      en: { ios: { NSMicrophoneUsageDescription: microphonePermission.en } },
+    },
     plugins: [
       // Die automatische Routenübersicht /_sitemap gehört nicht in die ausgelieferte App.
       ['expo-router', { sitemap: false }],
-      'expo-localization',
+      ['expo-localization', { supportedLocales: { ios: ['de', 'en'] } }],
       'expo-sqlite',
       'expo-secure-store',
       [
@@ -85,8 +93,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
           iosBackgroundMode: false,
           androidForegroundService: false,
           androidPermissions: ['android.permission.RECORD_AUDIO'],
-          iosMicrophonePermission:
-            'Harmonia uses the microphone only while you tune a note. Audio stays on this device and is not saved or uploaded.',
+          iosMicrophonePermission: microphonePermission.en,
         },
       ],
     ],

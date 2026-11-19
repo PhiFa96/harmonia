@@ -131,6 +131,16 @@ try {
       'Neue Vorzeichenlektion bleibt im öffentlichen Modus gesperrt',
     );
     assert.equal(
+      (
+        await request('/functions/v1/learning-sync', {
+          token: a.token,
+          body: { since: 0, events: [one], deferFuture: true },
+        })
+      ).status,
+      422,
+      'Der neue Sync-Modus übernimmt keine Entwurfslektion',
+    );
+    assert.equal(
       (await sync(a.token)).data.rows.length,
       0,
       'Keine Entwurfsgutschrift im öffentlichen Modus',
@@ -451,8 +461,36 @@ try {
       426,
       'Ältere Clients benötigen ein Update für den Chor-Abschlusszähler',
     );
+    const future = { ...event('clock-future'), finishedAt: Date.now() + 3_600_000 };
+    const timely = event('clock-ready');
+    const opts = { events: [future, timely], since: 0, rowFormat: 5, deferFuture: true };
+    assert.equal(
+      (await sync(b.token, opts.events)).status,
+      422,
+      'Altclients behalten den 422-Vertrag',
+    );
+    const firstReply = await request('/functions/v1/learning-sync', { token: b.token, body: opts });
+    assert.equal(firstReply.status, 200);
+    assert.deepEqual(firstReply.data.accepted, [timely.id]);
+    assert.deepEqual(firstReply.data.deferred, [future.id]);
+    assert.equal(
+      firstReply.data.rows.some((row) => row.event.id === future.id),
+      false,
+    );
+    assert.equal(
+      firstReply.data.rows.some((row) => row.event.id === timely.id),
+      true,
+    );
+    const retry = await request('/functions/v1/learning-sync', {
+      token: b.token,
+      body: { ...opts, since: firstReply.data.cursor },
+    });
+    assert.equal(retry.status, 200);
+    assert.deepEqual(retry.data.accepted, [timely.id]);
+    assert.deepEqual(retry.data.deferred, [future.id]);
+    assert.deepEqual(retry.data.rows, [], 'Wiederholung legt keinen zweiten Nachweis an');
     console.log(
-      'Learning sync: Auth, Engine, RLS, 226 Offline-Versuche, Paging, zwei Geräte, atomare XP und Chor-Abschluss/Retention/Protokollgrenzen bestanden.',
+      'Learning sync: Auth, Engine, RLS, 226 Offline-Versuche, Paging, zwei Geräte, atomare XP, Chor-Retention und Behandlung zukünftiger Zeitstempel bestanden.',
     );
   }
 } finally {

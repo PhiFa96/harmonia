@@ -1,10 +1,11 @@
 import { UiProvider } from '@harmonia/ui/native';
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-native';
+import { act, fireEvent, render, renderHook, screen, waitFor } from '@testing-library/react-native';
 import type { ComponentProps } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { PianoKeyboard } from '@/components/piano-keyboard';
 import { i18n } from '@/i18n';
+import { useMidiInput } from '@/midi/use-midi-input';
 
 jest.mock('expo-localization', () => ({
   getLocales: () => [{ languageCode: 'de', regionCode: 'DE' }],
@@ -40,7 +41,10 @@ function createPort(id: string, name: string) {
     addEventListener: jest.fn((_type: string, callback: (event: Event) => void) => {
       listeners.push(callback);
     }),
-    removeEventListener: jest.fn(),
+    removeEventListener: jest.fn((_type: string, callback: (event: Event) => void) => {
+      const index = listeners.indexOf(callback);
+      if (index >= 0) listeners.splice(index, 1);
+    }),
     close: jest.fn(() => Promise.resolve()),
   };
 }
@@ -134,5 +138,54 @@ describe('MIDI-Eingang an der Klaviatur', () => {
     send([0x90, 62, 90]);
     expect(onPitch).toHaveBeenCalledWith({ letter: 'D', alter: 0, octave: 4 });
     expect(screen.queryByText(/außerhalb des angezeigten Ausschnitts/)).toBeNull();
+  });
+
+  it('hält den gemeinsamen Port bis zur letzten Abmeldung offen und wartet beim Wiederöffnen', async () => {
+    const port = createPort('shared', 'Shared Keyboard');
+    mockRequest.mockResolvedValue({
+      inputs: new Map([[port.id, port]]),
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+    });
+    let finishedClosing: (() => void) | undefined;
+    port.close.mockImplementationOnce(
+      () =>
+        new Promise<void>((resolve) => {
+          finishedClosing = resolve;
+        }),
+    );
+    const first = renderHook(() => useMidiInput(jest.fn(), true));
+    const note = jest.fn();
+    const second = renderHook(() => useMidiInput(note, true));
+    await act(async () => {
+      await first.result.current.connect();
+      await second.result.current.connect();
+    });
+    expect(port.listeners).toHaveLength(2);
+    first.unmount();
+    expect(port.close).not.toHaveBeenCalled();
+    act(() => {
+      port.listeners[0]?.(message([0x90, 64, 80]));
+    });
+    expect(note).toHaveBeenCalledWith(64);
+    second.unmount();
+    await waitFor(() => {
+      expect(port.close).toHaveBeenCalledTimes(1);
+    });
+    const reopened = renderHook(() => useMidiInput(jest.fn(), true));
+    await act(async () => {
+      await reopened.result.current.connect();
+    });
+    expect(port.listeners).toHaveLength(0);
+    act(() => {
+      finishedClosing?.();
+    });
+    await waitFor(() => {
+      expect(port.listeners).toHaveLength(1);
+    });
+    reopened.unmount();
+    await waitFor(() => {
+      expect(port.close).toHaveBeenCalledTimes(2);
+    });
   });
 });

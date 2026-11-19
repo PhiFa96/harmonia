@@ -1,3 +1,4 @@
+import { AudioRecorder } from 'react-native-audio-api';
 import { startMicrophone } from '@/microphone/input';
 import type { OnPcmFrame } from '@/microphone/types';
 interface Packet {
@@ -37,6 +38,22 @@ beforeEach(() => {
   jest.clearAllMocks();
   mockError = undefined;
   mockFrame = undefined;
+});
+it('restores playback when the native recorder cannot be constructed', async () => {
+  jest.mocked(AudioRecorder).mockImplementationOnce(() => {
+    throw new Error('native recorder unavailable');
+  });
+  await expect(startMicrophone(jest.fn(), jest.fn())).rejects.toHaveProperty(
+    'reason',
+    'unavailable',
+  );
+  expect(mockOptions).toHaveBeenCalledTimes(2);
+  expect(mockOptions).toHaveBeenLastCalledWith({
+    iosCategory: 'playback',
+    iosMode: 'default',
+    iosOptions: ['mixWithOthers'],
+  });
+  expect(mockRecorder.stop).not.toHaveBeenCalled();
 });
 it('an SDK interruption releases recording and restores playback before late callbacks', async () => {
   const frame = jest.fn<ReturnType<OnPcmFrame>, Parameters<OnPcmFrame>>(),

@@ -81,14 +81,16 @@ export async function createSchoolServer({
         req.headers.cookie ?? '',
       )?.[1];
       let session = sessions.get(token);
-      if (session && !(await isSessionActive(session))) {
+      const requireActiveSession = async () => {
+        if (await isSessionActive(session)) return;
         sessions.remove(token);
         res.setHeader(
           'Set-Cookie',
           'harmonia_school_draft=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0',
         );
         throw new SchoolError('sessionExpired', 401);
-      }
+      };
+      if (session && req.method !== 'POST') await requireActiveSession();
       const actor = session?.actor;
       if (req.method === 'GET' && url.pathname === '/') {
         if (!session) {
@@ -172,15 +174,8 @@ export async function createSchoolServer({
       } catch {
         throw new SchoolError('invalid');
       }
-      // A body may arrive after a provider revocation; recheck before any mutation.
-      if (!(await isSessionActive(session))) {
-        sessions.remove(token);
-        res.setHeader(
-          'Set-Cookie',
-          'harmonia_school_draft=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0',
-        );
-        throw new SchoolError('sessionExpired', 401);
-      }
+      // Resolve against the provider after the bounded body, immediately before dispatch.
+      await requireActiveSession();
       if (url.pathname.startsWith('/api/privacy-')) {
         const action = url.pathname.slice('/api/privacy-'.length);
         const result = await privacy.call(actor.id, action, body);

@@ -108,4 +108,16 @@ describe('Prüfungsmodus in der App', () => {
     expect(screen.getByText(/Die Zeit ist abgelaufen\./)).toBeTruthy();
     expect(announce).toHaveBeenCalledWith(expect.stringMatching(/Zeit ist abgelaufen/));
   });
+
+  it('behält die Frist bei, wenn die Geräteuhr während der Prüfung zurückgestellt wird', () => {
+    open();
+    startFirst();
+    tick(19 * 60_000);
+    expect(screen.getByText('Noch eine Minute.')).toBeTruthy();
+    jest.setSystemTime(START);
+    act(() => {
+      jest.advanceTimersByTime(60_000);
+    });
+    expect(screen.getByText(/Die Zeit ist abgelaufen\./)).toBeTruthy();
+  });
 });

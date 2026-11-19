@@ -1,6 +1,7 @@
 import test, { before, after, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
 import { randomUUID, randomBytes } from 'node:crypto';
+import { once } from 'node:events';
 import { request } from 'node:http';
 import pg from 'pg';
 import { createSchoolDatabase } from './database.mjs';
@@ -177,28 +178,7 @@ test(
   'a revocation while a POST body is in flight blocks the eventual mutation',
   { timeout: 10000 },
   async (t) => {
-    let observe = false,
-      admitted;
-    const admission = new Promise((resolve) => {
-      admitted = resolve;
-    });
-    const pool = {
-      async connect() {
-        const client = await database.pool.connect();
-        return {
-          async query(...args) {
-            const result = await client.query(...args);
-            if (observe && String(args[0]).includes('resolve_identity') && result.rowCount) {
-              observe = false;
-              admitted();
-            }
-            return result;
-          },
-          release: () => client.release(),
-        };
-      },
-    };
-    const app = await open(t, { pool }),
+    const app = await open(t),
       cookie = await app.login();
     const body = JSON.stringify({ class: fixture.classId });
     const req = request(app.origin + '/api/leave', {
@@ -208,6 +188,7 @@ test(
         origin: app.origin,
         'content-type': 'application/json',
         'content-length': Buffer.byteLength(body),
+        expect: '100-continue',
       },
     });
     t.after(() => req.destroy());
@@ -218,11 +199,10 @@ test(
       });
       req.on('error', reject);
     });
-    observe = true;
+    const continued = once(req, 'continue');
+    req.flushHeaders();
+    await continued;
     req.write(body.slice(0, 1));
-    // The initial check has actually accepted the live identity, not merely raced
-    // a revocation before the request reached the server.
-    await admission;
     await database.pool.query('delete from auth.sessions where id=$1', [subject]);
     req.end(body.slice(1));
     assert.equal(await result, 401);
@@ -237,6 +217,38 @@ test(
     );
   },
 );
+
+test('an accepted write consults the provider once after the request body', async (t) => {
+  let calls = 0;
+  const app = await open(t, {
+    pool: {
+      async connect() {
+        const client = await database.pool.connect();
+        return {
+          query(...args) {
+            if (String(args[0]).includes('resolve_identity')) calls++;
+            return client.query(...args);
+          },
+          release: () => client.release(),
+        };
+      },
+    },
+  });
+  const cookie = await app.login();
+  calls = 0;
+  const response = await post(app.origin, cookie, 'leave', { class: fixture.classId });
+  assert.equal(response.status, 200);
+  assert.equal(calls, 1);
+  assert.equal(
+    (
+      await database.pool.query(
+        'select 1 from school_draft.class_members where class_id=$1 and actor_id=$2',
+        [fixture.classId, subject],
+      )
+    ).rowCount,
+    0,
+  );
+});
 
 test('a quiet quiz stream closes on provider revocation without another data snapshot', async (t) => {
   const quiz = createQuizService(database.pool),

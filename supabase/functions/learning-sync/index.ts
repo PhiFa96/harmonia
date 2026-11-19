@@ -16,7 +16,7 @@ import {
   retainLearningEvent,
   REVIEW_LESSON_ID,
 } from '../../../packages/content/src/index.ts';
-import type { ContentCatalogue } from '../../../packages/content/src/index.ts';
+import type { ContentCatalogue, LearningEvent } from '../../../packages/content/src/index.ts';
 const learningRewardPageSchema = learningRowSchema
   .extend({
     reward: learningRowSchema.shape.reward.unwrap().nullable(),
@@ -61,6 +61,11 @@ async function handler(request: Request): Promise<Response> {
     if (body.length > 262144) return json(413, { error: 'size' });
     const parsed = learningSyncRequestSchema.safeParse(JSON.parse(body) as unknown);
     if (!parsed.success) return json(400, { error: 'schema' });
+    if (
+      parsed.data.deferFuture &&
+      new Set(parsed.data.events.map((event) => event.id)).size !== parsed.data.events.length
+    )
+      return json(400, { error: 'schema' });
     const current = await content();
     const rules = await client.from('reward_rules').select('rule').order('effective_at');
     if (rules.error) return json(503, { error: 'rules' });
@@ -75,10 +80,18 @@ async function handler(request: Request): Promise<Response> {
     }[] = [];
     const summaries: unknown[] = [];
     const proofs: { id: string; source: unknown; cost: number; level: number }[] = [];
+    const events: LearningEvent[] = [];
+    const deferred: string[] = [];
+    const latestCompletion = Date.now() + 300000;
     try {
       for (const event of parsed.data.events) {
-        if (event.finishedAt > Date.now() + 300000) throw new Error('Future completion');
+        if (event.finishedAt > latestCompletion) {
+          if (!parsed.data.deferFuture) throw new Error('Future completion');
+          deferred.push(event.id);
+          continue;
+        }
         const proof = validateLearningEvent(current, event);
+        events.push(event);
         summaries.push(retainLearningEvent(current, event));
         if (event.kind === 'lesson') {
           const source = accessSourceSchema.parse({
@@ -91,7 +104,6 @@ async function handler(request: Request): Promise<Response> {
           proofs.push({ id: event.id, source, ...accessSourceDetails(current, source) });
         }
         if (event.kind === 'lesson' && event.timeZone && 'session' in proof) {
-          if (event.finishedAt > Date.now() + 300000) throw new Error('Future completion');
           const rule = rewardRuleAt(rewardRules, event.finishedAt);
           rewards.push({
             ruleVersion: rule.version,
@@ -108,7 +120,7 @@ async function handler(request: Request): Promise<Response> {
     }
     const result = await client.rpc('append_privacy_learning_results', {
       actor: data.user.id,
-      events: parsed.data.events,
+      events,
       rewards,
       proofs,
       summaries,
@@ -124,7 +136,8 @@ async function handler(request: Request): Promise<Response> {
       console.error('rating_projection_pending');
     }
     try {
-      await processPendingReviews(client, current, data.user.id);
+      const review = await processPendingReviews(client, current, data.user.id);
+      if (review.deferred) console.warn('review_projection_deferred');
     } catch {
       console.error('review_projection_pending');
     }
@@ -156,7 +169,8 @@ async function handler(request: Request): Promise<Response> {
     )
       return json(426, { error: 'upgrade_required' });
     return json(200, {
-      accepted: parsed.data.events.map((e) => e.id),
+      accepted: events.map((e) => e.id),
+      ...(deferred.length ? { deferred } : {}),
       rows: page.map((row) => {
         return {
           sequence: row.sequence,
