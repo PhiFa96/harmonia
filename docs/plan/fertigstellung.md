@@ -79,7 +79,7 @@ Die Reihenfolge beschreibt die Abhängigkeiten. M3, die Facharbeit aus M5 und vo
 - [ ] Bestätigte Probleme bei adaptiver Auswahl, FSRS-Wiederholungen, Bewertungszuordnung und Rückmeldungen beheben.
 - [ ] Wettbewerb und Social prüfen: Liga-XP, Teilnahmebedingungen, Missbrauchsschutz, Einladungstoken, Alters-/Datenschutzgrenzen und Zeitzonen.
 - [ ] Die sechs optionalen authentifizierten Browserfälle für Liga und Rush mit der dafür vorgesehenen lokalen Anbieter-Fixture ausführen; vor Aktivierung dieser Funktionen zusätzlich reale Konto-/Mehrgeräteabläufe abnehmen.
-- [ ] Audio-/Mikrofon-/MIDI-Randfälle, Gerätewechsel, Eingabebereiche und Rhythmus-Texte schließen.
+- [ ] Die ausstehenden Audio-/MIDI-Nachweise abschließen. Die technische Umsetzung für Mikrofon, MIDI und Rhythmus steht in der [Triage](../quality/m2-befunde/triage.md#t2t6-umsetzung-27112026). P3-15.02 dokumentiert die wirksamen Klarheitsgrenzen. Reale Geräteabnahme folgt in M6.
 - [ ] Harmonik- und Prüfungsaufgaben auf eindeutigen Kontext, sinnvolle Fehlerwiederholung, barrierefreie Bedienung und passende Fähigkeitsziele prüfen; bestätigte Lücken implementieren.
 - [ ] Lernziele der Stufen 3–4 mit den tatsächlichen Aufgaben abgleichen, insbesondere Modi, Formverlauf, Zwischendominanten, Voicings und Hörtraining.
 - [ ] Abhängigkeitspaket T7 umsetzen (zurückgestellte Dependabot-PRs #153/#154/#155/#166).
@@ -87,17 +87,17 @@ Die Reihenfolge beschreibt die Abhängigkeiten. M3, die Facharbeit aus M5 und vo
 
 **Fertig, wenn:** Alle bestätigten Fehler behoben und getestet sind; verbleibende Einschränkungen sind ausdrücklich entschieden und für den vorgesehenen Release vertretbar. Historische Berichte werden nicht ungeprüft als aktuelle Fehlerliste übernommen.
 
-Die nächste technische Reihenfolge innerhalb von M2:
+Technischer Arbeitsstand innerhalb von M2. Die Ziel-A-Spalte zählt die 82 Aufgaben aus dem Technikauftrag. Die geplanten Produkt-, Betriebs-, Fach- und Geräteprüfungen stehen in den jeweiligen Meilensteinen.
 
-| Paket | Arbeit | Abschlussnachweis |
-|---|---|---|
-| T1 | Erledigt am 27.11.2026. 454 Einzelfunde und 30 Kontroll- und Stilhinweise in 77 Gruppen. | Ziel A offen oder noch zu messen: 11 S1, 29 S2, 110 S3, 7 S4. Zusätzlich 51 Ziel-A-Regressionslücken. [Einzeltriage](../quality/m2-befunde/triage.md). |
-| T2 | Lernablauf, FSRS, Fähigkeits-/Bewertungszuordnung und Zeitgrenzen prüfen | Reproduktionen und Regressionen; konservative Bewertungsregeln und Lernschritte begründet beurteilt, statt ungeprüft ersetzt |
-| T3 | Lernziel-/Aufgabenabdeckung, Voraussetzungen und Rückmeldungen der Stufen 1–2 schließen | Abgleich je Fähigkeit/Lektion; technische Lücken behoben, Fachfragen an M5 gebunden |
-| T4 | Wettbewerb/Social und die sechs offenen Auth-UI-Fälle abnehmen | Konto-, Rechte-, Teilnahme-, Missbrauchs- und Zeitzonentests; erforderliche Produkt-/Datenschutzentscheidungen dokumentiert |
-| T5 | Audio, Mikrofon, MIDI, Wiederaufnahme und barrierefreie Eingaben prüfen | Regressionsbelege für Fehlerpfade; reale Nachweise anschließend in M6 |
-| T6 | Stufen 3–5 und P4-Restfragen gegen tatsächliche Aufgaben prüfen | Lernzielabgleich, begründetes Regelprofil und eigene Nachprüfung neuer Hinweise/Erklärungen |
-| T7 | Abhängigkeiten und Plattform aktuell halten: Sammelupdate #166 mit Anthropic SDK an allen drei Orten gemeinsam (ADR 0065), Expo-SDK-58-Migration statt Einzelpaket #153, Supabase-CLI 3 (#154) und Audio API 1.0 (#155) als eigene Migrationen | Je Paket eigener PR mit fünf grünen Pflichtjobs; nativer Build/Gerätetest für SDK- und Audioänderungen; echter Tutor-API-Aufruf nach SDK-Wechsel. Vor der Storeeinreichung (M7) prüfen, ob das verwendete Expo SDK noch die geforderten iOS-/Android-Zielversionen erfüllt |
+| Paket | Arbeit | Ziel-A-Technik | Abschlussnachweis |
+|---|---|---|---|
+| T1 | Erledigt am 27.11.2026. 454 Einzelfunde und 30 Kontroll- und Stilhinweise in 77 Gruppen. | – | Ziel A offen oder noch zu messen: 11 S1, 29 S2, 110 S3, 7 S4. Zusätzlich 51 Ziel-A-Regressionslücken. [Einzeltriage](../quality/m2-befunde/triage.md). |
+| T2 | Lernablauf, FSRS, Fähigkeits-/Bewertungszuordnung und Zeitgrenzen prüfen | 10 von 12 geschlossen | Reproduktionen und Regressionen; konservative Bewertungsregeln und Lernschritte begründet beurteilt, statt ungeprüft ersetzt |
+| T3 | Lernziel-/Aufgabenabdeckung, Voraussetzungen und Rückmeldungen der Stufen 1–2 schließen | 37 von 38 geschlossen | Abgleich je Fähigkeit/Lektion; technische Lücken behoben, Fachfragen an M5 gebunden |
+| T4 | Wettbewerb/Social und die sechs offenen Auth-UI-Fälle abnehmen | 5 von 15 geschlossen | Konto-, Rechte-, Teilnahme-, Missbrauchs- und Zeitzonentests; erforderliche Produkt-/Datenschutzentscheidungen dokumentiert |
+| T5 | Audio, Mikrofon, MIDI, Wiederaufnahme und barrierefreie Eingaben prüfen | 14 von 15 geschlossen | Regressionsbelege für Fehlerpfade; reale Nachweise anschließend in M6 |
+| T6 | Stufen 3–5 und P4-Restfragen gegen tatsächliche Aufgaben prüfen | 2 von 2 geschlossen | Lernzielabgleich, begründetes Regelprofil und eigene Nachprüfung neuer Hinweise/Erklärungen |
+| T7 | Abhängigkeiten und Plattform aktuell halten: Sammelupdate #166 mit Anthropic SDK an allen drei Orten gemeinsam (ADR 0065), Expo-SDK-58-Migration statt Einzelpaket #153, Supabase-CLI 3 (#154) und Audio API 1.0 (#155) als eigene Migrationen | – | Je Paket eigener PR mit fünf grünen Pflichtjobs; nativer Build/Gerätetest für SDK- und Audioänderungen; echter Tutor-API-Aufruf nach SDK-Wechsel. Vor der Storeeinreichung (M7) prüfen, ob das verwendete Expo SDK noch die geforderten iOS-/Android-Zielversionen erfüllt |
 
 ### M3 – Geschäftsentscheidungen und Rechtsgrundlagen abschließen
 
