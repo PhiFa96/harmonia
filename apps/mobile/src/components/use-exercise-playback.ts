@@ -68,7 +68,7 @@ export function useExercisePlayback(item: ExerciseItem | Score | undefined, bpm 
       stop();
     };
   }, [stop]);
-  const play = async () => {
+  const play = async (rhythmBpm?: number) => {
     if (!useSettings.getState().sound) {
       setError(true);
       return;
@@ -96,7 +96,7 @@ export function useExercisePlayback(item: ExerciseItem | Score | undefined, bpm 
             : item.type === 'CADENCE_IDENTIFY'
               ? playCadence(engine, item, bpm)
               : isRhythmItem(item)
-                ? playRhythm(engine, item, 'demo')
+                ? playRhythm(engine, { ...item, bpm: rhythmBpm ?? item.bpm }, 'demo')
                 : isChordItem(item)
                   ? playChordExercise(engine, item)
                   : isScaleItem(item)

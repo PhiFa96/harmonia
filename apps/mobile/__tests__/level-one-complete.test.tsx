@@ -15,6 +15,8 @@ import {
 } from '@harmonia/exercises';
 import type { ExerciseItem } from '@harmonia/exercises';
 import type { Pitch } from '@harmonia/notation';
+import { PITCH_WINDOW } from '@harmonia/audio/pitch-detection';
+import type { OnPcmFrame } from '@/microphone/types';
 import { act, fireEvent, renderRouter, screen, waitFor } from 'expo-router/testing-library';
 import { AppState } from 'react-native';
 import { i18n } from '@/i18n';
@@ -27,6 +29,19 @@ const mockSave = jest.fn<Promise<void>, [LessonAttempt]>(),
   mockLatest = jest.fn<Promise<SavedLessonSummary | null>, [string]>();
 jest.mock('@/storage/lessons', () => ({
   getLessonRepository: () => Promise.resolve({ save: mockSave, latest: mockLatest }),
+}));
+let mockFrame: OnPcmFrame | undefined;
+let mockFrequency = 440;
+// The Expo Jest preset replaces Pitchy. PitchTracker's real timing and answer path still run.
+jest.mock('pitchy', () => ({
+  PitchDetector: { forFloat32Array: () => ({ findPitch: () => [mockFrequency, 0.99] }) },
+}));
+const mockMicrophoneStop = jest.fn(() => Promise.resolve());
+jest.mock('@/microphone/input', () => ({
+  startMicrophone: (frame: OnPcmFrame) => {
+    mockFrame = frame;
+    return Promise.resolve({ stop: mockMicrophoneStop });
+  },
 }));
 const mockNow = 10;
 const mockPlay = jest.fn<
@@ -71,6 +86,8 @@ beforeEach(() => {
   mockSave.mockReset().mockResolvedValue(undefined);
   mockLatest.mockReset().mockResolvedValue(null);
   mockPlay.mockClear();
+  mockFrame = undefined;
+  mockMicrophoneStop.mockClear();
   mockStops.length = 0;
 });
 afterEach(() => {
@@ -175,6 +192,71 @@ describe('Restliche Stufe 1 im App-Spieler', () => {
       });
     },
   );
+  it('wertet simulierte Mikrofontöne im normalen Lektionslauf und speichert das Ergebnis', async () => {
+    const id = 'aural.l1.pitch-intervals.intervals';
+    renderRouter('./src/app', { initialUrl: `/lesson?id=${id}` });
+    const session = await intro(id);
+    let captured = 0;
+    for (const item of session.initial.items) {
+      if (!isVoiceItem(item)) {
+        await answer(item);
+      } else {
+        await act(async () => {
+          fireEvent.press(
+            screen.getByRole('button', {
+              name:
+                item.type === 'SIGHT_SING'
+                  ? 'Hilfeton spielen (zählt als Hinweis)'
+                  : 'Töne anhören',
+            }),
+          );
+          await Promise.resolve();
+        });
+        await act(async () => {
+          fireEvent.press(screen.getByRole('button', { name: 'Mikrofon starten' }));
+          await Promise.resolve();
+        });
+        expect(screen.getByRole('button', { name: 'Mikrofon stoppen' })).toBeTruthy();
+        const rate = 48000;
+        const targetCents = Number(expectedAnswer(item).slice('voice:'.length));
+        const frequency = 440 * 2 ** ((targetCents / 100 - 69) / 12);
+        mockFrequency = frequency;
+
+        act(() => {
+          const deliver = required(mockFrame);
+          for (let window = 0; window < 6; window++) {
+            const pcm = Float32Array.from(
+              { length: PITCH_WINDOW },
+              (_, sample) =>
+                0.35 *
+                Math.sin((2 * Math.PI * frequency * (sample + window * PITCH_WINDOW)) / rate),
+            );
+            deliver(pcm, rate, window * 43);
+          }
+        });
+        const captureButton = screen.getByRole('button', { name: 'Diesen Ton übernehmen' });
+        expect(captureButton).toBeEnabled();
+        fireEvent.press(captureButton);
+        expect(screen.getByRole('button', { name: 'Prüfen' })).toBeEnabled();
+        fireEvent.press(screen.getByRole('button', { name: 'Prüfen' }));
+        captured++;
+      }
+      expect(
+        screen.getByText(item.type === 'SIGHT_SING' ? 'Mit Hinweis beantwortet' : 'Richtig!'),
+      ).toBeTruthy();
+      fireEvent.press(screen.getByTestId('exercise-next'));
+    }
+    expect(captured).toBeGreaterThan(0);
+    await waitFor(() => {
+      expect(mockSave).toHaveBeenCalledTimes(1);
+    });
+    expect(mockMicrophoneStop).toHaveBeenCalledTimes(captured);
+    expect(required(mockSave.mock.calls[0]?.[0]).summary).toMatchObject({
+      answered: session.initial.items.length,
+      correct: session.initial.items.length,
+      skipped: 0,
+    });
+  });
   it('Hörpause speichert acht übersprungene Aufgaben und keine falschen Wertungen', async () => {
     const id = 'aural.l1.pulse-rhythm.pulse';
     renderRouter('./src/app', { initialUrl: `/lesson?id=${id}` });

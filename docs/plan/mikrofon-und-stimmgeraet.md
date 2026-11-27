@@ -21,3 +21,5 @@ Vor Abschluss des P3.09-Fertigkriteriums ist folgende Messreihe auf **mindestens
 5. Berechtigung verweigern, später erteilen, App während Aufnahme verlassen, Bildschirm sperren, Audiogerät abziehen und auf Web Tab verbergen. OS-Mikrofonindikator und Freigabe prüfen. Stimmen auf echten Lautsprechern/Mikrofonen, Tablet und Screenreader separat abnehmen.
 
 **Noch offen:** Diese Messungen benötigen physische Geräte und menschliche Stimmen. Ohne sie ist P3.09 technisch vorbereitet, aber das Fertigkriterium nicht nachgewiesen. Die datenschutzrechtliche Formulierung und Storeangaben brauchen ebenfalls Abnahme.
+
+M2 hinterlegt die iOS-Mikrofonbegründung in Deutsch und Englisch. Die native Aufnahme stellt die Wiedergabesitzung auch wieder her, wenn Einrichtung oder Konstruktion fehlschlagen. Der RMS-Mindestwert `0,008` liegt bei etwa −42 dBFS. Pitchy verwendet −42 dB als Parameter seines eigenen RMS-Filters und `0,9` als relativen Schwellenwert für die Auswahl des Peaks. Die App prüft die resultierende absolute Klarheit weiterhin gegen `0,88`.

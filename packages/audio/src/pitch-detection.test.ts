@@ -50,6 +50,54 @@ describe('microphone pitch detection', () => {
     }
   });
 
+  it.each([
+    [74, 'unstable'],
+    [76, 'stable'],
+    [1199, 'stable'],
+    [1202, 'unstable'],
+  ] as const)('applies the frequency boundaries to %.0f Hz (%s)', (frequency, expected) => {
+    const tracker = new PitchTracker();
+    const rate = 48000;
+    for (let index = 0; index < 3; index++)
+      tracker.analyze(tone(frequency, rate, index * PITCH_WINDOW), rate, index * 43);
+    expect(tracker.analyze(tone(frequency, rate, 3 * PITCH_WINDOW), rate, 129).state).toBe(
+      expected,
+    );
+  });
+
+  it('uses an absolute clarity floor distinct from the relative peak selection', () => {
+    function measure(noise: number) {
+      let seed = 6;
+      const samples = tone(440, 48000, 0).map((sample) => {
+        seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+        return sample + noise * (seed / 2 ** 31 - 1);
+      });
+      const tracker = new PitchTracker();
+      tracker.analyze(samples, 48000, 0);
+      tracker.analyze(samples, 48000, 43);
+      return tracker.analyze(samples, 48000, 86);
+    }
+    const accepted = measure(0.15);
+    expect(accepted.state).toBe('stable');
+    if (accepted.state !== 'stable') throw new Error('Expected the calibrated synthetic tone');
+    expect(accepted.clarity).toBeLessThan(0.9);
+    expect(accepted.clarity).toBeGreaterThan(0.88);
+    const rejected = measure(0.16);
+    expect(rejected.state).toBe('unstable');
+    if (rejected.state !== 'unstable') throw new Error('Expected rejected synthetic tone');
+    expect(rejected.clarity).toBeLessThan(0.88);
+  });
+
+  it('restarts stability after a timestamp moves backwards', () => {
+    const tracker = new PitchTracker();
+    const samples = tone(440, 48000, 0, true);
+    for (const time of [100, 143]) tracker.analyze(samples, 48000, time);
+    expect(tracker.analyze(samples, 48000, 186).state).toBe('stable');
+    expect(tracker.analyze(samples, 48000, 142).state).toBe('unstable');
+    expect(tracker.analyze(samples, 48000, 185).state).toBe('unstable');
+    expect(tracker.analyze(samples, 48000, 228).state).toBe('stable');
+  });
+
   it('rejects one octave glitch and clears after silence', () => {
     const tracker = new PitchTracker();
     const rate = 48000;

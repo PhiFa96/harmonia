@@ -455,8 +455,8 @@ export function ExerciseTask({
           onPracticeStart={() => {
             if (session.hintLevel === 0) onHint();
           }}
-          onPreview={() => {
-            void audio.play();
+          onPreview={(tempo) => {
+            void audio.play(tempo);
           }}
         />
       ) : item.type === 'CHORD_BUILD' ? (

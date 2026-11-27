@@ -70,6 +70,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     ios: {
       bundleIdentifier: id,
       supportsTablet: true,
+      infoPlist: { ...config.ios?.infoPlist, CFBundleAllowMixedLocalizations: true },
       ...(inviteHost
         ? {
             associatedDomains: [...(config.ios?.associatedDomains ?? []), 'applinks:' + inviteHost],
@@ -92,6 +93,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
           }
         : {}),
     },
+    locales: { de: './locales/de.json', en: './locales/en.json' },
     web: { output: 'single', bundler: 'metro' },
     plugins: [
       // Die automatische Routenübersicht /_sitemap gehört nicht in die ausgelieferte App.

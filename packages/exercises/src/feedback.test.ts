@@ -190,3 +190,11 @@ describe('Lokalisierte Notenansage und Zuordnungshinweis', () => {
     }
   });
 });
+
+it.each([
+  ['de', 'Verminderte Quarte'],
+  ['en-US', 'Diminished fourth'],
+  ['en-GB', 'Diminished fourth'],
+] as const)('rendert die vollständige Intervallbezeichnung in %s', (locale, expected) => {
+  expect(choiceLabel(interval('Fb4'), 'd4', locale).toLowerCase()).toBe(expected.toLowerCase());
+});

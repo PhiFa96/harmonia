@@ -21,7 +21,7 @@ interface Props {
   readonly showSolution: boolean;
   readonly onSelect: (answer: string | null) => void;
   readonly beforeStart: () => void;
-  readonly onPreview: () => void;
+  readonly onPreview: (tempo: number) => void;
   readonly practiceAllowed: boolean;
   readonly onPracticeStart: () => void;
 }
@@ -281,7 +281,7 @@ export function RhythmAnswerInput({
           label={t('exercise.rhythmPreview')}
           onPress={() => {
             recording.cancel();
-            onPreview();
+            onPreview(activeItem.bpm);
           }}
         />
       ) : null}

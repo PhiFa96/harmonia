@@ -70,7 +70,7 @@ describe('MIDI-Eingang an der Klaviatur', () => {
     void i18n.changeLanguage('de');
   });
 
-  it('wählt das Gerät nach Ausstecken und Einstecken mit neuer Port-ID wieder aus', async () => {
+  it('verbindet nach fehlgeschlagenem Schließen mit der neuen Port-ID', async () => {
     const first = createPort('dev-1-port-0', 'Test Keyboard');
     const statechange: (() => void)[] = [];
     const access = {
@@ -88,6 +88,7 @@ describe('MIDI-Eingang an der Klaviatur', () => {
     });
 
     // Gerät wird ausgesteckt und kommt mit anderer ID und neuem Port-Objekt zurück.
+    first.close.mockRejectedValueOnce(new Error('Port already disconnected'));
     first.state = 'disconnected';
     const fire = () => {
       act(() => {
@@ -106,6 +107,7 @@ describe('MIDI-Eingang an der Klaviatur', () => {
     act(() => {
       second.listeners.at(-1)?.(message([0x90, 64, 80]));
     });
+    expect(first.close).toHaveBeenCalledTimes(1);
     expect(onPitch).toHaveBeenCalledWith({ letter: 'E', alter: 0, octave: 4 });
   });
 
@@ -127,11 +129,20 @@ describe('MIDI-Eingang an der Klaviatur', () => {
         port.listeners.at(-1)?.(message(data));
       });
     };
+    for (const data of [
+      [0xe0, 0, 64],
+      [0xb0, 7, 100],
+      [0xa0, 62, 85],
+      [0xd0, 85],
+    ])
+      send(data);
+    expect(onPitch).toHaveBeenCalledTimes(0);
     send([0x90, 36, 90]);
     send([0x80, 36, 0]);
     expect(onPitch).not.toHaveBeenCalled();
     expect(screen.getByText(/außerhalb des angezeigten Ausschnitts/)).toBeTruthy();
     send([0x90, 62, 90]);
+    expect(onPitch).toHaveBeenCalledTimes(1);
     expect(onPitch).toHaveBeenCalledWith({ letter: 'D', alter: 0, octave: 4 });
     expect(screen.queryByText(/außerhalb des angezeigten Ausschnitts/)).toBeNull();
   });

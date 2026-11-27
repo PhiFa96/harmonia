@@ -131,7 +131,11 @@ describe('Rhythmusaufnahme und Taktgliederung in der App', () => {
     const practiceBpm = item.bpm - 5;
     expect(screen.getByText(new RegExp(`${String(practiceBpm)} BPM`))).toBeTruthy();
     expect(screen.getByTestId('rhythm-practice-tempo').props['aria-live']).toBe('polite');
-    expect(screen.getByTestId('rhythm-modes').props['role']).toBe('group');
+    expect(screen.getByTestId('rhythm-modes')).toHaveProp('role', 'group');
+    expect(screen.getByTestId('rhythm-modes')).toHaveProp(
+      'aria-label',
+      i18n.t('exercise.rhythmMode'),
+    );
     fireEvent.press(screen.getByText('Metronom: Durchgehend'));
     fireEvent.press(screen.getByText('Aus'));
     await act(() => {
@@ -291,6 +295,53 @@ describe('Rhythmusaufnahme und Taktgliederung in der App', () => {
     fireEvent.press(screen.getByText('Prüfen'));
     expect(screen.getByText('Mit Hinweis beantwortet')).toBeTruthy();
     expect(mockStopAll).not.toHaveBeenCalled();
+  });
+  it('plant das Klangbeispiel im gewählten Übungstempo', async () => {
+    await start();
+    const item = first();
+    fireEvent.press(screen.getByTestId('rhythm-mode-practice'));
+    fireEvent.press(screen.getByText('Langsamer −5'));
+    fireEvent.press(screen.getByText('Hinweis 1'));
+    fireEvent.press(screen.getByText('Hinweis 2'));
+    fireEvent.press(screen.getByText('Lösung erklären'));
+    await act(() => {
+      fireEvent.press(screen.getByText('Rhythmus als Beispiel anhören'));
+      return Promise.resolve();
+    });
+    const clickTimes = mockPlay.mock.calls
+      .filter(([pitch]) => pitch.octave >= 5)
+      .map(([, options]) => options.when);
+    expect(required(clickTimes[1]) - required(clickTimes[0])).toBeCloseTo(60 / (item.bpm - 5));
+  });
+
+  it('verwirft einen Übungsdurchlauf im Hintergrund und zeigt erneute Audiofehler an', async () => {
+    await start();
+    fireEvent.press(screen.getByTestId('rhythm-mode-practice'));
+    const startButton = () => screen.getByText('Übung starten');
+    await act(() => {
+      fireEvent.press(startButton());
+      return Promise.resolve();
+    });
+    expect(mockStops.length).toBeGreaterThan(0);
+    act(() => {
+      mockStateListeners.forEach((listener) => {
+        listener('background');
+      });
+    });
+    for (const stop of mockStops) expect(stop).toHaveBeenCalledTimes(1);
+    expect(startButton()).toBeTruthy();
+    act(() => {
+      mockStateListeners.forEach((listener) => {
+        listener('active');
+      });
+    });
+    mockResume.mockRejectedValueOnce(new Error('Audio unavailable'));
+    await act(() => {
+      fireEvent.press(startButton());
+      return Promise.resolve();
+    });
+    expect(screen.getByText(/Der Klang konnte nicht gestartet werden/)).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Prüfen' })).toBeDisabled();
   });
   it('Hör-Pause überspringt drei Aufnahmeaufgaben; die drei Taktfragen bleiben', async () => {
     await start();

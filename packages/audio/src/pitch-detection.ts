@@ -3,7 +3,12 @@ import { PitchDetector } from 'pitchy';
 export const PITCH_WINDOW = 2048;
 export const PITCH_MIN_HZ = 75;
 export const PITCH_MAX_HZ = 1200;
+// 0.008 RMS is approximately −42 dBFS. Pitchy also applies its own RMS gate.
 const MIN_RMS = 0.008;
+const PITCHY_VOLUME_DB = -42;
+// Pitchy selects the first peak that reaches this fraction of the highest peak.
+const PEAK_SELECTION_RATIO = 0.9;
+// The normalized clarity returned by that selection must clear this absolute floor.
 const MIN_CLARITY = 0.88;
 const STABLE_MS = 80;
 const HISTORY_MS = 180;
@@ -31,8 +36,8 @@ export class PitchTracker {
   constructor(private readonly referenceHz = 440) {
     if (!Number.isFinite(referenceHz) || referenceHz < 415 || referenceHz > 466)
       throw new RangeError('referenceHz');
-    this.detector.minVolumeDecibels = -42;
-    this.detector.clarityThreshold = 0.9;
+    this.detector.minVolumeDecibels = PITCHY_VOLUME_DB;
+    this.detector.clarityThreshold = PEAK_SELECTION_RATIO;
   }
 
   reset() {

@@ -64,6 +64,9 @@ describe('i18next-Instanz', () => {
       expect(
         en.t('exercise.rhythmPracticeFeedback', { ...feedback, extras: 3, count: 3 }),
       ).toContain('3 extra taps');
+      expect(en.t('exercise.rhythmPracticeFeedback', { ...feedback, extras: 0, count: 0 })).toBe(
+        'Round 2: 3 of 4 onsets matched, 0 extra taps. Not graded.',
+      );
     }
     expect(createI18n('en-US').t('piano.settings')).toBe('Customize');
     expect(createI18n('en-GB').t('piano.settings')).toBe('Customise');
@@ -71,8 +74,8 @@ describe('i18next-Instanz', () => {
     expect(createI18n('en-US').t('exercise.rhythmPracticeIntro')).toMatch(
       /^Practice the same measure without being graded\./,
     );
-    expect(createI18n('en-GB').t('exercise.rhythmPracticeIntro')).toMatch(
-      /^Practise the same bar without being graded\./,
+    expect(createI18n('en-GB').t('exercise.rhythmPracticeIntro')).toBe(
+      'Practise the same bar without being graded. The test run then starts at the original tempo. Practice counts as help for this question. At a slower tempo the timing window can be wider than in the test run.',
     );
   });
 

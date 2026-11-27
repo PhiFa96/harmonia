@@ -82,6 +82,25 @@ describe('Mikrofonübungen', () => {
     expect(evaluateExercise(item, `voice:${shifted}`).correct).toBe(true);
   });
 
+  it('verwirft gemischte Oktavlagen und Werte außerhalb des Cent-Bereichs', () => {
+    const item = generateExercise(required(specs[2]), createRng(7)) as VoiceItem;
+    const [a, b, c] = required(voiceAnswerValues(expectedAnswer(item), 3)).map(required);
+    expect(
+      evaluateExercise(
+        item,
+        `voice:${[required(a) + 1207, required(b) - 9, required(c) + 1212].join(',')}`,
+      ),
+    ).toMatchObject({
+      validAnswer: true,
+      correct: false,
+    });
+    for (const outOfRange of [2099, 10801])
+      expect(
+        evaluateExercise(item, `voice:${[required(a), outOfRange, required(c)].join(',')}`)
+          .validAnswer,
+      ).toBe(false);
+  });
+
   it('überspringt eine Mikrofonaufgabe ohne Fehler oder Wiederholung', () => {
     const lesson = createLessonSession({ id: 'voice', contentVersion: 1, exercises: specs }, 2);
     const skipped = skipLessonVoice(lesson);

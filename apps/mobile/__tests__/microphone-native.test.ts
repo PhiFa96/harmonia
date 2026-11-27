@@ -1,3 +1,4 @@
+import { AudioRecorder } from 'react-native-audio-api';
 import { startMicrophone } from '@/microphone/input';
 import type { OnPcmFrame } from '@/microphone/types';
 interface Packet {
@@ -127,4 +128,15 @@ it('normalizes first-sample SDK counters to window ends across split and batched
     expect(call[3]).toBe('buffered');
   }
   await session.stop();
+});
+
+it('restores playback and rejects when the recorder constructor throws', async () => {
+  const failure = new Error('Recorder cannot initialise');
+  jest.mocked(AudioRecorder).mockImplementationOnce(() => {
+    throw failure;
+  });
+  await expect(startMicrophone(jest.fn(), jest.fn())).rejects.toBe(failure);
+  expect(
+    mockOptions.mock.calls.map(([options]: [{ iosCategory: string }]) => options.iosCategory),
+  ).toEqual(['playAndRecord', 'playback']);
 });

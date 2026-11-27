@@ -7,3 +7,5 @@
 Die Zeitbasis bleibt die Audio-Uhr mit dem vorhandenen Latenzausgleich. Übungs-Feedback vergleicht gegen dieselbe Notenquelle bei gewähltem Übungstempo; die Prüfungswertung verwendet unverändert das Originaltempo. Die Schleife enthält bewusst vor jeder Runde ein neues Einzählen, damit die Durchläufe klar getrennt bleiben.
 
 Geprüft: wiederholtes langsames Üben ohne Antwort, Metronom aus und nur Einzählen, einzelner Übungsdurchlauf, Wechsel zur Prüfung im Originaltempo, Hilfe-Markierung, bestehender Aufnahmeablauf, TypeScript, Übersetzungen und Web-Export. Die Bedienung und Klanglatenz auf echten iOS-/Android-Geräten bleiben für die Geräteabnahme offen.
+
+M2 spielt das Klangbeispiel im Übungsmodus im gewählten Tempo ab. Die Vorschau im Prüfungsmodus verwendet das Aufgabentempo.
