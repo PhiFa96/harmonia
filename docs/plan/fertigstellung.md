@@ -1,6 +1,6 @@
 # Harmonia – Plan bis zur vollständigen Fertigstellung
 
-Stand **16.11.2026**, fortgeschrieben nach Claudes fachlicher und funktionaler Prüfung des Integrationskandidaten (Codex-Stand `84200b8`, Arbeitsbranch `claude/zen-volta-59qear`); Ausgangsplan vom 14.11.2026 (früher Entwurfs-PR #163, durch diese Datei ersetzt). Dieser Plan umfasst die verbleibende Entwicklung, Inhalte, Entscheidungen, Anbieteranbindung, reale Abnahmen und Veröffentlichung bis einschließlich der heutigen Phase-5-Vision.
+Stand **27.11.2026** (M1 abgeschlossen mit PR #165, M2/T1-Triage durch Codex und Review durch Claude); zuvor fortgeschrieben am 16.11.2026 nach Claudes fachlicher und funktionaler Prüfung des Integrationskandidaten (Codex-Stand `84200b8`, Arbeitsbranch `claude/zen-volta-59qear`); Ausgangsplan vom 14.11.2026 (früher Entwurfs-PR #163, durch diese Datei ersetzt). Dieser Plan umfasst die verbleibende Entwicklung, Inhalte, Entscheidungen, Anbieteranbindung, reale Abnahmen und Veröffentlichung bis einschließlich der heutigen Phase-5-Vision.
 
 Technische Nachweise: [M1-Übergabe](integration-m1.md), [lokaler Prüfbericht](../quality/m1-integration/validation.json) und [Befundregister M2](befundregister.md). Der Plan ändert keine Inhalts-, Fach-, Rechts- oder Produktfreigabe.
 
@@ -9,8 +9,8 @@ Technische Nachweise: [M1-Übergabe](integration-m1.md), [lokaler Prüfbericht](
 - Eine umfangreiche technische Grundlage und interne Entwürfe für die Lernstufen 1–5, Tutor, Tonsatz, Chor, Zeitreise, Schule und Zertifikate.
 - **195 interne Lektionen, 200 Fähigkeiten und 66 geplante Einheiten; null öffentlich freigegebene Lektionen.**
 - Fachliche Prüfdurchgänge haben bereits stattgefunden, unter anderem am 16.10., 20.10., 31.10. und 05.11.2026. Offene Quellen-, Konventions-, Sprach- und Produktabnahmen bleiben bestehen; neuere Änderungen brauchen ihre eigene Nachprüfung.
-- **Die acht technischen Entwürfe #151 und #156–#162 sind gemeinsam integriert und von Claude fachlich und per Code-Review geprüft** ([Prüfabschnitt](integration-m1.md#fachliche-und-funktionale-prüfung-durch-claude-code-16112026)); Übernahme nach `main` über einen regulären PR mit allen fünf Pflichtjobs. Sechs optionale Liga-/Rush-Auth-UI-Fälle wurden weiterhin nicht ausgeführt.
-- **M2 ist begonnen:** 65 Arbeitsgruppen aus 33 unveränderten Rohberichten sowie sechs neue Review-Befunde M1-R1–R6 sind erfasst. Das sind keine 65 bestätigten offenen Fehler. Einige Altbefunde sind bereits behoben; die vollständige Einzeltriage und die daraus folgenden Restkorrekturen stehen aus.
+- **Die acht technischen Entwürfe #151 und #156–#162 sind gemeinsam integriert und von Claude fachlich und per Code-Review geprüft** ([Prüfabschnitt](integration-m1.md#fachliche-und-funktionale-prüfung-durch-claude-code-16112026)); am 16.11.2026 über PR #165 mit allen fünf grünen Pflichtjobs nach `main` übernommen (`688de50`). Sechs optionale Liga-/Rush-Auth-UI-Fälle wurden weiterhin nicht ausgeführt.
+- **M2/T1 ist abgeschlossen:** Die [Einzeltriage](../quality/m2-befunde/triage.md) löst die 71 Registergruppen aus 33 unveränderten Rohberichten und M1-R1–R6 in 454 Einzelfunde und 30 Kontrollhinweise auf. Für Ziel A sind 157 Einträge offen oder noch zu messen (11 S1, 29 S2, 110 S3, 7 S4), dazu 51 Regressionslücken. Die Restkorrekturen T2–T7 stehen aus.
 - Coach-Marktplatz und KI-Live-Calls sind noch größere ausstehende Entwicklungsblöcke. Schul- und Zertifikatswerkstätten benötigen zusätzlich eine produktive Integration.
 
 Der zuletzt geprüfte Integrationsstand meldet **151 offene P2-Releasevoraussetzungen**, für Beta iOS/Android jeweils **135**, Web **131**, für die KI-Bereiche allgemein/Schule/Zertifikate **21/22/18** offene Nachweisfelder sowie **26** offene Zertifikatsanforderungen. Diese Zahlen überlappen und enthalten Konfiguration, Nachweise und Laufzeitbedingungen; sie sind keine addierbare Zahl fehlender Programmieraufgaben. Lokale Prüfungen ersetzen die noch fehlenden realen Abnahmen nicht.
@@ -31,7 +31,7 @@ Die Reihenfolge beschreibt die Abhängigkeiten. M3, die Facharbeit aus M5 und vo
 
 | Meilenstein | Noch zu erreichen | Voraussetzung / Hauptzuständigkeit |
 |---|---|---|
-| M1 | Gemeinsamen Kandidaten über PR, CI und Reviews nach `main` übernehmen | Technisch vorbereitet; Claude Code im bestehenden Freigabeverfahren |
+| M1 | Erledigt am 16.11.2026: gemeinsamer Kandidat über PR #165 nach `main` übernommen | Claude Code im bestehenden Freigabeverfahren |
 | M2 | Einzeltriage abschließen und bestätigte technische Restfehler beheben | Aktueller Gesamtstand; Entwicklung, Fachentscheidungen durch Claude |
 | M3 | Betreiber-, Preis-, Rechts- und Fachentscheidungen mit Nachweisen abschließen | Parallel starten; Phillip, Claude und qualifizierte Beratung nach Bereich |
 | M4 | Echte Anbieter und belastbaren Produktbetrieb herstellen | Betreiber-/Kontenentscheidungen aus M3; Entwicklung und Phillip |
@@ -64,9 +64,9 @@ Die Reihenfolge beschreibt die Abhängigkeiten. M3, die Facharbeit aus M5 und vo
 - [x] Abhängigkeiten #152–#155 prüfen und für diesen Kandidaten begründet zurückstellen. SDK-/Deno-Abgleich, Expo-SDK-Migration, Supabase-CLI 3 und Audio API 1 bleiben eigene Pakete; bei neuen Sicherheits- oder Kompatibilitätsbefunden erneut priorisieren.
 - [x] Fachliche Prüfung (#160–#162) und Code-Review des Gesamt-Diffs durch Claude; kein Blocker, Restbefunde als M1-R1–R6 im Befundregister.
 - [x] Abhängigkeiten erneut entschieden (16.11.2026, Nutzerentscheidung): #152 ist geschlossen und durch das Sammelupdate #164 ersetzt; #164, #153, #154 und #155 bleiben zurückgestellt (T7).
-- [ ] Claude Code erstellt den Integrations-PR mit der [vorbereiteten Beschreibung](../quality/m1-integration/pr-beschreibung.md).
-- [ ] Alle fünf Pflichtjobs am endgültigen gemeinsamen PR-Head abschließen; Befunde beheben und betroffene Prüfungen nachholen.
-- [ ] Den geprüften Kandidaten regulär nach `main` übernehmen, die ursprünglichen Entwürfe nachvollziehbar als integriert/ersetzt abschließen und Branches gemäß Projektverfahren aufräumen.
+- [x] Claude Code erstellt den Integrations-PR mit der [vorbereiteten Beschreibung](../quality/m1-integration/pr-beschreibung.md) (PR #165).
+- [x] Alle fünf Pflichtjobs am endgültigen gemeinsamen PR-Head abschließen (Lauf 302, Head `998db34`).
+- [x] Den geprüften Kandidaten regulär nach `main` übernehmen (16.11.2026, `688de50`); #151/#156–#162 und #163 sind geschlossen. Arbeitsbranches räumt GitHubs automatische Löschung auf.
 - [ ] Bei weiteren Änderungen an Code oder gebundener Zweckbeschreibung die betroffenen Prüfmappen und Abnahmen aktualisieren.
 
 **Fertig, wenn:** Der gemeinsame Kandidat nach erfolgreicher erforderlicher GitHub-CI und den vorgesehenen Reviews über den regulären PR nach `main` übernommen ist; jeder Entwurf samt Tests ist erhalten oder begründet ersetzt. Codex übergibt gemäß `AGENTS.md` den Arbeitsbranch; Claude Code übernimmt den PR-/CI-/Integrationsablauf.
@@ -237,7 +237,7 @@ Vor dem Start den Umfang, Zielsprachen, unterstützte Instrumente, Qualitätsma�
 
 **Drei parallele Arbeitsstränge bis Ziel A:**
 
-1. **Technik:** M1 formal abschließen, T2–T6 aus der T1-Triage aufnehmen, T7-Abhängigkeiten einplanen, notwendige A-Korrekturen aus M2 umsetzen und Anbieter-/Betriebsintegration aus M4 abnehmen.
+1. **Technik:** T2–T6 aus der T1-Triage aufnehmen, T7-Abhängigkeiten einplanen, notwendige A-Korrekturen aus M2 umsetzen und Anbieter-/Betriebsintegration aus M4 abnehmen.
 2. **Inhalte:** Stufen 1–2 samt Voraussetzungen, Quellen, Fachkonventionen und DE/US/UK-Texten nach M5 abschließen; danach Stufen 3–5 vorbereiten.
 3. **Betreiber und Abnahmen:** M3-Entscheidungen/Rechtsprüfung, Anbieter-/Storekonten, Gerätebesetzung und Testpersonen für M6 organisieren; Store/Support/Betrieb vorbereiten.
 
@@ -247,7 +247,7 @@ Ein belastbarer Kalenderplan entsteht nach T1 aus dem bestätigten Restumfang, d
 
 ## 5. Der unmittelbar nächste Auftrag
 
-1. **Claude Code:** Den geprüften Integrations-PR nach grüner Pflicht-CI regulär übernehmen, #151/#156–#162 als integriert und #163 als ersetzt schließen.
+1. **Erledigt:** M1-Integration über PR #165 (16.11.2026) und T1-Einzeltriage samt Review (27.11.2026).
 2. **Entwicklung:** T2–T6 aus der [priorisierten Einzeltriage](../quality/m2-befunde/triage.md#folgepakete) aufnehmen. T2 beginnt mit P3-06.03/.04, T3 mit S12-01.02 und S12-09.01, T4 mit P3-12.03/.04 und T5 mit P3-15.07 sowie P3-17.02. T6 startet mit P3-24.05 für geteilte Notation und P4-02.18 für die Satzwiederholung. Die sechs Liga-/Rush-Auth-UI-Fälle bleiben eigenständig.
 3. **Claude:** Parallel mit Quellen-/Konventions-/Fachprüfung der Stufen 1–2 beginnen und den getrennten zweiten Durchgang einplanen.
 4. **Phillip mit Beratung:** Betreiber-/Namens-/Preis-/Gebühren-/Altersentscheidungen abschließen, rechtliche Prüfungen beauftragen sowie Anbieter-/Storekonten und die Geräte-/Testpersonenbesetzung vorbereiten.
@@ -265,4 +265,4 @@ Für jedes erledigte Paket werden Code-/Inhaltsstand, durchgeführte Prüfungen,
 - [P2-Abschluss und Einzelabnahmen](p2-abschluss.md), [Abo-/Anbieterabnahmen](abos-revenuecat.md). Die verlinkten Einzelchecklisten bleiben für ihren jeweiligen Umfang maßgeblich.
 - Reproduzierbarer Status: `pnpm p2:status`, `pnpm check:beta`, `pnpm check:ai --scope general` (zusätzlich mit `--scope school` und `--scope certificates`), `pnpm check:certificates`, `pnpm check:content`.
 
-Die technischen Messwerte stammen aus dem nachgewiesenen M1-Kandidaten `f2472a3`. Für diese Fortschreibung wurden dessen Nachweise, das Befundregister, die Phasen-/Entscheidungspläne und der aktuelle GitHub-Stand gelesen; es wurden keine neuen Laufzeitabnahmen behauptet. `main` steht weiterhin auf `ab157e81`, ein offener Integrations-PR für den Arbeitsbranch ist beim Abgleich nicht vorhanden. Diese Fortschreibung ändert ausschließlich die Planung; sie implementiert keine weiteren Produktfunktionen und erteilt keine Inhalts- oder Veröffentlichungsfreigabe.
+Die technischen Messwerte stammen aus dem nachgewiesenen M1-Kandidaten `f2472a3`. Für diese Fortschreibung wurden dessen Nachweise, das Befundregister, die Phasen-/Entscheidungspläne und der aktuelle GitHub-Stand gelesen; es wurden keine neuen Laufzeitabnahmen behauptet. Stand 16.11.2026; seit dem Merge von PR #165 steht `main` auf `688de50`. Diese Fortschreibung ändert ausschließlich die Planung; sie implementiert keine weiteren Produktfunktionen und erteilt keine Inhalts- oder Veröffentlichungsfreigabe.
