@@ -31,9 +31,9 @@ async function send(body?: FriendsRequest) {
     clearFriends();
     return;
   }
-  if (busy) return;
   const actor = session.user.id;
   if (useFriends.getState().owner !== actor) clearFriends();
+  if (busy) return;
   const config = configuredAuth();
   if (!config) {
     useFriends.setState({ error: 'auth' });
@@ -60,7 +60,7 @@ async function send(body?: FriendsRequest) {
     if (!response.ok) {
       const code = data && typeof data === 'object' && 'error' in data ? String(data.error) : '';
       throw new Error(
-        ['missing', 'retry', 'limit', 'quest_active'].includes(code) ? code : 'unavailable',
+        ['missing', 'retry', 'limit', 'quest_active', 'rate'].includes(code) ? code : 'unavailable',
       );
     }
     useFriends.setState({ view: friendsViewSchema.parse(data), loading: false });

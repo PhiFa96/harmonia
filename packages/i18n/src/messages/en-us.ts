@@ -80,6 +80,10 @@ export const enUS = {
     scale: 'Center is in tune; left is low, right is high.',
   },
   friends: {
+    error_rate: 'Too many requests. Try again later.',
+    revoked: 'Invitation revoked.',
+    confirmRevoke: 'Revoke this invitation?',
+    revoke: 'Revoke invitation',
     title: 'Friends and friend quests',
     entry: 'Learn with invited friends and reach a weekly goal together.',
     open: 'Open friends',
@@ -133,6 +137,10 @@ export const enUS = {
     shareFailed: 'Sharing or copying failed.',
   },
   puzzle: {
+    shareUnsolved: 'not solved',
+    shareSolved: 'solved',
+    zone: 'The puzzle time zone cannot be changed yet.',
+    rate: 'Too many requests. Try again later.',
     title: 'Daily puzzle',
     entry: 'One shared question every day. Difficulty rises through Sunday.',
     open: "Open today's puzzle",
@@ -152,7 +160,7 @@ export const enUS = {
     incorrect: 'Not solved today.',
     tomorrow: 'The next puzzle arrives tomorrow.',
     share: 'Share or copy result',
-    shareText: 'Harmonia puzzle {{day}} {{symbol}} · Streak: {{streak}}',
+    shareText: 'Harmonia puzzle {{day}} {{symbol}} · {{status}} · Streak: {{streak}}',
   },
   duel: {
     title: 'Duels',

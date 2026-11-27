@@ -14,6 +14,40 @@ import {
 } from '../../../packages/content/src/index.ts';
 import { billingBody } from '../_shared/billing.ts';
 import { hash } from '../_shared/hash.ts';
+import { socialRequestLimit } from '../_shared/social-request-limit.ts';
+
+// Increment when a generator or scoring change affects newly frozen puzzle content.
+const PUZZLE_ENGINE_VERSION = 1;
+function canonical(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(canonical);
+  if (value && typeof value === 'object')
+    return Object.fromEntries(
+      Object.entries(value)
+        .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))
+        .map(([key, field]) => [key, canonical(field)]),
+    );
+  return value;
+}
+const banks = new WeakMap<
+  typeof catalogue,
+  Promise<{ pool: ReturnType<typeof rushPool>; bank: string }>
+>();
+function puzzleBank(source: typeof catalogue) {
+  const cached = banks.get(source);
+  if (cached) return cached;
+  const task = (async () => {
+    const pool = rushPool(source);
+    const bank = await hash(
+      JSON.stringify(canonical({ puzzleEngine: PUZZLE_ENGINE_VERSION, pool })),
+    );
+    return { pool, bank };
+  })().catch((error: unknown) => {
+    banks.delete(source);
+    throw error;
+  });
+  banks.set(source, task);
+  return task;
+}
 
 const headers = {
   'Access-Control-Allow-Origin': '*',
@@ -71,7 +105,16 @@ Deno.serve(async (request) => {
       const parsed = timeZoneSchema.safeParse(new URL(request.url).searchParams.get('timeZone'));
       if (!parsed.success) return json(400, { error: 'schema' });
       timeZone = parsed.data;
+      const retryAfter = await socialRequestLimit(client, actor, 'daily_puzzle_read');
+      if (retryAfter !== null)
+        return new Response(JSON.stringify({ error: 'rate', retryAfter }), {
+          status: 429,
+          headers: { ...headers, 'Retry-After': String(retryAfter) },
+        });
     }
+    const zone = await client.rpc('puzzle_request_zone', { actor, requested_zone: timeZone });
+    if (zone.error || typeof zone.data !== 'boolean') throw new Error('Puzzle zone unavailable');
+    if (!zone.data) return json(409, { error: 'zone' });
     const now = Date.now(),
       day = lessonDay(now, timeZone);
     if (answer && answer.day !== day) return json(409, { error: 'day' });
@@ -81,9 +124,8 @@ Deno.serve(async (request) => {
     const source = local
       ? (await import('../../../packages/content/src/authoring.ts')).catalogue
       : catalogue;
-    const pool = rushPool(source);
+    const { pool, bank } = await puzzleBank(source);
     if (pool.length) {
-      const bank = await hash(JSON.stringify({ puzzleEngine: 1, pool }));
       const last = addPuzzleDays(day, 41);
       const present = await client
         .from('daily_puzzles')
@@ -136,7 +178,7 @@ Deno.serve(async (request) => {
           is_correct: grade.correct,
         });
         if (saved.error) {
-          const code = /puzzle_(day|conflict|source|answer)/.exec(saved.error.message)?.[1];
+          const code = /puzzle_(day|conflict|source|answer|zone)/.exec(saved.error.message)?.[1];
           return json(code === 'answer' ? 400 : 409, { error: code ?? 'unavailable' });
         }
         raw = rawSchema.parse(saved.data);

@@ -182,3 +182,29 @@ it('makes no request for a guest', async () => {
   expect(globalThis.fetch).not.toHaveBeenCalled();
   expect(useRush.getState().run).toBeNull();
 });
+
+it('sends the first answer queued behind a poll and ignores later clicks', async () => {
+  let release: (value: Response) => void = () => {
+    throw Error('Missing poll');
+  };
+  const network = jest
+    .fn<ReturnType<typeof fetch>, Parameters<typeof fetch>>()
+    .mockImplementationOnce(
+      () =>
+        new Promise<Response>((resolve) => {
+          release = resolve;
+        }),
+    )
+    .mockResolvedValue(response(run));
+  globalThis.fetch = network;
+  const poll = refreshRush();
+  const answer = answerRush(id, 0, 'C');
+  await answerRush(id, 0, 'D');
+  await refreshRush();
+  expect(network).toHaveBeenCalledTimes(1);
+  release(response({ ...snapshot, run }));
+  await Promise.all([poll, answer]);
+  expect(network).toHaveBeenCalledTimes(2);
+  const sent = network.mock.calls[1]?.[1]?.body;
+  expect(typeof sent === 'string' && JSON.parse(sent)).toMatchObject({ answer: 'C' });
+});

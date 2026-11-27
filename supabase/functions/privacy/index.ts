@@ -71,6 +71,8 @@ const sections = {
   duelInvitesSent: ['duel_invites', 'host_id', 'token', 'token,created_at,expires_at,game_id'],
   duelInvitesAccepted: ['duel_invites', 'guest_id', 'token', 'token,created_at,expires_at,game_id'],
   dailyPuzzleResults: ['daily_puzzle_results', 'user_id', 'day', '*'],
+  dailyPuzzleZones: ['daily_puzzle_zones', 'user_id', 'user_id', '*'],
+  requestLimits: ['request_limits', 'user_id', 'scope', '*'],
   friendships: ['friendships', 'user_id', 'friend_id', '*'],
   friendInvitesSent: ['friend_invites', 'host_id', 'token', '*'],
   friendInvitesAccepted: ['friend_invites', 'guest_id', 'token', '*'],

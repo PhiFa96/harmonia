@@ -1,16 +1,17 @@
-import { renderRouter, screen, fireEvent, waitFor } from 'expo-router/testing-library';
+import { act, renderRouter, screen, fireEvent, waitFor } from 'expo-router/testing-library';
 import type { Session } from '@supabase/supabase-js';
 import type { RushView } from '@harmonia/content';
 import { UiProvider } from '@harmonia/ui/native';
 import { i18n } from '@/i18n';
 import { useAuthState } from '@/auth';
-import { useRush, clearRush, endRush } from '@/state/rush';
+import { useRush, clearRush, endRush, answerRush } from '@/state/rush';
 import RushScreen from '@/app/rush';
 import type * as RushModule from '@/state/rush';
 jest.mock('@/state/rush', () => ({
   ...jest.requireActual<typeof RushModule>('@/state/rush'),
   refreshRush: jest.fn(() => Promise.resolve()),
   refreshRushBoard: jest.fn(() => Promise.resolve()),
+  answerRush: jest.fn(() => Promise.resolve()),
   startRush: jest.fn(() => Promise.resolve()),
   endRush: jest.fn(() => Promise.resolve()),
 }));
@@ -89,11 +90,28 @@ it('hides another account’s active run immediately', () => {
   renderRouter({ index: Fixture });
   expect(screen.queryByTestId('rush-clock')).toBeNull();
 });
-it('disables choice controls while a server confirmation is pending', () => {
+it('accepts a first answer during a refresh and then disables controls until confirmation', async () => {
+  let complete: (() => void) | undefined;
+  jest.mocked(answerRush).mockImplementationOnce(
+    () =>
+      new Promise<void>((resolve) => {
+        complete = resolve;
+      }),
+  );
   useRush.setState({ run, loading: true });
   renderRouter({ index: Fixture });
+  const answer = screen.getAllByRole('radio')[0];
+  if (!answer) throw new Error('Expected an answer option');
+  expect(answer).toBeEnabled();
+  fireEvent.press(answer);
+  fireEvent.press(screen.getByRole('button', { name: 'Prüfen' }));
+  expect(answerRush).toHaveBeenCalledTimes(1);
   for (const radio of screen.getAllByRole('radio')) expect(radio).toBeDisabled();
   expect(screen.getByRole('button', { name: 'Prüfen' })).toBeDisabled();
+  await act(async () => {
+    complete?.();
+    await Promise.resolve();
+  });
 });
 it.each(['en-US', 'en-GB'] as const)('uses natural English labels in %s', async (locale) => {
   await i18n.changeLanguage(locale);

@@ -29,8 +29,18 @@ insert into duel_games(id,kind,bank,seed,pool,policy,starts_at,deadline) values
 insert into duel_players(game_id,user_id,last_at,ordinal,correct,score) values
  ('c3190000-0000-4000-8000-000000000003','a3190000-0000-4000-8000-000000000002',now()-interval '4 minutes',1,1,10),
  ('c3190000-0000-4000-8000-000000000003','a3190000-0000-4000-8000-000000000004',now()-interval '4 minutes',0,0,0);
+set local role authenticated;
+set local request.jwt.claim.sub='a3190000-0000-4000-8000-000000000002';
+select ok(duel_channel_member('duel:c3190000-0000-4000-8000-000000000003'),'Participant can subscribe to the active duel');
+set local request.jwt.claim.sub='a3190000-0000-4000-8000-000000000001';
+select ok(not duel_channel_member('duel:c3190000-0000-4000-8000-000000000003'),'Unrelated account cannot subscribe');
+reset role;
 select is(duel_settle('c3190000-0000-4000-8000-000000000003','[{"userId":"a3190000-0000-4000-8000-000000000002","rating":1510,"deviation":290,"volatility":0.06,"attempts":2,"updatedAt":3000},{"userId":"a3190000-0000-4000-8000-000000000004","rating":1490,"deviation":300,"volatility":0.06,"attempts":1,"updatedAt":3000}]'),true,'Game with one participant settles');
 select is((select amount from xp_ledger where user_id='a3190000-0000-4000-8000-000000000002' and duel_game_id='c3190000-0000-4000-8000-000000000003'),10,'Participating winner earns XP');
 select is((select count(*)::integer from xp_ledger where user_id='a3190000-0000-4000-8000-000000000004'),0,'Player without any answer earns no XP, even as loser');
+select matches(motivation_history('a3190000-0000-4000-8000-000000000001')->>'revision',':duel:1$','Awarded duel XP advances the motivation revision');
+select is((select count(*)::integer from jsonb_array_elements(motivation_history('a3190000-0000-4000-8000-000000000001')->'activities') activity
+          join xp_ledger x on x.client_id::text=activity->>'id' and x.source_kind='duel'
+          where x.user_id='a3190000-0000-4000-8000-000000000001'),1,'Awarded duel XP appears in motivation activities');
 select * from finish();
 rollback;

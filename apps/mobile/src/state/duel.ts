@@ -1,3 +1,4 @@
+import { pendingAnswer } from '@/social/pending-answer';
 import { create } from 'zustand';
 import { duelViewSchema } from '@harmonia/content';
 import type { DuelRequest, DuelView } from '@harmonia/content';
@@ -15,11 +16,13 @@ export const useDuel = create<{
 }>(() => ({ owner: null, view: null, loading: false, error: null }));
 let revision = 0;
 let busy = false;
+const waitingAnswer = pendingAnswer();
 let syncedGame: string | null = null;
 const owner = () => useAuthState.getState().session?.user.id ?? null;
 export function clearDuel() {
   revision++;
   busy = false;
+  waitingAnswer.clear();
   syncedGame = null;
   useDuel.setState({ owner: owner(), view: null, loading: false, error: null });
 }
@@ -47,9 +50,23 @@ async function sendDuel(body?: DuelRequest) {
     clearDuel();
     return;
   }
-  if (busy) return;
   const actor = session.user.id;
   if (useDuel.getState().owner !== actor) clearDuel();
+  if (busy) {
+    if (body?.action !== 'answer') return;
+    await waitingAnswer.hold(async () => {
+      const view = useDuel.getState().view;
+      if (
+        owner() === actor &&
+        view?.phase === 'game' &&
+        view.state === 'active' &&
+        view.id === body.game &&
+        view.own.index === body.index
+      )
+        await sendDuel(body);
+    });
+    return;
+  }
   const config = configuredAuth();
   if (!config) {
     useDuel.setState({ error: 'auth' });
@@ -101,7 +118,10 @@ async function sendDuel(body?: DuelRequest) {
         error: error instanceof Error ? error.message : 'unavailable',
       });
   } finally {
-    if (ticket === revision) busy = false;
+    if (ticket === revision) {
+      busy = false;
+      await waitingAnswer.send();
+    }
   }
 }
 

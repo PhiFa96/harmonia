@@ -3,6 +3,7 @@
 
 import type { ConfigContext, ExpoConfig } from 'expo/config';
 import { configuredAuth } from './src/auth/config.ts';
+import { configuredInviteOrigin } from './src/social/invite-link.ts';
 import { billingConfig } from './src/billing/config.ts';
 
 import readiness from './legal-readiness.json' with { type: 'json' };
@@ -40,6 +41,8 @@ export default ({ config }: ConfigContext): ExpoConfig => {
   const variant = currentVariant();
   if (process.env['EAS_BUILD_PROFILE'] === 'beta' && variant !== 'production')
     throw new Error('Beta-Builds verwenden ausschließlich den freigegebenen Produktionskatalog.');
+  const inviteOrigin = configuredInviteOrigin();
+  const inviteHost = inviteOrigin ? new URL(inviteOrigin).hostname : undefined;
   const { name, id } = VARIANTS[variant];
   // Öffentliche Projekt-ID, keine Zugangsdaten. Ohne Bindung bleiben OTA-Updates deaktiviert.
   const rawProjectId: unknown = process.env['EAS_PROJECT_ID'];
@@ -64,8 +67,31 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     },
     orientation: 'default',
     userInterfaceStyle: 'automatic',
-    ios: { bundleIdentifier: id, supportsTablet: true },
-    android: { package: id },
+    ios: {
+      bundleIdentifier: id,
+      supportsTablet: true,
+      ...(inviteHost
+        ? {
+            associatedDomains: [...(config.ios?.associatedDomains ?? []), 'applinks:' + inviteHost],
+          }
+        : {}),
+    },
+    android: {
+      package: id,
+      ...(inviteHost
+        ? {
+            intentFilters: [
+              ...(config.android?.intentFilters ?? []),
+              {
+                action: 'VIEW',
+                autoVerify: true,
+                category: ['BROWSABLE', 'DEFAULT'],
+                data: [{ scheme: 'https', host: inviteHost, path: '/friends' }],
+              },
+            ],
+          }
+        : {}),
+    },
     web: { output: 'single', bundler: 'metro' },
     plugins: [
       // Die automatische Routenübersicht /_sitemap gehört nicht in die ausgelieferte App.

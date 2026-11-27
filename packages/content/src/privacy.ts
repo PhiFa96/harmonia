@@ -55,6 +55,8 @@ export const PRIVACY_EXPORT_SECTIONS = [
   'duelInvitesSent',
   'duelInvitesAccepted',
   'dailyPuzzleResults',
+  'dailyPuzzleZones',
+  'requestLimits',
   'friendships',
   'friendInvitesSent',
   'friendInvitesAccepted',

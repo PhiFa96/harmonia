@@ -1,14 +1,16 @@
-import { renderRouter, screen } from 'expo-router/testing-library';
+import { fireEvent, renderRouter, screen } from 'expo-router/testing-library';
 import { act } from '@testing-library/react-native';
 import type { Session } from '@supabase/supabase-js';
 import { UiProvider } from '@harmonia/ui/native';
 import { i18n } from '@/i18n';
 import { useAuthState } from '@/auth';
-import { clearDuel, useDuel } from '@/state/duel';
+import { acceptDuel, clearDuel, useDuel } from '@/state/duel';
 import DuelScreen from '@/app/duel';
+import FriendsScreen from '@/app/friends';
 import type * as DuelModule from '@/state/duel';
 jest.mock('@/state/duel', () => ({
   ...jest.requireActual<typeof DuelModule>('@/state/duel'),
+  acceptDuel: jest.fn(() => Promise.resolve()),
   refreshDuel: jest.fn(() => Promise.resolve()),
   findDuel: jest.fn(() => Promise.resolve()),
   watchDuel: jest.fn(() => () => undefined),
@@ -59,4 +61,24 @@ it('offers an account instead of a fictional duel to a guest', () => {
   renderRouter({ index: Fixture });
   expect(screen.getByRole('button', { name: 'Zum Konto' })).toBeTruthy();
   expect(screen.queryByRole('button', { name: 'Live-Duell suchen' })).toBeNull();
+});
+
+function Friends() {
+  return (
+    <UiProvider scheme="light">
+      <FriendsScreen />
+    </UiProvider>
+  );
+}
+
+it('füllt einen Einladungslink vor und nimmt ihn nur auf ausdrückliche Aktion an', async () => {
+  const token = 'c3060000-0000-4000-8000-000000000002';
+  renderRouter(
+    { duel: Fixture, friends: Friends },
+    { initialUrl: '/friends?kind=duel&invite=' + token },
+  );
+  expect(await screen.findByDisplayValue(token)).toBeTruthy();
+  expect(acceptDuel).not.toHaveBeenCalled();
+  fireEvent.press(screen.getByRole('button', { name: 'Einladung annehmen' }));
+  expect(acceptDuel).toHaveBeenCalledWith(token);
 });

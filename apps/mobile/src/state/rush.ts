@@ -1,3 +1,4 @@
+import { pendingAnswer } from '@/social/pending-answer';
 import { create } from 'zustand';
 import { rushStatusSchema, rushViewSchema, rushLeaderboardSchema } from '@harmonia/content';
 import type {
@@ -22,9 +23,11 @@ export const useRush = create<{
 }>(() => ({ owner: null, status: null, run: null, board: null, loading: false, error: null }));
 let generation = 0;
 let busy = false;
+const waitingAnswer = pendingAnswer();
 export function clearRush() {
   generation++;
   busy = false;
+  waitingAnswer.clear();
   useRush.setState({
     owner: useAuthState.getState().session?.user.id ?? null,
     status: null,
@@ -71,13 +74,27 @@ async function work(
   operation: (
     transport: ReturnType<typeof rushTransport>,
   ) => Promise<Partial<ReturnType<typeof useRush.getState>>>,
+  answer?: Extract<RushRequest, { action: 'answer' }>,
 ) {
-  if (!currentOwner()) return;
-  if (useRush.getState().owner !== currentOwner()) clearRush();
-  if (busy) return;
+  const actor = currentOwner();
+  if (!actor) return;
+  if (useRush.getState().owner !== actor) clearRush();
+  if (busy) {
+    if (!answer) return;
+    await waitingAnswer.hold(async () => {
+      const run = useRush.getState().run;
+      if (
+        actor === currentOwner() &&
+        run?.state === 'active' &&
+        run.id === answer.id &&
+        run.index === answer.index
+      )
+        await work(operation, answer);
+    });
+    return;
+  }
   busy = true;
-  const token = ++generation,
-    actor = currentOwner();
+  const token = ++generation;
   useRush.setState({ owner: actor, loading: true, error: null });
   try {
     const next = await operation(rushTransport());
@@ -94,7 +111,10 @@ async function work(
         error: error instanceof Error ? error.message : 'unavailable',
       });
   } finally {
-    if (token === generation) busy = false;
+    if (token === generation) {
+      busy = false;
+      await waitingAnswer.send();
+    }
   }
 }
 export async function refreshRush() {
@@ -117,14 +137,17 @@ export async function endRush(id: string, abandon = false) {
   await mutate({ action: abandon ? 'abandon' : 'finish', id });
 }
 async function mutate(body: RushRequest) {
-  await work(async (transport) => {
-    const run = rushViewSchema.parse(await transport('', body));
-    if (body.action === 'start' || run.state !== 'active') {
-      const status = rushStatusSchema.parse(await transport(''));
-      return { run: status.run, status, board: null };
-    }
-    return { run };
-  });
+  await work(
+    async (transport) => {
+      const run = rushViewSchema.parse(await transport('', body));
+      if (body.action === 'start' || run.state !== 'active') {
+        const status = rushStatusSchema.parse(await transport(''));
+        return { run: status.run, status, board: null };
+      }
+      return { run };
+    },
+    body.action === 'answer' ? body : undefined,
+  );
 }
 export async function refreshRushBoard(mode: RushMode, scope: RushLeaderboard['scope']) {
   await work(async (transport) => ({

@@ -342,6 +342,9 @@ jobs:
       - name: Offline-Versuche und Synchronisation zwischen zwei Geräten prüfen
         run: pnpm db:test:learning
 
+      - name: Theory Rush und Duell-Antworten mit lokalen Konten prüfen
+        run: pnpm db:test:rush && pnpm db:test:duels
+
       - name: Rating-Sync, Rückrechnung, Kontentrennung und parallele Aktualisierungen prüfen
         run: pnpm db:test:ratings
 

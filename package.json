@@ -85,6 +85,7 @@
     "db:test:ratings": "node tools/test-ratings.mjs",
     "db:test:leagues": "node tools/test-leagues.mjs && node tools/test-league-notifications.mjs",
     "db:test:rush": "node tools/test-rush.mjs",
+    "db:test:duels": "node tools/test-duels.mjs",
     "voice-leading:workbench": "node tools/voice-leading-workbench.mjs",
     "voice-leading:test:web": "playwright test --config tools/voice-leading/playwright.config.mjs",
     "school:preview": "node tools/school/server.mjs",

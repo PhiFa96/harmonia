@@ -2,6 +2,8 @@ import { z } from 'zod';
 
 export const friendsRequestSchema = z.discriminatedUnion('action', [
   z.object({ action: z.literal('invite'), token: z.uuid() }).strict(),
+  z.object({ action: z.literal('revoke') }).strict(),
+  z.object({ action: z.literal('refresh') }).strict(),
   z.object({ action: z.literal('accept'), token: z.uuid() }).strict(),
   z.object({ action: z.literal('remove'), friendId: z.uuid() }).strict(),
   z.object({ action: z.literal('block'), friendId: z.uuid() }).strict(),

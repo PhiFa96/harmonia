@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { inviteLink as shareableInvite } from '@/social/invite-link';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { router, Stack, useFocusEffect, useLocalSearchParams } from 'expo-router';
 import { randomUUID } from 'expo-crypto';
 import { AppState, Platform, ScrollView, Share, StyleSheet, TextInput, View } from 'react-native';
@@ -21,6 +22,17 @@ import {
   watchDuel,
 } from '@/state/duel';
 
+const DuelScoreAnnouncement = memo(function DuelScoreAnnouncement({
+  own,
+  rival,
+}: {
+  own: number;
+  rival: number;
+}) {
+  const { t } = useTranslation();
+  return <AppText aria-live="polite">{t('duel.scores', { own, rival })}</AppText>;
+});
+
 export default function DuelScreen() {
   const { t } = useTranslation(),
     { colors } = useUiTheme();
@@ -33,6 +45,10 @@ export default function DuelScreen() {
     typeof params.invite === 'string' ? params.invite : '',
   );
   const [answer, setAnswer] = useState<string | null>(null);
+
+  const [submittedQuestion, setSubmittedQuestion] = useState<string | null>(null);
+  const questionKey = game ? [actor, game.id, game.own.index].join(':') : null;
+  const submittingAnswer = submittedQuestion !== null && submittedQuestion === questionKey;
   const [feedback, setFeedback] = useState<ExerciseSession | null>(null);
   const [clock, setClock] = useState(Date.now());
   const scroll = useRef<ScrollView>(null),
@@ -105,11 +121,7 @@ export default function DuelScreen() {
     ':' +
     String(remaining % 60).padStart(2, '0');
   const canAnswer =
-    !!game &&
-    game.state === 'active' &&
-    clock >= game.startsAt &&
-    clock < game.deadline &&
-    !state.loading;
+    !!game && game.state === 'active' && clock >= game.startsAt && clock < game.deadline;
   const invite =
     inviteInput
       .trim()
@@ -121,14 +133,21 @@ export default function DuelScreen() {
   );
   const inviteLink =
     view?.phase === 'invite'
-      ? Platform.OS === 'web' && typeof window !== 'undefined'
-        ? window.location.origin + '/duel?invite=' + view.token
-        : 'harmonia://duel?invite=' + view.token
+      ? shareableInvite(
+          'duel',
+          view.token,
+          Platform.OS === 'web' && typeof window !== 'undefined'
+            ? window.location.origin
+            : undefined,
+        )
       : '';
   const submit = async (value: string) => {
-    if (!game || !session || !canAnswer) return;
+    if (!game || !session || !canAnswer || !questionKey || submittingAnswer) return;
     const index = game.own.index;
-    await answerDuel(game.id, index, value);
+    setSubmittedQuestion(questionKey);
+    await answerDuel(game.id, index, value).finally(() => {
+      setSubmittedQuestion((current) => (current === questionKey ? null : current));
+    });
     const next = useDuel.getState();
     if (
       next.owner === actor &&
@@ -195,9 +214,7 @@ export default function DuelScreen() {
                         ? t('duel.startIn', { seconds: startingSeconds })
                         : t('duel.time', { time: countdown })}
                     </AppText>
-                    <AppText aria-live="polite">
-                      {t('duel.scores', { own: game.own.score, rival: game.rival.score })}
-                    </AppText>
+                    <DuelScoreAnnouncement own={game.own.score} rival={game.rival.score} />
                     {game.state === 'active' ? (
                       <AppText tone="muted">
                         {clock < game.startsAt ? t('duel.starting') : t('duel.running')}
@@ -286,7 +303,9 @@ export default function DuelScreen() {
                     question={question}
                     scroll={scroll}
                     hintsAllowed={false}
-                    interactionDisabled={!canAnswer || !!feedback || !!state.error}
+                    interactionDisabled={
+                      !canAnswer || !!feedback || !!state.error || submittingAnswer
+                    }
                     progressText={t('duel.question', {
                       count: game.own.index + 1,
                       difficulty: game.question?.difficulty ?? 1,

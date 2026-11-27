@@ -82,6 +82,7 @@ export default function DailyPuzzleScreen() {
     ? t('puzzle.shareText', {
         day: view.day,
         symbol: view.correct ? '🟩' : '⬜',
+        status: t(view.correct ? 'puzzle.shareSolved' : 'puzzle.shareUnsolved'),
         streak: view.streak,
       })
     : '';
@@ -106,7 +107,15 @@ export default function DailyPuzzleScreen() {
           <>
             {state.error ? (
               <AppText role="alert">
-                {t(state.error === 'day' ? 'puzzle.newDay' : 'puzzle.error')}
+                {t(
+                  state.error === 'day'
+                    ? 'puzzle.newDay'
+                    : state.error === 'zone'
+                      ? 'puzzle.zone'
+                      : state.error === 'rate'
+                        ? 'puzzle.rate'
+                        : 'puzzle.error',
+                )}
               </AppText>
             ) : null}
             {state.loading && !view ? <AppText>{t('puzzle.loading')}</AppText> : null}

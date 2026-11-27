@@ -93,6 +93,11 @@ Deno.serve(async (request) => {
     const attempts = await client.rpc('retain_tutor_attempt_limits');
     if (attempts.error) return json(503, { error: 'retention' });
     const attemptResult = attempts.data as { changed: number; more: boolean };
+    const limits = await client.rpc('retain_request_limits');
+    const zones = await client.rpc('retain_daily_puzzle_zones');
+    if (limits.error || zones.error) return json(503, { error: 'retention' });
+    const limitsResult = limits.data as { changed: number; more: boolean };
+    const zonesResult = zones.data as { changed: number; more: boolean };
     const audit = await client
       .from('billing_events')
       .select('event_id,payload')
@@ -121,6 +126,8 @@ Deno.serve(async (request) => {
       dailyPuzzles: puzzleResult.changed,
       friends: friendsResult.changed,
       tutorAttempts: attemptResult.changed,
+      requestLimits: limitsResult.changed,
+      dailyPuzzleZones: zonesResult.changed,
       analytics: analytics.data as number,
       more:
         rows.data.length === 100 ||
@@ -131,6 +138,8 @@ Deno.serve(async (request) => {
         puzzleResult.more ||
         friendsResult.more ||
         attemptResult.more ||
+        limitsResult.more ||
+        zonesResult.more ||
         analytics.data === 100,
     });
   } catch {

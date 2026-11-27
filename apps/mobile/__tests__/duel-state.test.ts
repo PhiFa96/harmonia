@@ -106,3 +106,29 @@ it('rejects unrecognized server fields, including another account identity', asy
   expect(useDuel.getState().view).toBeNull();
   expect(useDuel.getState().error).not.toBeNull();
 });
+
+it('sends the first answer queued behind a poll and ignores later clicks', async () => {
+  let release: (value: Response) => void = () => {
+    throw Error('Missing poll');
+  };
+  const network = jest
+    .fn<ReturnType<typeof fetch>, Parameters<typeof fetch>>()
+    .mockImplementationOnce(
+      () =>
+        new Promise<Response>((resolve) => {
+          release = resolve;
+        }),
+    )
+    .mockResolvedValue(response(game));
+  globalThis.fetch = network;
+  const poll = refreshDuel();
+  const answer = answerDuel(id, 0, 'C');
+  await answerDuel(id, 0, 'D');
+  await refreshDuel();
+  expect(network).toHaveBeenCalledTimes(1);
+  release(response(game));
+  await Promise.all([poll, answer]);
+  expect(network).toHaveBeenCalledTimes(2);
+  const sent = network.mock.calls[1]?.[1]?.body;
+  expect(typeof sent === 'string' && JSON.parse(sent)).toMatchObject({ answer: 'C' });
+});

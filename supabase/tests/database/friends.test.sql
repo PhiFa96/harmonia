@@ -37,6 +37,11 @@ select is((friend_remove('a3080000-0000-4000-8000-000000000001','a3080000-0000-4
 select is((friend_remove('a3080000-0000-4000-8000-000000000001','a3080000-0000-4000-8000-000000000002',false)->'blocked')::text,'["a3080000-0000-4000-8000-000000000002"]','Plain removal does not lift an existing block');
 select is(friend_pair_active('a3080000-0000-4000-8000-000000000001','a3080000-0000-4000-8000-000000000002'),false,'Blocked pair cannot enter friends board');
 select is((select count(*)::integer from friend_quest_awards),2,'Earned badges survive pair removal');
+update friend_quests set completed_at=null where user_a in ('a3080000-0000-4000-8000-000000000001','a3080000-0000-4000-8000-000000000002');
+select is(friend_status('a3080000-0000-4000-8000-000000000001')->'quest'->>'completed','false','Reading the view does not settle pending credit');
+select lives_ok($$select friend_quest_settle('a3080000-0000-4000-8000-000000000001')$$,'Explicit settlement succeeds');
+select is(friend_status('a3080000-0000-4000-8000-000000000001')->'quest'->>'completed','true','Explicit settlement restores the completed view');
+
 insert into invite_token select 'blocked',(friend_invite_create('a3080000-0000-4000-8000-000000000002',gen_random_uuid())->'invite'->>'token')::uuid;
 select is((select count(*)::integer from invite_token where k='blocked'),1,'Blocked peer can create their own code');
 select throws_ok($$select friend_invite_accept('a3080000-0000-4000-8000-000000000001',(select token from invite_token where k='blocked'))$$,'P0001','friend_missing','Blocked pair cannot reconnect by code');
@@ -47,6 +52,23 @@ select is((friend_invite_accept('a3080000-0000-4000-8000-000000000002',(select t
 select throws_ok($$select friend_quest_start('a3080000-0000-4000-8000-000000000001','a3080000-0000-4000-8000-000000000002')$$,'P0001','friend_quest_active','Removal cannot unlock a second weekly quest');
 update friend_invites set expires_at=now()-interval '31 days' where token=(select token from invite_token where k='first');
 select is((retain_friend_quests()->>'changed')::integer,1,'Expired invitation is pruned');
+insert into invite_token select 'revoked',(friend_invite_create('a3080000-0000-4000-8000-000000000003',gen_random_uuid())->'invite'->>'token')::uuid;
+select is(friend_invite_revoke('a3080000-0000-4000-8000-000000000003')->'invite','null'::jsonb,'Revocation removes current invitation');
+select is(friend_invite_revoke('a3080000-0000-4000-8000-000000000003')->'invite','null'::jsonb,'Repeat revocation is harmless');
+select throws_ok($$select friend_invite_accept('a3080000-0000-4000-8000-000000000002',(select token from invite_token where k='revoked'))$$,'P0001','friend_missing','Revoked invitation no longer accepts');
+insert into invite_token select 'rotated',(friend_invite_create('a3080000-0000-4000-8000-000000000003',gen_random_uuid())->'invite'->>'token')::uuid;
+select isnt((select token from invite_token where k='revoked'),(select token from invite_token where k='rotated'),'A new invitation can be issued');
+
+select is(consume_request_limit('a3080000-0000-4000-8000-000000000003','friends_accept',1,60)->>'allowed','true','First action in its window is allowed');
+select is(consume_request_limit('a3080000-0000-4000-8000-000000000003','friends_accept',1,60)->>'allowed','false','A full window denies another action');
+select is(consume_request_limit('a3080000-0000-4000-8000-000000000003','daily_puzzle_read',1,60)->>'allowed','true','The puzzle read window is independent');
+select ok((consume_request_limit('a3080000-0000-4000-8000-000000000003','friends_accept',1,60)->>'retryAfter')::integer between 1 and 60,'A full window reports a bounded retry time');
+update request_limits set window_started_at=clock_timestamp()-interval '61 seconds'
+where user_id='a3080000-0000-4000-8000-000000000003' and scope='friends_accept';
+select is(consume_request_limit('a3080000-0000-4000-8000-000000000003','friends_accept',1,60)->>'allowed','true','A new time window admits an action');
+select ok(not has_table_privilege('authenticated','public.request_limits','select'),'The counter table is private');
+
+
 set local role anon;
 select throws_ok('select * from friend_quests','42501',null,'Guest cannot enumerate quests');
 reset role;

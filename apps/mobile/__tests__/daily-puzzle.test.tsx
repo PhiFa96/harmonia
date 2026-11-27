@@ -26,7 +26,10 @@ beforeEach(async () => {
   });
   clearDailyPuzzle();
 });
-it('shows a solution-free result for the current day', () => {
+it.each([
+  [true, '🟩 · gelöst'],
+  [false, '⬜ · nicht gelöst'],
+] as const)('writes the puzzle result in words (correct=%s)', (correct, shareStatus) => {
   const day = lessonDay(Date.now(), deviceTimeZone() || 'UTC');
   useDailyPuzzle.setState({
     owner: 'puzzle-ui',
@@ -37,13 +40,13 @@ it('shows a solution-free result for the current day', () => {
       difficulty: 2,
       streak: 3,
       completed: true,
-      correct: true,
+      correct,
       question: null,
     },
   });
   renderRouter({ index: Fixture });
-  expect(screen.getByText('Richtig gelöst!')).toBeTruthy();
-  expect(screen.getByText(`Harmonia-Rätsel ${day} 🟩 · Serie: 3`)).toBeTruthy();
+  if (correct) expect(screen.getByText('Richtig gelöst!')).toBeTruthy();
+  expect(screen.getByText(`Harmonia-Rätsel ${day} ${shareStatus} · Serie: 3`)).toBeTruthy();
   expect(screen.queryByText('Ein Versuch für das heutige Rätsel')).toBeNull();
 });
 it('requires an account', () => {

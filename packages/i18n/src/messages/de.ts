@@ -81,6 +81,10 @@ export const de = {
     scale: 'Mitte = gestimmt; links zu tief, rechts zu hoch.',
   },
   friends: {
+    error_rate: 'Zu viele Anfragen. Versuche es später erneut.',
+    revoked: 'Einladung zurückgezogen.',
+    confirmRevoke: 'Diese Einladung zurückziehen?',
+    revoke: 'Einladung zurückziehen',
     title: 'Freunde und Freundes-Quests',
     entry: 'Lerne mit eingeladenen Freunden und erreicht gemeinsam ein Wochenziel.',
     open: 'Freunde öffnen',
@@ -134,6 +138,10 @@ export const de = {
     shareFailed: 'Teilen oder Kopieren hat nicht geklappt.',
   },
   puzzle: {
+    shareUnsolved: 'nicht gelöst',
+    shareSolved: 'gelöst',
+    zone: 'Der Wechsel der Rätselzeitzone ist noch nicht möglich.',
+    rate: 'Zu viele Anfragen. Versuche es später erneut.',
     title: 'Tägliches Rätsel',
     entry: 'Jeden Tag eine gemeinsame Aufgabe. Die Schwierigkeit steigt bis Sonntag.',
     open: 'Heutiges Rätsel öffnen',
@@ -153,7 +161,7 @@ export const de = {
     incorrect: 'Heute leider nicht gelöst.',
     tomorrow: 'Morgen wartet das nächste Rätsel.',
     share: 'Ergebnis teilen oder kopieren',
-    shareText: 'Harmonia-Rätsel {{day}} {{symbol}} · Serie: {{streak}}',
+    shareText: 'Harmonia-Rätsel {{day}} {{symbol}} · {{status}} · Serie: {{streak}}',
   },
   duel: {
     title: 'Duelle',

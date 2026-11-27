@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { router, Stack, useFocusEffect, useLocalSearchParams } from 'expo-router';
+import { Redirect, router, Stack, useFocusEffect, useLocalSearchParams } from 'expo-router';
 import { randomUUID } from 'expo-crypto';
 import { friendsRequestSchema } from '@harmonia/content';
 import { AppState, Platform, ScrollView, Share, StyleSheet, TextInput, View } from 'react-native';
@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { LAYOUT, SPACE } from '@harmonia/ui';
 import { AppText, Button, Card, useUiTheme } from '@harmonia/ui/native';
 import { useAuthState } from '@/auth';
+import { inviteLink as shareableInvite } from '@/social/invite-link';
 import { changeFriends, refreshFriends, useFriends } from '@/state/friends';
 
 const codeFrom = (input: string) =>
@@ -21,17 +22,19 @@ const validCode = (code: string) =>
 export default function FriendsScreen() {
   const { t } = useTranslation();
   const { colors } = useUiTheme();
-  const params = useLocalSearchParams<{ invite?: string }>();
+  const params = useLocalSearchParams<{ invite?: string; kind?: string }>();
   const actor = useAuthState((s) => s.session?.user.id ?? null);
   const state = useFriends();
   const view = actor && state.owner === actor ? state.view : null;
   const [input, setInput] = useState(typeof params.invite === 'string' ? params.invite : '');
   const [shared, setShared] = useState<'done' | 'failed' | null>(null);
+  const [revoke, setRevoke] = useState(false);
+  const [revoked, setRevoked] = useState(false);
   const [pending, setPending] = useState<{ action: 'remove' | 'block'; id: string } | null>(null);
   const code = codeFrom(input);
   const load = useCallback(() => {
-    if (actor) void refreshFriends();
-  }, [actor]);
+    if (actor && params.kind !== 'duel') void refreshFriends();
+  }, [actor, params.kind]);
   useFocusEffect(
     useCallback(() => {
       load();
@@ -40,6 +43,8 @@ export default function FriendsScreen() {
   useEffect(() => {
     setPending(null);
     setShared(null);
+    setRevoke(false);
+    setRevoked(false);
     setInput(typeof params.invite === 'string' ? params.invite : '');
   }, [actor, params.invite]);
   useEffect(() => {
@@ -54,9 +59,11 @@ export default function FriendsScreen() {
     };
   }, [actor, load]);
   const inviteLink = view?.invite
-    ? Platform.OS === 'web' && typeof window !== 'undefined'
-      ? window.location.origin + '/friends?invite=' + view.invite.token
-      : 'harmonia://friends?invite=' + view.invite.token
+    ? shareableInvite(
+        'friends',
+        view.invite.token,
+        Platform.OS === 'web' && typeof window !== 'undefined' ? window.location.origin : undefined,
+      )
     : '';
   const share = async () => {
     if (!view?.invite) return;
@@ -67,6 +74,8 @@ export default function FriendsScreen() {
     else await Share.share({ message });
   };
   const questFriend = view?.friends.find((f) => f.id === view.quest?.friendId);
+  if (params.kind === 'duel' && typeof params.invite === 'string')
+    return <Redirect href={{ pathname: '/duel', params: { invite: params.invite } }} />;
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Stack.Screen options={{ headerShown: true, title: t('friends.title') }} />
@@ -98,9 +107,11 @@ export default function FriendsScreen() {
                         ? 'friends.error_retry'
                         : state.error === 'limit'
                           ? 'friends.error_limit'
-                          : state.error === 'quest_active'
-                            ? 'friends.error_quest_active'
-                            : 'friends.error_unavailable',
+                          : state.error === 'rate'
+                            ? 'friends.error_rate'
+                            : state.error === 'quest_active'
+                              ? 'friends.error_quest_active'
+                              : 'friends.error_unavailable',
                 )}
               </AppText>
             ) : null}
@@ -109,7 +120,7 @@ export default function FriendsScreen() {
               label={t('friends.refresh')}
               variant="ghost"
               disabled={state.loading}
-              onPress={load}
+              onPress={() => void changeFriends({ action: 'refresh' })}
             />
             <Card>
               <View style={styles.group}>
@@ -142,6 +153,42 @@ export default function FriendsScreen() {
                         );
                       }}
                     />
+                    {revoke ? (
+                      <>
+                        <AppText>{t('friends.confirmRevoke')}</AppText>
+                        <Button
+                          label={t('friends.confirm')}
+                          disabled={state.loading}
+                          onPress={() => {
+                            setRevoke(false);
+                            void changeFriends({ action: 'revoke' }).then(() => {
+                              const updated = useFriends.getState();
+                              if (
+                                updated.owner === actor &&
+                                updated.view &&
+                                !updated.view.invite &&
+                                !updated.error
+                              )
+                                setRevoked(true);
+                            });
+                          }}
+                        />
+                        <Button
+                          label={t('friends.cancel')}
+                          onPress={() => {
+                            setRevoke(false);
+                          }}
+                        />
+                      </>
+                    ) : (
+                      <Button
+                        label={t('friends.revoke')}
+                        disabled={state.loading}
+                        onPress={() => {
+                          setRevoke(true);
+                        }}
+                      />
+                    )}
                     {shared === 'done' ? (
                       <AppText role="status">{t('friends.shared')}</AppText>
                     ) : null}
@@ -149,6 +196,9 @@ export default function FriendsScreen() {
                       <AppText role="alert">{t('friends.shareFailed')}</AppText>
                     ) : null}
                   </>
+                ) : null}
+                {revoked && !view?.invite ? (
+                  <AppText role="status">{t('friends.revoked')}</AppText>
                 ) : null}
                 <TextInput
                   value={input}

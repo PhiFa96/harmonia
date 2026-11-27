@@ -1,5 +1,6 @@
 import { createClient } from 'npm:@supabase/supabase-js@2.117.3';
 import { friendsRequestSchema, friendsViewSchema } from '../../../packages/content/src/index.ts';
+import { socialRequestLimit } from '../_shared/social-request-limit.ts';
 import { billingBody } from '../_shared/billing.ts';
 
 const headers = {
@@ -46,8 +47,18 @@ Deno.serve(async (request) => {
         name = 'friend_invite_create';
         args = { actor, new_token: body.token };
       } else if (body.action === 'accept') {
+        const retryAfter = await socialRequestLimit(client, actor, 'friends_accept');
+        if (retryAfter !== null)
+          return new Response(JSON.stringify({ error: 'rate', retryAfter }), {
+            status: 429,
+            headers: { ...headers, 'Retry-After': String(retryAfter) },
+          });
         name = 'friend_invite_accept';
         args = { actor, invite_token: body.token };
+      } else if (body.action === 'revoke') {
+        name = 'friend_invite_revoke';
+      } else if (body.action === 'refresh') {
+        name = 'friend_status';
       } else if (body.action === 'quest') {
         name = 'friend_quest_start';
         args = { actor, peer: body.friendId };
@@ -65,6 +76,13 @@ Deno.serve(async (request) => {
       return code
         ? json(code === 'retry' ? 409 : code === 'missing' ? 404 : 409, { error: code })
         : json(503, { error: 'storage' });
+    }
+    if (request.method === 'POST') {
+      const settled = await client.rpc('friend_quest_settle', { actor });
+      if (settled.error) return json(503, { error: 'storage' });
+      const refreshed = await client.rpc('friend_status', { actor });
+      if (refreshed.error) return json(503, { error: 'storage' });
+      return json(200, friendsViewSchema.parse(refreshed.data));
     }
     return json(200, friendsViewSchema.parse(result.data));
   } catch {

@@ -32,6 +32,10 @@ export default function RushScreen() {
     [scope, setScope] = useState<RushLeaderboard['scope']>('day');
   const [answer, setAnswer] = useState<string | null>(null),
     [feedback, setFeedback] = useState<ExerciseSession | null>(null);
+
+  const [submittedQuestion, setSubmittedQuestion] = useState<string | null>(null);
+  const questionKey = run ? [owner, run.id, run.index].join(':') : null;
+  const submittingAnswer = submittedQuestion !== null && submittedQuestion === questionKey;
   const [feedbackDifficulty, setFeedbackDifficulty] = useState(1);
   const [confirm, setConfirm] = useState(false),
     [clock, setClock] = useState(0);
@@ -127,10 +131,13 @@ export default function RushScreen() {
     // A lost start response is recovered by the explicit reload, without charging again.
   };
   const check = async (value: string) => {
-    if (!run || !session || state.loading) return;
+    if (!run || !session || !active || !questionKey || submittingAnswer) return;
     const id = run.id,
       index = run.index;
-    await answerRush(id, index, value);
+    setSubmittedQuestion(questionKey);
+    await answerRush(id, index, value).finally(() => {
+      setSubmittedQuestion((current) => (current === questionKey ? null : current));
+    });
     const next = useRush.getState();
     if (
       next.owner === owner &&
@@ -214,7 +221,7 @@ export default function RushScreen() {
                     question={question}
                     scroll={scroll}
                     hintsAllowed={false}
-                    interactionDisabled={state.loading || !!state.error || !active}
+                    interactionDisabled={!!state.error || !active || submittingAnswer}
                     progressText={t('rush.question', {
                       count: feedback ? run.index : run.index + 1,
                       difficulty: feedback ? feedbackDifficulty : (run.question?.difficulty ?? 1),
@@ -226,7 +233,7 @@ export default function RushScreen() {
                       run.state === 'finished' ? 'rush.showResult' : 'exercise.next',
                     )}
                     onSelect={(value) => {
-                      if (!state.loading) setAnswer(value);
+                      setAnswer(value);
                     }}
                     onCheck={(value) => {
                       void check(value);
