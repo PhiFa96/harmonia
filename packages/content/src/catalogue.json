@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": 31,
+  "contentVersion": 32,
   "areas": [
     {
       "id": "fundament",
@@ -449,7 +449,7 @@
     },
     {
       "id": "notation.l1.register",
-      "contentVersion": 2,
+      "contentVersion": 3,
       "status": "entwurf",
       "titleKey": "content.curriculum.units.notationRegister",
       "levelId": "notation.level-1"
@@ -505,14 +505,14 @@
     },
     {
       "id": "history.l1.sources",
-      "contentVersion": 2,
+      "contentVersion": 3,
       "status": "entwurf",
       "titleKey": "content.curriculum.units.historySources",
       "levelId": "history.level-1"
     },
     {
       "id": "history.l1.overview",
-      "contentVersion": 2,
+      "contentVersion": 3,
       "status": "entwurf",
       "titleKey": "content.curriculum.units.historyOverview",
       "levelId": "history.level-1"
@@ -8475,7 +8475,7 @@
       ]
     },
     {
-      "contentVersion": 5,
+      "contentVersion": 6,
       "status": "entwurf",
       "id": "notation.l1.register.card-repetition",
       "titleKey": "content.registerStart.repetitionTitle",
@@ -8625,7 +8625,7 @@
       ]
     },
     {
-      "contentVersion": 5,
+      "contentVersion": 6,
       "status": "entwurf",
       "id": "notation.l1.register.card-match",
       "titleKey": "content.registerStart.matchTitle",
@@ -9912,7 +9912,7 @@
       ]
     },
     {
-      "contentVersion": 11,
+      "contentVersion": 12,
       "status": "entwurf",
       "id": "history.l1.sources.card-occasion-author",
       "titleKey": "content.historySourcesStart.card9Title",
@@ -9996,7 +9996,7 @@
       ]
     },
     {
-      "contentVersion": 11,
+      "contentVersion": 12,
       "status": "entwurf",
       "id": "history.l1.overview.card-purpose",
       "titleKey": "content.historyOverviewStart.card6Title",
@@ -10028,7 +10028,7 @@
       ]
     },
     {
-      "contentVersion": 11,
+      "contentVersion": 12,
       "status": "entwurf",
       "id": "history.l1.overview.card-evidence",
       "titleKey": "content.historyOverviewStart.card8Title",
@@ -15417,7 +15417,7 @@
       ]
     },
     {
-      "contentVersion": 11,
+      "contentVersion": 12,
       "status": "entwurf",
       "id": "history.l1.sources.article",
       "titleKey": "content.historySourcesStart.articleTitle",
@@ -15516,7 +15516,7 @@
       ]
     },
     {
-      "contentVersion": 11,
+      "contentVersion": 12,
       "status": "entwurf",
       "id": "history.l1.overview.article",
       "titleKey": "content.historyOverviewStart.articleTitle",
@@ -19174,7 +19174,7 @@
       "exerciseSetIds": ["notation.l1.keyboard.accidentals.exercises"]
     },
     {
-      "contentVersion": 5,
+      "contentVersion": 6,
       "status": "entwurf",
       "id": "notation.l1.register.octaves",
       "titleKey": "content.registerStart.octavesLesson",
@@ -19202,7 +19202,7 @@
       "exerciseSetIds": ["notation.l1.register.ledger.exercises"]
     },
     {
-      "contentVersion": 5,
+      "contentVersion": 6,
       "status": "entwurf",
       "id": "notation.l1.register.match",
       "titleKey": "content.registerStart.matchLesson",
@@ -19533,7 +19533,7 @@
       "exerciseSetIds": ["history.l1.sources.documents.exercises"]
     },
     {
-      "contentVersion": 11,
+      "contentVersion": 12,
       "status": "entwurf",
       "id": "history.l1.sources.context",
       "titleKey": "content.historySourcesStart.lesson3",
@@ -19561,7 +19561,7 @@
       "exerciseSetIds": ["history.l1.overview.periods.exercises"]
     },
     {
-      "contentVersion": 11,
+      "contentVersion": 12,
       "status": "entwurf",
       "id": "history.l1.overview.genre",
       "titleKey": "content.historyOverviewStart.lesson2",
@@ -19575,7 +19575,7 @@
       "exerciseSetIds": ["history.l1.overview.genre.exercises"]
     },
     {
-      "contentVersion": 11,
+      "contentVersion": 12,
       "status": "entwurf",
       "id": "history.l1.overview.observation",
       "titleKey": "content.historyOverviewStart.lesson3",

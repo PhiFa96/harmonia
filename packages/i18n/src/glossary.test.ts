@@ -146,7 +146,11 @@ describe('Glossar als i18next-Namensraum', () => {
 
   it('en-GB enthält nur die britischen Abweichungen', () => {
     const { notes, rests, ...terms } = glossaryResource('en-GB');
-    const ids = new Set(Object.keys(terms).map((k) => k.replace(/_(one|other)$/, '')));
+    const ids = new Set(
+      Object.keys(terms).map((k) =>
+        k.replace(/_(?:one_(?:acc|dat|gen)|(?:one_|other_)?cap|one|other)$/, ''),
+      ),
+    );
     expect([...ids].sort()).toEqual([
       'cadenceAuthentic',
       'cadenceDeceptive',

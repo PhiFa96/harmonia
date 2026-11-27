@@ -168,3 +168,26 @@ describe('Fähigkeitsplan mit internem Stufe-5-Satzentwurf', () => {
     expect(() => parseCurriculum(fresh(), data)).toThrow(/Stufe ohne geplante Einheit/);
   });
 });
+
+describe('Voraussetzungen der korrigierten Stufe-1/2-Fähigkeiten', () => {
+  it.each([
+    ['rhythm.meter-simple', 'rhythm.measure-fill'],
+    ['rhythm.count-in', 'rhythm.barlines'],
+    ['interval.semitone-distance', 'notation.treble-natural'],
+    ['history.listening-observation', 'history.context'],
+    ['history.european-timeline', 'history.context'],
+    ['interval.simple-qualities', 'interval.thirds'],
+    ['interval.simple-qualities', 'interval.perfect-fourth-fifth-octave'],
+    ['notation.bass-natural', 'notation.ledger-lines'],
+    ['notation.bass-natural', 'notation.octave-register'],
+    ['notation.grand-staff', 'notation.pitch-match'],
+    ['notation.accidental-scope', 'notation.octave-register'],
+    ['rhythm.triplet', 'rhythm.read-basic'],
+    ['interval.simple-qualities', 'notation.accidentals'],
+    ['chord.diatonic-triads', 'chord.diminished-augmented'],
+  ])('%s setzt %s direkt voraus', (id, prerequisite) => {
+    expect(required(catalogue.skills.find((skill) => skill.id === id)).prerequisites).toContain(
+      prerequisite,
+    );
+  });
+});

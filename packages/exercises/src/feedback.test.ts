@@ -157,3 +157,36 @@ describe('Hörhinweise', () => {
     }
   });
 });
+
+describe('Lokalisierte Notenansage und Zuordnungshinweis', () => {
+  it.each([
+    ['de', 'Violinschlüssel'],
+    ['en-US', 'Treble clef'],
+    ['en-GB', 'Treble clef'],
+  ] as const)('beginnt die Ansage mit großem Schlüsselnamen in %s', (locale, clef) => {
+    expect(exerciseDescription(named('E4'), locale)).toMatch(new RegExp(`^${clef}\\.`));
+  });
+
+  it('trennt in allen Sprachfassungen Begriff und vollständige Definition', () => {
+    const item = generateExercise(
+      { type: 'MATCH', params: { topics: ['rests'], maxDots: 0, count: 4 } },
+      createRng(8),
+    );
+    for (const [locale, expected] of [
+      [
+        'de',
+        'Beginne mit diesem Paar: ganze Pause – Stille für 1/1 × die Dauer einer ganzen Note.',
+      ],
+      [
+        'en-US',
+        'Begin with this pair: whole rest – Silence for 1/1 × the duration of a whole note.',
+      ],
+      [
+        'en-GB',
+        'Begin with this pair: semibreve rest – Silence for 1/1 × the duration of a semibreve.',
+      ],
+    ] as const) {
+      expect(hintText(item, exerciseHints(item, 2), locale)).toBe(expected);
+    }
+  });
+});

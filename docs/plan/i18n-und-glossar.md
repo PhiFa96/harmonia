@@ -128,3 +128,12 @@ Hermes, die JavaScript-Engine der App auf iOS und Android, führt in ihrer Dokum
 - **Pluralformen:** i18next braucht `Intl.PluralRules`. Die App lädt deshalb `intl-pluralrules` (ISC-Lizenz, etwa 7 kB). Das Polyfill greift nur, wo die eingebaute Umsetzung fehlt. Ein Test vergleicht es für de, en-US und en-GB mit der eingebauten Umsetzung von Node und prüft i18next mit nur dem Polyfill.
 - **Zahlen und Daten:** `formatNumber` und `formatDate` nutzen `Intl.NumberFormat` und `Intl.DateTimeFormat`, die Hermes kann. Beispiele: 1.234,5 (de) und 1,234.5 (en); 3.10.2026 (de), 10/3/2026 (en-US), 03/10/2026 (en-GB).
 - **Nicht verwenden ohne Polyfill:** relative Zeitangaben („vor 3 Tagen“), Listen („A, B und C“) und die i18next-Formate `relativetime` und `list`.
+
+### Kasus und Satzanfang
+
+Deutsche Glossarbegriffe können die optionalen Singularformen `accusative`,
+`dative` und `genitive` angeben. Texte verwenden sie über `_one_acc`,
+`_one_dat` und `_one_gen`. Ohne eigene Form gilt der Grundbegriff.
+`_cap`, `_one_cap` und `_other_cap` schreiben den ersten Buchstaben
+der jeweiligen Form am Satzanfang groß. Für zusammengesetzte Ansagen steht
+`capitalizeFirst` über die i18n-Schnittstelle zur Verfügung.

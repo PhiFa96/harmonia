@@ -30,7 +30,10 @@ describe('Dritte Notationseinheit: Register und Hilfslinien', () => {
     '%s: %s Aufgaben, Voraussetzungen und neue Wiederholung in 150 Seeds',
     (name, count, cards) => {
       const lesson = required(resolveLesson(catalogue, `notation.l1.register.${name}`));
-      expect(lesson).toMatchObject({ contentVersion: 5, status: 'entwurf' });
+      expect(lesson).toMatchObject({
+        contentVersion: name === 'ledger' ? 5 : 6,
+        status: 'entwurf',
+      });
       expect(lesson.introduction).toHaveLength(cards);
       expect(lesson.exercises).toHaveLength(count);
       fc.assert(
@@ -96,8 +99,8 @@ describe('Dritte Notationseinheit: Register und Hilfslinien', () => {
     },
   );
   it('ergänzt acht Karten, dreizehn Beispiele und einen fünfteiligen Artikel; frühere Versionen bleiben erhalten', () => {
-    expect(catalogue.contentVersion).toBe(31);
-    expect(curriculumPlan.contentVersion).toBe(31);
+    expect(catalogue.contentVersion).toBe(32);
+    expect(curriculumPlan.contentVersion).toBe(32);
     const cards = catalogue.knowledgeCards.filter((card) =>
       card.id.startsWith('notation.l1.register.'),
     );

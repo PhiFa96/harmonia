@@ -118,7 +118,7 @@ describe('Lokale Ergebnisse mit echter SQLite', () => {
       ).toEqual(attempt);
       expect(await repository.latest(id)).toMatchObject({
         lesson_id: id,
-        content_version: id.startsWith('rhythm.') ? 6 : 5,
+        content_version: 6,
         correct: content.exercises.length,
       });
     }
@@ -128,12 +128,12 @@ describe('Lokale Ergebnisse mit echter SQLite', () => {
   it('speichert vollständige Oktavantworten und den Score-Tastenausschnitt neben Version 4', async () => {
     await initializeLessonDatabase(adapter(db));
     const repository = createLessonRepository(adapter(db));
-    for (const id of [
-      'notation.l1.keyboard.keys',
-      'notation.l1.register.octaves',
-      'notation.l1.register.ledger',
-      'notation.l1.register.match',
-    ]) {
+    for (const [id, version] of [
+      ['notation.l1.keyboard.keys', 4],
+      ['notation.l1.register.octaves', 6],
+      ['notation.l1.register.ledger', 5],
+      ['notation.l1.register.match', 6],
+    ] as const) {
       const content = required(resolveLesson(catalogue, id));
       let session = createLessonSession(content, 'sqlite-register');
       while (session.phase === 'initial') {
@@ -153,7 +153,7 @@ describe('Lokale Ergebnisse mit echter SQLite', () => {
       ).toEqual(attempt);
       expect(await repository.latest(id)).toMatchObject({
         lesson_id: id,
-        content_version: id.includes('.register.') ? 5 : 4,
+        content_version: version,
         correct: content.exercises.length,
       });
     }

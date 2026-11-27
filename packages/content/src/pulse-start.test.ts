@@ -70,8 +70,8 @@ describe('Erste Rhythmuseinheit: Puls, Tempo und Zählgruppen', () => {
     },
   );
   it('ergänzt acht Karten und dreizehn Beispiele ohne Freigabe oder Änderung früherer Lektionen', () => {
-    expect(catalogue.contentVersion).toBe(31);
-    expect(curriculumPlan.contentVersion).toBe(31);
+    expect(catalogue.contentVersion).toBe(32);
+    expect(curriculumPlan.contentVersion).toBe(32);
     const cards = catalogue.knowledgeCards.filter((card) => card.id.startsWith('rhythm.l1.pulse.'));
     expect(cards).toHaveLength(8);
     expect(cards.flatMap((card) => card.examples)).toHaveLength(13);
@@ -87,7 +87,7 @@ describe('Erste Rhythmuseinheit: Puls, Tempo und Zählgruppen', () => {
       ['fundament.reading-and-listening.1', 1],
       ['notation.l1.staff.anchor', 3],
       ['notation.l1.keyboard.keys', 4],
-      ['notation.l1.register.octaves', 5],
+      ['notation.l1.register.octaves', 6],
     ] as const)
       expect(resolveLesson(catalogue, id)?.contentVersion).toBe(version);
     expect(catalogue.skills.find((skill) => skill.id === 'rhythm.pulse')?.prerequisites).toEqual(

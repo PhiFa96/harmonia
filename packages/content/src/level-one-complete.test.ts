@@ -84,8 +84,8 @@ describe('Vollständige interne Stufe 1', () => {
     expect(
       catalogue.knowledgeArticles.filter((a) => a.skillIds.some((id) => firstSkills.has(id))),
     ).toHaveLength(13);
-    expect(catalogue.contentVersion).toBe(31);
-    expect(curriculumPlan.contentVersion).toBe(31);
+    expect(catalogue.contentVersion).toBe(32);
+    expect(curriculumPlan.contentVersion).toBe(32);
     expect(publicCatalogue(catalogue)).toMatchObject({
       lessons: [],
       knowledgeCards: [],
@@ -93,6 +93,11 @@ describe('Vollständige interne Stufe 1', () => {
     });
   });
   it('vier Einheiten haben je 8/10/12 Aufgaben, neun Karten und eigene vollständige Beispiele', () => {
+    const revisedHistory = [
+      'history.l1.sources.context',
+      'history.l1.overview.genre',
+      'history.l1.overview.observation',
+    ];
     expect(newLessons).toHaveLength(12);
     for (const unit of units) {
       const lessons = newLessons.filter((l) => l.unitId === unit);
@@ -102,8 +107,12 @@ describe('Vollständige interne Stufe 1', () => {
       expect(
         lessons.every(
           (l) =>
-            l.contentVersion === (l.id === 'aural.l1.pitch-intervals.intervals' ? 14 : 11) &&
-            l.status === 'entwurf',
+            l.contentVersion ===
+              (l.id === 'aural.l1.pitch-intervals.intervals'
+                ? 14
+                : revisedHistory.includes(l.id)
+                  ? 12
+                  : 11) && l.status === 'entwurf',
         ),
       ).toBe(true);
       expect(catalogue.knowledgeCards.filter((c) => c.id.startsWith(unit + '.'))).toHaveLength(9);
@@ -112,7 +121,9 @@ describe('Vollständige interne Stufe 1', () => {
       ).toHaveLength(9);
     }
     expect(
-      catalogue.knowledgeCards.filter((c) => c.contentVersion === 11).flatMap((c) => c.examples),
+      catalogue.knowledgeCards
+        .filter((c) => units.some((unit) => c.id.startsWith(unit + '.')))
+        .flatMap((c) => c.examples),
     ).toHaveLength(46);
   });
   it.each(newLessons.map((l) => l.id))(

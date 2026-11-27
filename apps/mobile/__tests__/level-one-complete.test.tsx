@@ -163,7 +163,8 @@ describe('Restliche Stufe 1 im App-Spieler', () => {
       const saved = required(mockSave.mock.calls[0]?.[0]);
       expect(saved.session.lesson).toMatchObject({
         id,
-        contentVersion: id === 'aural.l1.pitch-intervals.intervals' ? 14 : 11,
+        contentVersion: required(catalogue.lessons.find((lesson) => lesson.id === id))
+          .contentVersion,
       });
       const voiceCount = session.initial.items.filter(isVoiceItem).length;
       expect(saved.summary).toMatchObject({

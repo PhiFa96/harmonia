@@ -1,6 +1,6 @@
 // Texte für Screenreader: jede Note, jeder Akkord und jede Pause einzeln, auf Deutsch oder Englisch.
 
-import { durationName, spokenPitchName, pitchName } from '@harmonia/theory';
+import { capitalizeFirst, durationName, spokenPitchName, pitchName } from '@harmonia/theory';
 
 import type { Score, VoiceEvent } from './score.ts';
 
@@ -23,7 +23,7 @@ export function describeEvent(event: VoiceEvent, options: DescribeOptions = {}):
       ? pitchName(pitch, { system: options.noteNaming, octave: 'scientific' })
       : spokenPitchName(pitch, language);
   const kind = event.kind === 'rest' ? 'rest' : 'note';
-  const duration = capitalize(durationName(event.duration, { language, variant, kind }));
+  const duration = capitalizeFirst(durationName(event.duration, { language, variant, kind }));
   switch (event.kind) {
     case 'rest':
       return duration;
@@ -63,8 +63,4 @@ export function describeScore(score: Score, options: DescribeOptions = {}): Even
       ),
     ),
   );
-}
-
-function capitalize(text: string): string {
-  return text.charAt(0).toUpperCase() + text.slice(1);
 }

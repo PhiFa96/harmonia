@@ -6,7 +6,7 @@
 // Begriffswahl, Quellen und Alternativen: docs/plan/i18n-und-glossar.md
 
 import type { NoteValue } from '@harmonia/theory';
-import { NOTE_VALUES, duration, durationName } from '@harmonia/theory';
+import { NOTE_VALUES, capitalizeFirst, duration, durationName } from '@harmonia/theory';
 
 import type { AppLocale } from './locale.ts';
 
@@ -19,6 +19,9 @@ export interface GlossaryTerm {
   readonly term: string;
   /** Mehrzahl; fehlt bei Begriffen, die in Texten nur in der Einzahl vorkommen. */
   readonly plural?: string;
+  readonly accusative?: string;
+  readonly dative?: string;
+  readonly genitive?: string;
 }
 
 export interface GlossaryEntry {
@@ -484,7 +487,14 @@ export const GLOSSARY = {
   },
   noteName: {
     category: 'pitch',
-    de: { term: 'Tonname', gender: 'm', plural: 'Tonnamen' },
+    de: {
+      term: 'Tonname',
+      gender: 'm',
+      plural: 'Tonnamen',
+      accusative: 'Tonnamen',
+      dative: 'Tonnamen',
+      genitive: 'Tonnamens',
+    },
     en: { term: 'note name', plural: 'note names' },
   },
   octave: {
@@ -822,7 +832,15 @@ function termFor(entry: GlossaryEntry, variant: Variant): GlossaryTerm {
 
 /** i18next-Schlüssel eines Eintrags: Grundform, bei Mehrzahl zusätzlich _one und _other. */
 function keysOf(key: string, term: GlossaryTerm): [string, string][] {
-  const pairs: [string, string][] = [[key, term.term]];
+  const pairs: [string, string][] = [
+    [key, term.term],
+    [`${key}_cap`, capitalizeFirst(term.term)],
+    [`${key}_one_cap`, capitalizeFirst(term.term)],
+    [`${key}_other_cap`, capitalizeFirst(term.plural ?? term.term)],
+    [`${key}_one_acc`, term.accusative ?? term.term],
+    [`${key}_one_dat`, term.dative ?? term.term],
+    [`${key}_one_gen`, term.genitive ?? term.term],
+  ];
   if (term.plural !== undefined) {
     pairs.push([`${key}_one`, term.term], [`${key}_other`, term.plural]);
   }

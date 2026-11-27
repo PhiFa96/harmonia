@@ -18,3 +18,4 @@ export * from './fraction.ts';
 export * from './rhythm.ts';
 export * from './rhythm-naming.ts';
 export * from './random.ts';
+export * from './text.ts';

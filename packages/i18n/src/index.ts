@@ -10,3 +10,4 @@ export * from './check.ts';
 export type { Messages, PartialMessages, MessageTree } from './messages/types.ts';
 
 export * from './league-messages.ts';
+export { capitalizeFirst } from '@harmonia/theory';

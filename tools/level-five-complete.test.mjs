@@ -1,4 +1,4 @@
-import { mkdtempSync, mkdirSync, copyFileSync, readFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, copyFileSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { spawnSync } from 'node:child_process';
@@ -76,6 +76,13 @@ test('the completion script is idempotent and preserves unrelated records and tr
     const destination = join(root, path);
     mkdirSync(dirname(destination), { recursive: true });
     copyFileSync(new URL('../' + path, import.meta.url), destination);
+  }
+  // The historical script only accepts its original catalogue version.
+  for (const path of paths.slice(0, 2)) {
+    const destination = join(root, path);
+    const fixture = JSON.parse(readFileSync(destination, 'utf8'));
+    fixture.contentVersion = 31;
+    writeFileSync(destination, JSON.stringify(fixture));
   }
   const read = () => paths.map((p) => JSON.parse(readFileSync(join(root, p), 'utf8'))),
     before = read();

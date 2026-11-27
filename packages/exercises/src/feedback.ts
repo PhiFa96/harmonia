@@ -8,7 +8,13 @@ import {
   contextHint,
 } from './context-text.ts';
 import type { TextLocale, Messages } from '@harmonia/i18n';
-import { createI18n, engineLanguage, textLocale, notationSystem } from '@harmonia/i18n';
+import {
+  capitalizeFirst,
+  createI18n,
+  engineLanguage,
+  textLocale,
+  notationSystem,
+} from '@harmonia/i18n';
 import type { NoteName, Pitch } from '@harmonia/theory';
 import { octaveName, octaveNamePitch } from './octave-names.ts';
 import { grandStaffTarget } from '@harmonia/notation';
@@ -1033,9 +1039,8 @@ export function exerciseDescription(item: ExerciseItem, locale: TextLocale): str
     })
     .join(' ');
   const description = translate(locale, 'exercise.notationDescription', {
-    clef: translate(
-      locale,
-      clef === 'treble' ? 'glossary:trebleClef_one' : 'glossary:bassClef_one',
+    clef: capitalizeFirst(
+      translate(locale, clef === 'treble' ? 'glossary:trebleClef_one' : 'glossary:bassClef_one'),
     ),
     notes,
   });

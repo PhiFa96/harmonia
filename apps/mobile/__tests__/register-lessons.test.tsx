@@ -95,12 +95,12 @@ describe('Oktavlagen und Hilfslinien im Spieler', () => {
     });
   });
   it.each([
-    ['octaves', 8],
-    ['ledger', 10],
-    ['match', 12],
+    ['octaves', 8, 6],
+    ['ledger', 10, 5],
+    ['match', 12, 6],
   ] as const)(
-    '%s speichert alle %s Antworten mit eigener ID und Version 5',
-    async (name, newCount) => {
+    '%s speichert alle %s Antworten mit eigener ID und Version %s',
+    async (name, newCount, version) => {
       renderRouter('./src/app', { initialUrl: `/lesson?id=notation.l1.register.${name}` });
       const state = await intro(name);
       const count = state.initial.items.length;
@@ -117,7 +117,7 @@ describe('Oktavlagen und Hilfslinien im Spieler', () => {
       ).toBeTruthy();
       expect(required(mockSave.mock.calls[0])[0].session.lesson).toMatchObject({
         id: `notation.l1.register.${name}`,
-        contentVersion: 5,
+        contentVersion: version,
       });
     },
   );

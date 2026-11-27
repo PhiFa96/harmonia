@@ -99,3 +99,145 @@ describe('Stufe-3/4-Texte: Fachbegriffe folgen der Variante', () => {
     ).toMatch(/Tp \(tonic parallel.*German function theory.*Roman numerals/);
   });
 });
+
+describe('Stufe 1–2 Korrekturen', () => {
+  it('rendert beide deutschen Registerkarten mit dem richtigen Akkusativ', () => {
+    const de = instance('de');
+    expect(de.t('content.registerStart.repetitionBody' as never)).toContain(
+      'den vollständigen Tonnamen',
+    );
+    expect(de.t('content.registerStart.matchBody' as never)).toContain(
+      'den vollständigen Tonnamen',
+    );
+  });
+
+  it.each(['en-US', 'en-GB'] as const)('beginnt englische Geschichtssätze groß (%s)', (locale) => {
+    const i18n = instance(locale);
+    expect(i18n.t('content.historySourcesStart.card9Body' as never)).toContain('Authorship asks');
+    expect(i18n.t('content.historyOverviewStart.card6Body' as never)).toContain('Function asks');
+    expect(i18n.t('content.historyOverviewStart.card8Body' as never)).toMatch(/^Source label may/);
+  });
+});
+
+const titleFragments = [
+  ['trebleNatural', /e¹ bis f²/, /E4 to F5/, /E4 to F5/],
+  ['noteValues', /Sechzehntelnoten/, /sixteenth notes/, /semiquavers/],
+  ['rests', /Sechzehntelpausen/, /sixteenth notes/, /semiquavers/],
+  ['barlines', /Schlussstrich/, /final bar line/, /final bar line/],
+  ['staff', /Linien und in Zwischenräumen/, /lines and in spaces/, /lines and in spaces/],
+  ['trebleClef', /g¹ auf der zweiten Linie/, /G4 on the second line/, /G4 on the second line/],
+  [
+    'hearPulse',
+    /zwei, drei oder vier Schlägen/,
+    /two, three or four beats/,
+    /two, three or four beats/,
+  ],
+  ['rhythmChoiceBasic', /und Pausen/, /and rests/, /and rests/],
+  [
+    'soundSource',
+    /Aufnahme als Wiedergabemedium/,
+    /recordings as a playback medium/,
+    /recordings as a playback medium/,
+  ],
+  ['sourceTypes', /Programmzettel/, /programs/, /programmes/],
+  ['genreFunction', /Funktion der Musik/, /function of music/, /function of music/],
+  [
+    'hearPitchDirection',
+    /Höher, tiefer oder gleich/,
+    /higher, lower and repeated/,
+    /higher, lower and repeated/,
+  ],
+  ['countIn', /Auftakt/, /a pickup/, /an upbeat/],
+  [
+    'accidentalScope',
+    /gleicher Ton, gleiche Oktavlage/,
+    /same note, same octave/,
+    /same note, same octave/,
+  ],
+  ['triplet', /Achteltriole/, /triplet eighth notes/, /triplet quavers/],
+  [
+    'majorBuild',
+    /mit bis zu drei Vorzeichen/,
+    /with up to three sharps or flats/,
+    /with up to three sharps or flats/,
+  ],
+  [
+    'triadInversions',
+    /zweite Umkehrung bestimmen$/,
+    /second-inversion triads$/,
+    /second-inversion triads$/,
+  ],
+] as const;
+describe('Korrigierte Titel in Stufen 1–2', () => {
+  it.each(titleFragments)(
+    'rendert den korrigierten Titel %s in allen Sprachen',
+    (key, de, us, gb) => {
+      for (const [locale, fragment] of [
+        ['de', de],
+        ['en-US', us],
+        ['en-GB', gb],
+      ] as const) {
+        expect(instance(locale).t(`content.curriculum.skills.${key}` as never)).toMatch(fragment);
+      }
+    },
+  );
+});
+
+describe('Korrigierte Begriffe und Grammatik in Stufen 1–2', () => {
+  const de = instance('de');
+  const us = instance('en-US');
+  const gb = instance('en-GB');
+  it('rendert Halbtöne und Zählgruppen in korrektem Kasus', () => {
+    expect(de.t('content.keyboardStart.stepsBody' as never)).toMatch(
+      /besteht aus zwei Schritten zu je einem Halbton/,
+    );
+    for (const [key, count] of [
+      ['duple', 'zwei'],
+      ['triple', 'drei'],
+      ['quadruple', 'vier'],
+    ] as const)
+      expect(de.t(`exercise.knowledge_beatGroup_${key}`)).toContain(`aus ${count} Schlägen`);
+    expect(
+      de.t('exercise.intervalExplanation', {
+        from: 'C',
+        to: 'F',
+        diatonic: 4,
+        distance: '5 Halbtöne',
+        answer: 'reine Quarte',
+      }),
+    ).toContain('Klangabstand: 5 Halbtöne.');
+  });
+  it('verwendet britische Notensystem- und Halbtonbegriffe', () => {
+    for (const key of ['extendTitle', 'upperArticle', 'matchArticle'])
+      expect(gb.t(`content.registerStart.${key}` as never)).not.toMatch(/\bstaff\b/);
+    expect(gb.t('content.registerStart.extendTitle' as never)).toContain('stave');
+    expect(gb.t('content.registerStart.upperArticle' as never)).toContain('stave edge');
+    expect(us.t('exercise.knowledgeHint_accidentals')).toMatch(
+      /removing an alteration: sharps and flats/,
+    );
+    expect(gb.t('exercise.knowledgeHint_accidentals')).not.toContain('half step');
+    expect(us.t('exercise.knowledgeHint_accidentals')).toContain('half step');
+  });
+  it('rendert Terzen im Plural und verwendet Herkunftsinformation', () => {
+    for (const i18n of [us, gb]) {
+      expect(i18n.t('content.auralPitchStart.card7Body' as never)).toContain('Both are thirds');
+      expect(i18n.t('content.historyOverviewStart.card8Title' as never)).toContain('source label');
+    }
+    expect(de.t('content.historyOverviewStart.card8Title' as never)).toContain('Herkunftsangabe');
+  });
+  it('ordnet die Position zwischen zwei Schlägen dem zweiten Achtel zu', () => {
+    expect(de.t('content.simpleMeterStart.readBody' as never)).toContain(
+      'das zweite Achtel jedes Paares',
+    );
+    expect(us.t('content.simpleMeterStart.readBody' as never)).toContain('the second eighth');
+    expect(gb.t('content.simpleMeterStart.readBody' as never)).toContain('the second quaver');
+  });
+  it('erzeugt deutsche Kasusformen und englische Grundformen aus demselben Glossar', () => {
+    expect(de.t('glossary:noteName_one_acc' as never)).toBe('Tonnamen');
+    expect(de.t('glossary:noteName_one_dat' as never)).toBe('Tonnamen');
+    expect(de.t('glossary:noteName_one_gen' as never)).toBe('Tonnamens');
+    for (const i18n of [us, gb])
+      expect(i18n.t('glossary:noteName_one_acc' as never)).toBe('note name');
+    expect(gb.t('glossary:notes.eighth_other_cap' as never)).toBe('Quavers');
+  });
+});
