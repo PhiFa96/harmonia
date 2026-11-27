@@ -73,16 +73,16 @@ Die Reihenfolge beschreibt die Abhängigkeiten. M3, die Facharbeit aus M5 und vo
 
 ### M2 – Verbliebene Programmierbefunde systematisch schließen
 
-- [x] Ein gemeinsames [Befundregister](befundregister.md) mit 65 Arbeitsgruppen und einem Verzeichnis der 33 historischen Rohberichte anlegen.
-- [ ] Jeden Altbefund gegen aktuellen Code und die vorhandenen Regressionen prüfen. Einzelfunde als offen, nachweislich behoben, überholt oder begründet zurückgestellt führen; bloße Vermutungen bleiben als solche erkennbar.
-- [ ] Für jeden bestätigten Restbefund Umfang, Zuständigkeit, Abhängigkeiten und betroffenen Zielumfang A/B/C festlegen. Eine Erledigung erhält einen Test-/Codebeleg oder eine ausdrückliche Entscheidung mit Begründung.
+- [x] Ein gemeinsames [Befundregister](befundregister.md) mit 71 ursprünglichen Arbeitsgruppen und einem Verzeichnis der 33 historischen Rohberichte anlegen.
+- [x] Jeden Altbefund gegen aktuellen Code und die vorhandenen Regressionen prüfen. Einzelfunde als offen, nachweislich behoben, überholt oder begründet zurückgestellt führen; bloße Vermutungen bleiben als solche erkennbar. [T1-Einzeltriage](../quality/m2-befunde/triage.md).
+- [x] Für jeden bestätigten Restbefund Umfang, Zuständigkeit, Abhängigkeiten und betroffenen Zielumfang A/B/C festlegen. Eine Erledigung erhält einen Test-/Codebeleg oder eine ausdrückliche Entscheidung mit Begründung. [T1-Einzeltriage](../quality/m2-befunde/triage.md).
 - [ ] Bestätigte Probleme bei adaptiver Auswahl, FSRS-Wiederholungen, Bewertungszuordnung und Rückmeldungen beheben.
 - [ ] Wettbewerb und Social prüfen: Liga-XP, Teilnahmebedingungen, Missbrauchsschutz, Einladungstoken, Alters-/Datenschutzgrenzen und Zeitzonen.
 - [ ] Die sechs optionalen authentifizierten Browserfälle für Liga und Rush mit der dafür vorgesehenen lokalen Anbieter-Fixture ausführen; vor Aktivierung dieser Funktionen zusätzlich reale Konto-/Mehrgeräteabläufe abnehmen.
 - [ ] Audio-/Mikrofon-/MIDI-Randfälle, Gerätewechsel, Eingabebereiche und Rhythmus-Texte schließen.
 - [ ] Harmonik- und Prüfungsaufgaben auf eindeutigen Kontext, sinnvolle Fehlerwiederholung, barrierefreie Bedienung und passende Fähigkeitsziele prüfen; bestätigte Lücken implementieren.
 - [ ] Lernziele der Stufen 3–4 mit den tatsächlichen Aufgaben abgleichen, insbesondere Modi, Formverlauf, Zwischendominanten, Voicings und Hörtraining.
-- [ ] Abhängigkeitspaket T7 umsetzen (zurückgestellte Dependabot-PRs #153/#154/#155/#164).
+- [ ] Abhängigkeitspaket T7 umsetzen (zurückgestellte Dependabot-PRs #153/#154/#155/#166).
 - [ ] Die verbliebenen P4-Fragen prüfen: Chor-Kadenz V→iii, Grenzen nativer Zeitzuordnung, Cantus-Konventionen (Kennzeichnung am Korpus nachgerechnet; Quellenbeleg und phrygische Schlüsse offen) und die neuen Zeitreise-Hilfen (verraten die Lösung nicht; didaktische Abnahme offen). Musikalische Änderungen erst auf begründeter Fachentscheidung aufbauen.
 
 **Fertig, wenn:** Alle bestätigten Fehler behoben und getestet sind; verbleibende Einschränkungen sind ausdrücklich entschieden und für den vorgesehenen Release vertretbar. Historische Berichte werden nicht ungeprüft als aktuelle Fehlerliste übernommen.
@@ -91,15 +91,17 @@ Die nächste technische Reihenfolge innerhalb von M2:
 
 | Paket | Arbeit | Abschlussnachweis |
 |---|---|---|
-| T1 | Alle 65 Arbeitsgruppen in aktuelle Einzelfunde auflösen und nach A/B/C priorisieren | Vollständige Triage mit Beleg und Verantwortlichkeit; daraus geschätzter Restumfang |
+| T1 | Erledigt am 27.11.2026. 454 Einzelfunde und 30 Kontroll- und Stilhinweise in 77 Gruppen. | Ziel A offen oder noch zu messen: 11 S1, 29 S2, 110 S3, 7 S4. Zusätzlich 51 Ziel-A-Regressionslücken. [Einzeltriage](../quality/m2-befunde/triage.md). |
 | T2 | Lernablauf, FSRS, Fähigkeits-/Bewertungszuordnung und Zeitgrenzen prüfen | Reproduktionen und Regressionen; konservative Bewertungsregeln und Lernschritte begründet beurteilt, statt ungeprüft ersetzt |
 | T3 | Lernziel-/Aufgabenabdeckung, Voraussetzungen und Rückmeldungen der Stufen 1–2 schließen | Abgleich je Fähigkeit/Lektion; technische Lücken behoben, Fachfragen an M5 gebunden |
 | T4 | Wettbewerb/Social und die sechs offenen Auth-UI-Fälle abnehmen | Konto-, Rechte-, Teilnahme-, Missbrauchs- und Zeitzonentests; erforderliche Produkt-/Datenschutzentscheidungen dokumentiert |
 | T5 | Audio, Mikrofon, MIDI, Wiederaufnahme und barrierefreie Eingaben prüfen | Regressionsbelege für Fehlerpfade; reale Nachweise anschließend in M6 |
 | T6 | Stufen 3–5 und P4-Restfragen gegen tatsächliche Aufgaben prüfen | Lernzielabgleich, begründetes Regelprofil und eigene Nachprüfung neuer Hinweise/Erklärungen |
-| T7 | Abhängigkeiten und Plattform aktuell halten: Sammelupdate #164 mit Anthropic SDK an allen drei Orten gemeinsam (ADR 0065), Expo-SDK-58-Migration statt Einzelpaket #153, Supabase-CLI 3 (#154) und Audio API 1.0 (#155) als eigene Migrationen | Je Paket eigener PR mit fünf grünen Pflichtjobs; nativer Build/Gerätetest für SDK- und Audioänderungen; echter Tutor-API-Aufruf nach SDK-Wechsel. Vor der Storeeinreichung (M7) prüfen, ob das verwendete Expo SDK noch die geforderten iOS-/Android-Zielversionen erfüllt |
+| T7 | Abhängigkeiten und Plattform aktuell halten: Sammelupdate #166 mit Anthropic SDK an allen drei Orten gemeinsam (ADR 0065), Expo-SDK-58-Migration statt Einzelpaket #153, Supabase-CLI 3 (#154) und Audio API 1.0 (#155) als eigene Migrationen | Je Paket eigener PR mit fünf grünen Pflichtjobs; nativer Build/Gerätetest für SDK- und Audioänderungen; echter Tutor-API-Aufruf nach SDK-Wechsel. Vor der Storeeinreichung (M7) prüfen, ob das verwendete Expo SDK noch die geforderten iOS-/Android-Zielversionen erfüllt |
 
 ### M3 – Geschäftsentscheidungen und Rechtsgrundlagen abschließen
+
+**Vorläufige Nutzerangabe vom 27.11.2026 für Ziel A:** Zur ersten App zählen Stufen 1–2, Kernlernablauf, Tutor und Wissensbasis für diese Stufen sowie Ligen, Rush, Duelle, tägliches Rätsel, Freunde/Quests, Mikrofon, Stimmgerät, Singaufgaben, MIDI und Rhythmus-Übungsmodus. Die formale Umfangsentscheidung folgt in M3.
 
 - [ ] Rechtsform, Betreiberangaben, Name/Marke, Domain und Supportkontakt abschließen: insbesondere F15/F16.
 - [ ] Premium-/Max-Angebotsumfang und Preise F08, Übernahme der Stripe-Gebühren F13 und Coaching-Minderjährigenregel F14 entscheiden. Den allgemeinen Altersrahmen rechtlich bestätigen. Die 15-%-Marktplatzprovision ist bereits beschlossen; F13 betrifft die zusätzlichen Zahlungsgebühren.
@@ -235,7 +237,7 @@ Vor dem Start den Umfang, Zielsprachen, unterstützte Instrumente, Qualitätsma�
 
 **Drei parallele Arbeitsstränge bis Ziel A:**
 
-1. **Technik:** M1 formal abschließen, T1-Triage durchführen, T7-Abhängigkeiten einplanen, notwendige A-Korrekturen aus M2 umsetzen und Anbieter-/Betriebsintegration aus M4 abnehmen.
+1. **Technik:** M1 formal abschließen, T2–T6 aus der T1-Triage aufnehmen, T7-Abhängigkeiten einplanen, notwendige A-Korrekturen aus M2 umsetzen und Anbieter-/Betriebsintegration aus M4 abnehmen.
 2. **Inhalte:** Stufen 1–2 samt Voraussetzungen, Quellen, Fachkonventionen und DE/US/UK-Texten nach M5 abschließen; danach Stufen 3–5 vorbereiten.
 3. **Betreiber und Abnahmen:** M3-Entscheidungen/Rechtsprüfung, Anbieter-/Storekonten, Gerätebesetzung und Testpersonen für M6 organisieren; Store/Support/Betrieb vorbereiten.
 
@@ -246,7 +248,7 @@ Ein belastbarer Kalenderplan entsteht nach T1 aus dem bestätigten Restumfang, d
 ## 5. Der unmittelbar nächste Auftrag
 
 1. **Claude Code:** Den geprüften Integrations-PR nach grüner Pflicht-CI regulär übernehmen, #151/#156–#162 als integriert und #163 als ersetzt schließen.
-2. **Entwicklung:** T1, die vollständige Einzeltriage des [Befundregisters](befundregister.md), abschließen; anschließend bestätigte Fehler in der Reihenfolge des vorgesehenen Releaseumfangs beheben. Die sechs offenen Liga-/Rush-Auth-UI-Fälle bleiben als eigene Prüfung sichtbar.
+2. **Entwicklung:** T2–T6 aus der [priorisierten Einzeltriage](../quality/m2-befunde/triage.md#folgepakete) aufnehmen. T2 beginnt mit P3-06.03/.04, T3 mit S12-01.02 und S12-09.01, T4 mit P3-12.03/.04 und T5 mit P3-15.07 sowie P3-17.02. T6 startet mit P3-24.05 für geteilte Notation und P4-02.18 für die Satzwiederholung. Die sechs Liga-/Rush-Auth-UI-Fälle bleiben eigenständig.
 3. **Claude:** Parallel mit Quellen-/Konventions-/Fachprüfung der Stufen 1–2 beginnen und den getrennten zweiten Durchgang einplanen.
 4. **Phillip mit Beratung:** Betreiber-/Namens-/Preis-/Gebühren-/Altersentscheidungen abschließen, rechtliche Prüfungen beauftragen sowie Anbieter-/Storekonten und die Geräte-/Testpersonenbesetzung vorbereiten.
 5. **Gemeinsam:** Ziel-A-Umfang festhalten und nach T1 daraus den ersten belastbaren Umsetzungs- und Abnahmezeitplan ableiten.
