@@ -198,3 +198,23 @@ it.each([
 ] as const)('rendert die vollständige Intervallbezeichnung in %s', (locale, expected) => {
   expect(choiceLabel(interval('Fb4'), 'd4', locale).toLowerCase()).toBe(expected.toLowerCase());
 });
+
+it.each(['de', 'en-US', 'en-GB'] as const)(
+  'beschreibt die Positionen der Funktionsanalyse ohne Lösung in %s',
+  (locale) => {
+    for (const notation of ['roman', 'function'] as const) {
+      const item = generateExercise(
+        { type: 'FUNCTION_ANALYSIS', params: { degrees: [5], notation, fifths: [0] } },
+        createRng(5),
+      );
+      if (item.type !== 'FUNCTION_ANALYSIS') throw new Error('Missing function analysis');
+      const description = exerciseDescription(item, locale);
+      const solution = choiceLabel(item, 'degree:5', locale);
+      expect(description).toContain(locale === 'de' ? 'untersten Linie' : 'bottom line');
+      for (const index of [1, 2, 3])
+        expect(description).toContain((locale === 'de' ? 'Ton ' : 'Note ') + String(index));
+      expect(description).not.toMatch(new RegExp(`\\b${solution}\\b`));
+      expect(description).not.toMatch(/degree:5|\b[GBD]4\b/);
+    }
+  },
+);

@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { describeScore } from './describe.ts';
 import { eventBounds, layoutScore } from './layout.ts';
 import { highlightMarks } from './highlight.ts';
 import { formatScore, parseScore } from './shorthand.ts';
@@ -62,6 +63,32 @@ describe('Notation für Stufe 3–4', () => {
       type: 'slur-without-end',
       from: { staff: 0, measure: 0, voice: 0, event: 0 },
     });
+  });
+
+  it('ordnet zwei getrennte Harmonielabel demselben angesagten Ereignis zu', () => {
+    const annotated = parseScore('treble | 2/4 | C4/4[@ch:Cmaj7@fn:T7 G4/4]');
+    const bare = parseScore('treble | 2/4 | C4/4 G4/4');
+    const layout = layoutScore(annotated);
+    const labels = layout.items.filter((item) => item.kind === 'label');
+    expect(labels).toHaveLength(2);
+    expect(labels.map((label) => label.ref)).toEqual([
+      { measure: 0, event: 0 },
+      { measure: 0, event: 0 },
+    ]);
+    expect(labels[0]?.x).toBe(labels[1]?.x);
+    expect(Math.abs((labels[0]?.y ?? 0) - (labels[1]?.y ?? 0))).toBeGreaterThan(1);
+    expect(layout.items.filter((item) => item.kind === 'slur')).toHaveLength(1);
+    const [first, second] = describeScore(annotated);
+    const [plainFirst, plainSecond] = describeScore(bare);
+    if (!plainFirst) throw new Error('Missing note');
+    expect(first).toMatchObject({
+      staff: 0,
+      measure: 0,
+      voice: 0,
+      event: 0,
+      text: plainFirst.text + ', Cmaj7, T7',
+    });
+    expect(second).toEqual(plainSecond);
   });
 
   it('zeichnet Akkord- und Funktionssymbole und maskiert SVG-Text', () => {

@@ -48,7 +48,9 @@ export interface EventDescription {
   readonly text: string;
 }
 
-/** Beschreibungen aller Ereignisse in Partiturreihenfolge. */
+/** Beschreibt Ereignisse mit ihren sichtbaren Harmonielabels in Partiturreihenfolge.
+ * Phrasierungsbögen bleiben eine grafische Markierung.
+ */
 export function describeScore(score: Score, options: DescribeOptions = {}): EventDescription[] {
   return score.staves.flatMap((staff, staffIndex) =>
     staff.measures.flatMap((m, measure) =>
@@ -58,7 +60,12 @@ export function describeScore(score: Score, options: DescribeOptions = {}): Even
           measure,
           voice,
           event,
-          text: describeEvent(e, options),
+          text: [
+            describeEvent(e, options),
+            ...(e.kind !== 'rest' ? [e.harmony?.chordSymbol, e.harmony?.functionSymbol] : []),
+          ]
+            .filter(Boolean)
+            .join(', '),
         })),
       ),
     ),
