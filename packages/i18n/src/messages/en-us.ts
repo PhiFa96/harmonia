@@ -2257,6 +2257,8 @@ export const enUS = {
       'Your learning path could not be loaded. Try again or learn temporarily without saving.',
     guest: 'Progress saved on this device. Sign in to sync it with your account.',
     syncing: 'Syncing progress…',
+    syncClock:
+      'This device’s clock is ahead of the server. Check the date and time. Your progress is still saved.',
     syncError: 'Sync failed. Your results remain on this device. Sync will retry when connected.',
     synced: 'Progress synced with your account.',
     syncNow: 'Sync now',

@@ -6,6 +6,7 @@ import {
   unavailableRetainedEvent,
   validateLearningEvent,
   learningSyncRequestSchema,
+  learningSyncResponseSchema,
 } from './learning-evidence.ts';
 import {
   retentionCutoff,
@@ -32,6 +33,24 @@ function evidence() {
   return lessonEvent('retention-proof', session, 1000, 2000, 'Europe/Berlin');
 }
 describe('Privacy boundaries and twelve calendar months', () => {
+  it('keeps legacy sync payloads and recognizes only explicit future deferral', () => {
+    const request = { events: [], since: 0 };
+    expect(learningSyncRequestSchema.parse(request)).toEqual(request);
+    expect(learningSyncRequestSchema.parse({ ...request, futureMode: 'defer' }).futureMode).toBe(
+      'defer',
+    );
+    expect(learningSyncRequestSchema.safeParse({ ...request, futureMode: 'skip' }).success).toBe(
+      false,
+    );
+    const response = { accepted: [], cursor: 0, rows: [], more: false };
+    expect(learningSyncResponseSchema.parse(response)).toEqual(response);
+    expect(
+      learningSyncResponseSchema.parse({ ...response, deferred: ['later'], serverTime: 10 }),
+    ).toMatchObject({
+      deferred: ['later'],
+      serverTime: 10,
+    });
+  });
   it('clamps leap days without deleting a day too early', () => {
     expect(new Date(retentionCutoff(Date.parse('2028-02-29T13:45:00Z'))).toISOString()).toBe(
       '2027-02-28T13:45:00.000Z',

@@ -13,11 +13,9 @@ export function evaluateOperations(
     value &&
     typeof value === 'object' &&
     Object.keys(value).sort().join() === keys.split(' ').sort().join();
+  const keys = 'version asOf windowStart services ai billingPendingOverHour privacyPendingOverDay';
   if (
-    !exact(
-      input,
-      'version asOf windowStart services ai billingPendingOverHour privacyPendingOverDay',
-    ) ||
+    !(exact(input, keys) || exact(input, keys + ' reviewPending')) ||
     !exact(input?.ai, 'spentNanoUsd reservedNanoUsd failedRequestsHour')
   )
     throw Error('Unexpected operational fields');
@@ -33,6 +31,15 @@ export function evaluateOperations(
     input.privacyPendingOverDay,
     input.ai?.failedRequestsHour,
   ];
+  if (Object.hasOwn(input, 'reviewPending')) {
+    const reviews = input.reviewPending;
+    if (
+      !exact(reviews, 'count oldestSeconds') ||
+      (reviews.count === 0 && reviews.oldestSeconds !== 0)
+    )
+      throw Error('Invalid review backlog');
+    counts.push(reviews.count, reviews.oldestSeconds);
+  }
   for (const row of input.services)
     counts.push(row.requests, row.failures, row.rejected, row.max_response_ms);
   if (!counts.every((value) => Number.isSafeInteger(value) && value >= 0))

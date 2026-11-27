@@ -158,6 +158,47 @@ afterEach(async () => {
   db.close();
 });
 describe('Kontogebundene Lernpfad-Synchronisation', () => {
+  it('speichert die zurückgestellte Fertigstellung und synchronisiert das nächste Ereignis', async () => {
+    const now = Date.now();
+    const future = { ...event('future'), finishedAt: now + 600_000 };
+    const next = event('next');
+    await mockRepository.save('a', future);
+    await mockRepository.save('a', next);
+    mockInvoke.mockImplementation((_name, { body }) =>
+      Promise.resolve(
+        body.events[0]?.id === future.id
+          ? { data: { ...ok().data, deferred: [future.id], serverTime: now }, error: null }
+          : ok(body.events),
+      ),
+    );
+    login('a');
+    await learning.initializeLearning();
+    await learning.syncLearning();
+    expect(mockInvoke.mock.calls.map(([, call]) => call.body.events[0]?.id)).toEqual([
+      'future',
+      'next',
+    ]);
+    expect((await mockRepository.list('a')).map((row) => [row.event.id, row.pending])).toEqual([
+      ['future', true],
+      ['next', false],
+    ]);
+    expect(learning.useLearningState.getState().sync).toBe('clock');
+  });
+  it('plant ausstehende Lernnachweise höchstens ab der lokalen Gegenwart', () => {
+    const now = Date.now();
+    const future = { ...event('future'), finishedAt: now + 86_400_000 };
+    const clock = jest.spyOn(Date, 'now').mockReturnValue(now);
+    const state = localReviewState(catalogue, [
+      { event: future, position: 1, sequence: null, pending: true },
+    ]);
+    const reference = localReviewState(catalogue, [
+      { event: { ...future, finishedAt: now }, position: 1, sequence: null, pending: true },
+    ]);
+    expect(state.skills).toEqual(reference.skills);
+    clock.mockRestore();
+    expect(Object.values(state.skills).length).toBeGreaterThan(0);
+  });
+
   it('eine verzögerte Rating-Antwort schreibt nach Kontowechsel weder Snapshot noch erfolgreichen Status ins neue Konto', async () => {
     let reply: (value: { data: unknown; error: null }) => void = () => {
       throw new Error('Missing reply');

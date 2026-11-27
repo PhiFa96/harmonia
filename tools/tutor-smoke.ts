@@ -70,6 +70,8 @@ const policy: TutorPolicy = {
   ...DEFAULT_TUTOR_POLICY,
   enabled: true,
   model: 'synthetic-test-model',
+  // Exercise transport through the full tool catalogue. The small-budget case is explicit below.
+  maxInputTokens: 64_000,
   tariff,
 };
 const request: TutorRequest = {
@@ -186,6 +188,30 @@ for (const [name, ratings, snapshot] of [
     `${name} reads only the verified actor`,
   );
 }
+const equalRatings = skillIds.slice(0, 2).map((skill_id) => ({
+  skill_id,
+  rating: 1500,
+  rating_deviation: 80,
+  attempts: 8,
+}));
+const britishLearner = await loadLearnerContext(
+  fakeLearnerClient({ data: equalRatings }, okSnapshot, []),
+  'actor-1',
+  catalogue,
+  { ...request, locale: 'en-GB' },
+  (name) =>
+    name === 'HARMONIA_LOCAL_PREVIEW'
+      ? 'true'
+      : name === 'SUPABASE_URL'
+        ? 'http://127.0.0.1:54321'
+        : undefined,
+);
+check(
+  britishLearner.available &&
+    !britishLearner.strengths.length &&
+    !britishLearner.needsPractice.length,
+  'UK learner endpoint reports no strength or practice need on an exact tie',
+);
 check(!JSON.stringify(learner).includes('user_id'), 'No account identifier in model context');
 check(!tool('get_learner_summary', {}).ok, 'Learner tool fails closed without server context');
 check(
@@ -483,6 +509,26 @@ for (const entry of catalogue.lessons) {
         !('solution' in hint) && !('feedback' in hint),
         'Non-solution hint context ' + item.type + ' ' + locale,
       );
+      if (['MELODY_DICTATION', 'RHYTHM_DICTATION', 'CADENCE_IDENTIFY'].includes(item.type)) {
+        for (const mode of ['hint', 'chat'] as const) {
+          const modelContext = exerciseContext(catalogue, {
+            ...request,
+            locale,
+            mode,
+            hintLevel: 2,
+            context: { source, answer: expectedAnswer(item), checked: true },
+          });
+          check(
+            'description' in modelContext &&
+              modelContext.description === null &&
+              !('solution' in modelContext) &&
+              !('solutionLabel' in modelContext) &&
+              !('answer' in modelContext) &&
+              !('evaluation' in modelContext),
+            'Hidden dictation or cadence score in ' + mode + ' ' + item.type + ' ' + locale,
+          );
+        }
+      }
       if (
         item.type === 'INTERVAL_IDENTIFY_AURAL' ||
         (item.type === 'CHORD_IDENTIFY' && item.presentation === 'aural')
@@ -539,6 +585,12 @@ for (const set of PRACTICE_SETS.filter((value) => value !== 'harmony')) {
 equal(seenTypes.size, 28, 'Every current course exercise type reconstructed');
 for (const locale of ['de', 'en-US', 'en-GB'] as const) {
   const prompt = tutorSystemPrompt({ ...request, locale });
+  check(
+    prompt[0]?.text.includes(
+      'No network, external URLs, account fields or raw answers are available to tools.',
+    ) === true,
+    'System prompt excludes account fields and raw answers for ' + locale,
+  );
   check(prompt[0]?.text.includes(locale) === true, 'Requested language');
   check(
     prompt[0]?.text.includes(
@@ -608,17 +660,23 @@ const spy: typeof fetch = (url, options) => {
   check(target === 'https://api.anthropic.com/v1/messages', 'Fixed provider host');
   return localTutorFetch(url, options);
 };
+let unrequestedLearnerLoads = 0;
 const traced = await runTutor({
   provider: new AnthropicTutorProvider('no-secret', spy),
   request: { ...request, message: 'fixture:tools contact@example.invalid' },
   policy,
   context: { available: false },
   history: [],
+  loadLearner: () => {
+    unrequestedLearnerLoads++;
+    return Promise.resolve(learner);
+  },
   signal: new AbortController().signal,
   emit: () => {
     /* Transport assertions below. */
   },
 });
+equal(unrequestedLearnerLoads, 0, 'Learner data is loaded only for a learner tool');
 check(traced.result.status === 'complete' && captured.length === 2, 'Actual SDK continuation');
 check(
   captured.every(
@@ -632,6 +690,28 @@ check(
 check(
   captured[1]?.includes('tool_result') === true && captured[1].includes('tool_1_0'),
   'Tool result IDs match assistant uses',
+);
+let requestedLearnerLoads = 0;
+const learnerEvents: TutorEvent[] = [];
+const loaded = await runTutor({
+  provider: new AnthropicTutorProvider('no-secret', localTutorFetch),
+  request: { ...request, message: 'fixture:learner' },
+  policy,
+  context: { available: false },
+  history: [],
+  loadLearner: () => {
+    requestedLearnerLoads++;
+    return Promise.resolve(learner);
+  },
+  signal: new AbortController().signal,
+  emit: (event) => learnerEvents.push(event),
+});
+equal(requestedLearnerLoads, 1, 'Both learner tools share one requested learner snapshot');
+check(loaded.result.status === 'complete', 'Learner tools finish through the SDK');
+equal(
+  learnerEvents.filter((event) => event.type === 'tool' && event.ok).length,
+  2,
+  'Both learner tools read the snapshot',
 );
 const outcome = await run('fixture:tools');
 equal(outcome.result.status, 'complete', 'SDK SSE tool loop complete');

@@ -67,3 +67,13 @@ test('stale, contradictory, duplicate or identity-bearing operational inputs are
   input.services.push({ ...input.services[0] });
   assert.throws(() => evaluateOperations(input, {}, now), /aggregation/);
 });
+
+test('reports pending review count and age without applying an alarm threshold', () => {
+  const input = { ...snapshot(), reviewPending: { count: 12, oldestSeconds: 720 } };
+  const report = evaluateOperations(input, {}, now);
+  assert.deepEqual(report.snapshot.reviewPending, { count: 12, oldestSeconds: 720 });
+  assert.ok(!report.alerts.some(({ signal }) => signal.includes('review')));
+  assert.throws(() =>
+    evaluateOperations({ ...input, reviewPending: { count: 0, oldestSeconds: 720 } }, {}, now),
+  );
+});

@@ -5,6 +5,7 @@ import { createClient } from 'npm:@supabase/supabase-js@2.117.3';
 import { catalogue } from '../../../packages/content/src/published.ts';
 import {
   learningSyncRequestSchema,
+  LEARNING_CLOCK_TOLERANCE_MS,
   validateLearningEvent,
   lessonReward,
   rewardRuleSchema,
@@ -61,6 +62,9 @@ async function handler(request: Request): Promise<Response> {
     if (body.length > 262144) return json(413, { error: 'size' });
     const parsed = learningSyncRequestSchema.safeParse(JSON.parse(body) as unknown);
     if (!parsed.success) return json(400, { error: 'schema' });
+    const serverTime = Date.now();
+    const events = [];
+    const deferred: string[] = [];
     const current = await content();
     const rules = await client.from('reward_rules').select('rule').order('effective_at');
     if (rules.error) return json(503, { error: 'rules' });
@@ -77,7 +81,12 @@ async function handler(request: Request): Promise<Response> {
     const proofs: { id: string; source: unknown; cost: number; level: number }[] = [];
     try {
       for (const event of parsed.data.events) {
-        if (event.finishedAt > Date.now() + 300000) throw new Error('Future completion');
+        if (event.finishedAt > serverTime + LEARNING_CLOCK_TOLERANCE_MS) {
+          if (parsed.data.futureMode !== 'defer') throw new Error('Future completion');
+          deferred.push(event.id);
+          continue;
+        }
+        events.push(event);
         const proof = validateLearningEvent(current, event);
         summaries.push(retainLearningEvent(current, event));
         if (event.kind === 'lesson') {
@@ -91,7 +100,6 @@ async function handler(request: Request): Promise<Response> {
           proofs.push({ id: event.id, source, ...accessSourceDetails(current, source) });
         }
         if (event.kind === 'lesson' && event.timeZone && 'session' in proof) {
-          if (event.finishedAt > Date.now() + 300000) throw new Error('Future completion');
           const rule = rewardRuleAt(rewardRules, event.finishedAt);
           rewards.push({
             ruleVersion: rule.version,
@@ -108,7 +116,7 @@ async function handler(request: Request): Promise<Response> {
     }
     const result = await client.rpc('append_privacy_learning_results', {
       actor: data.user.id,
-      events: parsed.data.events,
+      events,
       rewards,
       proofs,
       summaries,
@@ -156,7 +164,9 @@ async function handler(request: Request): Promise<Response> {
     )
       return json(426, { error: 'upgrade_required' });
     return json(200, {
-      accepted: parsed.data.events.map((e) => e.id),
+      accepted: events.map((e) => e.id),
+      // Legacy clients validate a strict response schema.
+      ...(parsed.data.futureMode === 'defer' ? { deferred, serverTime } : {}),
       rows: page.map((row) => {
         return {
           sequence: row.sequence,

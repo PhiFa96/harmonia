@@ -1,5 +1,7 @@
 # Phase 3 – V1 (Ausbau)
 
+Aktueller Vertragsstand für M2 ist Prompt 5 und Werkzeuge 3. Der Inhaltskatalog hat Stand 32, der v2-Testkatalog umfasst 315 Fälle. Die echte Kalibrierung steht aus.
+
 **Ziel:** Harmonia wird zur App, die man täglich öffnet:
 
 - Wettbewerb und Gemeinschaft (Ligen, Rush, Duelle, tägliches Rätsel, Freunde)

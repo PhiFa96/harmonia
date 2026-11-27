@@ -55,10 +55,12 @@ export async function runTutor(input: {
   history: MessageParam[];
   knowledge?: KnowledgeBundle;
   learner?: LearnerContext;
+  loadLearner?: () => Promise<LearnerContext>;
   signal: AbortSignal;
   emit: (event: TutorEvent) => void;
 }): Promise<{ result: TutorResult; usage: TutorUsage }> {
   const { provider, request, policy, emit } = input;
+  let loadingLearner: Promise<LearnerContext> | undefined;
   if (!policy.model || !policy.tariff) throw new Error('Tutor configuration');
   const knowledge: KnowledgeBundle = input.knowledge
     ? { ...input.knowledge, chunks: [...input.knowledge.chunks] }
@@ -230,12 +232,16 @@ export async function runTutor(input: {
       const outputs: ToolResultBlockParam[] = [];
       for (const call of calls) {
         usedIds.add(call.id);
+        const needsLearner =
+          call.name === 'get_learner_summary' || call.name === 'analyze_progression';
+        if (needsLearner && !input.learner && input.loadLearner)
+          loadingLearner ??= input.loadLearner().catch(() => ({ available: false as const }));
         const output = executeTutorTool(
           call.name,
           call.input,
           request,
           input.context,
-          input.learner,
+          needsLearner ? (input.learner ?? (await loadingLearner)) : undefined,
         );
         emit({ type: 'tool', name: call.name, id: call.id, ok: output.ok });
         if (!output.ok) notice('tool_error');

@@ -2305,6 +2305,8 @@ export const de = {
     guest:
       'Fortschritt auf diesem Gerät gespeichert. Mit einem Konto kannst du ihn synchronisieren.',
     syncing: 'Fortschritt wird synchronisiert …',
+    syncClock:
+      'Die Uhrzeit dieses Geräts liegt vor der Serverzeit. Prüfe Datum und Uhrzeit. Dein Fortschritt bleibt gespeichert.',
     syncError:
       'Synchronisation fehlgeschlagen. Deine Ergebnisse bleiben auf diesem Gerät. Bei Verbindung wird erneut synchronisiert.',
     synced: 'Fortschritt mit deinem Konto synchronisiert.',

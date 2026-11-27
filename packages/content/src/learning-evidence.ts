@@ -149,8 +149,10 @@ export const learningRowSchema = z
       .optional(),
   })
   .strict();
+export const LEARNING_CLOCK_TOLERANCE_MS = 300_000;
 export const learningSyncRequestSchema = z
   .object({
+    futureMode: z.literal('defer').optional(),
     rewardFormat: z.literal(2).optional(),
     rowFormat: z.union([z.literal(2), z.literal(3), z.literal(4), z.literal(5)]).optional(),
     since: time,
@@ -160,6 +162,8 @@ export const learningSyncRequestSchema = z
 export const learningSyncResponseSchema = z
   .object({
     accepted: z.array(z.string().max(256)).max(50),
+    deferred: z.array(z.string().max(256)).max(50).optional(),
+    serverTime: time.optional(),
     rows: z.array(learningRowSchema).max(200),
     cursor: time,
     more: z.boolean(),

@@ -1,5 +1,7 @@
 # P2.15 – Tutor-Backend
 
+Aktueller Vertragsstand für M2 ist Prompt 5 und Werkzeuge 3. Der Inhaltskatalog hat Stand 32, der v2-Testkatalog umfasst 315 Fälle. Die echte Kalibrierung steht aus.
+
 **Nachtrag 13.11.2026:** Die [Tutor-Sicherheitsnacharbeit](tutor-sicherheitsnacharbeit.md) ist für Versuchsnachweise und deren Betrieb maßgeblich: eigene serverseitige Konfiguration `TUTOR_ATTEMPT_SECRET`, additive Migration `20261113090000_tutor_attempt_security.sql`, kontogebundenes Prüfbudget und Abruf gespeicherter Altanfragen vor der Nachweispflicht. `--tutor-test` verwendet nur ein synthetisches Testsecret. Keine entfernte Bereitstellung oder Live-Modellabnahme in diesem Auftrag.
 
 Stand: 14.10.2026. Technisch umgesetzt auf `codex/p2-15-tutor-backend`, Ausgangspunkt `3ef8db04` (P2.14). Claude Code bleibt für Review und Merge zuständig. Vergleich: [P2.14 → P2.15](https://github.com/PhiFa96/harmonia/compare/codex/p2-14-motivation-reminders...codex/p2-15-tutor-backend?expand=1). Entscheidung: [ADR 0015](../decisions/0015-tutor-backend-und-kostenreservierung.md).

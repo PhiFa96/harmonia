@@ -35,6 +35,7 @@ export async function loadLearnerContext(
   actor: string,
   catalogue: ContentCatalogue,
   request: TutorRequest,
+  env: (name: string) => string | undefined = (name) => Deno.env.get(name),
 ) {
   const [ratingsResult, snapshotResult] = await Promise.all([
     client
@@ -48,7 +49,7 @@ export async function loadLearnerContext(
     snapshot = snapshotSchema.safeParse(snapshotResult.data);
   if (!ratings.success || !snapshot.success) return { available: false as const };
   const messages =
-    knowledgeLane((name) => Deno.env.get(name)) === 'preview'
+    knowledgeLane(env) === 'preview'
       ? (await import('../../../packages/i18n/src/authoring-content-messages.ts')).contentMessages
       : releasedMessages;
   return summarizeLearner(catalogue, messages, request, ratings.data, snapshot.data);

@@ -57,3 +57,12 @@ Browserautomation mit dem tatsächlichen Export: 390-px-Touch, Tastatur-Bereichs
 ## Zusätzliche Chor-Abschlussanforderung vom 28.10.2026
 
 Auf Nutzerentscheidung benötigen die vier Chor-Lektionen der Version 27 neben F11 mindestens eine eigene, im Erstversuch anrechenbar bestandene Chor-Aufgabe. Hinweise 1–2 sind erlaubt; angezeigte Lösungen, eingefügte Wiederholungen und spätere Fehlerkorrekturen erfüllen diese Bedingung nicht. Ohne Gesang kann weiter geübt und übersprungen werden, aber kein Chorabschluss entstehen. Andere Lernwege behalten ihre bisherige Skip-Regel. Fortschritts-/Belohnungswertung, Offline-Replay und Verdichtung erhalten dieselbe Entscheidung; App-Sync-Format 5 schützt den neuen gekürzten Zähler. [ADR 0064](../decisions/0064-chorabschluss-verlangt-bestandenen-gesangsversuch.md). Technische P4-Vorarbeit vor formaler Freigabe; keine Veröffentlichung und keine echte Geräte-/Fachabnahme.
+
+### Uhrabweichung bei der Kontosynchronisation
+
+Die App kann `futureMode: 'defer'` senden. Der Server quittiert dann ausstehende
+Abschlüsse jenseits der Fünf-Minuten-Toleranz als aufgeschoben und verarbeitet die
+anderen Abschlüsse. Abschlusszeit, Belohnungstag und Nachweis bleiben dabei gekoppelt.
+Der lokale Lernpfad zeigt den Uhrhinweis und synchronisiert die übrigen Abschlüsse.
+Lokale FSRS-Projektionen begrenzen den Planungszeitpunkt ausstehender Nachweise auf
+die lokale Gegenwart. [ADR 0084](../decisions/0084-zeitgrenzen-und-drosselung.md).

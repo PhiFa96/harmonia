@@ -5,6 +5,7 @@ import {
   EvidenceError,
   learningPath,
   learningSyncResponseSchema,
+  LEARNING_CLOCK_TOLERANCE_MS,
   legacyLessonEvent,
   lessonEvent,
   validateLearningEvent,
@@ -57,7 +58,7 @@ interface LearningState {
   readonly rows: readonly StoredLearningEvent[];
   readonly outdated: number;
   readonly memory: boolean;
-  readonly sync: 'guest' | 'idle' | 'syncing' | 'error';
+  readonly sync: 'guest' | 'idle' | 'syncing' | 'error' | 'clock';
   readonly areaId: string | null;
   readonly level: 1 | 2 | 3 | 4 | null;
   readonly expanded: readonly string[];
@@ -297,6 +298,7 @@ export function syncLearning(): Promise<void> {
   useLearningState.setState({ sync: 'syncing' });
   syncing = (async () => {
     const repo = await getLearningRepository();
+    const deferred = await repo.deferred(owner);
     for (let page = 0; page < 1000; page++) {
       if (token !== generation || owner !== scope()) return;
       const pending = (await repo.list(owner))
@@ -310,16 +312,24 @@ export function syncLearning(): Promise<void> {
             throw e;
           }
         });
+      const now = Date.now();
+      const pendingIds = new Set(pending.map(({ event }) => event.id));
+      for (const [id, retry] of deferred) {
+        // A backward clock correction invalidates the locally estimated retry time.
+        if (!pendingIds.has(id) || now < retry.observedAt || now >= retry.deferredUntil)
+          deferred.delete(id);
+      }
+      const ready = pending.filter(({ event }) => !deferred.has(event.id));
       const events: LearningEvent[] = [];
-      for (const row of pending.slice(0, 1)) {
+      for (const row of ready.slice(0, 1)) {
         if (JSON.stringify([...events, row.event]).length > 120000) break;
         if (row.event.kind !== 'retained') events.push(row.event);
       }
-      if (pending.length && !events.length) throw new Error('Lernnachweis zu groß');
+      if (ready.length && !events.length) throw new Error('Lernnachweis zu groß');
       const since = await repo.cursor(owner);
       if (token !== generation || owner !== scope()) return;
       const result = await client.functions.invoke('learning-sync', {
-        body: { since, events, rewardFormat: 2, rowFormat: 5 },
+        body: { since, events, rewardFormat: 2, rowFormat: 5, futureMode: 'defer' },
         headers: { Authorization: `Bearer ${session.access_token}` },
         timeout: 15000,
       });
@@ -332,14 +342,26 @@ export function syncLearning(): Promise<void> {
           if (!(e instanceof EvidenceError && e.reason === 'changed')) throw e;
         }
       }
+      const acknowledged = [...response.accepted, ...(response.deferred ?? [])];
       if (
-        response.accepted.length !== events.length ||
-        new Set(response.accepted).size !== response.accepted.length ||
-        response.accepted.some((id) => !events.some((e) => e.id === id))
+        acknowledged.length !== events.length ||
+        new Set(acknowledged).size !== acknowledged.length ||
+        acknowledged.some((id) => !events.some((e) => e.id === id)) ||
+        (response.deferred?.length && response.serverTime === undefined)
       )
         throw new Error('Unvollständige oder fremde Sync-Bestätigung');
-      await repo.merge(owner, response);
-      if (!response.more && pending.length <= events.length) {
+      const observedAt = Date.now();
+      for (const event of events) {
+        if (response.deferred?.includes(event.id) && response.serverTime !== undefined)
+          deferred.set(event.id, {
+            observedAt,
+            deferredUntil:
+              event.finishedAt - LEARNING_CLOCK_TOLERANCE_MS + (observedAt - response.serverTime),
+          });
+      }
+      for (const row of response.rows) deferred.delete(row.event.id);
+      await repo.merge(owner, response, deferred);
+      if (!response.more && ready.length <= events.length) {
         if (token === generation && owner === scope()) {
           await refresh(owner);
           // Ratings are optional for learning availability; an older deployment/offline failure uses local replay.
@@ -397,7 +419,7 @@ export function syncLearning(): Promise<void> {
             clearTimeout(reviewDeadline);
           }
           if (token === generation && owner === scope())
-            useLearningState.setState({ sync: 'idle' });
+            useLearningState.setState({ sync: deferred.size ? 'clock' : 'idle' });
         }
         return;
       }

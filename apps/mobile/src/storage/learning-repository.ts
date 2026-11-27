@@ -282,6 +282,7 @@ export function createLearningRepository(db: LessonDatabase) {
           'ratings:',
           'reviews:',
           'preview:',
+          'deferred:',
         ])
           await db.runAsync(
             'DELETE FROM learning_meta WHERE id=? OR substr(id,1,length(?))=?',
@@ -541,7 +542,38 @@ export function createLearningRepository(db: LessonDatabase) {
         )?.cursor ?? 0
       );
     },
-    async merge(scope: LearningScope, input: LearningSyncResponse) {
+    async deferred(scope: LearningScope) {
+      const row = await db.getFirstAsync<{ value: string }>(
+        'SELECT value FROM learning_meta WHERE id = ?',
+        `deferred:${scope}`,
+      );
+      const values: unknown = row ? JSON.parse(row.value) : [];
+      const pending = new Map<string, { observedAt: number; deferredUntil: number }>();
+      if (Array.isArray(values)) {
+        for (const value of values as unknown[]) {
+          if (!Array.isArray(value) || typeof value[0] !== 'string') continue;
+          const entry: unknown = value[1];
+          if (
+            entry &&
+            typeof entry === 'object' &&
+            'observedAt' in entry &&
+            typeof entry.observedAt === 'number' &&
+            'deferredUntil' in entry &&
+            typeof entry.deferredUntil === 'number'
+          )
+            pending.set(value[0], {
+              observedAt: entry.observedAt,
+              deferredUntil: entry.deferredUntil,
+            });
+        }
+      }
+      return pending;
+    },
+    async merge(
+      scope: LearningScope,
+      input: LearningSyncResponse,
+      deferred?: ReadonlyMap<string, { observedAt: number; deferredUntil: number }>,
+    ) {
       const response = learningSyncResponseSchema.parse(input);
       await transaction(async () => {
         for (const row of response.rows) {
@@ -575,6 +607,16 @@ export function createLearningRepository(db: LessonDatabase) {
             scope,
             id,
           );
+        if (deferred?.size) {
+          assertPrivacyWrite(scope);
+          await db.runAsync(
+            'INSERT INTO learning_meta VALUES (?,?) ON CONFLICT(id) DO UPDATE SET value=excluded.value',
+            `deferred:${scope}`,
+            JSON.stringify([...deferred]),
+          );
+        } else if (deferred) {
+          await db.runAsync('DELETE FROM learning_meta WHERE id=?', `deferred:${scope}`);
+        }
         await db.runAsync(
           'INSERT INTO learning_cursors VALUES (?,?) ON CONFLICT(scope) DO UPDATE SET cursor = excluded.cursor',
           scope,

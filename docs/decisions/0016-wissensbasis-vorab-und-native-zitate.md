@@ -57,3 +57,10 @@ Die ursprüngliche Entscheidung (reine Postgres-Volltextsuche, höchstens drei A
 ## Nachtrag 31.10.2026
 
 Das SDK ist inzwischen auf 1.3.0 (API-Version `2026-10-21`) umgestellt, mit ausdrücklich abgeschaltetem OpenTelemetry-Tracing; die hier genannte Version 0.133.0 ist der damalige Stand. Siehe [ADR 0065](0065-anthropic-sdk-1-und-api-version-2026-10-21.md).
+
+### Suchstand nach der Abdeckungsmigration
+
+`20261022200000_knowledge_query_coverage.sql` ersetzt die Suchfunktion und übernimmt die
+Trigrammschwelle 0,25. Zusätzlich berücksichtigt die Rangfolge die Abdeckung einzelner
+Suchbegriffe. Die Dokumentauswahl begrenzt die Anzahl und die Größe der Modellquellen.
+Der [v2-Plan](../plan/wissensbasis-v2.md) beschreibt Suchpfad und Abdeckungsprüfung.

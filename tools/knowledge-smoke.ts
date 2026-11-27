@@ -166,6 +166,7 @@ const policy: TutorPolicy = {
   ...DEFAULT_TUTOR_POLICY,
   enabled: true,
   model: 'synthetic-test-model',
+  maxInputTokens: 64_000,
   tariff: {
     version: 'test',
     source: 'https://example.invalid',

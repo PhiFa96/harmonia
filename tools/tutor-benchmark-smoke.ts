@@ -37,6 +37,7 @@ const usage = {
 const policy = tutorPolicySchema.parse({
   ...DEFAULT_TUTOR_POLICY,
   ...config.limits,
+  maxInputTokens: 64_000,
   enabled: true,
   model: variant.model,
   tariff: config.batchTariff,

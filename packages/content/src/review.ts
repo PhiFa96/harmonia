@@ -196,6 +196,7 @@ export function localReviewState(
   let state: ReviewState = cache
     ? { skills: cache.skills, cards: cache.cards }
     : emptyReviewState();
+  const now = Date.now();
   const seen = new Set<string>();
   const ordered = [...rows].sort(
     (a, b) =>
@@ -213,7 +214,8 @@ export function localReviewState(
     )
       continue;
     try {
-      state = applyReviewEvent(catalogue, state, row.event);
+      const at = row.pending ? Math.min(row.event.finishedAt, now) : row.event.finishedAt;
+      state = applyReviewEvent(catalogue, state, row.event, at);
     } catch {
       /* Obsolete/invalid evidence cannot invent memory; other intact rows remain usable. */
     }

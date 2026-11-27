@@ -289,3 +289,9 @@ describe('Lernpfad und gesicherte Lektionszugänge', () => {
     expect(screen.queryByTestId('lesson-example-scroll')).toBeNull();
   });
 });
+
+it('zeigt bei zurückgestelltem Sync den Hinweis zur Gerätezeit an', async () => {
+  useLearningState.setState({ sync: 'clock' });
+  renderRouter('./src/app', { initialUrl: '/' });
+  expect(await screen.findByText(/Uhrzeit dieses Geräts/)).toHaveProp('aria-live', 'polite');
+});

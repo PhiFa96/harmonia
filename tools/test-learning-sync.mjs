@@ -54,8 +54,8 @@ while (lesson.phase === 'initial') {
   lesson = nextLessonExercise(answerLesson(lesson, expectedAnswer(item)));
 }
 const event = (id) => lessonEvent(id, lesson, 1000, 2000);
-const sync = (token, events = [], since = 0) =>
-  request('/functions/v1/learning-sync', { token, body: { events, since } });
+const sync = (token, events = [], since = 0, options = {}) =>
+  request('/functions/v1/learning-sync', { token, body: { events, since, ...options } });
 try {
   let ready = false;
   for (let attempt = 0; attempt < 60; attempt++) {
@@ -282,6 +282,16 @@ try {
     });
     assert.equal(ledger.status, 200);
     assert.equal(ledger.data.length, 3);
+    const future = { ...mixed('xp-deferred'), finishedAt: Date.now() + 86_400_000 };
+    const valid = mixed('xp-clock-eligible');
+    const clock = await sync(a.token, [future, valid], 0, { futureMode: 'defer' });
+    assert.equal(clock.status, 200, 'Opt-in accepts valid evidence after a future completion');
+    assert.deepEqual(clock.data.accepted, [valid.id]);
+    assert.deepEqual(clock.data.deferred, [future.id]);
+    assert.ok(Number.isSafeInteger(clock.data.serverTime));
+    assert.ok(clock.data.rows.some(({ event }) => event.id === valid.id));
+    assert.ok(clock.data.rows.every(({ event }) => event.id !== future.id));
+
     assert.equal(
       (await request('/rest/v1/xp_ledger?select=client_id', { token: b.token, method: 'GET' })).data
         .length,
